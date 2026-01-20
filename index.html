@@ -1,1 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dondlinger GC — Portfolio & Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow" />
+
+  <style>
+    :root {
+      --bg: #0f1216;
+      --fg: #e6e6e6;
+      --muted: #9aa0a6;
+      --accent: #f0a23b;
+      --panel: #151a21;
+      --border: #2a2f36;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h1, h2 {
+      margin: 0 0 12px 0;
+      line-height: 1.2;
+    }
+
+    h2 { margin-top: 64px; }
+
+    p { color: var(--muted); max-width: 720px; }
+
+    /* ===== PROJECT CAROUSEL ===== */
+    #carousel {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    #carousel img {
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: black;
+    }
+
+    .carousel-btn {
+      background: none;
+      color: var(--accent);
+      font-size: 2.5rem;
+      border: none;
+      cursor: pointer;
+      padding: 0 12px;
+    }
+
+    #carousel-meta {
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
+    /* ===== LAB GRID ===== */
+    #labs {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 16px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 520px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      margin-top: 96px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+<main>
+
+  <!-- ===== HEADER / IDENTITY ===== -->
+  <h1>Dondlinger General Contracting LLC</h1>
+  <p>Portfolio, experiments, and field work. Central Wisconsin.</p>
+
+  <!-- ===== IMAGE PROJECT CAROUSEL ===== -->
+  <h2>Projects</h2>
+
+  <!--
+    This carousel pulls from a JSON manifest.
+    Works with:
+      - /assets/projects.json (local)
+      - Cloudflare R2 public URLs
+  -->
+
+  <div id="carousel">
+    <button class="carousel-btn" id="prev">‹</button>
+    <div>
+      <img id="carousel-image" alt="" />
+      <div id="carousel-meta"></div>
+    </div>
+    <button class="carousel-btn" id="next">›</button>
+  </div>
+
+  <!-- ===== LAB / TOOL EMBEDS ===== -->
+  <h2>Labs & Tools</h2>
+
+  <!--
+    Drop Hugging Face Spaces iframes here.
+    Duplicate <iframe> blocks as needed.
+  -->
+  <div id="labs">
+    <!-- Example placeholders -->
+    <!--
+    <iframe src="https://your-space.static.hf.space"
+            loading="lazy"
+            allow="clipboard-write; clipboard-read">
+    </iframe>
+    -->
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>Dondlinger General Contracting LLC</p>
+    <p>Contact: dondlingergeneralcontracting@gmail.com</p>
+  </footer>
+
+</main>
+
+<!-- ===== JS: CAROUSEL ENGINE ===== -->
+<script>
+/*
+  Expected JSON format:
+
+  [
+    {
+      "title": "Project name",
+      "image": "https://pub-xxxx.r2.dev/projects/img1.jpg",
+      "caption": "Optional description"
+    }
+  ]
+
+  Point this to:
+    - assets/projects.json
+    - OR a Cloudflare R2 public URL
+*/
+const MANIFEST_URL = "assets/projects.json";
+
+let projects = [];
+let i = 0;
+
+fetch(MANIFEST_URL)
+  .then(r => r.json())
+  .then(data => {
+    projects = data;
+    render();
+  })
+  .catch(err => {
+    console.warn("Project manifest not loaded:", err);
+  });
+
+function render() {
+  if (!projects.length) return;
+  const p = projects[i];
+  document.getElementById("carousel-image").src = p.image;
+  document.getElementById("carousel-meta").textContent =
+    [p.title, p.caption].filter(Boolean).join(" — ");
+}
+
+document.getElementById("next").onclick = () => {
+  i = (i + 1) % projects.length;
+  render();
+};
+
+document.getElementById("prev").onclick = () => {
+  i = (i - 1 + projects.length) % projects.length;
+  render();
+};
+</script>
+
+</body>
+</html>
 
