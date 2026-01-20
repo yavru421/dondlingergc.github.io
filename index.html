@@ -2,18 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Dondlinger GC — Portfolio & Lab</title>
+  <title>Dondlinger GC — Portfolio & Labs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="index, follow" />
 
   <style>
     :root {
       --bg: #0f1216;
+      --panel: #151a21;
+      --border: #2a2f36;
       --fg: #e6e6e6;
       --muted: #9aa0a6;
       --accent: #f0a23b;
-      --panel: #151a21;
-      --border: #2a2f36;
     }
 
     * { box-sizing: border-box; }
@@ -31,63 +30,72 @@
     }
 
     h1, h2 {
-      margin: 0 0 12px 0;
+      margin: 0 0 12px;
       line-height: 1.2;
     }
 
-    h2 { margin-top: 64px; }
-
-    p { color: var(--muted); max-width: 720px; }
-
-    /* ===== PROJECT CAROUSEL ===== */
-    #carousel {
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 16px;
-      align-items: center;
-    }
-
-    #carousel img {
-      width: 100%;
-      max-height: 520px;
-      object-fit: contain;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: black;
-    }
-
-    .carousel-btn {
-      background: none;
-      color: var(--accent);
-      font-size: 2.5rem;
-      border: none;
-      cursor: pointer;
-      padding: 0 12px;
-    }
-
-    #carousel-meta {
-      margin-top: 8px;
+    p {
       color: var(--muted);
+      max-width: 720px;
     }
 
-    /* ===== LAB GRID ===== */
-    #labs {
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-      gap: 16px;
+    /* ===== CAROUSEL ===== */
+    .space-carousel {
+      margin-top: 32px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .space-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: #11151b;
+    }
+
+    .space-title {
+      font-weight: 600;
+    }
+
+    .space-controls button {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.6rem;
+      cursor: pointer;
+      padding: 0 10px;
+    }
+
+    .space-frame {
+      position: relative;
+      width: 100%;
+      height: 520px;
+      background: #000;
     }
 
     iframe {
       width: 100%;
-      height: 520px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: #000;
+      height: 100%;
+      border: none;
+      display: none;
     }
 
-    /* ===== FOOTER ===== */
+    iframe.active {
+      display: block;
+    }
+
+    .space-meta {
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: #0f1319;
+    }
+
     footer {
       margin-top: 96px;
       padding-top: 24px;
@@ -101,44 +109,40 @@
 <body>
 <main>
 
-  <!-- ===== HEADER / IDENTITY ===== -->
+  <!-- ===== IDENTITY ===== -->
   <h1>Dondlinger General Contracting LLC</h1>
-  <p>Portfolio, experiments, and field work. Central Wisconsin.</p>
+  <p>Portfolio, experiments, and field-built systems.</p>
 
-  <!-- ===== IMAGE PROJECT CAROUSEL ===== -->
-  <h2>Projects</h2>
+  <!-- ===== HUGGING FACE SPACES CAROUSEL ===== -->
+  <h2>Interactive Projects</h2>
 
-  <!--
-    This carousel pulls from a JSON manifest.
-    Works with:
-      - /assets/projects.json (local)
-      - Cloudflare R2 public URLs
-  -->
+  <div class="space-carousel">
 
-  <div id="carousel">
-    <button class="carousel-btn" id="prev">‹</button>
-    <div>
-      <img id="carousel-image" alt="" />
-      <div id="carousel-meta"></div>
+    <div class="space-header">
+      <div class="space-title" id="space-title"></div>
+      <div class="space-controls">
+        <button id="prev">‹</button>
+        <button id="next">›</button>
+      </div>
     </div>
-    <button class="carousel-btn" id="next">›</button>
-  </div>
 
-  <!-- ===== LAB / TOOL EMBEDS ===== -->
-  <h2>Labs & Tools</h2>
+    <div class="space-frame">
+      <iframe
+        class="space active"
+        src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space"
+        title="Digital Fortress Builder"
+        allow="clipboard-write; clipboard-read">
+      </iframe>
 
-  <!--
-    Drop Hugging Face Spaces iframes here.
-    Duplicate <iframe> blocks as needed.
-  -->
-  <div id="labs">
-    <!-- Example placeholders -->
-    <!--
-    <iframe src="https://your-space.static.hf.space"
-            loading="lazy"
-            allow="clipboard-write; clipboard-read">
-    </iframe>
-    -->
+      <iframe
+        class="space"
+        src="https://john2121-wildpreserve-taxidermy-studio.static.hf.space"
+        title="Wild Preserve Taxidermy Studio"
+        allow="clipboard-write; clipboard-read">
+      </iframe>
+    </div>
+
+    <div class="space-meta" id="space-meta"></div>
   </div>
 
   <!-- ===== FOOTER ===== -->
@@ -149,57 +153,45 @@
 
 </main>
 
-<!-- ===== JS: CAROUSEL ENGINE ===== -->
 <script>
-/*
-  Expected JSON format:
+/* ===== SPACE DATA ===== */
+const spaces = [
+  {
+    title: "Digital Fortress Builder",
+    description: "Interactive site builder and system prototype.",
+  },
+  {
+    title: "Wild Preserve Taxidermy Studio",
+    description: "Visual and experiential studio concept.",
+  }
+];
 
-  [
-    {
-      "title": "Project name",
-      "image": "https://pub-xxxx.r2.dev/projects/img1.jpg",
-      "caption": "Optional description"
-    }
-  ]
+const frames = document.querySelectorAll(".space");
+const title = document.getElementById("space-title");
+const meta = document.getElementById("space-meta");
 
-  Point this to:
-    - assets/projects.json
-    - OR a Cloudflare R2 public URL
-*/
-const MANIFEST_URL = "assets/projects.json";
-
-let projects = [];
-let i = 0;
-
-fetch(MANIFEST_URL)
-  .then(r => r.json())
-  .then(data => {
-    projects = data;
-    render();
-  })
-  .catch(err => {
-    console.warn("Project manifest not loaded:", err);
-  });
+let index = 0;
 
 function render() {
-  if (!projects.length) return;
-  const p = projects[i];
-  document.getElementById("carousel-image").src = p.image;
-  document.getElementById("carousel-meta").textContent =
-    [p.title, p.caption].filter(Boolean).join(" — ");
+  frames.forEach((f, i) =>
+    f.classList.toggle("active", i === index)
+  );
+  title.textContent = spaces[index].title;
+  meta.textContent = spaces[index].description;
 }
 
 document.getElementById("next").onclick = () => {
-  i = (i + 1) % projects.length;
+  index = (index + 1) % frames.length;
   render();
 };
 
 document.getElementById("prev").onclick = () => {
-  i = (i - 1 + projects.length) % projects.length;
+  index = (index - 1 + frames.length) % frames.length;
   render();
 };
+
+render();
 </script>
 
 </body>
 </html>
-
