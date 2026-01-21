@@ -1,44 +1,34 @@
-# Dondlinger GC Website Setup
+# Dondlinger GC Website
 
-## Prerequisites
-- Node.js and npm installed
-- Cloudflare account with domain dondlingergc.com
+## Deployment
+This site is deployed using **GitHub Pages** with a custom domain (dondlingergc.com).
 
-## Install Wrangler
-Since npm install failed due to build issues, download Wrangler manually:
+### How to Deploy
+1. Push changes to the `main` branch
+2. GitHub Pages automatically deploys from the repository root
+3. Changes are live within minutes
 
-1. Go to https://github.com/cloudflare/wrangler/releases/latest
-2. Download `wrangler-v3.28.1-x86_64-pc-windows-msvc.zip` (or latest version)
-3. Extract to a folder, e.g., `C:\wrangler`
-4. Add `C:\wrangler` to your PATH environment variable
+## Features
+- Interactive 3D architectural previews with Three.js
+- Blueprints gallery with embedded PDFs and images
+- Contact form via Formspree
+- Modern glassmorphism UI with View Transitions API
 
-Alternatively, if npm works: `npm install -g wrangler`
+## Contact Form Setup
+The contact form uses [Formspree](https://formspree.io) for handling submissions:
 
-## Setup
-1. Authenticate: `wrangler auth login`
-2. Create D1 database: `wrangler d1 create dondlingergc_db`
-3. Copy the database_id from the output
-4. Update `wrangler.toml` with the actual database_id
-5. Create the table: `wrangler d1 execute dondlingergc_db --file=schema.sql`
-6. Deploy: `wrangler pages deploy .`
+1. Sign up for a free Formspree account
+2. Create a new form and get your form ID
+3. Replace `YOUR_FORM_ID` in `index.html` with your actual form ID
+4. Form submissions will be emailed to you
 
-## Features Added
-- 3D Architectural Preview with Three.js
-- Contact form with D1 storage
-- Blueprints gallery with PDFs and images
-- Glassmorphism UI
-- View Transitions API
+## File Structure
+- `index.html` - Main website
+- `blueprints/` - Architectural drawings and PDFs
+- `CNAME` - Custom domain configuration
+- `.gitignore` - Git ignore rules
 
-## Subdomains Setup
-To create dedicated subdomains:
-
-1. In Cloudflare Dashboard > Pages > Your Project > Custom Domains
-2. Add `blueprints.dondlingergc.com` and `portal.dondlingergc.com`
-3. Update `functions/index.js` to route based on hostname
-4. For blueprints subdomain, serve the gallery
-5. For portal, serve client portal with authentication
-
-## Next Steps
-- Seed blueprints data into D1
-- Add authentication for portal
-- Implement dynamic project gallery
+## Development
+- Edit `index.html` for content changes
+- Add new blueprints to the `blueprints/` folder
+- Commit and push to deploy
