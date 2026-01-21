@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Dondlinger GC — Wisconsin Rapids</title>
+<title>Dondlinger General Contracting — Design-Build</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <style>
@@ -16,7 +16,13 @@
 }
 
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg)}
+html,body{
+  margin:0;
+  height:100%;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+}
 
 .app{
   display:grid;
@@ -28,38 +34,38 @@ html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Robo
   .app{grid-template-columns:1fr}
 }
 
-/* ===== LEFT PANEL ===== */
-.real{
+/* ===== LEFT PANEL (IDENTITY) ===== */
+.left{
   padding:48px;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
   background:
-    linear-gradient(180deg,rgba(0,0,0,.65),rgba(0,0,0,.9)),
+    linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,.9)),
     url("https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80");
   background-size:cover;
   background-position:center;
   border-right:1px solid var(--border);
 }
 
-.real h1{
+.left h1{
   font-size:clamp(2.2rem,4vw,3rem);
   margin:0 0 12px;
 }
 
-.real p{
+.left p{
   color:var(--muted);
   max-width:520px;
   font-size:1.05rem;
 }
 
 .location{
-  margin-top:12px;
+  margin-top:14px;
   font-weight:600;
 }
 
 .cta{
-  margin-top:32px;
+  margin-top:28px;
 }
 
 .cta a{
@@ -72,21 +78,26 @@ html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Robo
   border-radius:6px;
 }
 
+.footer-left{
+  font-size:.9rem;
+  color:var(--muted);
+}
+
 /* ===== RIGHT PANEL ===== */
-.lab{
+.right{
   padding:32px;
   display:flex;
   flex-direction:column;
   gap:16px;
 }
 
-.lab-header{
+.header{
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
-.lab-header h2{margin:0}
+.header h2{margin:0}
 
 .tabs{
   display:flex;
@@ -108,7 +119,6 @@ html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Robo
   color:var(--accent);
 }
 
-/* ===== VIEWER ===== */
 .viewer{
   flex:1;
   border:1px solid var(--border);
@@ -118,25 +128,24 @@ html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Robo
   position:relative;
 }
 
+/* ===== LAB IFRAMES ===== */
 iframe{
   width:100%;
   height:100%;
   border:none;
   display:none;
 }
-
 iframe.active{display:block}
 
 /* ===== CONSTRUCTION GRID ===== */
-.construction{
+.panel{
   display:none;
-  padding:24px;
-  background:#0e121a;
   height:100%;
   overflow:auto;
+  background:#0e121a;
+  padding:24px;
 }
-
-.construction.active{display:block}
+.panel.active{display:block}
 
 .grid{
   display:grid;
@@ -163,14 +172,72 @@ iframe.active{display:block}
   font-size:.9rem;
 }
 
-.project .info strong{
+.project strong{display:block}
+
+/* ===== ARCHITECTURAL PRINTS ===== */
+.prints-layout{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:24px;
+}
+
+@media(max-width:900px){
+  .prints-layout{grid-template-columns:1fr}
+}
+
+.print-preview{
+  border:1px solid var(--border);
+  background:#05070c;
+  padding:20px;
+}
+
+.print-preview svg{
+  width:100%;
+  stroke:#4fa3ff;
+  stroke-width:2;
+  fill:none;
+}
+
+.print-caption{
+  margin-top:10px;
+  font-size:.85rem;
+  color:var(--muted);
+}
+
+.print-specs h3{margin:0 0 8px}
+.print-specs p{font-size:.9rem;color:var(--muted)}
+
+.print-specs label{
   display:block;
+  margin-top:14px;
+  font-size:.85rem;
+}
+
+.print-specs select{
+  width:100%;
+  margin-top:6px;
+  padding:8px;
+  background:#0e121a;
+  color:var(--fg);
+  border:1px solid var(--border);
+}
+
+.print-cta{
+  display:block;
+  margin-top:22px;
+  padding:14px;
+  background:var(--accent);
+  color:#000;
+  text-align:center;
+  font-weight:700;
+  text-decoration:none;
+  border-radius:6px;
 }
 
 .meta{
   font-size:.9rem;
   color:var(--muted);
-  margin-top:6px;
+  margin-top:8px;
 }
 </style>
 </head>
@@ -180,13 +247,14 @@ iframe.active{display:block}
 <div class="app">
 
   <!-- LEFT -->
-  <section class="real">
+  <section class="left">
     <div>
       <h1>Dondlinger General Contracting</h1>
       <p>
-        Construction and technical systems built to be used —
-        not pitched.
+        Design-build construction and architectural drawings
+        prepared for real projects — not just concepts.
       </p>
+
       <div class="location">📍 Wisconsin Rapids, WI</div>
 
       <div class="cta">
@@ -196,42 +264,41 @@ iframe.active{display:block}
       </div>
     </div>
 
-    <div class="meta">
-      Licensed · Insured · Local
+    <div class="footer-left">
+      Licensed · Insured · Design-Build
     </div>
   </section>
 
   <!-- RIGHT -->
-  <section class="lab">
-    <div class="lab-header">
-      <h2>Work & Tools</h2>
+  <section class="right">
+
+    <div class="header">
+      <h2>Work & Services</h2>
     </div>
 
     <div class="tabs">
-      <button class="active" data-tab="lab0">Digital Fortress</button>
-      <button data-tab="lab1">Wild Preserve</button>
+      <button class="active" data-tab="lab0">Digital Tools</button>
       <button data-tab="construction">Construction</button>
+      <button data-tab="prints">Architectural Prints</button>
     </div>
 
     <div class="viewer">
-      <!-- LAB IFRAME 1 -->
+
+      <!-- LAB -->
       <iframe class="active" data-id="lab0"
-        src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space"></iframe>
+        src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space">
+      </iframe>
 
-      <!-- LAB IFRAME 2 -->
-      <iframe data-id="lab1"
-        src="https://john2121-wildpreserve-taxidermy-studio.static.hf.space"></iframe>
-
-      <!-- CONSTRUCTION GRID -->
-      <div class="construction" data-id="construction">
+      <!-- CONSTRUCTION -->
+      <div class="panel" data-id="construction">
         <div class="grid">
 
-          <!-- STOCK PLACEHOLDERS – REPLACE WITH YOUR REAL PROJECT PHOTOS -->
+          <!-- Replace stock images with your real work -->
           <div class="project">
             <img src="https://images.unsplash.com/photo-1596079890681-7c1c7d2f9a8b?auto=format&fit=crop&w=800&q=80">
             <div class="info">
               <strong>Residential Framing</strong>
-              Wisconsin Rapids, WI
+              Wisconsin Rapids
             </div>
           </div>
 
@@ -247,15 +314,71 @@ iframe.active{display:block}
             <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80">
             <div class="info">
               <strong>Structural Repair</strong>
-              Wisconsin Rapids Area
+              Wood County
             </div>
           </div>
 
-          <div class="project">
-            <img src="https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=800&q=80">
-            <div class="info">
-              <strong>Site Work & Builds</strong>
-              Wood County
+        </div>
+      </div>
+
+      <!-- ARCHITECTURAL PRINTS -->
+      <div class="panel" data-id="prints">
+        <div class="prints-layout">
+
+          <div class="print-preview">
+            <!-- Sample blueprint (replace later with your real drawing export) -->
+            <svg viewBox="0 0 600 400">
+              <rect x="60" y="60" width="480" height="280"/>
+              <line x1="60" y1="200" x2="540" y2="200"/>
+              <line x1="300" y1="60" x2="300" y2="340"/>
+            </svg>
+            <div class="print-caption">
+              Example architectural print · Scaled · Build-ready
+            </div>
+          </div>
+
+          <div class="print-specs">
+            <h3>Request an Architectural Drawing</h3>
+            <p>
+              Design-build drawings prepared for construction,
+              permitting, or planning.
+            </p>
+
+            <label>
+              Project Type
+              <select>
+                <option>Residential addition</option>
+                <option>Garage / outbuilding</option>
+                <option>Interior remodel</option>
+                <option>Commercial build-out</option>
+              </select>
+            </label>
+
+            <label>
+              Approximate Size
+              <select>
+                <option>&lt; 1,000 sq ft</option>
+                <option>1,000 – 2,500 sq ft</option>
+                <option>2,500+ sq ft</option>
+              </select>
+            </label>
+
+            <label>
+              Drawing Purpose
+              <select>
+                <option>Build-ready</option>
+                <option>Permit submission</option>
+                <option>Concept / feasibility</option>
+              </select>
+            </label>
+
+            <a class="print-cta"
+               href="mailto:dondlingergeneralcontracting@gmail.com?subject=Architectural%20Print%20Request">
+              Request This Drawing
+            </a>
+
+            <div class="meta">
+              Wisconsin Rapids · Design-Build · Digital or Printed
             </div>
           </div>
 
@@ -265,8 +388,9 @@ iframe.active{display:block}
     </div>
 
     <div class="meta" id="desc">
-      Interactive site builder & automation lab
+      Interactive tools and systems
     </div>
+
   </section>
 
 </div>
@@ -277,9 +401,9 @@ const panels=[...document.querySelectorAll("[data-id]")];
 const desc=document.getElementById("desc");
 
 const descriptions={
-  lab0:"Interactive site builder & automation lab",
-  lab1:"Visual studio & experiential concept",
-  construction:"Real construction work — residential & commercial"
+  lab0:"Interactive tools and systems",
+  construction:"Real construction work",
+  prints:"Architectural drawings you can build from"
 };
 
 tabs.forEach(btn=>{
