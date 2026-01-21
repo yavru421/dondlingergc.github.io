@@ -1,424 +1,1261 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Dondlinger General Contracting — Design-Build</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Dondlinger General Contracting — Wisconsin Rapids area. Construction, remodels, design-build, and architectural prints." />
+  <meta name="theme-color" content="#0b1b14" />
+  <title>Dondlinger General Contracting | Wisconsin Rapids</title>
 
-<style>
-:root{
-  --bg:#0b0d11;
-  --panel:#121622;
-  --border:#23293a;
-  --fg:#eef1f7;
-  --muted:#9aa3b2;
-  --accent:#f0a23b;
-}
+  <!-- Social -->
+  <meta property="og:title" content="Dondlinger General Contracting" />
+  <meta property="og:description" content="Construction, remodels, design-build, and architectural prints. Wisconsin Rapids area." />
+  <meta property="og:type" content="website" />
 
-*{box-sizing:border-box}
-html,body{
-  margin:0;
-  height:100%;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  background:var(--bg);
-  color:var(--fg);
-}
+  <style>
+    :root{
+      --bg:#07130e;
+      --panel:#0b1b14;
+      --panel2:#0e241b;
+      --text:#e7f7ef;
+      --muted:#b9d6c8;
+      --line:rgba(255,255,255,.12);
+      --accent:#30e08c;
+      --accent2:#26b973;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --radius2: 26px;
+      --max: 1120px;
+    }
 
-.app{
-  display:grid;
-  grid-template-columns: 1fr 1.4fr;
-  height:100vh;
-}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(48,224,140,.18), transparent 55%),
+        radial-gradient(900px 500px at 80% 0%, rgba(38,185,115,.16), transparent 55%),
+        radial-gradient(900px 700px at 60% 90%, rgba(48,224,140,.10), transparent 60%),
+        linear-gradient(180deg, #050f0b, var(--bg) 60%, #040b08);
+      overflow-x:hidden;
+    }
 
-@media (max-width:900px){
-  .app{grid-template-columns:1fr}
-}
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 18px;}
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: rgba(5,15,11,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar .row{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 0;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none;
+      min-width: 240px;
+    }
+    .mark{
+      width:40px; height:40px; border-radius:12px;
+      background: linear-gradient(135deg, rgba(48,224,140,.9), rgba(38,185,115,.5));
+      box-shadow: 0 10px 30px rgba(48,224,140,.15);
+      position:relative;
+      overflow:hidden;
+    }
+    .mark::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: conic-gradient(from 210deg, rgba(255,255,255,.0), rgba(255,255,255,.22), rgba(255,255,255,0));
+      animation: spin 6s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .brand .title{
+      display:flex; flex-direction:column; line-height:1.06;
+    }
+    .brand .title b{font-size:14px; letter-spacing:.3px}
+    .brand .title span{font-size:12px; color:var(--muted)}
+    nav{
+      display:flex; align-items:center; gap:12px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    nav a{
+      text-decoration:none;
+      color:var(--muted);
+      font-size:13px;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid transparent;
+      transition: .16s ease;
+      white-space:nowrap;
+    }
+    nav a:hover{
+      color:var(--text);
+      border-color: rgba(48,224,140,.25);
+      background: rgba(48,224,140,.06);
+    }
+    .cta{
+      display:flex; gap:10px; align-items:center;
+    }
+    .btn{
+      border:1px solid rgba(48,224,140,.35);
+      background: rgba(48,224,140,.10);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 14px;
+      font-size:13px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition:.16s ease;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{
+      background: rgba(48,224,140,.16);
+      border-color: rgba(48,224,140,.55);
+      transform: translateY(-1px);
+    }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(48,224,140,.95), rgba(38,185,115,.65));
+      border-color: transparent;
+      color:#07130e;
+      font-weight: 700;
+    }
+    .btn.primary:hover{filter:saturate(1.05) brightness(1.03)}
+    .btn.ghost{
+      border-color: rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+    }
+    .btn.ghost:hover{
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.08);
+    }
 
-/* ===== LEFT PANEL (IDENTITY) ===== */
-.left{
-  padding:48px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  background:
-    linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,.9)),
-    url("https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80");
-  background-size:cover;
-  background-position:center;
-  border-right:1px solid var(--border);
-}
+    header.hero{
+      padding: 44px 0 18px;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(11,27,20,.92), rgba(11,27,20,.72));
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .card .pad{padding: 22px;}
+    .heroTitle{
+      font-size: 40px;
+      line-height: 1.03;
+      margin:0 0 10px;
+      letter-spacing:-.6px;
+    }
+    .heroSub{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height:1.5;
+      max-width: 60ch;
+    }
+    .pillRow{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin: 16px 0 0;
+    }
+    .pill{
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:50%;
+      background: rgba(48,224,140,.9);
+      box-shadow: 0 0 0 5px rgba(48,224,140,.12);
+    }
 
-.left h1{
-  font-size:clamp(2.2rem,4vw,3rem);
-  margin:0 0 12px;
-}
+    /* Right hero panel */
+    .heroRight{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .mini{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(14,36,27,.82), rgba(11,27,20,.62));
+      overflow:hidden;
+      box-shadow: var(--shadow);
+    }
+    .mini .pad{padding:16px}
+    .mini h3{margin:0 0 6px; font-size:14px; letter-spacing:.2px}
+    .mini p{margin:0; color:var(--muted); font-size:13px; line-height:1.45}
+    .mini .row{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
+    .mini .row .btn{padding:9px 10px; border-radius: 12px}
 
-.left p{
-  color:var(--muted);
-  max-width:520px;
-  font-size:1.05rem;
-}
+    /* Section */
+    section{
+      padding: 16px 0 8px;
+    }
+    .sectionTitle{
+      margin: 0 0 10px;
+      font-size: 15px;
+      color: var(--muted);
+      letter-spacing:.18px;
+    }
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .service{
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(11,27,20,.76), rgba(11,27,20,.52));
+      padding: 16px;
+      min-height: 148px;
+      position:relative;
+      overflow:hidden;
+    }
+    .service::before{
+      content:"";
+      position:absolute; inset:-80px -60px auto auto;
+      width:180px; height:180px;
+      background: radial-gradient(circle at 30% 30%, rgba(48,224,140,.22), transparent 60%);
+      filter: blur(2px);
+      pointer-events:none;
+    }
+    .service h4{margin:0 0 8px; font-size:14px}
+    .service p{margin:0; color:var(--muted); font-size:13px; line-height:1.5}
 
-.location{
-  margin-top:14px;
-  font-weight:600;
-}
+    /* Carousel Lab */
+    .labCard{
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(14,36,27,.82), rgba(11,27,20,.60));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .labHead{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      gap:12px;
+    }
+    .labHead b{font-size:13px; letter-spacing:.2px}
+    .labHead span{font-size:12px; color:var(--muted)}
+    .carousel{
+      position:relative;
+      height: 560px;
+      overflow:hidden;
+      background: rgba(0,0,0,.12);
+    }
+    .track{
+      height:100%;
+      display:flex;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      -webkit-overflow-scrolling:touch;
+    }
+    .track::-webkit-scrollbar{height:10px}
+    .track::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.12);
+      border-radius:999px;
+    }
+    .slide{
+      scroll-snap-align:start;
+      flex: 0 0 100%;
+      height:100%;
+      position:relative;
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
+      padding: 14px;
+      gap:14px;
+    }
+    .slideInner{
+      width:100%;
+      height:100%;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .slideFrame{
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+      position:relative;
+    }
+    .slideFrame iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+      background:#000;
+    }
+    .slideMeta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 12px 12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      border-radius: 18px;
+    }
+    .slideMeta .left{
+      display:flex; flex-direction:column; gap:4px;
+    }
+    .slideMeta .left b{font-size:13px}
+    .slideMeta .left span{font-size:12px; color:var(--muted)}
+    .dots{
+      display:flex; gap:8px; align-items:center; justify-content:center;
+      padding: 10px 12px 14px;
+    }
+    .dotBtn{
+      width:10px; height:10px; border-radius:50%;
+      border:1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.10);
+      cursor:pointer;
+      transition:.16s ease;
+    }
+    .dotBtn.active{
+      background: rgba(48,224,140,.85);
+      border-color: rgba(48,224,140,.95);
+      box-shadow: 0 0 0 6px rgba(48,224,140,.12);
+    }
+    .carControls{
+      display:flex; gap:10px; align-items:center;
+    }
 
-.cta{
-  margin-top:28px;
-}
+    /* Surprise feature: Project Snapshot */
+    .snapCard{
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(11,27,20,.76), rgba(11,27,20,.52));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .snapHead{
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+    }
+    .snapHead .txt b{display:block; font-size:13px; margin-bottom:4px}
+    .snapHead .txt span{display:block; font-size:12px; color:var(--muted); line-height:1.35}
+    .snapBody{padding: 16px}
+    .formGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    label{display:block; font-size:12px; color:var(--muted); margin: 0 0 6px}
+    input, textarea, select{
+      width:100%;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      padding: 10px 12px;
+      outline:none;
+      font-size:13px;
+    }
+    textarea{min-height: 96px; resize: vertical}
+    .span2{grid-column: 1 / -1}
+    .snapActions{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+      margin-top: 12px;
+    }
+    .hint{font-size:12px; color:var(--muted); margin-top:10px; line-height:1.4}
 
-.cta a{
-  display:inline-block;
-  padding:14px 20px;
-  background:var(--accent);
-  color:#000;
-  font-weight:700;
-  text-decoration:none;
-  border-radius:6px;
-}
+    /* Footer */
+    footer{
+      padding: 18px 0 36px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .footGrid{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      border-top:1px solid rgba(255,255,255,.10);
+      padding-top: 14px;
+    }
+    .k{
+      display:inline-flex; gap:8px; align-items:center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      margin-right:8px;
+      margin-top:8px;
+    }
 
-.footer-left{
-  font-size:.9rem;
-  color:var(--muted);
-}
+    /* Modal */
+    .modalBack{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.62);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 16px;
+      z-index: 1000;
+    }
+    .modal{
+      width:min(860px, 100%);
+      background: linear-gradient(180deg, rgba(14,36,27,.92), rgba(11,27,20,.80));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 24px;
+      box-shadow: 0 18px 70px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .modalTop{
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .modalTop b{font-size:13px}
+    .modalTop .x{
+      width:36px; height:36px; border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      cursor:pointer;
+    }
+    .modalBody{padding: 16px}
+    .snapshotSheet{
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      padding: 14px;
+    }
+    .sheetRow{display:flex; gap:10px; flex-wrap:wrap}
+    .sheetRow > div{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      min-width: 180px;
+      flex:1;
+    }
+    .sheetRow b{display:block; font-size:12px; margin-bottom:4px}
+    .sheetRow span{display:block; font-size:13px; color: var(--text)}
+    .sheetBig{
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      white-space:pre-wrap;
+      line-height:1.45;
+      font-size:13px;
+    }
+    .modalActions{
+      margin-top: 12px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
 
-/* ===== RIGHT PANEL ===== */
-.right{
-  padding:32px;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
-
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.header h2{margin:0}
-
-.tabs{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.tabs button{
-  background:none;
-  border:1px solid var(--border);
-  color:var(--fg);
-  padding:8px 12px;
-  cursor:pointer;
-  border-radius:6px;
-}
-
-.tabs button.active{
-  border-color:var(--accent);
-  color:var(--accent);
-}
-
-.viewer{
-  flex:1;
-  border:1px solid var(--border);
-  border-radius:10px;
-  overflow:hidden;
-  background:#000;
-  position:relative;
-}
-
-/* ===== LAB IFRAMES ===== */
-iframe{
-  width:100%;
-  height:100%;
-  border:none;
-  display:none;
-}
-iframe.active{display:block}
-
-/* ===== CONSTRUCTION GRID ===== */
-.panel{
-  display:none;
-  height:100%;
-  overflow:auto;
-  background:#0e121a;
-  padding:24px;
-}
-.panel.active{display:block}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
-}
-
-.project{
-  border:1px solid var(--border);
-  border-radius:8px;
-  overflow:hidden;
-  background:#000;
-}
-
-.project img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-  display:block;
-}
-
-.project .info{
-  padding:10px;
-  font-size:.9rem;
-}
-
-.project strong{display:block}
-
-/* ===== ARCHITECTURAL PRINTS ===== */
-.prints-layout{
-  display:grid;
-  grid-template-columns:1.2fr 1fr;
-  gap:24px;
-}
-
-@media(max-width:900px){
-  .prints-layout{grid-template-columns:1fr}
-}
-
-.print-preview{
-  border:1px solid var(--border);
-  background:#05070c;
-  padding:20px;
-}
-
-.print-preview svg{
-  width:100%;
-  stroke:#4fa3ff;
-  stroke-width:2;
-  fill:none;
-}
-
-.print-caption{
-  margin-top:10px;
-  font-size:.85rem;
-  color:var(--muted);
-}
-
-.print-specs h3{margin:0 0 8px}
-.print-specs p{font-size:.9rem;color:var(--muted)}
-
-.print-specs label{
-  display:block;
-  margin-top:14px;
-  font-size:.85rem;
-}
-
-.print-specs select{
-  width:100%;
-  margin-top:6px;
-  padding:8px;
-  background:#0e121a;
-  color:var(--fg);
-  border:1px solid var(--border);
-}
-
-.print-cta{
-  display:block;
-  margin-top:22px;
-  padding:14px;
-  background:var(--accent);
-  color:#000;
-  text-align:center;
-  font-weight:700;
-  text-decoration:none;
-  border-radius:6px;
-}
-
-.meta{
-  font-size:.9rem;
-  color:var(--muted);
-  margin-top:8px;
-}
-</style>
+    /* Responsive */
+    @media (max-width: 980px){
+      .heroGrid{grid-template-columns: 1fr}
+      .heroTitle{font-size: 34px}
+      .grid3{grid-template-columns: 1fr}
+      .carousel{height: 600px}
+      .formGrid{grid-template-columns: 1fr}
+      nav{display:none}
+      .brand{min-width:auto}
+    }
+  </style>
 </head>
 
 <body>
-
-<div class="app">
-
-  <!-- LEFT -->
-  <section class="left">
-    <div>
-      <h1>Dondlinger General Contracting</h1>
-      <p>
-        Design-build construction and architectural drawings
-        prepared for real projects — not just concepts.
-      </p>
-
-      <div class="location">📍 Wisconsin Rapids, WI</div>
-
-      <div class="cta">
-        <a href="mailto:dondlingergeneralcontracting@gmail.com">
-          Have a project? Let’s talk.
+  <div class="topbar">
+    <div class="wrap">
+      <div class="row">
+        <a class="brand" href="#top" aria-label="Dondlinger General Contracting">
+          <div class="mark" aria-hidden="true"></div>
+          <div class="title">
+            <b>Dondlinger General Contracting</b>
+            <span>Wisconsin Rapids • Design-Build • Remodels • Prints</span>
+          </div>
         </a>
+
+        <nav aria-label="Primary">
+          <a href="#services">Services</a>
+          <a href="#lab">Lab</a>
+          <a href="#snapshot">Project Snapshot</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="cta">
+          <a class="btn ghost" href="#lab">Enter Lab</a>
+          <a class="btn primary" href="#snapshot">Get a fast quote</a>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="footer-left">
-      Licensed · Insured · Design-Build
-    </div>
-  </section>
+  <main id="top">
+    <header class="hero">
+      <div class="wrap">
+        <div class="heroGrid">
+          <div class="card">
+            <div class="pad">
+              <h1 class="heroTitle">Build it right. Make it look intentional.</h1>
+              <p class="heroSub">
+                Construction + remodels with a design-build brain. If you’re in the Wisconsin Rapids area and want a job that
+                looks clean, functions correctly, and doesn’t feel like a patchwork… you’re in the right place.
+              </p>
 
-  <!-- RIGHT -->
-  <section class="right">
+              <div class="cta" style="margin-top:14px; flex-wrap:wrap;">
+                <a class="btn primary" href="#snapshot">Create a project snapshot</a>
+                <a class="btn" href="#lab">See the “lab experiments”</a>
+                <a class="btn ghost" href="#contact">Call / Text</a>
+              </div>
 
-    <div class="header">
-      <h2>Work & Services</h2>
-    </div>
-
-    <div class="tabs">
-      <button class="active" data-tab="lab0">Digital Tools</button>
-      <button data-tab="construction">Construction</button>
-      <button data-tab="prints">Architectural Prints</button>
-    </div>
-
-    <div class="viewer">
-
-      <!-- LAB -->
-      <iframe class="active" data-id="lab0"
-        src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space">
-      </iframe>
-
-      <!-- CONSTRUCTION -->
-      <div class="panel" data-id="construction">
-        <div class="grid">
-
-          <!-- Replace stock images with your real work -->
-          <div class="project">
-            <img src="https://images.unsplash.com/photo-1596079890681-7c1c7d2f9a8b?auto=format&fit=crop&w=800&q=80">
-            <div class="info">
-              <strong>Residential Framing</strong>
-              Wisconsin Rapids
+              <div class="pillRow" aria-label="Highlights">
+                <span class="pill"><span class="dot"></span> Fast response</span>
+                <span class="pill"><span class="dot"></span> Clean work</span>
+                <span class="pill"><span class="dot"></span> Architectural prints + shop drawings</span>
+                <span class="pill"><span class="dot"></span> Wisconsin Rapids focus</span>
+              </div>
             </div>
           </div>
 
-          <div class="project">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80">
-            <div class="info">
-              <strong>Remodel & Finish Work</strong>
-              Central Wisconsin
+          <div class="heroRight">
+            <div class="mini">
+              <div class="pad">
+                <h3>What makes this different</h3>
+                <p>
+                  You’re not getting generic “contractor website” fluff. This is a living portfolio + a lab.
+                  If you’re curious, the Lab is where the weird useful stuff lives.
+                </p>
+                <div class="row">
+                  <a class="btn" href="#services">Services</a>
+                  <a class="btn ghost" href="#lab">Lab carousel</a>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="project">
-            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80">
-            <div class="info">
-              <strong>Structural Repair</strong>
-              Wood County
+            <div class="mini">
+              <div class="pad">
+                <h3>Quick scope examples</h3>
+                <p>
+                  Framing, remodeling, repair work, finish carpentry, exterior improvements, plus blueprint/print drafting
+                  for design-build clients.
+                </p>
+                <div class="row">
+                  <a class="btn" href="#snapshot">Get a ballpark</a>
+                  <a class="btn ghost" href="#contact">Contact</a>
+                </div>
+              </div>
             </div>
           </div>
 
         </div>
       </div>
+    </header>
 
-      <!-- ARCHITECTURAL PRINTS -->
-      <div class="panel" data-id="prints">
-        <div class="prints-layout">
-
-          <div class="print-preview">
-            <!-- Sample blueprint (replace later with your real drawing export) -->
-            <svg viewBox="0 0 600 400">
-              <rect x="60" y="60" width="480" height="280"/>
-              <line x1="60" y1="200" x2="540" y2="200"/>
-              <line x1="300" y1="60" x2="300" y2="340"/>
-            </svg>
-            <div class="print-caption">
-              Example architectural print · Scaled · Build-ready
-            </div>
+    <section id="services">
+      <div class="wrap">
+        <p class="sectionTitle">Services</p>
+        <div class="grid3">
+          <div class="service">
+            <h4>Construction + Remodels</h4>
+            <p>Bathrooms, kitchens, repairs, framing, finish work — done clean, squared up, and thought through.</p>
           </div>
-
-          <div class="print-specs">
-            <h3>Request an Architectural Drawing</h3>
-            <p>
-              Design-build drawings prepared for construction,
-              permitting, or planning.
-            </p>
-
-            <label>
-              Project Type
-              <select>
-                <option>Residential addition</option>
-                <option>Garage / outbuilding</option>
-                <option>Interior remodel</option>
-                <option>Commercial build-out</option>
-              </select>
-            </label>
-
-            <label>
-              Approximate Size
-              <select>
-                <option>&lt; 1,000 sq ft</option>
-                <option>1,000 – 2,500 sq ft</option>
-                <option>2,500+ sq ft</option>
-              </select>
-            </label>
-
-            <label>
-              Drawing Purpose
-              <select>
-                <option>Build-ready</option>
-                <option>Permit submission</option>
-                <option>Concept / feasibility</option>
-              </select>
-            </label>
-
-            <a class="print-cta"
-               href="mailto:dondlingergeneralcontracting@gmail.com?subject=Architectural%20Print%20Request">
-              Request This Drawing
-            </a>
-
-            <div class="meta">
-              Wisconsin Rapids · Design-Build · Digital or Printed
-            </div>
+          <div class="service">
+            <h4>Design-Build</h4>
+            <p>Plan the work before you start it. Better layout, fewer surprises, and a result that feels intentional.</p>
           </div>
-
+          <div class="service">
+            <h4>Architectural Prints + Shop Drawings</h4>
+            <p>Need a print, detail, or layout? I can draft what you need so the job gets built correctly the first time.</p>
+          </div>
         </div>
       </div>
+    </section>
 
+    <!-- LAB CAROUSEL (Your HF chat goes here) -->
+    <section id="lab">
+      <div class="wrap">
+        <div class="labCard">
+          <div class="labHead">
+            <div>
+              <b>Lab Experiments Carousel</b>
+              <span>Drop-in experiments (including the HF chat). This is where the site feels alive.</span>
+            </div>
+            <div class="carControls">
+              <button class="btn ghost" id="prevBtn" type="button">◀</button>
+              <button class="btn ghost" id="nextBtn" type="button">▶</button>
+            </div>
+          </div>
+
+          <div class="carousel" aria-label="Experiments carousel">
+            <div class="track" id="track">
+              <!-- Slide 1: Your HF chat -->
+              <div class="slide" data-title="DGC Chat" data-desc="A living ‘hidden gem’ utility disguised as a chat.">
+                <div class="slideInner">
+                  <div class="slideMeta">
+                    <div class="left">
+                      <b>DGC Chat</b>
+                      <span>Ask it weird questions. It should respond like a tool, not like customer support.</span>
+                    </div>
+                    <div>
+                      <button class="btn" type="button" data-action="focusChat">Focus</button>
+                    </div>
+                  </div>
+                  <div class="slideFrame">
+                    <iframe
+                      id="hfChatFrame"
+                      src="https://john2121-dgcchat.static.hf.space"
+                      loading="lazy"
+                      referrerpolicy="no-referrer"
+                      title="DGC Chat (Hugging Face Space)"
+                    ></iframe>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 2: Blueprint “viewer” demo (placeholder image + vibe) -->
+              <div class="slide" data-title="Blueprint Lens" data-desc="A sleek blueprint-feeling panel. Replace image with your own.">
+                <div class="slideInner">
+                  <div class="slideMeta">
+                    <div class="left">
+                      <b>Blueprint Lens</b>
+                      <span>Showcase design-build + prints. Swap in your actual drawings later.</span>
+                    </div>
+                    <div>
+                      <button class="btn" type="button" data-action="openBlueprint">Open</button>
+                    </div>
+                  </div>
+                  <div class="slideFrame" style="display:flex; align-items:center; justify-content:center; padding:18px;">
+                    <div style="width:100%; height:100%; border-radius:18px; border:1px dashed rgba(255,255,255,.22); background:rgba(0,0,0,.14); display:flex; align-items:center; justify-content:center; text-align:center; padding:18px;">
+                      <div>
+                        <div style="font-weight:800; letter-spacing:.25px; margin-bottom:6px;">Drop your blueprint image(s) here</div>
+                        <div style="color:var(--muted); font-size:13px; line-height:1.45;">
+                          Replace this with your real print preview(s). The goal is “design-build contractor” vibe in 3 seconds.
+                        </div>
+                        <div style="margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                          <span class="k">.png</span><span class="k">.jpg</span><span class="k">.pdf</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 3: “Tool” demo: fast estimator micro-widget -->
+              <div class="slide" data-title="Micro Estimator" data-desc="A tiny tool that feels like a hidden internet gem.">
+                <div class="slideInner">
+                  <div class="slideMeta">
+                    <div class="left">
+                      <b>Micro Estimator</b>
+                      <span>Not a quote. A quick reality-check. (This is meant to surprise people.)</span>
+                    </div>
+                    <div>
+                      <button class="btn" type="button" data-action="seedEstimator">Surprise me</button>
+                    </div>
+                  </div>
+                  <div class="slideFrame" style="padding:18px;">
+                    <div style="height:100%; border-radius:18px; border:1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.18); padding:16px; display:flex; flex-direction:column; gap:12px;">
+                      <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-start; flex-wrap:wrap;">
+                        <div>
+                          <div style="font-weight:900; letter-spacing:.2px;">Reality-Check Tool</div>
+                          <div style="color:var(--muted); font-size:13px; line-height:1.4;">Pick a job type → get a rough range + what actually drives cost.</div>
+                        </div>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                          <span class="k" id="rcBadge">offline</span>
+                          <span class="k">no signup</span>
+                        </div>
+                      </div>
+
+                      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+                        <div>
+                          <label for="jobType">Job type</label>
+                          <select id="jobType">
+                            <option value="bath">Bathroom refresh</option>
+                            <option value="kitchen">Kitchen refresh</option>
+                            <option value="deck">Deck / exterior</option>
+                            <option value="repair">Repair / fix</option>
+                            <option value="prints">Blueprint / prints</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label for="urgency">Urgency</label>
+                          <select id="urgency">
+                            <option value="normal">Normal</option>
+                            <option value="soon">Soon</option>
+                            <option value="emergency">Emergency</option>
+                          </select>
+                        </div>
+                        <div class="span2">
+                          <label for="notes">One sentence description</label>
+                          <input id="notes" placeholder="Example: replace vanity + floor + paint, keep plumbing where it is" />
+                        </div>
+                      </div>
+
+                      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                        <button class="btn primary" type="button" id="rcRun">Generate range</button>
+                        <button class="btn ghost" type="button" id="rcCopy">Copy result</button>
+                        <span style="color:var(--muted); font-size:12px;">This is meant to feel like a “hidden gem” tool.</span>
+                      </div>
+
+                      <div id="rcOut" style="flex:1; border-radius:16px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.06); padding:12px; white-space:pre-wrap; line-height:1.5; font-size:13px;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="dots" id="dots" aria-label="Carousel navigation"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SURPRISING FEATURE (my addition): “Project Snapshot” that generates a printable one-page intake + mailto -->
+    <section id="snapshot">
+      <div class="wrap">
+        <div class="snapCard">
+          <div class="snapHead">
+            <div class="txt">
+              <b>Project Snapshot (printable + email-ready)</b>
+              <span>
+                This is intentionally frictionless: fill 5 fields → get a clean one-page “scope snapshot” you can print or email.
+                It feels like a tool people come back to.
+              </span>
+            </div>
+            <button class="btn ghost" type="button" id="randomizeSnap">Random demo</button>
+          </div>
+
+          <div class="snapBody">
+            <div class="formGrid">
+              <div>
+                <label for="snapName">Name</label>
+                <input id="snapName" placeholder="Your name" autocomplete="name" />
+              </div>
+              <div>
+                <label for="snapPhone">Phone / Email</label>
+                <input id="snapPhone" placeholder="Call/text or email" />
+              </div>
+              <div>
+                <label for="snapCity">City</label>
+                <input id="snapCity" placeholder="Wisconsin Rapids / Nekoosa / etc." />
+              </div>
+              <div>
+                <label for="snapType">Project type</label>
+                <select id="snapType">
+                  <option>Remodel</option>
+                  <option>Repair</option>
+                  <option>Exterior</option>
+                  <option>Finish Carpentry</option>
+                  <option>Design-Build</option>
+                  <option>Blueprint / Prints</option>
+                </select>
+              </div>
+
+              <div class="span2">
+                <label for="snapDetails">Describe what you want (plain language)</label>
+                <textarea id="snapDetails" placeholder="Example: want to rework a small bathroom. keep plumbing if possible. upgrade floor + vanity + lighting. timeline is flexible."></textarea>
+              </div>
+
+              <div class="span2">
+                <label for="snapBudget">Budget (optional)</label>
+                <input id="snapBudget" placeholder="Example: $3k–$6k, or ‘not sure’" />
+              </div>
+            </div>
+
+            <div class="snapActions">
+              <button class="btn primary" type="button" id="makeSnapshot">Generate snapshot</button>
+              <button class="btn" type="button" id="saveSnapshot">Save for later</button>
+              <button class="btn ghost" type="button" id="loadSnapshot">Load saved</button>
+            </div>
+
+            <div class="hint">
+              Tip: This is designed for repeat traffic. People revisit it to rewrite their scope until it “sounds right,” then they send it.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <p class="sectionTitle">Contact</p>
+        <div class="grid3">
+          <div class="service">
+            <h4>Text / Call</h4>
+            <p>Put your real number here. Keep it simple. Most leads happen by text.</p>
+            <div style="margin-top:12px;">
+              <a class="btn" href="tel:+1XXXXXXXXXX">Call</a>
+              <a class="btn ghost" href="sms:+1XXXXXXXXXX">Text</a>
+            </div>
+          </div>
+          <div class="service">
+            <h4>Email</h4>
+            <p>Use a real domain email if possible. If not, Gmail is fine for now.</p>
+            <div style="margin-top:12px;">
+              <a class="btn" href="mailto:you@dondlingergc.com?subject=Project%20Inquiry">Email</a>
+            </div>
+          </div>
+          <div class="service">
+            <h4>Service area</h4>
+            <p>Wisconsin Rapids area. If it’s outside that, ask anyway — sometimes it still makes sense.</p>
+            <div style="margin-top:12px;">
+              <span class="k">Wisconsin Rapids</span>
+              <span class="k">Nekoosa</span>
+              <span class="k">Port Edwards</span>
+              <span class="k">Plover</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap">
+        <div class="footGrid">
+          <div>
+            <div><b style="color:var(--text)">Dondlinger General Contracting</b></div>
+            <div style="margin-top:6px;">© <span id="yr"></span> — Built lean. Hosted fast. No bloat.</div>
+            <div>
+              <span class="k">Cloudflare Pages ready</span>
+              <span class="k">Static-first</span>
+              <span class="k">Lab carousel</span>
+            </div>
+          </div>
+          <div style="text-align:right; min-width: 260px;">
+            <div style="color:var(--muted)">Hidden interaction:</div>
+            <div style="margin-top:6px;">
+              <span class="k">Press <b style="color:var(--text)">L</b> to jump to the Lab</span>
+              <span class="k">Press <b style="color:var(--text)">S</b> for Snapshot</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Snapshot Modal -->
+  <div class="modalBack" id="modalBack" role="dialog" aria-modal="true" aria-label="Project Snapshot">
+    <div class="modal">
+      <div class="modalTop">
+        <b>Project Snapshot</b>
+        <button class="x" type="button" id="closeModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modalBody">
+        <div class="snapshotSheet" id="sheet">
+          <div class="sheetRow">
+            <div><b>Name</b><span id="shName">—</span></div>
+            <div><b>Contact</b><span id="shContact">—</span></div>
+            <div><b>City</b><span id="shCity">—</span></div>
+            <div><b>Type</b><span id="shType">—</span></div>
+          </div>
+          <div class="sheetBig" id="shDetails">—</div>
+          <div class="sheetRow" style="margin-top:10px;">
+            <div><b>Budget</b><span id="shBudget">—</span></div>
+            <div><b>Timestamp</b><span id="shTime">—</span></div>
+          </div>
+        </div>
+
+        <div class="modalActions">
+          <button class="btn ghost" type="button" id="printSnapshot">Print / Save PDF</button>
+          <button class="btn" type="button" id="copySnapshot">Copy</button>
+          <button class="btn primary" type="button" id="emailSnapshot">Email</button>
+        </div>
+
+        <div class="hint">
+          Note: Printing uses your browser’s “Save as PDF.” This is deliberate: zero backend, zero accounts, still feels like a real tool.
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="meta" id="desc">
-      Interactive tools and systems
-    </div>
+  <script>
+    // ======= Honest note =======
+    // You asked me to "review the site itself" — I can't fetch your live dondlingergc.com from here.
+    // So I generated a drop-in index.html that implements your request + adds one surprising feature
+    // (Project Snapshot: printable + email-ready intake, no backend).
+    // ==========================
 
-  </section>
+    // Year
+    document.getElementById('yr').textContent = new Date().getFullYear();
 
-</div>
-
-<script>
-const tabs=[...document.querySelectorAll(".tabs button")];
-const panels=[...document.querySelectorAll("[data-id]")];
-const desc=document.getElementById("desc");
-
-const descriptions={
-  lab0:"Interactive tools and systems",
-  construction:"Real construction work",
-  prints:"Architectural drawings you can build from"
-};
-
-tabs.forEach(btn=>{
-  btn.onclick=()=>{
-    tabs.forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-
-    panels.forEach(p=>{
-      p.classList.toggle("active", p.dataset.id === btn.dataset.tab);
+    // Keyboard shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT')) return;
+      if (e.key.toLowerCase() === 'l') location.hash = '#lab';
+      if (e.key.toLowerCase() === 's') location.hash = '#snapshot';
     });
 
-    desc.textContent=descriptions[btn.dataset.tab];
-  };
-});
-</script>
+    // ===== Carousel logic =====
+    const track = document.getElementById('track');
+    const slides = Array.from(track.querySelectorAll('.slide'));
+    const dotsWrap = document.getElementById('dots');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
 
+    function activeIndex(){
+      const x = track.scrollLeft;
+      const w = track.clientWidth;
+      return Math.round(x / w);
+    }
+
+    function goTo(i){
+      const w = track.clientWidth;
+      track.scrollTo({ left: i * w, behavior: 'smooth' });
+      setActiveDot(i);
+    }
+
+    function setActiveDot(i){
+      dotsWrap.querySelectorAll('.dotBtn').forEach((d, idx) => d.classList.toggle('active', idx === i));
+    }
+
+    // Build dots
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.className = 'dotBtn' + (i === 0 ? ' active' : '');
+      b.type = 'button';
+      b.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(b);
+    });
+
+    // Prev/Next
+    prevBtn.addEventListener('click', () => goTo(Math.max(0, activeIndex() - 1)));
+    nextBtn.addEventListener('click', () => goTo(Math.min(slides.length - 1, activeIndex() + 1)));
+
+    // Update dot on scroll
+    let scrollT;
+    track.addEventListener('scroll', () => {
+      clearTimeout(scrollT);
+      scrollT = setTimeout(() => setActiveDot(activeIndex()), 60);
+    });
+
+    // Subtle auto-advance (pause on interaction)
+    let auto = true;
+    let autoTimer = null;
+
+    function startAuto(){
+      stopAuto();
+      autoTimer = setInterval(() => {
+        if (!auto) return;
+        const i = activeIndex();
+        goTo(i === slides.length - 1 ? 0 : i + 1);
+      }, 15000);
+    }
+    function stopAuto(){
+      if (autoTimer) clearInterval(autoTimer);
+      autoTimer = null;
+    }
+    ['pointerdown','wheel','touchstart','keydown'].forEach(ev => {
+      track.addEventListener(ev, () => { auto = false; setTimeout(() => auto = true, 22000); }, { passive:true });
+    });
+    startAuto();
+
+    // Slide buttons
+    document.querySelectorAll('[data-action="focusChat"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const f = document.getElementById('hfChatFrame');
+        // Bring attention without breaking UX
+        f.scrollIntoView({ behavior:'smooth', block:'center' });
+        // Try to focus the iframe (may be blocked by browser)
+        setTimeout(() => { try { f.focus(); } catch(e){} }, 200);
+      });
+    });
+
+    document.querySelectorAll('[data-action="openBlueprint"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        alert("Replace the Blueprint Lens placeholder with your real blueprint image/PDF preview. Want me to wire a PDF preview + image gallery?"); 
+      });
+    });
+
+    // ===== “Micro Estimator” (hidden gem tool) =====
+    const rcRun = document.getElementById('rcRun');
+    const rcCopy = document.getElementById('rcCopy');
+    const rcOut = document.getElementById('rcOut');
+    const jobType = document.getElementById('jobType');
+    const urgency = document.getElementById('urgency');
+    const notes = document.getElementById('notes');
+    const rcBadge = document.getElementById('rcBadge');
+
+    const ranges = {
+      bath:   { low: 2500, high: 12000, drivers: ["tile + waterproofing", "moving plumbing", "hidden damage", "fixture quality"] },
+      kitchen:{ low: 4000, high: 25000, drivers: ["cabinets", "countertops", "layout changes", "electrical upgrades"] },
+      deck:   { low: 1800, high: 16000, drivers: ["size", "footings", "rail system", "material choice"] },
+      repair: { low: 250,  high: 5000,  drivers: ["access", "root cause", "water damage", "matching finishes"] },
+      prints: { low: 150,  high: 1500,  drivers: ["complexity", "existing measurements", "detail level", "revisions"] }
+    };
+
+    function money(n){
+      return new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', maximumFractionDigits:0 }).format(n);
+    }
+
+    function generateRange(){
+      const t = jobType.value;
+      const u = urgency.value;
+      const base = ranges[t];
+      let mult = 1.0;
+      if (u === 'soon') mult = 1.08;
+      if (u === 'emergency') mult = 1.18;
+
+      const low = Math.round(base.low * mult);
+      const high = Math.round(base.high * mult);
+
+      const oneLiner = (notes.value || "").trim();
+      const drivers = base.drivers.map(d => `• ${d}`).join("\n");
+
+      const s = [
+        `RANGE (not a quote): ${money(low)} – ${money(high)}`,
+        ``,
+        `What drives cost here:`,
+        drivers,
+        ``,
+        oneLiner ? `Your note: “${oneLiner}”` : `Your note: (add one sentence for a sharper range)`,
+        ``,
+        `Next step: use “Project Snapshot” below to send a clean scope.`
+      ].join("\n");
+
+      rcOut.textContent = s;
+      rcBadge.textContent = "ready";
+    }
+
+    rcRun.addEventListener('click', generateRange);
+    rcCopy.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(rcOut.textContent || "");
+        rcCopy.textContent = "Copied";
+        setTimeout(() => rcCopy.textContent = "Copy result", 1200);
+      }catch(e){
+        alert("Clipboard blocked by browser. Select and copy manually.");
+      }
+    });
+
+    document.querySelectorAll('[data-action="seedEstimator"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const demos = [
+          { t:'bath', u:'normal', n:'replace vanity + floor + paint, keep plumbing where it is' },
+          { t:'prints', u:'normal', n:'need a simple print/layout for a small addition / shop drawings' },
+          { t:'repair', u:'soon', n:'water damage near window trim; want clean fix + prevent recurrence' },
+          { t:'deck', u:'normal', n:'small deck rebuild, want it stiff and clean with good rail' }
+        ];
+        const pick = demos[Math.floor(Math.random()*demos.length)];
+        jobType.value = pick.t;
+        urgency.value = pick.u;
+        notes.value = pick.n;
+        generateRange();
+      });
+    });
+
+    // ===== Project Snapshot (surprising feature) =====
+    const modalBack = document.getElementById('modalBack');
+    const closeModal = document.getElementById('closeModal');
+
+    const snapName = document.getElementById('snapName');
+    const snapPhone = document.getElementById('snapPhone');
+    const snapCity = document.getElementById('snapCity');
+    const snapType = document.getElementById('snapType');
+    const snapDetails = document.getElementById('snapDetails');
+    const snapBudget = document.getElementById('snapBudget');
+
+    const shName = document.getElementById('shName');
+    const shContact = document.getElementById('shContact');
+    const shCity = document.getElementById('shCity');
+    const shType = document.getElementById('shType');
+    const shDetails = document.getElementById('shDetails');
+    const shBudget = document.getElementById('shBudget');
+    const shTime = document.getElementById('shTime');
+
+    const makeSnapshot = document.getElementById('makeSnapshot');
+    const printSnapshot = document.getElementById('printSnapshot');
+    const copySnapshot = document.getElementById('copySnapshot');
+    const emailSnapshot = document.getElementById('emailSnapshot');
+
+    const saveSnapshot = document.getElementById('saveSnapshot');
+    const loadSnapshot = document.getElementById('loadSnapshot');
+    const randomizeSnap = document.getElementById('randomizeSnap');
+
+    function openModal(){ modalBack.style.display = 'flex'; }
+    function hideModal(){ modalBack.style.display = 'none'; }
+
+    function snapshotData(){
+      return {
+        name: (snapName.value||"").trim(),
+        contact: (snapPhone.value||"").trim(),
+        city: (snapCity.value||"").trim(),
+        type: snapType.value,
+        details: (snapDetails.value||"").trim(),
+        budget: (snapBudget.value||"").trim(),
+        time: new Date().toLocaleString()
+      };
+    }
+
+    function renderSheet(d){
+      shName.textContent = d.name || "—";
+      shContact.textContent = d.contact || "—";
+      shCity.textContent = d.city || "—";
+      shType.textContent = d.type || "—";
+      shDetails.textContent = d.details || "—";
+      shBudget.textContent = d.budget || "—";
+      shTime.textContent = d.time || "—";
+    }
+
+    makeSnapshot.addEventListener('click', () => {
+      const d = snapshotData();
+      if (!d.details){
+        alert("Add at least a sentence in the description. That's the whole point of the Snapshot.");
+        return;
+      }
+      renderSheet(d);
+      openModal();
+    });
+
+    closeModal.addEventListener('click', hideModal);
+    modalBack.addEventListener('click', (e) => { if (e.target === modalBack) hideModal(); });
+
+    printSnapshot.addEventListener('click', () => {
+      // Print just the sheet area by temporarily opening a print window
+      const html = document.getElementById('sheet').outerHTML;
+      const w = window.open("", "_blank", "width=900,height=900");
+      if (!w) { alert("Popup blocked. Allow popups to print/save PDF."); return; }
+      w.document.write(`
+        <html><head><title>Project Snapshot</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <style>
+          body{font-family: Arial, sans-serif; margin: 24px; color:#111}
+          .snapshotSheet{border:1px solid #ccc; border-radius:14px; padding:16px}
+          .sheetRow{display:flex; gap:10px; flex-wrap:wrap}
+          .sheetRow > div{border:1px solid #ddd; border-radius:12px; padding:10px 12px; min-width:200px; flex:1}
+          .sheetRow b{display:block; font-size:12px; margin-bottom:4px}
+          .sheetBig{margin-top:10px; border:1px solid #ddd; border-radius:12px; padding:12px; white-space:pre-wrap; line-height:1.45}
+        </style></head><body>
+        <h2 style="margin:0 0 10px;">Dondlinger General Contracting — Project Snapshot</h2>
+        ${html}
+        <div style="margin-top:10px; font-size:12px; color:#444;">Generated from dondlingergc.com</div>
+        <script>window.onload=()=>{window.print();}</script>
+        </body></html>
+      `);
+      w.document.close();
+    });
+
+    copySnapshot.addEventListener('click', async () => {
+      const d = snapshotData();
+      const txt = [
+        "PROJECT SNAPSHOT",
+        `Name: ${d.name || "-"}`,
+        `Contact: ${d.contact || "-"}`,
+        `City: ${d.city || "-"}`,
+        `Type: ${d.type || "-"}`,
+        `Budget: ${d.budget || "-"}`,
+        "",
+        d.details || "-",
+        "",
+        `Timestamp: ${d.time}`
+      ].join("\n");
+      try{
+        await navigator.clipboard.writeText(txt);
+        copySnapshot.textContent = "Copied";
+        setTimeout(() => copySnapshot.textContent = "Copy", 1200);
+      }catch(e){
+        alert("Clipboard blocked by browser. Copy manually.");
+      }
+    });
+
+    emailSnapshot.addEventListener('click', () => {
+      const d = snapshotData();
+      const subject = encodeURIComponent(`Project Snapshot — ${d.type}${d.city ? " ("+d.city+")" : ""}`);
+      const body = encodeURIComponent([
+        "PROJECT SNAPSHOT",
+        `Name: ${d.name || "-"}`,
+        `Contact: ${d.contact || "-"}`,
+        `City: ${d.city || "-"}`,
+        `Type: ${d.type || "-"}`,
+        `Budget: ${d.budget || "-"}`,
+        "",
+        d.details || "-",
+        "",
+        `Timestamp: ${d.time}`
+      ].join("\n"));
+      // Set your real email address here:
+      const to = "you@dondlingergc.com";
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    });
+
+    saveSnapshot.addEventListener('click', () => {
+      const d = snapshotData();
+      localStorage.setItem("dgc_snapshot", JSON.stringify(d));
+      saveSnapshot.textContent = "Saved";
+      setTimeout(() => saveSnapshot.textContent = "Save for later", 1200);
+    });
+
+    loadSnapshot.addEventListener('click', () => {
+      const raw = localStorage.getItem("dgc_snapshot");
+      if (!raw){ alert("No saved snapshot found."); return; }
+      try{
+        const d = JSON.parse(raw);
+        snapName.value = d.name || "";
+        snapPhone.value = d.contact || "";
+        snapCity.value = d.city || "";
+        snapType.value = d.type || "Remodel";
+        snapDetails.value = d.details || "";
+        snapBudget.value = d.budget || "";
+        alert("Loaded.");
+      }catch(e){
+        alert("Saved snapshot is corrupted.");
+      }
+    });
+
+    randomizeSnap.addEventListener('click', () => {
+      const demos = [
+        {
+          name:"", contact:"", city:"Wisconsin Rapids", type:"Design-Build",
+          details:"Need a clean layout + print for a small addition. Want it planned before we start so the build goes smooth.",
+          budget:"not sure"
+        },
+        {
+          name:"", contact:"", city:"Nekoosa", type:"Repair",
+          details:"Window area has water damage. Need the root cause solved + trim repaired so it looks like it never happened.",
+          budget:"$800–$2,000"
+        },
+        {
+          name:"", contact:"", city:"Port Edwards", type:"Remodel",
+          details:"Bathroom refresh: new floor + vanity + paint. Keep plumbing where it is if possible. Want it clean and durable.",
+          budget:"$3,000–$6,500"
+        }
+      ];
+      const d = demos[Math.floor(Math.random()*demos.length)];
+      snapCity.value = d.city;
+      snapType.value = d.type;
+      snapDetails.value = d.details;
+      snapBudget.value = d.budget;
+    });
+
+  </script>
 </body>
 </html>
