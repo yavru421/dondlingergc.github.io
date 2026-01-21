@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Dondlinger GC — Built in Wisconsin Rapids</title>
+<title>Dondlinger GC — Wisconsin Rapids</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <style>
@@ -28,15 +28,15 @@ html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Robo
   .app{grid-template-columns:1fr}
 }
 
-/* ===== LEFT: REAL WORLD ===== */
+/* ===== LEFT PANEL ===== */
 .real{
   padding:48px;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
   background:
-    linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.85)),
-    url("https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=1600&q=80");
+    linear-gradient(180deg,rgba(0,0,0,.65),rgba(0,0,0,.9)),
+    url("https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80");
   background-size:cover;
   background-position:center;
   border-right:1px solid var(--border);
@@ -56,7 +56,6 @@ html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Robo
 .location{
   margin-top:12px;
   font-weight:600;
-  letter-spacing:.04em;
 }
 
 .cta{
@@ -73,21 +72,12 @@ html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Robo
   border-radius:6px;
 }
 
-.toggle{
-  margin-top:24px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  font-size:.9rem;
-}
-
-/* ===== RIGHT: LABS ===== */
+/* ===== RIGHT PANEL ===== */
 .lab{
   padding:32px;
   display:flex;
   flex-direction:column;
   gap:16px;
-  background:radial-gradient(circle at 20% 10%,rgba(240,162,59,.15),transparent 60%);
 }
 
 .lab-header{
@@ -96,15 +86,29 @@ html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Robo
   align-items:center;
 }
 
-.lab-header h2{
-  margin:0;
+.lab-header h2{margin:0}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
-.lab-mode{
-  font-family:monospace;
-  color:var(--muted);
+.tabs button{
+  background:none;
+  border:1px solid var(--border);
+  color:var(--fg);
+  padding:8px 12px;
+  cursor:pointer;
+  border-radius:6px;
 }
 
+.tabs button.active{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
+/* ===== VIEWER ===== */
 .viewer{
   flex:1;
   border:1px solid var(--border);
@@ -123,28 +127,50 @@ iframe{
 
 iframe.active{display:block}
 
-.tabs{
-  display:flex;
-  gap:8px;
+/* ===== CONSTRUCTION GRID ===== */
+.construction{
+  display:none;
+  padding:24px;
+  background:#0e121a;
+  height:100%;
+  overflow:auto;
 }
 
-.tabs button{
-  background:none;
+.construction.active{display:block}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+
+.project{
   border:1px solid var(--border);
-  color:var(--fg);
-  padding:8px 12px;
-  cursor:pointer;
-  border-radius:6px;
+  border-radius:8px;
+  overflow:hidden;
+  background:#000;
 }
 
-.tabs button.active{
-  border-color:var(--accent);
-  color:var(--accent);
+.project img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  display:block;
+}
+
+.project .info{
+  padding:10px;
+  font-size:.9rem;
+}
+
+.project .info strong{
+  display:block;
 }
 
 .meta{
   font-size:.9rem;
   color:var(--muted);
+  margin-top:6px;
 }
 </style>
 </head>
@@ -153,20 +179,15 @@ iframe.active{display:block}
 
 <div class="app">
 
-  <!-- REAL WORLD -->
+  <!-- LEFT -->
   <section class="real">
     <div>
       <h1>Dondlinger General Contracting</h1>
       <p>
-        Construction, digital systems, and real tools built to be used —
+        Construction and technical systems built to be used —
         not pitched.
       </p>
       <div class="location">📍 Wisconsin Rapids, WI</div>
-
-      <div class="toggle">
-        <strong>Context:</strong>
-        <span id="context">FIELD MODE</span>
-      </div>
 
       <div class="cta">
         <a href="mailto:dondlingergeneralcontracting@gmail.com">
@@ -180,24 +201,67 @@ iframe.active{display:block}
     </div>
   </section>
 
-  <!-- LABS -->
+  <!-- RIGHT -->
   <section class="lab">
     <div class="lab-header">
-      <h2>Live Tools</h2>
-      <div class="lab-mode">running prototypes</div>
+      <h2>Work & Tools</h2>
     </div>
 
     <div class="tabs">
-      <button class="active" data-i="0">Digital Fortress</button>
-      <button data-i="1">Wild Preserve</button>
+      <button class="active" data-tab="lab0">Digital Fortress</button>
+      <button data-tab="lab1">Wild Preserve</button>
+      <button data-tab="construction">Construction</button>
     </div>
 
     <div class="viewer">
-      <iframe class="active"
+      <!-- LAB IFRAME 1 -->
+      <iframe class="active" data-id="lab0"
         src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space"></iframe>
 
-      <iframe
+      <!-- LAB IFRAME 2 -->
+      <iframe data-id="lab1"
         src="https://john2121-wildpreserve-taxidermy-studio.static.hf.space"></iframe>
+
+      <!-- CONSTRUCTION GRID -->
+      <div class="construction" data-id="construction">
+        <div class="grid">
+
+          <!-- STOCK PLACEHOLDERS – REPLACE WITH YOUR REAL PROJECT PHOTOS -->
+          <div class="project">
+            <img src="https://images.unsplash.com/photo-1596079890681-7c1c7d2f9a8b?auto=format&fit=crop&w=800&q=80">
+            <div class="info">
+              <strong>Residential Framing</strong>
+              Wisconsin Rapids, WI
+            </div>
+          </div>
+
+          <div class="project">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80">
+            <div class="info">
+              <strong>Remodel & Finish Work</strong>
+              Central Wisconsin
+            </div>
+          </div>
+
+          <div class="project">
+            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80">
+            <div class="info">
+              <strong>Structural Repair</strong>
+              Wisconsin Rapids Area
+            </div>
+          </div>
+
+          <div class="project">
+            <img src="https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?auto=format&fit=crop&w=800&q=80">
+            <div class="info">
+              <strong>Site Work & Builds</strong>
+              Wood County
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
     <div class="meta" id="desc">
@@ -208,32 +272,28 @@ iframe.active{display:block}
 </div>
 
 <script>
-const frames=[...document.querySelectorAll("iframe")];
 const tabs=[...document.querySelectorAll(".tabs button")];
+const panels=[...document.querySelectorAll("[data-id]")];
 const desc=document.getElementById("desc");
-const context=document.getElementById("context");
 
-const data=[
-  "Interactive site builder & automation lab",
-  "Visual studio & experiential concept"
-];
+const descriptions={
+  lab0:"Interactive site builder & automation lab",
+  lab1:"Visual studio & experiential concept",
+  construction:"Real construction work — residential & commercial"
+};
 
 tabs.forEach(btn=>{
   btn.onclick=()=>{
     tabs.forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
-    frames.forEach(f=>f.classList.remove("active"));
-    frames[btn.dataset.i].classList.add("active");
-    desc.textContent=data[btn.dataset.i];
+
+    panels.forEach(p=>{
+      p.classList.toggle("active", p.dataset.id === btn.dataset.tab);
+    });
+
+    desc.textContent=descriptions[btn.dataset.tab];
   };
 });
-
-// simple context flip (the cool feature)
-let field=true;
-document.querySelector(".toggle").onclick=()=>{
-  field=!field;
-  context.textContent=field?"FIELD MODE":"LAB MODE";
-};
 </script>
 
 </body>
