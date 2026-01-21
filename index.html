@@ -1,197 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Dondlinger GC — Portfolio & Labs</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8" />
+<title>Dondlinger GC — Field Systems & Labs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <style>
-    :root {
-      --bg: #0f1216;
-      --panel: #151a21;
-      --border: #2a2f36;
-      --fg: #e6e6e6;
-      --muted: #9aa0a6;
-      --accent: #f0a23b;
-    }
+<style>
+:root{
+  --bg:#0b0e12;
+  --panel:#131820;
+  --border:#262c36;
+  --fg:#eaeaea;
+  --muted:#9aa0a6;
+  --accent:#f0a23b;
+}
 
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--fg);
-    }
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
+main{max-width:1280px;margin:auto;padding:32px}
 
-    h1, h2 {
-      margin: 0 0 12px;
-      line-height: 1.2;
-    }
+h1{font-size:clamp(2.2rem,4vw,3.2rem);margin:0 0 12px}
+h2{margin:64px 0 16px}
+p{color:var(--muted);max-width:720px}
 
-    p {
-      color: var(--muted);
-      max-width: 720px;
-    }
+.hero{
+  min-height:70vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border-bottom:1px solid var(--border);
+}
 
-    /* ===== CAROUSEL ===== */
-    .space-carousel {
-      margin-top: 32px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-    }
+.hero-tag{
+  font-size:0.9rem;
+  color:var(--accent);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
 
-    .space-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
-      background: #11151b;
-    }
+.hero-line{
+  font-size:1.1rem;
+  color:var(--muted);
+}
 
-    .space-title {
-      font-weight: 600;
-    }
+/* ===== CAROUSEL ===== */
+.carousel{
+  margin-top:32px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+}
 
-    .space-controls button {
-      background: none;
-      border: none;
-      color: var(--accent);
-      font-size: 1.6rem;
-      cursor: pointer;
-      padding: 0 10px;
-    }
+.carousel-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px;
+  background:#0f1319;
+  border-bottom:1px solid var(--border);
+}
 
-    .space-frame {
-      position: relative;
-      width: 100%;
-      height: 520px;
-      background: #000;
-    }
+.carousel-title{
+  font-weight:600;
+}
 
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: none;
-    }
+.carousel-controls{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-    iframe.active {
-      display: block;
-    }
+.carousel-controls button{
+  background:none;
+  border:1px solid var(--border);
+  color:var(--fg);
+  padding:6px 12px;
+  cursor:pointer;
+  border-radius:6px;
+}
 
-    .space-meta {
-      padding: 10px 16px;
-      font-size: 0.9rem;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-      background: #0f1319;
-    }
+.carousel-controls button:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+}
 
-    footer {
-      margin-top: 96px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-  </style>
+.carousel-frame{
+  position:relative;
+  height:560px;
+  background:black;
+}
+
+iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:none;
+  opacity:0;
+  transform:scale(.98);
+  transition:opacity .4s ease, transform .4s ease;
+  pointer-events:none;
+}
+
+iframe.active{
+  opacity:1;
+  transform:scale(1);
+  pointer-events:auto;
+}
+
+/* HUD overlay */
+.overlay{
+  position:absolute;
+  top:14px;
+  left:14px;
+  background:rgba(15,18,22,.85);
+  border:1px solid var(--border);
+  backdrop-filter:blur(6px);
+  padding:10px 12px;
+  font-size:.8rem;
+  border-radius:6px;
+}
+
+.overlay span{display:block;color:var(--muted)}
+.overlay strong{color:var(--fg)}
+
+.carousel-meta{
+  padding:12px 18px;
+  border-top:1px solid var(--border);
+  background:#0d1117;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:.9rem;
+}
+
+/* ===== CAPABILITIES ===== */
+.capabilities{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;
+}
+
+.cap{
+  border:1px solid var(--border);
+  padding:16px;
+  border-radius:8px;
+  background:var(--panel);
+}
+
+.cap h3{margin:0 0 8px;font-size:1rem}
+.cap p{font-size:.9rem}
+
+/* ===== FOOTER ===== */
+footer{
+  margin-top:96px;
+  padding-top:24px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:.85rem;
+}
+</style>
 </head>
 
 <body>
 <main>
 
-  <!-- ===== IDENTITY ===== -->
+<section class="hero">
+  <div class="hero-tag">FIELD SYSTEMS · LIVE LABS</div>
   <h1>Dondlinger General Contracting LLC</h1>
-  <p>Portfolio, experiments, and field-built systems.</p>
+  <p class="hero-line">Built in the field. Tested in production. No mockups.</p>
+</section>
 
-  <!-- ===== HUGGING FACE SPACES CAROUSEL ===== -->
-  <h2>Interactive Projects</h2>
+<h2>Interactive Labs</h2>
 
-  <div class="space-carousel">
-
-    <div class="space-header">
-      <div class="space-title" id="space-title"></div>
-      <div class="space-controls">
-        <button id="prev">‹</button>
-        <button id="next">›</button>
-      </div>
+<div class="carousel">
+  <div class="carousel-header">
+    <div class="carousel-title" id="title"></div>
+    <div class="carousel-controls">
+      <button id="prev">← Lab</button>
+      <span id="count"></span>
+      <button id="next">Next →</button>
     </div>
-
-    <div class="space-frame">
-      <iframe
-        class="space active"
-        src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space"
-        title="Digital Fortress Builder"
-        allow="clipboard-write; clipboard-read">
-      </iframe>
-
-      <iframe
-        class="space"
-        src="https://john2121-wildpreserve-taxidermy-studio.static.hf.space"
-        title="Wild Preserve Taxidermy Studio"
-        allow="clipboard-write; clipboard-read">
-      </iframe>
-    </div>
-
-    <div class="space-meta" id="space-meta"></div>
   </div>
 
-  <!-- ===== FOOTER ===== -->
-  <footer>
-    <p>Dondlinger General Contracting LLC</p>
-    <p>Contact: dondlingergeneralcontracting@gmail.com</p>
-  </footer>
+  <div class="carousel-frame">
+    <div class="overlay" id="overlay"></div>
+
+    <iframe data-src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space"
+      title="Digital Fortress Builder"
+      allow="clipboard-write; clipboard-read">
+    </iframe>
+
+    <iframe data-src="https://john2121-wildpreserve-taxidermy-studio.static.hf.space"
+      title="Wild Preserve Taxidermy Studio"
+      allow="clipboard-write; clipboard-read">
+    </iframe>
+  </div>
+
+  <div class="carousel-meta">
+    <span id="desc"></span>
+    <span id="status"></span>
+  </div>
+</div>
+
+<h2>Capabilities</h2>
+<section class="capabilities">
+  <div class="cap"><h3>Construction</h3><p>Residential & commercial systems built to survive real use.</p></div>
+  <div class="cap"><h3>Digital / 3D</h3><p>Visualization, VFX, and spatial tools tied to real projects.</p></div>
+  <div class="cap"><h3>AI Tooling</h3><p>Automation and interfaces that solve actual workflow problems.</p></div>
+  <div class="cap"><h3>System Thinking</h3><p>End-to-end ownership from concept to deployment.</p></div>
+</section>
+
+<footer>
+  <p>Dondlinger General Contracting LLC</p>
+  <p>dondlingergeneralcontracting@gmail.com</p>
+</footer>
 
 </main>
 
 <script>
-/* ===== SPACE DATA ===== */
-const spaces = [
+const projects = [
   {
-    title: "Digital Fortress Builder",
-    description: "Interactive site builder and system prototype.",
+    title:"Digital Fortress Builder",
+    desc:"Interactive site builder and automation system.",
+    status:"Prototype · HF Space · JS",
   },
   {
-    title: "Wild Preserve Taxidermy Studio",
-    description: "Visual and experiential studio concept.",
+    title:"Wild Preserve Taxidermy Studio",
+    desc:"Visual studio and experiential concept.",
+    status:"Concept · HF Space · Visual",
   }
 ];
 
-const frames = document.querySelectorAll(".space");
-const title = document.getElementById("space-title");
-const meta = document.getElementById("space-meta");
+const frames=[...document.querySelectorAll("iframe")];
+const title=document.getElementById("title");
+const desc=document.getElementById("desc");
+const status=document.getElementById("status");
+const count=document.getElementById("count");
+const overlay=document.getElementById("overlay");
 
-let index = 0;
+let i=0;
 
-function render() {
-  frames.forEach((f, i) =>
-    f.classList.toggle("active", i === index)
-  );
-  title.textContent = spaces[index].title;
-  meta.textContent = spaces[index].description;
+function loadFrame(idx){
+  const f=frames[idx];
+  if(!f.src) f.src=f.dataset.src;
 }
 
-document.getElementById("next").onclick = () => {
-  index = (index + 1) % frames.length;
-  render();
-};
+function render(){
+  frames.forEach((f,idx)=>{
+    f.classList.toggle("active",idx===i);
+  });
+  loadFrame(i);
+  title.textContent=projects[i].title;
+  desc.textContent=projects[i].desc;
+  status.textContent=projects[i].status;
+  count.textContent=`${i+1} / ${frames.length}`;
+  overlay.innerHTML=`<strong>${projects[i].title}</strong><span>${projects[i].status}</span>`;
+}
 
-document.getElementById("prev").onclick = () => {
-  index = (index - 1 + frames.length) % frames.length;
-  render();
-};
+next.onclick=()=>{i=(i+1)%frames.length;render();}
+prev.onclick=()=>{i=(i-1+frames.length)%frames.length;render();}
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight")next.click();
+  if(e.key==="ArrowLeft")prev.click();
+});
 
 render();
 </script>
-
 </body>
 </html>
