@@ -1,424 +1,630 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<title>Dondlinger General Contracting — Design-Build</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <title>Dondlinger General Contracting — Design-Build</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<style>
-:root{
-  --bg:#0b0d11;
-  --panel:#121622;
-  --border:#23293a;
-  --fg:#eef1f7;
-  --muted:#9aa3b2;
-  --accent:#f0a23b;
-}
+    <style>
+        :root {
+            --bg: #0b0d11;
+            --panel: rgba(18, 22, 34, 0.8);
+            --border: rgba(35, 41, 58, 0.5);
+            --fg: #eef1f7;
+            --muted: #9aa3b2;
+            --accent: #f0a23b;
+            --glass: blur(12px) saturate(180%);
+        }
 
-*{box-sizing:border-box}
-html,body{
-  margin:0;
-  height:100%;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  background:var(--bg);
-  color:var(--fg);
-}
+        * {
+            box-sizing: border-box
+        }
 
-.app{
-  display:grid;
-  grid-template-columns: 1fr 1.4fr;
-  height:100vh;
-}
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at top right, #1a1f2e, var(--bg));
+            color: var(--fg);
+            overflow: hidden;
+        }
 
-@media (max-width:900px){
-  .app{grid-template-columns:1fr}
-}
+        .app {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            height: 100vh;
+        }
 
-/* ===== LEFT PANEL (IDENTITY) ===== */
-.left{
-  padding:48px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  background:
-    linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,.9)),
-    url("https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80");
-  background-size:cover;
-  background-position:center;
-  border-right:1px solid var(--border);
-}
+        @media (max-width:900px) {
+            .app {
+                grid-template-columns: 1fr
+            }
+        }
 
-.left h1{
-  font-size:clamp(2.2rem,4vw,3rem);
-  margin:0 0 12px;
-}
+        /* ===== LEFT PANEL (IDENTITY) ===== */
+        .left {
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background:
+                linear-gradient(180deg, rgba(0, 0, 0, .7), rgba(0, 0, 0, .9)),
+                url("https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            border-right: 1px solid var(--border);
+        }
 
-.left p{
-  color:var(--muted);
-  max-width:520px;
-  font-size:1.05rem;
-}
+        .left h1 {
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            margin: 0 0 12px;
+        }
 
-.location{
-  margin-top:14px;
-  font-weight:600;
-}
+        .left p {
+            color: var(--muted);
+            max-width: 520px;
+            font-size: 1.05rem;
+        }
 
-.cta{
-  margin-top:28px;
-}
+        .location {
+            margin-top: 14px;
+            font-weight: 600;
+        }
 
-.cta a{
-  display:inline-block;
-  padding:14px 20px;
-  background:var(--accent);
-  color:#000;
-  font-weight:700;
-  text-decoration:none;
-  border-radius:6px;
-}
+        .cta {
+            margin-top: 28px;
+        }
 
-.footer-left{
-  font-size:.9rem;
-  color:var(--muted);
-}
+        .cta a {
+            display: inline-block;
+            padding: 14px 20px;
+            background: var(--accent);
+            color: #000;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 6px;
+        }
 
-/* ===== RIGHT PANEL ===== */
-.right{
-  padding:32px;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
+        .contact-form {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+        .contact-form label {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
 
-.header h2{margin:0}
+        .contact-form input,
+        .contact-form textarea {
+            margin-top: 6px;
+            padding: 10px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--fg);
+            font-family: inherit;
+        }
 
-.tabs{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
 
-.tabs button{
-  background:none;
-  border:1px solid var(--border);
-  color:var(--fg);
-  padding:8px 12px;
-  cursor:pointer;
-  border-radius:6px;
-}
+        .contact-form button {
+            padding: 12px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
 
-.tabs button.active{
-  border-color:var(--accent);
-  color:var(--accent);
-}
+        .contact-form button:hover {
+            background: #d4a13b;
+        }
 
-.viewer{
-  flex:1;
-  border:1px solid var(--border);
-  border-radius:10px;
-  overflow:hidden;
-  background:#000;
-  position:relative;
-}
+        gap: 16px;
+        }
 
-/* ===== LAB IFRAMES ===== */
-iframe{
-  width:100%;
-  height:100%;
-  border:none;
-  display:none;
-}
-iframe.active{display:block}
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-/* ===== CONSTRUCTION GRID ===== */
-.panel{
-  display:none;
-  height:100%;
-  overflow:auto;
-  background:#0e121a;
-  padding:24px;
-}
-.panel.active{display:block}
+        .header h2 {
+            margin: 0
+        }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
-}
+        .tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
 
-.project{
-  border:1px solid var(--border);
-  border-radius:8px;
-  overflow:hidden;
-  background:#000;
-}
+        .tabs button {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--fg);
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
 
-.project img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-  display:block;
-}
+        .tabs button.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
 
-.project .info{
-  padding:10px;
-  font-size:.9rem;
-}
+        .viewer {
+            flex: 1;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+        }
 
-.project strong{display:block}
+        /* ===== LAB IFRAMES ===== */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
 
-/* ===== ARCHITECTURAL PRINTS ===== */
-.prints-layout{
-  display:grid;
-  grid-template-columns:1.2fr 1fr;
-  gap:24px;
-}
+        iframe.active {
+            display: block
+        }
 
-@media(max-width:900px){
-  .prints-layout{grid-template-columns:1fr}
-}
+        /* ===== CONSTRUCTION GRID ===== */
+        .panel {
+            display: none;
+            height: 100%;
+            overflow: auto;
+            background: #0e121a;
+            padding: 24px;
+        }
 
-.print-preview{
-  border:1px solid var(--border);
-  background:#05070c;
-  padding:20px;
-}
+        .panel.active {
+            display: block
+        }
 
-.print-preview svg{
-  width:100%;
-  stroke:#4fa3ff;
-  stroke-width:2;
-  fill:none;
-}
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
 
-.print-caption{
-  margin-top:10px;
-  font-size:.85rem;
-  color:var(--muted);
-}
+        .project {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+        }
 
-.print-specs h3{margin:0 0 8px}
-.print-specs p{font-size:.9rem;color:var(--muted)}
+        .project img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
 
-.print-specs label{
-  display:block;
-  margin-top:14px;
-  font-size:.85rem;
-}
+        .project .info {
+            padding: 10px;
+            font-size: .9rem;
+        }
 
-.print-specs select{
-  width:100%;
-  margin-top:6px;
-  padding:8px;
-  background:#0e121a;
-  color:var(--fg);
-  border:1px solid var(--border);
-}
+        .project strong {
+            display: block
+        }
 
-.print-cta{
-  display:block;
-  margin-top:22px;
-  padding:14px;
-  background:var(--accent);
-  color:#000;
-  text-align:center;
-  font-weight:700;
-  text-decoration:none;
-  border-radius:6px;
-}
+        /* ===== ARCHITECTURAL PRINTS ===== */
+        .prints-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 24px;
+        }
 
-.meta{
-  font-size:.9rem;
-  color:var(--muted);
-  margin-top:8px;
-}
-</style>
+        @media(max-width:900px) {
+            .prints-layout {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .print-preview {
+            border: 1px solid var(--border);
+            background: #05070c;
+            padding: 20px;
+        }
+
+        .print-preview svg {
+            width: 100%;
+            stroke: #4fa3ff;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .print-caption {
+            margin-top: 10px;
+            font-size: .85rem;
+            color: var(--muted);
+        }
+
+        .print-specs h3 {
+            margin: 0 0 8px
+        }
+
+        .print-specs p {
+            font-size: .9rem;
+            color: var(--muted)
+        }
+
+        .print-specs label {
+            display: block;
+            margin-top: 14px;
+            font-size: .85rem;
+        }
+
+        .print-specs select {
+            width: 100%;
+            margin-top: 6px;
+            padding: 8px;
+            background: #0e121a;
+            color: var(--fg);
+            border: 1px solid var(--border);
+        }
+
+        .print-cta {
+            display: block;
+            margin-top: 22px;
+            padding: 14px;
+            background: var(--accent);
+            color: #000;
+            text-align: center;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .meta {
+            font-size: .9rem;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+
+        .blueprints-gallery {
+            border: 1px solid var(--border);
+            background: var(--panel);
+            padding: 20px;
+        }
+
+        .blueprints-gallery h4 {
+            margin: 0 0 16px 0;
+            color: var(--fg);
+        }
+
+        .blueprints-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .blueprint-item {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .blueprint-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .blueprint-item embed {
+            width: 100%;
+            height: 120px;
+            border: none;
+        }
+
+        .blueprint-info {
+            padding: 8px;
+            font-size: .8rem;
+            color: var(--muted);
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="app">
+    <div class="app">
 
-  <!-- LEFT -->
-  <section class="left">
-    <div>
-      <h1>Dondlinger General Contracting</h1>
-      <p>
-        Design-build construction and architectural drawings
-        prepared for real projects — not just concepts.
-      </p>
+        <!-- LEFT -->
+        <section class="left">
+            <div>
+                <h1>Dondlinger General Contracting</h1>
+                <p>
+                    Design-build construction and architectural drawings
+                    prepared for real projects — not just concepts.
+                </p>
 
-      <div class="location">📍 Wisconsin Rapids, WI</div>
+                <div class="location">📍 Wisconsin Rapids, WI</div>
 
-      <div class="cta">
-        <a href="mailto:dondlingergeneralcontracting@gmail.com">
-          Have a project? Let’s talk.
-        </a>
-      </div>
-    </div>
+                <div class="cta">
+                    <a href="mailto:dondlingergeneralcontracting@gmail.com">
+                        Have a project? Let’s talk.
+                    </a>
+                </div>
 
-    <div class="footer-left">
-      Licensed · Insured · Design-Build
-    </div>
-  </section>
-
-  <!-- RIGHT -->
-  <section class="right">
-
-    <div class="header">
-      <h2>Work & Services</h2>
-    </div>
-
-    <div class="tabs">
-      <button class="active" data-tab="lab0">Digital Tools</button>
-      <button data-tab="construction">Construction</button>
-      <button data-tab="prints">Architectural Prints</button>
-    </div>
-
-    <div class="viewer">
-
-      <!-- LAB -->
-      <iframe class="active" data-id="lab0"
-        src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space">
-      </iframe>
-
-      <!-- CONSTRUCTION -->
-      <div class="panel" data-id="construction">
-        <div class="grid">
-
-          <!-- Replace stock images with your real work -->
-          <div class="project">
-            <img src="https://images.unsplash.com/photo-1596079890681-7c1c7d2f9a8b?auto=format&fit=crop&w=800&q=80">
-            <div class="info">
-              <strong>Residential Framing</strong>
-              Wisconsin Rapids
+                <form action="/contact" method="post" class="contact-form">
+                    <label>
+                        Name
+                        <input type="text" name="name" required>
+                    </label>
+                    <label>
+                        Email
+                        <input type="email" name="email" required>
+                    </label>
+                    <label>
+                        Message
+                        <textarea name="message" required></textarea>
+                    </label>
+                    <button type="submit">Send Message</button>
+                </form>
             </div>
-          </div>
 
-          <div class="project">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80">
-            <div class="info">
-              <strong>Remodel & Finish Work</strong>
-              Central Wisconsin
+            <div class="footer-left">
+                Licensed · Insured · Design-Build
             </div>
-          </div>
+        </section>
 
-          <div class="project">
-            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80">
-            <div class="info">
-              <strong>Structural Repair</strong>
-              Wood County
+        <!-- RIGHT -->
+        <section class="right">
+
+            <div class="header">
+                <h2>Work & Services</h2>
             </div>
-          </div>
 
-        </div>
-      </div>
-
-      <!-- ARCHITECTURAL PRINTS -->
-      <div class="panel" data-id="prints">
-        <div class="prints-layout">
-
-          <div class="print-preview">
-            <!-- Sample blueprint (replace later with your real drawing export) -->
-            <svg viewBox="0 0 600 400">
-              <rect x="60" y="60" width="480" height="280"/>
-              <line x1="60" y1="200" x2="540" y2="200"/>
-              <line x1="300" y1="60" x2="300" y2="340"/>
-            </svg>
-            <div class="print-caption">
-              Example architectural print · Scaled · Build-ready
+            <div class="tabs">
+                <button class="active" data-tab="lab0">Digital Tools</button>
+                <button data-tab="construction">Construction</button>
+                <button data-tab="prints">Blueprints</button>
             </div>
-          </div>
 
-          <div class="print-specs">
-            <h3>Request an Architectural Drawing</h3>
-            <p>
-              Design-build drawings prepared for construction,
-              permitting, or planning.
-            </p>
+            <div class="viewer">
 
-            <label>
-              Project Type
-              <select>
-                <option>Residential addition</option>
-                <option>Garage / outbuilding</option>
-                <option>Interior remodel</option>
-                <option>Commercial build-out</option>
-              </select>
-            </label>
+                <!-- LAB -->
+                <iframe class="active" data-id="lab0"
+                    src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space">
+                </iframe>
 
-            <label>
-              Approximate Size
-              <select>
-                <option>&lt; 1,000 sq ft</option>
-                <option>1,000 – 2,500 sq ft</option>
-                <option>2,500+ sq ft</option>
-              </select>
-            </label>
+                <!-- CONSTRUCTION -->
+                <div class="panel" data-id="construction">
+                    <div class="grid">
 
-            <label>
-              Drawing Purpose
-              <select>
-                <option>Build-ready</option>
-                <option>Permit submission</option>
-                <option>Concept / feasibility</option>
-              </select>
-            </label>
+                        <!-- Replace stock images with your real work -->
+                        <div class="project">
+                            <img
+                                src="https://images.unsplash.com/photo-1596079890681-7c1c7d2f9a8b?auto=format&fit=crop&w=800&q=80">
+                            <div class="info">
+                                <strong>Residential Framing</strong>
+                                Wisconsin Rapids
+                            </div>
+                        </div>
 
-            <a class="print-cta"
-               href="mailto:dondlingergeneralcontracting@gmail.com?subject=Architectural%20Print%20Request">
-              Request This Drawing
-            </a>
+                        <div class="project">
+                            <img
+                                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80">
+                            <div class="info">
+                                <strong>Remodel & Finish Work</strong>
+                                Central Wisconsin
+                            </div>
+                        </div>
 
-            <div class="meta">
-              Wisconsin Rapids · Design-Build · Digital or Printed
+                        <div class="project">
+                            <img
+                                src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80">
+                            <div class="info">
+                                <strong>Structural Repair</strong>
+                                Wood County
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ARCHITECTURAL PRINTS -->
+                <div class="panel" data-id="prints">
+                    <div class="prints-layout">
+
+                        <div class="print-preview">
+                            <div id="three-canvas-container"
+                                style="width:100%; height:300px; background:#000; border-radius:4px; overflow:hidden;">
+                            </div>
+                            <div class="print-caption">
+                                Interactive 3D Blueprint Preview · Real-time Rendering
+                            </div>
+                        </div>
+
+                        <div class="blueprints-gallery">
+                            <h4>Available Blueprints</h4>
+                            <div class="blueprints-grid">
+                                <div class="blueprint-item">
+                                    <img src="/blueprints/fawley.png" alt="Fawley Drawing 1">
+                                    <div class="blueprint-info">Fawley Residence</div>
+                                </div>
+                                <div class="blueprint-item">
+                                    <img src="/blueprints/fawley(1).png" alt="Fawley Drawing 2">
+                                    <div class="blueprint-info">Fawley Floor Plan</div>
+                                </div>
+                                <div class="blueprint-item">
+                                    <img src="/blueprints/fawley(2).png" alt="Fawley Drawing 3">
+                                    <div class="blueprint-info">Fawley Elevation</div>
+                                </div>
+                                <div class="blueprint-item">
+                                    <img src="/blueprints/fawley(3).png" alt="Fawley Drawing 4">
+                                    <div class="blueprint-info">Fawley Detail</div>
+                                </div>
+                                <div class="blueprint-item pdf">
+                                    <embed src="/blueprints/AndersonWeber02.26.pdf" width="100%" height="200" type="application/pdf">
+                                    <div class="blueprint-info">Anderson Weber Project</div>
+                                </div>
+                                <div class="blueprint-item pdf">
+                                    <embed src="/blueprints/maherdeck.pdf" width="100%" height="200" type="application/pdf">
+                                    <div class="blueprint-info">Maher Deck Design</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="print-specs">
+                            <h3>Request an Architectural Drawing</h3>
+                            <p>
+                                Design-build drawings prepared for construction,
+                                permitting, or planning.
+                            </p>
+
+                            <label>
+                                Project Type
+                                <select>
+                                    <option>Residential addition</option>
+                                    <option>Garage / outbuilding</option>
+                                    <option>Interior remodel</option>
+                                    <option>Commercial build-out</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                Approximate Size
+                                <select>
+                                    <option>&lt; 1,000 sq ft</option>
+                                    <option>1,000 – 2,500 sq ft</option>
+                                    <option>2,500+ sq ft</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                Drawing Purpose
+                                <select>
+                                    <option>Build-ready</option>
+                                    <option>Permit submission</option>
+                                    <option>Concept / feasibility</option>
+                                </select>
+                            </label>
+
+                            <a class="print-cta"
+                                href="mailto:dondlingergeneralcontracting@gmail.com?subject=Architectural%20Print%20Request">
+                                Request This Drawing
+                            </a>
+
+                            <div class="meta">
+                                Wisconsin Rapids · Design-Build · Digital or Printed
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
-          </div>
 
-        </div>
-      </div>
+            <div class="meta" id="desc">
+                Interactive tools and systems
+            </div>
+
+        </section>
 
     </div>
 
-    <div class="meta" id="desc">
-      Interactive tools and systems
-    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const tabs = [...document.querySelectorAll(".tabs button")];
+        const panels = [...document.querySelectorAll("[data-id]")];
+        const desc = document.getElementById("desc");
 
-  </section>
+        const descriptions = {
+            lab0: "Interactive tools and systems",
+            construction: "Real construction work",
+            prints: "Architectural drawings and blueprints"
+        };
 
-</div>
+        // Three.js Setup
+        let scene, camera, renderer, cube;
+        function initThree() {
+            const container = document.getElementById('three-canvas-container');
+            if (!container) return;
 
-<script>
-const tabs=[...document.querySelectorAll(".tabs button")];
-const panels=[...document.querySelectorAll("[data-id]")];
-const desc=document.getElementById("desc");
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
 
-const descriptions={
-  lab0:"Interactive tools and systems",
-  construction:"Real construction work",
-  prints:"Architectural drawings you can build from"
-};
+            const geometry = new THREE.BoxGeometry(2, 0.1, 3);
+            const wireframe = new THREE.WireframeGeometry(geometry);
+            const line = new THREE.LineSegments(wireframe);
+            line.material.color.setHex(0x4fa3ff);
+            scene.add(line);
 
-tabs.forEach(btn=>{
-  btn.onclick=()=>{
-    tabs.forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
+            // Add a simple floor plan look
+            const grid = new THREE.GridHelper(10, 10, 0x23293a, 0x23293a);
+            grid.position.y = -0.5;
+            scene.add(grid);
 
-    panels.forEach(p=>{
-      p.classList.toggle("active", p.dataset.id === btn.dataset.tab);
-    });
+            camera.position.z = 5;
+            camera.position.y = 2;
+            camera.lookAt(0, 0, 0);
 
-    desc.textContent=descriptions[btn.dataset.tab];
-  };
-});
-</script>
+            function animate() {
+                requestAnimationFrame(animate);
+                line.rotation.y += 0.01;
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        tabs.forEach(btn => {
+            btn.onclick = () => {
+                const switchTab = () => {
+                    tabs.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    panels.forEach(p => {
+                        p.classList.toggle("active", p.dataset.id === btn.dataset.tab);
+                    });
+
+                    desc.textContent = descriptions[btn.dataset.tab];
+
+                    if (btn.dataset.tab === 'prints') {
+                        if (!renderer) initThree();
+                    }
+                };
+
+                if (document.startViewTransition) {
+                    document.startViewTransition(() => switchTab());
+                } else {
+                    switchTab();
+                }
+            };
+        });
+
+        // Initial load if prints is active
+        if (document.querySelector('.tabs button.active').dataset.tab === 'prints') {
+            initThree();
+        }
+    </script>
 
 </body>
+
 </html>
