@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <title>Services — Dondlinger General Contracting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="_site-config.js"></script>
+    <style>
+        :root {
+            --bg: #0b0d11;
+            --panel: rgba(18, 22, 34, 0.85);
+            --border: rgba(35, 41, 58, 0.6);
+            --fg: #eef1f7;
+            --muted: #9aa3b2;
+            --accent: #f0a23b;
+            --glass: blur(12px) saturate(180%);
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at top right, #1a1f2e, var(--bg));
+            color: var(--fg);
+            overflow: hidden;
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            height: 100vh;
+        }
+
+        @media (max-width: 1024px) {
+            .app {
+                grid-template-columns: 1fr;
+                overflow-y: auto;
+            }
+
+            body {
+                overflow-y: auto;
+            }
+        }
+
+        .nav-header {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: flex-start;
+            margin-top: 40px;
+        }
+
+        .nav-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transform: scale(1);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .left {
+            padding: 64px 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.85));
+            background-size: cover;
+            background-position: center;
+            border-right: 1px solid var(--border);
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .left h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            margin: 0 0 16px;
+            font-weight: 700;
+        }
+
+        .right {
+            background: var(--bg);
+            padding: 96px 48px 64px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            margin: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+            backdrop-filter: var(--glass);
+        }
+
+        .card h3 {
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <section class="left">
+            <h1>Comprehensive<br>Solutions.</h1>
+            <p class="hero-sub">From modern residential homes to robust commercial facilities.</p>
+            <nav class="nav-header">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link active">Services</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="wizard.html" class="nav-link">Estimator</a>
+                <a href="fortress.html" class="nav-link">Fortress</a>
+                <a href="chat.html" class="nav-link">Chat</a>
+                <a href="taxidermy.html" class="nav-link">Taxidermy</a>
+            </nav>
+        </section>
+
+        <main class="right">
+            <section>
+                <div class="section-header">
+                    <h2>Our Services</h2>
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Design-Build Construction</h3>
+                        <p>Our integrated approach manages your project from the initial architectural design through to
+                            the final coat of paint.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Architectural Prints</h3>
+                        <p>We provide stamped, permit-ready drawings that meet all local Wisconsin building codes and
+                            international standards.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Remodels & Renovations</h3>
+                        <p>High-end kitchen transformations, basement finishing, and residential additions that increase
+                            property value.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Project Consultation</h3>
+                        <p>Strategic planning, site feasibility studies, and accurate budgeting for complex construction
+                            endeavors.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <title>Contact — Dondlinger General Contracting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="_site-config.js"></script>
+    <style>
+        :root {
+            --bg: #0b0d11;
+            --panel: rgba(18, 22, 34, 0.85);
+            --border: rgba(35, 41, 58, 0.6);
+            --fg: #eef1f7;
+            --muted: #9aa3b2;
+            --accent: #f0a23b;
+            --glass: blur(12px) saturate(180%);
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at top right, #1a1f2e, var(--bg));
+            color: var(--fg);
+            overflow: hidden;
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+        }
+
+        @media (max-width: 1024px) {
+            .app {
+                grid-template-columns: 1fr;
+                overflow-y: auto;
+            }
+
+            body {
+                overflow-y: auto;
+            }
+        }
+
+        .nav-header {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: flex-start;
+            margin-top: 40px;
+        }
+
+        .nav-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transform: scale(1);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .left {
+            padding: 64px 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+            background-size: cover;
+            background-position: center;
+            border-right: 1px solid var(--border);
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .left h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            margin: 0 0 16px;
+            font-weight: 700;
+        }
+
+        .contact-info {
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--muted);
+        }
+
+        .info-item b {
+            color: var(--fg);
+        }
+
+        .right {
+            background: var(--bg);
+            padding: 96px 48px 64px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        form {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        input,
+        textarea {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            color: var(--fg);
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <section class="left">
+            <h1>Start Your<br>Project.</h1>
+            <p>Ready to build? Tell us about your vision and let’s get started.</p>
+            <div class="contact-info">
+                <div class="info-item"><b>Email:</b> kdondlinger@dondlingergc.com</div>
+                <div class="info-item"><b>Location:</b> SE Wisconsin (Ozaukee, Washington, Milwaukee)</div>
+            </div>
+            <nav class="nav-header">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="contact.html" class="nav-link active">Contact</a>
+                <a href="wizard.html" class="nav-link">Estimator</a>
+                <a href="fortress.html" class="nav-link">Fortress</a>
+                <a href="chat.html" class="nav-link">Chat</a>
+                <a href="taxidermy.html" class="nav-link">Taxidermy</a>
+            </nav>
+        </section>
+
+        <main class="right">
+            <form action="https://formspree.io/f/mqakppon" method="POST">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" placeholder="John Doe" required />
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" name="_replyto" placeholder="john@example.com" required />
+                </div>
+                <div class="input-group">
+                    <label>Subject</label>
+                    <input type="text" name="_subject" placeholder="New Residential Build" required />
+                </div>
+                <div class="input-group">
+                    <label>Message</label>
+                    <textarea name="message" rows="5" placeholder="Tell us about your project goals..."
+                        required></textarea>
+                </div>
+                <button type="submit">Submit Inquiry</button>
+            </form>
+        </main>
+    </div>
+</body>
+
+</html>

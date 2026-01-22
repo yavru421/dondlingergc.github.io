@@ -3,630 +3,701 @@
 
 <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <title>Dondlinger General Contracting — Design-Build</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="_site-config.js"></script>
     <style>
         :root {
-            --bg: #0b0d11;
-            --panel: rgba(18, 22, 34, 0.8);
-            --border: rgba(35, 41, 58, 0.5);
-            --fg: #eef1f7;
-            --muted: #9aa3b2;
-            --accent: #f0a23b;
-            --glass: blur(12px) saturate(180%);
+            --bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            --panel: rgba(255, 255, 255, 0.95);
+            --border: rgba(255, 255, 255, 0.2);
+            --fg: #ffffff;
+            --muted: #b8c5d6;
+            --accent: #00d4ff;
+            --glass: blur(20px) saturate(180%);
+            --radius: 18px;
+            --taskbar-bg: rgba(0, 0, 0, 0.8);
+            --window-bg: rgba(255, 255, 255, 0.95);
+            --window-border: rgba(255, 255, 255, 0.3);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         * {
-            box-sizing: border-box
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         html,
         body {
             margin: 0;
-            height: 100%;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: radial-gradient(circle at top right, #1a1f2e, var(--bg));
-            color: var(--fg);
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                width: 100vw;
+                overflow: hidden;
+                background: var(--bg);
+                position: relative;
+            }
+
+            body::before {
+                content: 'DONDLINGER';
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-45deg);
+                font-size: min(12vw, 12vh);
+                font-weight: 900;
+                color: rgba(0, 212, 255, 0.08);
+                z-index: 0;
+                pointer-events: none;
+                letter-spacing: 8px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+                white-space: nowrap;
+            }
+
+            .desktop {
+                position: relative;
+                width: 100vw;
+                height: calc(100vh - 60px);
+                background: transparent;
+                overflow: hidden;
+                z-index: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        .taskbar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: var(--taskbar-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .start-button {
+            width: 120px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent), #0099cc);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 8px;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .taskbar-apps {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+        }
+
+        .taskbar-app {
+            height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-right: 6px;
+            display: none;
+            align-items: center;
+            padding: 0 20px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .taskbar-app.active {
+            display: flex;
+        }
+
+        .taskbar-app.minimized {
+            display: flex;
+            opacity: 0.7;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .taskbar-app:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .taskbar-app.active {
+            background: var(--accent);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .system-tray {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .clock {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            margin-right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .window {
+            position: absolute;
+            background: var(--window-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--window-border);
+            box-shadow: var(--shadow);
+            display: none;
+            flex-direction: column;
+            z-index: 100;
+            transition: all 0.3s ease;
+            transform: scale(0.95);
+            opacity: 0;
+            border-radius: var(--radius);
             overflow: hidden;
         }
 
-        .app {
-            display: grid;
-            grid-template-columns: 1fr 1.4fr;
-            height: 100vh;
-        }
-
-        @media (max-width:900px) {
-            .app {
-                grid-template-columns: 1fr
-            }
-        }
-
-        /* ===== LEFT PANEL (IDENTITY) ===== */
-        .left {
-            padding: 48px;
+        .window.active {
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background:
-                linear-gradient(180deg, rgba(0, 0, 0, .7), rgba(0, 0, 0, .9)),
-                url("https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80");
-            background-size: cover;
-            background-position: center;
-            border-right: 1px solid var(--border);
+            z-index: 200;
+            transform: scale(1);
+            opacity: 1;
         }
 
-        .left h1 {
-            font-size: clamp(2.2rem, 4vw, 3rem);
-            margin: 0 0 12px;
+        .window.minimizing {
+            transform: scale(0.1);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        .left p {
-            color: var(--muted);
-            max-width: 520px;
-            font-size: 1.05rem;
-        }
-
-        .location {
-            margin-top: 14px;
-            font-weight: 600;
-        }
-
-        .cta {
-            margin-top: 28px;
-        }
-
-        .cta a {
-            display: inline-block;
-            padding: 14px 20px;
-            background: var(--accent);
-            color: #000;
-            font-weight: 700;
-            text-decoration: none;
-            border-radius: 6px;
-        }
-
-        .contact-form {
-            margin-top: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .contact-form label {
-            display: flex;
-            flex-direction: column;
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
-
-        .contact-form input,
-        .contact-form textarea {
-            margin-top: 6px;
-            padding: 10px;
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--fg);
-            font-family: inherit;
-        }
-
-        .contact-form textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .contact-form button {
-            padding: 12px;
-            background: var(--accent);
-            color: #000;
-            border: none;
-            border-radius: 6px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .contact-form button:hover {
-            background: #d4a13b;
-        }
-
-        gap: 16px;
-        }
-
-        .header {
+        .window-header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(30, 30, 50, 0.8));
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 16px 20px 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: move;
+            user-select: none;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
         }
 
-        .header h2 {
-            margin: 0
-        }
-
-        .tabs {
+        .window-controls {
             display: flex;
             gap: 8px;
-            flex-wrap: wrap;
         }
 
-        .tabs button {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--fg);
-            padding: 8px 12px;
+        .window-control {
+            width: 12px;
+            height: 12px;
+            border: none;
+            border-radius: 50%;
             cursor: pointer;
-            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+            transition: all 0.2s ease;
         }
 
-        .tabs button.active {
-            border-color: var(--accent);
-            color: var(--accent);
+        .window-control:nth-child(1) {
+            background: #ff5f57;
         }
 
-        .viewer {
+        .window-control:nth-child(1):hover {
+            background: #ff3b30;
+            transform: scale(1.1);
+        }
+
+        .window-control:nth-child(2) {
+            background: #ffbd2e;
+        }
+
+        .window-control:nth-child(2):hover {
+            background: #ff9500;
+            transform: scale(1.1);
+        }
+
+        .window-control:nth-child(3) {
+            background: #28ca42;
+        }
+
+        .window-control:nth-child(3):hover {
+            background: #00c853;
+            transform: scale(1.1);
+        }
+
+        .window-content {
             flex: 1;
-            border: 1px solid var(--border);
-            border-radius: 10px;
             overflow: hidden;
-            background: #000;
-            position: relative;
+            padding: 24px 28px;
+            font-size: 1.1rem;
         }
 
-        /* ===== LAB IFRAMES ===== */
-        iframe {
+        .window-content iframe {
             width: 100%;
             height: 100%;
             border: none;
-            display: none;
         }
 
-        iframe.active {
-            display: block
-        }
-
-        /* ===== CONSTRUCTION GRID ===== */
-        .panel {
-            display: none;
-            height: 100%;
-            overflow: auto;
-            background: #0e121a;
-            padding: 24px;
-        }
-
-        .panel.active {
-            display: block
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-        }
-
-        .project {
+        .start-menu {
+            position: absolute;
+            bottom: 50px;
+            left: 8px;
+            width: 280px;
+            background: var(--window-bg);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            box-shadow: var(--shadow);
+            display: none;
+            border-radius: var(--radius);
             overflow: hidden;
-            background: #000;
+            z-index: 300;
         }
 
-        .project img {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
+        .start-menu.show {
             display: block;
         }
 
-        .project .info {
-            padding: 10px;
-            font-size: .9rem;
-        }
-
-        .project strong {
-            display: block
-        }
-
-        /* ===== ARCHITECTURAL PRINTS ===== */
-        .prints-layout {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 24px;
-        }
-
-        @media(max-width:900px) {
-            .prints-layout {
-                grid-template-columns: 1fr
-            }
-        }
-
-        .print-preview {
-            border: 1px solid var(--border);
-            background: #05070c;
-            padding: 20px;
-        }
-
-        .print-preview svg {
-            width: 100%;
-            stroke: #4fa3ff;
-            stroke-width: 2;
-            fill: none;
-        }
-
-        .print-caption {
-            margin-top: 10px;
-            font-size: .85rem;
-            color: var(--muted);
-        }
-
-        .print-specs h3 {
-            margin: 0 0 8px
-        }
-
-        .print-specs p {
-            font-size: .9rem;
-            color: var(--muted)
-        }
-
-        .print-specs label {
-            display: block;
-            margin-top: 14px;
-            font-size: .85rem;
-        }
-
-        .print-specs select {
-            width: 100%;
-            margin-top: 6px;
-            padding: 8px;
-            background: #0e121a;
-            color: var(--fg);
-            border: 1px solid var(--border);
-        }
-
-        .print-cta {
-            display: block;
-            margin-top: 22px;
-            padding: 14px;
-            background: var(--accent);
-            color: #000;
-            text-align: center;
+        .start-menu-header {
+            background: linear-gradient(135deg, var(--accent), #0099cc);
+            color: white;
+            padding: 16px;
+            font-size: 16px;
             font-weight: 700;
-            text-decoration: none;
-            border-radius: 6px;
-        }
-
-        .meta {
-            font-size: .9rem;
-            color: var(--muted);
-            margin-top: 8px;
-        }
-
-        .blueprints-gallery {
-            border: 1px solid var(--border);
-            background: var(--panel);
-            padding: 20px;
-        }
-
-        .blueprints-gallery h4 {
-            margin: 0 0 16px 0;
-            color: var(--fg);
-        }
-
-        .blueprints-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-        }
-
-        .blueprint-item {
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-            background: #000;
-        }
-
-        .blueprint-item img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .blueprint-item embed {
-            width: 100%;
-            height: 120px;
-            border: none;
-        }
-
-        .blueprint-info {
-            padding: 8px;
-            font-size: .8rem;
-            color: var(--muted);
             text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .start-menu-item {
+            padding: 18px 24px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+            color: #222;
+        }
+
+        .start-menu-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent);
+            padding-left: 20px;
+        }
+
+        .start-menu-item:last-child {
+            border-bottom: none;
         }
     </style>
 </head>
 
 <body>
-
-    <div class="app">
-
-        <!-- LEFT -->
-        <section class="left">
-            <div>
-                <h1>Dondlinger General Contracting</h1>
-                <p>
-                    Design-build construction and architectural drawings
-                    prepared for real projects — not just concepts.
+    <div class="desktop">
+        <!-- Welcome Window -->
+        <div class="window active" id="welcome-window"
+            style="top: 150px; left: 250px; width: 500px; height: 300px; z-index: 300;">
+            <div class="window-header">
+                <span>DondlingerGC Desktop</span>
+                <div class="window-controls">
+                    <div class="window-control" onclick="closeWindow('welcome-window')">×</div>
+                </div>
+            </div>
+            <div class="window-content"
+                style="padding: 24px; text-align: center; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+                <h2 style="margin-top: 0; color: #1a1a2e; font-size: 22px; font-weight: 700;">Welcome</h2>
+                <p style="font-size: 15px; line-height: 1.5; color: #333; margin-bottom: 18px;">
+                    Use the Start menu to access services.<br>
+                    <strong style="color: var(--accent);">💰 For pricing, open Digital Fortress.</strong>
                 </p>
+                <button onclick="closeWindow('welcome-window')"
+                    style="padding: 12px 24px; background: linear-gradient(135deg, var(--accent), #0099cc); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);">Continue</button>
+            </div>
+        </div>
 
-                <div class="location">📍 Wisconsin Rapids, WI</div>
+        <!-- Tooltip -->
+        <div class="tooltip" id="tooltip"></div>
 
-                <div class="cta">
-                    <a href="mailto:dondlingergeneralcontracting@gmail.com">
-                        Have a project? Let’s talk.
-                    </a>
+        <!-- Windows -->
+        <div class="window" id="home-window" style="top: 100px; left: 300px; width: 600px; height: 400px;">
+            <div class="window-header">
+                <span>Home</span>
+                <div class="window-controls">
+                    <div class="window-control" onclick="minimizeWindow('home-window')">—</div>
+                    <div class="window-control" onclick="maximizeWindow('home-window')">□</div>
+                    <div class="window-control" onclick="closeWindow('home-window')">×</div>
                 </div>
-
-                <form action="https://formspree.io/f/YOUR_FORM_ID" method="post" class="contact-form">
-                    <label>
-                        Name
-                        <input type="text" name="name" required>
-                    </label>
-                    <label>
-                        Email
-                        <input type="email" name="email" required>
-                    </label>
-                    <label>
-                        Message
-                        <textarea name="message" required></textarea>
-                    </label>
-                    <button type="submit">Send Message</button>
-                </form>
             </div>
-
-            <div class="footer-left">
-                Licensed · Insured · Design-Build
+            <div class="window-content" style="text-align:center; color:#222;">
+                <h2 style="margin-top:0; font-size:1.3em; font-weight:700;">Dondlinger General Contracting</h2>
+                <p style="font-size:1em;">Design-Build Services for Wichita and Beyond.</p>
             </div>
-        </section>
+        </div>
 
-        <!-- RIGHT -->
-        <section class="right">
-
-            <div class="header">
-                <h2>Work & Services</h2>
-            </div>
-
-            <div class="tabs">
-                <button class="active" data-tab="lab0">Digital Tools</button>
-                <button data-tab="construction">Construction</button>
-                <button data-tab="prints">Blueprints</button>
-            </div>
-
-            <div class="viewer">
-
-                <!-- LAB -->
-                <iframe class="active" data-id="lab0"
-                    src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space">
-                </iframe>
-
-                <!-- CONSTRUCTION -->
-                <div class="panel" data-id="construction">
-                    <div class="grid">
-
-                        <!-- Replace stock images with your real work -->
-                        <div class="project">
-                            <img
-                                src="https://images.unsplash.com/photo-1596079890681-7c1c7d2f9a8b?auto=format&fit=crop&w=800&q=80">
-                            <div class="info">
-                                <strong>Residential Framing</strong>
-                                Wisconsin Rapids
-                            </div>
-                        </div>
-
-                        <div class="project">
-                            <img
-                                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80">
-                            <div class="info">
-                                <strong>Remodel & Finish Work</strong>
-                                Central Wisconsin
-                            </div>
-                        </div>
-
-                        <div class="project">
-                            <img
-                                src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80">
-                            <div class="info">
-                                <strong>Structural Repair</strong>
-                                Wood County
-                            </div>
-                        </div>
-
-                    </div>
+        <div class="window" id="about-window" style="top: 120px; left: 320px; width: 600px; height: 400px;">
+            <div class="window-header">
+                <span>About Us</span>
+                <div class="window-controls">
+                    <div class="window-control" onclick="minimizeWindow('about-window')">—</div>
+                    <div class="window-control" onclick="maximizeWindow('about-window')">□</div>
+                    <div class="window-control" onclick="closeWindow('about-window')">×</div>
                 </div>
+            </div>
+            <div class="window-content">
+                <iframe src="about.html" frameborder="0"></iframe>
+            </div>
+        </div>
 
-                <!-- ARCHITECTURAL PRINTS -->
-                <div class="panel" data-id="prints">
-                    <div class="prints-layout">
-
-                        <div class="print-preview">
-                            <div id="three-canvas-container"
-                                style="width:100%; height:300px; background:#000; border-radius:4px; overflow:hidden;">
-                            </div>
-                            <div class="print-caption">
-                                Interactive 3D Blueprint Preview · Real-time Rendering
-                            </div>
-                        </div>
-
-                        <div class="blueprints-gallery">
-                            <h4>Available Blueprints</h4>
-                            <div class="blueprints-grid">
-                                <div class="blueprint-item">
-                                    <img src="/blueprints/fawley.png" alt="Fawley Drawing 1">
-                                    <div class="blueprint-info">Fawley Residence</div>
-                                </div>
-                                <div class="blueprint-item">
-                                    <img src="/blueprints/fawley(1).png" alt="Fawley Drawing 2">
-                                    <div class="blueprint-info">Fawley Floor Plan</div>
-                                </div>
-                                <div class="blueprint-item">
-                                    <img src="/blueprints/fawley(2).png" alt="Fawley Drawing 3">
-                                    <div class="blueprint-info">Fawley Elevation</div>
-                                </div>
-                                <div class="blueprint-item">
-                                    <img src="/blueprints/fawley(3).png" alt="Fawley Drawing 4">
-                                    <div class="blueprint-info">Fawley Detail</div>
-                                </div>
-                                <div class="blueprint-item pdf">
-                                    <embed src="/blueprints/AndersonWeber02.26.pdf" width="100%" height="200"
-                                        type="application/pdf">
-                                    <div class="blueprint-info">Anderson Weber Project</div>
-                                </div>
-                                <div class="blueprint-item pdf">
-                                    <embed src="/blueprints/maherdeck.pdf" width="100%" height="200"
-                                        type="application/pdf">
-                                    <div class="blueprint-info">Maher Deck Design</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="print-specs">
-                            <h3>Request an Architectural Drawing</h3>
-                            <p>
-                                Design-build drawings prepared for construction,
-                                permitting, or planning.
-                            </p>
-
-                            <label>
-                                Project Type
-                                <select>
-                                    <option>Residential addition</option>
-                                    <option>Garage / outbuilding</option>
-                                    <option>Interior remodel</option>
-                                    <option>Commercial build-out</option>
-                                </select>
-                            </label>
-
-                            <label>
-                                Approximate Size
-                                <select>
-                                    <option>&lt; 1,000 sq ft</option>
-                                    <option>1,000 – 2,500 sq ft</option>
-                                    <option>2,500+ sq ft</option>
-                                </select>
-                            </label>
-
-                            <label>
-                                Drawing Purpose
-                                <select>
-                                    <option>Build-ready</option>
-                                    <option>Permit submission</option>
-                                    <option>Concept / feasibility</option>
-                                </select>
-                            </label>
-
-                            <a class="print-cta"
-                                href="mailto:dondlingergeneralcontracting@gmail.com?subject=Architectural%20Print%20Request">
-                                Request This Drawing
-                            </a>
-
-                            <div class="meta">
-                                Wisconsin Rapids · Design-Build · Digital or Printed
-                            </div>
-                        </div>
-
-                    </div>
+        <div class="window" id="services-window" style="top: 140px; left: 340px; width: 600px; height: 400px;">
+            <div class="window-header">
+                <span>Services</span>
+                <div class="window-controls">
+                    <div class="window-control" onclick="minimizeWindow('services-window')">—</div>
+                    <div class="window-control" onclick="maximizeWindow('services-window')">□</div>
+                    <div class="window-control" onclick="closeWindow('services-window')">×</div>
                 </div>
-
             </div>
-
-            <div class="meta" id="desc">
-                Interactive tools and systems
+            <div class="window-content">
+                <iframe src="services.html" frameborder="0"></iframe>
             </div>
+        </div>
 
-        </section>
+        <div class="window" id="portfolio-window" style="top: 160px; left: 360px; width: 600px; height: 400px;">
+            <div class="window-header">
+                <span>Portfolio</span>
+                <div class="window-controls">
+                    <div class="window-control" onclick="minimizeWindow('portfolio-window')">—</div>
+                    <div class="window-control" onclick="maximizeWindow('portfolio-window')">□</div>
+                    <div class="window-control" onclick="closeWindow('portfolio-window')">×</div>
+                </div>
+            </div>
+            <div class="window-content">
+                <iframe src="portfolio.html" frameborder="0"></iframe>
+            </div>
+        </div>
 
+        <div class="window" id="contact-window" style="top: 180px; left: 380px; width: 600px; height: 400px;">
+            <div class="window-header">
+                <span>Contact</span>
+                <div class="window-controls">
+                    <div class="window-control" onclick="minimizeWindow('contact-window')">—</div>
+                    <div class="window-control" onclick="maximizeWindow('contact-window')">□</div>
+                    <div class="window-control" onclick="closeWindow('contact-window')">×</div>
+                </div>
+            </div>
+            <div class="window-content">
+                <iframe src="contact.html" frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <div class="window" id="estimator-window" style="top: 200px; left: 400px; width: 600px; height: 400px;">
+            <div class="window-header">
+                <span>Estimator</span>
+                <div class="window-controls">
+                    <div class="window-control" onclick="minimizeWindow('estimator-window')">—</div>
+                    <div class="window-control" onclick="maximizeWindow('estimator-window')">□</div>
+                    <div class="window-control" onclick="closeWindow('estimator-window')">×</div>
+                </div>
+            </div>
+            <div class="window-content">
+                <iframe src="wizard.html" frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <div class="window" id="fortress-window" style="top: 220px; left: 420px; width: 800px; height: 600px;">
+            <div class="window-header">
+                <span>Digital Fortress</span>
+                <div class="window-controls">
+                    <div class="window-control" onclick="minimizeWindow('fortress-window')">—</div>
+                    <div class="window-control" onclick="maximizeWindow('fortress-window')">□</div>
+                    <div class="window-control" onclick="closeWindow('fortress-window')">×</div>
+                </div>
+            </div>
+            <div class="window-content">
+                <iframe src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space"
+                    frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <div class="window" id="chat-window" style="top: 240px; left: 440px; width: 600px; height: 400px;">
+            <div class="window-header">
+                <span>Chat</span>
+                <div class="window-controls">
+                    <div class="window-control" onclick="minimizeWindow('chat-window')">—</div>
+                    <div class="window-control" onclick="maximizeWindow('chat-window')">□</div>
+                    <div class="window-control" onclick="closeWindow('chat-window')">×</div>
+                </div>
+            </div>
+            <div class="window-content">
+                <iframe src="chat.html" frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <div class="window" id="taxidermy-window" style="top: 260px; left: 460px; width: 600px; height: 400px;">
+            <div class="window-header">
+                <span>Taxidermy</span>
+                <div class="window-controls">
+                    <div class="window-control" onclick="minimizeWindow('taxidermy-window')">—</div>
+                    <div class="window-control" onclick="maximizeWindow('taxidermy-window')">□</div>
+                    <div class="window-control" onclick="closeWindow('taxidermy-window')">×</div>
+                </div>
+            </div>
+            <div class="window-content">
+                <iframe src="taxidermy.html" frameborder="0"></iframe>
+            </div>
+        </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-        const tabs = [...document.querySelectorAll(".tabs button")];
-        const panels = [...document.querySelectorAll("[data-id]")];
-        const desc = document.getElementById("desc");
+    <div class="taskbar">
+        <button class="start-button" onclick="toggleStartMenu()">Start</button>
+        <div class="taskbar-apps">
+            <div class="taskbar-app" id="task-home" onclick="focusWindow('home-window')">Home</div>
+            <div class="taskbar-app" id="task-about" onclick="focusWindow('about-window')">About</div>
+            <div class="taskbar-app" id="task-services" onclick="focusWindow('services-window')">Services</div>
+            <div class="taskbar-app" id="task-portfolio" onclick="focusWindow('portfolio-window')">Portfolio</div>
+            <div class="taskbar-app" id="task-contact" onclick="focusWindow('contact-window')">Contact</div>
+            <div class="taskbar-app" id="task-estimator" onclick="focusWindow('estimator-window')">Estimator</div>
+            <div class="taskbar-app" id="task-fortress" onclick="focusWindow('fortress-window')">Fortress</div>
+            <div class="taskbar-app" id="task-chat" onclick="focusWindow('chat-window')">Chat</div>
+            <div class="taskbar-app" id="task-taxidermy" onclick="focusWindow('taxidermy-window')">Taxidermy</div>
+        </div>
+        <div class="system-tray">
+            <div class="clock" id="clock"></div>
+        </div>
+    </div>
 
-        const descriptions = {
-            lab0: "Interactive tools and systems",
-            construction: "Real construction work",
-            prints: "Architectural drawings and blueprints"
+    <div class="start-menu" id="start-menu">
+        <div class="start-menu-header">Menu</div>
+        <div class="start-menu-item" onclick="openWindow('home')">Home</div>
+        <div class="start-menu-item" onclick="openWindow('about')">About</div>
+        <div class="start-menu-item" onclick="openWindow('services')">Services</div>
+        <div class="start-menu-item" onclick="openWindow('portfolio')">Portfolio</div>
+        <div class="start-menu-item" onclick="openWindow('contact')">Contact</div>
+        <div class="start-menu-item" onclick="openWindow('estimator')">Estimator</div>
+        <div class="start-menu-item" onclick="openWindow('fortress')">Fortress</div>
+        <div class="start-menu-item" onclick="openWindow('chat')">Chat</div>
+        <div class="start-menu-item" onclick="openWindow('taxidermy')">Taxidermy</div>
+    </div>
+
+    <script>
+        'use strict';
+        let activeWindow = null;
+        let minimizedWindows = new Set();
+        let isDragging = false;
+        let draggedWindow = null;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+        let zIndexCounter = 200;
+
+        // Tooltip (optional, robust)
+        window.showTooltip = (event, text) => {
+            const tooltip = document.getElementById('tooltip');
+            if (!tooltip) return;
+            tooltip.textContent = text;
+            tooltip.style.left = (event.pageX + 10) + 'px';
+            tooltip.style.top = (event.pageY + 10) + 'px';
+            tooltip.classList.add('show');
+        };
+        window.hideTooltip = () => {
+            const tooltip = document.getElementById('tooltip');
+            if (tooltip) tooltip.classList.remove('show');
         };
 
-        // Three.js Setup
-        let scene, camera, renderer, cube;
-        function initThree() {
-            const container = document.getElementById('three-canvas-container');
-            if (!container) return;
+        // Window management
+        window.openWindow = (type) => {
+            const windowEl = document.getElementById(`${type}-window`);
+            const taskEl = document.getElementById(`task-${type}`);
+            if (!windowEl || !taskEl) return;
+            windowEl.classList.add('active');
+            windowEl.style.zIndex = ++zIndexCounter;
+            taskEl.classList.add('active');
+            taskEl.classList.remove('minimized');
+            activeWindow = windowEl;
+            minimizedWindows.delete(`${type}-window`);
+            const menu = document.getElementById('start-menu');
+            if (menu) menu.classList.remove('show');
+        };
 
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(renderer.domElement);
+        window.closeWindow = (id) => {
+            const windowEl = document.getElementById(id);
+            const type = id.replace('-window', '');
+            const taskEl = document.getElementById(`task-${type}`);
+            if (!windowEl || !taskEl) return;
+            windowEl.classList.remove('active');
+            taskEl.classList.remove('active', 'minimized');
+            if (activeWindow === windowEl) activeWindow = null;
+            minimizedWindows.delete(id);
+        };
 
-            const geometry = new THREE.BoxGeometry(2, 0.1, 3);
-            const wireframe = new THREE.WireframeGeometry(geometry);
-            const line = new THREE.LineSegments(wireframe);
-            line.material.color.setHex(0x4fa3ff);
-            scene.add(line);
+        window.minimizeWindow = (id) => {
+            const windowEl = document.getElementById(id);
+            const type = id.replace('-window', '');
+            const taskEl = document.getElementById(`task-${type}`);
+            if (!windowEl || !taskEl) return;
+            windowEl.classList.remove('active');
+            taskEl.classList.remove('active');
+            taskEl.classList.add('minimized');
+            minimizedWindows.add(id);
+            if (activeWindow === windowEl) activeWindow = null;
+        };
 
-            // Add a simple floor plan look
-            const grid = new THREE.GridHelper(10, 10, 0x23293a, 0x23293a);
-            grid.position.y = -0.5;
-            scene.add(grid);
-
-            camera.position.z = 5;
-            camera.position.y = 2;
-            camera.lookAt(0, 0, 0);
-
-            function animate() {
-                requestAnimationFrame(animate);
-                line.rotation.y += 0.01;
-                renderer.render(scene, camera);
+        window.maximizeWindow = (id) => {
+            const windowEl = document.getElementById(id);
+            if (!windowEl) return;
+            const isMaximized = windowEl.style.width === '100%' && windowEl.style.height === 'calc(100vh - 50px)';
+            if (isMaximized) {
+                windowEl.style.width = '';
+                windowEl.style.height = '';
+                windowEl.style.top = '';
+                windowEl.style.left = '';
+            } else {
+                windowEl.style.width = '100%';
+                windowEl.style.height = 'calc(100vh - 40px)';
+                windowEl.style.top = '0';
+                windowEl.style.left = '0';
+                windowEl.style.zIndex = ++zIndexCounter;
             }
-            animate();
-        }
+        };
 
-        tabs.forEach(btn => {
-            btn.onclick = () => {
-                const switchTab = () => {
-                    tabs.forEach(b => b.classList.remove("active"));
-                    btn.classList.add("active");
+        window.focusWindow = (id) => {
+            const windowEl = document.getElementById(id);
+            const type = id.replace('-window', '');
+            const taskEl = document.getElementById(`task-${type}`);
+            if (!windowEl || !taskEl) return;
+            if (minimizedWindows.has(id)) {
+                window.openWindow(type);
+            } else {
+                windowEl.classList.add('active');
+                windowEl.style.zIndex = ++zIndexCounter;
+                taskEl.classList.add('active');
+                taskEl.classList.remove('minimized');
+                activeWindow = windowEl;
+            }
+        };
 
-                    panels.forEach(p => {
-                        p.classList.toggle("active", p.dataset.id === btn.dataset.tab);
-                    });
+        window.toggleStartMenu = () => {
+            const menu = document.getElementById('start-menu');
+            if (menu) menu.classList.toggle('show');
+        };
 
-                    desc.textContent = descriptions[btn.dataset.tab];
-
-                    if (btn.dataset.tab === 'prints') {
-                        if (!renderer) initThree();
-                    }
-                };
-
-                if (document.startViewTransition) {
-                    document.startViewTransition(() => switchTab());
-                } else {
-                    switchTab();
-                }
-            };
+        // Close start menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('start-menu');
+            const startBtn = document.querySelector('.start-button');
+            if (!menu || !startBtn) return;
+            if (!menu.contains(e.target) && !startBtn.contains(e.target)) {
+                menu.classList.remove('show');
+            }
         });
 
-        // Initial load if prints is active
-        if (document.querySelector('.tabs button.active').dataset.tab === 'prints') {
-            initThree();
+        // Window drag and focus
+        document.addEventListener('mousedown', (e) => {
+            const header = e.target.closest('.window-header');
+            const controls = e.target.closest('.window-controls');
+            if (header && !controls) {
+                const windowEl = e.target.closest('.window');
+                if (windowEl) {
+                    windowEl.style.zIndex = ++zIndexCounter;
+                    activeWindow = windowEl;
+                    isDragging = true;
+                    draggedWindow = windowEl;
+                    const rect = draggedWindow.getBoundingClientRect();
+                    dragOffsetX = e.clientX - rect.left;
+                    dragOffsetY = e.clientY - rect.top;
+                }
+            } else if (e.target.closest('.window')) {
+                const windowEl = e.target.closest('.window');
+                if (windowEl) {
+                    windowEl.style.zIndex = ++zIndexCounter;
+                    activeWindow = windowEl;
+                }
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging && draggedWindow) {
+                draggedWindow.style.left = (e.clientX - dragOffsetX) + 'px';
+                draggedWindow.style.top = (e.clientY - dragOffsetY) + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            draggedWindow = null;
+        });
+
+        // Clock
+        function updateClock() {
+            const clock = document.getElementById('clock');
+            if (!clock) return;
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            clock.textContent = time;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Load config
+        if (window.SITE_CONFIG) {
+            const cfg = window.SITE_CONFIG;
+            document.title = cfg.businessName + ' — ' + cfg.tagline;
         }
     </script>
-
 </body>
 
 </html>

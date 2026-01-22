@@ -1,0 +1,101 @@
+[
+    {
+        "filename": "model",
+        "type": "3d",
+        "title": "Interactive 3D Preview",
+        "description": "A wireframe visualization of architectural structural logic.",
+        "location": "N/A",
+        "year": 2026,
+        "category": "construction"
+    },
+    {
+        "filename": "fawley.png",
+        "type": "png",
+        "title": "Fawley Residence",
+        "description": "Complete residential blueprint with floor plans and elevations.",
+        "location": "Wisconsin Rapids, WI",
+        "year": 2024,
+        "category": "construction"
+    },
+    {
+        "filename": "fawley(1).png",
+        "type": "png",
+        "title": "Fawley Floor Plan",
+        "description": "Detailed floor layout for the main level.",
+        "location": "Wisconsin Rapids, WI",
+        "year": 2024,
+        "category": "construction"
+    },
+    {
+        "filename": "fawley(2).png",
+        "type": "png",
+        "title": "Fawley Elevation",
+        "description": "Front elevation view with dimensions.",
+        "location": "Wisconsin Rapids, WI",
+        "year": 2024,
+        "category": "construction"
+    },
+    {
+        "filename": "fawley(3).png",
+        "type": "png",
+        "title": "Fawley Detail",
+        "description": "Architectural details and specifications.",
+        "location": "Wisconsin Rapids, WI",
+        "year": 2024,
+        "category": "construction"
+    },
+    {
+        "filename": "AndersonWeber02.26.pdf",
+        "type": "pdf",
+        "title": "Anderson Weber Project",
+        "description": "Full construction drawings for residential addition.",
+        "location": "Nekoosa, WI",
+        "year": 2023,
+        "category": "construction"
+    },
+    {
+        "filename": "maherdeck.pdf",
+        "type": "pdf",
+        "title": "Maher Deck Design",
+        "description": "Deck construction plans with material specifications.",
+        "location": "Port Edwards, WI",
+        "year": 2022,
+        "category": "construction"
+    },
+    {
+        "filename": "web-portfolio.png",
+        "type": "png",
+        "title": "Portfolio Website",
+        "description": "Responsive web design built with modern technologies. Fast, accessible, and optimized for all devices.",
+        "location": "Online",
+        "year": 2025,
+        "category": "web"
+    },
+    {
+        "filename": "ecommerce-app.png",
+        "type": "png",
+        "title": "E-commerce Platform",
+        "description": "Full-stack application with secure payments and real-time inventory. Scalable solution for online retail.",
+        "location": "Online",
+        "year": 2025,
+        "category": "web"
+    },
+    {
+        "filename": "ai-lab.png",
+        "type": "png",
+        "title": "AI Image Generator",
+        "description": "Cutting-edge ML project turning text into stunning visuals. Exploring the future of creative AI.",
+        "location": "Lab",
+        "year": 2025,
+        "category": "lab"
+    },
+    {
+        "filename": "robotics-prototype.png",
+        "type": "png",
+        "title": "Robotics Prototype",
+        "description": "Autonomous robot with advanced sensors and AI navigation. Pushing boundaries in robotics innovation.",
+        "location": "Lab",
+        "year": 2025,
+        "category": "lab"
+    }
+]
