@@ -1,101 +1,65 @@
 [
-    {
-        "filename": "model",
-        "type": "3d",
-        "title": "Interactive 3D Preview",
-        "description": "A wireframe visualization of architectural structural logic.",
-        "location": "N/A",
-        "year": 2026,
-        "category": "construction"
-    },
-    {
-        "filename": "fawley.png",
-        "type": "png",
-        "title": "Fawley Residence",
-        "description": "Complete residential blueprint with floor plans and elevations.",
-        "location": "Wisconsin Rapids, WI",
-        "year": 2024,
-        "category": "construction"
-    },
-    {
-        "filename": "fawley(1).png",
-        "type": "png",
-        "title": "Fawley Floor Plan",
-        "description": "Detailed floor layout for the main level.",
-        "location": "Wisconsin Rapids, WI",
-        "year": 2024,
-        "category": "construction"
-    },
-    {
-        "filename": "fawley(2).png",
-        "type": "png",
-        "title": "Fawley Elevation",
-        "description": "Front elevation view with dimensions.",
-        "location": "Wisconsin Rapids, WI",
-        "year": 2024,
-        "category": "construction"
-    },
-    {
-        "filename": "fawley(3).png",
-        "type": "png",
-        "title": "Fawley Detail",
-        "description": "Architectural details and specifications.",
-        "location": "Wisconsin Rapids, WI",
-        "year": 2024,
-        "category": "construction"
-    },
-    {
-        "filename": "AndersonWeber02.26.pdf",
-        "type": "pdf",
-        "title": "Anderson Weber Project",
-        "description": "Full construction drawings for residential addition.",
-        "location": "Nekoosa, WI",
-        "year": 2023,
-        "category": "construction"
-    },
-    {
-        "filename": "maherdeck.pdf",
-        "type": "pdf",
-        "title": "Maher Deck Design",
-        "description": "Deck construction plans with material specifications.",
-        "location": "Port Edwards, WI",
-        "year": 2022,
-        "category": "construction"
-    },
-    {
-        "filename": "web-portfolio.png",
-        "type": "png",
-        "title": "Portfolio Website",
-        "description": "Responsive web design built with modern technologies. Fast, accessible, and optimized for all devices.",
-        "location": "Online",
-        "year": 2025,
-        "category": "web"
-    },
-    {
-        "filename": "ecommerce-app.png",
-        "type": "png",
-        "title": "E-commerce Platform",
-        "description": "Full-stack application with secure payments and real-time inventory. Scalable solution for online retail.",
-        "location": "Online",
-        "year": 2025,
-        "category": "web"
-    },
-    {
-        "filename": "ai-lab.png",
-        "type": "png",
-        "title": "AI Image Generator",
-        "description": "Cutting-edge ML project turning text into stunning visuals. Exploring the future of creative AI.",
-        "location": "Lab",
-        "year": 2025,
-        "category": "lab"
-    },
-    {
-        "filename": "robotics-prototype.png",
-        "type": "png",
-        "title": "Robotics Prototype",
-        "description": "Autonomous robot with advanced sensors and AI navigation. Pushing boundaries in robotics innovation.",
-        "location": "Lab",
-        "year": 2025,
-        "category": "lab"
-    }
+  {
+    "filename": "restaurant-platform.png",
+    "type": "png",
+    "title": "Food Ordering Platform",
+    "description": "Complete online ordering system with menu management, payment processing, and order tracking for local restaurants.",
+    "location": "Wisconsin Rapids, WI",
+    "year": 2025,
+    "category": "web"
+  },
+  {
+    "filename": "ecommerce-store.png",
+    "type": "png",
+    "title": "Online Store",
+    "description": "Full e-commerce platform with shopping cart, inventory management, and secure checkout for retail businesses.",
+    "location": "Marshfield, WI",
+    "year": 2025,
+    "category": "web"
+  },
+  {
+    "filename": "professional-website.png",
+    "type": "png",
+    "title": "Professional Business Website",
+    "description": "Custom-designed business website with homepage, about, services, and contact pages. Mobile-friendly and SEO-optimized.",
+    "location": "Stevens Point, WI",
+    "year": 2024,
+    "category": "web"
+  },
+  {
+    "filename": "booking-system.png",
+    "type": "png",
+    "title": "Appointment Booking System",
+    "description": "Calendar-integrated booking platform with auto-confirmations, reminders, and customer management.",
+    "location": "Wausau, WI",
+    "year": 2024,
+    "category": "web"
+  },
+  {
+    "filename": "lead-capture.png",
+    "type": "png",
+    "title": "Lead Capture & Quote Tool",
+    "description": "Smart contact forms and estimation tools that automatically capture inquiries and generate project quotes.",
+    "location": "Wisconsin Rapids, WI",
+    "year": 2024,
+    "category": "web"
+  },
+  {
+    "filename": "portfolio-gallery.png",
+    "type": "png",
+    "title": "Photo Gallery Portfolio",
+    "description": "Professional image galleries and portfolio displays for showcasing work and building customer trust.",
+    "location": "Green Bay, WI",
+    "year": 2023,
+    "category": "web"
+  },
+  {
+    "filename": "blog-platform.png",
+    "type": "png",
+    "title": "Business Blog Platform",
+    "description": "Content management system for publishing articles, news, and updates to establish industry expertise.",
+    "location": "Appleton, WI",
+    "year": 2023,
+    "category": "web"
+  }
 ]

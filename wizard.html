@@ -187,55 +187,87 @@
 <body>
     <div class="app">
         <section class="left">
-            <h1>Estimate<br>Your Build</h1>
-            <p class="hero-sub">Get a ballpark figure for your next construction or renovation project.</p>
+            <h1>Pricing<br>Calculator</h1>
+            <p class="hero-sub">Get transparent pricing for your website or online shop project.</p>
             <nav class="nav-header">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="about.html" class="nav-link">About</a>
-                <a href="services.html" class="nav-link">Services</a>
+                <a href="wizard.html" class="nav-link active">Pricing Calculator</a>
                 <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="about.html" class="nav-link">About Us</a>
                 <a href="contact.html" class="nav-link">Contact</a>
-                <a href="wizard.html" class="nav-link active">Estimator</a>
-                <a href="fortress.html" class="nav-link">Fortress</a>
-                <a href="chat.html" class="nav-link">Chat</a>
-                <a href="taxidermy.html" class="nav-link">Taxidermy</a>
             </nav>
         </section>
 
         <main class="right">
             <div class="calc-card">
                 <h2>Project Scope</h2>
-                <p>Select multiple services for an aggregated ballpark estimate.</p>
+                <p>Select the features you need for your website or online shop.</p>
                 <form id="calc-form">
                     <div class="option">
-                        <input type="checkbox" id="blueprint" data-price="2500">
-                        <label for="blueprint">Blueprint Design & Planning</label>
-                        <span class="price">$2,500+</span>
+                        <input type="checkbox" id="professional-site" data-price="1200">
+                        <label for="professional-site">Professional Website</label>
+                        <span class="price">$1,200</span>
                     </div>
                     <div class="option">
-                        <input type="checkbox" id="permits" data-price="1200">
-                        <label for="permits">Permit Handling & Review</label>
-                        <span class="price">$1,200+</span>
+                        <input type="checkbox" id="minimal-site" data-price="600">
+                        <label for="minimal-site">Minimal Site (Homepage Only)</label>
+                        <span class="price">$600</span>
                     </div>
                     <div class="option">
-                        <input type="checkbox" id="remodel" data-price="15000">
-                        <label for="remodel">Kitchen/Bath Remodel (Starting)</label>
-                        <span class="price">$15,000+</span>
+                        <input type="checkbox" id="food-ordering" data-price="2000">
+                        <label for="food-ordering">Food Ordering Platform</label>
+                        <span class="price">$2,000</span>
                     </div>
                     <div class="option">
-                        <input type="checkbox" id="addition" data-price="45000">
-                        <label for="addition">Residential Addition (Starting)</label>
-                        <span class="price">$45,000+</span>
+                        <input type="checkbox" id="food-delivery" data-price="2800">
+                        <label for="food-delivery">Food Delivery Integration</label>
+                        <span class="price">$2,800</span>
                     </div>
                     <div class="option">
-                        <input type="checkbox" id="commercial" data-price="80000">
-                        <label for="commercial">Commercial Build (Starting)</label>
-                        <span class="price">$80,000+</span>
+                        <input type="checkbox" id="online-store" data-price="1500">
+                        <label for="online-store">Online Store (Products)</label>
+                        <span class="price">$1,500</span>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="contact-form" data-price="250">
+                        <label for="contact-form">Contact Form</label>
+                        <span class="price">$250</span>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="booking-system" data-price="800">
+                        <label for="booking-system">Appointment Booking</label>
+                        <span class="price">$800</span>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="quote-form" data-price="400">
+                        <label for="quote-form">Quote / Estimation Form</label>
+                        <span class="price">$400</span>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="blog-section" data-price="400">
+                        <label for="blog-section">Blog or News Section</label>
+                        <span class="price">$400</span>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="photo-gallery" data-price="300">
+                        <label for="photo-gallery">Photo Gallery / Portfolio</label>
+                        <span class="price">$300</span>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="seo-performance" data-price="500">
+                        <label for="seo-performance">SEO & Performance Optimization</label>
+                        <span class="price">$500</span>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="analytics" data-price="300">
+                        <label for="analytics">Analytics & Tracking</label>
+                        <span class="price">$300</span>
                     </div>
                 </form>
 
                 <div class="total-box">
-                    <span>Estimated Ballpark Total</span>
+                    <span>Estimated Project Cost</span>
                     <h3 id="total-val">$0</h3>
                 </div>
             </div>

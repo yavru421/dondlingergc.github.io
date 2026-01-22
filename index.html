@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <title>Dondlinger General Contracting — Design-Build</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DondlingerGC-Web — Professional Websites & Online Tools</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,670 +13,814 @@
     <style>
         :root {
             --bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            --panel: rgba(255, 255, 255, 0.95);
-            --border: rgba(255, 255, 255, 0.2);
-            --fg: #ffffff;
-            --muted: #b8c5d6;
             --accent: #00d4ff;
-            --glass: blur(20px) saturate(180%);
-            --radius: 18px;
-            --taskbar-bg: rgba(0, 0, 0, 0.8);
-            --window-bg: rgba(255, 255, 255, 0.95);
-            --window-border: rgba(255, 255, 255, 0.3);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --window-bg: rgba(255, 255, 255, 0.98);
+            --border: rgba(255, 255, 255, 0.2);
+            font-size: 16px;
         }
 
         * {
             box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
-
-        html,
-        body {
             margin: 0;
             padding: 0;
-            min-height: 100vh;
-            width: 100vw;
-            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background: var(--bg);
-            position: relative;
+            min-height: 100vh;
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-text-size-adjust: 100%;
         }
 
-        body::before {
-            content: 'DONDLINGER';
+        /* Mobile Navigation */
+        .mobile-nav {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: min(12vw, 12vh);
-            font-weight: 900;
-            color: rgba(0, 212, 255, 0.08);
-            z-index: 0;
-            pointer-events: none;
-            letter-spacing: 8px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            white-space: nowrap;
-        }
-
-        .desktop {
-            position: relative;
-            width: 100vw;
-            height: calc(100vh - 60px);
-            background: transparent;
-            overflow: hidden;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        .tooltip {
-            position: fixed;
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-            white-space: nowrap;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .tooltip.show {
-            opacity: 1;
-        }
-
-        .taskbar {
-            position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
-            width: 100%;
-            height: 50px;
-            background: var(--taskbar-bg);
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            z-index: 1000;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            border-bottom: 1px solid var(--border);
         }
 
-        .start-button {
-            width: 120px;
-            height: 44px;
-            background: linear-gradient(135deg, var(--accent), #0099cc);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            margin-left: 8px;
-            color: white;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-        }
-
-        .start-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
-        }
-
-        .taskbar-apps {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            margin-left: 15px;
-        }
-
-        .taskbar-app {
-            height: 44px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-right: 6px;
-            display: none;
-            align-items: center;
-            padding: 0 20px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: white;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .taskbar-app.active {
-            display: flex;
-        }
-
-        .taskbar-app.minimized {
-            display: flex;
-            opacity: 0.7;
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .taskbar-app:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
-        }
-
-        .taskbar-app.active {
-            background: var(--accent);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
-        }
-
-        .system-tray {
-            display: flex;
-            align-items: center;
-            margin-right: 15px;
-        }
-
-        .clock {
-            font-size: 14px;
-            font-weight: 600;
-            color: white;
-            margin-right: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 12px;
-            border-radius: 8px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .window {
-            position: absolute;
-            background: var(--window-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--window-border);
-            box-shadow: var(--shadow);
-            display: none;
-            flex-direction: column;
-            z-index: 100;
-            transition: all 0.3s ease;
-            transform: scale(0.95);
-            opacity: 0;
-            border-radius: var(--radius);
-            overflow: hidden;
-        }
-
-        .window.active {
-            display: flex;
-            z-index: 200;
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .window.minimizing {
-            transform: scale(0.1);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .window-header {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(30, 30, 50, 0.8));
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 16px 20px 12px 20px;
+        .nav-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: move;
-            user-select: none;
-            font-size: 1.25rem;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 20px;
             font-weight: 700;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .window-controls {
-            display: flex;
-            gap: 8px;
-        }
-
-        .window-control {
-            width: 12px;
-            height: 12px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: white;
-            transition: all 0.2s ease;
-        }
-
-        .window-control:nth-child(1) {
-            background: #ff5f57;
-        }
-
-        .window-control:nth-child(1):hover {
-            background: #ff3b30;
-            transform: scale(1.1);
-        }
-
-        .window-control:nth-child(2) {
-            background: #ffbd2e;
-        }
-
-        .window-control:nth-child(2):hover {
-            background: #ff9500;
-            transform: scale(1.1);
-        }
-
-        .window-control:nth-child(3) {
-            background: #28ca42;
-        }
-
-        .window-control:nth-child(3):hover {
-            background: #00c853;
-            transform: scale(1.1);
-        }
-
-        .window-content {
-            flex: 1;
-            overflow: hidden;
-            padding: 24px 28px;
-            font-size: 1.1rem;
-        }
-
-        .window-content iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .start-menu {
-            position: absolute;
-            bottom: 50px;
-            left: 8px;
-            width: 280px;
-            background: var(--window-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            display: none;
-            border-radius: var(--radius);
-            overflow: hidden;
-            z-index: 300;
-        }
-
-        .start-menu.show {
-            display: block;
-        }
-
-        .start-menu-header {
-            background: linear-gradient(135deg, var(--accent), #0099cc);
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 700;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .start-menu-item {
-            padding: 18px 24px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.2s ease;
-            color: #222;
-        }
-
-        .start-menu-item:hover {
-            background: rgba(0, 212, 255, 0.1);
             color: var(--accent);
-            padding-left: 20px;
         }
 
-        .start-menu-item:last-child {
-            border-bottom: none;
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 5px;
+            line-height: 1;
+        }
+
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-menu.show {
+            max-height: 600px;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 18px 24px;
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+            min-height: 56px;
+        }
+
+        .mobile-menu a:active {
+            background: rgba(0, 212, 255, 0.3);
+        }
+
+        /* Mobile Content */
+        .content {
+            margin-top: 60px;
+            padding: 16px;
+            min-height: calc(100vh - 60px);
+        }
+
+        .page-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--window-bg);
+            border-radius: 12px;
+            padding: clamp(24px, 5vw, 40px);
+            color: #222;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-content h1 {
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            font-size: clamp(26px, 5vw, 32px);
+            line-height: 1.3;
+        }
+
+        .page-content h2 {
+            color: #1a1a2e;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            font-size: clamp(22px, 4vw, 26px);
+            line-height: 1.4;
+        }
+
+        .page-content p {
+            line-height: 1.75;
+            margin-bottom: 16px;
+            font-size: clamp(16px, 3vw, 18px);
+        }
+
+        .page-content iframe {
+            width: 100%;
+            min-height: 70vh;
+            border: none;
+            border-radius: 8px;
+        }
+
+        /* Desktop Mode (768px+) */
+        @media (min-width: 768px) {
+            .mobile-nav {
+                display: none;
+            }
+
+            body {
+                overflow: hidden;
+            }
+
+            .content {
+                margin-top: 0;
+                padding: 0;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .desktop {
+                flex: 1;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .page-content {
+                display: none;
+            }
+
+            /* Desktop watermark */
+            body::before {
+                content: 'DONDLINGER';
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-45deg);
+                font-size: 8vw;
+                font-weight: 900;
+                color: rgba(0, 212, 255, 0.04);
+                z-index: 0;
+                pointer-events: none;
+                letter-spacing: 12px;
+            }
+
+            .window {
+                position: absolute;
+                background: var(--window-bg);
+                border-radius: 12px;
+                box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+                display: none;
+                flex-direction: column;
+                overflow: hidden;
+                z-index: 100;
+            }
+
+            .window.active {
+                display: flex;
+            }
+
+            .window.minimized {
+                display: none;
+            }
+
+            .window.maximized {
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                height: calc(100vh - 50px) !important;
+                border-radius: 0;
+            }
+
+            .window.split-left {
+                top: 0 !important;
+                left: 0 !important;
+                width: 50% !important;
+                height: calc(100vh - 50px) !important;
+                border-radius: 0;
+            }
+
+            .window.split-right {
+                top: 0 !important;
+                left: 50% !important;
+                width: 50% !important;
+                height: calc(100vh - 50px) !important;
+                border-radius: 0;
+            }
+
+            .window-header {
+                background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(30, 30, 50, 0.95));
+                color: white;
+                padding: 12px 16px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: move;
+                user-select: none;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            .window-controls {
+                display: flex;
+                gap: 8px;
+            }
+
+            .window-control {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                cursor: pointer;
+                border: none;
+                transition: transform 0.2s;
+            }
+
+            .window-control:nth-child(1) {
+                background: #ff5f57;
+            }
+
+            .window-control:nth-child(2) {
+                background: #ffbd2e;
+            }
+
+            .window-control:nth-child(3) {
+                background: #28ca42;
+            }
+
+            .window-control:hover {
+                transform: scale(1.2);
+            }
+
+            .window-content {
+                flex: 1;
+                overflow: auto;
+                padding: 24px;
+                font-size: 16px;
+                line-height: 1.7;
+                color: #222;
+            }
+
+            .window-content h1 {
+                font-size: 26px;
+                margin-bottom: 18px;
+                color: #1a1a2e;
+                line-height: 1.3;
+            }
+
+            .window-content h2 {
+                font-size: 22px;
+                margin-top: 20px;
+                margin-bottom: 12px;
+                color: #1a1a2e;
+            }
+
+            .window-content p {
+                margin-bottom: 14px;
+                font-size: 16px;
+            }
+
+            .window-content iframe {
+                width: 100%;
+                height: 100%;
+                border: none;
+                min-height: 500px;
+            }
+
+            /* Taskbar */
+            .taskbar {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 50px;
+                background: rgba(0, 0, 0, 0.95);
+                backdrop-filter: blur(20px);
+                border-top: 1px solid var(--border);
+                display: flex;
+                align-items: center;
+                padding: 0 10px;
+                z-index: 1000;
+            }
+
+            .start-button {
+                background: linear-gradient(135deg, var(--accent), #0099cc);
+                border: none;
+                color: white;
+                padding: 11px 26px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-weight: 600;
+                font-size: 14px;
+                margin-right: 10px;
+                transition: all 0.2s;
+            }
+
+            .start-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+            }
+
+            .taskbar-apps {
+                flex: 1;
+                display: flex;
+                gap: 6px;
+                overflow-x: auto;
+            }
+
+            .taskbar-app {
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: white;
+                padding: 9px 18px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 600;
+                white-space: nowrap;
+                display: none;
+                transition: all 0.2s;
+            }
+
+            .taskbar-app.active {
+                display: block;
+                background: var(--accent);
+                border-color: var(--accent);
+            }
+
+            .taskbar-app.minimized {
+                opacity: 0.6;
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .taskbar-app:hover {
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+            .clock {
+                color: white;
+                font-size: 14px;
+                font-weight: 600;
+                padding: 9px 16px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 6px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            /* Start menu */
+            .start-menu {
+                position: absolute;
+                bottom: 55px;
+                left: 10px;
+                width: 260px;
+                background: rgba(255, 255, 255, 0.98);
+                border-radius: 12px;
+                box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+                display: none;
+                overflow: hidden;
+                z-index: 1100;
+            }
+
+            .start-menu.show {
+                display: block;
+            }
+
+            .start-menu-header {
+                background: linear-gradient(135deg, var(--accent), #0099cc);
+                color: white;
+                padding: 18px;
+                font-weight: 700;
+                font-size: 16px;
+                text-align: center;
+            }
+
+            .start-menu-item {
+                padding: 15px 22px;
+                cursor: pointer;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                transition: all 0.2s;
+                color: #222;
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            .start-menu-item:hover {
+                background: rgba(0, 212, 255, 0.15);
+                padding-left: 30px;
+            }
+
+            .start-menu-item:last-child {
+                border-bottom: none;
+            }
+
+            /* Context menu */
+            .context-menu {
+                position: absolute;
+                background: rgba(255, 255, 255, 0.98);
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                display: none;
+                z-index: 1200;
+                min-width: 150px;
+                overflow: hidden;
+            }
+
+            .context-menu.show {
+                display: block;
+            }
+
+            .context-menu-item {
+                padding: 10px 15px;
+                cursor: pointer;
+                color: #222;
+                font-size: 14px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                transition: background 0.2s;
+            }
+
+            .context-menu-item:hover {
+                background: rgba(0, 212, 255, 0.15);
+            }
+
+            .context-menu-item:last-child {
+                border-bottom: none;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="desktop">
-        <!-- Welcome Window -->
-        <div class="window active" id="welcome-window"
-            style="top: 150px; left: 250px; width: 500px; height: 300px; z-index: 300;">
-            <div class="window-header">
-                <span>DondlingerGC Desktop</span>
-                <div class="window-controls">
-                    <div class="window-control" onclick="closeWindow('welcome-window')">×</div>
-                </div>
-            </div>
-            <div class="window-content"
-                style="padding: 24px; text-align: center; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
-                <h2 style="margin-top: 0; color: #1a1a2e; font-size: 22px; font-weight: 700;">Welcome</h2>
-                <p style="font-size: 15px; line-height: 1.5; color: #333; margin-bottom: 18px;">
-                    Use the Start menu to access services.<br>
-                    <strong style="color: var(--accent);">💰 For pricing, open Digital Fortress.</strong>
-                </p>
-                <button onclick="closeWindow('welcome-window')"
-                    style="padding: 12px 24px; background: linear-gradient(135deg, var(--accent), #0099cc); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);">Continue</button>
-            </div>
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="nav-header">
+            <div class="logo">DondlingerGC</div>
+            <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#home" onclick="loadPage(event, 'home')">Home</a>
+            <a href="#wizard" onclick="loadPage(event, 'wizard')">Pricing Calculator</a>
+            <a href="#portfolio" onclick="loadPage(event, 'portfolio')">Portfolio</a>
+            <a href="#services" onclick="loadPage(event, 'services')">Services</a>
+            <a href="#about" onclick="loadPage(event, 'about')">About Us</a>
+            <a href="#contact" onclick="loadPage(event, 'contact')">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="page-content" id="page-content">
+            <h1>DondlingerGC-Web</h1>
+            <p><strong>Professional Websites Built Simple & Clear</strong></p>
+            <p>We build custom websites, online shops, and business tools for Wisconsin companies. No technical jargon.
+                No surprises. Just honest pricing and expert work.</p>
+            <p>Based in Wisconsin Rapids • Direct communication with the owners • 150+ projects delivered</p>
         </div>
 
-        <!-- Tooltip -->
-        <div class="tooltip" id="tooltip"></div>
+        <!-- Desktop Mode -->
+        <div class="desktop" id="desktop" style="display:none;">
+            <div id="windows-container"></div>
 
-        <!-- Windows -->
-        <div class="window" id="home-window" style="top: 100px; left: 300px; width: 600px; height: 400px;">
-            <div class="window-header">
-                <span>Home</span>
-                <div class="window-controls">
-                    <div class="window-control" onclick="minimizeWindow('home-window')">—</div>
-                    <div class="window-control" onclick="maximizeWindow('home-window')">□</div>
-                    <div class="window-control" onclick="closeWindow('home-window')">×</div>
-                </div>
+            <div class="taskbar">
+                <button class="start-button" onclick="toggleStartMenu()">Start</button>
+                <div class="taskbar-apps" id="taskbar-apps"></div>
+                <div class="clock" id="clock"></div>
             </div>
-            <div class="window-content" style="text-align:center; color:#222;">
-                <h2 style="margin-top:0; font-size:1.3em; font-weight:700;">Dondlinger General Contracting</h2>
-                <p style="font-size:1em;">Design-Build Services for Wichita and Beyond.</p>
+
+            <div class="start-menu" id="start-menu">
+                <div class="start-menu-header">Menu</div>
+                <div id="start-menu-items"></div>
+            </div>
+
+            <div class="context-menu" id="context-menu">
+                <div class="context-menu-item"
+                    onclick="maximizeWindow(activeWindow?.id); document.getElementById('context-menu').classList.remove('show')">
+                    Maximize</div>
+                <div class="context-menu-item"
+                    onclick="splitWindowLeft(activeWindow?.id); document.getElementById('context-menu').classList.remove('show')">
+                    Split Left</div>
+                <div class="context-menu-item"
+                    onclick="splitWindowRight(activeWindow?.id); document.getElementById('context-menu').classList.remove('show')">
+                    Split Right</div>
+                <div class="context-menu-item"
+                    onclick="restoreWindow(activeWindow?.id); document.getElementById('context-menu').classList.remove('show')">
+                    Restore</div>
             </div>
         </div>
-
-        <div class="window" id="about-window" style="top: 120px; left: 320px; width: 600px; height: 400px;">
-            <div class="window-header">
-                <span>About Us</span>
-                <div class="window-controls">
-                    <div class="window-control" onclick="minimizeWindow('about-window')">—</div>
-                    <div class="window-control" onclick="maximizeWindow('about-window')">□</div>
-                    <div class="window-control" onclick="closeWindow('about-window')">×</div>
-                </div>
-            </div>
-            <div class="window-content">
-                <iframe src="about.html" frameborder="0"></iframe>
-            </div>
-        </div>
-
-        <div class="window" id="services-window" style="top: 140px; left: 340px; width: 600px; height: 400px;">
-            <div class="window-header">
-                <span>Services</span>
-                <div class="window-controls">
-                    <div class="window-control" onclick="minimizeWindow('services-window')">—</div>
-                    <div class="window-control" onclick="maximizeWindow('services-window')">□</div>
-                    <div class="window-control" onclick="closeWindow('services-window')">×</div>
-                </div>
-            </div>
-            <div class="window-content">
-                <iframe src="services.html" frameborder="0"></iframe>
-            </div>
-        </div>
-
-        <div class="window" id="portfolio-window" style="top: 160px; left: 360px; width: 600px; height: 400px;">
-            <div class="window-header">
-                <span>Portfolio</span>
-                <div class="window-controls">
-                    <div class="window-control" onclick="minimizeWindow('portfolio-window')">—</div>
-                    <div class="window-control" onclick="maximizeWindow('portfolio-window')">□</div>
-                    <div class="window-control" onclick="closeWindow('portfolio-window')">×</div>
-                </div>
-            </div>
-            <div class="window-content">
-                <iframe src="portfolio.html" frameborder="0"></iframe>
-            </div>
-        </div>
-
-        <div class="window" id="contact-window" style="top: 180px; left: 380px; width: 600px; height: 400px;">
-            <div class="window-header">
-                <span>Contact</span>
-                <div class="window-controls">
-                    <div class="window-control" onclick="minimizeWindow('contact-window')">—</div>
-                    <div class="window-control" onclick="maximizeWindow('contact-window')">□</div>
-                    <div class="window-control" onclick="closeWindow('contact-window')">×</div>
-                </div>
-            </div>
-            <div class="window-content">
-                <iframe src="contact.html" frameborder="0"></iframe>
-            </div>
-        </div>
-
-        <div class="window" id="estimator-window" style="top: 200px; left: 400px; width: 600px; height: 400px;">
-            <div class="window-header">
-                <span>Estimator</span>
-                <div class="window-controls">
-                    <div class="window-control" onclick="minimizeWindow('estimator-window')">—</div>
-                    <div class="window-control" onclick="maximizeWindow('estimator-window')">□</div>
-                    <div class="window-control" onclick="closeWindow('estimator-window')">×</div>
-                </div>
-            </div>
-            <div class="window-content">
-                <iframe src="wizard.html" frameborder="0"></iframe>
-            </div>
-        </div>
-
-        <div class="window" id="fortress-window" style="top: 220px; left: 420px; width: 800px; height: 600px;">
-            <div class="window-header">
-                <span>Digital Fortress</span>
-                <div class="window-controls">
-                    <div class="window-control" onclick="minimizeWindow('fortress-window')">—</div>
-                    <div class="window-control" onclick="maximizeWindow('fortress-window')">□</div>
-                    <div class="window-control" onclick="closeWindow('fortress-window')">×</div>
-                </div>
-            </div>
-            <div class="window-content">
-                <iframe src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space"
-                    frameborder="0"></iframe>
-            </div>
-        </div>
-
-        <div class="window" id="chat-window" style="top: 240px; left: 440px; width: 600px; height: 400px;">
-            <div class="window-header">
-                <span>Chat</span>
-                <div class="window-controls">
-                    <div class="window-control" onclick="minimizeWindow('chat-window')">—</div>
-                    <div class="window-control" onclick="maximizeWindow('chat-window')">□</div>
-                    <div class="window-control" onclick="closeWindow('chat-window')">×</div>
-                </div>
-            </div>
-            <div class="window-content">
-                <iframe src="chat.html" frameborder="0"></iframe>
-            </div>
-        </div>
-
-        <div class="window" id="taxidermy-window" style="top: 260px; left: 460px; width: 600px; height: 400px;">
-            <div class="window-header">
-                <span>Taxidermy</span>
-                <div class="window-controls">
-                    <div class="window-control" onclick="minimizeWindow('taxidermy-window')">—</div>
-                    <div class="window-control" onclick="maximizeWindow('taxidermy-window')">□</div>
-                    <div class="window-control" onclick="closeWindow('taxidermy-window')">×</div>
-                </div>
-            </div>
-            <div class="window-content">
-                <iframe src="taxidermy.html" frameborder="0"></iframe>
-            </div>
-        </div>
-    </div>
-
-    <div class="taskbar">
-        <button class="start-button" onclick="toggleStartMenu()">Start</button>
-        <div class="taskbar-apps">
-            <div class="taskbar-app" id="task-home" onclick="focusWindow('home-window')">Home</div>
-            <div class="taskbar-app" id="task-about" onclick="focusWindow('about-window')">About</div>
-            <div class="taskbar-app" id="task-services" onclick="focusWindow('services-window')">Services</div>
-            <div class="taskbar-app" id="task-portfolio" onclick="focusWindow('portfolio-window')">Portfolio</div>
-            <div class="taskbar-app" id="task-contact" onclick="focusWindow('contact-window')">Contact</div>
-            <div class="taskbar-app" id="task-estimator" onclick="focusWindow('estimator-window')">Estimator</div>
-            <div class="taskbar-app" id="task-fortress" onclick="focusWindow('fortress-window')">Fortress</div>
-            <div class="taskbar-app" id="task-chat" onclick="focusWindow('chat-window')">Chat</div>
-            <div class="taskbar-app" id="task-taxidermy" onclick="focusWindow('taxidermy-window')">Taxidermy</div>
-        </div>
-        <div class="system-tray">
-            <div class="clock" id="clock"></div>
-        </div>
-    </div>
-
-    <div class="start-menu" id="start-menu">
-        <div class="start-menu-header">Menu</div>
-        <div class="start-menu-item" onclick="openWindow('home')">Home</div>
-        <div class="start-menu-item" onclick="openWindow('about')">About</div>
-        <div class="start-menu-item" onclick="openWindow('services')">Services</div>
-        <div class="start-menu-item" onclick="openWindow('portfolio')">Portfolio</div>
-        <div class="start-menu-item" onclick="openWindow('contact')">Contact</div>
-        <div class="start-menu-item" onclick="openWindow('estimator')">Estimator</div>
-        <div class="start-menu-item" onclick="openWindow('fortress')">Fortress</div>
-        <div class="start-menu-item" onclick="openWindow('chat')">Chat</div>
-        <div class="start-menu-item" onclick="openWindow('taxidermy')">Taxidermy</div>
     </div>
 
     <script>
         'use strict';
+
+        const PAGES = [
+            { id: 'home', title: 'Home' },
+            { id: 'wizard', title: 'Pricing Calculator', file: 'wizard.html' },
+            { id: 'portfolio', title: 'Portfolio', file: 'portfolio.html' },
+            { id: 'services', title: 'Services', file: 'services.html' },
+            { id: 'about', title: 'About Us', file: 'about.html' },
+            { id: 'contact', title: 'Contact', file: 'contact.html' }
+        ];
+
+        const isMobile = () => window.innerWidth < 768;
         let activeWindow = null;
-        let minimizedWindows = new Set();
-        let isDragging = false;
-        let draggedWindow = null;
-        let dragOffsetX = 0;
-        let dragOffsetY = 0;
-        let zIndexCounter = 200;
+        let zIndex = 100;
 
-        // Tooltip (optional, robust)
-        window.showTooltip = (event, text) => {
-            const tooltip = document.getElementById('tooltip');
-            if (!tooltip) return;
-            tooltip.textContent = text;
-            tooltip.style.left = (event.pageX + 10) + 'px';
-            tooltip.style.top = (event.pageY + 10) + 'px';
-            tooltip.classList.add('show');
-        };
-        window.hideTooltip = () => {
-            const tooltip = document.getElementById('tooltip');
-            if (tooltip) tooltip.classList.remove('show');
-        };
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('show');
+        }
 
-        // Window management
-        window.openWindow = (type) => {
-            const windowEl = document.getElementById(`${type}-window`);
-            const taskEl = document.getElementById(`task-${type}`);
-            if (!windowEl || !taskEl) return;
-            windowEl.classList.add('active');
-            windowEl.style.zIndex = ++zIndexCounter;
-            taskEl.classList.add('active');
-            taskEl.classList.remove('minimized');
-            activeWindow = windowEl;
-            minimizedWindows.delete(`${type}-window`);
-            const menu = document.getElementById('start-menu');
-            if (menu) menu.classList.remove('show');
-        };
+        // Mobile page loading
+        function loadPage(event, pageId) {
+            event.preventDefault();
 
-        window.closeWindow = (id) => {
-            const windowEl = document.getElementById(id);
-            const type = id.replace('-window', '');
-            const taskEl = document.getElementById(`task-${type}`);
-            if (!windowEl || !taskEl) return;
-            windowEl.classList.remove('active');
-            taskEl.classList.remove('active', 'minimized');
-            if (activeWindow === windowEl) activeWindow = null;
-            minimizedWindows.delete(id);
-        };
+            if (isMobile()) {
+                const page = PAGES.find(p => p.id === pageId);
+                if (!page) return;
 
-        window.minimizeWindow = (id) => {
-            const windowEl = document.getElementById(id);
-            const type = id.replace('-window', '');
-            const taskEl = document.getElementById(`task-${type}`);
-            if (!windowEl || !taskEl) return;
-            windowEl.classList.remove('active');
-            taskEl.classList.remove('active');
-            taskEl.classList.add('minimized');
-            minimizedWindows.add(id);
-            if (activeWindow === windowEl) activeWindow = null;
-        };
+                const content = document.getElementById('page-content');
 
-        window.maximizeWindow = (id) => {
-            const windowEl = document.getElementById(id);
-            if (!windowEl) return;
-            const isMaximized = windowEl.style.width === '100%' && windowEl.style.height === 'calc(100vh - 50px)';
-            if (isMaximized) {
-                windowEl.style.width = '';
-                windowEl.style.height = '';
-                windowEl.style.top = '';
-                windowEl.style.left = '';
+                if (pageId === 'home') {
+                    content.innerHTML = `
+                        <h1>DondlingerGC-Web</h1>
+                        <p><strong>Professional Websites Built Simple & Clear</strong></p>
+                        <p>We build custom websites, online shops, and business tools for Wisconsin companies. No technical jargon. No surprises. Just honest pricing and expert work.</p>
+                        <p>Based in Wisconsin Rapids • Direct communication with the owners • 150+ projects delivered</p>
+                    `;
+                } else {
+                    content.innerHTML = `<iframe src="${page.file}"></iframe>`;
+                }
+
+                document.getElementById('mobile-menu').classList.remove('show');
+                window.scrollTo(0, 0);
             } else {
-                windowEl.style.width = '100%';
-                windowEl.style.height = 'calc(100vh - 40px)';
-                windowEl.style.top = '0';
-                windowEl.style.left = '0';
-                windowEl.style.zIndex = ++zIndexCounter;
+                openWindow(pageId);
             }
-        };
+        }
 
-        window.focusWindow = (id) => {
-            const windowEl = document.getElementById(id);
-            const type = id.replace('-window', '');
-            const taskEl = document.getElementById(`task-${type}`);
-            if (!windowEl || !taskEl) return;
-            if (minimizedWindows.has(id)) {
-                window.openWindow(type);
-            } else {
-                windowEl.classList.add('active');
-                windowEl.style.zIndex = ++zIndexCounter;
-                taskEl.classList.add('active');
-                taskEl.classList.remove('minimized');
-                activeWindow = windowEl;
-            }
-        };
+        // Desktop window management
+        function initDesktop() {
+            const container = document.getElementById('windows-container');
+            const taskbarApps = document.getElementById('taskbar-apps');
+            const startMenuItems = document.getElementById('start-menu-items');
 
-        window.toggleStartMenu = () => {
-            const menu = document.getElementById('start-menu');
-            if (menu) menu.classList.toggle('show');
-        };
+            PAGES.forEach((page, idx) => {
+                // Create window
+                const win = document.createElement('div');
+                win.className = 'window';
+                win.id = `${page.id}-window`;
+                win.style.cssText = `
+                    top: ${80 + idx * 25}px;
+                    left: ${80 + idx * 25}px;
+                    width: min(85%, 750px);
+                    height: min(75%, 550px);
+                `;
 
-        // Close start menu when clicking outside
-        document.addEventListener('click', (e) => {
-            const menu = document.getElementById('start-menu');
-            const startBtn = document.querySelector('.start-button');
-            if (!menu || !startBtn) return;
-            if (!menu.contains(e.target) && !startBtn.contains(e.target)) {
-                menu.classList.remove('show');
-            }
-        });
+                const content = page.id === 'home'
+                    ? `<h1>DondlingerGC-Web</h1>
+                       <p><strong>Professional Websites & Online Tools</strong></p>
+                       <p>We build custom websites, online shops, and business tools for Wisconsin companies.</p>
+                       <p>No technical jargon. No surprises. Just honest pricing and expert work.</p>`
+                    : `<iframe src="${page.file}"></iframe>`;
 
-        // Window drag and focus
-        document.addEventListener('mousedown', (e) => {
-            const header = e.target.closest('.window-header');
-            const controls = e.target.closest('.window-controls');
-            if (header && !controls) {
-                const windowEl = e.target.closest('.window');
-                if (windowEl) {
-                    windowEl.style.zIndex = ++zIndexCounter;
-                    activeWindow = windowEl;
+                win.innerHTML = `
+                    <div class="window-header">
+                        <span>${page.title}</span>
+                        <div class="window-controls">
+                            <div class="window-control" onclick="closeWindow('${page.id}')" title="Close"></div>
+                            <div class="window-control" onclick="minimizeWindow('${page.id}')" title="Minimize"></div>
+                            <div class="window-control" onclick="maximizeWindow('${page.id}')" title="Maximize"></div>
+                        </div>
+                    </div>
+                    <div class="window-content">${content}</div>
+                `;
+                container.appendChild(win);
+
+                // Dragging and double-click
+                const header = win.querySelector('.window-header');
+                let isDragging = false, startX, startY, startLeft, startTop;
+                let clickCount = 0;
+
+                header.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    const menu = document.getElementById('context-menu');
+                    menu.style.left = e.clientX + 'px';
+                    menu.style.top = e.clientY + 'px';
+                    menu.classList.add('show');
+                });
+
+                header.addEventListener('mousedown', (e) => {
+                    if (e.target.closest('.window-controls')) return;
                     isDragging = true;
-                    draggedWindow = windowEl;
-                    const rect = draggedWindow.getBoundingClientRect();
-                    dragOffsetX = e.clientX - rect.left;
-                    dragOffsetY = e.clientY - rect.top;
-                }
-            } else if (e.target.closest('.window')) {
-                const windowEl = e.target.closest('.window');
-                if (windowEl) {
-                    windowEl.style.zIndex = ++zIndexCounter;
-                    activeWindow = windowEl;
-                }
-            }
-        });
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startLeft = parseInt(win.style.left);
+                    startTop = parseInt(win.style.top);
+                    win.style.zIndex = ++zIndex;
 
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging && draggedWindow) {
-                draggedWindow.style.left = (e.clientX - dragOffsetX) + 'px';
-                draggedWindow.style.top = (e.clientY - dragOffsetY) + 'px';
-            }
-        });
+                    clickCount++;
+                    setTimeout(() => { clickCount = 0; }, 300); // Reset after 300ms
 
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            draggedWindow = null;
+                    if (clickCount === 2) {
+                        maximizeWindow(page.id);
+                        isDragging = false;
+                        return;
+                    }
+
+                    const onMove = (e) => {
+                        if (!isDragging) return;
+                        win.style.left = Math.max(0, startLeft + e.clientX - startX) + 'px';
+                        win.style.top = Math.max(0, startTop + e.clientY - startY) + 'px';
+                    };
+
+                    const onUp = () => {
+                        isDragging = false;
+                        document.removeEventListener('mousemove', onMove);
+                        document.removeEventListener('mouseup', onUp);
+                    };
+
+                    document.addEventListener('mousemove', onMove);
+                    document.addEventListener('mouseup', onUp);
+                });
+
+                // Taskbar
+                const task = document.createElement('div');
+                task.className = 'taskbar-app';
+                task.id = `task-${page.id}`;
+                task.textContent = page.title;
+                task.onclick = () => focusWindow(page.id);
+                taskbarApps.appendChild(task);
+
+                // Start menu
+                const menuItem = document.createElement('div');
+                menuItem.className = 'start-menu-item';
+                menuItem.textContent = page.title;
+                menuItem.onclick = () => openWindow(page.id);
+                startMenuItems.appendChild(menuItem);
+            });
+
+            // Show home on desktop
+            openWindow('home');
+        }
+
+        function openWindow(id) {
+            const win = document.getElementById(`${id}-window`);
+            const task = document.getElementById(`task-${id}`);
+            if (!win || !task) return;
+
+            win.classList.add('active');
+            win.style.zIndex = ++zIndex;
+            task.classList.add('active');
+            activeWindow = win;
+
+            document.getElementById('start-menu').classList.remove('show');
+        }
+
+        function closeWindow(id) {
+            const win = document.getElementById(`${id}-window`);
+            const task = document.getElementById(`task-${id}`);
+            if (!win || !task) return;
+
+            win.classList.remove('active');
+            task.classList.remove('active');
+            if (activeWindow === win) activeWindow = null;
+        }
+
+        function minimizeWindow(id) {
+            const win = document.getElementById(`${id}-window`);
+            const task = document.getElementById(`task-${id}`);
+            if (!win || !task) return;
+
+            win.classList.add('minimized');
+            task.classList.add('minimized');
+            task.classList.remove('active');
+            if (activeWindow === win) activeWindow = null;
+        }
+
+        function maximizeWindow(id) {
+            const win = document.getElementById(`${id}-window`);
+            if (!win) return;
+
+            // If already maximized, restore
+            if (win.classList.contains('maximized')) {
+                restoreWindow(id);
+                return;
+            }
+
+            // Remove any split classes
+            win.classList.remove('split-left', 'split-right');
+
+            // Save current position/size
+            win.dataset.originalTop = win.style.top;
+            win.dataset.originalLeft = win.style.left;
+            win.dataset.originalWidth = win.style.width;
+            win.dataset.originalHeight = win.style.height;
+
+            win.classList.add('maximized');
+            win.style.zIndex = ++zIndex;
+            activeWindow = win;
+        }
+
+        function restoreWindow(id) {
+            const win = document.getElementById(`${id}-window`);
+            if (!win) return;
+
+            win.classList.remove('maximized', 'split-left', 'split-right');
+
+            // Restore original position/size
+            if (win.dataset.originalTop) win.style.top = win.dataset.originalTop;
+            if (win.dataset.originalLeft) win.style.left = win.dataset.originalLeft;
+            if (win.dataset.originalWidth) win.style.width = win.dataset.originalWidth;
+            if (win.dataset.originalHeight) win.style.height = win.dataset.originalHeight;
+
+            win.style.zIndex = ++zIndex;
+            activeWindow = win;
+        }
+
+        function splitWindowLeft(id) {
+            const win = document.getElementById(`${id}-window`);
+            if (!win) return;
+
+            // Remove maximize and other splits
+            win.classList.remove('maximized', 'split-right');
+
+            // Save current position/size
+            win.dataset.originalTop = win.style.top;
+            win.dataset.originalLeft = win.style.left;
+            win.dataset.originalWidth = win.style.width;
+            win.dataset.originalHeight = win.style.height;
+
+            win.classList.add('split-left');
+            win.style.zIndex = ++zIndex;
+            activeWindow = win;
+        }
+
+        function splitWindowRight(id) {
+            const win = document.getElementById(`${id}-window`);
+            if (!win) return;
+
+            // Remove maximize and other splits
+            win.classList.remove('maximized', 'split-left');
+
+            // Save current position/size
+            win.dataset.originalTop = win.style.top;
+            win.dataset.originalLeft = win.style.left;
+            win.dataset.originalWidth = win.style.width;
+            win.dataset.originalHeight = win.style.height;
+
+            win.classList.add('split-right');
+            win.style.zIndex = ++zIndex;
+            activeWindow = win;
+        }
+
+        function focusWindow(id) {
+            const win = document.getElementById(`${id}-window`);
+            const task = document.getElementById(`task-${id}`);
+            if (!win || !task) return;
+
+            // If minimized, restore it
+            if (win.classList.contains('minimized')) {
+                win.classList.remove('minimized');
+                task.classList.remove('minimized');
+            }
+
+            win.classList.add('active');
+            win.style.zIndex = ++zIndex;
+            task.classList.add('active');
+            activeWindow = win;
+
+            document.getElementById('start-menu').classList.remove('show');
+        }
+
+        function toggleStartMenu() {
+            document.getElementById('start-menu').classList.toggle('show');
+        }
+
+        // Close menus on outside click
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.start-button') && !e.target.closest('.start-menu')) {
+                document.getElementById('start-menu')?.classList.remove('show');
+            }
+            if (!e.target.closest('.window-header') && !e.target.closest('.context-menu')) {
+                document.getElementById('context-menu')?.classList.remove('show');
+            }
         });
 
         // Clock
@@ -684,16 +828,70 @@
             const clock = document.getElementById('clock');
             if (!clock) return;
             const now = new Date();
-            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            clock.textContent = time;
+            clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
-        setInterval(updateClock, 1000);
-        updateClock();
 
-        // Load config
+        // Init
+        if (!isMobile()) {
+            document.getElementById('desktop').style.display = 'block';
+            document.querySelector('.page-content').style.display = 'none';
+            initDesktop();
+            setInterval(updateClock, 1000);
+            updateClock();
+        }
+
+        // Handle resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const wasMobile = document.getElementById('desktop').style.display === 'none';
+                const isNowMobile = isMobile();
+                if (wasMobile !== isNowMobile) {
+                    location.reload();
+                }
+            }, 250);
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (isMobile()) return;
+
+            // Alt+Tab to cycle through windows
+            if (e.altKey && e.key === 'Tab') {
+                e.preventDefault();
+                const windows = Array.from(document.querySelectorAll('.window.active:not(.minimized)'));
+                if (windows.length > 1) {
+                    const currentIndex = windows.indexOf(activeWindow);
+                    const nextIndex = (currentIndex + 1) % windows.length;
+                    const nextWindow = windows[nextIndex];
+                    const nextId = nextWindow.id.replace('-window', '');
+                    focusWindow(nextId);
+                }
+            }
+
+            // Alt+F4 to close active window
+            if (e.altKey && e.key === 'F4') {
+                e.preventDefault();
+                if (activeWindow) {
+                    const activeId = activeWindow.id.replace('-window', '');
+                    closeWindow(activeId);
+                }
+            }
+
+            // F11 to maximize/restore active window
+            if (e.key === 'F11') {
+                e.preventDefault();
+                if (activeWindow) {
+                    const activeId = activeWindow.id.replace('-window', '');
+                    maximizeWindow(activeId);
+                }
+            }
+        });
+
+        // Config
         if (window.SITE_CONFIG) {
-            const cfg = window.SITE_CONFIG;
-            document.title = cfg.businessName + ' — ' + cfg.tagline;
+            document.title = window.SITE_CONFIG.businessName + ' — ' + window.SITE_CONFIG.tagline;
         }
     </script>
 </body>
