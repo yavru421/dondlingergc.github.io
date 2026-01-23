@@ -1,32 +1,17 @@
 [
     {
-        "filename": "fawley.png",
+        "filename": "ai-lab-interface.png",
         "type": "image",
-        "title": "Fawley Residence"
+        "title": "Ai Lab Interface"
     },
     {
-        "filename": "fawley(1).png",
+        "filename": "ecommerce-app-mockup.png",
         "type": "image",
-        "title": "Fawley Drawing 2"
+        "title": "Ecommerce App Mockup"
     },
     {
-        "filename": "fawley(2).png",
+        "filename": "web-portfolio-wireframe.png",
         "type": "image",
-        "title": "Fawley Drawing 3"
-    },
-    {
-        "filename": "fawley(3).png",
-        "type": "image",
-        "title": "Fawley Detail"
-    },
-    {
-        "filename": "AndersonWeber02.26.pdf",
-        "type": "pdf",
-        "title": "Anderson Weber Project"
-    },
-    {
-        "filename": "maherdeck.pdf",
-        "type": "pdf",
-        "title": "Maher Deck Design"
+        "title": "Web Portfolio Wireframe"
     }
 ]
