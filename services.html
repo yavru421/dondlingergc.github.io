@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services – DondlingerGC-Web</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#059669',
+                            600: '#047857',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#145231',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-subtle': 'pulse-subtle 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'pulse-subtle': {
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: 0.7 },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="components/navbar.js"></script>
+    <script src="components/footer.js"></script>
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 font-sans antialiased">
+    <custom-navbar></custom-navbar>
+
+    <main class="container mx-auto px-4 py-12">
+        <!-- Hero -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                Our <span class="text-primary-600">Services</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                From concept to launch and beyond—we provide end‑to‑end digital solutions tailored to your business
+                goals.
+            </p>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="mb-20">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-12">Our Services</h2>
+
+            <!-- Category 1 -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center">
+                        <i data-feather="globe"></i>
+                    </div>
+                    Website & Online Presence
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="service-card">
+                        <div class="service-icon bg-primary-100 text-primary-600 mb-6">
+                            <i data-feather="code"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">Professional Websites</h4>
+                        <p class="text-gray-600 mb-4">Custom-designed websites that look professional, load fast, and
+                            rank well in Google search results.</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Mobile-friendly design</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Built-in contact forms</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> SEO optimized</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon bg-secondary-100 text-secondary-600 mb-6">
+                            <i data-feather="shopping-cart"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">Online Shops</h4>
+                        <p class="text-gray-600 mb-4">Secure e-commerce platforms where customers can browse products
+                            and pay online. You manage inventory in one dashboard.</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Secure checkout</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Inventory tracking</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Order management</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon bg-primary-100 text-primary-600 mb-6">
+                            <i data-feather="search"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">SEO & Marketing</h4>
+                        <p class="text-gray-600 mb-4">Get found in Google search. We optimize your website and implement
+                            strategies to bring targeted traffic to your site.</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Keyword research</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Speed optimization</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Analytics setup</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 2 -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 bg-secondary-100 text-secondary-600 rounded-lg flex items-center justify-center">
+                        <i data-feather="mail"></i>
+                    </div>
+                    Lead Generation & Automation
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="service-card">
+                        <div class="service-icon bg-primary-100 text-primary-600 mb-6">
+                            <i data-feather="inbox"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">Contact & Quote Forms</h4>
+                        <p class="text-gray-600 mb-4">Smart forms that automatically capture leads. Option to send
+                            automatic confirmation emails and notifications to your team.</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Custom fields</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Email confirmations</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Lead tracking</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon bg-secondary-100 text-secondary-600 mb-6">
+                            <i data-feather="calendar"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">Appointment Booking</h4>
+                        <p class="text-gray-600 mb-4">Let customers book appointments directly from your website.
+                            Automatic confirmations save you time and reduce no-shows.</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Calendar integration</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Automated reminders</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Time zone handling</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon bg-primary-100 text-primary-600 mb-6">
+                            <i data-feather="zap"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">Payment Processing</h4>
+                        <p class="text-gray-600 mb-4">Securely accept credit cards, PayPal, and other payments.
+                            Automatic invoicing and receipt emails included.</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Secure checkout</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Multiple payment methods</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Automatic receipts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 3 -->
+            <div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center">
+                        <i data-feather="shield"></i>
+                    </div>
+                    Ongoing Support & Maintenance
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="service-card">
+                        <div class="service-icon bg-primary-100 text-primary-600 mb-6">
+                            <i data-feather="shield"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">Security & Updates</h4>
+                        <p class="text-gray-600 mb-4">Regular security patches, backups, and monitoring to keep your
+                            website safe. Peace of mind included.</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Daily backups</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Security monitoring</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> SSL certificates</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon bg-secondary-100 text-secondary-600 mb-6">
+                            <i data-feather="trending-up"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">Performance & Speed</h4>
+                        <p class="text-gray-600 mb-4">Optimize your website to load faster. Faster sites rank better in
+                            Google and visitors stay longer.</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Image optimization</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Caching setup</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Performance reports</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon bg-primary-100 text-primary-600 mb-6">
+                            <i data-feather="edit-3"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">Updates & Changes</h4>
+                        <p class="text-gray-600 mb-4">Need to add content, update prices, or make changes? Our monthly
+                            care plans include hours of updates each month.</p>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Content updates</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Design tweaks</li>
+                            <li class="flex items-center"><i data-feather="check"
+                                    class="w-4 h-4 mr-2 text-green-600"></i> Priority support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl p-8 lg:p-12 text-white text-center">
+            <h2 class="text-3xl font-bold mb-4">Let’s Build Something Amazing</h2>
+            <p class="text-primary-200 mb-8 max-w-2xl mx-auto">Tell us about your project, and we’ll craft a solution
+                that exceeds your expectations.</p>
+            <a href="contact.html"
+                class="inline-flex items-center px-8 py-4 bg-white text-gray-900 font-bold rounded-xl hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl">
+                <i data-feather="mail" class="w-5 h-5 mr-2"></i>
+                Get a Free Consultation
+            </a>
+        </div>
+    </main>
+
+    <custom-footer></custom-footer>
+
+    <script src="script.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+
+</html>

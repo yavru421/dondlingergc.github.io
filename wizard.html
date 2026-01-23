@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Wizard – DondlingerGC-Web</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 500: "#0ea5e9", 600: "#0284c7", 700: "#0369a1" },
+                        secondary: { 500: "#059669", 600: "#047857" },
+                        accent: { 500: "#f59e0b", 600: "#d97706" },
+                        slate: { 950: "#020617" }
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "system-ui", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
+
+    <script src="components/navbar.js"></script>
+    <script src="components/footer.js"></script>
+
+    <style>
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            padding: .25rem .6rem;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 600;
+            border: 1px solid rgba(0, 0, 0, .08);
+            background: rgba(255, 255, 255, .8);
+        }
+
+        .pill-reco {
+            background: rgba(5, 150, 105, .12);
+            border-color: rgba(5, 150, 105, .25);
+            color: #065f46;
+        }
+
+        .pill-pop {
+            background: rgba(14, 165, 233, .12);
+            border-color: rgba(14, 165, 233, .25);
+            color: #075985;
+        }
+
+        .pill-new {
+            background: rgba(245, 158, 11, .12);
+            border-color: rgba(245, 158, 11, .25);
+            color: #92400e;
+        }
+
+        .pill-tech {
+            background: rgba(15, 23, 42, .06);
+            border-color: rgba(15, 23, 42, .12);
+            color: #0f172a;
+        }
+
+        .card {
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 18px;
+            transition: all 160ms ease;
+            background: #fff;
+        }
+
+        .card:hover {
+            border-color: rgba(14, 165, 233, .35);
+            box-shadow: 0 12px 30px rgba(2, 132, 199, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .card.selected {
+            border-color: rgba(5, 150, 105, .7);
+            background: rgba(5, 150, 105, .06);
+            box-shadow: 0 12px 30px rgba(5, 150, 105, 0.08);
+        }
+
+        .muted {
+            color: #6b7280;
+        }
+
+        .small {
+            font-size: .85rem;
+        }
+
+        details summary {
+            cursor: pointer;
+        }
+
+        .kbd {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            background: rgba(15, 23, 42, .06);
+            border: 1px solid rgba(15, 23, 42, .10);
+            padding: .15rem .35rem;
+            border-radius: .4rem;
+            font-size: .8rem;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 font-sans antialiased">
+    <custom-navbar></custom-navbar>
+
+    <main class="container mx-auto px-4 py-8 lg:py-12">
+        <div id="wizard-container" class="max-w-3xl mx-auto">
+
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-2xl font-bold text-gray-900">Website Project Wizard</h2>
+                    <span class="text-sm text-gray-600"><span id="current-step">1</span> of <span
+                            id="total-steps">1</span></span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="progress-bar" class="bg-primary-600 h-2 rounded-full transition-all duration-300"
+                        style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Running Total Display -->
+            <div class="mb-6 bg-secondary-50 border-2 border-secondary-200 rounded-2xl p-5">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">Your Estimate So Far</h3>
+                        <p class="text-sm text-gray-600">Build cost + optional monthly care</p>
+                        <p class="text-xs text-gray-500 mt-1">This is a working estimate. Final price is confirmed in a
+                            written proposal.</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-extrabold text-secondary-600" id="running-total">$0</div>
+                        <div class="text-sm text-gray-600" id="monthly-cost">No monthly care plan</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Container -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 min-h-[26rem]">
+                <div id="wizard-content"></div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex gap-4 mt-8 justify-between">
+                <button id="prev-btn"
+                    class="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-semibold transition-all"
+                    style="display: none;">
+                    ← Back
+                </button>
+                <button id="next-btn"
+                    class="px-6 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 font-semibold transition-all">
+                    Next →
+                </button>
+            </div>
+
+            <div class="mt-4 text-xs text-gray-500">
+                Tip: If you’re unsure on any step, pick the options tagged <span
+                    class="pill pill-reco">Recommended</span>.
+            </div>
+
+        </div>
+    </main>
+
+    <custom-footer></custom-footer>
+
+    <script>
+        feather.replace();
+
+        // ---------------------------
+        // Wizard Data (Non-technical, thorough)
+        // ---------------------------
+        const wizardSteps = [
+            {
+                id: "intro",
+                type: "intro",
+                title: "Let’s build the right website (without the jargon)",
+                description:
+                    "Answer a few plain-English questions. You’ll get a clear scope + a realistic estimate. This takes ~5–8 minutes.",
+                content: `
+          <div class="space-y-6">
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+              <p class="text-blue-900 text-sm">
+                <strong>How pricing works:</strong> Start with a solid foundation. Add only what helps your business.
+                Your estimate updates live as you choose features.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="rounded-xl border border-gray-200 p-4 bg-white">
+                <div class="font-bold text-gray-900 mb-1">1) Choose what you need</div>
+                <div class="text-sm text-gray-600">Pages, lead tools, sales/booking, credibility, marketing.</div>
+              </div>
+              <div class="rounded-xl border border-gray-200 p-4 bg-white">
+                <div class="font-bold text-gray-900 mb-1">2) See the estimate</div>
+                <div class="text-sm text-gray-600">No surprises. You’ll see what costs what.</div>
+              </div>
+              <div class="rounded-xl border border-gray-200 p-4 bg-white">
+                <div class="font-bold text-gray-900 mb-1">3) Get a quote</div>
+                <div class="text-sm text-gray-600">We confirm details, timeline, and deliverables.</div>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
+              <p class="text-gray-700 text-sm">
+                <strong>Not sure what you need?</strong> That’s normal. Most people are. Use the
+                <span class="pill pill-reco">Recommended</span> choices and you’ll be in great shape.
+              </p>
+            </div>
+
+            <p class="text-gray-600">Click <strong>Next</strong> to start.</p>
+          </div>
+        `
+            },
+
+            // STEP 1: Business goal (helps non-technical users)
+            {
+                id: "goal",
+                type: "single",
+                title: "What is the main job of your website?",
+                description: "Pick the one that matters most. (You can add the others later.)",
+                options: [
+                    {
+                        id: "goal-leads",
+                        title: "Get more calls / requests",
+                        description: "People find you, trust you, then contact you.",
+                        price: 0,
+                        tags: ["Recommended", "Most common"],
+                        examples: [
+                            "Contractors, trades, local services"
+                        ],
+                        included: true
+                    },
+                    {
+                        id: "goal-info",
+                        title: "Explain what we do (credibility + info)",
+                        description: "A clean, professional presence that answers questions and builds trust.",
+                        price: 0,
+                        tags: ["Common"],
+                        examples: [
+                            "Organizations, small businesses"
+                        ],
+                        included: true
+                    },
+                    {
+                        id: "goal-sell",
+                        title: "Sell products online",
+                        description: "Customers browse products and pay online (shop + checkout).",
+                        price: 0,
+                        tags: ["E-commerce"],
+                        examples: [
+                            "Retail, merch, handmade goods"
+                        ],
+                        included: true
+                    },
+                    {
+                        id: "goal-food",
+                        title: "Online food ordering",
+                        description: "Customers order food online for pickup or delivery.",
+                        price: 0,
+                        tags: ["Food service"],
+                        examples: [
+                            "Restaurants, cafes, food trucks"
+                        ],
+                        included: true
+                    },
+                    {
+                        id: "goal-book",
+                        title: "Book appointments / reservations",
+                        description: "Customers pick a time, you get bookings automatically.",
+                        price: 0,
+                        tags: ["Bookings"],
+                        examples: [
+                            "Barbers, salons, consultants"
+                        ],
+                        included: true
+                    }
+                ]
+            },
+
+            // STEP 2: Site size / foundation
+            {
+                id: "site-size",
+                type: "single",
+                title: "How big should the site be to start?",
+                description: "This sets the baseline structure and design work.",
+                options: [
+                    {
+                        id: "size-starter",
+                        title: "Starter (1–3 pages)",
+                        description: "Perfect when you just need a clean presence and a way to contact you.",
+                        price: 900,
+                        tags: ["Recommended", "Fast launch"],
+                        examples: [
+                            "Home + Services + Contact",
+                            "Home + About + Contact"
+                        ],
+                        included: true
+                    },
+                    {
+                        id: "size-standard",
+                        title: "Standard (4–6 pages)",
+                        description: "Most small businesses. Enough room for services, proof, FAQs, and clear navigation.",
+                        price: 1400,
+                        tags: ["Most common"],
+                        examples: [
+                            "Home, Services, About, Portfolio/Gallery, FAQ, Contact"
+                        ],
+                        included: false
+                    },
+                    {
+                        id: "size-expanded",
+                        title: "Expanded (7–12 pages)",
+                        description: "Best if you have multiple services, locations, or want SEO content per service.",
+                        price: 2100,
+                        tags: ["Growth"],
+                        examples: [
+                            "Separate pages for each service (great for Google)",
+                            "Multiple locations / service areas"
+                        ],
+                        included: false
+                    }
+                ]
+            },
+
+            // STEP 3: Core pages (plain-language)
+            {
+                id: "core-pages",
+                type: "multiple",
+                title: "Which pages should your website include?",
+                description: "Choose pages your customers actually look for.",
+                options: [
+                    {
+                        id: "page-about",
+                        title: "About (your story)",
+                        description: "Who you are, why you’re trusted, your experience.",
+                        price: 250,
+                        tags: ["Recommended"],
+                        examples: [
+                            "Origin story, photos, certifications"
+                        ]
+                    },
+                    {
+                        id: "page-services",
+                        title: "Services (what you offer)",
+                        description: "Clear list of what you do.",
+                        price: 300,
+                        tags: ["Recommended", "Most common"],
+                        examples: [
+                            "Service list, pricing, photos"
+                        ]
+                    },
+                    {
+                        id: "page-faq",
+                        title: "FAQ (answers common questions)",
+                        description: "Saves you time answering questions.",
+                        price: 200,
+                        tags: ["Common"],
+                        examples: [
+                            "Service area, financing, timelines"
+                        ]
+                    },
+                    {
+                        id: "page-portfolio",
+                        title: "Portfolio / Gallery (proof of work)",
+                        description: "Photos/videos of your work.",
+                        price: 300,
+                        tags: ["Recommended"],
+                        examples: [
+                            "Before/after photos"
+                        ]
+                    },
+                    {
+                        id: "page-testimonials",
+                        title: "Reviews / Testimonials (social proof)",
+                        description: "Show real customer feedback.",
+                        price: 200,
+                        tags: ["Recommended"],
+                        examples: [
+                            "Google reviews, quotes"
+                        ]
+                    }
+                ]
+            },
+
+            // STEP 4: Contact + lead capture (separate from 'pages')
+            {
+                id: "lead-capture",
+                type: "multiple",
+                title: "How should customers contact you?",
+                description: "Pick the contact methods you want to receive leads from.",
+                options: [
+                    {
+                        id: "lead-contact-form",
+                        title: "Simple contact form",
+                        description: "Form sends email to you. Better than just an email link.",
+                        price: 250,
+                        tags: ["Recommended", "Most common"],
+                        examples: [
+                            "Name, phone, message"
+                        ]
+                    },
+                    {
+                        id: "lead-quote-form",
+                        title: "Quote request form (detailed)",
+                        description: "Captures details for higher quality leads.",
+                        price: 450,
+                        tags: ["High value"],
+                        examples: [
+                            "Service, address, dates, budget"
+                        ]
+                    },
+                    {
+                        id: "lead-call-click",
+                        title: "Tap-to-call + click-to-text buttons",
+                        description: "Easy mobile contact: tap to call or text.",
+                        price: 120,
+                        tags: ["Recommended"],
+                        examples: [
+                            "Mobile call/text buttons"
+                        ]
+                    },
+                    {
+                        id: "lead-map",
+                        title: "Map + service area section",
+                        description: "Shows if you serve their area.",
+                        price: 150,
+                        tags: ["Common"],
+                        examples: [
+                            "Service area map"
+                        ]
+                    }
+                ]
+            },
+
+            // STEP 5: Scheduling / booking
+            {
+                id: "booking",
+                type: "single",
+                title: "Do you want customers to book appointments online?",
+                description: "This is optional, but it can save a lot of time.",
+                options: [
+                    {
+                        id: "book-none",
+                        title: "No booking needed",
+                        description: "Customers contact you and you schedule manually.",
+                        price: 0,
+                        tags: ["Recommended (most businesses)"],
+                        examples: ["Custom quotes, job walks"]
+                    },
+                    {
+                        id: "book-basic",
+                        title: "Basic booking (request a time)",
+                        description: "Customer requests a time; you approve it.",
+                        price: 600,
+                        tags: ["Popular"],
+                        examples: [
+                            "Consultations, estimates"
+                        ]
+                    },
+                    {
+                        id: "book-auto",
+                        title: "Automatic booking (calendar slots)",
+                        description: "Customers book from available slots automatically.",
+                        price: 900,
+                        tags: ["Advanced"],
+                        examples: [
+                            "Barber/salon bookings"
+                        ]
+                    }
+                ]
+            },
+
+            // STEP 6: Selling online (clear choices)
+            {
+                id: "selling",
+                type: "single",
+                title: "Do you need online sales, payments, or food ordering?",
+                description: "Pick one option. If you’re unsure, choose “Not now.”",
+                options: [
+                    {
+                        id: "sell-none",
+                        title: "Not now",
+                        description: "No online checkout. Your site is for info + leads.",
+                        price: 0,
+                        tags: ["Recommended for most local services"],
+                        examples: ["Contracting, trades"]
+                    },
+                    {
+                        id: "sell-deposit",
+                        title: "Take deposits / invoices online",
+                        description: "Customers pay deposits or invoices securely.",
+                        price: 500,
+                        tags: ["High value"],
+                        examples: ["Service fees, deposits"]
+                    },
+                    {
+                        id: "sell-store",
+                        title: "Full online store (products)",
+                        description: "Product pages, cart, checkout, order management.",
+                        price: 1500,
+                        tags: ["E-commerce"],
+                        examples: ["Merch, retail goods"]
+                    },
+                    {
+                        id: "sell-menu",
+                        title: "Food ordering (pickup)",
+                        description: "Menu display, online orders, secure payments for pickup.",
+                        price: 2000,
+                        tags: ["Restaurant", "Recommended for food"],
+                        examples: ["Pickup ordering"]
+                    },
+                    {
+                        id: "sell-delivery",
+                        title: "Food ordering + delivery",
+                        description: "Ordering plus delivery tracking and assignment.",
+                        price: 2800,
+                        tags: ["Restaurant", "Complex"],
+                        examples: ["Delivery workflow"]
+                    }
+                ]
+            },
+
+            // STEP 7: Trust + credibility
+            {
+                id: "trust",
+                type: "multiple",
+                title: "What would make customers trust you faster?",
+                description: "These are the “trust boosters” that increase conversions.",
+                options: [
+                    {
+                        id: "trust-reviews",
+                        title: "Google reviews integration",
+                        description: "Show real reviews from Google.",
+                        price: 250,
+                        tags: ["Recommended", "Most common"],
+                        examples: ["Reviews on homepage"]
+                    },
+                    {
+                        id: "trust-beforeafter",
+                        title: "Before/after project highlights",
+                        description: "Project stories with photos.",
+                        price: 350,
+                        tags: ["High value"],
+                        examples: ["Featured projects"]
+                    },
+                    {
+                        id: "trust-logos",
+                        title: "Badges + certifications",
+                        description: "Show licenses, insurance, certifications.",
+                        price: 150,
+                        tags: ["Common"],
+                        examples: ["Licensed badges"]
+                    },
+                    {
+                        id: "trust-team",
+                        title: "Team / owner profile section",
+                        description: "Adds credibility and personality.",
+                        price: 250,
+                        tags: ["Recommended"],
+                        examples: ["Owner bio, team photos"]
+                    }
+                ]
+            },
+
+            // STEP 8: Marketing / Google
+            {
+                id: "marketing",
+                type: "single",
+                title: "Do you want Google / SEO help built in?",
+                description: "This affects whether you’ll show up in searches over time.",
+                options: [
+                    {
+                        id: "seo-standard",
+                        title: "Standard setup (good baseline)",
+                        description: "Clean structure, mobile-friendly, basic SEO.",
+                        price: 0,
+                        tags: ["Recommended (minimum)"],
+                        examples: ["Basic SEO practices"]
+                    },
+                    {
+                        id: "seo-local",
+                        title: "Local SEO Boost",
+                        description: "Local search setup, better page structure.",
+                        price: 500,
+                        tags: ["Recommended", "Most common"],
+                        examples: [
+                            "Better for local searches"
+                        ]
+                    },
+                    {
+                        id: "seo-growth",
+                        title: "Growth SEO",
+                        description: "Extra structure and content for ranking growth.",
+                        price: 900,
+                        tags: ["Growth"],
+                        examples: [
+                            "Service-specific pages"
+                        ]
+                    }
+                ]
+            },
+
+            // STEP 9: Speed / performance (plain)
+            {
+                id: "performance",
+                type: "single",
+                title: "How fast should the site feel?",
+                description: "Faster sites convert better and rank better.",
+                options: [
+                    {
+                        id: "perf-standard",
+                        title: "Standard fast (good for most)",
+                        description: "Fast loading, optimized images.",
+                        price: 0,
+                        tags: ["Recommended"]
+                    },
+                    {
+                        id: "perf-lightning",
+                        title: "Lightning fast",
+                        description: "Extra optimization for load times.",
+                        price: 400,
+                        tags: ["Popular"],
+                        examples: ["Better mobile performance"]
+                    }
+                ]
+            },
+
+            // STEP 10: Tracking / insights
+            {
+                id: "tracking",
+                type: "multiple",
+                title: "Do you want to track leads and visitor activity?",
+                description: "This helps you know what’s working (and what’s not).",
+                options: [
+                    {
+                        id: "track-analytics",
+                        title: "Visitor analytics dashboard",
+                        description: "See visitor traffic, sources, pages viewed.",
+                        price: 250,
+                        tags: ["Recommended"],
+                        examples: ["Traffic stats"]
+                    },
+                    {
+                        id: "track-conversions",
+                        title: "Conversion tracking",
+                        description: "Track calls, form submissions, button clicks.",
+                        price: 300,
+                        tags: ["High value"],
+                        examples: ["Lead source tracking"]
+                    },
+                    {
+                        id: "track-simple-crm",
+                        title: "Basic lead log",
+                        description: "Simple list to capture leads.",
+                        price: 350,
+                        tags: ["Optional"],
+                        examples: ["Lead management"]
+                    }
+                ]
+            },
+
+            // STEP 11: Integrations (non-technical phrasing)
+            {
+                id: "integrations",
+                type: "multiple",
+                title: "Do you need the website to connect to anything?",
+                description: "Only choose these if you already use these tools (or know you need them).",
+                options: [
+                    {
+                        id: "int-email",
+                        title: "Email marketing signup",
+                        description: "Collect emails for newsletters.",
+                        price: 250,
+                        tags: ["Optional"],
+                        examples: ["Email lists"]
+                    },
+                    {
+                        id: "int-gmb",
+                        title: "Google Business Profile alignment",
+                        description: "Sync with your Google listing.",
+                        price: 200,
+                        tags: ["Recommended (local businesses)"],
+                        examples: ["Local search boost"]
+                    },
+                    {
+                        id: "int-pos",
+                        title: "POS / inventory sync",
+                        description: "Connect online orders to inventory.",
+                        price: 700,
+                        tags: ["Advanced"],
+                        examples: ["For stores"]
+                    }
+                ]
+            },
+
+            // STEP 12: Ongoing care
+            {
+                id: "support",
+                type: "single",
+                title: "Do you want us to keep the site updated and safe?",
+                description: "You can run a site without a plan, but care plans prevent surprises.",
+                options: [
+                    {
+                        id: "care-none",
+                        title: "No care plan (you manage it)",
+                        description: "We build and launch. You handle changes and upkeep.",
+                        price: 0,
+                        recurring: false,
+                        tags: ["Okay if you’re hands-on"]
+                    },
+                    {
+                        id: "care-basic",
+                        title: "Basic Care – $75/month",
+                        description: "Hosting, security, backups, updates.",
+                        price: 75,
+                        recurring: true,
+                        tags: ["Recommended", "Most common"],
+                        examples: ["Stable and safe"]
+                    },
+                    {
+                        id: "care-growth",
+                        title: "Growth Care – $150/month",
+                        description: "Basic care + monthly content changes.",
+                        price: 150,
+                        recurring: true,
+                        tags: ["Growth"],
+                        examples: ["New photos, tweaks"]
+                    }
+                ]
+            },
+
+            // STEP 13: Summary
+            {
+                id: "summary",
+                type: "summary",
+                title: "Your Project Summary",
+                description: "Here’s what you picked. If this looks right, request a quote and we’ll confirm details."
+            }
+        ];
+
+        // ---------------------------
+        // State
+        // ---------------------------
+        let currentStep = 0;
+
+        // selections: stepId -> string (single) OR array (multiple)
+        const selections = {};
+
+        function initDefaults() {
+            // Preselect some sensible defaults for single-choice steps where we mark recommended first in list.
+            for (const step of wizardSteps) {
+                if (step.type === "single") {
+                    // default to first option
+                    selections[step.id] = step.options[0].id;
+                } else if (step.type === "multiple") {
+                    selections[step.id] = [];
+                }
+            }
+        }
+
+        // ---------------------------
+        // Helpers
+        // ---------------------------
+        function formatMoney(n) {
+            return `$${Number(n).toLocaleString()}`;
+        }
+
+        function optionTagsHTML(tags = []) {
+            if (!tags || tags.length === 0) return "";
+            const pills = tags.map(t => {
+                const key = t.toLowerCase();
+                if (key.includes("recommended")) return `<span class="pill pill-reco"><i data-feather="check-circle" class="w-3 h-3"></i>${t}</span>`;
+                if (key.includes("most common") || key.includes("popular")) return `<span class="pill pill-pop"><i data-feather="trending-up" class="w-3 h-3"></i>${t}</span>`;
+                if (key.includes("advanced") || key.includes("complex")) return `<span class="pill pill-tech"><i data-feather="cpu" class="w-3 h-3"></i>${t}</span>`;
+                if (key.includes("growth") || key.includes("high value")) return `<span class="pill pill-new"><i data-feather="zap" class="w-3 h-3"></i>${t}</span>`;
+                return `<span class="pill">${t}</span>`;
+            }).join(" ");
+            return `<div class="flex flex-wrap gap-2 mt-3">${pills}</div>`;
+        }
+
+        function examplesHTML(examples = []) {
+            if (!examples || examples.length === 0) return "";
+            const items = examples.map(e => `<li class="text-sm text-gray-700">${e}</li>`).join("");
+            return `
+        <details class="mt-4">
+          <summary class="text-sm font-semibold text-primary-700">Examples / What this looks like</summary>
+          <ul class="mt-2 list-disc pl-5 space-y-1">${items}</ul>
+        </details>
+      `;
+        }
+
+        function calcTotals() {
+            let buildTotal = 0;
+            let monthly = 0;
+
+            for (const step of wizardSteps) {
+                if (!step.options) continue;
+
+                if (step.type === "single") {
+                    const chosen = selections[step.id];
+                    const opt = step.options.find(o => o.id === chosen);
+                    if (!opt) continue;
+
+                    if (opt.recurring) {
+                        monthly = opt.price;
+                    } else {
+                        buildTotal += (opt.price || 0);
+                    }
+                }
+
+                if (step.type === "multiple") {
+                    const chosenArr = selections[step.id] || [];
+                    for (const id of chosenArr) {
+                        const opt = step.options.find(o => o.id === id);
+                        if (opt) buildTotal += (opt.price || 0);
+                    }
+                }
+            }
+
+            return { buildTotal, monthly };
+        }
+
+        function updateRunningTotal() {
+            const { buildTotal, monthly } = calcTotals();
+            document.getElementById("running-total").textContent = formatMoney(buildTotal);
+            document.getElementById("monthly-cost").textContent = monthly > 0 ? `${formatMoney(monthly)}/month` : "No monthly care plan";
+        }
+
+        // ---------------------------
+        // Rendering
+        // ---------------------------
+        function renderStep() {
+            const step = wizardSteps[currentStep];
+            const content = document.getElementById("wizard-content");
+
+            // progress
+            document.getElementById("current-step").textContent = currentStep + 1;
+            document.getElementById("total-steps").textContent = wizardSteps.length;
+            document.getElementById("progress-bar").style.width = ((currentStep + 1) / wizardSteps.length * 100) + "%";
+
+            // buttons
+            document.getElementById("prev-btn").style.display = currentStep === 0 ? "none" : "block";
+            const nextBtn = document.getElementById("next-btn");
+            nextBtn.textContent = currentStep === wizardSteps.length - 1 ? "Request Quote →" : "Next →";
+
+            let html = "";
+
+            if (step.type === "intro") {
+                html = `
+          <h3 class="text-3xl font-extrabold text-gray-900 mb-3">${step.title}</h3>
+          <p class="text-gray-600 mb-6">${step.description}</p>
+          ${step.content}
+        `;
+            }
+
+            if (step.type === "single") {
+                const selectedId = selections[step.id];
+                html = `
+          <div class="mb-6">
+            <h3 class="text-2xl font-extrabold text-gray-900 mb-2">${step.title}</h3>
+            <p class="text-gray-600">${step.description}</p>
+          </div>
+
+          <div class="space-y-4">
+            ${step.options.map(opt => {
+                    const isSelected = selectedId === opt.id;
+                    const priceText = opt.recurring ? `${formatMoney(opt.price)}/mo` : (opt.price > 0 ? `+${formatMoney(opt.price)}` : "Included");
+                    return `
+                <div class="card ${isSelected ? "selected" : ""}" onclick="selectSingle('${step.id}', '${opt.id}')">
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2">
+                        <input type="radio" ${isSelected ? "checked" : ""} style="pointer-events:none" />
+                        <h4 class="text-lg font-bold text-gray-900">${opt.title}</h4>
+                      </div>
+                      <p class="text-sm text-gray-600 mt-2">${opt.description}</p>
+                      ${optionTagsHTML(opt.tags || [])}
+                      ${examplesHTML(opt.examples || [])}
+                    </div>
+                    <div class="text-right whitespace-nowrap">
+                      <div class="text-base font-extrabold ${opt.recurring ? "text-secondary-700" : "text-secondary-600"}">${priceText}</div>
+                      <div class="text-xs text-gray-500 mt-1">${opt.recurring ? "monthly" : "build"}</div>
+                    </div>
+                  </div>
+                </div>
+              `;
+                }).join("")}
+          </div>
+        `;
+            }
+
+            if (step.type === "multiple") {
+                const selectedArr = selections[step.id] || [];
+                html = `
+          <div class="mb-6">
+            <h3 class="text-2xl font-extrabold text-gray-900 mb-2">${step.title}</h3>
+            <p class="text-gray-600">${step.description}</p>
+            <div class="mt-3 text-sm text-gray-600">
+              You can pick multiple. If you’re unsure, start with the ones marked <span class="pill pill-reco">Recommended</span>.
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            ${step.options.map(opt => {
+                    const isSelected = selectedArr.includes(opt.id);
+                    const priceText = opt.price > 0 ? `+${formatMoney(opt.price)}` : "Included";
+                    return `
+                <div class="card ${isSelected ? "selected" : ""}" onclick="toggleMultiple('${step.id}', '${opt.id}')">
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2">
+                        <input type="checkbox" ${isSelected ? "checked" : ""} style="pointer-events:none" />
+                        <h4 class="text-lg font-bold text-gray-900">${opt.title}</h4>
+                      </div>
+                      <p class="text-sm text-gray-600 mt-2">${opt.description}</p>
+                      ${optionTagsHTML(opt.tags || [])}
+                      ${examplesHTML(opt.examples || [])}
+                    </div>
+                    <div class="text-right whitespace-nowrap">
+                      <div class="text-base font-extrabold text-secondary-600">${priceText}</div>
+                      <div class="text-xs text-gray-500 mt-1">build</div>
+                    </div>
+                  </div>
+                </div>
+              `;
+                }).join("")}
+          </div>
+        `;
+            }
+
+            if (step.type === "summary") {
+                const { buildTotal, monthly } = calcTotals();
+
+                const sections = [];
+
+                for (const s of wizardSteps) {
+                    if (!s.options) continue;
+
+                    if (s.type === "single") {
+                        const chosen = selections[s.id];
+                        const opt = s.options.find(o => o.id === chosen);
+                        if (!opt) continue;
+
+                        const priceText = opt.recurring ? `${formatMoney(opt.price)}/mo` : (opt.price > 0 ? `+${formatMoney(opt.price)}` : "Included");
+                        sections.push(`
+              <div class="flex justify-between gap-4 py-2 border-b border-gray-200">
+                <div class="min-w-0">
+                  <div class="text-sm font-bold text-gray-900">${s.title}</div>
+                  <div class="text-sm text-gray-600 truncate">${opt.title}</div>
+                </div>
+                <div class="text-sm font-extrabold ${opt.recurring ? "text-secondary-700" : "text-secondary-600"} whitespace-nowrap">${priceText}</div>
+              </div>
+            `);
+                    }
+
+                    if (s.type === "multiple") {
+                        const chosenArr = selections[s.id] || [];
+                        if (chosenArr.length === 0) continue;
+
+                        for (const id of chosenArr) {
+                            const opt = s.options.find(o => o.id === id);
+                            if (!opt) continue;
+                            sections.push(`
+                <div class="flex justify-between gap-4 py-2 border-b border-gray-200">
+                  <div class="min-w-0">
+                    <div class="text-sm font-bold text-gray-900">${s.title}</div>
+                    <div class="text-sm text-gray-600 truncate">${opt.title}</div>
+                  </div>
+                  <div class="text-sm font-extrabold text-secondary-600 whitespace-nowrap">+${formatMoney(opt.price)}</div>
+                </div>
+              `);
+                        }
+                    }
+                }
+
+                html = `
+          <div class="mb-6">
+            <h3 class="text-2xl font-extrabold text-gray-900 mb-2">${step.title}</h3>
+            <p class="text-gray-600">${step.description}</p>
+          </div>
+
+          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5">
+            <div class="mb-3 text-sm font-bold text-gray-900">Your selections</div>
+            <div class="divide-y divide-gray-200">
+              ${sections.join("") || `<div class="text-sm text-gray-600">No selections found.</div>`}
+            </div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="rounded-2xl border-2 border-primary-200 bg-primary-50 p-5">
+              <div class="text-sm text-gray-700 font-semibold">Estimated build cost</div>
+              <div class="text-4xl font-extrabold text-primary-700 mt-1">${formatMoney(buildTotal)}</div>
+              <div class="text-xs text-gray-600 mt-2">
+                Includes design + build + launch. Final scope is confirmed in a written proposal.
+              </div>
+            </div>
+            <div class="rounded-2xl border-2 border-secondary-200 bg-secondary-50 p-5">
+              <div class="text-sm text-gray-700 font-semibold">Optional monthly care</div>
+              <div class="text-4xl font-extrabold text-secondary-700 mt-1">${monthly > 0 ? `${formatMoney(monthly)}` : "$0"}</div>
+              <div class="text-xs text-gray-600 mt-2">
+                ${monthly > 0 ? "Care plans include hosting/security/backups (and more on Growth)." : "No care plan selected."}
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-3">
+            <a href="contact.html"
+              class="block w-full bg-primary-600 text-white font-bold py-4 px-6 rounded-xl text-center hover:bg-primary-700 transition-all">
+              Request a Quote
+            </a>
+            <div class="text-xs text-gray-500 text-center">
+              When you request a quote, we’ll confirm details, timeline, and deliverables.
+            </div>
+          </div>
+        `;
+            }
+
+            content.innerHTML = html;
+            feather.replace();
+            updateRunningTotal();
+        }
+
+        // ---------------------------
+        // Selection handlers
+        // ---------------------------
+        function selectSingle(stepId, optionId) {
+            selections[stepId] = optionId;
+            renderStep();
+        }
+
+        function toggleMultiple(stepId, optionId) {
+            if (!Array.isArray(selections[stepId])) selections[stepId] = [];
+            const idx = selections[stepId].indexOf(optionId);
+            if (idx >= 0) selections[stepId].splice(idx, 1);
+            else selections[stepId].push(optionId);
+            renderStep();
+        }
+
+        // ---------------------------
+        // Navigation
+        // ---------------------------
+        document.getElementById("next-btn").addEventListener("click", () => {
+            if (currentStep < wizardSteps.length - 1) {
+                currentStep++;
+                renderStep();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+                window.location.href = "contact.html";
+            }
+        });
+
+        document.getElementById("prev-btn").addEventListener("click", () => {
+            if (currentStep > 0) {
+                currentStep--;
+                renderStep();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+        });
+
+        // ---------------------------
+        // Init
+        // ---------------------------
+        initDefaults();
+        renderStep();
+    </script>
+</body>
+
+</html>

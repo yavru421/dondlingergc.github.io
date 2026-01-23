@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio – DondlingerGC-Web</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#059669',
+                            600: '#047857',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#145231',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-subtle': 'pulse-subtle 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'pulse-subtle': {
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: 0.7 },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="components/navbar.js"></script>
+    <script src="components/footer.js"></script>
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 font-sans antialiased">
+    <custom-navbar></custom-navbar>
+
+    <main class="container mx-auto px-4 py-12">
+        <!-- Hero -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                Our <span class="text-primary-600">Portfolio</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Explore our recent projects—each crafted with precision, performance, and passion.
+            </p>
+            <div class="mt-8 flex flex-wrap justify-center gap-4">
+                <button class="filter-btn active px-5 py-2 rounded-full bg-primary-600 text-white font-medium"
+                    data-filter="all">All</button>
+                <button
+                    class="filter-btn px-5 py-2 rounded-full bg-gray-200 text-gray-800 font-medium hover:bg-gray-300"
+                    data-filter="web">Web Design</button>
+                <button
+                    class="filter-btn px-5 py-2 rounded-full bg-gray-200 text-gray-800 font-medium hover:bg-gray-300"
+                    data-filter="ecommerce">E‑commerce</button>
+                <button
+                    class="filter-btn px-5 py-2 rounded-full bg-gray-200 text-gray-800 font-medium hover:bg-gray-300"
+                    data-filter="brand">Branding</button>
+                <button
+                    class="filter-btn px-5 py-2 rounded-full bg-gray-200 text-gray-800 font-medium hover:bg-gray-300"
+                    data-filter="mobile">Mobile</button>
+            </div>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20" id="portfolio-grid">
+            <!-- Project 1 -->
+            <div class="portfolio-card group" data-category="web">
+                <div class="relative overflow-hidden rounded-2xl mb-6">
+                    <img src="http://static.photos/technology/640x360/101" alt="Modern SaaS Dashboard"
+                        class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-white font-semibold">View Case Study →</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Nexus Analytics Dashboard</h3>
+                <p class="text-gray-600 mb-4">A real‑time data visualization platform for enterprise clients, featuring
+                    custom charts and role‑based access.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-primary-100 text-primary-800 text-sm rounded-full">React</span>
+                    <span class="px-3 py-1 bg-secondary-100 text-secondary-800 text-sm rounded-full">D3.js</span>
+                    <span class="px-3 py-1 bg-gray-200 text-gray-800 text-sm rounded-full">Node.js</span>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="portfolio-card group" data-category="ecommerce">
+                <div class="relative overflow-hidden rounded-2xl mb-6">
+                    <img src="http://static.photos/retail/640x360/202" alt="E‑commerce Store"
+                        class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-white font-semibold">View Case Study →</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Bloom Boutique</h3>
+                <p class="text-gray-600 mb-4">A fully‑featured online fashion store with integrated inventory
+                    management, secure payments, and AR try‑on.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-primary-100 text-primary-800 text-sm rounded-full">Shopify</span>
+                    <span class="px-3 py-1 bg-secondary-100 text-secondary-800 text-sm rounded-full">Liquid</span>
+                    <span class="px-3 py-1 bg-gray-200 text-gray-800 text-sm rounded-full">Stripe</span>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="portfolio-card group" data-category="brand">
+                <div class="relative overflow-hidden rounded-2xl mb-6">
+                    <img src="http://static.photos/minimal/640x360/303" alt="Brand Identity"
+                        class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-white font-semibold">View Case Study →</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Aether Brand System</h3>
+                <p class="text-gray-600 mb-4">Complete visual identity for a tech startup—logo, typography, color
+                    palette, and brand guidelines.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-primary-100 text-primary-800 text-sm rounded-full">Illustrator</span>
+                    <span class="px-3 py-1 bg-secondary-100 text-secondary-800 text-sm rounded-full">Figma</span>
+                    <span class="px-3 py-1 bg-gray-200 text-gray-800 text-sm rounded-full">After Effects</span>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="portfolio-card group" data-category="mobile">
+                <div class="relative overflow-hidden rounded-2xl mb-6">
+                    <img src="http://static.photos/workspace/640x360/404" alt="Fitness App"
+                        class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-white font-semibold">View Case Study →</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">FitTrack Pro</h3>
+                <p class="text-gray-600 mb-4">A cross‑platform fitness app with workout planning, progress tracking, and
+                    social features.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-primary-100 text-primary-800 text-sm rounded-full">React Native</span>
+                    <span class="px-3 py-1 bg-secondary-100 text-secondary-800 text-sm rounded-full">Firebase</span>
+                    <span class="px-3 py-1 bg-gray-200 text-gray-800 text-sm rounded-full">GraphQL</span>
+                </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="portfolio-card group" data-category="web">
+                <div class="relative overflow-hidden rounded-2xl mb-6">
+                    <img src="http://static.photos/education/640x360/505" alt="Educational Platform"
+                        class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-white font-semibold">View Case Study →</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">EduFlow LMS</h3>
+                <p class="text-gray-600 mb-4">A learning management system for universities, with course creation,
+                    quizzes, and student analytics.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-primary-100 text-primary-800 text-sm rounded-full">Vue.js</span>
+                    <span class="px-3 py-1 bg-secondary-100 text-secondary-800 text-sm rounded-full">Laravel</span>
+                    <span class="px-3 py-1 bg-gray-200 text-gray-800 text-sm rounded-full">MySQL</span>
+                </div>
+            </div>
+
+            <!-- Project 6 -->
+            <div class="portfolio-card group" data-category="ecommerce">
+                <div class="relative overflow-hidden rounded-2xl mb-6">
+                    <img src="http://static.photos/food/640x360/606" alt="Food Delivery"
+                        class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="text-white font-semibold">View Case Study →</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">FreshBites Delivery</h3>
+                <p class="text-gray-600 mb-4">An on‑demand food delivery platform with real‑time order tracking, driver
+                    dispatch, and multi‑restaurant menus.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-primary-100 text-primary-800 text-sm rounded-full">Next.js</span>
+                    <span class="px-3 py-1 bg-secondary-100 text-secondary-800 text-sm rounded-full">MongoDB</span>
+                    <span class="px-3 py-1 bg-gray-200 text-gray-800 text-sm rounded-full">WebSockets</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl p-8 lg:p-12 text-white mb-20">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-4xl font-bold mb-2">150+</div>
+                    <div class="text-primary-200">Projects Delivered</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">98%</div>
+                    <div class="text-primary-200">Client Satisfaction</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">40+</div>
+                    <div class="text-primary-200">Industries Served</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">3‑5x</div>
+                    <div class="text-primary-200">Average ROI</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Ready to Build Your Digital Fortress?</h2>
+            <p class="text-gray-600 mb-8 max-w-2xl mx-auto">Let’s discuss how we can turn your vision into a powerful,
+                high‑performing reality.</p>
+            <a href="contact.html"
+                class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-bold rounded-xl hover:from-primary-600 hover:to-primary-700 transition-all shadow-lg hover:shadow-xl">
+                <i data-feather="message-circle" class="w-5 h-5 mr-2"></i>
+                Start a Project
+            </a>
+        </div>
+    </main>
+
+    <custom-footer></custom-footer>
+
+    <script src="script.js"></script>
+    <script>
+        feather.replace();
+        // Portfolio filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioCards = document.querySelectorAll('.portfolio-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active', 'bg-primary-600', 'text-white'));
+                btn.classList.add('active', 'bg-primary-600', 'text-white');
+                btn.classList.remove('bg-gray-200', 'text-gray-800');
+
+                const filter = btn.dataset.filter;
+                portfolioCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                        setTimeout(() => card.classList.add('fade-in'), 10);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
