@@ -1,65 +1,56 @@
 [
   {
-    "filename": "restaurant-platform.png",
-    "type": "png",
-    "title": "Food Ordering Platform",
-    "description": "Complete online ordering system with menu management, payment processing, and order tracking for local restaurants.",
+    "filename": "AndersonWeber02.26.pdf",
+    "type": "pdf",
+    "title": "Anderson Weber Residence",
+    "description": "Complete architectural blueprints for the Anderson Weber custom home project, dated February 26th.",
     "location": "Wisconsin Rapids, WI",
-    "year": 2025,
-    "category": "web"
+    "year": 2024,
+    "category": "residential"
   },
   {
-    "filename": "ecommerce-store.png",
+    "filename": "fawley.png",
     "type": "png",
-    "title": "Online Store",
-    "description": "Full e-commerce platform with shopping cart, inventory management, and secure checkout for retail businesses.",
+    "title": "Fawley Project - Main View",
+    "description": "Primary architectural drawing for the Fawley construction project.",
     "location": "Marshfield, WI",
-    "year": 2025,
-    "category": "web"
+    "year": 2024,
+    "category": "residential"
   },
   {
-    "filename": "professional-website.png",
+    "filename": "fawley(1).png",
     "type": "png",
-    "title": "Professional Business Website",
-    "description": "Custom-designed business website with homepage, about, services, and contact pages. Mobile-friendly and SEO-optimized.",
+    "title": "Fawley Project - Detail 1",
+    "description": "Detailed view of the Fawley project architectural plans.",
+    "location": "Marshfield, WI",
+    "year": 2024,
+    "category": "residential"
+  },
+  {
+    "filename": "fawley(2).png",
+    "type": "png",
+    "title": "Fawley Project - Detail 2",
+    "description": "Additional detail view for the Fawley construction project.",
+    "location": "Marshfield, WI",
+    "year": 2024,
+    "category": "residential"
+  },
+  {
+    "filename": "fawley(3).png",
+    "type": "png",
+    "title": "Fawley Project - Detail 3",
+    "description": "Third detailed view of the Fawley project plans.",
+    "location": "Marshfield, WI",
+    "year": 2024,
+    "category": "residential"
+  },
+  {
+    "filename": "maherdeck.pdf",
+    "type": "pdf",
+    "title": "Maher Deck Construction",
+    "description": "Complete blueprints for the Maher custom deck construction project.",
     "location": "Stevens Point, WI",
     "year": 2024,
-    "category": "web"
-  },
-  {
-    "filename": "booking-system.png",
-    "type": "png",
-    "title": "Appointment Booking System",
-    "description": "Calendar-integrated booking platform with auto-confirmations, reminders, and customer management.",
-    "location": "Wausau, WI",
-    "year": 2024,
-    "category": "web"
-  },
-  {
-    "filename": "lead-capture.png",
-    "type": "png",
-    "title": "Lead Capture & Quote Tool",
-    "description": "Smart contact forms and estimation tools that automatically capture inquiries and generate project quotes.",
-    "location": "Wisconsin Rapids, WI",
-    "year": 2024,
-    "category": "web"
-  },
-  {
-    "filename": "portfolio-gallery.png",
-    "type": "png",
-    "title": "Photo Gallery Portfolio",
-    "description": "Professional image galleries and portfolio displays for showcasing work and building customer trust.",
-    "location": "Green Bay, WI",
-    "year": 2023,
-    "category": "web"
-  },
-  {
-    "filename": "blog-platform.png",
-    "type": "png",
-    "title": "Business Blog Platform",
-    "description": "Content management system for publishing articles, news, and updates to establish industry expertise.",
-    "location": "Appleton, WI",
-    "year": 2023,
-    "category": "web"
+    "category": "residential"
   }
 ]
