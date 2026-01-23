@@ -132,9 +132,6 @@
             background: #d4a13b;
         }
 
-        gap: 16px;
-        }
-
         .header {
             display: flex;
             justify-content: space-between;
@@ -362,6 +359,7 @@
                 </p>
 
                 <div class="location">📍 Wisconsin Rapids, WI</div>
+                <div class="location">📞 (715) 221-2825</div>
 
                 <div class="cta">
                     <a href="mailto:dondlingergeneralcontracting@gmail.com">
@@ -407,8 +405,7 @@
             <div class="viewer">
 
                 <!-- LAB -->
-                <iframe class="active" data-id="lab0"
-                    src="https://john2121-dondlingergc-digital-fortress-builder.static.hf.space">
+                <iframe class="active" data-id="lab0" src="wizard.html">
                 </iframe>
 
                 <!-- CONSTRUCTION -->
@@ -526,116 +523,108 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        const tabs = [...document.querySelectorAll(".tabs button")];
-        const panels = [...document.querySelectorAll("[data-id]")];
-        const desc = document.getElementById("desc");
-
-        const descriptions = {
-            lab0: "Interactive tools and systems",
-            construction: "Real construction work",
-            prints: "Architectural drawings and blueprints"
-        };
-
-        // Three.js Setup
-        let scene, camera, renderer, cube;
-        function initThree() {
-            const container = document.getElementById('three-canvas-container');
-            if (!container) return;
-
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(renderer.domElement);
-
-            const geometry = new THREE.BoxGeometry(2, 0.1, 3);
-            const wireframe = new THREE.WireframeGeometry(geometry);
-            const line = new THREE.LineSegments(wireframe);
-            line.material.color.setHex(0x4fa3ff);
-            scene.add(line);
-
-            // Add a simple floor plan look
-            const grid = new THREE.GridHelper(10, 10, 0x23293a, 0x23293a);
-            grid.position.y = -0.5;
-            scene.add(grid);
-
-            camera.position.z = 5;
-            camera.position.y = 2;
-            camera.lookAt(0, 0, 0);
-
-            function animate() {
-                requestAnimationFrame(animate);
-                line.rotation.y += 0.01;
-                renderer.render(scene, camera);
+    // --- Minimal mobile access ---
+    function isMobile() {
+        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+    window.addEventListener('DOMContentLoaded', function () {
+        if (isMobile()) {
+            document.body.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#0b0d11;color:#fff;text-align:center;padding:32px;">' +
+                '<h1 style="font-size:2rem;margin-bottom:16px;">Dondlinger GC</h1>' +
+                '<p style="margin-bottom:24px;">This site is best experienced on desktop.<br>For full features, please visit on a computer.</p>' +
+                '<a href="#" onclick="location.reload();" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#f0a23b;color:#000;border-radius:8px;text-decoration:none;font-weight:700;">Try Anyway</a>' +
+                '</div>';
+        } else {
+            // --- Desktop logic (unchanged) ---
+            const tabs = [...document.querySelectorAll(".tabs button")];
+            const panels = [...document.querySelectorAll("[data-id]")];
+            const desc = document.getElementById("desc");
+            const descriptions = {
+                lab0: "Interactive tools and systems",
+                construction: "Real construction work",
+                prints: "Architectural drawings and blueprints"
+            };
+            let scene, camera, renderer, cube;
+            function initThree() {
+                const container = document.getElementById('three-canvas-container');
+                if (!container) return;
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                container.appendChild(renderer.domElement);
+                const geometry = new THREE.BoxGeometry(2, 0.1, 3);
+                const wireframe = new THREE.WireframeGeometry(geometry);
+                const line = new THREE.LineSegments(wireframe);
+                line.material.color.setHex(0x4fa3ff);
+                scene.add(line);
+                const grid = new THREE.GridHelper(10, 10, 0x23293a, 0x23293a);
+                grid.position.y = -0.5;
+                scene.add(grid);
+                camera.position.z = 5;
+                camera.position.y = 2;
+                camera.lookAt(0, 0, 0);
+                function animate() {
+                    requestAnimationFrame(animate);
+                    line.rotation.y += 0.01;
+                    renderer.render(scene, camera);
+                }
+                animate();
             }
-            animate();
-        }
-
-        tabs.forEach(btn => {
-            btn.onclick = () => {
-                const switchTab = () => {
-                    tabs.forEach(b => b.classList.remove("active"));
-                    btn.classList.add("active");
-
-                    panels.forEach(p => {
-                        p.classList.toggle("active", p.dataset.id === btn.dataset.tab);
-                    });
-
-                    desc.textContent = descriptions[btn.dataset.tab];
-
-                    if (btn.dataset.tab === 'prints') {
-                        if (!renderer) initThree();
+            tabs.forEach(btn => {
+                btn.onclick = () => {
+                    const switchTab = () => {
+                        tabs.forEach(b => b.classList.remove("active"));
+                        btn.classList.add("active");
+                        panels.forEach(p => {
+                            p.classList.toggle("active", p.dataset.id === btn.dataset.tab);
+                        });
+                        desc.textContent = descriptions[btn.dataset.tab];
+                        if (btn.dataset.tab === 'prints') {
+                            if (!renderer) initThree();
+                        }
+                    };
+                    if (document.startViewTransition) {
+                        document.startViewTransition(() => switchTab());
+                    } else {
+                        switchTab();
                     }
                 };
-
-                if (document.startViewTransition) {
-                    document.startViewTransition(() => switchTab());
-                } else {
-                    switchTab();
-                }
-            };
-        });
-
-        // Initial load if prints is active
-        if (document.querySelector('.tabs button.active').dataset.tab === 'prints') {
-            initThree();
-        }
-
-        // Load blueprints dynamically from manifest
-        function loadBlueprints() {
-            fetch('blueprints-manifest.json')
-                .then(response => response.json())
-                .then(blueprints => {
-                    const grid = document.getElementById('blueprints-grid');
-                    grid.innerHTML = '';
-
-                    blueprints.forEach(blueprint => {
-                        const item = document.createElement('div');
-                        item.className = 'blueprint-item' + (blueprint.type === 'pdf' ? ' pdf' : '');
-
-                        if (blueprint.type === 'pdf') {
-                            item.innerHTML = `
-                                <embed src="/blueprints/${blueprint.filename}" width="100%" height="200" type="application/pdf">
-                                <div class="blueprint-info">${blueprint.title}</div>
-                            `;
-                        } else {
-                            item.innerHTML = `
-                                <img src="/blueprints/${blueprint.filename}" alt="${blueprint.title}" onerror="this.style.display='none'">
-                                <div class="blueprint-info">${blueprint.title}</div>
-                            `;
-                        }
-
-                        grid.appendChild(item);
+            });
+            if (document.querySelector('.tabs button.active').dataset.tab === 'prints') {
+                initThree();
+            }
+            function loadBlueprints() {
+                fetch('blueprints-manifest.json')
+                    .then(response => response.json())
+                    .then(blueprints => {
+                        const grid = document.getElementById('blueprints-grid');
+                        grid.innerHTML = '';
+                        blueprints.forEach(blueprint => {
+                            const item = document.createElement('div');
+                            item.className = 'blueprint-item' + (blueprint.type === 'pdf' ? ' pdf' : '');
+                            if (blueprint.type === 'pdf') {
+                                item.innerHTML = `
+                                    <embed src="/blueprints/${blueprint.filename}" width="100%" height="200" type="application/pdf">
+                                    <div class="blueprint-info">${blueprint.title}</div>
+                                `;
+                            } else {
+                                item.innerHTML = `
+                                    <img src="/blueprints/${blueprint.filename}" alt="${blueprint.title}" onerror="this.style.display='none'">
+                                    <div class="blueprint-info">${blueprint.title}</div>
+                                `;
+                            }
+                            grid.appendChild(item);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error loading blueprints:', error);
+                        document.getElementById('blueprints-grid').innerHTML = '<div style="color:#f00;text-align:center;">Error loading blueprints</div>';
                     });
-                })
-                .catch(error => {
-                    console.error('Error loading blueprints:', error);
-                    document.getElementById('blueprints-grid').innerHTML = '<div style="color:#f00;text-align:center;">Error loading blueprints</div>';
-                });
+            }
+            loadBlueprints();
         }
-
-        // Load blueprints when the page loads
-        loadBlueprints();
+    });
     </script>
 
 </body>
