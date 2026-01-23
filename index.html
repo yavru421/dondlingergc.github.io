@@ -461,31 +461,8 @@
 
                         <div class="blueprints-gallery">
                             <h4>Available Blueprints</h4>
-                            <div class="blueprints-grid">
-                                <div class="blueprint-item">
-                                    <img src="/blueprints/fawley.png" alt="Fawley Drawing 1">
-                                    <div class="blueprint-info">Fawley Residence</div>
-                                </div>
-                                <div class="blueprint-item">
-                                    <img src="/blueprints/fawley(1).png" alt="Fawley Drawing 2">
-                                    <div class="blueprint-info">Fawley Floor Plan</div>
-                                </div>
-                                <div class="blueprint-item">
-                                    <img src="/blueprints/fawley(2).png" alt="Fawley Drawing 3">
-                                    <div class="blueprint-info">Fawley Elevation</div>
-                                </div>
-                                <div class="blueprint-item">
-                                    <img src="/blueprints/fawley(3).png" alt="Fawley Drawing 4">
-                                    <div class="blueprint-info">Fawley Detail</div>
-                                </div>
-                                <div class="blueprint-item pdf">
-                                    <embed src="/blueprints/AndersonWeber02.26.pdf" width="100%" height="200" type="application/pdf">
-                                    <div class="blueprint-info">Anderson Weber Project</div>
-                                </div>
-                                <div class="blueprint-item pdf">
-                                    <embed src="/blueprints/maherdeck.pdf" width="100%" height="200" type="application/pdf">
-                                    <div class="blueprint-info">Maher Deck Design</div>
-                                </div>
+                            <div class="blueprints-grid" id="blueprints-grid">
+                                <!-- Blueprints will be loaded dynamically -->
                             </div>
                         </div>
 
@@ -623,6 +600,42 @@
         if (document.querySelector('.tabs button.active').dataset.tab === 'prints') {
             initThree();
         }
+
+        // Load blueprints dynamically from manifest
+        function loadBlueprints() {
+            fetch('blueprints-manifest.json')
+                .then(response => response.json())
+                .then(blueprints => {
+                    const grid = document.getElementById('blueprints-grid');
+                    grid.innerHTML = '';
+
+                    blueprints.forEach(blueprint => {
+                        const item = document.createElement('div');
+                        item.className = 'blueprint-item' + (blueprint.type === 'pdf' ? ' pdf' : '');
+
+                        if (blueprint.type === 'pdf') {
+                            item.innerHTML = `
+                                <embed src="/blueprints/${blueprint.filename}" width="100%" height="200" type="application/pdf">
+                                <div class="blueprint-info">${blueprint.title}</div>
+                            `;
+                        } else {
+                            item.innerHTML = `
+                                <img src="/blueprints/${blueprint.filename}" alt="${blueprint.title}" onerror="this.style.display='none'">
+                                <div class="blueprint-info">${blueprint.title}</div>
+                            `;
+                        }
+
+                        grid.appendChild(item);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading blueprints:', error);
+                    document.getElementById('blueprints-grid').innerHTML = '<div style="color:#f00;text-align:center;">Error loading blueprints</div>';
+                });
+        }
+
+        // Load blueprints when the page loads
+        loadBlueprints();
     </script>
 
 </body>
