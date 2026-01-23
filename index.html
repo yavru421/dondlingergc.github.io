@@ -5,17 +5,36 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <title>DondlingerGC-Web — Professional Websites & Online Tools</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="_site-config.js"></script>
     <style>
+        /* Error message style for JS fatal errors */
+        #fatal-error {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #c00;
+            color: #fff;
+            font-size: 1.3em;
+            padding: 24px 16px;
+            z-index: 9999;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 12px #0008;
+            display: none;
+        }
+
         :root {
             --bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
             --accent: #00d4ff;
             --window-bg: rgba(255, 255, 255, 0.98);
             --border: rgba(255, 255, 255, 0.2);
+            --muted: #9aa3b2;
             font-size: 16px;
         }
 
@@ -30,869 +49,1362 @@
             background: var(--bg);
             min-height: 100vh;
             color: #fff;
-            font-size: 16px;
-            line-height: 1.6;
-            -webkit-text-size-adjust: 100%;
+            overflow: hidden;
         }
 
-        /* Mobile Navigation */
-        .mobile-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            border-bottom: 1px solid var(--border);
+        /* Desktop container */
+        #desktop {
+            display: none;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
         }
 
-        .nav-header {
+        /* Desktop background */
+        .desktop-bg {
+            position: absolute;
+            inset: 0;
+            background: var(--bg);
+            z-index: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Animated Clock Display */
+        .clock-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+
+        .clock-display.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .time-container {
+            position: relative;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .time-digit {
+            font-size: 8rem;
+            font-weight: 900;
+            color: var(--accent);
+            text-shadow: 0 0 40px var(--accent), 0 0 80px var(--accent), 0 0 120px rgba(0, 212, 255, 0.5);
+            font-family: 'Courier New', monospace;
+            letter-spacing: -4px;
+            position: relative;
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        .time-separator {
+            font-size: 8rem;
+            font-weight: 900;
+            color: var(--accent);
+            opacity: 0.6;
+            animation: blink 1s step-start infinite;
+        }
+
+        .date-display {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .analog-ring {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: rotate-ring 20s linear infinite;
+            box-shadow: 0 0 40px var(--accent), inset 0 0 40px var(--accent);
+        }
+
+        .analog-ring:nth-child(2) {
+            width: 450px;
+            height: 450px;
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+
+        .clock-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+            animation: float-particle 10s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+
+            0%,
+            100% {
+                text-shadow: 0 0 40px var(--accent), 0 0 80px var(--accent), 0 0 120px rgba(0, 212, 255, 0.5);
+            }
+
+            50% {
+                text-shadow: 0 0 60px var(--accent), 0 0 120px var(--accent), 0 0 180px rgba(0, 212, 255, 0.8);
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 0.6;
+            }
+
+            51%,
+            100% {
+                opacity: 0.1;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes rotate-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Scrolling Branded Messages */
+        .branded-scrollers {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .scroller {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: rgba(0, 212, 255, 0.12);
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+            animation: scroll-diagonal 30s linear infinite;
+        }
+
+        .scroller:nth-child(2) {
+            animation-delay: -10s;
+            animation-duration: 35s;
+            font-size: 2.2rem;
+            color: rgba(0, 212, 255, 0.1);
+        }
+
+        .scroller:nth-child(3) {
+            animation-delay: -20s;
+            animation-duration: 40s;
+            font-size: 2.8rem;
+            color: rgba(0, 212, 255, 0.09);
+        }
+
+        @keyframes scroll-diagonal {
+            0% {
+                transform: translate(-100%, 100vh) rotate(-15deg);
+            }
+
+            100% {
+                transform: translate(120vw, -100%) rotate(-15deg);
+            }
+        }
+
+        /* Window styles */
+        .window {
+            position: absolute;
+            background: var(--window-bg);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3), 0 0 0 1px rgba(0, 212, 255, 0.1);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: box-shadow 0.2s;
+        }
+
+        .window.active {
+            display: flex;
+        }
+
+        .window.minimized {
+            display: none !important;
+        }
+
+        .window.maximized {
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: calc(100% - 60px) !important;
+            border-radius: 0;
+        }
+
+        .window.split-left {
+            top: 0 !important;
+            left: 0 !important;
+            width: 50% !important;
+            height: calc(100% - 60px) !important;
+            border-radius: 0;
+        }
+
+        .window.split-right {
+            top: 0 !important;
+            left: 50% !important;
+            width: 50% !important;
+            height: calc(100% - 60px) !important;
+            border-radius: 0;
+        }
+
+        .window-header {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #000;
+            padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            cursor: move;
+            user-select: none;
+            font-weight: 700;
+            font-size: 1em;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
         }
 
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-control {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.1s;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .window-control:hover {
+            transform: scale(1.15);
+        }
+
+        .window-control:nth-child(1) {
+            background: #ff5f56;
+        }
+
+        .window-control:nth-child(2) {
+            background: #ffbd2e;
+        }
+
+        .window-control:nth-child(3) {
+            background: #27c93f;
+        }
+
+        .window-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            background: #fff;
+            color: #000;
+        }
+
+        .window-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
             color: var(--accent);
         }
 
-        .menu-toggle {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 28px;
+        .window-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            margin-top: 24px;
+            color: var(--accent);
+        }
+
+        .window-content p {
+            line-height: 1.7;
+            margin-bottom: 16px;
+            font-size: 1.05rem;
+        }
+
+        .window-content strong {
+            color: var(--accent);
+        }
+
+        /* Blueprints window specific styles */
+        .blueprints-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .blueprint-thumb {
+            width: 180px;
             cursor: pointer;
-            padding: 5px;
-            line-height: 1;
-        }
-
-        .mobile-menu {
-            max-height: 0;
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            background: #f7f7fa;
+            box-shadow: 0 2px 12px rgba(0, 212, 255, 0.2);
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: box-shadow 0.2s, transform 0.2s;
         }
 
-        .mobile-menu.show {
-            max-height: 600px;
+        .blueprint-thumb:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
         }
 
-        .mobile-menu a {
-            display: block;
-            padding: 18px 24px;
-            color: white;
-            text-decoration: none;
-            font-size: 17px;
-            font-weight: 500;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .blueprint-preview {
+            margin-top: 32px;
+            padding: 24px;
+            background: #f7f7fa;
+            border-radius: 10px;
+            border: 2px solid var(--accent);
+        }
+
+        .blueprint-preview img,
+        .blueprint-preview embed {
+            max-width: 100%;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 2px 12px rgba(0, 212, 255, 0.2);
+        }
+
+        .blueprint-preview embed {
+            width: 100%;
+            min-height: 500px;
+        }
+
+        /* Taskbar */
+        .taskbar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(10, 15, 25, 0.95), rgba(5, 10, 20, 0.98));
+            backdrop-filter: blur(12px);
+            border-top: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 12px;
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .start-button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
             transition: all 0.2s;
-            min-height: 56px;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
         }
 
-        .mobile-menu a:active {
-            background: rgba(0, 212, 255, 0.3);
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.5);
         }
 
-        /* Mobile Content */
-        .content {
-            margin-top: 60px;
-            padding: 16px;
-            min-height: calc(100vh - 60px);
+        .taskbar-apps {
+            display: flex;
+            gap: 6px;
+            flex: 1;
+            overflow-x: auto;
+            overflow-y: hidden;
         }
 
-        .page-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: var(--window-bg);
+        .taskbar-app {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .taskbar-app:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent);
+        }
+
+        .taskbar-app.active {
+            background: var(--accent);
+            color: #000;
+            font-weight: 600;
+        }
+
+        .taskbar-app.minimized {
+            opacity: 0.6;
+        }
+
+        .clock {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Start menu */
+        .start-menu {
+            position: absolute;
+            bottom: 70px;
+            left: 16px;
+            width: 300px;
+            background: rgba(10, 15, 25, 0.98);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--accent);
             border-radius: 12px;
-            padding: clamp(24px, 5vw, 40px);
-            color: #222;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            padding: 16px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+            z-index: 1001;
+        }
+
+        .start-menu.show {
+            display: flex;
+        }
+
+        .tooltip-toggle {
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .tooltip-toggle:hover {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        .tooltip-toggle.active {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.95);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-width: 300px;
+            z-index: 10000;
+            pointer-events: none;
+            border: 1px solid var(--accent);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        .start-menu-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #fff;
+            font-weight: 600;
+            border: 1px solid transparent;
+        }
+
+        .start-menu-item:hover {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        /* Context menu */
+        .context-menu {
+            position: absolute;
+            background: rgba(10, 15, 25, 0.98);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 8px;
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+            z-index: 2000;
+        }
+
+        .context-menu.show {
+            display: flex;
+        }
+
+        .context-menu-item {
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .context-menu-item:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        /* Mobile fallback */
+        .page-content {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .page-content h1 {
-            color: #1a1a2e;
-            margin-bottom: 20px;
-            font-size: clamp(26px, 5vw, 32px);
-            line-height: 1.3;
-        }
-
-        .page-content h2 {
-            color: #1a1a2e;
-            margin-top: 24px;
-            margin-bottom: 12px;
-            font-size: clamp(22px, 4vw, 26px);
-            line-height: 1.4;
+            font-size: 2.5rem;
+            margin-bottom: 16px;
         }
 
         .page-content p {
-            line-height: 1.75;
+            line-height: 1.7;
             margin-bottom: 16px;
-            font-size: clamp(16px, 3vw, 18px);
         }
 
-        .page-content iframe {
-            width: 100%;
-            min-height: 70vh;
-            border: none;
-            border-radius: 8px;
-        }
-
-        /* Desktop Mode (768px+) */
-        @media (min-width: 768px) {
-            .mobile-nav {
-                display: none;
-            }
-
-            body {
-                overflow: hidden;
-            }
-
-            .content {
-                margin-top: 0;
-                padding: 0;
-                height: 100vh;
-                display: flex;
-                flex-direction: column;
-            }
-
-            .desktop {
-                flex: 1;
-                position: relative;
-                overflow: hidden;
+        @media (max-width: 768px) {
+            #desktop {
+                display: none !important;
             }
 
             .page-content {
-                display: none;
-            }
-
-            /* Desktop watermark */
-            body::before {
-                content: 'DONDLINGER';
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(-45deg);
-                font-size: 8vw;
-                font-weight: 900;
-                color: rgba(0, 212, 255, 0.04);
-                z-index: 0;
-                pointer-events: none;
-                letter-spacing: 12px;
-            }
-
-            .window {
-                position: absolute;
-                background: var(--window-bg);
-                border-radius: 12px;
-                box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-                display: none;
-                flex-direction: column;
-                overflow: hidden;
-                z-index: 100;
-            }
-
-            .window.active {
-                display: flex;
-            }
-
-            .window.minimized {
-                display: none;
-            }
-
-            .window.maximized {
-                top: 0 !important;
-                left: 0 !important;
-                width: 100% !important;
-                height: calc(100vh - 50px) !important;
-                border-radius: 0;
-            }
-
-            .window.split-left {
-                top: 0 !important;
-                left: 0 !important;
-                width: 50% !important;
-                height: calc(100vh - 50px) !important;
-                border-radius: 0;
-            }
-
-            .window.split-right {
-                top: 0 !important;
-                left: 50% !important;
-                width: 50% !important;
-                height: calc(100vh - 50px) !important;
-                border-radius: 0;
-            }
-
-            .window-header {
-                background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(30, 30, 50, 0.95));
-                color: white;
-                padding: 12px 16px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                cursor: move;
-                user-select: none;
-                font-size: 14px;
-                font-weight: 600;
-            }
-
-            .window-controls {
-                display: flex;
-                gap: 8px;
-            }
-
-            .window-control {
-                width: 12px;
-                height: 12px;
-                border-radius: 50%;
-                cursor: pointer;
-                border: none;
-                transition: transform 0.2s;
-            }
-
-            .window-control:nth-child(1) {
-                background: #ff5f57;
-            }
-
-            .window-control:nth-child(2) {
-                background: #ffbd2e;
-            }
-
-            .window-control:nth-child(3) {
-                background: #28ca42;
-            }
-
-            .window-control:hover {
-                transform: scale(1.2);
-            }
-
-            .window-content {
-                flex: 1;
-                overflow: auto;
-                padding: 24px;
-                font-size: 16px;
-                line-height: 1.7;
-                color: #222;
-            }
-
-            .window-content h1 {
-                font-size: 26px;
-                margin-bottom: 18px;
-                color: #1a1a2e;
-                line-height: 1.3;
-            }
-
-            .window-content h2 {
-                font-size: 22px;
-                margin-top: 20px;
-                margin-bottom: 12px;
-                color: #1a1a2e;
-            }
-
-            .window-content p {
-                margin-bottom: 14px;
-                font-size: 16px;
-            }
-
-            .window-content iframe {
-                width: 100%;
-                height: 100%;
-                border: none;
-                min-height: 500px;
-            }
-
-            /* Taskbar */
-            .taskbar {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 50px;
-                background: rgba(0, 0, 0, 0.95);
-                backdrop-filter: blur(20px);
-                border-top: 1px solid var(--border);
-                display: flex;
-                align-items: center;
-                padding: 0 10px;
-                z-index: 1000;
-            }
-
-            .start-button {
-                background: linear-gradient(135deg, var(--accent), #0099cc);
-                border: none;
-                color: white;
-                padding: 11px 26px;
-                border-radius: 6px;
-                cursor: pointer;
-                font-weight: 600;
-                font-size: 14px;
-                margin-right: 10px;
-                transition: all 0.2s;
-            }
-
-            .start-button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
-            }
-
-            .taskbar-apps {
-                flex: 1;
-                display: flex;
-                gap: 6px;
-                overflow-x: auto;
-            }
-
-            .taskbar-app {
-                background: rgba(255, 255, 255, 0.1);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                color: white;
-                padding: 9px 18px;
-                border-radius: 6px;
-                cursor: pointer;
-                font-size: 14px;
-                font-weight: 600;
-                white-space: nowrap;
-                display: none;
-                transition: all 0.2s;
-            }
-
-            .taskbar-app.active {
-                display: block;
-                background: var(--accent);
-                border-color: var(--accent);
-            }
-
-            .taskbar-app.minimized {
-                opacity: 0.6;
-                background: rgba(255, 255, 255, 0.05);
-            }
-
-            .taskbar-app:hover {
-                background: rgba(255, 255, 255, 0.2);
-            }
-
-            .clock {
-                color: white;
-                font-size: 14px;
-                font-weight: 600;
-                padding: 9px 16px;
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 6px;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-            }
-
-            /* Start menu */
-            .start-menu {
-                position: absolute;
-                bottom: 55px;
-                left: 10px;
-                width: 260px;
-                background: rgba(255, 255, 255, 0.98);
-                border-radius: 12px;
-                box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-                display: none;
-                overflow: hidden;
-                z-index: 1100;
-            }
-
-            .start-menu.show {
-                display: block;
-            }
-
-            .start-menu-header {
-                background: linear-gradient(135deg, var(--accent), #0099cc);
-                color: white;
-                padding: 18px;
-                font-weight: 700;
-                font-size: 16px;
-                text-align: center;
-            }
-
-            .start-menu-item {
-                padding: 15px 22px;
-                cursor: pointer;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-                transition: all 0.2s;
-                color: #222;
-                font-size: 15px;
-                font-weight: 600;
-            }
-
-            .start-menu-item:hover {
-                background: rgba(0, 212, 255, 0.15);
-                padding-left: 30px;
-            }
-
-            .start-menu-item:last-child {
-                border-bottom: none;
-            }
-
-            /* Context menu */
-            .context-menu {
-                position: absolute;
-                background: rgba(255, 255, 255, 0.98);
-                border-radius: 8px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-                display: none;
-                z-index: 1200;
-                min-width: 150px;
-                overflow: hidden;
-            }
-
-            .context-menu.show {
-                display: block;
-            }
-
-            .context-menu-item {
-                padding: 10px 15px;
-                cursor: pointer;
-                color: #222;
-                font-size: 14px;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-                transition: background 0.2s;
-            }
-
-            .context-menu-item:hover {
-                background: rgba(0, 212, 255, 0.15);
-            }
-
-            .context-menu-item:last-child {
-                border-bottom: none;
+                display: block !important;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Mobile Navigation -->
-    <nav class="mobile-nav">
-        <div class="nav-header">
-            <div class="logo">DondlingerGC</div>
-            <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
-        </div>
-        <div class="mobile-menu" id="mobile-menu">
-            <a href="#home" onclick="loadPage(event, 'home')">Home</a>
-            <a href="#wizard" onclick="loadPage(event, 'wizard')">Pricing Calculator</a>
-            <a href="#portfolio" onclick="loadPage(event, 'portfolio')">Portfolio</a>
-            <a href="#services" onclick="loadPage(event, 'services')">Services</a>
-            <a href="#about" onclick="loadPage(event, 'about')">About Us</a>
-            <a href="#contact" onclick="loadPage(event, 'contact')">Contact</a>
-        </div>
-    </nav>
+    <div id="fatal-error"></div>
 
-    <!-- Content -->
-    <div class="content">
-        <div class="page-content" id="page-content">
-            <h1>DondlingerGC-Web</h1>
-            <p><strong>Professional Websites Built Simple & Clear</strong></p>
-            <p>We build custom websites, online shops, and business tools for Wisconsin companies. No technical jargon.
-                No surprises. Just honest pricing and expert work.</p>
-            <p>Based in Wisconsin Rapids • Direct communication with the owners • 150+ projects delivered</p>
-        </div>
-
-        <!-- Desktop Mode -->
-        <div class="desktop" id="desktop" style="display:none;">
-            <div id="windows-container"></div>
-
-            <div class="taskbar">
-                <button class="start-button" onclick="toggleStartMenu()">Start</button>
-                <div class="taskbar-apps" id="taskbar-apps"></div>
-                <div class="clock" id="clock"></div>
+    <!-- Desktop UI -->
+    <div id="desktop">
+        <div class="desktop-bg">
+            <div class="analog-ring"></div>
+            <div class="analog-ring"></div>
+            <div class="clock-display" id="clock-display">
+                <div class="time-container">
+                    <span class="time-digit" id="hours">00</span>
+                    <span class="time-separator">:</span>
+                    <span class="time-digit" id="minutes">00</span>
+                    <span class="time-separator">:</span>
+                    <span class="time-digit" id="seconds">00</span>
+                </div>
+                <div class="date-display" id="date-display">Loading...</div>
             </div>
-
-            <div class="start-menu" id="start-menu">
-                <div class="start-menu-header">Menu</div>
-                <div id="start-menu-items"></div>
-            </div>
-
-            <div class="context-menu" id="context-menu">
-                <div class="context-menu-item"
-                    onclick="maximizeWindow(activeWindow?.id); document.getElementById('context-menu').classList.remove('show')">
-                    Maximize</div>
-                <div class="context-menu-item"
-                    onclick="splitWindowLeft(activeWindow?.id); document.getElementById('context-menu').classList.remove('show')">
-                    Split Left</div>
-                <div class="context-menu-item"
-                    onclick="splitWindowRight(activeWindow?.id); document.getElementById('context-menu').classList.remove('show')">
-                    Split Right</div>
-                <div class="context-menu-item"
-                    onclick="restoreWindow(activeWindow?.id); document.getElementById('context-menu').classList.remove('show')">
-                    Restore</div>
-            </div>
+            <div class="clock-particles" id="clock-particles"></div>
         </div>
+        <div id="windows-container"></div>
+
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <button class="start-button" onclick="toggleStartMenu()">START</button>
+            <div class="taskbar-apps" id="taskbar-apps"></div>
+            <div class="clock" id="clock">00:00</div>
+        </div>
+
+        <!-- Start Menu -->
+        <div class="start-menu" id="start-menu">
+            <div class="tooltip-toggle" id="tooltip-toggle" onclick="toggleTooltips()">💡 Tooltips: OFF</div>
+            <div id="start-menu-items"></div>
+        </div>
+
+        <!-- Tooltip Container -->
+        <div class="tooltip" id="tooltip"></div>
+
+        <!-- Context Menu -->
+        <div class="context-menu" id="context-menu">
+            <div class="context-menu-item" onclick="restoreWindow(activeWindow?.id.replace('-window',''))">Restore</div>
+            <div class="context-menu-item" onclick="maximizeWindow(activeWindow?.id.replace('-window',''))">Maximize
+            </div>
+            <div class="context-menu-item" onclick="splitWindowLeft(activeWindow?.id.replace('-window',''))">Split Left
+            </div>
+            <div class="context-menu-item" onclick="splitWindowRight(activeWindow?.id.replace('-window',''))">Split
+                Right</div>
+            <div class="context-menu-item" onclick="minimizeWindow(activeWindow?.id.replace('-window',''))">Minimize
+            </div>
+            <div class="context-menu-item" onclick="closeWindow(activeWindow?.id.replace('-window',''))">Close</div>
+        </div>
+    </div>
+
+    <!-- Mobile Fallback -->
+    <div class="page-content">
+        <h1>DondlingerGC Desktop</h1>
+        <p><strong>Professional Digital Solutions Platform</strong></p>
+        <p>Access tools, blueprints, and interactive web design features.</p>
+        <p>Visit us on desktop for the full interactive experience.</p>
     </div>
 
     <script>
         'use strict';
 
-        const PAGES = [
-            { id: 'home', title: 'Home' },
-            { id: 'wizard', title: 'Pricing Calculator', file: 'wizard.html' },
-            { id: 'portfolio', title: 'Portfolio', file: 'portfolio.html' },
-            { id: 'services', title: 'Services', file: 'services.html' },
-            { id: 'about', title: 'About Us', file: 'about.html' },
-            { id: 'contact', title: 'Contact', file: 'contact.html' }
-        ];
+        // Robust desktop UI initialization with error reporting
+        document.addEventListener('DOMContentLoaded', function () {
+            try {
+                // --- Desktop App Pages ---
+                const PAGES = [
+                    { id: 'home', title: '🏠 Updates', tooltip: 'View latest projects, news, and social media updates from DondlingerGC' },
+                    { id: 'portfolio', title: '💼 Projects', file: 'portfolio.html', tooltip: 'Browse our completed web design and development projects' },
+                    { id: 'blueprints', title: '📐 Plans', special: true, tooltip: 'Explore architectural blueprints and construction plans repository' },
+                    { id: 'carnival', title: '🎪 Digital Carnival', special: true, tooltip: 'Explore weird, wonderful, and experimental web demos from HuggingFace Spaces' },
+                    { id: 'contact', title: '📧 Contact', file: 'contact.html', tooltip: 'Get in touch with us to discuss your project needs' },
+                    { id: 'fortress', title: '🎨 Website Builder', embed: 'fortress.html', embedTitle: 'Web Design Wizard', tooltip: 'Interactive web design tool to build your custom website' },
+                    { id: 'chat', title: '💬 Chat', embed: 'chat.html', embedTitle: 'DGC Chat', tooltip: 'Live chat support and customer service portal' },
+                    { id: 'taxidermy', title: '🦌 Taxidermy', embed: 'taxidermy.html', embedTitle: 'Wild Preserve Taxidermy', tooltip: 'Professional taxidermy services and wildlife preservation' },
+                    { id: 'settings', title: '⚙️ Settings', special: true, tooltip: 'Customize your desktop theme, colors, and preferences' }
+                ];
 
-        const isMobile = () => window.innerWidth < 768;
-        let activeWindow = null;
-        let zIndex = 100;
+                let tooltipsEnabled = false;
 
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('show');
-        }
+                const isMobile = () => window.innerWidth < 768;
+                let activeWindow = null;
+                let zIndex = 100;
 
-        // Mobile page loading
-        function loadPage(event, pageId) {
-            event.preventDefault();
+                function initDesktop() {
+                    const container = document.getElementById('windows-container');
+                    const taskbarApps = document.getElementById('taskbar-apps');
+                    const startMenuItems = document.getElementById('start-menu-items');
 
-            if (isMobile()) {
-                const page = PAGES.find(p => p.id === pageId);
-                if (!page) return;
+                    PAGES.forEach((page, idx) => {
+                        // Create window
+                        const win = document.createElement('div');
+                        win.className = 'window';
+                        win.id = `${page.id}-window`;
+                        win.style.cssText = `
+                            top: ${80 + idx * 25}px;
+                            left: ${80 + idx * 25}px;
+                            width: min(85%, 750px);
+                            height: min(75%, 550px);
+                        `;
 
-                const content = document.getElementById('page-content');
+                        let content = '';
 
-                if (pageId === 'home') {
-                    content.innerHTML = `
-                        <h1>DondlingerGC-Web</h1>
-                        <p><strong>Professional Websites Built Simple & Clear</strong></p>
-                        <p>We build custom websites, online shops, and business tools for Wisconsin companies. No technical jargon. No surprises. Just honest pricing and expert work.</p>
-                        <p>Based in Wisconsin Rapids • Direct communication with the owners • 150+ projects delivered</p>
-                    `;
-                } else {
-                    content.innerHTML = `<iframe src="${page.file}"></iframe>`;
+                        if (page.id === 'home') {
+                            content = `
+                                <div style="padding:24px;max-width:100%;overflow-y:auto;">
+                                    <div style="text-align:center;margin-bottom:32px;">
+                                        <h2 style="color:var(--accent);margin:0 0 12px 0;font-size:2.2rem;">📢 Latest Updates from DondlingerGC</h2>
+                                        <p style="color:#666;font-size:1.05rem;line-height:1.6;max-width:700px;margin:0 auto;">
+                                            Stay connected with our latest projects, announcements, and behind-the-scenes updates.
+                                            Follow along as we build amazing websites and digital solutions for our clients!
+                                        </p>
+                                        <div style="margin-top:16px;padding:12px 20px;background:rgba(0,212,255,0.1);border-radius:8px;display:inline-block;">
+                                            <span style="color:var(--accent);font-weight:600;">💙 Follow us on Facebook for daily updates</span>
+                                        </div>
+                                    </div>
+
+                                    <div style="display:flex;flex-direction:column;align-items:center;gap:32px;padding-bottom:24px;">
+                                        <div style="width:100%;max-width:500px;">
+                                            <div style="background:linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);padding:12px;border-radius:12px;margin-bottom:12px;">
+                                                <p style="color:var(--accent);font-weight:600;margin:0;font-size:0.95rem;">✨ Recent Post</p>
+                                            </div>
+                                            <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid02b4zEEqF4LFq2HAG6izPkimicUSU7dG27Fe3y3YfP4SCcaw2aTRkFgG51V2WDbxSEl%26id%3D61550821937890&show_text=true&width=500" width="500" height="661" style="border:none;overflow:hidden;border-radius:8px;box-shadow:0 4px 12px rgba(0,212,255,0.2);" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                                        </div>
+
+                                        <div style="width:100%;max-width:500px;">
+                                            <div style="background:linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);padding:12px;border-radius:12px;margin-bottom:12px;">
+                                                <p style="color:var(--accent);font-weight:600;margin:0;font-size:0.95rem;">🚀 Project Highlight</p>
+                                            </div>
+                                            <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0WtDNJHj8AJJenitpnLtehTN47sEoyTwY2ewJc49HrQmoHkWsDzaSvxPGB3UTXstvl%26id%3D61550821937890&show_text=true&width=500" width="500" height="410" style="border:none;overflow:hidden;border-radius:8px;box-shadow:0 4px 12px rgba(0,212,255,0.2);" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                                        </div>
+
+                                        <div style="width:100%;max-width:500px;">
+                                            <div style="background:linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);padding:12px;border-radius:12px;margin-bottom:12px;">
+                                                <p style="color:var(--accent);font-weight:600;margin:0;font-size:0.95rem;">💼 Featured Work</p>
+                                            </div>
+                                            <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0sEfcUAJAk9yx344qyBWf5xRkKWgqYzAkK9TsrRUDKaypuhD4phuKrfS6MenGLqMPl%26id%3D61550821937890&show_text=true&width=500" width="500" height="615" style="border:none;overflow:hidden;border-radius:8px;box-shadow:0 4px 12px rgba(0,212,255,0.2);" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                                        </div>
+
+                                        <div style="text-align:center;margin-top:24px;padding:24px;background:rgba(0,212,255,0.05);border-radius:12px;border:2px solid rgba(0,212,255,0.2);">
+                                            <p style="color:#666;font-size:1.05rem;margin:0 0 16px 0;line-height:1.6;">
+                                                Want to see more updates and connect with us?
+                                            </p>
+                                            <a href="https://www.facebook.com/profile.php?id=61550821937890" target="_blank" style="display:inline-block;padding:12px 32px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;border-radius:8px;transition:all 0.2s;box-shadow:0 4px 12px rgba(0,212,255,0.3);">
+                                                👍 Visit Our Facebook Page
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        } else if (page.embed) {
+                            content = `<iframe src="${page.embed}" title="${page.embedTitle || page.title}" style="width:100%;min-height:70vh;height:100%;border:none;border-radius:8px;background:#fff;"></iframe>`;
+                        } else if (page.id === 'settings') {
+                            content = `<form id="settings-form" style="max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:24px;"><h2>Personalize Your Desktop</h2><label>Theme: <select id="settings-theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label>Accent Color: <input type="color" id="settings-accent" value="#00d4ff" style="width:48px;height:32px;border:none;"></label><label>Font Size: <select id="settings-fontsize"><option value="16">Small</option><option value="18">Medium</option><option value="20">Large</option></select></label><label>Welcome Message: <input type="text" id="settings-welcome" maxlength="64" style="width:100%;padding:8px;"></label><button type="submit" style="padding:12px 0;font-weight:600;background:var(--accent);color:#fff;border:none;border-radius:6px;">Save Settings</button></form>`;
+                        } else if (page.id === 'blueprints') {
+                            content = `<div id="blueprints-viewer"><h2>Architectural Blueprints</h2><div class="blueprints-list" style="display:flex;flex-wrap:wrap;gap:24px;"></div><div class="blueprint-preview" style="margin-top:32px;"></div><p style="margin-top:32px;color:var(--muted);font-size:15px;">All blueprints and plans are property of Dondlinger General Contracting. For demonstration only.</p></div>`;
+                        } else if (page.id === 'carnival') {
+                            content = `
+                                <div id="carnival-viewer" style="padding:24px;height:100%;display:flex;flex-direction:column;overflow-y:auto;">
+                                    <div style="text-align:center;margin-bottom:24px;">
+                                        <h2 style="color:var(--accent);margin:0 0 8px 0;font-size:2rem;">🎪 Digital Carnival</h2>
+                                        <p style="color:#666;font-size:0.95rem;margin:0;">Weird, wonderful, and experimental web demos from the lab</p>
+                                    </div>
+                                    <div id="carnival-card" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);border-radius:16px;padding:40px;border:2px solid var(--accent);box-shadow:0 8px 24px rgba(0,212,255,0.2);min-height:400px;">
+                                        <div style="text-align:center;max-width:600px;">
+                                            <div style="font-size:4rem;margin-bottom:20px;" id="carnival-icon">🎪</div>
+                                            <h3 style="color:var(--accent);font-size:1.8rem;margin:0 0 12px 0;" id="carnival-title">Loading...</h3>
+                                            <p style="color:#666;font-size:1.05rem;line-height:1.6;margin:0 0 32px 0;" id="carnival-desc">Please wait...</p>
+                                            <a id="carnival-link" href="#" target="_blank" style="display:inline-block;padding:16px 40px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;border-radius:12px;font-size:1.1rem;box-shadow:0 4px 12px rgba(0,212,255,0.4);transition:all 0.2s;cursor:pointer;">
+                                                🚀 Launch Demo in New Tab
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-top:20px;">
+                                        <button onclick="prevCarnival()" style="padding:12px 24px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:1.05rem;">← Prev</button>
+                                        <div id="carnival-dots" style="display:flex;gap:8px;"></div>
+                                        <button onclick="nextCarnival()" style="padding:12px 24px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:1.05rem;">Next →</button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+
+                        win.innerHTML = `
+                            <div class="window-header">
+                                <span>${page.title}</span>
+                                <div class="window-controls">
+                                    <div class="window-control" onclick="closeWindow('${page.id}')" title="Close"></div>
+                                    <div class="window-control" onclick="minimizeWindow('${page.id}')" title="Minimize"></div>
+                                    <div class="window-control" onclick="maximizeWindow('${page.id}')" title="Maximize"></div>
+                                </div>
+                            </div>
+                            <div class="window-content" id="${page.id}-content">${content}</div>
+                        `;
+
+                        container.appendChild(win);
+
+                        // Add tooltips to window control buttons
+                        setTimeout(() => {
+                            const controls = win.querySelectorAll('.window-control');
+                            if (controls[0]) { // Close button
+                                controls[0].onmouseenter = () => showTooltip('Close this window', controls[0]);
+                                controls[0].onmouseleave = () => hideTooltip();
+                            }
+                            if (controls[1]) { // Minimize button
+                                controls[1].onmouseenter = () => showTooltip('Minimize to taskbar', controls[1]);
+                                controls[1].onmouseleave = () => hideTooltip();
+                            }
+                            if (controls[2]) { // Maximize button
+                                controls[2].onmouseenter = () => showTooltip('Maximize window', controls[2]);
+                                controls[2].onmouseleave = () => hideTooltip();
+                            }
+                        }, 50);
+
+                        // Blueprints window logic
+                        if (page.id === 'blueprints') {
+                            fetch('blueprints.json')
+                                .then(r => r.json())
+                                .then(blueprints => {
+                                    const list = win.querySelector('.blueprints-list');
+                                    const preview = win.querySelector('.blueprint-preview');
+                                    list.innerHTML = '';
+
+                                    blueprints.forEach((bp, idx) => {
+                                        const item = document.createElement('div');
+                                        item.className = 'blueprint-thumb';
+                                        item.style = 'width:180px;cursor:pointer;border:2px solid var(--accent);border-radius:10px;background:#f7f7fa;box-shadow:0 2px 12px rgba(0,212,255,0.2);overflow:hidden;transition:box-shadow 0.2s;';
+
+                                        item.innerHTML = `
+                                            <div style="height:120px;display:flex;align-items:center;justify-content:center;background:#e0e0e0;">
+                                                ${bp.type === 'pdf' ? '<span style=\'color:var(--accent);font-size:2.5em;\'>📄</span>' : `<img src='blueprints/${bp.filename}' alt='${bp.title}' style='max-width:100%;max-height:100px;display:block;margin:auto;' onerror="this.parentElement.innerHTML='<span style=\\'color:var(--accent);font-size:2.5em;\\'>📐</span>'">`}
+                                            </div>
+                                            <div style="padding:10px 8px 8px 8px;">
+                                                <div style="font-weight:700;font-size:1em;color:var(--accent);">${bp.title}</div>
+                                                <div style="font-size:0.95em;color:var(--muted);margin-top:2px;">${bp.description}</div>
+                                            </div>
+                                        `;
+
+                                        item.onclick = () => {
+                                            list.querySelectorAll('.blueprint-thumb').forEach(el => el.style.boxShadow = '0 2px 12px rgba(0,212,255,0.2)');
+                                            item.style.boxShadow = '0 0 0 3px var(--accent), 0 2px 12px rgba(0,212,255,0.6)';
+
+                                            preview.innerHTML = bp.type === 'pdf'
+                                                ? `<embed src='blueprints/${bp.filename}#toolbar=0' type='application/pdf' style='width:100%;min-height:500px;border-radius:10px;background:#fff;' />`
+                                                : `<img src='blueprints/${bp.filename}' alt='${bp.title}' style='max-width:100%;border-radius:10px;background:#fff;box-shadow:0 2px 12px rgba(0,212,255,0.2);' onerror="this.parentElement.innerHTML='<div style=\\'color:var(--muted); text-align:center;\\'>Preview not available<br>Project: ${bp.title}</div>'">`;
+                                        };
+
+                                        list.appendChild(item);
+                                        if (idx === 0) item.onclick();
+                                    });
+                                })
+                                .catch(err => console.error('Blueprints load error:', err));
+                        }
+
+                        // Digital Carnival window logic
+                        if (page.id === 'carnival') {
+                            const CARNIVAL_SPACES = [
+                                { url: 'https://huggingface.co/spaces/John2121/lawconnect-legal-services', title: 'LawConnect Legal Services', desc: 'Professional legal services platform with AI-powered assistance for connecting clients with attorneys', icon: '⚖️' },
+                                { url: 'https://huggingface.co/spaces/John2121/italia-s-romano-s-too', title: "Italia's Romano's Too", desc: 'Authentic Italian restaurant website with menu, reservations, and online ordering', icon: '🍝' },
+                                { url: 'https://huggingface.co/spaces/John2121/dondlingergc-digital-fortress-builder', title: 'Digital Fortress Builder', desc: 'Interactive drag-and-drop website builder with live preview and customization', icon: '🏰' },
+                                { url: 'https://huggingface.co/spaces/John2121/bistrobyte', title: 'BistroByte', desc: 'Modern restaurant tech platform with smart ordering and kitchen management', icon: '🍔' },
+                                { url: 'https://huggingface.co/spaces/John2121/GhostScriptMCP', title: 'GhostScript MCP', desc: 'Advanced automation scripting interface with AI-powered code generation', icon: '👻' },
+                                { url: 'https://huggingface.co/spaces/John2121/the-quilted-tapestry-emporium', title: 'The Quilted Tapestry Emporium', desc: 'Artisan quilting and textile showcase with custom design gallery', icon: '🧵' }
+                            ];
+
+                            let currentCarnivalIndex = 0;
+
+                            window.loadCarnival = (index) => {
+                                currentCarnivalIndex = index;
+                                const space = CARNIVAL_SPACES[index];
+                                document.getElementById('carnival-icon').textContent = space.icon;
+                                document.getElementById('carnival-link').href = space.url;
+                                document.getElementById('carnival-title').textContent = space.title;
+                                document.getElementById('carnival-desc').textContent = space.desc;
+
+                                // Update dots
+                                const dots = document.getElementById('carnival-dots');
+                                dots.innerHTML = '';
+                                CARNIVAL_SPACES.forEach((_, i) => {
+                                    const dot = document.createElement('div');
+                                    dot.style.cssText = `width:12px;height:12px;border-radius:50%;cursor:pointer;transition:all 0.2s;${i === index ? 'background:var(--accent);transform:scale(1.3);' : 'background:#ccc;'}`;
+                                    dot.onclick = () => window.loadCarnival(i);
+                                    dots.appendChild(dot);
+                                });
+                            };
+
+                            window.nextCarnival = () => {
+                                window.loadCarnival((currentCarnivalIndex + 1) % CARNIVAL_SPACES.length);
+                            };
+
+                            window.prevCarnival = () => {
+                                window.loadCarnival((currentCarnivalIndex - 1 + CARNIVAL_SPACES.length) % CARNIVAL_SPACES.length);
+                            };
+
+                            // Load first space
+                            setTimeout(() => window.loadCarnival(0), 100);
+                        }
+
+                        // Load external content
+                        if (page.id !== 'home' && !page.embed && !page.special && page.file) {
+                            fetch(page.file)
+                                .then(r => r.text())
+                                .then(html => {
+                                    const temp = document.createElement('div');
+                                    temp.innerHTML = html;
+                                    const mainContent = temp.querySelector('#main-content');
+                                    document.getElementById(`${page.id}-content`).innerHTML = mainContent ? mainContent.innerHTML : '<div style="color:#c00">Content not found.</div>';
+                                })
+                                .catch(() => {
+                                    document.getElementById(`${page.id}-content`).innerHTML = '<div style="color:#c00">Failed to load content.</div>';
+                                });
+                        }
+
+                        // Settings form handler
+                        if (page.id === 'settings') {
+                            setTimeout(() => {
+                                const form = document.getElementById('settings-form');
+                                if (form) {
+                                    form.addEventListener('submit', (e) => {
+                                        e.preventDefault();
+                                        const settings = {
+                                            theme: document.getElementById('settings-theme')?.value || 'auto',
+                                            accent: document.getElementById('settings-accent')?.value || '#00d4ff',
+                                            fontsize: document.getElementById('settings-fontsize')?.value || '16',
+                                            welcome: document.getElementById('settings-welcome')?.value || ''
+                                        };
+                                        localStorage.setItem('desktopSettings', JSON.stringify(settings));
+
+                                        // Apply settings immediately
+                                        document.documentElement.style.setProperty('--accent', settings.accent);
+                                        document.documentElement.style.fontSize = settings.fontsize + 'px';
+
+                                        if (settings.theme === 'light') {
+                                            document.body.style.background = '#f7f7fa';
+                                            document.body.style.color = '#222';
+                                        } else if (settings.theme === 'dark') {
+                                            document.body.style.background = 'var(--bg)';
+                                            document.body.style.color = '#fff';
+                                        }
+
+                                        alert('✅ Settings saved and applied successfully!');
+                                    });
+
+                                    // Load and apply saved settings on page load
+                                    const saved = JSON.parse(localStorage.getItem('desktopSettings') || '{}');
+                                    if (saved.theme) document.getElementById('settings-theme').value = saved.theme;
+                                    if (saved.accent) {
+                                        document.getElementById('settings-accent').value = saved.accent;
+                                        document.documentElement.style.setProperty('--accent', saved.accent);
+                                    }
+                                    if (saved.fontsize) {
+                                        document.getElementById('settings-fontsize').value = saved.fontsize;
+                                        document.documentElement.style.fontSize = saved.fontsize + 'px';
+                                    }
+                                    if (saved.welcome) document.getElementById('settings-welcome').value = saved.welcome;
+                                }
+                            }, 100);
+                        }
+
+                        // Window dragging
+                        const header = win.querySelector('.window-header');
+                        let isDragging = false;
+                        let startX, startY, startLeft, startTop;
+                        let clickCount = 0;
+
+                        header.addEventListener('contextmenu', (e) => {
+                            e.preventDefault();
+                            const menu = document.getElementById('context-menu');
+                            activeWindow = win;
+                            menu.style.left = e.clientX + 'px';
+                            menu.style.top = e.clientY + 'px';
+                            menu.classList.add('show');
+                        });
+
+                        header.addEventListener('mousedown', (e) => {
+                            if (e.target.closest('.window-controls')) return;
+
+                            clickCount++;
+                            setTimeout(() => { clickCount = 0; }, 300);
+
+                            if (clickCount === 2) {
+                                maximizeWindow(page.id);
+                                isDragging = false;
+                                return;
+                            }
+
+                            isDragging = true;
+                            startX = e.clientX;
+                            startY = e.clientY;
+                            startLeft = parseInt(win.style.left);
+                            startTop = parseInt(win.style.top);
+                            win.style.zIndex = ++zIndex;
+
+                            const onMove = (e) => {
+                                if (!isDragging) return;
+                                win.style.left = Math.max(0, startLeft + e.clientX - startX) + 'px';
+                                win.style.top = Math.max(0, startTop + e.clientY - startY) + 'px';
+                            };
+
+                            const onUp = () => {
+                                isDragging = false;
+                                document.removeEventListener('mousemove', onMove);
+                                document.removeEventListener('mouseup', onUp);
+                            };
+
+                            document.addEventListener('mousemove', onMove);
+                            document.addEventListener('mouseup', onUp);
+                        });
+
+                        // Start menu (always show all apps here)
+                        const menuItem = document.createElement('div');
+                        menuItem.className = 'start-menu-item';
+                        menuItem.textContent = page.title;
+                        menuItem.onclick = () => openWindow(page.id);
+                        menuItem.onmouseenter = () => showTooltip(page.tooltip, menuItem);
+                        menuItem.onmouseleave = () => hideTooltip();
+                        startMenuItems.appendChild(menuItem);
+                    });
+
+                    // Don't show home by default - let user choose
                 }
 
-                document.getElementById('mobile-menu').classList.remove('show');
-                window.scrollTo(0, 0);
-            } else {
-                openWindow(pageId);
-            }
-        }
+                function openWindow(id) {
+                    const win = document.getElementById(`${id}-window`);
+                    let task = document.getElementById(`task-${id}`);
 
-        // Desktop window management
-        function initDesktop() {
-            const container = document.getElementById('windows-container');
-            const taskbarApps = document.getElementById('taskbar-apps');
-            const startMenuItems = document.getElementById('start-menu-items');
+                    // Create taskbar app if it doesn't exist yet
+                    if (!task) {
+                        const taskbarApps = document.getElementById('taskbar-apps');
+                        task = document.createElement('div');
+                        task.className = 'taskbar-app';
+                        task.id = `task-${id}`;
+                        // Find the page title and tooltip
+                        const page = PAGES.find(p => p.id === id);
+                        task.textContent = page ? page.title : id;
+                        task.onclick = () => focusWindow(id);
+                        if (page && page.tooltip) {
+                            task.onmouseenter = () => showTooltip(page.tooltip, task);
+                            task.onmouseleave = () => hideTooltip();
+                        }
+                        taskbarApps.appendChild(task);
+                    }
 
-            PAGES.forEach((page, idx) => {
-                // Create window
-                const win = document.createElement('div');
-                win.className = 'window';
-                win.id = `${page.id}-window`;
-                win.style.cssText = `
-                    top: ${80 + idx * 25}px;
-                    left: ${80 + idx * 25}px;
-                    width: min(85%, 750px);
-                    height: min(75%, 550px);
-                `;
-
-                const content = page.id === 'home'
-                    ? `<h1>DondlingerGC-Web</h1>
-                       <p><strong>Professional Websites & Online Tools</strong></p>
-                       <p>We build custom websites, online shops, and business tools for Wisconsin companies.</p>
-                       <p>No technical jargon. No surprises. Just honest pricing and expert work.</p>`
-                    : `<iframe src="${page.file}"></iframe>`;
-
-                win.innerHTML = `
-                    <div class="window-header">
-                        <span>${page.title}</span>
-                        <div class="window-controls">
-                            <div class="window-control" onclick="closeWindow('${page.id}')" title="Close"></div>
-                            <div class="window-control" onclick="minimizeWindow('${page.id}')" title="Minimize"></div>
-                            <div class="window-control" onclick="maximizeWindow('${page.id}')" title="Maximize"></div>
-                        </div>
-                    </div>
-                    <div class="window-content">${content}</div>
-                `;
-                container.appendChild(win);
-
-                // Dragging and double-click
-                const header = win.querySelector('.window-header');
-                let isDragging = false, startX, startY, startLeft, startTop;
-                let clickCount = 0;
-
-                header.addEventListener('contextmenu', (e) => {
-                    e.preventDefault();
-                    const menu = document.getElementById('context-menu');
-                    menu.style.left = e.clientX + 'px';
-                    menu.style.top = e.clientY + 'px';
-                    menu.classList.add('show');
-                });
-
-                header.addEventListener('mousedown', (e) => {
-                    if (e.target.closest('.window-controls')) return;
-                    isDragging = true;
-                    startX = e.clientX;
-                    startY = e.clientY;
-                    startLeft = parseInt(win.style.left);
-                    startTop = parseInt(win.style.top);
+                    if (!win || !task) return;
+                    win.classList.add('active');
+                    win.classList.remove('minimized');
                     win.style.zIndex = ++zIndex;
+                    task.classList.add('active');
+                    task.classList.remove('minimized');
+                    activeWindow = win;
+                    document.getElementById('start-menu').classList.remove('show');
+                    updateClockVisibility();
+                }
 
-                    clickCount++;
-                    setTimeout(() => { clickCount = 0; }, 300); // Reset after 300ms
+                function closeWindow(id) {
+                    const win = document.getElementById(`${id}-window`);
+                    const task = document.getElementById(`task-${id}`);
+                    if (!win) return;
 
-                    if (clickCount === 2) {
-                        maximizeWindow(page.id);
-                        isDragging = false;
+                    win.classList.remove('active');
+
+                    // Remove taskbar app completely when closing
+                    if (task) {
+                        task.remove();
+                    }
+
+                    if (activeWindow === win) activeWindow = null;
+                    updateClockVisibility();
+                }
+
+                function minimizeWindow(id) {
+                    const win = document.getElementById(`${id}-window`);
+                    const task = document.getElementById(`task-${id}`);
+                    if (!win || !task) return;
+                    win.classList.add('minimized');
+                    task.classList.add('minimized');
+                    task.classList.remove('active');
+                    if (activeWindow === win) activeWindow = null;
+                    updateClockVisibility();
+                }
+
+                function maximizeWindow(id) {
+                    const win = document.getElementById(`${id}-window`);
+                    if (!win) return;
+
+                    if (win.classList.contains('maximized')) {
+                        restoreWindow(id);
                         return;
                     }
 
-                    const onMove = (e) => {
-                        if (!isDragging) return;
-                        win.style.left = Math.max(0, startLeft + e.clientX - startX) + 'px';
-                        win.style.top = Math.max(0, startTop + e.clientY - startY) + 'px';
-                    };
+                    win.classList.remove('split-left', 'split-right');
+                    win.dataset.originalTop = win.style.top;
+                    win.dataset.originalLeft = win.style.left;
+                    win.dataset.originalWidth = win.style.width;
+                    win.dataset.originalHeight = win.style.height;
+                    win.classList.add('maximized');
+                    win.style.zIndex = ++zIndex;
+                    activeWindow = win;
+                }
 
-                    const onUp = () => {
-                        isDragging = false;
-                        document.removeEventListener('mousemove', onMove);
-                        document.removeEventListener('mouseup', onUp);
-                    };
+                function restoreWindow(id) {
+                    const win = document.getElementById(`${id}-window`);
+                    if (!win) return;
+                    win.classList.remove('maximized', 'split-left', 'split-right');
+                    if (win.dataset.originalTop) win.style.top = win.dataset.originalTop;
+                    if (win.dataset.originalLeft) win.style.left = win.dataset.originalLeft;
+                    if (win.dataset.originalWidth) win.style.width = win.dataset.originalWidth;
+                    if (win.dataset.originalHeight) win.style.height = win.dataset.originalHeight;
+                    win.style.zIndex = ++zIndex;
+                    activeWindow = win;
+                }
 
-                    document.addEventListener('mousemove', onMove);
-                    document.addEventListener('mouseup', onUp);
+                function splitWindowLeft(id) {
+                    const win = document.getElementById(`${id}-window`);
+                    if (!win) return;
+                    win.classList.remove('maximized', 'split-right');
+                    win.dataset.originalTop = win.style.top;
+                    win.dataset.originalLeft = win.style.left;
+                    win.dataset.originalWidth = win.style.width;
+                    win.dataset.originalHeight = win.style.height;
+                    win.classList.add('split-left');
+                    win.style.zIndex = ++zIndex;
+                    activeWindow = win;
+                }
+
+                function splitWindowRight(id) {
+                    const win = document.getElementById(`${id}-window`);
+                    if (!win) return;
+                    win.classList.remove('maximized', 'split-left');
+                    win.dataset.originalTop = win.style.top;
+                    win.dataset.originalLeft = win.style.left;
+                    win.dataset.originalWidth = win.style.width;
+                    win.dataset.originalHeight = win.style.height;
+                    win.classList.add('split-right');
+                    win.style.zIndex = ++zIndex;
+                    activeWindow = win;
+                }
+
+                function focusWindow(id) {
+                    const win = document.getElementById(`${id}-window`);
+                    const task = document.getElementById(`task-${id}`);
+                    if (!win || !task) return;
+
+                    if (win.classList.contains('minimized')) {
+                        win.classList.remove('minimized');
+                        task.classList.remove('minimized');
+                    }
+
+                    win.classList.add('active');
+                    win.style.zIndex = ++zIndex;
+                    task.classList.add('active');
+                    activeWindow = win;
+                    document.getElementById('start-menu').classList.remove('show');
+                }
+
+                window.openWindow = openWindow;
+                window.closeWindow = closeWindow;
+                window.minimizeWindow = minimizeWindow;
+                window.maximizeWindow = maximizeWindow;
+                window.restoreWindow = restoreWindow;
+                window.splitWindowLeft = splitWindowLeft;
+                window.splitWindowRight = splitWindowRight;
+                window.focusWindow = focusWindow;
+
+                function toggleTooltips() {
+                    tooltipsEnabled = !tooltipsEnabled;
+                    const toggle = document.getElementById('tooltip-toggle');
+                    if (toggle) {
+                        toggle.textContent = tooltipsEnabled ? '💡 Tooltips: ON' : '💡 Tooltips: OFF';
+                        toggle.classList.toggle('active', tooltipsEnabled);
+                    }
+                    if (!tooltipsEnabled) {
+                        hideTooltip();
+                    }
+                }
+                window.toggleTooltips = toggleTooltips;
+
+                function showTooltip(text, element) {
+                    if (!tooltipsEnabled) return;
+                    const tooltip = document.getElementById('tooltip');
+                    const rect = element.getBoundingClientRect();
+                    tooltip.textContent = text;
+                    tooltip.style.left = rect.right + 10 + 'px';
+                    tooltip.style.top = rect.top + 'px';
+                    tooltip.classList.add('show');
+                }
+
+                function hideTooltip() {
+                    const tooltip = document.getElementById('tooltip');
+                    tooltip.classList.remove('show');
+                }
+
+                function toggleStartMenu() {
+                    document.getElementById('start-menu').classList.toggle('show');
+                }
+                window.toggleStartMenu = toggleStartMenu;
+
+                // Close menus on outside click
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.start-button') && !e.target.closest('.start-menu')) {
+                        document.getElementById('start-menu')?.classList.remove('show');
+                    }
+                    if (!e.target.closest('.window-header') && !e.target.closest('.context-menu')) {
+                        document.getElementById('context-menu')?.classList.remove('show');
+                    }
                 });
 
-                // Taskbar
-                const task = document.createElement('div');
-                task.className = 'taskbar-app';
-                task.id = `task-${page.id}`;
-                task.textContent = page.title;
-                task.onclick = () => focusWindow(page.id);
-                taskbarApps.appendChild(task);
+                // Clock display functions
+                function updateClockDisplay() {
+                    const now = new Date();
+                    const hours = String(now.getHours()).padStart(2, '0');
+                    const minutes = String(now.getMinutes()).padStart(2, '0');
+                    const seconds = String(now.getSeconds()).padStart(2, '0');
 
-                // Start menu
-                const menuItem = document.createElement('div');
-                menuItem.className = 'start-menu-item';
-                menuItem.textContent = page.title;
-                menuItem.onclick = () => openWindow(page.id);
-                startMenuItems.appendChild(menuItem);
-            });
+                    const hoursEl = document.getElementById('hours');
+                    const minutesEl = document.getElementById('minutes');
+                    const secondsEl = document.getElementById('seconds');
+                    const dateEl = document.getElementById('date-display');
 
-            // Show home on desktop
-            openWindow('home');
-        }
+                    if (hoursEl) hoursEl.textContent = hours;
+                    if (minutesEl) minutesEl.textContent = minutes;
+                    if (secondsEl) secondsEl.textContent = seconds;
 
-        function openWindow(id) {
-            const win = document.getElementById(`${id}-window`);
-            const task = document.getElementById(`task-${id}`);
-            if (!win || !task) return;
+                    if (dateEl) {
+                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                        dateEl.textContent = now.toLocaleDateString('en-US', options);
+                    }
 
-            win.classList.add('active');
-            win.style.zIndex = ++zIndex;
-            task.classList.add('active');
-            activeWindow = win;
-
-            document.getElementById('start-menu').classList.remove('show');
-        }
-
-        function closeWindow(id) {
-            const win = document.getElementById(`${id}-window`);
-            const task = document.getElementById(`task-${id}`);
-            if (!win || !task) return;
-
-            win.classList.remove('active');
-            task.classList.remove('active');
-            if (activeWindow === win) activeWindow = null;
-        }
-
-        function minimizeWindow(id) {
-            const win = document.getElementById(`${id}-window`);
-            const task = document.getElementById(`task-${id}`);
-            if (!win || !task) return;
-
-            win.classList.add('minimized');
-            task.classList.add('minimized');
-            task.classList.remove('active');
-            if (activeWindow === win) activeWindow = null;
-        }
-
-        function maximizeWindow(id) {
-            const win = document.getElementById(`${id}-window`);
-            if (!win) return;
-
-            // If already maximized, restore
-            if (win.classList.contains('maximized')) {
-                restoreWindow(id);
-                return;
-            }
-
-            // Remove any split classes
-            win.classList.remove('split-left', 'split-right');
-
-            // Save current position/size
-            win.dataset.originalTop = win.style.top;
-            win.dataset.originalLeft = win.style.left;
-            win.dataset.originalWidth = win.style.width;
-            win.dataset.originalHeight = win.style.height;
-
-            win.classList.add('maximized');
-            win.style.zIndex = ++zIndex;
-            activeWindow = win;
-        }
-
-        function restoreWindow(id) {
-            const win = document.getElementById(`${id}-window`);
-            if (!win) return;
-
-            win.classList.remove('maximized', 'split-left', 'split-right');
-
-            // Restore original position/size
-            if (win.dataset.originalTop) win.style.top = win.dataset.originalTop;
-            if (win.dataset.originalLeft) win.style.left = win.dataset.originalLeft;
-            if (win.dataset.originalWidth) win.style.width = win.dataset.originalWidth;
-            if (win.dataset.originalHeight) win.style.height = win.dataset.originalHeight;
-
-            win.style.zIndex = ++zIndex;
-            activeWindow = win;
-        }
-
-        function splitWindowLeft(id) {
-            const win = document.getElementById(`${id}-window`);
-            if (!win) return;
-
-            // Remove maximize and other splits
-            win.classList.remove('maximized', 'split-right');
-
-            // Save current position/size
-            win.dataset.originalTop = win.style.top;
-            win.dataset.originalLeft = win.style.left;
-            win.dataset.originalWidth = win.style.width;
-            win.dataset.originalHeight = win.style.height;
-
-            win.classList.add('split-left');
-            win.style.zIndex = ++zIndex;
-            activeWindow = win;
-        }
-
-        function splitWindowRight(id) {
-            const win = document.getElementById(`${id}-window`);
-            if (!win) return;
-
-            // Remove maximize and other splits
-            win.classList.remove('maximized', 'split-left');
-
-            // Save current position/size
-            win.dataset.originalTop = win.style.top;
-            win.dataset.originalLeft = win.style.left;
-            win.dataset.originalWidth = win.style.width;
-            win.dataset.originalHeight = win.style.height;
-
-            win.classList.add('split-right');
-            win.style.zIndex = ++zIndex;
-            activeWindow = win;
-        }
-
-        function focusWindow(id) {
-            const win = document.getElementById(`${id}-window`);
-            const task = document.getElementById(`task-${id}`);
-            if (!win || !task) return;
-
-            // If minimized, restore it
-            if (win.classList.contains('minimized')) {
-                win.classList.remove('minimized');
-                task.classList.remove('minimized');
-            }
-
-            win.classList.add('active');
-            win.style.zIndex = ++zIndex;
-            task.classList.add('active');
-            activeWindow = win;
-
-            document.getElementById('start-menu').classList.remove('show');
-        }
-
-        function toggleStartMenu() {
-            document.getElementById('start-menu').classList.toggle('show');
-        }
-
-        // Close menus on outside click
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.start-button') && !e.target.closest('.start-menu')) {
-                document.getElementById('start-menu')?.classList.remove('show');
-            }
-            if (!e.target.closest('.window-header') && !e.target.closest('.context-menu')) {
-                document.getElementById('context-menu')?.classList.remove('show');
-            }
-        });
-
-        // Clock
-        function updateClock() {
-            const clock = document.getElementById('clock');
-            if (!clock) return;
-            const now = new Date();
-            clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-
-        // Init
-        if (!isMobile()) {
-            document.getElementById('desktop').style.display = 'block';
-            document.querySelector('.page-content').style.display = 'none';
-            initDesktop();
-            setInterval(updateClock, 1000);
-            updateClock();
-        }
-
-        // Handle resize
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                const wasMobile = document.getElementById('desktop').style.display === 'none';
-                const isNowMobile = isMobile();
-                if (wasMobile !== isNowMobile) {
-                    location.reload();
+                    // Taskbar clock
+                    const clock = document.getElementById('clock');
+                    if (clock) {
+                        clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    }
                 }
-            }, 250);
-        });
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (isMobile()) return;
+                function updateClockVisibility() {
+                    const clockDisplay = document.getElementById('clock-display');
+                    const activeWindows = document.querySelectorAll('.window.active:not(.minimized)');
 
-            // Alt+Tab to cycle through windows
-            if (e.altKey && e.key === 'Tab') {
-                e.preventDefault();
-                const windows = Array.from(document.querySelectorAll('.window.active:not(.minimized)'));
-                if (windows.length > 1) {
-                    const currentIndex = windows.indexOf(activeWindow);
-                    const nextIndex = (currentIndex + 1) % windows.length;
-                    const nextWindow = windows[nextIndex];
-                    const nextId = nextWindow.id.replace('-window', '');
-                    focusWindow(nextId);
+                    if (clockDisplay) {
+                        if (activeWindows.length === 0) {
+                            clockDisplay.classList.remove('hidden');
+                        } else {
+                            clockDisplay.classList.add('hidden');
+                        }
+                    }
                 }
-            }
 
-            // Alt+F4 to close active window
-            if (e.altKey && e.key === 'F4') {
-                e.preventDefault();
-                if (activeWindow) {
-                    const activeId = activeWindow.id.replace('-window', '');
-                    closeWindow(activeId);
+                function createClockParticles() {
+                    const container = document.getElementById('clock-particles');
+                    if (!container) return;
+
+                    for (let i = 0; i < 50; i++) {
+                        const particle = document.createElement('div');
+                        particle.className = 'particle';
+                        particle.style.left = Math.random() * 100 + '%';
+                        particle.style.top = Math.random() * 100 + '%';
+                        particle.style.setProperty('--tx', (Math.random() - 0.5) * 400 + 'px');
+                        particle.style.setProperty('--ty', (Math.random() - 0.5) * 400 + 'px');
+                        particle.style.animationDelay = Math.random() * 10 + 's';
+                        container.appendChild(particle);
+                    }
                 }
-            }
 
-            // F11 to maximize/restore active window
-            if (e.key === 'F11') {
-                e.preventDefault();
-                if (activeWindow) {
-                    const activeId = activeWindow.id.replace('-window', '');
-                    maximizeWindow(activeId);
+                // Init
+                if (!isMobile()) {
+                    document.getElementById('desktop').style.display = 'block';
+                    document.querySelector('.page-content').style.display = 'none';
+                    initDesktop();
+                    createClockParticles();
+                    setInterval(updateClockDisplay, 1000);
+                    updateClockDisplay();
+                    updateClockVisibility();
+
+                    // Add tooltips for START button
+                    const startBtn = document.querySelector('.start-button');
+                    if (startBtn) {
+                        startBtn.onmouseenter = () => showTooltip('Open Start Menu to access all applications', startBtn);
+                        startBtn.onmouseleave = () => hideTooltip();
+                    }
+                }
+
+                // Handle resize
+                let resizeTimer;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(() => {
+                        const wasMobile = document.getElementById('desktop').style.display === 'none';
+                        const isNowMobile = isMobile();
+                        if (wasMobile !== isNowMobile) {
+                            location.reload();
+                        }
+                    }, 250);
+                });
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    if (isMobile()) return;
+
+                    if (e.altKey && e.key === 'Tab') {
+                        e.preventDefault();
+                        const windows = Array.from(document.querySelectorAll('.window.active:not(.minimized)'));
+                        if (windows.length > 1) {
+                            const currentIndex = windows.indexOf(activeWindow);
+                            const nextIndex = (currentIndex + 1) % windows.length;
+                            const nextWindow = windows[nextIndex];
+                            const nextId = nextWindow.id.replace('-window', '');
+                            focusWindow(nextId);
+                        }
+                    }
+
+                    if (e.altKey && e.key === 'F4') {
+                        e.preventDefault();
+                        if (activeWindow) {
+                            const activeId = activeWindow.id.replace('-window', '');
+                            closeWindow(activeId);
+                        }
+                    }
+
+                    if (e.key === 'F11') {
+                        e.preventDefault();
+                        if (activeWindow) {
+                            const activeId = activeWindow.id.replace('-window', '');
+                            maximizeWindow(activeId);
+                        }
+                    }
+                });
+
+                // Config
+                if (window.SITE_CONFIG) {
+                    document.title = window.SITE_CONFIG.businessName + ' — ' + window.SITE_CONFIG.tagline;
+                }
+
+            } catch (e) {
+                const errBox = document.getElementById('fatal-error');
+                errBox.textContent = 'FATAL ERROR: ' + (e && e.message ? e.message : e);
+                errBox.style.display = 'block';
+                if (e && e.stack) {
+                    console.error('Full error:', e.stack);
                 }
             }
         });
-
-        // Config
-        if (window.SITE_CONFIG) {
-            document.title = window.SITE_CONFIG.businessName + ' — ' + window.SITE_CONFIG.tagline;
-        }
     </script>
 </body>
 
