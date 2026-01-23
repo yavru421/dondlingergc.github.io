@@ -670,8 +670,12 @@
             <div class="analog-ring"></div>
             <div class="analog-ring"></div>
             <div style="position:absolute;top:60px;left:50%;transform:translateX(-50%);text-align:center;z-index:5;">
-                <h1 style="font-size:3rem;font-weight:900;color:#fff;margin:0 0 8px 0;text-shadow:0 2px 20px rgba(0,0,0,0.8);letter-spacing:2px;">DONDLINGER GENERAL CONTRACTING</h1>
-                <p style="font-size:1.3rem;color:var(--accent);margin:0;text-shadow:0 2px 10px rgba(0,0,0,0.8);font-weight:600;letter-spacing:1px;">Design • Build • Digital</p>
+                <h1
+                    style="font-size:3rem;font-weight:900;color:#fff;margin:0 0 8px 0;text-shadow:0 2px 20px rgba(0,0,0,0.8);letter-spacing:2px;">
+                    DONDLINGER GENERAL CONTRACTING</h1>
+                <p
+                    style="font-size:1.3rem;color:var(--accent);margin:0;text-shadow:0 2px 10px rgba(0,0,0,0.8);font-weight:600;letter-spacing:1px;">
+                    Design • Build • Digital</p>
             </div>
             <div class="clock-display" id="clock-display">
                 <div class="time-container">
@@ -741,6 +745,7 @@
                     { id: 'fortress', title: '🎨 Website Builder', embed: 'fortress.html', embedTitle: 'Web Design Wizard', tooltip: 'Interactive web design tool to build your custom website' },
                     { id: 'chat', title: '💬 Chat', embed: 'chat.html', embedTitle: 'DGC Chat', tooltip: 'Live chat support and customer service portal' },
                     { id: 'taxidermy', title: '🦌 Taxidermy', embed: 'taxidermy.html', embedTitle: 'Wild Preserve Taxidermy', tooltip: 'Professional taxidermy services and wildlife preservation' },
+                    { id: 'flappybird', title: '🐦 Flappy Bird', embedUrl: 'https://john2121-flappy-bird-revamped.static.hf.space', embedTitle: 'Flappy Bird Revamped', tooltip: 'Classic Flappy Bird game - tap to fly!' },
                     { id: 'settings', title: '⚙️ Settings', special: true, tooltip: 'Customize your desktop theme, colors, and preferences' }
                 ];
 
@@ -818,6 +823,8 @@
                             `;
                         } else if (page.embed) {
                             content = `<iframe src="${page.embed}" title="${page.embedTitle || page.title}" style="width:100%;min-height:70vh;height:100%;border:none;border-radius:8px;background:#fff;"></iframe>`;
+                        } else if (page.embedUrl) {
+                            content = `<iframe src="${page.embedUrl}" title="${page.embedTitle || page.title}" style="width:100%;min-height:70vh;height:100%;border:none;border-radius:8px;background:#fff;"></iframe>`;
                         } else if (page.id === 'settings') {
                             content = `<form id="settings-form" style="max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:24px;"><h2>Personalize Your Desktop</h2><label>Theme: <select id="settings-theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label>Accent Color: <input type="color" id="settings-accent" value="#00d4ff" style="width:48px;height:32px;border:none;"></label><label>Font Size: <select id="settings-fontsize"><option value="16">Small</option><option value="18">Medium</option><option value="20">Large</option></select></label><label>Welcome Message: <input type="text" id="settings-welcome" maxlength="64" style="width:100%;padding:8px;"></label><button type="submit" style="padding:12px 0;font-weight:600;background:var(--accent);color:#fff;border:none;border-radius:6px;">Save Settings</button></form>`;
                         } else if (page.id === 'blueprints') {
