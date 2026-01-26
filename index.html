@@ -28,18 +28,24 @@
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background: radial-gradient(circle at top right, #1a1f2e, var(--bg));
             color: var(--fg);
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         .app {
             display: grid;
             grid-template-columns: 1fr 1.4fr;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         @media (max-width:900px) {
             .app {
-                grid-template-columns: 1fr
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .right {
+                min-height: 60vh;
             }
         }
 
@@ -55,6 +61,14 @@
             background-size: cover;
             background-position: center;
             border-right: 1px solid var(--border);
+        }
+
+        @media (max-width:900px) {
+            .left {
+                padding: 24px;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
         }
 
         .left h1 {
@@ -504,7 +518,7 @@
                             </a>
 
                             <div class="meta">
-                                Wisconsin Rapids · Design-Build · Digital or Printed
+                                Wisconsin Rapids, WI · Design-Build · Digital or Printed
                             </div>
                         </div>
 
@@ -523,19 +537,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-    // --- Minimal mobile access ---
-    function isMobile() {
-        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    }
-    window.addEventListener('DOMContentLoaded', function () {
-        if (isMobile()) {
-            document.body.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#0b0d11;color:#fff;text-align:center;padding:32px;">' +
-                '<h1 style="font-size:2rem;margin-bottom:16px;">Dondlinger GC</h1>' +
-                '<p style="margin-bottom:24px;">This site is best experienced on desktop.<br>For full features, please visit on a computer.</p>' +
-                '<a href="#" onclick="location.reload();" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#f0a23b;color:#000;border-radius:8px;text-decoration:none;font-weight:700;">Try Anyway</a>' +
-                '</div>';
-        } else {
-            // --- Desktop logic (unchanged) ---
+        // --- Site functionality (works on all devices) ---
+        window.addEventListener('DOMContentLoaded', function () {
             const tabs = [...document.querySelectorAll(".tabs button")];
             const panels = [...document.querySelectorAll("[data-id]")];
             const desc = document.getElementById("desc");
@@ -545,9 +548,21 @@
                 prints: "Architectural drawings and blueprints"
             };
             let scene, camera, renderer, cube;
+
+            function isMobile() {
+                return window.innerWidth <= 768;
+            }
+
             function initThree() {
                 const container = document.getElementById('three-canvas-container');
-                if (!container) return;
+                if (!container || renderer) return; // Skip if already initialized or no container
+
+                // Skip 3D on mobile for performance
+                if (isMobile()) {
+                    container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);text-align:center;padding:20px;"><p>3D Preview available on desktop</p></div>';
+                    return;
+                }
+
                 scene = new THREE.Scene();
                 camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
                 renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -571,6 +586,7 @@
                 }
                 animate();
             }
+
             tabs.forEach(btn => {
                 btn.onclick = () => {
                     const switchTab = () => {
@@ -581,7 +597,7 @@
                         });
                         desc.textContent = descriptions[btn.dataset.tab];
                         if (btn.dataset.tab === 'prints') {
-                            if (!renderer) initThree();
+                            initThree();
                         }
                     };
                     if (document.startViewTransition) {
@@ -591,40 +607,43 @@
                     }
                 };
             });
-            if (document.querySelector('.tabs button.active').dataset.tab === 'prints') {
+
+            if (document.querySelector('.tabs button.active')?.dataset.tab === 'prints') {
                 initThree();
             }
+
             function loadBlueprints() {
                 fetch('blueprints-manifest.json')
                     .then(response => response.json())
                     .then(blueprints => {
                         const grid = document.getElementById('blueprints-grid');
+                        if (!grid) return;
                         grid.innerHTML = '';
                         blueprints.forEach(blueprint => {
                             const item = document.createElement('div');
                             item.className = 'blueprint-item' + (blueprint.type === 'pdf' ? ' pdf' : '');
                             if (blueprint.type === 'pdf') {
                                 item.innerHTML = `
-                                    <embed src="/blueprints/${blueprint.filename}" width="100%" height="200" type="application/pdf">
-                                    <div class="blueprint-info">${blueprint.title}</div>
-                                `;
+                                <embed src="/blueprints/${blueprint.filename}" width="100%" height="200" type="application/pdf">
+                                <div class="blueprint-info">${blueprint.title}</div>
+                            `;
                             } else {
                                 item.innerHTML = `
-                                    <img src="/blueprints/${blueprint.filename}" alt="${blueprint.title}" onerror="this.style.display='none'">
-                                    <div class="blueprint-info">${blueprint.title}</div>
-                                `;
+                                <img src="/blueprints/${blueprint.filename}" alt="${blueprint.title}" onerror="this.style.display='none'">
+                                <div class="blueprint-info">${blueprint.title}</div>
+                            `;
                             }
                             grid.appendChild(item);
                         });
                     })
                     .catch(error => {
                         console.error('Error loading blueprints:', error);
-                        document.getElementById('blueprints-grid').innerHTML = '<div style="color:#f00;text-align:center;">Error loading blueprints</div>';
+                        const grid = document.getElementById('blueprints-grid');
+                        if (grid) grid.innerHTML = '<div style="color:#f00;text-align:center;">Error loading blueprints</div>';
                     });
             }
             loadBlueprints();
-        }
-    });
+        });
     </script>
 
 </body>
