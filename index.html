@@ -5,11 +5,15 @@
     <meta charset="UTF-8" />
     <title>Dondlinger General Contracting — Design-Build</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Design-build construction and architectural drawings prepared for real projects — not just concepts." />
 
     <!-- Mobile redirect -->
     <script>
-        if (window.innerWidth <= 900 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            window.location.href = 'mobile.html';
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('mode') !== 'desktop') {
+            if (window.innerWidth <= 900 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                window.location.href = 'mobile.html';
+            }
         }
     </script>
 
@@ -394,18 +398,13 @@
         <section class="left">
             <div>
                 <h1>Dondlinger General Contracting</h1>
-                <p>
-                    Design-build construction and architectural drawings
-                    prepared for real projects — not just concepts.
-                </p>
+                <p>Design-build construction and architectural drawings prepared for real projects — not just concepts.</p>
 
                 <div class="location">📍 Wisconsin Rapids, WI</div>
                 <div class="location">📞 (715) 221-2825</div>
 
                 <div class="cta">
-                    <a href="mailto:dondlingergeneralcontracting@gmail.com">
-                        Have a project? Let’s talk.
-                    </a>
+                    <a href="mailto:dondlingergeneralcontracting@gmail.com">Have a project? Let's talk.</a>
                 </div>
 
                 <form action="/contact" method="post" class="contact-form">
@@ -446,38 +445,34 @@
             <div class="viewer">
 
                 <!-- LAB -->
-                <iframe class="active" data-id="lab0" src="wizard.html">
+                <iframe class="active" data-id="lab0" src="wizard.html" title="Project Wizard Tool">
                 </iframe>
 
                 <!-- CONSTRUCTION -->
                 <div class="panel" data-id="construction">
                     <div class="grid">
 
-                        <!-- Replace stock images with your real work -->
                         <div class="project">
-                            <img
-                                src="https://images.unsplash.com/photo-1596079890681-7c1c7d2f9a8b?auto=format&fit=crop&w=800&q=80">
+                            <img src="https://images.unsplash.com/photo-1596079890681-7c1c7d2f9a8b?auto=format&fit=crop&w=800&q=80">
                             <div class="info">
                                 <strong>Residential Framing</strong>
-                                Wisconsin Rapids
+                                <span>Wisconsin Rapids</span>
                             </div>
                         </div>
 
                         <div class="project">
-                            <img
-                                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80">
                             <div class="info">
                                 <strong>Remodel & Finish Work</strong>
-                                Central Wisconsin
+                                <span>Central Wisconsin</span>
                             </div>
                         </div>
 
                         <div class="project">
-                            <img
-                                src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80">
+                            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80">
                             <div class="info">
                                 <strong>Structural Repair</strong>
-                                Wood County
+                                <span>Wood County</span>
                             </div>
                         </div>
 
