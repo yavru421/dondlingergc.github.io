@@ -1,0 +1,11 @@
+[
+  {
+    "filename": "example-project-preview.png",
+    "type": "png",
+    "title": "Example Project — Main View",
+    "description": "Sample blueprint/preview used for the template manifest.",
+    "location": "City, State",
+    "year": 2025,
+    "category": "example"
+  }
+]

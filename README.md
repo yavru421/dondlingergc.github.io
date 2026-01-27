@@ -23,11 +23,17 @@ Alternatively, if npm works: `npm install -g wrangler`
 6. Deploy: `wrangler pages deploy .`
 
 ## Features Added
-- 3D Architectural Preview with Three.js
-- Contact form with D1 storage
-- Blueprints gallery with PDFs and images
-- Glassmorphism UI
-- View Transitions API
+
+## Using this repository as a template
+
+If you'd like to reuse this repository as a starting point for other sites, see `TEMPLATE.md` for step-by-step instructions. In short:
+
+- Copy `_site-config.example.js` to `_site-config.js` and edit site metadata.
+- Replace `blueprints.json` (or use `blueprints.example.json`) with your own manifest and assets.
+- Remove or update `CNAME` if you're not using the same custom domain.
+- Push to `main` and configure your hosting (GitHub Pages or Cloudflare Pages).
+
+Keeping the example config and `TEMPLATE.md` in the repository makes onboarding new sites quick and predictable.
 
 ## Subdomains Setup
 To create dedicated subdomains:
