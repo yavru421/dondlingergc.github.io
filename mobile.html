@@ -204,7 +204,7 @@
     </div>
 
     <script>
-        const ENDPOINT = 'https://api.llama.com/v1/chat/completions';
+        const ENDPOINT = '/api/chat';
         const MODEL = 'Llama-4-Maverick-17B-128E-Instruct-FP8';
         const SYSTEM_PROMPT = `You are "Sidekick," a helpful assistant designed to analyze screenshots and provide human-like, contextual reactions. When a user shares a screenshot of:
 
@@ -264,23 +264,7 @@ Keep your tone casual, friendly, and conversational — like texting a knowledge
                 return;
             }
 
-            // Get API key from environment or prompt
-            let apiKey = typeof LLAMA_API_KEY !== 'undefined' ? LLAMA_API_KEY : '';
 
-            if (!apiKey) {
-                apiKey = prompt('Enter your LLAMA_API_KEY:');
-                if (!apiKey) {
-                    errorEl.textContent = 'API key is required';
-                    return;
-                }
-            }
-
-            // Disable button
-            sendBtn.disabled = true;
-            loadingEl.style.display = 'block';
-
-            // Build messages
-            const content = [];
             if (userText) {
                 content.push({
                     type: 'text',
@@ -304,8 +288,7 @@ Keep your tone casual, friendly, and conversational — like texting a knowledge
                 const response = await fetch(ENDPOINT, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         model: MODEL,
