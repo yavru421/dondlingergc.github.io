@@ -1,0 +1,32 @@
+[
+    {
+        "filename": "fawley.png",
+        "type": "image",
+        "title": "Fawley Residence"
+    },
+    {
+        "filename": "fawley(1).png",
+        "type": "image",
+        "title": "Fawley Drawing 2"
+    },
+    {
+        "filename": "fawley(2).png",
+        "type": "image",
+        "title": "Fawley Drawing 3"
+    },
+    {
+        "filename": "fawley(3).png",
+        "type": "image",
+        "title": "Fawley Detail"
+    },
+    {
+        "filename": "AndersonWeber02.26.pdf",
+        "type": "pdf",
+        "title": "Anderson Weber Project"
+    },
+    {
+        "filename": "maherdeck.pdf",
+        "type": "pdf",
+        "title": "Maher Deck Design"
+    }
+]
