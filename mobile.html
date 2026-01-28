@@ -264,7 +264,12 @@ Keep your tone casual, friendly, and conversational — like texting a knowledge
                 return;
             }
 
+            // Disable button
+            sendBtn.disabled = true;
+            loadingEl.style.display = 'block';
 
+            // Build messages
+            const content = [];
             if (userText) {
                 content.push({
                     type: 'text',
