@@ -1094,8 +1094,25 @@
 
             updateClock() {
                 const now = new Date();
+                // Update taskbar clock
                 const clock = document.getElementById('clock');
                 if (clock) clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                // Update animated clock display
+                const hours = document.getElementById('hours');
+                const minutes = document.getElementById('minutes');
+                const seconds = document.getElementById('seconds');
+                if (hours) hours.textContent = String(now.getHours()).padStart(2, '0');
+                if (minutes) minutes.textContent = String(now.getMinutes()).padStart(2, '0');
+                if (seconds) seconds.textContent = String(now.getSeconds()).padStart(2, '0');
+
+                // Update date display
+                const dateDisplay = document.getElementById('date-display');
+                if (dateDisplay) {
+                    dateDisplay.textContent = now.toLocaleDateString(undefined, {
+                        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                    });
+                }
             }
 
             setupDragging(win) {
