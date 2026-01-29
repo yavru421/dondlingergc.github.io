@@ -817,6 +817,28 @@
          * Manages process lifecycle, state synchronization, and remote communication.
          */
         class VirtualSystem {
+                        // Animated clock particles
+                        animateClockParticles() {
+                            const container = document.getElementById('clock-particles');
+                            if (!container) return;
+                            container.innerHTML = '';
+                            const numParticles = 24;
+                            for (let i = 0; i < numParticles; i++) {
+                                const p = document.createElement('div');
+                                p.className = 'particle';
+                                const angle = (i / numParticles) * 2 * Math.PI;
+                                const radius = 180 + Math.random() * 40;
+                                const tx = Math.cos(angle) * radius;
+                                const ty = Math.sin(angle) * radius;
+                                p.style.setProperty('--tx', `${tx}px`);
+                                p.style.setProperty('--ty', `${ty}px`);
+                                p.style.left = '50%';
+                                p.style.top = '50%';
+                                p.style.transform = `translate(-50%, -50%)`;
+                                p.style.animationDelay = `${Math.random() * 10}s`;
+                                container.appendChild(p);
+                            }
+                        }
             constructor() {
                 this.pages = [
                     { id: 'home', title: '🏠 Updates', tooltip: 'View latest projects, news, and social media updates from DondlingerGC' },
@@ -879,8 +901,12 @@
                     startMenuItems.appendChild(menuItem);
                 });
 
-                setInterval(() => this.updateClock(), 1000);
+                setInterval(() => {
+                    this.updateClock();
+                    this.animateClockParticles();
+                }, 1000);
                 this.updateClock();
+                this.animateClockParticles();
 
                 // Setup Start Button
                 const startBtn = document.querySelector('.start-button');
