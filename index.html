@@ -999,6 +999,44 @@
                 if (win) win.classList.toggle('maximized');
             }
 
+            restoreWindow(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) {
+                    win.classList.remove('minimized');
+                    this.state.minimizedApps.delete(id);
+                    this.updateTaskbar();
+                    this.syncState();
+                }
+            }
+
+            splitWindowLeft(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) {
+                    win.style.left = '0';
+                    win.style.width = '50vw';
+                    win.style.height = '100vh';
+                    win.style.top = '0';
+                }
+            }
+
+            splitWindowRight(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) {
+                    win.style.left = '50vw';
+                    win.style.width = '50vw';
+                    win.style.height = '100vh';
+                    win.style.top = '0';
+                }
+            }
+
+            toggleTooltips() {
+                this.state.tooltipsEnabled = !this.state.tooltipsEnabled;
+                const toggle = document.getElementById('tooltip-toggle');
+                if (toggle) {
+                    toggle.textContent = `💡 Tooltips: ${this.state.tooltipsEnabled ? 'ON' : 'OFF'}`;
+                }
+            }
+
             updateTaskbar() {
                 const taskbarApps = document.getElementById('taskbar-apps');
                 if (!taskbarApps) return;
