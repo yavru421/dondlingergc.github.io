@@ -1397,6 +1397,38 @@
         });
 
         // Global functions for HTML onclick handlers
+        function toggleStartMenu() {
+            if (window.System) window.System.toggleStartMenu();
+        }
+        
+        function toggleTooltips() {
+            if (window.System) window.System.toggleTooltips();
+        }
+        
+        function restoreWindow(id) {
+            if (window.System) window.System.restoreWindow(id);
+        }
+        
+        function maximizeWindow(id) {
+            if (window.System) window.System.maximizeWindow(id);
+        }
+        
+        function minimizeWindow(id) {
+            if (window.System) window.System.minimizeWindow(id);
+        }
+        
+        function closeWindow(id) {
+            if (window.System) window.System.closeWindow(id);
+        }
+        
+        function splitWindowLeft(id) {
+            if (window.System) window.System.splitWindowLeft(id);
+        }
+        
+        function splitWindowRight(id) {
+            if (window.System) window.System.splitWindowRight(id);
+        }
+        
         function toggleQRCode() {
             if (window.System) window.System.toggleQRCode();
         }
