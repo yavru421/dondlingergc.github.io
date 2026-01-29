@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
     <script src="_site-config.js"></script>
     <style>
         /* Error message style for JS fatal errors */
@@ -658,6 +659,73 @@
                 display: block !important;
             }
         }
+
+        /* QR Code Display */
+        .qr-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            max-width: 200px;
+        }
+
+        .qr-container.show {
+            display: flex;
+        }
+
+        .qr-title {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            margin: 0;
+        }
+
+        .qr-code {
+            background: white;
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .qr-instructions {
+            color: #ccc;
+            font-size: 0.8rem;
+            text-align: center;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .qr-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .qr-toggle:hover {
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
     </style>
 </head>
 
@@ -689,6 +757,17 @@
             </div>
             <div class="clock-particles" id="clock-particles"></div>
         </div>
+
+        <!-- QR Code Toggle Button -->
+        <button class="qr-toggle" id="qr-toggle" onclick="toggleQRCode()">📱 Mobile</button>
+
+        <!-- QR Code Display -->
+        <div class="qr-container" id="qr-container">
+            <h3 class="qr-title">Mobile Controller</h3>
+            <div class="qr-code" id="qr-code"></div>
+            <p class="qr-instructions">Scan to control this desktop remotely</p>
+        </div>
+
         <div id="windows-container"></div>
 
         <!-- Taskbar -->
@@ -733,11 +812,13 @@
     <script>
         'use strict';
 
-        // Robust desktop UI initialization with error reporting
-        document.addEventListener('DOMContentLoaded', function () {
-            try {
-                // --- Desktop App Pages ---
-                const PAGES = [
+        /**
+         * 🖥️ Virtual Desktop Kernel (System)
+         * Manages process lifecycle, state synchronization, and remote communication.
+         */
+        class VirtualSystem {
+            constructor() {
+                this.pages = [
                     { id: 'home', title: '🏠 Updates', tooltip: 'View latest projects, news, and social media updates from DondlingerGC' },
                     { id: 'blueprints', title: '📐 Plans', special: true, tooltip: 'Explore architectural blueprints and construction plans repository' },
                     { id: 'carnival', title: '🎪 Digital Carnival', special: true, tooltip: 'Explore weird, wonderful, and experimental web demos from HuggingFace Spaces' },
@@ -746,675 +827,579 @@
                     { id: 'chat', title: '💬 Chat', embed: 'chat.html', embedTitle: 'DGC Chat', tooltip: 'Live chat support and customer service portal' },
                     { id: 'taxidermy', title: '🦌 Taxidermy', embed: 'taxidermy.html', embedTitle: 'Wild Preserve Taxidermy', tooltip: 'Professional taxidermy services and wildlife preservation' },
                     { id: 'flappybird', title: '🐦 Flappy Bird', embedUrl: 'https://john2121-flappy-bird-revamped.static.hf.space', embedTitle: 'Flappy Bird Revamped', tooltip: 'Classic Flappy Bird game - tap to fly!' },
+                    { id: 'tours', title: '🗺️ 3D Tours', special: true, tooltip: 'Explore Matterport 3D tours and virtual walkthroughs' },
+                    { id: 'cottonthimble', title: '🧵 Cotton Thimble', embed: 'cottonthimble.html', embedTitle: 'Cotton Thimble Store Tour', tooltip: 'Virtual tour of Cotton Thimble store in WI - Grandma\'s family store' },
                     { id: 'settings', title: '⚙️ Settings', special: true, tooltip: 'Customize your desktop theme, colors, and preferences' }
                 ];
 
-                let tooltipsEnabled = false;
+                this.state = {
+                    openApps: new Set(),
+                    activeApp: null,
+                    minimizedApps: new Set(),
+                    tooltipsEnabled: false,
+                    lastRemoteCommandId: parseInt(localStorage.getItem('lastRemoteCommandId') || '0'),
+                    zIndex: 100,
+                    carnivalIndex: 0
+                };
 
-                const isMobile = () => window.innerWidth < 768;
-                let activeWindow = null;
-                let zIndex = 100;
+                this.sessionID = 'default';
+                // Use local mock server for testing, production uses relative path
+                this.bridgeURL = window.location.hostname === 'localhost' ? 'http://localhost:8787/api/bridge' : '/api/bridge';
 
-                function initDesktop() {
-                    const container = document.getElementById('windows-container');
-                    const taskbarApps = document.getElementById('taskbar-apps');
-                    const startMenuItems = document.getElementById('start-menu-items');
+                this.init();
+            }
 
-                    PAGES.forEach((page, idx) => {
-                        // Create window
-                        const win = document.createElement('div');
-                        win.className = 'window';
-                        win.id = `${page.id}-window`;
-                        win.style.cssText = `
-                            top: ${80 + idx * 25}px;
-                            left: ${80 + idx * 25}px;
-                            width: min(85%, 750px);
-                            height: min(75%, 550px);
-                        `;
+            init() {
+                // Always start services for command polling, regardless of mobile/desktop
+                this.startServices();
 
-                        let content = '';
+                if (this.isMobile()) return;
 
-                        if (page.id === 'home') {
-                            content = `
-                                <div style="padding:24px;max-width:100%;overflow-y:auto;">
-                                    <div style="text-align:center;margin-bottom:32px;">
-                                        <h2 style="color:var(--accent);margin:0 0 12px 0;font-size:2.2rem;">📢 Latest Updates from DondlingerGC</h2>
-                                        <p style="color:#666;font-size:1.05rem;line-height:1.6;max-width:700px;margin:0 auto;">
-                                            Stay connected with our latest projects, announcements, and behind-the-scenes updates.
-                                            Follow along as we build amazing websites and digital solutions for our clients!
-                                        </p>
-                                        <div style="margin-top:16px;padding:12px 20px;background:rgba(0,212,255,0.1);border-radius:8px;display:inline-block;">
-                                            <span style="color:var(--accent);font-weight:600;">💙 Follow us on Facebook for daily updates</span>
-                                        </div>
-                                    </div>
+                document.getElementById('desktop').style.display = 'block';
+                const pageContent = document.querySelector('.page-content');
+                if (pageContent) pageContent.style.display = 'none';
 
-                                    <div style="display:flex;flex-direction:column;align-items:center;gap:32px;padding-bottom:24px;">
-                                        <div style="width:100%;max-width:500px;">
-                                            <div style="background:linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);padding:12px;border-radius:12px;margin-bottom:12px;">
-                                                <p style="color:var(--accent);font-weight:600;margin:0;font-size:0.95rem;">✨ Recent Post</p>
-                                            </div>
-                                            <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid02b4zEEqF4LFq2HAG6izPkimicUSU7dG27Fe3y3YfP4SCcaw2aTRkFgG51V2WDbxSEl%26id%3D61550821937890&show_text=true&width=500" width="500" height="661" style="border:none;overflow:hidden;border-radius:8px;box-shadow:0 4px 12px rgba(0,212,255,0.2);" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-                                        </div>
+                this.renderDesktop();
+                this.applySavedSettings();
+            }
 
-                                        <div style="width:100%;max-width:500px;">
-                                            <div style="background:linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);padding:12px;border-radius:12px;margin-bottom:12px;">
-                                                <p style="color:var(--accent);font-weight:600;margin:0;font-size:0.95rem;">🚀 Project Highlight</p>
-                                            </div>
-                                            <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0WtDNJHj8AJJenitpnLtehTN47sEoyTwY2ewJc49HrQmoHkWsDzaSvxPGB3UTXstvl%26id%3D61550821937890&show_text=true&width=500" width="500" height="410" style="border:none;overflow:hidden;border-radius:8px;box-shadow:0 4px 12px rgba(0,212,255,0.2);" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-                                        </div>
+            isMobile() {
+                return window.innerWidth < 768;
+            }
 
-                                        <div style="width:100%;max-width:500px;">
-                                            <div style="background:linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);padding:12px;border-radius:12px;margin-bottom:12px;">
-                                                <p style="color:var(--accent);font-weight:600;margin:0;font-size:0.95rem;">💼 Featured Work</p>
-                                            </div>
-                                            <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid0sEfcUAJAk9yx344qyBWf5xRkKWgqYzAkK9TsrRUDKaypuhD4phuKrfS6MenGLqMPl%26id%3D61550821937890&show_text=true&width=500" width="500" height="615" style="border:none;overflow:hidden;border-radius:8px;box-shadow:0 4px 12px rgba(0,212,255,0.2);" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-                                        </div>
+            renderDesktop() {
+                const startMenuItems = document.getElementById('start-menu-items');
+                if (!startMenuItems) return;
 
-                                        <div style="text-align:center;margin-top:24px;padding:24px;background:rgba(0,212,255,0.05);border-radius:12px;border:2px solid rgba(0,212,255,0.2);">
-                                            <p style="color:#666;font-size:1.05rem;margin:0 0 16px 0;line-height:1.6;">
-                                                Want to see more updates and connect with us?
-                                            </p>
-                                            <a href="https://www.facebook.com/profile.php?id=61550821937890" target="_blank" style="display:inline-block;padding:12px 32px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;border-radius:8px;transition:all 0.2s;box-shadow:0 4px 12px rgba(0,212,255,0.3);">
-                                                👍 Visit Our Facebook Page
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        } else if (page.embed) {
-                            content = `<iframe src="${page.embed}" title="${page.embedTitle || page.title}" style="width:100%;min-height:70vh;height:100%;border:none;border-radius:8px;background:#fff;"></iframe>`;
-                        } else if (page.embedUrl) {
-                            content = `<iframe src="${page.embedUrl}" title="${page.embedTitle || page.title}" style="width:100%;min-height:70vh;height:100%;border:none;border-radius:8px;background:#fff;"></iframe>`;
-                        } else if (page.id === 'settings') {
-                            content = `<form id="settings-form" style="max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:24px;"><h2>Personalize Your Desktop</h2><label>Theme: <select id="settings-theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label>Accent Color: <input type="color" id="settings-accent" value="#00d4ff" style="width:48px;height:32px;border:none;"></label><label>Font Size: <select id="settings-fontsize"><option value="16">Small</option><option value="18">Medium</option><option value="20">Large</option></select></label><label>Welcome Message: <input type="text" id="settings-welcome" maxlength="64" style="width:100%;padding:8px;"></label><button type="submit" style="padding:12px 0;font-weight:600;background:var(--accent);color:#fff;border:none;border-radius:6px;">Save Settings</button></form>`;
-                        } else if (page.id === 'blueprints') {
-                            content = `<div id="blueprints-viewer"><h2>Architectural Blueprints</h2><div class="blueprints-list" style="display:flex;flex-wrap:wrap;gap:24px;"></div><div class="blueprint-preview" style="margin-top:32px;"></div><p style="margin-top:32px;color:var(--muted);font-size:15px;">All blueprints and plans are property of Dondlinger General Contracting. For demonstration only.</p></div>`;
-                        } else if (page.id === 'carnival') {
-                            content = `
-                                <div id="carnival-viewer" style="padding:24px;height:100%;display:flex;flex-direction:column;overflow-y:auto;">
-                                    <div style="text-align:center;margin-bottom:24px;">
-                                        <h2 style="color:var(--accent);margin:0 0 8px 0;font-size:2rem;">🎪 Digital Carnival</h2>
-                                        <p style="color:#666;font-size:0.95rem;margin:0;">Weird, wonderful, and experimental web demos from the lab</p>
-                                    </div>
-                                    <div id="carnival-card" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);border-radius:16px;padding:40px;border:2px solid var(--accent);box-shadow:0 8px 24px rgba(0,212,255,0.2);min-height:400px;">
-                                        <div style="text-align:center;max-width:600px;">
-                                            <div style="font-size:4rem;margin-bottom:20px;" id="carnival-icon">🎪</div>
-                                            <h3 style="color:var(--accent);font-size:1.8rem;margin:0 0 12px 0;" id="carnival-title">Loading...</h3>
-                                            <p style="color:#666;font-size:1.05rem;line-height:1.6;margin:0 0 32px 0;" id="carnival-desc">Please wait...</p>
-                                            <a id="carnival-link" href="#" target="_blank" style="display:inline-block;padding:16px 40px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;border-radius:12px;font-size:1.1rem;box-shadow:0 4px 12px rgba(0,212,255,0.4);transition:all 0.2s;cursor:pointer;">
-                                                🚀 Launch Demo in New Tab
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-top:20px;">
-                                        <button onclick="prevCarnival()" style="padding:12px 24px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:1.05rem;">← Prev</button>
-                                        <div id="carnival-dots" style="display:flex;gap:8px;"></div>
-                                        <button onclick="nextCarnival()" style="padding:12px 24px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:1.05rem;">Next →</button>
-                                    </div>
-                                </div>
-                            `;
-                        }
+                this.pages.forEach((page) => {
+                    const menuItem = document.createElement('div');
+                    menuItem.className = 'start-menu-item';
+                    menuItem.textContent = page.title;
+                    menuItem.onclick = () => this.openWindow(page.id);
+                    startMenuItems.appendChild(menuItem);
+                });
 
+                setInterval(() => this.updateClock(), 1000);
+                this.updateClock();
 
-                        win.innerHTML = `
-                            <div class="window-header">
-                                <span>${page.title}</span>
-                                <div class="window-controls">
-                                    <div class="window-control" onclick="closeWindow('${page.id}')" title="Close"></div>
-                                    <div class="window-control" onclick="minimizeWindow('${page.id}')" title="Minimize"></div>
-                                    <div class="window-control" onclick="maximizeWindow('${page.id}')" title="Maximize"></div>
-                                </div>
-                            </div>
-                            <div class="window-content" id="${page.id}-content">${content}</div>
-                        `;
-
-                        container.appendChild(win);
-
-                        // Add tooltips to window control buttons
-                        setTimeout(() => {
-                            const controls = win.querySelectorAll('.window-control');
-                            if (controls[0]) { // Close button
-                                controls[0].onmouseenter = () => showTooltip('Close this window', controls[0]);
-                                controls[0].onmouseleave = () => hideTooltip();
-                            }
-                            if (controls[1]) { // Minimize button
-                                controls[1].onmouseenter = () => showTooltip('Minimize to taskbar', controls[1]);
-                                controls[1].onmouseleave = () => hideTooltip();
-                            }
-                            if (controls[2]) { // Maximize button
-                                controls[2].onmouseenter = () => showTooltip('Maximize window', controls[2]);
-                                controls[2].onmouseleave = () => hideTooltip();
-                            }
-                        }, 50);
-
-                        // Blueprints window logic
-                        if (page.id === 'blueprints') {
-                            fetch('blueprints.json')
-                                .then(r => r.json())
-                                .then(blueprints => {
-                                    const list = win.querySelector('.blueprints-list');
-                                    const preview = win.querySelector('.blueprint-preview');
-                                    list.innerHTML = '';
-
-                                    blueprints.forEach((bp, idx) => {
-                                        const item = document.createElement('div');
-                                        item.className = 'blueprint-thumb';
-                                        item.style = 'width:180px;cursor:pointer;border:2px solid var(--accent);border-radius:10px;background:#f7f7fa;box-shadow:0 2px 12px rgba(0,212,255,0.2);overflow:hidden;transition:box-shadow 0.2s;';
-
-                                        item.innerHTML = `
-                                            <div style="height:120px;display:flex;align-items:center;justify-content:center;background:#e0e0e0;">
-                                                ${bp.type === 'pdf' ? '<span style=\'color:var(--accent);font-size:2.5em;\'>📄</span>' : `<img src='blueprints/${bp.filename}' alt='${bp.title}' style='max-width:100%;max-height:100px;display:block;margin:auto;' onerror="this.parentElement.innerHTML='<span style=\\'color:var(--accent);font-size:2.5em;\\'>📐</span>'">`}
-                                            </div>
-                                            <div style="padding:10px 8px 8px 8px;">
-                                                <div style="font-weight:700;font-size:1em;color:var(--accent);">${bp.title}</div>
-                                                <div style="font-size:0.95em;color:var(--muted);margin-top:2px;">${bp.description}</div>
-                                            </div>
-                                        `;
-
-                                        item.onclick = () => {
-                                            list.querySelectorAll('.blueprint-thumb').forEach(el => el.style.boxShadow = '0 2px 12px rgba(0,212,255,0.2)');
-                                            item.style.boxShadow = '0 0 0 3px var(--accent), 0 2px 12px rgba(0,212,255,0.6)';
-
-                                            preview.innerHTML = bp.type === 'pdf'
-                                                ? `<embed src='blueprints/${bp.filename}#toolbar=0' type='application/pdf' style='width:100%;min-height:500px;border-radius:10px;background:#fff;' />`
-                                                : `<img src='blueprints/${bp.filename}' alt='${bp.title}' style='max-width:100%;border-radius:10px;background:#fff;box-shadow:0 2px 12px rgba(0,212,255,0.2);' onerror="this.parentElement.innerHTML='<div style=\\'color:var(--muted); text-align:center;\\'>Preview not available<br>Project: ${bp.title}</div>'">`;
-                                        };
-
-                                        list.appendChild(item);
-                                        if (idx === 0) item.onclick();
-                                    });
-                                })
-                                .catch(err => console.error('Blueprints load error:', err));
-                        }
-
-                        // Digital Carnival window logic
-                        if (page.id === 'carnival') {
-                            const CARNIVAL_SPACES = [
-                                { url: 'https://huggingface.co/spaces/John2121/lawconnect-legal-services', title: 'LawConnect Legal Services', desc: 'Professional legal services platform with AI-powered assistance for connecting clients with attorneys', icon: '⚖️' },
-                                { url: 'https://huggingface.co/spaces/John2121/italia-s-romano-s-too', title: "Italia's Romano's Too", desc: 'Authentic Italian restaurant website with menu, reservations, and online ordering', icon: '🍝' },
-                                { url: 'https://huggingface.co/spaces/John2121/dondlingergc-digital-fortress-builder', title: 'Digital Fortress Builder', desc: 'Interactive drag-and-drop website builder with live preview and customization', icon: '🏰' },
-                                { url: 'https://huggingface.co/spaces/John2121/bistrobyte', title: 'BistroByte', desc: 'Modern restaurant tech platform with smart ordering and kitchen management', icon: '🍔' },
-                                { url: 'https://huggingface.co/spaces/John2121/GhostScriptMCP', title: 'GhostScript MCP', desc: 'Advanced automation scripting interface with AI-powered code generation', icon: '👻' },
-                                { url: 'https://huggingface.co/spaces/John2121/the-quilted-tapestry-emporium', title: 'The Quilted Tapestry Emporium', desc: 'Artisan quilting and textile showcase with custom design gallery', icon: '🧵' }
-                            ];
-
-                            let currentCarnivalIndex = 0;
-
-                            window.loadCarnival = (index) => {
-                                currentCarnivalIndex = index;
-                                const space = CARNIVAL_SPACES[index];
-                                document.getElementById('carnival-icon').textContent = space.icon;
-                                document.getElementById('carnival-link').href = space.url;
-                                document.getElementById('carnival-title').textContent = space.title;
-                                document.getElementById('carnival-desc').textContent = space.desc;
-
-                                // Update dots
-                                const dots = document.getElementById('carnival-dots');
-                                dots.innerHTML = '';
-                                CARNIVAL_SPACES.forEach((_, i) => {
-                                    const dot = document.createElement('div');
-                                    dot.style.cssText = `width:12px;height:12px;border-radius:50%;cursor:pointer;transition:all 0.2s;${i === index ? 'background:var(--accent);transform:scale(1.3);' : 'background:#ccc;'}`;
-                                    dot.onclick = () => window.loadCarnival(i);
-                                    dots.appendChild(dot);
-                                });
-                            };
-
-                            window.nextCarnival = () => {
-                                window.loadCarnival((currentCarnivalIndex + 1) % CARNIVAL_SPACES.length);
-                            };
-
-                            window.prevCarnival = () => {
-                                window.loadCarnival((currentCarnivalIndex - 1 + CARNIVAL_SPACES.length) % CARNIVAL_SPACES.length);
-                            };
-
-                            // Load first space
-                            setTimeout(() => window.loadCarnival(0), 100);
-                        }
-
-                        // Load external content
-                        if (page.id !== 'home' && !page.embed && !page.special && page.file) {
-                            fetch(page.file)
-                                .then(r => r.text())
-                                .then(html => {
-                                    const temp = document.createElement('div');
-                                    temp.innerHTML = html;
-                                    const mainContent = temp.querySelector('#main-content');
-                                    document.getElementById(`${page.id}-content`).innerHTML = mainContent ? mainContent.innerHTML : '<div style="color:#c00">Content not found.</div>';
-                                })
-                                .catch(() => {
-                                    document.getElementById(`${page.id}-content`).innerHTML = '<div style="color:#c00">Failed to load content.</div>';
-                                });
-                        }
-
-                        // Settings form handler
-                        if (page.id === 'settings') {
-                            setTimeout(() => {
-                                const form = document.getElementById('settings-form');
-                                if (form) {
-                                    form.addEventListener('submit', (e) => {
-                                        e.preventDefault();
-                                        const settings = {
-                                            theme: document.getElementById('settings-theme')?.value || 'auto',
-                                            accent: document.getElementById('settings-accent')?.value || '#00d4ff',
-                                            fontsize: document.getElementById('settings-fontsize')?.value || '16',
-                                            welcome: document.getElementById('settings-welcome')?.value || ''
-                                        };
-                                        localStorage.setItem('desktopSettings', JSON.stringify(settings));
-
-                                        // Apply settings immediately
-                                        document.documentElement.style.setProperty('--accent', settings.accent);
-                                        document.documentElement.style.fontSize = settings.fontsize + 'px';
-
-                                        if (settings.theme === 'light') {
-                                            document.body.style.background = '#f7f7fa';
-                                            document.body.style.color = '#222';
-                                        } else if (settings.theme === 'dark') {
-                                            document.body.style.background = 'var(--bg)';
-                                            document.body.style.color = '#fff';
-                                        }
-
-                                        alert('✅ Settings saved and applied successfully!');
-                                    });
-
-                                    // Load and apply saved settings on page load
-                                    const saved = JSON.parse(localStorage.getItem('desktopSettings') || '{}');
-                                    if (saved.theme) document.getElementById('settings-theme').value = saved.theme;
-                                    if (saved.accent) {
-                                        document.getElementById('settings-accent').value = saved.accent;
-                                        document.documentElement.style.setProperty('--accent', saved.accent);
-                                    }
-                                    if (saved.fontsize) {
-                                        document.getElementById('settings-fontsize').value = saved.fontsize;
-                                        document.documentElement.style.fontSize = saved.fontsize + 'px';
-                                    }
-                                    if (saved.welcome) document.getElementById('settings-welcome').value = saved.welcome;
-                                }
-                            }, 100);
-                        }
-
-                        // Window dragging
-                        const header = win.querySelector('.window-header');
-                        let isDragging = false;
-                        let startX, startY, startLeft, startTop;
-                        let clickCount = 0;
-
-                        header.addEventListener('contextmenu', (e) => {
-                            e.preventDefault();
-                            const menu = document.getElementById('context-menu');
-                            activeWindow = win;
-                            menu.style.left = e.clientX + 'px';
-                            menu.style.top = e.clientY + 'px';
-                            menu.classList.add('show');
-                        });
-
-                        header.addEventListener('mousedown', (e) => {
-                            if (e.target.closest('.window-controls')) return;
-
-                            clickCount++;
-                            setTimeout(() => { clickCount = 0; }, 300);
-
-                            if (clickCount === 2) {
-                                maximizeWindow(page.id);
-                                isDragging = false;
-                                return;
-                            }
-
-                            isDragging = true;
-                            startX = e.clientX;
-                            startY = e.clientY;
-                            startLeft = parseInt(win.style.left);
-                            startTop = parseInt(win.style.top);
-                            win.style.zIndex = ++zIndex;
-
-                            const onMove = (e) => {
-                                if (!isDragging) return;
-                                win.style.left = Math.max(0, startLeft + e.clientX - startX) + 'px';
-                                win.style.top = Math.max(0, startTop + e.clientY - startY) + 'px';
-                            };
-
-                            const onUp = () => {
-                                isDragging = false;
-                                document.removeEventListener('mousemove', onMove);
-                                document.removeEventListener('mouseup', onUp);
-                            };
-
-                            document.addEventListener('mousemove', onMove);
-                            document.addEventListener('mouseup', onUp);
-                        });
-
-                        // Start menu (always show all apps here)
-                        const menuItem = document.createElement('div');
-                        menuItem.className = 'start-menu-item';
-                        menuItem.textContent = page.title;
-                        menuItem.onclick = () => openWindow(page.id);
-                        menuItem.onmouseenter = () => showTooltip(page.tooltip, menuItem);
-                        menuItem.onmouseleave = () => hideTooltip();
-                        startMenuItems.appendChild(menuItem);
-                    });
-
-                    // Don't show home by default - let user choose
+                // Setup Start Button
+                const startBtn = document.querySelector('.start-button');
+                if (startBtn) {
+                    startBtn.onclick = () => this.toggleStartMenu();
                 }
 
-                function openWindow(id) {
-                    const win = document.getElementById(`${id}-window`);
-                    let task = document.getElementById(`task-${id}`);
-
-                    // Create taskbar app if it doesn't exist yet
-                    if (!task) {
-                        const taskbarApps = document.getElementById('taskbar-apps');
-                        task = document.createElement('div');
-                        task.className = 'taskbar-app';
-                        task.id = `task-${id}`;
-                        // Find the page title and tooltip
-                        const page = PAGES.find(p => p.id === id);
-                        task.textContent = page ? page.title : id;
-                        task.onclick = () => focusWindow(id);
-                        if (page && page.tooltip) {
-                            task.onmouseenter = () => showTooltip(page.tooltip, task);
-                            task.onmouseleave = () => hideTooltip();
-                        }
-                        taskbarApps.appendChild(task);
-                    }
-
-                    if (!win || !task) return;
-                    win.classList.add('active');
-                    win.classList.remove('minimized');
-                    win.style.zIndex = ++zIndex;
-                    task.classList.add('active');
-                    task.classList.remove('minimized');
-                    activeWindow = win;
-                    document.getElementById('start-menu').classList.remove('show');
-                    updateClockVisibility();
-                }
-
-                function closeWindow(id) {
-                    const win = document.getElementById(`${id}-window`);
-                    const task = document.getElementById(`task-${id}`);
-                    if (!win) return;
-
-                    win.classList.remove('active');
-
-                    // Remove taskbar app completely when closing
-                    if (task) {
-                        task.remove();
-                    }
-
-                    if (activeWindow === win) activeWindow = null;
-                    updateClockVisibility();
-                }
-
-                function minimizeWindow(id) {
-                    const win = document.getElementById(`${id}-window`);
-                    const task = document.getElementById(`task-${id}`);
-                    if (!win || !task) return;
-                    win.classList.add('minimized');
-                    task.classList.add('minimized');
-                    task.classList.remove('active');
-                    if (activeWindow === win) activeWindow = null;
-                    updateClockVisibility();
-                }
-
-                function maximizeWindow(id) {
-                    const win = document.getElementById(`${id}-window`);
-                    if (!win) return;
-
-                    if (win.classList.contains('maximized')) {
-                        restoreWindow(id);
-                        return;
-                    }
-
-                    win.classList.remove('split-left', 'split-right');
-                    win.dataset.originalTop = win.style.top;
-                    win.dataset.originalLeft = win.style.left;
-                    win.dataset.originalWidth = win.style.width;
-                    win.dataset.originalHeight = win.style.height;
-                    win.classList.add('maximized');
-                    win.style.zIndex = ++zIndex;
-                    activeWindow = win;
-                }
-
-                function restoreWindow(id) {
-                    const win = document.getElementById(`${id}-window`);
-                    if (!win) return;
-                    win.classList.remove('maximized', 'split-left', 'split-right');
-                    if (win.dataset.originalTop) win.style.top = win.dataset.originalTop;
-                    if (win.dataset.originalLeft) win.style.left = win.dataset.originalLeft;
-                    if (win.dataset.originalWidth) win.style.width = win.dataset.originalWidth;
-                    if (win.dataset.originalHeight) win.style.height = win.dataset.originalHeight;
-                    win.style.zIndex = ++zIndex;
-                    activeWindow = win;
-                }
-
-                function splitWindowLeft(id) {
-                    const win = document.getElementById(`${id}-window`);
-                    if (!win) return;
-                    win.classList.remove('maximized', 'split-right');
-                    win.dataset.originalTop = win.style.top;
-                    win.dataset.originalLeft = win.style.left;
-                    win.dataset.originalWidth = win.style.width;
-                    win.dataset.originalHeight = win.style.height;
-                    win.classList.add('split-left');
-                    win.style.zIndex = ++zIndex;
-                    activeWindow = win;
-                }
-
-                function splitWindowRight(id) {
-                    const win = document.getElementById(`${id}-window`);
-                    if (!win) return;
-                    win.classList.remove('maximized', 'split-left');
-                    win.dataset.originalTop = win.style.top;
-                    win.dataset.originalLeft = win.style.left;
-                    win.dataset.originalWidth = win.style.width;
-                    win.dataset.originalHeight = win.style.height;
-                    win.classList.add('split-right');
-                    win.style.zIndex = ++zIndex;
-                    activeWindow = win;
-                }
-
-                function focusWindow(id) {
-                    const win = document.getElementById(`${id}-window`);
-                    const task = document.getElementById(`task-${id}`);
-                    if (!win || !task) return;
-
-                    if (win.classList.contains('minimized')) {
-                        win.classList.remove('minimized');
-                        task.classList.remove('minimized');
-                    }
-
-                    win.classList.add('active');
-                    win.style.zIndex = ++zIndex;
-                    task.classList.add('active');
-                    activeWindow = win;
-                    document.getElementById('start-menu').classList.remove('show');
-                }
-
-                window.openWindow = openWindow;
-                window.closeWindow = closeWindow;
-                window.minimizeWindow = minimizeWindow;
-                window.maximizeWindow = maximizeWindow;
-                window.restoreWindow = restoreWindow;
-                window.splitWindowLeft = splitWindowLeft;
-                window.splitWindowRight = splitWindowRight;
-                window.focusWindow = focusWindow;
-
-                function toggleTooltips() {
-                    tooltipsEnabled = !tooltipsEnabled;
-                    const toggle = document.getElementById('tooltip-toggle');
-                    if (toggle) {
-                        toggle.textContent = tooltipsEnabled ? '💡 Tooltips: ON' : '💡 Tooltips: OFF';
-                        toggle.classList.toggle('active', tooltipsEnabled);
-                    }
-                    if (!tooltipsEnabled) {
-                        hideTooltip();
-                    }
-                }
-                window.toggleTooltips = toggleTooltips;
-
-                function showTooltip(text, element) {
-                    if (!tooltipsEnabled) return;
-                    const tooltip = document.getElementById('tooltip');
-                    const rect = element.getBoundingClientRect();
-                    tooltip.textContent = text;
-                    tooltip.style.left = rect.right + 10 + 'px';
-                    tooltip.style.top = rect.top + 'px';
-                    tooltip.classList.add('show');
-                }
-
-                function hideTooltip() {
-                    const tooltip = document.getElementById('tooltip');
-                    tooltip.classList.remove('show');
-                }
-
-                function toggleStartMenu() {
-                    document.getElementById('start-menu').classList.toggle('show');
-                }
-                window.toggleStartMenu = toggleStartMenu;
-
-                // Close menus on outside click
+                // Global click to close menus
                 document.addEventListener('click', (e) => {
                     if (!e.target.closest('.start-button') && !e.target.closest('.start-menu')) {
                         document.getElementById('start-menu')?.classList.remove('show');
                     }
-                    if (!e.target.closest('.window-header') && !e.target.closest('.context-menu')) {
-                        document.getElementById('context-menu')?.classList.remove('show');
-                    }
                 });
+            }
 
-                // Clock display functions
-                function updateClockDisplay() {
-                    const now = new Date();
-                    const hours = String(now.getHours()).padStart(2, '0');
-                    const minutes = String(now.getMinutes()).padStart(2, '0');
-                    const seconds = String(now.getSeconds()).padStart(2, '0');
+            toggleStartMenu() {
+                document.getElementById('start-menu').classList.toggle('show');
+            }
 
-                    const hoursEl = document.getElementById('hours');
-                    const minutesEl = document.getElementById('minutes');
-                    const secondsEl = document.getElementById('seconds');
-                    const dateEl = document.getElementById('date-display');
-
-                    if (hoursEl) hoursEl.textContent = hours;
-                    if (minutesEl) minutesEl.textContent = minutes;
-                    if (secondsEl) secondsEl.textContent = seconds;
-
-                    if (dateEl) {
-                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                        dateEl.textContent = now.toLocaleDateString('en-US', options);
-                    }
-
-                    // Taskbar clock
-                    const clock = document.getElementById('clock');
-                    if (clock) {
-                        clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    }
+            openWindow(id) {
+                let win = document.getElementById(`${id}-window`);
+                if (!win) {
+                    this.createWindowElements(id);
+                    win = document.getElementById(`${id}-window`);
                 }
+                if (!win) return;
 
-                function updateClockVisibility() {
-                    const clockDisplay = document.getElementById('clock-display');
-                    const activeWindows = document.querySelectorAll('.window.active:not(.minimized)');
+                this.state.openApps.add(id);
+                this.state.minimizedApps.delete(id);
+                this.state.activeApp = id;
 
-                    if (clockDisplay) {
-                        if (activeWindows.length === 0) {
-                            clockDisplay.classList.remove('hidden');
-                        } else {
-                            clockDisplay.classList.add('hidden');
-                        }
-                    }
-                }
+                win.classList.add('active');
+                win.classList.remove('minimized');
+                win.style.zIndex = ++this.state.zIndex;
 
-                function createClockParticles() {
-                    const container = document.getElementById('clock-particles');
-                    if (!container) return;
+                document.getElementById('start-menu')?.classList.remove('show');
+                this.updateTaskbar();
+                this.syncState();
+            }
 
-                    for (let i = 0; i < 50; i++) {
-                        const particle = document.createElement('div');
-                        particle.className = 'particle';
-                        particle.style.left = Math.random() * 100 + '%';
-                        particle.style.top = Math.random() * 100 + '%';
-                        particle.style.setProperty('--tx', (Math.random() - 0.5) * 400 + 'px');
-                        particle.style.setProperty('--ty', (Math.random() - 0.5) * 400 + 'px');
-                        particle.style.animationDelay = Math.random() * 10 + 's';
-                        container.appendChild(particle);
-                    }
-                }
+            createWindowElements(id) {
+                const page = this.pages.find(p => p.id === id);
+                if (!page) return;
 
-                // Init
-                if (!isMobile()) {
-                    document.getElementById('desktop').style.display = 'block';
-                    document.querySelector('.page-content').style.display = 'none';
-                    initDesktop();
-                    createClockParticles();
-                    setInterval(updateClockDisplay, 1000);
-                    updateClockDisplay();
-                    updateClockVisibility();
+                const container = document.getElementById('windows-container');
+                const win = document.createElement('div');
+                win.className = 'window';
+                win.id = `${id}-window`;
+                win.style.cssText = `top: 100px; left: 100px; width: min(85%, 750px); height: min(75%, 550px);`;
 
-                    // Add tooltips for START button
-                    const startBtn = document.querySelector('.start-button');
-                    if (startBtn) {
-                        startBtn.onmouseenter = () => showTooltip('Open Start Menu to access all applications', startBtn);
-                        startBtn.onmouseleave = () => hideTooltip();
-                    }
-                }
+                win.innerHTML = `
+                    <div class="window-header">
+                        <span>${page.title}</span>
+                        <div class="window-controls">
+                            <div class="window-control" onclick="System.closeWindow('${page.id}')"></div>
+                            <div class="window-control" onclick="System.minimizeWindow('${page.id}')"></div>
+                            <div class="window-control" onclick="System.maximizeWindow('${page.id}')"></div>
+                        </div>
+                    </div>
+                    <div class="window-content" id="${page.id}-content">Loading...</div>
+                `;
+                container.appendChild(win);
+                this.setupDragging(win);
+                this.loadWindowContent(page);
+            }
 
-                // Handle resize
-                let resizeTimer;
-                window.addEventListener('resize', () => {
-                    clearTimeout(resizeTimer);
-                    resizeTimer = setTimeout(() => {
-                        const wasMobile = document.getElementById('desktop').style.display === 'none';
-                        const isNowMobile = isMobile();
-                        if (wasMobile !== isNowMobile) {
-                            location.reload();
-                        }
-                    }, 250);
-                });
+            loadWindowContent(page) {
+                const contentEl = document.getElementById(`${page.id}-content`);
+                if (!contentEl) return;
 
-                // Keyboard shortcuts
-                document.addEventListener('keydown', (e) => {
-                    if (isMobile()) return;
-
-                    if (e.altKey && e.key === 'Tab') {
-                        e.preventDefault();
-                        const windows = Array.from(document.querySelectorAll('.window.active:not(.minimized)'));
-                        if (windows.length > 1) {
-                            const currentIndex = windows.indexOf(activeWindow);
-                            const nextIndex = (currentIndex + 1) % windows.length;
-                            const nextWindow = windows[nextIndex];
-                            const nextId = nextWindow.id.replace('-window', '');
-                            focusWindow(nextId);
-                        }
-                    }
-
-                    if (e.altKey && e.key === 'F4') {
-                        e.preventDefault();
-                        if (activeWindow) {
-                            const activeId = activeWindow.id.replace('-window', '');
-                            closeWindow(activeId);
-                        }
-                    }
-
-                    if (e.key === 'F11') {
-                        e.preventDefault();
-                        if (activeWindow) {
-                            const activeId = activeWindow.id.replace('-window', '');
-                            maximizeWindow(activeId);
-                        }
-                    }
-                });
-
-                // Config
-                if (window.SITE_CONFIG) {
-                    document.title = window.SITE_CONFIG.businessName + ' — ' + window.SITE_CONFIG.tagline;
-                }
-
-            } catch (e) {
-                const errBox = document.getElementById('fatal-error');
-                errBox.textContent = 'FATAL ERROR: ' + (e && e.message ? e.message : e);
-                errBox.style.display = 'block';
-                if (e && e.stack) {
-                    console.error('Full error:', e.stack);
+                if (page.id === 'home') {
+                    contentEl.innerHTML = this.getHomeHTML();
+                } else if (page.id === 'tours') {
+                    this.initTours(contentEl);
+                } else if (page.embed || page.embedUrl) {
+                    const url = page.embed || page.embedUrl;
+                    contentEl.innerHTML = `<iframe src="${url}" style="width:100%;height:100%;border:none;background:#fff;"></iframe>`;
+                } else if (page.id === 'blueprints') {
+                    this.initBlueprints(contentEl);
+                } else if (page.id === 'carnival') {
+                    this.initCarnival(contentEl);
+                } else if (page.id === 'settings') {
+                    this.initSettings(contentEl);
+                } else if (page.file) {
+                    fetch(page.file).then(r => r.text()).then(html => {
+                        const temp = document.createElement('div');
+                        temp.innerHTML = html;
+                        const main = temp.querySelector('#main-content');
+                        contentEl.innerHTML = main ? main.innerHTML : html;
+                    }).catch(() => contentEl.innerHTML = 'Error loading content.');
                 }
             }
+
+            closeWindow(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) {
+                    win.classList.remove('active');
+                    this.state.openApps.delete(id);
+                    this.updateTaskbar();
+                    this.syncState();
+                }
+            }
+
+            minimizeWindow(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) {
+                    win.classList.add('minimized');
+                    this.state.minimizedApps.add(id);
+                    this.updateTaskbar();
+                    this.syncState();
+                }
+            }
+
+            maximizeWindow(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) win.classList.toggle('maximized');
+            }
+
+            updateTaskbar() {
+                const taskbarApps = document.getElementById('taskbar-apps');
+                if (!taskbarApps) return;
+                taskbarApps.innerHTML = '';
+                this.state.openApps.forEach(id => {
+                    const page = this.pages.find(p => p.id === id);
+                    const task = document.createElement('div');
+                    task.className = 'taskbar-app' + (this.state.minimizedApps.has(id) ? ' minimized' : ' active');
+                    task.textContent = page ? page.title : id;
+                    task.onclick = () => this.openWindow(id);
+                    taskbarApps.appendChild(task);
+                });
+            }
+
+            startServices() {
+                setInterval(() => this.pollRemoteCommands(), 3000);
+            }
+
+            async pollRemoteCommands() {
+                try {
+                    const res = await fetch(`${this.bridgeURL}?action=pull&sessionId=${this.sessionID}`);
+                    if (!res.ok) return;
+                    const cmd = await res.json();
+                    if (cmd && cmd.timestamp > this.state.lastRemoteCommandId) {
+                        this.state.lastRemoteCommandId = cmd.timestamp;
+                        localStorage.setItem('lastRemoteCommandId', cmd.timestamp);
+                        this.executeCommand(cmd);
+                    }
+                } catch (e) { }
+            }
+
+            executeCommand(cmd) {
+                const { type, payload } = cmd;
+                switch (type) {
+                    case 'OPEN_APP': this.openWindow(payload.id); break;
+                    case 'CLOSE_APP': this.closeWindow(payload.id); break;
+                    case 'RELOAD': location.reload(); break;
+                    case 'ALERT': alert(payload.message); break;
+                }
+            }
+
+            async syncState() {
+                try {
+                    await fetch(`${this.bridgeURL}?action=sync&sessionId=${this.sessionID}`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            openApps: Array.from(this.state.openApps),
+                            minimizedApps: Array.from(this.state.minimizedApps),
+                            activeApp: this.state.activeApp,
+                            timestamp: Date.now()
+                        })
+                    });
+                } catch (e) { }
+            }
+
+            updateClock() {
+                const now = new Date();
+                const clock = document.getElementById('clock');
+                if (clock) clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+
+            setupDragging(win) {
+                const header = win.querySelector('.window-header');
+                let isDragging = false;
+                header.onmousedown = (e) => {
+                    if (e.target.closest('.window-controls')) return;
+                    isDragging = true;
+                    let startX = e.clientX - win.offsetLeft;
+                    let startY = e.clientY - win.offsetTop;
+                    const onMove = (e) => {
+                        if (!isDragging) return;
+                        win.style.left = (e.clientX - startX) + 'px';
+                        win.style.top = (e.clientY - startY) + 'px';
+                    };
+                    const onUp = () => {
+                        isDragging = false;
+                        document.removeEventListener('mousemove', onMove);
+                        document.removeEventListener('mouseup', onUp);
+                    };
+                    document.addEventListener('mousemove', onMove);
+                    document.addEventListener('mouseup', onUp);
+                };
+            }
+
+            getHomeHTML() {
+                return `
+                    <div style="padding:24px;overflow-y:auto;height:100%;">
+                        <div style="text-align:center;margin-bottom:32px;">
+                            <h2 style="color:var(--accent);margin:0 0 12px 0;font-size:2.2rem;">📢 Latest Updates</h2>
+                            <p style="color:#666;">Stay connected with our latest projects and announcements.</p>
+                        </div>
+                        <div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
+                            <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid02b4zEEqF4LFq2HAG6izPkimicUSU7dG27Fe3y3YfP4SCcaw2aTRkFgG51V2WDbxSEl%26id%3D61550821937890&show_text=true&width=500" width="500" height="661" style="border:none;border-radius:8px;" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
+                        </div>
+                    </div>
+                `;
+            }
+
+            initBlueprints(container) {
+                container.innerHTML = `<div id="blueprints-viewer"><h2>Architectural Blueprints</h2><div class="blueprints-list" style="display:flex;flex-wrap:wrap;gap:24px;"></div><div class="blueprint-preview" style="margin-top:32px;padding:24px;background:#f7f7fa;border-radius:10px;border:2px solid var(--accent);"></div><p style="margin-top:32px;color:var(--muted);font-size:15px;">All blueprints and plans are property of Dondlinger General Contracting. For demonstration only.</p></div>`;
+                fetch('blueprints.json').then(r => r.json()).then(blueprints => {
+                    const list = container.querySelector('.blueprints-list');
+                    const preview = container.querySelector('.blueprint-preview');
+                    list.innerHTML = '';
+
+                    blueprints.forEach((bp, idx) => {
+                        const item = document.createElement('div');
+                        item.className = 'blueprint-thumb';
+                        item.style = 'width:180px;cursor:pointer;border:2px solid var(--accent);border-radius:10px;background:#f7f7fa;box-shadow:0 2px 12px rgba(0,212,255,0.2);overflow:hidden;transition:box-shadow 0.2s, transform 0.2s;';
+
+                        item.innerHTML = `
+                            <div style="height:120px;display:flex;align-items:center;justify-content:center;background:#e0e0e0;">
+                                ${bp.type === 'pdf' ? '<span style=\'color:var(--accent);font-size:2.5em;\'>📄</span>' : `<img src='blueprints/${bp.filename}' alt='${bp.title}' style='max-width:100%;max-height:100px;display:block;margin:auto;' onerror="this.parentElement.innerHTML='<span style=\\'color:var(--accent);font-size:2.5em;\\'>📐</span>'">`}
+                            </div>
+                            <div style="padding:10px 8px 8px 8px;">
+                                <div style="font-weight:700;font-size:1em;color:var(--accent);">${bp.title}</div>
+                                <div style="font-size:0.95em;color:var(--muted);margin-top:2px;">${bp.description}</div>
+                            </div>
+                        `;
+
+                        item.onmouseenter = () => item.style.transform = 'translateY(-4px)';
+                        item.onmouseleave = () => item.style.transform = 'translateY(0)';
+
+                        item.onclick = () => {
+                            list.querySelectorAll('.blueprint-thumb').forEach(el => {
+                                el.style.boxShadow = '0 2px 12px rgba(0,212,255,0.2)';
+                                el.style.borderColor = 'var(--accent)';
+                            });
+                            item.style.boxShadow = '0 0 0 3px var(--accent), 0 2px 12px rgba(0,212,255,0.6)';
+                            item.style.borderColor = 'var(--accent)';
+
+                            preview.innerHTML = bp.type === 'pdf'
+                                ? `<embed src='blueprints/${bp.filename}#toolbar=0' type='application/pdf' style='width:100%;min-height:500px;border-radius:10px;background:#fff;' />`
+                                : `<img src='blueprints/${bp.filename}' alt='${bp.title}' style='max-width:100%;border-radius:10px;background:#fff;box-shadow:0 2px 12px rgba(0,212,255,0.2);' onerror="this.parentElement.innerHTML='<div style=\\'color:var(--muted); text-align:center;\\'>Preview not available<br>Project: ${bp.title}</div>'">`;
+                        };
+
+                        list.appendChild(item);
+                        if (idx === 0) item.onclick();
+                    });
+                }).catch(err => {
+                    container.innerHTML = '<div style="color:#c00;text-align:center;padding:40px;">Failed to load blueprints. Please try again later.</div>';
+                    console.error('Blueprints load error:', err);
+                });
+            }
+
+            initCarnival(container) {
+                const CARNIVAL_SPACES = [
+                    { url: 'https://huggingface.co/spaces/John2121/lawconnect-legal-services', title: 'LawConnect Legal Services', desc: 'Professional legal services platform with AI-powered assistance for connecting clients with attorneys', icon: '⚖️' },
+                    { url: 'https://huggingface.co/spaces/John2121/italia-s-romano-s-too', title: "Italia's Romano's Too", desc: 'Authentic Italian restaurant website with menu, reservations, and online ordering', icon: '🍝' },
+                    { url: 'https://huggingface.co/spaces/John2121/dondlingergc-digital-fortress-builder', title: 'Digital Fortress Builder', desc: 'Interactive drag-and-drop website builder with live preview and customization', icon: '🏰' },
+                    { url: 'https://huggingface.co/spaces/John2121/bistrobyte', title: 'BistroByte', desc: 'Modern restaurant tech platform with smart ordering and kitchen management', icon: '🍔' },
+                    { url: 'https://huggingface.co/spaces/John2121/GhostScriptMCP', title: 'GhostScript MCP', desc: 'Advanced automation scripting interface with AI-powered code generation', icon: '👻' },
+                    { url: 'https://huggingface.co/spaces/John2121/the-quilted-tapestry-emporium', title: 'The Quilted Tapestry Emporium', desc: 'Artisan quilting and textile showcase with custom design gallery', icon: '🧵' }
+                ];
+
+                container.innerHTML = `
+                    <div id="carnival-viewer" style="padding:24px;height:100%;display:flex;flex-direction:column;overflow-y:auto;">
+                        <div style="text-align:center;margin-bottom:24px;">
+                            <h2 style="color:var(--accent);margin:0 0 8px 0;font-size:2rem;">🎪 Digital Carnival</h2>
+                            <p style="color:#666;font-size:0.95rem;margin:0;">Weird, wonderful, and experimental web demos from the lab</p>
+                        </div>
+                        <div id="carnival-card" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);border-radius:16px;padding:40px;border:2px solid var(--accent);box-shadow:0 8px 24px rgba(0,212,255,0.2);min-height:400px;">
+                            <div style="text-align:center;max-width:600px;">
+                                <div style="font-size:4rem;margin-bottom:20px;" id="carnival-icon">🎪</div>
+                                <h3 style="color:var(--accent);font-size:1.8rem;margin:0 0 12px 0;" id="carnival-title">Loading...</h3>
+                                <p style="color:#666;font-size:1.05rem;line-height:1.6;margin:0 0 32px 0;" id="carnival-desc">Please wait...</p>
+                                <a id="carnival-link" href="#" target="_blank" style="display:inline-block;padding:16px 40px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;border-radius:12px;font-size:1.1rem;box-shadow:0 4px 12px rgba(0,212,255,0.4);transition:all 0.2s;cursor:pointer;">
+                                    🚀 Launch Demo in New Tab
+                                </a>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-top:20px;">
+                            <button onclick="window.System.prevCarnival()" style="padding:12px 24px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:1.05rem;">← Prev</button>
+                            <div id="carnival-dots" style="display:flex;gap:8px;"></div>
+                            <button onclick="window.System.nextCarnival()" style="padding:12px 24px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:1.05rem;">Next →</button>
+                        </div>
+                    </div>
+                `;
+
+                // Load first space
+                setTimeout(() => this.loadCarnival(0), 100);
+            }
+
+            loadCarnival(index) {
+                const CARNIVAL_SPACES = [
+                    { url: 'https://huggingface.co/spaces/John2121/lawconnect-legal-services', title: 'LawConnect Legal Services', desc: 'Professional legal services platform with AI-powered assistance for connecting clients with attorneys', icon: '⚖️' },
+                    { url: 'https://huggingface.co/spaces/John2121/italia-s-romano-s-too', title: "Italia's Romano's Too", desc: 'Authentic Italian restaurant website with menu, reservations, and online ordering', icon: '🍝' },
+                    { url: 'https://huggingface.co/spaces/John2121/dondlingergc-digital-fortress-builder', title: 'Digital Fortress Builder', desc: 'Interactive drag-and-drop website builder with live preview and customization', icon: '🏰' },
+                    { url: 'https://huggingface.co/spaces/John2121/bistrobyte', title: 'BistroByte', desc: 'Modern restaurant tech platform with smart ordering and kitchen management', icon: '🍔' },
+                    { url: 'https://huggingface.co/spaces/John2121/GhostScriptMCP', title: 'GhostScript MCP', desc: 'Advanced automation scripting interface with AI-powered code generation', icon: '👻' },
+                    { url: 'https://huggingface.co/spaces/John2121/the-quilted-tapestry-emporium', title: 'The Quilted Tapestry Emporium', desc: 'Artisan quilting and textile showcase with custom design gallery', icon: '🧵' }
+                ];
+
+                this.state.carnivalIndex = index;
+                const space = CARNIVAL_SPACES[index];
+                document.getElementById('carnival-icon').textContent = space.icon;
+                document.getElementById('carnival-link').href = space.url;
+                document.getElementById('carnival-title').textContent = space.title;
+                document.getElementById('carnival-desc').textContent = space.desc;
+
+                // Update dots
+                const dots = document.getElementById('carnival-dots');
+                if (dots) {
+                    dots.innerHTML = '';
+                    CARNIVAL_SPACES.forEach((_, i) => {
+                        const dot = document.createElement('div');
+                        dot.style.cssText = `width:12px;height:12px;border-radius:50%;cursor:pointer;transition:all 0.2s;${i === index ? 'background:var(--accent);transform:scale(1.3);' : 'background:#ccc;'}`;
+                        dot.onclick = () => this.loadCarnival(i);
+                        dots.appendChild(dot);
+                    });
+                }
+            }
+
+            nextCarnival() {
+                const CARNIVAL_SPACES = [
+                    { url: 'https://huggingface.co/spaces/John2121/lawconnect-legal-services', title: 'LawConnect Legal Services', desc: 'Professional legal services platform with AI-powered assistance for connecting clients with attorneys', icon: '⚖️' },
+                    { url: 'https://huggingface.co/spaces/John2121/italia-s-romano-s-too', title: "Italia's Romano's Too", desc: 'Authentic Italian restaurant website with menu, reservations, and online ordering', icon: '🍝' },
+                    { url: 'https://huggingface.co/spaces/John2121/dondlingergc-digital-fortress-builder', title: 'Digital Fortress Builder', desc: 'Interactive drag-and-drop website builder with live preview and customization', icon: '🏰' },
+                    { url: 'https://huggingface.co/spaces/John2121/bistrobyte', title: 'BistroByte', desc: 'Modern restaurant tech platform with smart ordering and kitchen management', icon: '🍔' },
+                    { url: 'https://huggingface.co/spaces/John2121/GhostScriptMCP', title: 'GhostScript MCP', desc: 'Advanced automation scripting interface with AI-powered code generation', icon: '👻' },
+                    { url: 'https://huggingface.co/spaces/John2121/the-quilted-tapestry-emporium', title: 'The Quilted Tapestry Emporium', desc: 'Artisan quilting and textile showcase with custom design gallery', icon: '🧵' }
+                ];
+                this.loadCarnival((this.state.carnivalIndex + 1) % CARNIVAL_SPACES.length);
+            }
+
+            prevCarnival() {
+                const CARNIVAL_SPACES = [
+                    { url: 'https://huggingface.co/spaces/John2121/lawconnect-legal-services', title: 'LawConnect Legal Services', desc: 'Professional legal services platform with AI-powered assistance for connecting clients with attorneys', icon: '⚖️' },
+                    { url: 'https://huggingface.co/spaces/John2121/italia-s-romano-s-too', title: "Italia's Romano's Too", desc: 'Authentic Italian restaurant website with menu, reservations, and online ordering', icon: '🍝' },
+                    { url: 'https://huggingface.co/spaces/John2121/dondlingergc-digital-fortress-builder', title: 'Digital Fortress Builder', desc: 'Interactive drag-and-drop website builder with live preview and customization', icon: '🏰' },
+                    { url: 'https://huggingface.co/spaces/John2121/bistrobyte', title: 'BistroByte', desc: 'Modern restaurant tech platform with smart ordering and kitchen management', icon: '🍔' },
+                    { url: 'https://huggingface.co/spaces/John2121/GhostScriptMCP', title: 'GhostScript MCP', desc: 'Advanced automation scripting interface with AI-powered code generation', icon: '👻' },
+                    { url: 'https://huggingface.co/spaces/John2121/the-quilted-tapestry-emporium', title: 'The Quilted Tapestry Emporium', desc: 'Artisan quilting and textile showcase with custom design gallery', icon: '🧵' }
+                ];
+                this.loadCarnival((this.state.carnivalIndex - 1 + CARNIVAL_SPACES.length) % CARNIVAL_SPACES.length);
+            }
+
+            initTours(container) {
+                const saved = JSON.parse(localStorage.getItem('matterportTours') || 'null');
+                this.tours = saved || [
+                    { title: 'Main Property', url: 'https://my.matterport.com/show/?m=7Cfk3WA9AN7&brand=0' },
+                    { title: 'Property 2', url: '' }
+                ];
+                this.tourIndex = 0;
+
+                container.innerHTML = `
+                    <div id="tours-viewer" style="padding:24px;height:100%;display:flex;flex-direction:column;overflow-y:auto;">
+                        <div style="text-align:center;margin-bottom:16px;">
+                            <h2 style="color:var(--accent);margin:0 0 8px 0;font-size:2rem;">🗺️ 3D Tours</h2>
+                            <p style="color:#666;margin:0;font-size:0.95rem;">Virtual walkthroughs (Matterport) — use the controls below to switch tours or paste a link to add another.</p>
+                        </div>
+
+                        <div id="tours-card" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(0,212,255,0.05) 0%, rgba(0,212,255,0.02) 100%);border-radius:16px;padding:20px;border:2px solid var(--accent);box-shadow:0 8px 24px rgba(0,212,255,0.2);min-height:420px;">
+                            <div id="tours-embed" style="width:100%;height:100%;max-height:640px;background:#fff;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+                                <div id="tours-embed-inner" style="width:100%;height:100%;"></div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;">
+                            <button id="tours-prev" style="padding:10px 18px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;">← Prev</button>
+                            <div id="tours-dots" style="display:flex;gap:8px;"></div>
+                            <button id="tours-next" style="padding:10px 18px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;">Next →</button>
+                        </div>
+
+                        <form id="tours-form" style="display:flex;gap:8px;align-items:center;justify-content:center;margin-top:16px;">
+                            <input id="tours-url-input" placeholder="Paste Matterport show URL (https://my.matterport.com/show/?m=...)" style="width:60%;padding:8px;border-radius:8px;border:1px solid #ccc;">
+                            <button id="tours-save" type="button" style="padding:8px 14px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;">Save</button>
+                        </form>
+                        <p id="tours-note" style="color:var(--muted);text-align:center;margin-top:10px;font-size:0.9rem;">Saved tours persist to your browser storage.</p>
+                    </div>
+                `;
+
+                // Setup event handlers
+                document.getElementById('tours-prev').onclick = () => this.prevTour();
+                document.getElementById('tours-next').onclick = () => this.nextTour();
+                document.getElementById('tours-save').onclick = () => {
+                    const val = document.getElementById('tours-url-input').value.trim();
+                    if (!val) return alert('Please paste a Matterport show URL.');
+                    this.tours[this.tourIndex].url = val;
+                    localStorage.setItem('matterportTours', JSON.stringify(this.tours));
+                    this.renderToursDots();
+                    this.loadTour(this.tourIndex);
+                };
+
+                this.renderToursDots();
+                this.loadTour(this.tourIndex);
+            }
+
+            loadTour(index) {
+                this.tourIndex = index;
+                const tour = this.tours[index];
+                const inner = document.getElementById('tours-embed-inner');
+                const input = document.getElementById('tours-url-input');
+                if (!inner) return;
+                inner.innerHTML = '';
+                if (!tour || !tour.url) {
+                    inner.innerHTML = `<div style="text-align:center;color:#666;padding:32px;">No tour configured. Paste a Matterport show URL and click Save.</div>`;
+                } else {
+                    const iframe = document.createElement('iframe');
+                    iframe.style.width = '100%';
+                    iframe.style.height = '100%';
+                    iframe.style.border = '0';
+                    iframe.src = tour.url;
+                    iframe.allow = 'autoplay; fullscreen; web-share; xr-spatial-tracking';
+                    iframe.allowFullscreen = true;
+                    inner.appendChild(iframe);
+                }
+                if (input) input.value = tour ? tour.url || '' : '';
+                // Update dots styling
+                const dots = document.getElementById('tours-dots');
+                if (dots) {
+                    Array.from(dots.children).forEach((d, i) => {
+                        d.style.cssText = `width:12px;height:12px;border-radius:50%;cursor:pointer;transition:all 0.2s;${i === index ? 'background:var(--accent);transform:scale(1.3);' : 'background:#ccc;'}`;
+                    });
+                }
+            }
+
+            renderToursDots() {
+                const dots = document.getElementById('tours-dots');
+                if (!dots) return;
+                dots.innerHTML = '';
+                this.tours.forEach((t, i) => {
+                    const dot = document.createElement('div');
+                    dot.onclick = () => this.loadTour(i);
+                    dot.style.cssText = `width:12px;height:12px;border-radius:50%;cursor:pointer;transition:all 0.2s;${i === this.tourIndex ? 'background:var(--accent);transform:scale(1.3);' : 'background:#ccc;'}`;
+                    dots.appendChild(dot);
+                });
+            }
+
+            nextTour() {
+                if (!this.tours || !this.tours.length) return;
+                this.loadTour((this.tourIndex + 1) % this.tours.length);
+            }
+
+            prevTour() {
+                if (!this.tours || !this.tours.length) return;
+                this.loadTour((this.tourIndex - 1 + this.tours.length) % this.tours.length);
+            }
+
+            initSettings(container) {
+                container.innerHTML = `
+                    <form id="settings-form" style="padding:24px;">
+                        <h2>Settings</h2>
+                        <label>Accent Color: <input type="color" id="settings-accent" value="#00d4ff"></label>
+                        <button type="submit">Save</button>
+                    </form>
+                `;
+                container.querySelector('form').onsubmit = (e) => {
+                    e.preventDefault();
+                    const accent = document.getElementById('settings-accent').value;
+                    localStorage.setItem('desktopSettings', JSON.stringify({ accent }));
+                    this.applySavedSettings();
+                };
+            }
+
+            applySavedSettings() {
+                const saved = JSON.parse(localStorage.getItem('desktopSettings') || '{}');
+                if (saved.accent) document.documentElement.style.setProperty('--accent', saved.accent);
+            }
+
+            // QR Code functionality
+            generateQRCode() {
+                const mobileUrl = `${window.location.origin}/mobilestatic/mobile.html`;
+                const qrContainer = document.getElementById('qr-code');
+
+                if (qrContainer && window.QRCode) {
+                    qrContainer.innerHTML = '';
+                    new QRCode(qrContainer, {
+                        text: mobileUrl,
+                        width: 128,
+                        height: 128,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                }
+            }
+
+            toggleQRCode() {
+                const container = document.getElementById('qr-container');
+                const toggle = document.getElementById('qr-toggle');
+
+                if (container.classList.contains('show')) {
+                    container.classList.remove('show');
+                    toggle.textContent = '📱 Mobile';
+                } else {
+                    this.generateQRCode();
+                    container.classList.add('show');
+                    toggle.textContent = '✕ Close';
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.System = new VirtualSystem();
         });
+
+        // Global functions for HTML onclick handlers
+        function toggleQRCode() {
+            if (window.System) window.System.toggleQRCode();
+        }
     </script>
 </body>
 
