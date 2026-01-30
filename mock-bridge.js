@@ -49,24 +49,36 @@ const server = http.createServer((req, res) => {
                         const command = JSON.parse(body);
                         const cmdId = Date.now();
 
-                        // Store file in memory - under main key for pull to retrieve
-                        const fileData = {
-                            ...command,
-                            id: cmdId,
-                            timestamp: cmdId
-                        };
-                        storage[`file_${sessionId}`] = JSON.stringify(fileData);
-                        storage[`file_${sessionId}_${cmdId}`] = JSON.stringify(fileData);
+                        // Validate file upload
+                        if (command.type === 'file_upload' && command.file) {
+                            const validation = validateFileUpload(command.file);
+                            if (!validation.valid) {
+                                res.writeHead(400, corsHeaders);
+                                res.end(JSON.stringify({ error: validation.error }));
+                                return;
+                            }
 
-                        console.log(`✓ File received: ${command.file?.name || 'unknown'}`);
+                            // Store file in memory - under main key for pull to retrieve
+                            const fileData = {
+                                ...command,
+                                id: cmdId,
+                                timestamp: cmdId,
+                                uploadedAt: new Date().toISOString()
+                            };
+                            storage[`file_${sessionId}`] = JSON.stringify(fileData);
+                            storage[`file_${sessionId}_${cmdId}`] = JSON.stringify(fileData);
 
-                        res.writeHead(200, corsHeaders);
-                        res.end(JSON.stringify({
-                            success: true,
-                            id: cmdId,
-                            message: 'File uploaded successfully'
-                        }));
+                            console.log(`✓ File received: ${command.file?.name || 'unknown'}`);
+
+                            res.writeHead(200, corsHeaders);
+                            res.end(JSON.stringify({
+                                success: true,
+                                id: cmdId,
+                                message: 'File uploaded successfully'
+                            }));
+                        }
                     } catch (e) {
+                        console.error('Upload error:', e.message);
                         res.writeHead(400, corsHeaders);
                         res.end(JSON.stringify({ error: e.message }));
                     }
@@ -148,3 +160,48 @@ server.listen(PORT, () => {
     console.log(`\n🌉 Mock Bridge Server running at http://localhost:${PORT}/api/bridge`);
     console.log(`\n📝 The main app should be served on http://localhost:8000\n`);
 });
+
+/**
+ * Validate file upload data
+ */
+function validateFileUpload(file) {
+    if (!file) return { valid: false, error: 'No file provided' };
+    
+    // Validate file name
+    if (!file.name || typeof file.name !== 'string') {
+        return { valid: false, error: 'Invalid file name' };
+    }
+    if (file.name.length > 255) {
+        return { valid: false, error: 'File name too long' };
+    }
+    // Prevent path traversal
+    if (file.name.includes('..') || file.name.includes('/') || file.name.includes('\\')) {
+        return { valid: false, error: 'Invalid file name characters' };
+    }
+    
+    // Validate file size
+    if (typeof file.size !== 'number' || file.size <= 0) {
+        return { valid: false, error: 'Invalid file size' };
+    }
+    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+    if (file.size > MAX_FILE_SIZE) {
+        return { valid: false, error: 'File exceeds 50MB limit' };
+    }
+    
+    // Validate base64 data
+    if (!file.data || typeof file.data !== 'string') {
+        return { valid: false, error: 'No file data provided' };
+    }
+    if (file.data.length > 100 * 1024 * 1024) {
+        return { valid: false, error: 'File data too large' };
+    }
+    
+    // Validate MIME type if provided
+    if (file.mimeType && typeof file.mimeType === 'string') {
+        if (file.mimeType.length > 100) {
+            return { valid: false, error: 'Invalid MIME type' };
+        }
+    }
+    
+    return { valid: true };
+}

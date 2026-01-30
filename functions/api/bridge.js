@@ -4,11 +4,22 @@ export async function onRequest(context) {
     const action = url.searchParams.get('action');
     const sessionId = url.searchParams.get('sessionId') || 'default';
 
+    // Validate session ID format
+    if (!isValidSessionId(sessionId)) {
+        return new Response(JSON.stringify({ error: 'Invalid session ID' }), { 
+            status: 400, 
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+
     const corsHeaders = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'Cache-Control': 'no-store, no-cache, must-revalidate'
     };
 
     if (request.method === 'OPTIONS') {
@@ -25,29 +36,69 @@ export async function onRequest(context) {
         switch (action) {
             case 'push': // From Mobile/Agent to Desktop
                 if (request.method !== 'POST') break;
-                const command = await request.json();
-                const cmdId = Date.now();
+                
+                const contentLength = request.headers.get('content-length');
+                const MAX_UPLOAD_SIZE = 50 * 1024 * 1024; // 50MB
+                
+                if (contentLength && parseInt(contentLength) > MAX_UPLOAD_SIZE) {
+                    return new Response(JSON.stringify({ 
+                        error: 'File too large. Maximum size is 50MB' 
+                    }), { 
+                        status: 413, 
+                        headers: corsHeaders 
+                    });
+                }
 
-                // Handle file uploads separately - store with longer TTL and file-specific key
+                let command;
+                try {
+                    command = await request.json();
+                } catch (e) {
+                    return new Response(JSON.stringify({ 
+                        error: 'Invalid JSON in request body' 
+                    }), { 
+                        status: 400, 
+                        headers: corsHeaders 
+                    });
+                }
+
+                // Validate file upload
                 if (command.type === 'file_upload' && command.file) {
-                    // Store file under main key (will be retrieved by pull and deleted)
-                    // Also store timestamped backup for queuing
+                    const validation = validateFileUpload(command.file);
+                    if (!validation.valid) {
+                        return new Response(JSON.stringify({ 
+                            error: validation.error 
+                        }), { 
+                            status: 400, 
+                            headers: corsHeaders 
+                        });
+                    }
+
+                    const cmdId = Date.now();
                     const fileData = {
                         ...command,
                         id: cmdId,
-                        timestamp: cmdId
+                        timestamp: cmdId,
+                        uploadedAt: new Date().toISOString()
                     };
-                    await storage.put(`file_${sessionId}`, JSON.stringify(fileData), { expirationTtl: 3600 }); // 1 hour for files
-                    // Also store with timestamp as backup/history
+                    
+                    await storage.put(`file_${sessionId}`, JSON.stringify(fileData), { expirationTtl: 3600 });
                     await storage.put(`file_${sessionId}_${cmdId}`, JSON.stringify(fileData), { expirationTtl: 3600 });
+                    
+                    return new Response(JSON.stringify({ 
+                        success: true, 
+                        id: cmdId, 
+                        message: 'File uploaded successfully',
+                        mock: !env.COMMANDS_KV 
+                    }), { headers: corsHeaders });
                 } else {
                     await storage.put(`cmd_${sessionId}`, JSON.stringify({
                         ...command,
-                        id: cmdId,
-                        timestamp: cmdId
+                        id: Date.now(),
+                        timestamp: Date.now()
                     }), { expirationTtl: 300 });
+                    
+                    return new Response(JSON.stringify({ success: true, mock: !env.COMMANDS_KV }), { headers: corsHeaders });
                 }
-                return new Response(JSON.stringify({ success: true, id: cmdId, mock: !env.COMMANDS_KV }), { headers: corsHeaders });
 
             case 'pull': // From Desktop (listening for files/commands)
                 // Check for files first - this is what FileManager uses
@@ -59,7 +110,7 @@ export async function onRequest(context) {
                     await storage.delete(`file_${sessionId}`);
                     return new Response(mostRecentFile, { headers: corsHeaders });
                 }
-                
+
                 // Fall back to commands for backward compatibility
                 const cmd = await storage.get(`cmd_${sessionId}`);
                 return new Response(cmd || JSON.stringify(null), { headers: corsHeaders });
@@ -110,8 +161,64 @@ export async function onRequest(context) {
                 }), { headers: corsHeaders });
         }
     } catch (err) {
-        return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: corsHeaders });
+        console.error('[Bridge] Error:', err);
+        return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500, headers: corsHeaders });
     }
 
     return new Response(JSON.stringify({ error: 'Invalid action' }), { status: 400, headers: corsHeaders });
+}
+
+/**
+ * Validate session ID format
+ */
+function isValidSessionId(sessionId) {
+    if (!sessionId || typeof sessionId !== 'string') return false;
+    if (sessionId.length > 100) return false;
+    // Allow alphanumeric, dashes, underscores
+    return /^[a-zA-Z0-9_-]+$/.test(sessionId);
+}
+
+/**
+ * Validate file upload data
+ */
+function validateFileUpload(file) {
+    if (!file) return { valid: false, error: 'No file provided' };
+    
+    // Validate file name
+    if (!file.name || typeof file.name !== 'string') {
+        return { valid: false, error: 'Invalid file name' };
+    }
+    if (file.name.length > 255) {
+        return { valid: false, error: 'File name too long' };
+    }
+    // Prevent path traversal
+    if (file.name.includes('..') || file.name.includes('/') || file.name.includes('\\')) {
+        return { valid: false, error: 'Invalid file name characters' };
+    }
+    
+    // Validate file size
+    if (typeof file.size !== 'number' || file.size <= 0) {
+        return { valid: false, error: 'Invalid file size' };
+    }
+    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+    if (file.size > MAX_FILE_SIZE) {
+        return { valid: false, error: 'File exceeds 50MB limit' };
+    }
+    
+    // Validate base64 data
+    if (!file.data || typeof file.data !== 'string') {
+        return { valid: false, error: 'No file data provided' };
+    }
+    if (file.data.length > 100 * 1024 * 1024) { // 100MB in base64 is ~75MB raw
+        return { valid: false, error: 'File data too large' };
+    }
+    
+    // Validate MIME type if provided
+    if (file.mimeType && typeof file.mimeType === 'string') {
+        if (file.mimeType.length > 100) {
+            return { valid: false, error: 'Invalid MIME type' };
+        }
+    }
+    
+    return { valid: true };
 }
