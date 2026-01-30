@@ -336,31 +336,37 @@ class FileManager {
             reader.onload = async (e) => {
                 try {
                     const base64 = e.target.result.split(',')[1];
-
                     const sessionID = window.System?.sessionID || 'default';
-                    const bridgeURL = window.System?.bridgeURL || '/api/bridge';
-                    const url = `${bridgeURL}?action=push&sessionId=${sessionID}`;
 
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            type: 'file_upload',
-                            file: {
-                                name: file.name,
-                                size: file.size,
-                                data: base64,
-                                mimeType: file.type || 'application/octet-stream'
-                            }
-                        })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}`);
+                    let response;
+                    if (window.bridgeClient) {
+                        response = await window.bridgeClient.pushFile(sessionID, {
+                            name: file.name,
+                            size: file.size,
+                            data: base64,
+                            mimeType: file.type || 'application/octet-stream'
+                        });
+                    } else {
+                        const bridgeURL = window.System?.bridgeURL || '/api/bridge';
+                        const url = `${bridgeURL}?action=push&sessionId=${sessionID}`;
+                        const res = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                type: 'file_upload',
+                                file: {
+                                    name: file.name,
+                                    size: file.size,
+                                    data: base64,
+                                    mimeType: file.type || 'application/octet-stream'
+                                }
+                            })
+                        });
+                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                        response = await res.json();
                     }
 
-                    const result = await response.json();
-                    console.log(`[FileManager] ✓ Upload successful:`, result);
+                    console.log(`[FileManager] ✓ Upload successful:`, response);
 
                     // Add to local files
                     const fileItem = new FileItem({
@@ -368,7 +374,7 @@ class FileManager {
                         size: file.size,
                         data: base64,
                         mimeType: file.type,
-                        id: result.id || Date.now(),
+                        id: response.id || Date.now(),
                         timestamp: Date.now()
                     });
 
@@ -1073,10 +1079,23 @@ class FileManager {
     async syncStatus() {
         try {
             const sessionID = window.System?.sessionID || 'default';
-            const bridgeURL = window.System?.bridgeURL || '/api/bridge';
-            const url = `${bridgeURL}?action=sync&sessionId=${sessionID}`;
 
             console.log(`[FileManager] Syncing status for session: ${sessionID}`);
+
+            // Use bridge client if available
+            if (window.bridgeClient) {
+                const result = await window.bridgeClient.syncStatus(sessionID, {
+                    windowOpen: true,
+                    fileCount: this.files.length,
+                    timestamp: Date.now()
+                });
+                console.log('[FileManager] ✓ Status synced:', result);
+                return true;
+            }
+
+            // Fallback to direct fetch
+            const bridgeURL = window.System?.bridgeURL || '/api/bridge';
+            const url = `${bridgeURL}?action=sync&sessionId=${sessionID}`;
 
             const response = await fetch(url, {
                 method: 'POST',
@@ -1115,16 +1134,21 @@ class FileManager {
     async pollNewFiles() {
         try {
             const sessionID = window.System?.sessionID || 'default';
-            const bridgeURL = window.System?.bridgeURL || '/api/bridge';
-            const url = `${bridgeURL}?action=pull&sessionId=${sessionID}`;
 
-            const response = await fetch(url);
-            if (!response.ok) {
-                console.warn(`[FileManager] Poll failed: HTTP ${response.status}`);
-                return;
+            let fileData;
+            if (window.bridgeClient) {
+                fileData = await window.bridgeClient.pullFile(sessionID);
+            } else {
+                const bridgeURL = window.System?.bridgeURL || '/api/bridge';
+                const url = `${bridgeURL}?action=pull&sessionId=${sessionID}`;
+                const response = await fetch(url);
+                if (!response.ok) {
+                    console.warn(`[FileManager] Poll failed: HTTP ${response.status}`);
+                    return;
+                }
+                fileData = await response.json();
             }
 
-            const fileData = await response.json();
             if (!fileData) {
                 console.log(`[FileManager] Poll: No files from backend`);
                 return;

@@ -332,6 +332,7 @@
         <input type="file" id="file-input" multiple>
     </div>
 
+    <script src="../js/bridge-client.js"></script>
     <script>
         // Use 'default' session ID to match desktop, or accept from URL parameter
         const urlParams = new URLSearchParams(window.location.search);
@@ -345,23 +346,42 @@
         let desktopOnline = false;
         let statusCheckCount = 0;
 
+        // Wait for bridge client to initialize
+        async function waitForBridgeClient() {
+            let attempts = 0;
+            while (!window.bridgeClient && attempts < 50) {
+                await new Promise(r => setTimeout(r, 100));
+                attempts++;
+            }
+            if (!window.bridgeClient) {
+                console.warn('[Mobile] Bridge client not initialized');
+            }
+            return window.bridgeClient;
+        }
+
         // Check desktop status
         async function checkDesktopStatus() {
             statusCheckCount++;
             try {
-                const res = await fetch(`${BRIDGE_URL}?action=status&sessionId=${SESSION_ID}`, {
-                    method: 'GET',
-                    headers: { 'Accept': 'application/json' }
-                });
+                let data;
+                if (window.bridgeClient) {
+                    data = await window.bridgeClient.checkStatus(SESSION_ID);
+                } else {
+                    const res = await fetch(`${BRIDGE_URL}?action=status&sessionId=${SESSION_ID}`, {
+                        method: 'GET',
+                        headers: { 'Accept': 'application/json' }
+                    });
 
-                if (!res.ok) {
-                    console.warn(`[Mobile] Status check failed: HTTP ${res.status}`);
-                    desktopOnline = false;
-                    updateStatusBadge();
-                    return;
+                    if (!res.ok) {
+                        console.warn(`[Mobile] Status check failed: HTTP ${res.status}`);
+                        desktopOnline = false;
+                        updateStatusBadge();
+                        return;
+                    }
+
+                    data = await res.json();
                 }
 
-                const data = await res.json();
                 console.log(`[Mobile] Status check #${statusCheckCount}:`, data);
                 desktopOnline = data.online === true; // Explicitly check for true
                 updateStatusBadge();
@@ -400,23 +420,32 @@
             try {
                 const base64 = await fileToBase64(file);
 
-                const response = await fetch(`${BRIDGE_URL}?action=push&sessionId=${SESSION_ID}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        type: 'file_upload',
-                        file: {
-                            name: file.name,
-                            size: file.size,
-                            data: base64,
-                            mimeType: file.type
-                        }
-                    })
-                });
+                let result;
+                if (window.bridgeClient) {
+                    result = await window.bridgeClient.pushFile(SESSION_ID, {
+                        name: file.name,
+                        size: file.size,
+                        data: base64,
+                        mimeType: file.type
+                    });
+                } else {
+                    const response = await fetch(`${BRIDGE_URL}?action=push&sessionId=${SESSION_ID}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            type: 'file_upload',
+                            file: {
+                                name: file.name,
+                                size: file.size,
+                                data: base64,
+                                mimeType: file.type
+                            }
+                        })
+                    });
+                    result = await response.json();
+                }
 
-                const result = await response.json();
-
-                if (result.success) {
+                if (result && result.success) {
                     fileItem.status = 'success';
                 } else {
                     fileItem.status = 'error';
