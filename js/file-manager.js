@@ -57,12 +57,20 @@ class FileManager {
     onWindowOpen() {
         try {
             console.log('[FileManager] Window opened');
+            console.log('[FileManager] Session ID:', window.System?.sessionID || 'default');
+            console.log('[FileManager] Bridge URL:', window.System?.bridgeURL || '/api/bridge');
+            
             this.ensureContainer();
             this.cacheFiles();
             this.loadFiles();
             this.render();
             this.attachEventListeners();
-            this.startAutoSync();
+            
+            // Start auto-sync AFTER everything is initialized
+            setTimeout(() => {
+                this.startAutoSync();
+                console.log('[FileManager] ✓ Ready for mobile connections');
+            }, 500);
         } catch (e) {
             console.error('[FileManager] Error on open:', e);
             this.showError('Failed to initialize file manager');
@@ -947,13 +955,17 @@ class FileManager {
      * Start auto-sync polling
      */
     startAutoSync() {
-        // Report status to backend immediately and every 5 seconds
+        // Report status to backend immediately
+        console.log('[FileManager] Starting auto-sync...');
         this.syncStatus();
-        
+
+        // Sync more frequently to help mobile detect us
         this.syncInterval = setInterval(() => {
-            this.pollNewFiles();
-            this.syncStatus(); // Report desktop is online
-        }, 5000); // Every 5 seconds
+            this.syncStatus(); // Report desktop is online (every 3 seconds)
+            this.pollNewFiles(); // Poll for files (every 3 seconds instead of 5)
+        }, 3000); // Every 3 seconds for faster mobile detection
+        
+        console.log('[FileManager] Auto-sync started (3-second interval)');
     }
 
     /**
@@ -964,6 +976,8 @@ class FileManager {
             const sessionID = window.System?.sessionID || 'default';
             const bridgeURL = window.System?.bridgeURL || '/api/bridge';
             const url = `${bridgeURL}?action=sync&sessionId=${sessionID}`;
+
+            console.log(`[FileManager] Syncing status for session: ${sessionID}`);
 
             const response = await fetch(url, {
                 method: 'POST',
@@ -976,10 +990,16 @@ class FileManager {
             });
 
             if (response.ok) {
-                console.log('[FileManager] Status synced with backend');
+                const result = await response.json();
+                console.log('[FileManager] ✓ Status synced:', result);
+                return true;
+            } else {
+                console.warn(`[FileManager] Sync failed: HTTP ${response.status}`);
+                return false;
             }
         } catch (e) {
-            console.warn('[FileManager] Sync status error:', e.message);
+            console.error('[FileManager] Sync status error:', e.message);
+            return false;
         }
     }
 
