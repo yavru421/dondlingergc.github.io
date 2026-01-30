@@ -1619,15 +1619,33 @@
 
                 try {
                     // Call /api/bridge?action=generate to get unique session
-                    const response = await fetch('/api/bridge?action=generate', {
-                        method: 'GET'
-                    });
+                    let data;
+                    try {
+                        const response = await fetch('/api/bridge?action=generate', {
+                            method: 'GET',
+                            timeout: 3000
+                        });
 
-                    if (!response.ok) {
-                        throw new Error(`Server error: ${response.status}`);
+                        if (!response.ok) {
+                            throw new Error(`Server error: ${response.status}`);
+                        }
+
+                        data = await response.json();
+                    } catch (bridgeError) {
+                        console.warn('[Desktop] Bridge endpoint failed, using demo mode:', bridgeError.message);
+                        // Fallback: generate demo session locally
+                        const timestamp = Date.now().toString(36);
+                        const random = Math.random().toString(36).substring(2, 10);
+                        const demoSessionId = `${timestamp}-${random}`;
+                        
+                        data = {
+                            success: true,
+                            sessionId: demoSessionId,
+                            websiteUrl: `${window.location.origin}/mobilestatic/files.html?sessionId=${demoSessionId}`,
+                            note: 'Demo mode (Bridge Worker not deployed)'
+                        };
                     }
 
-                    const data = await response.json();
                     if (!data.success || !data.sessionId) {
                         throw new Error('Failed to generate session');
                     }
@@ -1638,6 +1656,7 @@
                     localStorage.setItem('sessionId', data.sessionId);
 
                     console.log('[Desktop] Generated unique session:', data.sessionId);
+                    if (data.note) console.log('[Desktop]', data.note);
 
                     // Display session info
                     const sessionInfo = document.querySelector('.session-info');
