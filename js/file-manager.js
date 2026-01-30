@@ -947,9 +947,40 @@ class FileManager {
      * Start auto-sync polling
      */
     startAutoSync() {
+        // Report status to backend immediately and every 5 seconds
+        this.syncStatus();
+        
         this.syncInterval = setInterval(() => {
             this.pollNewFiles();
+            this.syncStatus(); // Report desktop is online
         }, 5000); // Every 5 seconds
+    }
+
+    /**
+     * Report desktop status to backend (heartbeat for mobile to detect)
+     */
+    async syncStatus() {
+        try {
+            const sessionID = window.System?.sessionID || 'default';
+            const bridgeURL = window.System?.bridgeURL || '/api/bridge';
+            const url = `${bridgeURL}?action=sync&sessionId=${sessionID}`;
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    windowOpen: true,
+                    fileCount: this.files.length,
+                    timestamp: Date.now()
+                })
+            });
+
+            if (response.ok) {
+                console.log('[FileManager] Status synced with backend');
+            }
+        } catch (e) {
+            console.warn('[FileManager] Sync status error:', e.message);
+        }
     }
 
     /**
