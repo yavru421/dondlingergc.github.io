@@ -290,6 +290,7 @@
             }
         }
     </style>
+    <script src="../js/mobile-discovery.js"></script>
 </head>
 
 <body>
@@ -334,56 +335,64 @@
 
     <script src="../js/bridge-client.js"></script>
     <script>
-        // Use 'default' session ID to match desktop, or accept from URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const SESSION_ID = urlParams.get('sid') || 'default';
+        // Multi-user session support
+        let serverUrl = null;
+        let discoveryMode = 'cloud'; // Only cloud mode for multi-user
 
-        const BRIDGE_URL = window.location.hostname === 'localhost'
-            ? 'http://localhost:8787/api/bridge'
-            : '/api/bridge';
+        // Extract session ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        let SESSION_ID = urlParams.get('sessionId');
+        const BRIDGE_URL = '/api/bridge'; // Cloud bridge
+
+        // If no session ID provided, show error
+        if (!SESSION_ID) {
+            document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;color:#ff6b6b;"><div><h1>No Session</h1><p>Please scan the QR code from the desktop interface</p></div></div>';
+            throw new Error('No session ID in URL');
+        }
 
         let files = [];
         let desktopOnline = false;
         let statusCheckCount = 0;
 
-        // Wait for bridge client to initialize
-        async function waitForBridgeClient() {
-            let attempts = 0;
-            while (!window.bridgeClient && attempts < 50) {
-                await new Promise(r => setTimeout(r, 100));
-                attempts++;
-            }
-            if (!window.bridgeClient) {
-                console.warn('[Mobile] Bridge client not initialized');
-            }
-            return window.bridgeClient;
+        /**
+         * Initialize connection to desktop
+         */
+        async function initializeConnection() {
+            console.log('[Mobile] Initializing connection for session:', SESSION_ID);
+            const badge = document.getElementById('status-badge');
+            badge.textContent = `Connecting...`;
+
+            // Cloud-only mode for multi-user support
+            discoveryMode = 'cloud';
+            console.log('[Mobile] Using cloud bridge');
+
+            // Start status checking
+            checkDesktopStatus();
+            setInterval(checkDesktopStatus, 3000);
         }
 
         // Check desktop status
         async function checkDesktopStatus() {
             statusCheckCount++;
             try {
-                let data;
-                if (window.bridgeClient) {
-                    data = await window.bridgeClient.checkStatus(SESSION_ID);
-                } else {
-                    const res = await fetch(`${BRIDGE_URL}?action=status&sessionId=${SESSION_ID}`, {
-                        method: 'GET',
-                        headers: { 'Accept': 'application/json' }
-                    });
+                const url = `${BRIDGE_URL}?action=status&sessionId=${SESSION_ID}`;
 
-                    if (!res.ok) {
-                        console.warn(`[Mobile] Status check failed: HTTP ${res.status}`);
-                        desktopOnline = false;
-                        updateStatusBadge();
-                        return;
-                    }
+                const res = await fetch(url, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
 
-                    data = await res.json();
+                if (!res.ok) {
+                    console.warn(`[Mobile] Status check failed: HTTP ${res.status}`);
+                    desktopOnline = false;
+                    updateStatusBadge();
+                    return;
                 }
 
+                const data = await res.json();
                 console.log(`[Mobile] Status check #${statusCheckCount}:`, data);
-                desktopOnline = data.online === true; // Explicitly check for true
+
+                desktopOnline = data.online === true;
                 updateStatusBadge();
             } catch (e) {
                 console.error(`[Mobile] Status check error:`, e.message);
@@ -418,32 +427,25 @@
             renderFileList();
 
             try {
+                let result;
+
+                // Cloud-only upload (multi-user mode)
                 const base64 = await fileToBase64(file);
 
-                let result;
-                if (window.bridgeClient) {
-                    result = await window.bridgeClient.pushFile(SESSION_ID, {
-                        name: file.name,
-                        size: file.size,
-                        data: base64,
-                        mimeType: file.type
-                    });
-                } else {
-                    const response = await fetch(`${BRIDGE_URL}?action=push&sessionId=${SESSION_ID}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            type: 'file_upload',
-                            file: {
-                                name: file.name,
-                                size: file.size,
-                                data: base64,
-                                mimeType: file.type
-                            }
-                        })
-                    });
-                    result = await response.json();
-                }
+                const response = await fetch(`${BRIDGE_URL}?action=push&sessionId=${SESSION_ID}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'file_upload',
+                        file: {
+                            name: file.name,
+                            size: file.size,
+                            data: base64,
+                            mimeType: file.type
+                        }
+                    })
+                });
+                result = await response.json();
 
                 if (result && result.success) {
                     fileItem.status = 'success';
@@ -550,9 +552,12 @@
             document.getElementById('file-input').click();
         });
 
-        // Check status periodically
-        checkDesktopStatus();
-        setInterval(checkDesktopStatus, 3000);
+        // Initialize connection when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeConnection);
+        } else {
+            initializeConnection();
+        }
     </script>
 </body>
 

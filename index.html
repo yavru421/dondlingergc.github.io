@@ -1610,58 +1610,69 @@
                 if (saved.accent) document.documentElement.style.setProperty('--accent', saved.accent);
             }
 
-            // QR Code functionality
-            generateQRCode() {
-                // Use actual IP for mobile access instead of localhost
-                let baseUrl = window.location.origin;
-
-                // If localhost, try to replace with local IP
-                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                    // For local testing, use the actual IP address
-                    baseUrl = `http://192.168.211.1:8000`;
-                    console.log('Using local IP for QR:', baseUrl);
-                }
-
-                const mobileUrl = `${baseUrl}/mobilestatic/files.html`;
+            // QR Code functionality - MULTI-USER SESSION GENERATION
+            async generateQRCode() {
                 const qrContainer = document.getElementById('qr-code');
+                if (!qrContainer) return;
 
-                console.log('generateQRCode: URL =', mobileUrl);
-                console.log('generateQRCode: Container =', qrContainer);
-                console.log('generateQRCode: window.QRCode =', window.QRCode);
+                qrContainer.innerHTML = '<div style="padding: 20px; text-align: center;">Generating your session...</div>';
 
-                if (qrContainer) {
+                try {
+                    // Call /api/bridge?action=generate to get unique session
+                    const response = await fetch('/api/bridge?action=generate', {
+                        method: 'GET'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    if (!data.success || !data.sessionId) {
+                        throw new Error('Failed to generate session');
+                    }
+
+                    // Store session ID locally
+                    window.currentSessionId = data.sessionId;
+                    localStorage.setItem('sessionId', data.sessionId);
+
+                    // Display session info
+                    const sessionInfo = document.querySelector('.session-info');
+                    if (sessionInfo) {
+                        sessionInfo.innerHTML = `<strong>Session ID:</strong> ${data.sessionId.substring(0, 12)}...`;
+                    }
+
+                    // Generate QR code
                     qrContainer.innerHTML = '';
-                    // Wait a moment for QRCode library to be available
                     let retryCount = 0;
-                    const maxRetries = 50; // Max 5 seconds of retries (100ms × 50)
+                    const maxRetries = 50;
                     const attemptQR = () => {
-                        console.log('attemptQR: Checking window.QRCode...', !!window.QRCode);
                         if (window.QRCode) {
                             try {
-                                console.log('QRCode library found, generating...');
                                 new QRCode(qrContainer, {
-                                    text: mobileUrl,
+                                    text: data.websiteUrl,
                                     width: 128,
                                     height: 128,
                                     colorDark: "#000000",
                                     colorLight: "#ffffff",
                                     correctLevel: QRCode.CorrectLevel.H
                                 });
-                                console.log('✓ QR code generated successfully');
+                                console.log('✓ QR code generated for session:', data.sessionId);
                             } catch (e) {
                                 console.error('QRCode generation error:', e);
-                                qrContainer.innerHTML = '<div style="color:#c00;text-align:center;padding:20px;">Error: ' + e.message + '</div>';
+                                qrContainer.innerHTML = '<div style="color:#c00;text-align:center;padding:20px;">Error generating QR</div>';
                             }
                         } else if (retryCount < maxRetries) {
                             retryCount++;
-                            console.log(`QRCode not ready yet (attempt ${retryCount}/${maxRetries}), retrying in 100ms...`);
                             setTimeout(attemptQR, 100);
                         } else {
-                            console.error('QRCode library failed to load after 50 attempts');
-                            qrContainer.innerHTML = '<div style="color:#c00;text-align:center;padding:20px;">Error: QRCode library not available</div>';
+                            qrContainer.innerHTML = '<div style="color:#c00;text-align:center;padding:20px;">QRCode library unavailable</div>';
                         }
                     };
                     attemptQR();
+                } catch (error) {
+                    console.error('Failed to generate session:', error);
+                    qrContainer.innerHTML = `<div style="color:#c00;text-align:center;padding:20px;">Error: ${error.message}</div>`;
                 }
             }
 

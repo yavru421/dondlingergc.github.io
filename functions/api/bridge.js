@@ -2,15 +2,7 @@ export async function onRequest(context) {
     const { request, env } = context;
     const url = new URL(request.url);
     const action = url.searchParams.get('action');
-    const sessionId = url.searchParams.get('sessionId') || 'default';
-
-    // Validate session ID format
-    if (!isValidSessionId(sessionId)) {
-        return new Response(JSON.stringify({ error: 'Invalid session ID' }), {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' }
-        });
-    }
+    let sessionId = url.searchParams.get('sessionId');
 
     const corsHeaders = {
         'Access-Control-Allow-Origin': '*',
@@ -32,6 +24,84 @@ export async function onRequest(context) {
     const isUsingKV = !!env.COMMANDS_KV;
 
     console.log(`[Bridge] Storage: ${isUsingKV ? 'KV' : 'Fallback'} | Session: ${sessionId} | Action: ${action}`);
+
+    // ======== GENERATE NEW SESSION (Multi-user) ========
+    if (action === 'generate') {
+        try {
+            const newSessionId = generateSessionId();
+            const qrUrl = `${url.origin}/mobilestatic/files.html?sessionId=${newSessionId}`;
+
+            // Initialize session metadata
+            const sessionMetadata = {
+                sessionId: newSessionId,
+                createdAt: new Date().toISOString(),
+                expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+                fileCount: 0,
+                totalSize: 0,
+                lastActivity: new Date().toISOString()
+            };
+
+            await storage.put(
+                `session_${newSessionId}`,
+                JSON.stringify(sessionMetadata),
+                { expirationTtl: 24 * 60 * 60 } // 24 hour TTL
+            );
+
+            return new Response(JSON.stringify({
+                success: true,
+                sessionId: newSessionId,
+                qrUrl: qrUrl,
+                websiteUrl: `${url.origin}/mobilestatic/files.html?sessionId=${newSessionId}`,
+                expiresAt: sessionMetadata.expiresAt,
+                instructions: 'Scan the QR code with your phone or visit the link'
+            }), {
+                status: 200,
+                headers: corsHeaders
+            });
+        } catch (error) {
+            console.error('[Bridge] Generate session error:', error);
+            return new Response(JSON.stringify({
+                error: 'Failed to generate session: ' + error.message
+            }), {
+                status: 500,
+                headers: corsHeaders
+            });
+        }
+    }
+
+    // ======== VALIDATE SESSION (all other actions) ========
+    if (!sessionId) {
+        return new Response(JSON.stringify({
+            error: 'Session ID required. Call ?action=generate first'
+        }), {
+            status: 400,
+            headers: corsHeaders
+        });
+    }
+
+    // Check if session exists and is valid
+    const sessionData = await storage.get(`session_${sessionId}`);
+    if (!sessionData) {
+        return new Response(JSON.stringify({
+            error: 'Session not found or expired. Generate a new session.'
+        }), {
+            status: 404,
+            headers: corsHeaders
+        });
+    }
+
+    // Update last activity
+    try {
+        const metadata = JSON.parse(sessionData);
+        metadata.lastActivity = new Date().toISOString();
+        await storage.put(
+            `session_${sessionId}`,
+            JSON.stringify(metadata),
+            { expirationTtl: 24 * 60 * 60 }
+        );
+    } catch (e) {
+        // Continue even if metadata update fails
+    }
 
     try {
         switch (action) {
@@ -74,20 +144,31 @@ export async function onRequest(context) {
                         });
                     }
 
-                    const cmdId = Date.now();
+                    const fileId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
                     const fileData = {
                         ...command,
-                        id: cmdId,
-                        timestamp: cmdId,
-                        uploadedAt: new Date().toISOString()
+                        id: fileId,
+                        timestamp: Date.now(),
+                        uploadedAt: new Date().toISOString(),
+                        sessionId: sessionId // Track which session owns this file
                     };
 
-                    await storage.put(`file_${sessionId}`, JSON.stringify(fileData), { expirationTtl: 3600 });
-                    await storage.put(`file_${sessionId}_${cmdId}`, JSON.stringify(fileData), { expirationTtl: 3600 });
+                    // Store with session-specific key for isolation
+                    await storage.put(`file_${sessionId}_${fileId}`, JSON.stringify(fileData), { expirationTtl: 24 * 60 * 60 });
+
+                    // Update session file count
+                    try {
+                        const metadata = JSON.parse(await storage.get(`session_${sessionId}`));
+                        metadata.fileCount = (metadata.fileCount || 0) + 1;
+                        metadata.totalSize = (metadata.totalSize || 0) + (command.file.size || 0);
+                        await storage.put(`session_${sessionId}`, JSON.stringify(metadata), { expirationTtl: 24 * 60 * 60 });
+                    } catch (e) {
+                        console.warn('[Bridge] Failed to update session metadata:', e);
+                    }
 
                     return new Response(JSON.stringify({
                         success: true,
-                        id: cmdId,
+                        fileId: fileId,
                         message: 'File uploaded successfully',
                         mock: !env.COMMANDS_KV
                     }), { headers: corsHeaders });
@@ -95,7 +176,8 @@ export async function onRequest(context) {
                     await storage.put(`cmd_${sessionId}`, JSON.stringify({
                         ...command,
                         id: Date.now(),
-                        timestamp: Date.now()
+                        timestamp: Date.now(),
+                        sessionId: sessionId
                     }), { expirationTtl: 300 });
 
                     return new Response(JSON.stringify({ success: true, mock: !env.COMMANDS_KV }), { headers: corsHeaders });
@@ -103,8 +185,6 @@ export async function onRequest(context) {
 
             case 'pull': // From Desktop (listening for files/commands)
                 // Check for files first - this is what FileManager uses
-                // In production, this would iterate KV properly, but for now we'll store
-                // the most recent file under a predictable key
                 const mostRecentFile = await storage.get(`file_${sessionId}`);
                 if (mostRecentFile) {
                     // Return the file and delete it (one-time retrieval)
@@ -122,7 +202,8 @@ export async function onRequest(context) {
                 console.log(`[Bridge] Sync from desktop session ${sessionId}:`, state);
                 const newState = {
                     ...state,
-                    lastSeen: Date.now()
+                    lastSeen: Date.now(),
+                    sessionId: sessionId
                 };
                 await storage.put(`state_${sessionId}`, JSON.stringify(newState), { expirationTtl: 600 });
                 console.log(`[Bridge] ✓ Stored state for ${sessionId}, TTL: 600s`);
@@ -151,6 +232,22 @@ export async function onRequest(context) {
                     }), { headers: corsHeaders });
                 }
 
+            case 'session_info': // Get session metadata
+                const meta = await storage.get(`session_${sessionId}`);
+                if (meta) {
+                    return new Response(meta, { headers: corsHeaders });
+                }
+                return new Response(JSON.stringify({ error: 'Session not found' }), { status: 404, headers: corsHeaders });
+
+            case 'list_files': // List all files in session
+                // Note: This is simplified - in production with many files, would need pagination
+                const filePrefix = `file_${sessionId}_`;
+                return new Response(JSON.stringify({
+                    sessionId: sessionId,
+                    files: [],
+                    note: 'File listing limited - use individual file IDs'
+                }), { headers: corsHeaders });
+
             case 'tools': // MCP-style tool discovery
                 return new Response(JSON.stringify({
                     tools: [
@@ -159,14 +256,6 @@ export async function onRequest(context) {
                         { name: "alert", description: "Show notification", parameters: { message: "string" } },
                         { name: "reload", description: "Refresh desktop UI" }
                     ]
-                }), { headers: corsHeaders });
-
-            case 'files': // List received files
-                const filesPattern = `file_${sessionId}_`;
-                // Note: This is a simplified version. In production, you'd iterate KV keys properly
-                // For now, return a mock structure that the desktop will poll
-                return new Response(JSON.stringify({
-                    files: []
                 }), { headers: corsHeaders });
         }
     } catch (err) {
@@ -178,13 +267,12 @@ export async function onRequest(context) {
 }
 
 /**
- * Validate session ID format
+ * Generate unique session ID for each visitor
  */
-function isValidSessionId(sessionId) {
-    if (!sessionId || typeof sessionId !== 'string') return false;
-    if (sessionId.length > 100) return false;
-    // Allow alphanumeric, dashes, underscores
-    return /^[a-zA-Z0-9_-]+$/.test(sessionId);
+function generateSessionId() {
+    const timestamp = Date.now().toString(36);
+    const random = Math.random().toString(36).substring(2, 12);
+    return `${timestamp}-${random}`;
 }
 
 /**
