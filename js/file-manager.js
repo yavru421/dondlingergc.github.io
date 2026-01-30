@@ -110,29 +110,50 @@ class FileManager {
             const bridgeURL = window.System?.bridgeURL || '/api/bridge';
             const url = `${bridgeURL}?action=pull&sessionId=${sessionID}`;
 
+            console.log(`[FileManager] Fetching from: ${url}`);
+
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
 
             const fileData = await response.json();
-            if (Array.isArray(fileData)) {
+            console.log(`[FileManager] Backend response:`, fileData);
+
+            // Reset files first
+            this.files = [];
+
+            if (Array.isArray(fileData) && fileData.length > 0) {
                 // Convert backend objects to FileItem format
                 this.files = fileData.map(f => new FileItem(f));
-            } else if (fileData && typeof fileData === 'object') {
-                // Single file object
-                this.files = [new FileItem(fileData)];
+                console.log(`[FileManager] Loaded ${this.files.length} files from array`);
+            } else if (fileData && typeof fileData === 'object' && !Array.isArray(fileData)) {
+                // Single file object or wrapped response
+                if (fileData.files && Array.isArray(fileData.files)) {
+                    // Response has files property
+                    this.files = fileData.files.map(f => new FileItem(f));
+                    console.log(`[FileManager] Loaded ${this.files.length} files from wrapped response`);
+                } else if (fileData.id) {
+                    // Single file object
+                    this.files = [new FileItem(fileData)];
+                    console.log(`[FileManager] Loaded 1 file`);
+                }
             }
 
             // Apply filters and sort
             this.displayedFiles = this.applyFilters();
             this.cacheFiles();
             this.renderFileList();
+            this.renderSidebar();
+            this.updateStatusBar();
 
-            console.log(`[FileManager] Loaded ${this.files.length} files`);
+            console.log(`[FileManager] Total files available: ${this.files.length}`);
         } catch (e) {
             console.error('[FileManager] Load error:', e);
             this.showError('Failed to load files');
+            this.files = [];
+            this.displayedFiles = [];
+            this.renderFileList();
         } finally {
             this.state.isLoading = false;
             this.updateLoadingUI();
@@ -939,28 +960,46 @@ class FileManager {
             const url = `${bridgeURL}?action=pull&sessionId=${sessionID}`;
 
             const response = await fetch(url);
-            if (!response.ok) return;
+            if (!response.ok) {
+                console.warn(`[FileManager] Poll failed: HTTP ${response.status}`);
+                return;
+            }
 
             const fileData = await response.json();
-            if (!fileData) return;
+            if (!fileData) {
+                console.log(`[FileManager] Poll: No files from backend`);
+                return;
+            }
 
-            // Check for new files
-            const newFiles = Array.isArray(fileData) ? fileData : [fileData];
+            // Parse response - handle both array and single object
+            let newFiles = [];
+            if (Array.isArray(fileData)) {
+                newFiles = fileData;
+            } else if (fileData.files && Array.isArray(fileData.files)) {
+                newFiles = fileData.files;
+            } else if (fileData.id) {
+                newFiles = [fileData];
+            }
+
+            if (newFiles.length === 0) {
+                console.log(`[FileManager] Poll: Empty response`);
+                return;
+            }
+
             const existingIds = this.files.map(f => f.id);
+            let newCount = 0;
 
             for (const newFileData of newFiles) {
                 if (!existingIds.includes(newFileData.id)) {
                     const newFile = new FileItem(newFileData);
                     this.files.push(newFile);
+                    newCount++;
                     this.showNotification(`📁 New file: ${newFile.name}`);
                 }
             }
 
-            // Cleanup trash
-            this.cleanupExpiredTrash();
-
-            // Update display if anything changed
-            if (newFiles.length > 0) {
+            if (newCount > 0) {
+                console.log(`[FileManager] Poll: Found ${newCount} new files`);
                 this.displayedFiles = this.applyFilters();
                 this.renderFileList();
                 this.renderSidebar();
@@ -968,8 +1007,11 @@ class FileManager {
                 this.cacheFiles();
             }
         } catch (e) {
-            console.warn('[FileManager] Poll error:', e);
+            console.warn('[FileManager] Poll error:', e.message);
         }
+
+        // Cleanup trash regardless
+        this.cleanupExpiredTrash();
     }
 
     // ========================
