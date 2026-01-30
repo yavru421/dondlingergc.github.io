@@ -30,7 +30,7 @@ export async function onRequest(context) {
     // Fallback storage persists for the lifetime of this Worker instance
     const storage = env.COMMANDS_KV || createFallbackStorage();
     const isUsingKV = !!env.COMMANDS_KV;
-    
+
     console.log(`[Bridge] Storage: ${isUsingKV ? 'KV' : 'Fallback'} | Session: ${sessionId} | Action: ${action}`);
 
     try {

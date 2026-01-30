@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>SideSnipe Visionary Screenshot Sage</title>
+    <meta name="theme-color" content="#0b0f14" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #0f1620;
+            --text: #e7eef7;
+            --muted: #9fb2c6;
+            --line: #1b2a3a;
+            --accent: #7aa7ff;
+            --accent-glow: 0 0 20px rgba(122, 167, 255, 0.3);
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --error: #ff6b6b;
+            --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+            --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 60px 20px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(122, 167, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto 32px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            background: var(--panel);
+            border: 2px solid var(--line);
+            border-radius: 16px;
+            padding: 16px;
+            color: var(--text);
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--muted);
+            opacity: 0.6;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: var(--sans);
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: var(--accent-glow);
+        }
+
+        .btn {
+            width: 100%;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 18px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(122, 167, 255, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .response {
+            margin-top: 32px;
+            padding: 24px;
+            background: var(--panel);
+            border: 2px solid var(--line);
+            border-radius: 16px;
+            min-height: 200px;
+            font-size: 16px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-break: break-word;
+            position: relative;
+        }
+
+        .response.empty {
+            color: var(--muted);
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .response-content {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .error {
+            color: var(--error);
+            font-size: 14px;
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--error);
+        }
+
+        .loading {
+            color: var(--accent);
+            font-size: 16px;
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loading-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background: var(--panel);
+            border: 3px dashed var(--line);
+            border-radius: 20px;
+            padding: 40px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-label:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .file-label.has-file {
+            border-style: solid;
+            border-color: var(--accent);
+            background: rgba(122, 167, 255, 0.05);
+        }
+
+        .file-label i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .preview {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: none;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .preview.show {
+            display: block;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding: 16px;
+            background: var(--panel);
+            border-radius: 12px;
+            border: 1px solid var(--line);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+            border-top: 1px solid var(--line);
+            margin-top: 60px;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        /* Remote Control Styles */
+        .remote-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--line);
+        }
+
+        .remote-btn {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 16px 8px;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .remote-btn:hover {
+            border-color: var(--accent);
+            background: rgba(122, 167, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .remote-btn i {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .remote-title {
+            grid-column: 1 / -1;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .remote-title i {
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero">
+        <h1>SideSnipe Visionary Screenshot Sage</h1>
+        <p>Upload any screenshot and get instant AI-powered insights, analysis, and smart suggestions</p>
+    </div>
+
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>AI-Powered Analysis</h3>
+                <p>Advanced vision AI understands context, emotions, and patterns in your screenshots</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Real-time Insights</h3>
+                <p>Get instant feedback and suggestions with streaming responses</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Privacy First</h3>
+                <p>Your screenshots are processed securely and never stored on our servers</p>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label><i class="fas fa-camera"></i> Screenshot Upload</label>
+            <input type="file" id="imageFile" class="file-input" accept="image/*" onchange="handleFileSelect()">
+            <label for="imageFile" class="file-label" id="fileLabel">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <div id="labelText">📸 Drag & drop or click to upload screenshot</div>
+                <img id="preview" class="preview">
+            </label>
+        </div>
+
+        <div class="input-group">
+            <label for="userText"><i class="fas fa-comment"></i> Your Question (Optional)</label>
+            <textarea id="userText"
+                placeholder="Ask something specific about the screenshot... (e.g., 'What's wrong with this UI?', 'Help me understand this error', 'Suggest a reply to this message')"></textarea>
+        </div>
+
+        <button class="btn" id="sendBtn" onclick="sendMessage()">
+            <i class="fas fa-paper-plane"></i> Analyze Screenshot
+        </button>
+
+        <div id="loading" class="loading" style="display:none">
+            <div class="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            Processing your screenshot with AI magic...
+        </div>
+
+        <div id="output" class="response empty">
+            <div class="response-placeholder">
+                <i class="fas fa-sparkles" style="font-size: 3rem; margin-bottom: 16px; opacity: 0.5;"></i>
+                <p>Your AI-powered analysis will appear here</p>
+                <p style="font-size: 0.9rem; margin-top: 8px;">Upload a screenshot to get started!</p>
+            </div>
+        </div>
+
+        <div id="error" class="error" style="display:none"></div>
+
+        <!-- Remote Control Section -->
+        <div class="remote-control-section">
+            <div class="remote-title">
+                <i class="fas fa-desktop"></i> Remote Desktop Control
+            </div>
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <span id="status-text">Connecting to Live Desktop...</span>
+            </div>
+            <div class="remote-grid">
+                <button class="remote-btn" onclick="sendRemoteCommand('OPEN_APP', {id: 'home'}, event)">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </button>
+                <button class="remote-btn" onclick="sendRemoteCommand('OPEN_APP', {id: 'blueprints'}, event)">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Plans</span>
+                </button>
+                <button class="remote-btn" onclick="sendRemoteCommand('OPEN_APP', {id: 'carnival'}, event)">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Carnival</span>
+                </button>
+                <button class="remote-btn" onclick="sendRemoteCommand('OPEN_APP', {id: 'chat'}, event)">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat</span>
+                </button>
+                <button class="remote-btn" onclick="sendRemoteCommand('RELOAD', {}, event)">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Refresh</span>
+                </button>
+            </div>
+            <div class="process-list" id="process-list">
+                <!-- Active processes will appear here -->
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="analysisCount">1.2M+</div>
+                <div class="stat-label">Screenshots Analyzed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">99.8%</div>
+                <div class="stat-label">Accuracy Rate</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">0.8s</div>
+                <div class="stat-label">Avg Response Time</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Powered by cutting-edge AI vision technology • Your privacy is our priority</p>
+        <p style="margin-top: 8px; font-size: 0.9rem;">© 2024 SideSnipe Visionary Screenshot Sage</p>
+    </footer>
+    <script>
+        const ENDPOINT = 'https://api-inference.huggingface.co/models/llava-hf/llava-1.5-7b-hf';
+        const MODEL = 'llava-1.5-7b-hf';
+        const SYSTEM_PROMPT = `You are "SideSnipe Visionary," an advanced AI assistant specializing in screenshot analysis with exceptional visual understanding capabilities. Analyze the provided image and respond helpfully.`;
+        let currentController = null;
+        let currentImageData = null;
+        let analysisCount = 1200000;
+
+        function handleFileSelect() {
+            const fileInput = document.getElementById('imageFile');
+            const preview = document.getElementById('preview');
+            const fileLabel = document.getElementById('fileLabel');
+            const labelText = document.getElementById('labelText');
+            const errorEl = document.getElementById('error');
+
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                errorEl.textContent = 'Please select a valid image file (JPEG, PNG, etc.)';
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                errorEl.textContent = 'File size must be less than 10MB';
+                return;
+            }
+
+            errorEl.textContent = '';
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                currentImageData = e.target.result;
+                preview.src = currentImageData;
+                preview.classList.add('show');
+                labelText.innerHTML = `<span style="color: var(--success)">✓</span> ${file.name} (${Math.round(file.size / 1024)}KB)`;
+                fileLabel.classList.add('has-file');
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        async function sendMessage() {
+            const userText = document.getElementById('userText').value.trim();
+            const outputEl = document.getElementById('output');
+            const errorEl = document.getElementById('error');
+            const loadingEl = document.getElementById('loading');
+            const sendBtn = document.getElementById('sendBtn');
+
+            // Clear previous state
+            errorEl.textContent = '';
+            outputEl.innerHTML = '<div class="response-content"></div>';
+            outputEl.classList.remove('empty');
+
+            // Validate
+            if (!currentImageData) {
+                errorEl.textContent = '📸 Please select a screenshot first';
+                return;
+            }
+
+            // Disable button and show loading
+            sendBtn.disabled = true;
+            loadingEl.style.display = 'flex';
+            // For Hugging Face API, we'll use form data with image and optional text
+            // The processing is handled in the fetch call above
+            // Stream request
+            currentController = new AbortController();
+
+            try {
+                // Convert base64 image to blob for Hugging Face API
+                const base64Data = currentImageData.split(',')[1];
+                const imageBlob = await fetch(currentImageData).then(r => r.blob());
+
+                // Prepare form data for Hugging Face API
+                const formData = new FormData();
+                formData.append('inputs', imageBlob);
+                if (userText) {
+                    formData.append('text', userText);
+                }
+                formData.append('parameters', JSON.stringify({
+                    max_new_tokens: 500,
+                    temperature: 0.7
+                }));
+                const apiKey = document.getElementById('apiKey').value.trim();
+                if (!apiKey) {
+                    errorEl.textContent = 'Please enter your Hugging Face API key';
+                    loadingEl.style.display = 'none';
+                    sendBtn.disabled = false;
+                    return;
+                }
+
+                const response = await fetch(ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: formData,
+                    signal: currentController.signal
+                });
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                const fullText = result[0]?.generated_text || 'No analysis available';
+                outputEl.querySelector('.response-content').innerHTML = formatResponse(fullText);
+                outputEl.scrollTop = outputEl.scrollHeight;
+                // Update analysis count
+                analysisCount += 1;
+                document.getElementById('analysisCount').textContent = Math.floor(analysisCount / 1000) + 'K+';
+
+                loadingEl.style.display = 'none';
+                sendBtn.disabled = false;
+
+            } catch (err) {
+                if (err.name === 'AbortError') {
+                    errorEl.textContent = 'Request cancelled';
+                } else {
+                    errorEl.textContent = `❌ Error: ${err.message}`;
+                }
+                loadingEl.style.display = 'none';
+                sendBtn.disabled = false;
+            }
+        }
+
+        function formatResponse(text) {
+            // Simple markdown-like formatting
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                .replace(/\n/g, '<br>')
+                .replace(/^- (.*$)/gim, '• $1<br>');
+        }
+        // Allow Enter to send (but Shift+Enter for newlines)
+        document.getElementById('userText').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Add API key input for user to set their own key
+        const apiKeyInput = document.createElement('div');
+        apiKeyInput.innerHTML = `
+            <div class="input-group" style="margin-top: 20px;">
+                <label for="apiKey"><i class="fas fa-key"></i> Hugging Face API Key (Required)</label>
+                <input type="password" id="apiKey" placeholder="Enter your Hugging Face API key" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--text);">
+                <p style="font-size: 12px; color: var(--muted); margin-top: 8px;">Get your free API key at <a href="https://huggingface.co/settings/tokens" target="_blank" style="color: var(--accent);">huggingface.co/settings/tokens</a></p>
+            </div>
+        `;
+        document.querySelector('.container').insertBefore(apiKeyInput, document.querySelector('.input-group'));
+        // Drag and drop support
+        const fileLabel = document.getElementById('fileLabel');
+        fileLabel.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileLabel.style.borderColor = 'var(--accent)';
+            fileLabel.style.transform = 'scale(1.02)';
+        });
+
+        fileLabel.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            fileLabel.style.borderColor = 'var(--line)';
+            fileLabel.style.transform = 'scale(1)';
+        });
+
+        fileLabel.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('imageFile').files = files;
+                handleFileSelect();
+            }
+        });
+
+        async function sendRemoteCommand(type, payload, event) {
+            const btn = (event && event.currentTarget) || {};
+            const originalIcon = btn.querySelector ? btn.querySelector('i').className : '';
+
+            try {
+                // Use local mock server for testing, production uses relative path
+                const bridgeURL = window.location.hostname === 'localhost' ? 'http://localhost:8787/api/bridge' : '/api/bridge';
+                const response = await fetch(`${bridgeURL}?action=push&sessionId=default`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ type, payload })
+                });
+                const result = await response.json();
+
+                if (result.success && btn.querySelector) {
+                    btn.querySelector('i').className = 'fas fa-check';
+                    btn.style.borderColor = 'var(--success)';
+                    setTimeout(() => {
+                        btn.querySelector('i').className = originalIcon;
+                        btn.style.borderColor = '';
+                    }, 1000);
+                }
+            } catch (err) {
+                console.error('Failed to send command:', err);
+                if (btn.style) btn.style.borderColor = 'var(--error)';
+            }
+        }
+
+        async function pollSystemStatus() {
+            try {
+                // Use local mock server for testing, production uses relative path
+                const bridgeURL = window.location.hostname === 'localhost' ? 'http://localhost:8787/api/bridge' : '/api/bridge';
+                const res = await fetch(`${bridgeURL}?action=status&sessionId=default`);
+                if (!res.ok) return;
+                const status = await res.json();
+
+                // Update UI based on status
+                const statusDot = document.querySelector('.status-dot');
+                const statusText = document.getElementById('status-text');
+                const processList = document.getElementById('process-list');
+
+                if (status.online && status.state) {
+                    if (statusDot) statusDot.style.background = 'var(--success)';
+                    if (statusText) statusText.textContent = `Live: ${status.state.openApps.length} Apps Running`;
+
+                    // Update process list
+                    if (processList && status.state.openApps) {
+                        processList.innerHTML = '<div style="font-size:0.9rem;color:var(--muted);margin-bottom:8px;">Active Apps:</div>';
+                        if (status.state.openApps.length === 0) {
+                            processList.innerHTML += '<div style="color:var(--muted);font-style:italic;">No apps currently open</div>';
+                        } else {
+                            status.state.openApps.forEach(appId => {
+                                const appDiv = document.createElement('div');
+                                appDiv.style.cssText = 'display:flex;align-items:center;gap:8px;padding:4px 8px;background:rgba(0,212,255,0.1);border-radius:6px;margin-bottom:4px;font-size:0.9rem;';
+                                appDiv.innerHTML = `
+                                    <span style="color:var(--accent);">${getAppIcon(appId)}</span>
+                                    <span>${getAppName(appId)}</span>
+                                    ${status.state.minimizedApps && status.state.minimizedApps.includes(appId) ? '<span style="color:var(--muted);font-size:0.8rem;">(minimized)</span>' : ''}
+                                `;
+                                processList.appendChild(appDiv);
+                            });
+                        }
+                    }
+                } else {
+                    if (statusDot) statusDot.style.background = 'var(--error)';
+                    if (statusText) statusText.textContent = 'Desktop Offline';
+                    if (processList) processList.innerHTML = '<div style="color:var(--muted);font-style:italic;">Unable to connect to desktop</div>';
+                }
+            } catch (e) {
+                const statusDot = document.querySelector('.status-dot');
+                const statusText = document.getElementById('status-text');
+                const processList = document.getElementById('process-list');
+                if (statusDot) statusDot.style.background = 'var(--error)';
+                if (statusText) statusText.textContent = 'Connection Error';
+                if (processList) processList.innerHTML = '<div style="color:var(--error);font-style:italic;">Failed to fetch status</div>';
+            }
+        }
+
+        function getAppIcon(appId) {
+            const icons = {
+                'home': '🏠',
+                'blueprints': '📐',
+                'carnival': '🎪',
+                'contact': '📧',
+                'fortress': '🎨',
+                'chat': '💬',
+                'taxidermy': '🦌',
+                'flappybird': '🐦',
+                'settings': '⚙️'
+            };
+            return icons[appId] || '📱';
+        }
+
+        function getAppName(appId) {
+            const names = {
+                'home': 'Updates',
+                'blueprints': 'Plans',
+                'carnival': 'Digital Carnival',
+                'contact': 'Contact',
+                'fortress': 'Website Builder',
+                'chat': 'Chat',
+                'taxidermy': 'Taxidermy',
+                'flappybird': 'Flappy Bird',
+                'settings': 'Settings'
+            };
+            return names[appId] || appId;
+        }
+
+        // Start polling for desktop status
+        setInterval(pollSystemStatus, 5000);
+        pollSystemStatus();
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animation = 'fadeInUp 0.6s ease forwards';
+            });
+        });
+    </script>
+    <script defer
+        src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+        integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+        data-cf-beacon='{"version":"2024.11.0","token":"7a815eb33c2742d5badbd1dcab346314","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}'
+        crossorigin="anonymous"></script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9c52a1fc1dd2f4eb',t:'MTc2OTYyNTc3OA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+    <script src="https://huggingface.co/deepsite/deepsite-badge.js"></script>
+</body>
+
+</html>

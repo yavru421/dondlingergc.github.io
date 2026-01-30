@@ -1,0 +1,25 @@
+{
+  "name": "dondlingergc.com",
+  "version": "1.0.0",
+  "description": "- All static assets (HTML, JS, JSON, favicon, etc.) are in the project root. - All fetches use relative paths (e.g., `fetch('blueprints.json')`). - All data files (like `blueprints.json`) are present in the deployed directory. - Favicon is included as `favicon.ico` in the root and referenced in all HTML files. - No file:// or absolute path references are used. - No server-side code is required. - For SPA routing, add a `_redirects` file if needed.",
+  "main": "mock-bridge-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yavru421/dondlingergc.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yavru421/dondlingergc.github.io/issues"
+  },
+  "homepage": "https://github.com/yavru421/dondlingergc.github.io#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}

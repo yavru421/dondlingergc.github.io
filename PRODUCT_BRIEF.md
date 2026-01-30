@@ -130,15 +130,15 @@ The entire codebase is open for modification:
 
 ## Comparison to Alternatives
 
-| Feature | FileManager | Google Drive | OneDrive | Dropbox | AirDrop |
-|---------|------------|--------------|----------|---------|---------|
-| No Installation | ✅ | ❌ | ❌ | ❌ | ✅ |
-| No Account | ✅ | ❌ | ❌ | ❌ | ✅ |
-| Browser-Based | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Works on Linux | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Open Source | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Self-Hostable | ✅ | ❌ | ❌ | ❌ | ❌ |
-| No Monthly Fees | ✅ | ❌ | ❌ | ❌ | ✅ |
+| Feature         | FileManager | Google Drive | OneDrive | Dropbox | AirDrop |
+| --------------- | ----------- | ------------ | -------- | ------- | ------- |
+| No Installation | ✅           | ❌            | ❌        | ❌       | ✅       |
+| No Account      | ✅           | ❌            | ❌        | ❌       | ✅       |
+| Browser-Based   | ✅           | ✅            | ✅        | ✅       | ❌       |
+| Works on Linux  | ✅           | ✅            | ✅        | ✅       | ❌       |
+| Open Source     | ✅           | ❌            | ❌        | ❌       | ❌       |
+| Self-Hostable   | ✅           | ❌            | ❌        | ❌       | ❌       |
+| No Monthly Fees | ✅           | ❌            | ❌        | ❌       | ✅       |
 
 ---
 

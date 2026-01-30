@@ -76,20 +76,20 @@ A secure, stateless file transfer system enabling desktop-to-mobile and mobile-t
 - **Session ID**: Alphanumeric + dash/underscore, max 100 characters
   - Prevents injection attacks
   - Prevents path traversal
-  
+
 - **File Names**: Max 255 characters
   - No `..` path traversal
   - No `/` or `\` directory separators
   - Prevents arbitrary file placement
-  
+
 - **File Size**: Max 50MB per file
   - Prevents DoS through storage exhaustion
   - Prevents memory exhaustion
-  
+
 - **Base64 Data**: Max 100MB (≈75MB uncompressed)
   - Prevents buffer overflows
   - Prevents decompression bombs
-  
+
 - **MIME Type**: Max 100 characters
   - Prevents header injection
 
@@ -123,14 +123,14 @@ Cache-Control: no-store, no-cache, must-revalidate
 
 ## Error Handling
 
-| Error | Status | Message |
-|-------|--------|---------|
-| Invalid session ID | 400 | "Invalid session ID" |
-| File too large | 413 | "File exceeds 50MB limit" |
-| Invalid JSON | 400 | "Invalid JSON in request body" |
-| Invalid file name | 400 | "Invalid file name characters" |
-| Invalid MIME type | 400 | "Invalid MIME type" |
-| Server error | 500 | "Internal server error" |
+| Error              | Status | Message                        |
+| ------------------ | ------ | ------------------------------ |
+| Invalid session ID | 400    | "Invalid session ID"           |
+| File too large     | 413    | "File exceeds 50MB limit"      |
+| Invalid JSON       | 400    | "Invalid JSON in request body" |
+| Invalid file name  | 400    | "Invalid file name characters" |
+| Invalid MIME type  | 400    | "Invalid MIME type"            |
+| Server error       | 500    | "Internal server error"        |
 
 ## Performance Characteristics
 

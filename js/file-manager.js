@@ -59,13 +59,13 @@ class FileManager {
             console.log('[FileManager] Window opened');
             console.log('[FileManager] Session ID:', window.System?.sessionID || 'default');
             console.log('[FileManager] Bridge URL:', window.System?.bridgeURL || '/api/bridge');
-            
+
             this.ensureContainer();
             this.cacheFiles();
             this.loadFiles();
             this.render();
             this.attachEventListeners();
-            
+
             // Start auto-sync AFTER everything is initialized
             setTimeout(() => {
                 this.startAutoSync();
@@ -317,6 +317,83 @@ class FileManager {
     /**
      * Download single file
      */
+    /**
+     * Upload file(s) to backend
+     */
+    async uploadFile(file) {
+        try {
+            console.log(`[FileManager] Uploading: ${file.name} (${file.size} bytes)`);
+
+            // Check file size
+            const MAX_SIZE = 50 * 1024 * 1024; // 50MB
+            if (file.size > MAX_SIZE) {
+                this.showError(`File too large: ${file.name} (max 50MB)`);
+                return;
+            }
+
+            // Convert to base64
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const base64 = e.target.result.split(',')[1];
+
+                    const sessionID = window.System?.sessionID || 'default';
+                    const bridgeURL = window.System?.bridgeURL || '/api/bridge';
+                    const url = `${bridgeURL}?action=push&sessionId=${sessionID}`;
+
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            type: 'file_upload',
+                            file: {
+                                name: file.name,
+                                size: file.size,
+                                data: base64,
+                                mimeType: file.type || 'application/octet-stream'
+                            }
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    console.log(`[FileManager] ✓ Upload successful:`, result);
+
+                    // Add to local files
+                    const fileItem = new FileItem({
+                        name: file.name,
+                        size: file.size,
+                        data: base64,
+                        mimeType: file.type,
+                        id: result.id || Date.now(),
+                        timestamp: Date.now()
+                    });
+
+                    this.files.push(fileItem);
+                    this.displayedFiles = this.applyFilters();
+                    this.renderFileList();
+                    this.cacheFiles();
+                    this.updateStatusBar();
+
+                    this.showNotification(`✓ Uploaded: ${file.name}`);
+                } catch (e) {
+                    console.error('[FileManager] Upload processing error:', e);
+                    this.showError(`Failed to upload: ${file.name}`);
+                }
+            };
+            reader.onerror = () => {
+                this.showError(`Failed to read: ${file.name}`);
+            };
+            reader.readAsDataURL(file);
+        } catch (e) {
+            console.error('[FileManager] Upload error:', e);
+            this.showError('Failed to upload file');
+        }
+    }
+
     async downloadFile(fileId) {
         try {
             const file = this.getFileById(fileId);
@@ -612,6 +689,7 @@ class FileManager {
             container.innerHTML = `
         <div class="fm-container">
           <div class="fm-toolbar">
+            <button id="fm-upload-btn" class="fm-upload-btn" title="Upload files">📤 Upload</button>
             <input type="text" id="fm-search" class="fm-search" placeholder="🔍 Search files..." />
             <select id="fm-filter" class="fm-filter">
               <option value="all">All Files</option>
@@ -644,12 +722,16 @@ class FileManager {
           </div>
 
           <div class="fm-statusbar" id="fm-statusbar"></div>
+
+          <input type="file" id="fm-file-input" multiple style="display:none;" />
         </div>
       `;
 
             // Store element references
             this.elements = {
                 container: container.querySelector('.fm-container'),
+                uploadBtn: document.getElementById('fm-upload-btn'),
+                fileInput: document.getElementById('fm-file-input'),
                 search: document.getElementById('fm-search'),
                 filter: document.getElementById('fm-filter'),
                 sort: document.getElementById('fm-sort'),
@@ -853,6 +935,23 @@ class FileManager {
      * Attach all event listeners
      */
     attachEventListeners() {
+        // Upload button
+        if (this.elements.uploadBtn) {
+            this.elements.uploadBtn.addEventListener('click', () => {
+                this.elements.fileInput.click();
+            });
+        }
+
+        // File input
+        if (this.elements.fileInput) {
+            this.elements.fileInput.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+                console.log(`[FileManager] Uploading ${files.length} file(s)`);
+                files.forEach(file => this.uploadFile(file));
+                e.target.value = ''; // Reset
+            });
+        }
+
         // Search
         if (this.elements.search) {
             this.elements.search.addEventListener('input', (e) => {
@@ -964,7 +1063,7 @@ class FileManager {
             this.syncStatus(); // Report desktop is online (every 3 seconds)
             this.pollNewFiles(); // Poll for files (every 3 seconds instead of 5)
         }, 3000); // Every 3 seconds for faster mobile detection
-        
+
         console.log('[FileManager] Auto-sync started (3-second interval)');
     }
 
@@ -1555,6 +1654,31 @@ class FileManager {
       @keyframes slideOut {
         from { transform: translateX(0); opacity: 1; }
         to { transform: translateX(400px); opacity: 0; }
+      }
+
+      .fm-upload-btn {
+        padding: 6px 12px;
+        background: #00d4ff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .fm-upload-btn:hover {
+        background: #00b8d4;
+        box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
+      }
+
+      .fm-upload-btn:active {
+        background: #0099b3;
+        transform: scale(0.98);
       }
 
       @media (max-width: 768px) {

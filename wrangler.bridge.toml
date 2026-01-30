@@ -1,0 +1,10 @@
+name = "dondlingergc-bridge-test"
+type = "javascript"
+account_id = "test"
+workers_dev = true
+main = "functions/api/bridge.js"
+compatibility_date = "2024-01-01"
+
+# Local development settings
+[build]
+command = "echo 'Bridge API ready for local testing'"

@@ -166,7 +166,7 @@ server.listen(PORT, () => {
  */
 function validateFileUpload(file) {
     if (!file) return { valid: false, error: 'No file provided' };
-    
+
     // Validate file name
     if (!file.name || typeof file.name !== 'string') {
         return { valid: false, error: 'Invalid file name' };
@@ -178,7 +178,7 @@ function validateFileUpload(file) {
     if (file.name.includes('..') || file.name.includes('/') || file.name.includes('\\')) {
         return { valid: false, error: 'Invalid file name characters' };
     }
-    
+
     // Validate file size
     if (typeof file.size !== 'number' || file.size <= 0) {
         return { valid: false, error: 'Invalid file size' };
@@ -187,7 +187,7 @@ function validateFileUpload(file) {
     if (file.size > MAX_FILE_SIZE) {
         return { valid: false, error: 'File exceeds 50MB limit' };
     }
-    
+
     // Validate base64 data
     if (!file.data || typeof file.data !== 'string') {
         return { valid: false, error: 'No file data provided' };
@@ -195,13 +195,13 @@ function validateFileUpload(file) {
     if (file.data.length > 100 * 1024 * 1024) {
         return { valid: false, error: 'File data too large' };
     }
-    
+
     // Validate MIME type if provided
     if (file.mimeType && typeof file.mimeType === 'string') {
         if (file.mimeType.length > 100) {
             return { valid: false, error: 'Invalid MIME type' };
         }
     }
-    
+
     return { valid: true };
 }

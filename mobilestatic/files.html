@@ -353,14 +353,14 @@
                     method: 'GET',
                     headers: { 'Accept': 'application/json' }
                 });
-                
+
                 if (!res.ok) {
                     console.warn(`[Mobile] Status check failed: HTTP ${res.status}`);
                     desktopOnline = false;
                     updateStatusBadge();
                     return;
                 }
-                
+
                 const data = await res.json();
                 console.log(`[Mobile] Status check #${statusCheckCount}:`, data);
                 desktopOnline = data.online === true; // Explicitly check for true
