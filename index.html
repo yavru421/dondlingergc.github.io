@@ -9,7 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="qrcode.min.js"></script>
+    <script>
+        console.log('Loading qrcode.min.js...');
+    </script>
+    <script src="qrcode.min.js" onload="console.log('✓ qrcode.min.js loaded'); console.log('QRCode available:', !!window.QRCode);" onerror="console.error('✗ Failed to load qrcode.min.js');"></script>
     <script src="_site-config.js"></script>
     <script src="js/file-manager.js"></script>
     <style>
