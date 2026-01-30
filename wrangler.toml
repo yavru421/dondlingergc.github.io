@@ -10,7 +10,7 @@ route = "chat.dondlingergc.com/*"
 
 # Bridge API endpoint (file transfer)
 [[env.production.routes]]
-pattern = "dondlingergc.com/api/bridge"
+pattern = "dondlingergc.com/api/bridge*"
 script = "functions/api/bridge.js"
 zone_id = "YOUR_ZONE_ID"
 
