@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Transfer • DondlingerGC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-top: 24px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .status-badge.online {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+            border: 1px solid #4ade80;
+        }
+
+        .status-badge.offline {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+
+        .upload-section {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px dashed rgba(122, 167, 255, 0.5);
+            border-radius: 16px;
+            padding: 32px 20px;
+            text-align: center;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-section:hover {
+            border-color: rgba(122, 167, 255, 0.8);
+            background: rgba(15, 23, 42, 1);
+        }
+
+        .upload-section.dragover {
+            border-color: #7aa7ff;
+            background: rgba(122, 167, 255, 0.1);
+            box-shadow: 0 0 20px rgba(122, 167, 255, 0.2);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .upload-section h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #e2e8f0;
+        }
+
+        .upload-section p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-progress {
+            margin-top: 16px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .uploaded-files {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .uploaded-files h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #e2e8f0;
+        }
+
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .file-item {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .file-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #e2e8f0;
+            font-size: 14px;
+            word-break: break-all;
+        }
+
+        .file-size {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        .file-status {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-uploading {
+            color: #fbbf24;
+        }
+
+        .status-success {
+            color: #4ade80;
+        }
+
+        .status-error {
+            color: #ff6b6b;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 24px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .info-box {
+            background: rgba(122, 167, 255, 0.1);
+            border: 1px solid rgba(122, 167, 255, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .info-box strong {
+            color: #e2e8f0;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            button {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📤 File Transfer</h1>
+            <p>Upload files to your desktop</p>
+            <div class="status-badge offline" id="status-badge">
+                ⏳ Checking desktop...
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>How it works:</strong> Upload files here and they'll be downloaded to your desktop browser folder in
+            real-time.
+        </div>
+
+        <div class="upload-section" id="upload-area">
+            <div class="upload-icon">📁</div>
+            <h2>Choose or Drop Files</h2>
+            <p>Drag and drop files here or click to browse</p>
+            <div class="upload-progress" id="upload-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">0%</div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-primary" id="btn-browse">📂 Browse Files</button>
+            <button class="btn-secondary" id="btn-clear" style="display: none;">🗑️ Clear</button>
+        </div>
+
+        <div class="uploaded-files" id="uploaded-files" style="display: none;">
+            <h3>Uploaded Files</h3>
+            <div class="file-list" id="file-list"></div>
+        </div>
+
+        <input type="file" id="file-input" multiple>
+    </div>
+
+    <script>
+        // Use 'default' session ID to match desktop, or accept from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const SESSION_ID = urlParams.get('sid') || 'default';
+        
+        const BRIDGE_URL = window.location.hostname === 'localhost'
+            ? 'http://localhost:8787/api/bridge'
+            : '/api/bridge';
+
+        let files = [];
+        let desktopOnline = false;
+
+        // Check desktop status
+        async function checkDesktopStatus() {
+            try {
+                const res = await fetch(`${BRIDGE_URL}?action=status&sessionId=${SESSION_ID}`);
+                const data = await res.json();
+                desktopOnline = data.online || false;
+                updateStatusBadge();
+            } catch (e) {
+                desktopOnline = false;
+                updateStatusBadge();
+            }
+        }
+
+        function updateStatusBadge() {
+            const badge = document.getElementById('status-badge');
+            if (desktopOnline) {
+                badge.textContent = '✓ Desktop Connected';
+                badge.className = 'status-badge online';
+            } else {
+                badge.textContent = '✕ Desktop Offline';
+                badge.className = 'status-badge offline';
+            }
+        }
+
+        // Upload file
+        async function uploadFile(file) {
+            const fileItem = {
+                name: file.name,
+                size: file.size,
+                status: 'uploading',
+                id: Date.now() + Math.random()
+            };
+
+            files.push(fileItem);
+            renderFileList();
+
+            try {
+                const base64 = await fileToBase64(file);
+
+                const response = await fetch(`${BRIDGE_URL}?action=push&sessionId=${SESSION_ID}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'file_upload',
+                        file: {
+                            name: file.name,
+                            size: file.size,
+                            data: base64,
+                            mimeType: file.type
+                        }
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    fileItem.status = 'success';
+                } else {
+                    fileItem.status = 'error';
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                fileItem.status = 'error';
+            }
+
+            renderFileList();
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderFileList() {
+            const container = document.getElementById('uploaded-files');
+            const fileList = document.getElementById('file-list');
+            const clearBtn = document.getElementById('btn-clear');
+
+            if (files.length === 0) {
+                container.style.display = 'none';
+                clearBtn.style.display = 'none';
+                return;
+            }
+
+            container.style.display = 'block';
+            clearBtn.style.display = 'flex';
+
+            fileList.innerHTML = files.map(f => `
+                <div class="file-item">
+                    <div class="file-info">
+                        <div class="file-name">${escapeHtml(f.name)}</div>
+                        <div class="file-size">${formatFileSize(f.size)}</div>
+                    </div>
+                    <div class="file-status status-${f.status}">
+                        ${f.status === 'uploading' ? '⏳ Uploading...' :
+                    f.status === 'success' ? '✓ Sent' :
+                        '✕ Error'}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Event listeners
+        document.getElementById('btn-browse').addEventListener('click', () => {
+            document.getElementById('file-input').click();
+        });
+
+        document.getElementById('btn-clear').addEventListener('click', () => {
+            files = [];
+            renderFileList();
+        });
+
+        document.getElementById('file-input').addEventListener('change', (e) => {
+            for (const file of e.target.files) {
+                uploadFile(file);
+            }
+            e.target.value = '';
+        });
+
+        // Drag and drop
+        const uploadArea = document.getElementById('upload-area');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            for (const file of e.dataTransfer.files) {
+                uploadFile(file);
+            }
+        });
+
+        uploadArea.addEventListener('click', () => {
+            document.getElementById('file-input').click();
+        });
+
+        // Check status periodically
+        checkDesktopStatus();
+        setInterval(checkDesktopStatus, 3000);
+    </script>
+</body>
+
+</html>
