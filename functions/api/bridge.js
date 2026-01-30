@@ -119,23 +119,31 @@ export async function onRequest(context) {
             case 'sync': // From Desktop (reporting status)
                 if (request.method !== 'POST') break;
                 const state = await request.json();
-                await storage.put(`state_${sessionId}`, JSON.stringify({
+                console.log(`[Bridge] Sync from desktop session ${sessionId}:`, state);
+                const newState = {
                     ...state,
                     lastSeen: Date.now()
-                }), { expirationTtl: 600 });
+                };
+                await storage.put(`state_${sessionId}`, JSON.stringify(newState), { expirationTtl: 600 });
+                console.log(`[Bridge] ✓ Stored state for ${sessionId}, TTL: 600s`);
                 return new Response(JSON.stringify({ success: true, mock: !env.COMMANDS_KV }), { headers: corsHeaders });
 
             case 'status': // From Mobile (checking desktop state)
                 const currentState = await storage.get(`state_${sessionId}`);
+                console.log(`[Bridge] Status check for ${sessionId}: currentState=`, currentState ? 'exists' : 'null');
                 if (currentState) {
                     const state = JSON.parse(currentState);
-                    const isOnline = (Date.now() - state.lastSeen) < 10000; // 10 second timeout
+                    const timeSinceLastSeen = Date.now() - state.lastSeen;
+                    const isOnline = timeSinceLastSeen < 10000; // 10 second timeout
+                    console.log(`[Bridge] Status check: timeSinceLastSeen=${timeSinceLastSeen}ms, isOnline=${isOnline}`);
                     return new Response(JSON.stringify({
                         online: isOnline,
                         state: state,
+                        timeSinceLastSeen: timeSinceLastSeen,
                         mock: !env.COMMANDS_KV
                     }), { headers: corsHeaders });
                 } else {
+                    console.log(`[Bridge] Status check: No state found for ${sessionId}`);
                     return new Response(JSON.stringify({
                         online: false,
                         state: null,
