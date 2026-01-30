@@ -6,8 +6,8 @@ export async function onRequest(context) {
 
     // Validate session ID format
     if (!isValidSessionId(sessionId)) {
-        return new Response(JSON.stringify({ error: 'Invalid session ID' }), { 
-            status: 400, 
+        return new Response(JSON.stringify({ error: 'Invalid session ID' }), {
+            status: 400,
             headers: { 'Content-Type': 'application/json' }
         });
     }
@@ -26,26 +26,27 @@ export async function onRequest(context) {
         return new Response(null, { headers: corsHeaders });
     }
 
-    // Use KV if available, else mock it
-    const storage = env.COMMANDS_KV || {
-        async get(key) { return null; },
-        async put(key, val) { return; }
-    };
+    // Use KV if available, else use persistent fallback storage
+    // Fallback storage persists for the lifetime of this Worker instance
+    const storage = env.COMMANDS_KV || createFallbackStorage();
+    const isUsingKV = !!env.COMMANDS_KV;
+    
+    console.log(`[Bridge] Storage: ${isUsingKV ? 'KV' : 'Fallback'} | Session: ${sessionId} | Action: ${action}`);
 
     try {
         switch (action) {
             case 'push': // From Mobile/Agent to Desktop
                 if (request.method !== 'POST') break;
-                
+
                 const contentLength = request.headers.get('content-length');
                 const MAX_UPLOAD_SIZE = 50 * 1024 * 1024; // 50MB
-                
+
                 if (contentLength && parseInt(contentLength) > MAX_UPLOAD_SIZE) {
-                    return new Response(JSON.stringify({ 
-                        error: 'File too large. Maximum size is 50MB' 
-                    }), { 
-                        status: 413, 
-                        headers: corsHeaders 
+                    return new Response(JSON.stringify({
+                        error: 'File too large. Maximum size is 50MB'
+                    }), {
+                        status: 413,
+                        headers: corsHeaders
                     });
                 }
 
@@ -53,11 +54,11 @@ export async function onRequest(context) {
                 try {
                     command = await request.json();
                 } catch (e) {
-                    return new Response(JSON.stringify({ 
-                        error: 'Invalid JSON in request body' 
-                    }), { 
-                        status: 400, 
-                        headers: corsHeaders 
+                    return new Response(JSON.stringify({
+                        error: 'Invalid JSON in request body'
+                    }), {
+                        status: 400,
+                        headers: corsHeaders
                     });
                 }
 
@@ -65,11 +66,11 @@ export async function onRequest(context) {
                 if (command.type === 'file_upload' && command.file) {
                     const validation = validateFileUpload(command.file);
                     if (!validation.valid) {
-                        return new Response(JSON.stringify({ 
-                            error: validation.error 
-                        }), { 
-                            status: 400, 
-                            headers: corsHeaders 
+                        return new Response(JSON.stringify({
+                            error: validation.error
+                        }), {
+                            status: 400,
+                            headers: corsHeaders
                         });
                     }
 
@@ -80,15 +81,15 @@ export async function onRequest(context) {
                         timestamp: cmdId,
                         uploadedAt: new Date().toISOString()
                     };
-                    
+
                     await storage.put(`file_${sessionId}`, JSON.stringify(fileData), { expirationTtl: 3600 });
                     await storage.put(`file_${sessionId}_${cmdId}`, JSON.stringify(fileData), { expirationTtl: 3600 });
-                    
-                    return new Response(JSON.stringify({ 
-                        success: true, 
-                        id: cmdId, 
+
+                    return new Response(JSON.stringify({
+                        success: true,
+                        id: cmdId,
                         message: 'File uploaded successfully',
-                        mock: !env.COMMANDS_KV 
+                        mock: !env.COMMANDS_KV
                     }), { headers: corsHeaders });
                 } else {
                     await storage.put(`cmd_${sessionId}`, JSON.stringify({
@@ -96,7 +97,7 @@ export async function onRequest(context) {
                         id: Date.now(),
                         timestamp: Date.now()
                     }), { expirationTtl: 300 });
-                    
+
                     return new Response(JSON.stringify({ success: true, mock: !env.COMMANDS_KV }), { headers: corsHeaders });
                 }
 
@@ -183,7 +184,7 @@ function isValidSessionId(sessionId) {
  */
 function validateFileUpload(file) {
     if (!file) return { valid: false, error: 'No file provided' };
-    
+
     // Validate file name
     if (!file.name || typeof file.name !== 'string') {
         return { valid: false, error: 'Invalid file name' };
@@ -195,7 +196,7 @@ function validateFileUpload(file) {
     if (file.name.includes('..') || file.name.includes('/') || file.name.includes('\\')) {
         return { valid: false, error: 'Invalid file name characters' };
     }
-    
+
     // Validate file size
     if (typeof file.size !== 'number' || file.size <= 0) {
         return { valid: false, error: 'Invalid file size' };
@@ -204,7 +205,7 @@ function validateFileUpload(file) {
     if (file.size > MAX_FILE_SIZE) {
         return { valid: false, error: 'File exceeds 50MB limit' };
     }
-    
+
     // Validate base64 data
     if (!file.data || typeof file.data !== 'string') {
         return { valid: false, error: 'No file data provided' };
@@ -212,13 +213,45 @@ function validateFileUpload(file) {
     if (file.data.length > 100 * 1024 * 1024) { // 100MB in base64 is ~75MB raw
         return { valid: false, error: 'File data too large' };
     }
-    
+
     // Validate MIME type if provided
     if (file.mimeType && typeof file.mimeType === 'string') {
         if (file.mimeType.length > 100) {
             return { valid: false, error: 'Invalid MIME type' };
         }
     }
-    
+
     return { valid: true };
+}
+
+/**
+ * Create fallback storage when KV is not available
+ * This is used when deploying without KV binding
+ */
+let fallbackStorage = {};
+let fallbackExpirations = {};
+
+function createFallbackStorage() {
+    return {
+        async get(key) {
+            // Check if key has expired
+            if (fallbackExpirations[key] && Date.now() > fallbackExpirations[key]) {
+                delete fallbackStorage[key];
+                delete fallbackExpirations[key];
+                return null;
+            }
+            return fallbackStorage[key] || null;
+        },
+        async put(key, value, options) {
+            fallbackStorage[key] = value;
+            // Set expiration if TTL provided
+            if (options && options.expirationTtl) {
+                fallbackExpirations[key] = Date.now() + (options.expirationTtl * 1000);
+            }
+        },
+        async delete(key) {
+            delete fallbackStorage[key];
+            delete fallbackExpirations[key];
+        }
+    };
 }
