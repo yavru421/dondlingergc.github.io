@@ -8,8 +8,9 @@ compatibility_date = "2024-01-01"
 [env.production]
 route = "chat.dondlingergc.com/*"
 
-# Vision API endpoint (screenshot analysis)
+# Bridge API endpoint (file transfer)
 [[env.production.routes]]
-pattern = "vision.dondlingergc.com/*"
-script = "functions/api/vision.js"
+pattern = "dondlingergc.com/api/bridge"
+script = "functions/api/bridge.js"
 zone_id = "YOUR_ZONE_ID"
+

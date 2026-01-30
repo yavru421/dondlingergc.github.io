@@ -1632,9 +1632,12 @@
                         throw new Error('Failed to generate session');
                     }
 
-                    // Store session ID locally
+                    // Store session ID in multiple places
                     window.currentSessionId = data.sessionId;
+                    window.System.sessionID = data.sessionId;  // For file-manager.js
                     localStorage.setItem('sessionId', data.sessionId);
+
+                    console.log('[Desktop] Generated unique session:', data.sessionId);
 
                     // Display session info
                     const sessionInfo = document.querySelector('.session-info');
