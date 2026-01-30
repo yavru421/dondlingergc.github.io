@@ -10,9 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script>
-        console.log('Loading qrcode.min.js...');
+        console.log('Loading QRCode library from CDN...');
     </script>
-    <script src="qrcode.min.js" onload="console.log('✓ qrcode.min.js loaded'); console.log('QRCode available:', !!window.QRCode);" onerror="console.error('✗ Failed to load qrcode.min.js');"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+        onload="console.log('✓ QRCode library loaded from CDN'); console.log('QRCode available:', !!window.QRCode);"
+        onerror="console.error('✗ Failed to load QRCode library from CDN. Falling back to local file.');"></script>
     <script src="_site-config.js"></script>
     <script src="js/file-manager.js"></script>
     <style>
