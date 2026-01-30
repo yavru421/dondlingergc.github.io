@@ -123,10 +123,15 @@ class FileManager {
             // Reset files first
             this.files = [];
 
-            if (Array.isArray(fileData) && fileData.length > 0) {
+            if (fileData === null) {
+                // Empty backend - no files yet
+                console.log(`[FileManager] Backend returned null (no files uploaded yet)`);
+            } else if (Array.isArray(fileData) && fileData.length > 0) {
                 // Convert backend objects to FileItem format
                 this.files = fileData.map(f => new FileItem(f));
                 console.log(`[FileManager] Loaded ${this.files.length} files from array`);
+            } else if (Array.isArray(fileData) && fileData.length === 0) {
+                console.log(`[FileManager] Backend returned empty array`);
             } else if (fileData && typeof fileData === 'object' && !Array.isArray(fileData)) {
                 // Single file object or wrapped response
                 if (fileData.files && Array.isArray(fileData.files)) {
@@ -136,8 +141,12 @@ class FileManager {
                 } else if (fileData.id) {
                     // Single file object
                     this.files = [new FileItem(fileData)];
-                    console.log(`[FileManager] Loaded 1 file`);
+                    console.log(`[FileManager] Loaded 1 file (${fileData.name || 'unknown'})`);
+                } else {
+                    console.log(`[FileManager] Backend returned object but no files found:`, Object.keys(fileData));
                 }
+            } else {
+                console.log(`[FileManager] Unexpected response type: ${typeof fileData}`);
             }
 
             // Apply filters and sort

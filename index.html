@@ -1626,6 +1626,8 @@
                 if (qrContainer) {
                     qrContainer.innerHTML = '';
                     // Wait a moment for QRCode library to be available
+                    let retryCount = 0;
+                    const maxRetries = 50; // Max 5 seconds of retries (100ms × 50)
                     const attemptQR = () => {
                         console.log('attemptQR: Checking window.QRCode...', !!window.QRCode);
                         if (window.QRCode) {
@@ -1644,9 +1646,13 @@
                                 console.error('QRCode generation error:', e);
                                 qrContainer.innerHTML = '<div style="color:#c00;text-align:center;padding:20px;">Error: ' + e.message + '</div>';
                             }
-                        } else {
-                            console.log('QRCode not ready yet, retrying in 100ms...');
+                        } else if (retryCount < maxRetries) {
+                            retryCount++;
+                            console.log(`QRCode not ready yet (attempt ${retryCount}/${maxRetries}), retrying in 100ms...`);
                             setTimeout(attemptQR, 100);
+                        } else {
+                            console.error('QRCode library failed to load after 50 attempts');
+                            qrContainer.innerHTML = '<div style="color:#c00;text-align:center;padding:20px;">Error: QRCode library not available</div>';
                         }
                     };
                     attemptQR();
