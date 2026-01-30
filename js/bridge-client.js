@@ -6,25 +6,39 @@
 class BridgeClient {
     constructor(bridgeURL) {
         this.bridgeURL = bridgeURL;
-        this.useLocalStorage = false;
+        // Start with local storage (IndexedDB) - we'll only try network if it fails
+        this.useLocalStorage = true;
         this.dbReady = false;
-        this.testBackend();
         this.initIndexedDB();
+        // Test backend availability in background
+        this.testBackend();
     }
 
     /**
-     * Test if backend is available
+     * Test if backend is available (non-blocking)
      */
     async testBackend() {
         try {
-            const response = await fetch(this.bridgeURL + '?action=status&sessionId=test', {
-                method: 'GET',
-                headers: { 'Accept': 'application/json' }
-            });
-            console.log('[BridgeClient] Backend available (HTTP ' + response.status + ')');
-            this.useLocalStorage = false;
+            const response = await Promise.race([
+                fetch(this.bridgeURL + '?action=status&sessionId=test', {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                }),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000))
+            ]);
+            
+            if (response.ok) {
+                const data = await response.json();
+                // Only use network if we get a real response (not mock)
+                if (!data.mock) {
+                    console.log('[BridgeClient] Real backend available');
+                    this.useLocalStorage = false;
+                } else {
+                    console.log('[BridgeClient] Backend available but mock, using IndexedDB');
+                }
+            }
         } catch (e) {
-            console.log('[BridgeClient] Backend unavailable, using IndexedDB');
+            console.log('[BridgeClient] Backend unavailable, using IndexedDB only');
             this.useLocalStorage = true;
         }
     }
@@ -54,7 +68,7 @@ class BridgeClient {
             request.onsuccess = () => {
                 this.db = request.result;
                 this.dbReady = true;
-                console.log('[BridgeClient] IndexedDB ready');
+                console.log('[BridgeClient] ✓ IndexedDB ready (localStorage enabled by default)');
                 resolve();
             };
         });
@@ -64,37 +78,83 @@ class BridgeClient {
      * GET from bridge
      */
     async get(action, sessionId) {
-        const url = `${this.bridgeURL}?action=${action}&sessionId=${sessionId}`;
+        // Always use IndexedDB first
+        const localData = await this.getFromIndexedDB(action, sessionId);
+        if (localData) {
+            console.log(`[BridgeClient] GET ${action}/${sessionId}: found in IndexedDB`);
+            return localData;
+        }
 
+        // If not in local storage and network is available, try network
         if (!this.useLocalStorage) {
             try {
+                const url = `${this.bridgeURL}?action=${action}&sessionId=${sessionId}`;
                 const response = await fetch(url);
                 if (!response.ok) return null;
                 return await response.json();
             } catch (e) {
-                console.warn('[BridgeClient] Fetch failed:', e.message);
+                console.warn('[BridgeClient] Network GET failed, reverting to local only');
                 this.useLocalStorage = true;
             }
         }
 
-        // Fall back to IndexedDB
+        return null;
+    }
+
+    /**
+     * POST to bridge
+     */
+    async post(action, sessionId, body, ttl = 300) {
+        // Always store in IndexedDB first
+        const localResult = await this.putInIndexedDB(action, sessionId, body, ttl);
+
+        // Try network if available, but don't fail if it doesn't work
+        if (!this.useLocalStorage) {
+            try {
+                const url = `${this.bridgeURL}?action=${action}&sessionId=${sessionId}`;
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                if (response.ok) {
+                    return await response.json();
+                }
+            } catch (e) {
+                console.warn('[BridgeClient] Network POST failed, using IndexedDB');
+            }
+        }
+
+        return localResult;
+    }
+
+    /**
+     * Get from IndexedDB
+     */
+    async getFromIndexedDB(action, sessionId) {
         return new Promise((resolve) => {
             if (!this.dbReady) {
                 resolve(null);
                 return;
             }
 
-            const transaction = this.db.transaction([action], 'readonly');
-            const store = transaction.objectStore(action);
+            const storeName = action === 'sync' ? 'state' : 'files';
+            const transaction = this.db.transaction([storeName], 'readonly');
+            const store = transaction.objectStore(storeName);
             const request = store.get(sessionId);
 
             request.onsuccess = () => {
                 const result = request.result;
                 if (result && result.expiration && Date.now() > result.expiration) {
-                    // Expired
+                    // Expired - delete it
+                    const delTransaction = this.db.transaction([storeName], 'readwrite');
+                    const delStore = delTransaction.objectStore(storeName);
+                    delStore.delete(sessionId);
                     resolve(null);
+                } else if (result) {
+                    resolve(result.data);
                 } else {
-                    resolve(result ? result.data : null);
+                    resolve(null);
                 }
             };
 
@@ -103,31 +163,9 @@ class BridgeClient {
     }
 
     /**
-     * POST to bridge
+     * Put in IndexedDB
      */
-    async post(action, sessionId, body, ttl = 300) {
-        const url = `${this.bridgeURL}?action=${action}&sessionId=${sessionId}`;
-
-        if (!this.useLocalStorage) {
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-                if (!response.ok) {
-                    console.warn('[BridgeClient] POST failed:', response.status);
-                    this.useLocalStorage = true;
-                    return null;
-                }
-                return await response.json();
-            } catch (e) {
-                console.warn('[BridgeClient] POST fetch failed:', e.message);
-                this.useLocalStorage = true;
-            }
-        }
-
-        // Fall back to IndexedDB
+    async putInIndexedDB(action, sessionId, body, ttl) {
         return new Promise((resolve) => {
             if (!this.dbReady) {
                 resolve(null);
