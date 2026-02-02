@@ -105,6 +105,36 @@ export async function onRequest(context) {
 
     try {
         switch (action) {
+            case 'store-signal': // WebRTC Signaling
+                if (request.method !== 'POST') return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: corsHeaders });
+                const newSignal = await request.json();
+                newSignal.timestamp = Date.now();
+                
+                // Read existing signals
+                let signalList = [];
+                try {
+                    const existing = await storage.get(`signals_${sessionId}`);
+                    if (existing) signalList = JSON.parse(existing);
+                } catch(e) {}
+                
+                signalList.push(newSignal);
+                
+                // Write back (TTL 5 minutes is generous for handshake)
+                await storage.put(`signals_${sessionId}`, JSON.stringify(signalList), { expirationTtl: 300 });
+                
+                return new Response(JSON.stringify({ success: true }), { headers: corsHeaders });
+
+            case 'get-signals':
+                const since = parseInt(url.searchParams.get('since') || '0');
+                let allSignals = [];
+                try {
+                    const data = await storage.get(`signals_${sessionId}`);
+                    if (data) allSignals = JSON.parse(data);
+                } catch(e) {}
+                
+                const foundSignals = allSignals.filter(s => s.timestamp > since);
+                return new Response(JSON.stringify({ signals: foundSignals, timestamp: Date.now() }), { headers: corsHeaders });
+
             case 'push': // From Mobile/Agent to Desktop
                 if (request.method !== 'POST') break;
 
@@ -169,8 +199,7 @@ export async function onRequest(context) {
                     return new Response(JSON.stringify({
                         success: true,
                         fileId: fileId,
-                        message: 'File uploaded successfully',
-                        mock: !env.COMMANDS_KV
+                        message: 'File uploaded successfully'
                     }), { headers: corsHeaders });
                 } else {
                     await storage.put(`cmd_${sessionId}`, JSON.stringify({
@@ -180,7 +209,7 @@ export async function onRequest(context) {
                         sessionId: sessionId
                     }), { expirationTtl: 300 });
 
-                    return new Response(JSON.stringify({ success: true, mock: !env.COMMANDS_KV }), { headers: corsHeaders });
+                    return new Response(JSON.stringify({ success: true }), { headers: corsHeaders });
                 }
 
             case 'pull': // From Desktop (listening for files/commands)
@@ -207,7 +236,7 @@ export async function onRequest(context) {
                 };
                 await storage.put(`state_${sessionId}`, JSON.stringify(newState), { expirationTtl: 600 });
                 console.log(`[Bridge] ✓ Stored state for ${sessionId}, TTL: 600s`);
-                return new Response(JSON.stringify({ success: true, mock: !env.COMMANDS_KV }), { headers: corsHeaders });
+                return new Response(JSON.stringify({ success: true }), { headers: corsHeaders });
 
             case 'status': // From Mobile (checking desktop state)
                 const currentState = await storage.get(`state_${sessionId}`);
@@ -220,15 +249,13 @@ export async function onRequest(context) {
                     return new Response(JSON.stringify({
                         online: isOnline,
                         state: state,
-                        timeSinceLastSeen: timeSinceLastSeen,
-                        mock: !env.COMMANDS_KV
+                        timeSinceLastSeen: timeSinceLastSeen
                     }), { headers: corsHeaders });
                 } else {
                     console.log(`[Bridge] Status check: No state found for ${sessionId}`);
                     return new Response(JSON.stringify({
                         online: false,
-                        state: null,
-                        mock: !env.COMMANDS_KV
+                        state: null
                     }), { headers: corsHeaders });
                 }
 
@@ -298,7 +325,7 @@ function validateFileUpload(file) {
         return { valid: false, error: 'Invalid file size' };
     }
     const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
-    if (file.size > MAX_FILE_SIZE) {
+    if (file.size > MAX_FILE_SIZE ) {
         return { valid: false, error: 'File exceeds 50MB limit' };
     }
 

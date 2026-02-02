@@ -3,45 +3,172 @@
  * Falls back to IndexedDB for local cross-tab communication when backend unavailable
  */
 
+
+// WebRTC P2P File Transfer Client
 class BridgeClient {
-    constructor(bridgeURL) {
-        this.bridgeURL = bridgeURL;
-        // Start with local storage (IndexedDB) - we'll only try network if it fails
-        this.useLocalStorage = true;
-        this.dbReady = false;
-        this.initIndexedDB();
-        // Test backend availability in background
-        this.testBackend();
+    constructor() {
+        // WebRTC
+        this.peerConnection = null;
+        this.dataChannel = null;
+        this.isInitiator = false;
+        this.onSignal = null; // callback for signaling data (offer/answer/ICE)
+        this.onFileReceived = null; // callback for received file
+        // File transfer state
+        this.incomingFile = null;
+        this.incomingBuffer = [];
+        this.incomingSize = 0;
+        this.expectedSize = 0;
     }
 
-    /**
-     * Test if backend is available (non-blocking)
-     */
-    async testBackend() {
-        try {
-            const response = await Promise.race([
-                fetch(this.bridgeURL + '?action=status&sessionId=test', {
-                    method: 'GET',
-                    headers: { 'Accept': 'application/json' }
-                }),
-                new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000))
-            ]);
-            
-            if (response.ok) {
-                const data = await response.json();
-                // Only use network if we get a real response (not mock)
-                if (!data.mock) {
-                    console.log('[BridgeClient] Real backend available');
-                    this.useLocalStorage = false;
-                } else {
-                    console.log('[BridgeClient] Backend available but mock, using IndexedDB');
-                }
+    // Desktop: Start as initiator, create offer and data channel
+    async startAsInitiator(onSignal) {
+        this.isInitiator = true;
+        this.onSignal = onSignal;
+        this.peerConnection = new RTCPeerConnection();
+        this.dataChannel = this.peerConnection.createDataChannel('file');
+        this.setupDataChannel();
+        this.peerConnection.onicecandidate = (event) => {
+            if (event.candidate && this.onSignal) {
+                this.onSignal({ type: 'ice', candidate: event.candidate });
             }
-        } catch (e) {
-            console.log('[BridgeClient] Backend unavailable, using IndexedDB only');
-            this.useLocalStorage = true;
+        };
+        const offer = await this.peerConnection.createOffer();
+        await this.peerConnection.setLocalDescription(offer);
+        if (this.onSignal) {
+            this.onSignal({ type: 'offer', sdp: offer.sdp });
         }
     }
+
+    // Mobile: Accept offer, create answer
+    async acceptOffer(offerSdp, onSignal) {
+        this.isInitiator = false;
+        this.onSignal = onSignal;
+        this.peerConnection = new RTCPeerConnection();
+        this.peerConnection.ondatachannel = (event) => {
+            this.dataChannel = event.channel;
+            this.setupDataChannel();
+        };
+        this.peerConnection.onicecandidate = (event) => {
+            if (event.candidate && this.onSignal) {
+                this.onSignal({ type: 'ice', candidate: event.candidate });
+            }
+        };
+        await this.peerConnection.setRemoteDescription({ type: 'offer', sdp: offerSdp });
+        const answer = await this.peerConnection.createAnswer();
+        await this.peerConnection.setLocalDescription(answer);
+        if (this.onSignal) {
+            this.onSignal({ type: 'answer', sdp: answer.sdp });
+        }
+    }
+
+    // Both: Add answer from remote
+    async acceptAnswer(answerSdp) {
+        if (!this.peerConnection) return;
+        await this.peerConnection.setRemoteDescription({ type: 'answer', sdp: answerSdp });
+    }
+
+    // Both: Add ICE candidate
+    async addIceCandidate(candidate) {
+        if (!this.peerConnection) return;
+        await this.peerConnection.addIceCandidate(candidate);
+    }
+
+    // Setup data channel events
+    setupDataChannel() {
+        if (!this.dataChannel) return;
+        this.dataChannel.binaryType = 'arraybuffer';
+        this.dataChannel.onopen = () => {
+            console.log('[WebRTC] Data channel open');
+            if (this.onStatusChange) this.onStatusChange('Connected');
+        };
+        this.dataChannel.onmessage = (event) => {
+            this.handleDataChannelMessage(event.data);
+        };
+        this.dataChannel.onclose = () => {
+            console.log('[WebRTC] Data channel closed');
+            if (this.onStatusChange) this.onStatusChange('Disconnected');
+        };
+        // Also listen to ICE state
+        if (this.peerConnection) {
+             this.peerConnection.oniceconnectionstatechange = () => {
+                 const state = this.peerConnection.iceConnectionState;
+                 console.log('[WebRTC] ICE State:', state);
+                 if (this.onStatusChange) this.onStatusChange('Connection: ' + state);
+             };
+        }
+    }
+
+    // Send file (as ArrayBuffer chunks)
+    async sendFile(file) {
+        if (!this.dataChannel || this.dataChannel.readyState !== 'open') throw new Error('Channel not open');
+        
+        // Send metadata FIRST so receiver knows what to expect
+        this.dataChannel.send(JSON.stringify({ 
+            type: 'metadata', 
+            name: file.name, 
+            size: file.size, 
+            mime: file.type 
+        }));
+
+        const chunkSize = 16384;
+        let offset = 0;
+        
+        // Small delay to ensure metadata arrives first
+        await new Promise(r => setTimeout(r, 50));
+
+        while (offset < file.size) {
+            const slice = file.slice(offset, offset + chunkSize);
+            const buffer = await slice.arrayBuffer();
+            this.dataChannel.send(buffer);
+            offset += chunkSize;
+        }
+        
+        // Send completion marker
+        this.dataChannel.send(JSON.stringify({ done: true, name: file.name }));
+    }
+
+    // Handle incoming data
+    handleDataChannelMessage(data) {
+        if (typeof data === 'string') {
+            try {
+                const msg = JSON.parse(data);
+                
+                if (msg.type === 'metadata') {
+                    // Start of new file
+                    console.log('[Bridge] Receiving file:', msg.name);
+                    this.incomingFileMeta = msg;
+                    this.incomingBuffer = [];
+                    this.receivedSize = 0;
+                    if (this.onProgress) this.onProgress(0, msg.size);
+                }
+                else if (msg.done) {
+                    // File transfer complete
+                    console.log('[Bridge] File transfer complete:', msg.name);
+                    const type = this.incomingFileMeta ? this.incomingFileMeta.mime : 'application/octet-stream';
+                    const blob = new Blob(this.incomingBuffer, { type });
+                    
+                    this.incomingBuffer = [];
+                    this.incomingFileMeta = null;
+                    
+                    if (this.onFileReceived) {
+                        this.onFileReceived(blob, msg.name);
+                    }
+                    if (this.onProgress) this.onProgress(100, 100);
+                }
+            } catch (e) {
+                console.error('JSON Parse error', e);
+            }
+        } else {
+            // ArrayBuffer chunk
+            this.incomingBuffer.push(data);
+            if (this.incomingFileMeta && this.onProgress) {
+                 this.receivedSize = (this.receivedSize || 0) + data.byteLength;
+                 this.onProgress(this.receivedSize, this.incomingFileMeta.size);
+            }
+        }
+    }
+
+    // Backend test logic removed for P2P-only mode
 
     /**
      * Initialize IndexedDB
@@ -234,11 +361,6 @@ class BridgeClient {
 // Create global instance
 window.bridgeClient = null;
 
-// Initialize on load
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        window.bridgeClient = new BridgeClient('/api/bridge');
-    });
-} else {
-    window.bridgeClient = new BridgeClient('/api/bridge');
-}
+
+// Expose BridgeClient globally for P2P integration
+window.BridgeClient = BridgeClient;

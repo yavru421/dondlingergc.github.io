@@ -8,6 +8,7 @@ app.use(express.json());
 // In-memory storage for testing
 let commands = {};
 let states = {};
+let signals = {}; // Store WebRTC signaling data
 
 app.all('/api/bridge', (req, res) => {
     const { action, sessionId = 'default' } = req.query;
@@ -27,6 +28,20 @@ app.all('/api/bridge', (req, res) => {
 
     try {
         switch (action) {
+            case 'store-signal': // Store Offer/Answer/ICE
+                if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+                if (!signals[sessionId]) signals[sessionId] = [];
+                const signalData = { ...req.body, timestamp: Date.now() };
+                signals[sessionId].push(signalData);
+                console.log('📡 Signal stored:', signalData.type);
+                return res.json({ success: true });
+
+            case 'get-signals': // Poll for new signals
+                const lastTimestamp = parseInt(req.query.since || '0');
+                const sessionSignals = signals[sessionId] || [];
+                const newSignals = sessionSignals.filter(s => s.timestamp > lastTimestamp);
+                return res.json({ signals: newSignals, timestamp: Date.now() });
+            
             case 'push': // From Mobile/Agent to Desktop
                 if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
                 const command = req.body;
@@ -37,7 +52,7 @@ app.all('/api/bridge', (req, res) => {
                     timestamp: cmdId
                 };
                 console.log('📤 Command queued:', commands[sessionId]);
-                return res.json({ success: true, id: cmdId, mock: true });
+                return res.json({ success: true, id: cmdId });
 
             case 'pull': // From Desktop (listening)
                 const cmd = commands[sessionId];
@@ -55,7 +70,7 @@ app.all('/api/bridge', (req, res) => {
                     lastSeen: Date.now()
                 };
                 console.log('🔄 State synced:', states[sessionId]);
-                return res.json({ success: true, mock: true });
+                return res.json({ success: true });
 
             case 'status': // From Mobile (checking desktop state)
                 const currentState = states[sessionId];
@@ -64,15 +79,13 @@ app.all('/api/bridge', (req, res) => {
                     console.log('📊 Status requested, online:', isOnline);
                     return res.json({
                         online: isOnline,
-                        state: currentState,
-                        mock: true
+                        state: currentState
                     });
                 } else {
                     console.log('📊 Status requested, no state found');
                     return res.json({
                         online: false,
-                        state: null,
-                        mock: true
+                        state: null
                     });
                 }
 
@@ -97,7 +110,7 @@ app.all('/api/bridge', (req, res) => {
 
 const PORT = 8787;
 app.listen(PORT, () => {
-    console.log(`🚀 Mock Bridge API Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Bridge API Server running on http://localhost:${PORT}`);
     console.log(`📱 Test endpoints:`);
     console.log(`   GET  /api/bridge?action=status&sessionId=default`);
     console.log(`   POST /api/bridge?action=push&sessionId=default`);

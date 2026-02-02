@@ -320,10 +320,19 @@
             </div>
         </div>
 
+
         <div class="button-group">
             <button class="btn-primary" id="btn-browse">📂 Browse Files</button>
             <button class="btn-secondary" id="btn-clear" style="display: none;">🗑️ Clear</button>
         </div>
+
+        <div class="button-group">
+            <button class="btn-primary" id="btn-p2p-start">🔗 Start P2P Transfer (Desktop)</button>
+            <button class="btn-secondary" id="btn-p2p-scan">📷 Scan QR to Connect (Mobile)</button>
+        </div>
+
+        <div id="p2p-qr-container" style="display:none;text-align:center;margin:20px 0;"></div>
+        <div id="p2p-answer-container" style="display:none;text-align:center;margin:20px 0;"></div>
 
         <div class="uploaded-files" id="uploaded-files" style="display: none;">
             <h3>Uploaded Files</h3>
@@ -334,20 +343,94 @@
     </div>
 
     <script src="../js/bridge-client.js"></script>
+    <script src="../qrcode.min.js"></script>
     <script>
-        // Multi-user session support
-        let serverUrl = null;
-        let discoveryMode = 'cloud'; // Only cloud mode for multi-user
 
-        // Extract session ID from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        let SESSION_ID = urlParams.get('sessionId');
-        const BRIDGE_URL = '/api/bridge'; // Cloud bridge
+        // --- P2P WebRTC QR Setup ---
+        let bridgeClient = null;
+        let isDesktop = false;
+        let isMobile = false;
+        // Simple device detection
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            isMobile = true;
+        } else {
+            isDesktop = true;
+        }
 
-        // If no session ID provided, show error
-        if (!SESSION_ID) {
-            document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;color:#ff6b6b;"><div><h1>No Session</h1><p>Please scan the QR code from the desktop interface</p></div></div>';
-            throw new Error('No session ID in URL');
+        // P2P: Desktop starts, generates offer and QR
+        document.getElementById('btn-p2p-start').addEventListener('click', async () => {
+            bridgeClient = new BridgeClient();
+            document.getElementById('p2p-qr-container').style.display = 'block';
+            document.getElementById('p2p-answer-container').style.display = 'none';
+            await bridgeClient.startAsInitiator(async (signal) => {
+                if (signal.type === 'offer') {
+                    // Show QR code for offer
+                    const qrDiv = document.getElementById('p2p-qr-container');
+                    qrDiv.innerHTML = '<div><b>Scan this QR with your phone:</b></div><div id="p2p-offer-qr"></div>';
+                    new QRCode(document.getElementById('p2p-offer-qr'), {
+                        text: JSON.stringify({ offer: signal.sdp }),
+                        width: 256,
+                        height: 256
+                    });
+                } else if (signal.type === 'ice') {
+                    // For simplicity, ICE trickle is not handled in this minimal demo
+                } else if (signal.type === 'answer') {
+                    // Show message: Connected!
+                    document.getElementById('p2p-qr-container').innerHTML = '<b>Connected! You can now send files.</b>';
+                }
+            });
+        });
+
+        // P2P: Mobile scans QR, parses offer, generates answer
+        document.getElementById('btn-p2p-scan').addEventListener('click', async () => {
+            // Use prompt for demo; replace with camera QR scan in production
+            let offerStr = prompt('Paste offer JSON from desktop QR:');
+            if (!offerStr) return;
+            let offerObj;
+            try {
+                offerObj = JSON.parse(offerStr);
+            } catch (e) {
+                alert('Invalid offer JSON');
+                return;
+            }
+            bridgeClient = new BridgeClient();
+            document.getElementById('p2p-answer-container').style.display = 'block';
+            document.getElementById('p2p-qr-container').style.display = 'none';
+            await bridgeClient.acceptOffer(offerObj.offer, async (signal) => {
+                if (signal.type === 'answer') {
+                    // Show answer as text for manual entry (or QR for desktop to scan)
+                    const ansDiv = document.getElementById('p2p-answer-container');
+                    ansDiv.innerHTML = '<div><b>Copy this answer and enter it on desktop:</b></div>' +
+                        '<textarea style="width:90%;height:80px;">' + JSON.stringify({ answer: signal.sdp }) + '</textarea>';
+                }
+            });
+        });
+
+        // Desktop: Accept answer from mobile (manual entry for demo)
+        window.acceptP2PAnswer = async function () {
+            let answerStr = prompt('Paste answer JSON from mobile:');
+            if (!answerStr) return;
+            let answerObj;
+            try {
+                answerObj = JSON.parse(answerStr);
+            } catch (e) {
+                alert('Invalid answer JSON');
+                return;
+            }
+            if (bridgeClient) {
+                await bridgeClient.acceptAnswer(answerObj.answer);
+                document.getElementById('p2p-qr-container').innerHTML = '<b>Connected! You can now send files.</b>';
+            }
+        }
+
+        // Add a button to accept answer (desktop)
+        const qrDiv = document.getElementById('p2p-qr-container');
+        if (qrDiv) {
+            const btn = document.createElement('button');
+            btn.textContent = 'Enter Answer from Mobile';
+            btn.className = 'btn-secondary';
+            btn.onclick = window.acceptP2PAnswer;
+            qrDiv.appendChild(btn);
         }
 
         let files = [];
