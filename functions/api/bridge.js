@@ -213,7 +213,7 @@ export async function onRequest(context) {
                 }
 
             case 'pull': // From Desktop (listening for files/commands)
-                // Check for files first - this is what FileManager uses
+                // Check for files first
                 const mostRecentFile = await storage.get(`file_${sessionId}`);
                 if (mostRecentFile) {
                     // Return the file and delete it (one-time retrieval)

@@ -1,13 +1,71 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>SideSnipe Visionary Screenshot Sage</title>
-    <meta name="theme-color" content="#0b0f14" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0e0f11">
+  <meta name="description" content="QuantumRabbitHole Explorer: Dive into the infinite knowledge universe with our cutting-edge, mobile-first Wikipedia exploration experience">
+  <title>RabbitHole Explorer 🐇</title>
+  <!-- RabbitHole: Client-only Wikipedia-powered knowledge exploration -->
+  <!-- Mobile-first immersive browsing experience -->
+  <link rel="stylesheet" href="../style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body>
+  <user-profile></user-profile>
+  <div class="rabbithole-gradient"></div>
+  <div class="particles-container" id="particles"></div>
+  <div class="rabbit-animation" id="rabbit-animation">
+    <img id="rabbit-gif" class="rabbit-video" src="rabbit-animation.gif" alt="Rabbit Hole Animation">
+  </div>
+<article class="rabbithole-card" id="card" data-state="welcome" style="display: none;">
+    <div class="rabbithole-header">
+      <h1 id="title">Welcome to DondlingerGC's RabbitHole</h1>
+      <div class="rabbithole-progress" id="progress">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+    </div>
+    
+    <div class="rabbithole-content">
+      <p id="extract">Swipe to continue the introduction...</p>
+      
+      <div class="rabbithole-meta" id="meta">
+        <span class="meta-tag">🐇 Enter the Rabbit Hole</span>
+      </div>
+      <div class="rabbithole-error" id="error"></div>
+    </div>
+
+    <div class="rabbithole-actions">
+      <button id="enter" class="rabbithole-btn rabbithole-btn-primary" style="display: none;">
+        <span class="btn-content">Start Exploring</span>
+        <div class="rabbithole-sparkle"></div>
+      </button>
+    </div>
+  </article>
+<div class="rabbithole-nav-arrows" aria-hidden="true">
+    <div class="rabbithole-arrow rabbithole-arrow-left" id="arrow-left">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </div>
+    <div class="rabbithole-arrow rabbithole-arrow-right" id="arrow-right">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </div>
+  </div>
+  <div class="rabbithole-footer">
+    <span>Powered by Wikipedia API · Built for curious minds</span>
+  </div>
+  <script src="../components/history-modal.js"></script>
+  <script src="../components/user-profile.js"></script>
+  <script src="../script.js"></script>
+
+</body>
+</html>
         :root {
             --bg: #0b0f14;
             --panel: #0f1620;

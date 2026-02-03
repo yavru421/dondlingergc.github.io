@@ -51,3 +51,12 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Temporary text files and reports
+*unbelievable*.txt
+*BUILD_REPORT*.txt
+emmbedments.txt
+
+# Build scripts (if not needed in deployment)
+# *.ps1
+# *.py

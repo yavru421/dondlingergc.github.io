@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="qrcode.min.js"></script>
     <script src="_site-config.js"></script>
     <style>
         /* Error message style for JS fatal errors */
@@ -55,7 +54,7 @@
 
         /* Desktop container */
         #desktop {
-            display: none;
+            display: block;
             height: 100vh;
             position: relative;
             overflow: hidden;
@@ -645,86 +644,42 @@
             margin-bottom: 16px;
         }
 
+        .page-content .view-toggle {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 10px 14px;
+            background: var(--accent);
+            color: #000;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .page-content .view-toggle.secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
         .page-content p {
             line-height: 1.7;
             margin-bottom: 16px;
         }
 
         @media (max-width: 768px) {
-            #desktop {
+            html:not(.force-desktop) #desktop {
                 display: none !important;
             }
 
-            .page-content {
+            html:not(.force-desktop) .page-content {
                 display: block !important;
             }
-        }
 
-        /* QR Code Display */
-        .qr-container {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid var(--accent);
-            border-radius: 12px;
-            padding: 16px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            max-width: 200px;
-        }
-
-        .qr-container.show {
-            display: flex;
-        }
-
-        .qr-title {
-            color: var(--accent);
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-align: center;
-            margin: 0;
-        }
-
-        .qr-code {
-            background: white;
-            padding: 8px;
-            border-radius: 8px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .qr-instructions {
-            color: #ccc;
-            font-size: 0.8rem;
-            text-align: center;
-            line-height: 1.4;
-            margin: 0;
-        }
-
-        .qr-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            z-index: 999;
-        }
-
-        .qr-toggle:hover {
-            background: rgba(0, 212, 255, 0.2);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            html.force-desktop .page-content {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -756,16 +711,6 @@
                 <div class="date-display" id="date-display">Loading...</div>
             </div>
             <div class="clock-particles" id="clock-particles"></div>
-        </div>
-
-        <!-- QR Code Toggle Button -->
-        <button class="qr-toggle" id="qr-toggle" onclick="toggleQRCode()">📱 Mobile</button>
-
-        <!-- QR Code Display -->
-        <div class="qr-container" id="qr-container">
-            <h3 class="qr-title">Mobile Controller</h3>
-            <div class="qr-code" id="qr-code"></div>
-            <p class="qr-instructions">Scan to control this desktop remotely</p>
         </div>
 
         <div id="windows-container"></div>
@@ -806,7 +751,12 @@
         <h1>DondlingerGC Desktop</h1>
         <p><strong>Professional Digital Solutions Platform</strong></p>
         <p>Access tools, blueprints, and interactive web design features.</p>
-        <p>Visit us on desktop for the full interactive experience.</p>
+        <p>For a mobile-optimized experience, <a href="/mobilestatic/mobile.html" style="color:#007bff;text-decoration:underline;font-weight:bold;">visit our mobile site here</a>.</p>
+        <p>Or, visit us on desktop for the full interactive experience.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+            <button id="force-desktop" class="view-toggle" type="button">View Desktop Anyway</button>
+            <button id="force-mobile" class="view-toggle secondary" type="button">Stay on Mobile</button>
+        </div>
     </div>
 
     <script>
@@ -821,12 +771,11 @@
                 this.pages = [
                     { id: 'home', title: '🏠 Updates', tooltip: 'View latest projects, news, and social media updates from DondlingerGC' },
                     { id: 'blueprints', title: '📐 Plans', special: true, tooltip: 'Explore architectural blueprints and construction plans repository' },
-                    { id: 'carnival', title: '🎪 Digital Carnival', special: true, tooltip: 'Explore weird, wonderful, and experimental web demos from HuggingFace Spaces' },
-                    { id: 'contact', title: '📧 Contact', file: 'contact.html', tooltip: 'Get in touch with us to discuss your project needs' },
+                    { id: 'contact', title: '📧 Contact', tooltip: 'Get in touch with us to discuss your project needs' },
                     { id: 'fortress', title: '🎨 Website Builder', embed: 'fortress.html', embedTitle: 'Web Design Wizard', tooltip: 'Interactive web design tool to build your custom website' },
                     { id: 'chat', title: '💬 Chat', embed: 'chat.html', embedTitle: 'DGC Chat', tooltip: 'Live chat support and customer service portal' },
+                    { id: 'rabbithole', title: '🐇 Rabbit Hole', embedUrl: 'https://john2121-quantumrabbithole-explorer.static.hf.space', embedTitle: 'Rabbit Hole Explorer', tooltip: 'Immersive Rabbit Hole experience (mobile-optimized)' },
                     { id: 'taxidermy', title: '🦌 Taxidermy', embed: 'taxidermy.html', embedTitle: 'Wild Preserve Taxidermy', tooltip: 'Professional taxidermy services and wildlife preservation' },
-                    { id: 'flappybird', title: '🐦 Flappy Bird', embedUrl: 'https://john2121-flappy-bird-revamped.static.hf.space', embedTitle: 'Flappy Bird Revamped', tooltip: 'Classic Flappy Bird game - tap to fly!' },
                     { id: 'tours', title: '🗺️ 3D Tours', special: true, tooltip: 'Explore Matterport 3D tours and virtual walkthroughs' },
                     { id: 'cottonthimble', title: '🧵 Cotton Thimble', embed: 'cottonthimble.html', embedTitle: 'Cotton Thimble Store Tour', tooltip: 'Virtual tour of Cotton Thimble store in WI - Grandma\'s family store' },
                     { id: 'settings', title: '⚙️ Settings', special: true, tooltip: 'Customize your desktop theme, colors, and preferences' }
@@ -838,13 +787,13 @@
                     minimizedApps: new Set(),
                     tooltipsEnabled: false,
                     lastRemoteCommandId: parseInt(localStorage.getItem('lastRemoteCommandId') || '0'),
-                    zIndex: 100,
-                    carnivalIndex: 0
+                    zIndex: 100
                 };
 
                 this.sessionID = 'default';
                 // Use local mock server for testing, production uses relative path
                 this.bridgeURL = window.location.hostname === 'localhost' ? 'http://localhost:8787/api/bridge' : '/api/bridge';
+                this.viewOverride = this.getViewOverride();
 
                 this.init();
             }
@@ -853,18 +802,72 @@
                 // Always start services for command polling, regardless of mobile/desktop
                 this.startServices();
 
-                if (this.isMobile()) return;
+                const isMobile = this.isMobile();
+                this.applyViewMode(isMobile);
+                this.setupViewToggleButtons();
 
-                document.getElementById('desktop').style.display = 'block';
-                const pageContent = document.querySelector('.page-content');
-                if (pageContent) pageContent.style.display = 'none';
+                if (isMobile) return;
 
                 this.renderDesktop();
                 this.applySavedSettings();
             }
 
+            getViewOverride() {
+                try {
+                    const params = new URLSearchParams(window.location.search);
+                    const queryView = params.get('view');
+                    if (queryView === 'desktop' || queryView === 'mobile') return queryView;
+                    if (params.has('desktop')) return 'desktop';
+                    if (params.has('mobile')) return 'mobile';
+                    const stored = localStorage.getItem('viewOverride');
+                    if (stored === 'desktop' || stored === 'mobile') return stored;
+                } catch (e) { }
+                return null;
+            }
+
+            applyViewMode(isMobile) {
+                const desktop = document.getElementById('desktop');
+                const pageContent = document.querySelector('.page-content');
+
+                if (desktop) desktop.style.display = isMobile ? 'none' : 'block';
+                if (pageContent) pageContent.style.display = isMobile ? 'block' : 'none';
+                document.documentElement.classList.toggle('is-mobile', isMobile);
+                document.documentElement.classList.toggle('force-desktop', this.viewOverride === 'desktop');
+            }
+
+            setupViewToggleButtons() {
+                const forceDesktop = document.getElementById('force-desktop');
+                const forceMobile = document.getElementById('force-mobile');
+
+                if (forceDesktop) {
+                    forceDesktop.onclick = () => {
+                        localStorage.setItem('viewOverride', 'desktop');
+                        location.reload();
+                    };
+                }
+
+                if (forceMobile) {
+                    forceMobile.onclick = () => {
+                        localStorage.setItem('viewOverride', 'mobile');
+                        location.reload();
+                    };
+                }
+            }
+
             isMobile() {
-                return window.innerWidth < 768;
+                if (this.viewOverride === 'desktop') return false;
+                if (this.viewOverride === 'mobile') return true;
+                try {
+                    const ua = navigator.userAgent || navigator.vendor || window.opera || '';
+                    const mobileUA = /Android.+Mobile|iPhone|iPad|iPod|Windows Phone|Opera Mini|Mobi/i;
+                    const isMobileUA = mobileUA.test(ua);
+                    const isNarrow = Math.min(window.innerWidth, window.innerHeight) < 820;
+                    const hasTouch = (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) || ('ontouchstart' in window);
+                    // Treat as mobile when UA indicates a mobile device, or when the viewport is narrow on a touch device
+                    return isMobileUA || (hasTouch && isNarrow);
+                } catch (e) {
+                    return false;
+                }
             }
 
             renderDesktop() {
@@ -960,17 +963,10 @@
                     contentEl.innerHTML = `<iframe src="${url}" style="width:100%;height:100%;border:none;background:#fff;"></iframe>`;
                 } else if (page.id === 'blueprints') {
                     this.initBlueprints(contentEl);
-                } else if (page.id === 'carnival') {
-                    this.initCarnival(contentEl);
+                } else if (page.id === 'contact') {
+                    contentEl.innerHTML = this.getContactHTML();
                 } else if (page.id === 'settings') {
                     this.initSettings(contentEl);
-                } else if (page.file) {
-                    fetch(page.file).then(r => r.text()).then(html => {
-                        const temp = document.createElement('div');
-                        temp.innerHTML = html;
-                        const main = temp.querySelector('#main-content');
-                        contentEl.innerHTML = main ? main.innerHTML : html;
-                    }).catch(() => contentEl.innerHTML = 'Error loading content.');
                 }
             }
 
@@ -1052,10 +1048,12 @@
             }
 
             startServices() {
+                if (location.protocol === 'file:') return;
                 setInterval(() => this.pollRemoteCommands(), 3000);
             }
 
             async pollRemoteCommands() {
+                if (location.protocol === 'file:') return;
                 try {
                     const res = await fetch(`${this.bridgeURL}?action=pull&sessionId=${this.sessionID}`);
                     if (!res.ok) return;
@@ -1079,6 +1077,7 @@
             }
 
             async syncState() {
+                if (location.protocol === 'file:') return;
                 try {
                     await fetch(`${this.bridgeURL}?action=sync&sessionId=${this.sessionID}`, {
                         method: 'POST',
@@ -1152,6 +1151,20 @@
                 `;
             }
 
+            getContactHTML() {
+                return `
+                    <div style="padding:24px;line-height:1.6;color:#1c1c1c;">
+                        <h2 style="margin:0 0 12px 0;color:#0b0d11;">📧 Contact John Dondlinger</h2>
+                        <p style="margin:0 0 8px 0;">Have a project in mind? Reach out directly.</p>
+                        <div style="padding:16px;border:1px solid rgba(0,0,0,0.08);border-radius:10px;background:#f9fbff;box-shadow:0 4px 16px rgba(0,0,0,0.05);max-width:420px;">
+                            <div style="font-weight:700;font-size:1.05rem;margin-bottom:8px;">John Dondlinger</div>
+                            <div style="margin-bottom:6px;">Email: <a href="mailto:dondlingergeneralcontracting@gmail.com">dondlingergeneralcontracting@gmail.com</a></div>
+                            <div style="margin-bottom:6px;">Phone: <a href="tel:7154593050">715.459.3050</a></div>
+                        </div>
+                    </div>
+                `;
+            }
+
             initBlueprints(container) {
                 container.innerHTML = `<div id="blueprints-viewer"><h2>Architectural Blueprints</h2><div class="blueprints-list" style="display:flex;flex-wrap:wrap;gap:24px;"></div><div class="blueprint-preview" style="margin-top:32px;padding:24px;background:#f7f7fa;border-radius:10px;border:2px solid var(--accent);"></div><p style="margin-top:32px;color:var(--muted);font-size:15px;">All blueprints and plans are property of Dondlinger General Contracting. For demonstration only.</p></div>`;
                 fetch('blueprints.json').then(r => r.json()).then(blueprints => {
@@ -1199,97 +1212,6 @@
                 });
             }
 
-            initCarnival(container) {
-                const CARNIVAL_SPACES = [
-                    { url: 'https://huggingface.co/spaces/John2121/lawconnect-legal-services', title: 'LawConnect Legal Services', desc: 'Professional legal services platform with AI-powered assistance for connecting clients with attorneys', icon: '⚖️' },
-                    { url: 'https://huggingface.co/spaces/John2121/italia-s-romano-s-too', title: "Italia's Romano's Too", desc: 'Authentic Italian restaurant website with menu, reservations, and online ordering', icon: '🍝' },
-                    { url: 'https://huggingface.co/spaces/John2121/dondlingergc-digital-fortress-builder', title: 'Digital Fortress Builder', desc: 'Interactive drag-and-drop website builder with live preview and customization', icon: '🏰' },
-                    { url: 'https://huggingface.co/spaces/John2121/bistrobyte', title: 'BistroByte', desc: 'Modern restaurant tech platform with smart ordering and kitchen management', icon: '🍔' },
-                    { url: 'https://huggingface.co/spaces/John2121/GhostScriptMCP', title: 'GhostScript MCP', desc: 'Advanced automation scripting interface with AI-powered code generation', icon: '👻' },
-                    { url: 'https://huggingface.co/spaces/John2121/the-quilted-tapestry-emporium', title: 'The Quilted Tapestry Emporium', desc: 'Artisan quilting and textile showcase with custom design gallery', icon: '🧵' }
-                ];
-
-                container.innerHTML = `
-                    <div id="carnival-viewer" style="padding:24px;height:100%;display:flex;flex-direction:column;overflow-y:auto;">
-                        <div style="text-align:center;margin-bottom:24px;">
-                            <h2 style="color:var(--accent);margin:0 0 8px 0;font-size:2rem;">🎪 Digital Carnival</h2>
-                            <p style="color:#666;font-size:0.95rem;margin:0;">Weird, wonderful, and experimental web demos from the lab</p>
-                        </div>
-                        <div id="carnival-card" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);border-radius:16px;padding:40px;border:2px solid var(--accent);box-shadow:0 8px 24px rgba(0,212,255,0.2);min-height:400px;">
-                            <div style="text-align:center;max-width:600px;">
-                                <div style="font-size:4rem;margin-bottom:20px;" id="carnival-icon">🎪</div>
-                                <h3 style="color:var(--accent);font-size:1.8rem;margin:0 0 12px 0;" id="carnival-title">Loading...</h3>
-                                <p style="color:#666;font-size:1.05rem;line-height:1.6;margin:0 0 32px 0;" id="carnival-desc">Please wait...</p>
-                                <a id="carnival-link" href="#" target="_blank" style="display:inline-block;padding:16px 40px;background:var(--accent);color:#000;font-weight:700;text-decoration:none;border-radius:12px;font-size:1.1rem;box-shadow:0 4px 12px rgba(0,212,255,0.4);transition:all 0.2s;cursor:pointer;">
-                                    🚀 Launch Demo in New Tab
-                                </a>
-                            </div>
-                        </div>
-                        <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-top:20px;">
-                            <button onclick="window.System.prevCarnival()" style="padding:12px 24px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:1.05rem;">← Prev</button>
-                            <div id="carnival-dots" style="display:flex;gap:8px;"></div>
-                            <button onclick="window.System.nextCarnival()" style="padding:12px 24px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:1.05rem;">Next →</button>
-                        </div>
-                    </div>
-                `;
-
-                // Load first space
-                setTimeout(() => this.loadCarnival(0), 100);
-            }
-
-            loadCarnival(index) {
-                const CARNIVAL_SPACES = [
-                    { url: 'https://huggingface.co/spaces/John2121/lawconnect-legal-services', title: 'LawConnect Legal Services', desc: 'Professional legal services platform with AI-powered assistance for connecting clients with attorneys', icon: '⚖️' },
-                    { url: 'https://huggingface.co/spaces/John2121/italia-s-romano-s-too', title: "Italia's Romano's Too", desc: 'Authentic Italian restaurant website with menu, reservations, and online ordering', icon: '🍝' },
-                    { url: 'https://huggingface.co/spaces/John2121/dondlingergc-digital-fortress-builder', title: 'Digital Fortress Builder', desc: 'Interactive drag-and-drop website builder with live preview and customization', icon: '🏰' },
-                    { url: 'https://huggingface.co/spaces/John2121/bistrobyte', title: 'BistroByte', desc: 'Modern restaurant tech platform with smart ordering and kitchen management', icon: '🍔' },
-                    { url: 'https://huggingface.co/spaces/John2121/GhostScriptMCP', title: 'GhostScript MCP', desc: 'Advanced automation scripting interface with AI-powered code generation', icon: '👻' },
-                    { url: 'https://huggingface.co/spaces/John2121/the-quilted-tapestry-emporium', title: 'The Quilted Tapestry Emporium', desc: 'Artisan quilting and textile showcase with custom design gallery', icon: '🧵' }
-                ];
-
-                this.state.carnivalIndex = index;
-                const space = CARNIVAL_SPACES[index];
-                document.getElementById('carnival-icon').textContent = space.icon;
-                document.getElementById('carnival-link').href = space.url;
-                document.getElementById('carnival-title').textContent = space.title;
-                document.getElementById('carnival-desc').textContent = space.desc;
-
-                // Update dots
-                const dots = document.getElementById('carnival-dots');
-                if (dots) {
-                    dots.innerHTML = '';
-                    CARNIVAL_SPACES.forEach((_, i) => {
-                        const dot = document.createElement('div');
-                        dot.style.cssText = `width:12px;height:12px;border-radius:50%;cursor:pointer;transition:all 0.2s;${i === index ? 'background:var(--accent);transform:scale(1.3);' : 'background:#ccc;'}`;
-                        dot.onclick = () => this.loadCarnival(i);
-                        dots.appendChild(dot);
-                    });
-                }
-            }
-
-            nextCarnival() {
-                const CARNIVAL_SPACES = [
-                    { url: 'https://huggingface.co/spaces/John2121/lawconnect-legal-services', title: 'LawConnect Legal Services', desc: 'Professional legal services platform with AI-powered assistance for connecting clients with attorneys', icon: '⚖️' },
-                    { url: 'https://huggingface.co/spaces/John2121/italia-s-romano-s-too', title: "Italia's Romano's Too", desc: 'Authentic Italian restaurant website with menu, reservations, and online ordering', icon: '🍝' },
-                    { url: 'https://huggingface.co/spaces/John2121/dondlingergc-digital-fortress-builder', title: 'Digital Fortress Builder', desc: 'Interactive drag-and-drop website builder with live preview and customization', icon: '🏰' },
-                    { url: 'https://huggingface.co/spaces/John2121/bistrobyte', title: 'BistroByte', desc: 'Modern restaurant tech platform with smart ordering and kitchen management', icon: '🍔' },
-                    { url: 'https://huggingface.co/spaces/John2121/GhostScriptMCP', title: 'GhostScript MCP', desc: 'Advanced automation scripting interface with AI-powered code generation', icon: '👻' },
-                    { url: 'https://huggingface.co/spaces/John2121/the-quilted-tapestry-emporium', title: 'The Quilted Tapestry Emporium', desc: 'Artisan quilting and textile showcase with custom design gallery', icon: '🧵' }
-                ];
-                this.loadCarnival((this.state.carnivalIndex + 1) % CARNIVAL_SPACES.length);
-            }
-
-            prevCarnival() {
-                const CARNIVAL_SPACES = [
-                    { url: 'https://huggingface.co/spaces/John2121/lawconnect-legal-services', title: 'LawConnect Legal Services', desc: 'Professional legal services platform with AI-powered assistance for connecting clients with attorneys', icon: '⚖️' },
-                    { url: 'https://huggingface.co/spaces/John2121/italia-s-romano-s-too', title: "Italia's Romano's Too", desc: 'Authentic Italian restaurant website with menu, reservations, and online ordering', icon: '🍝' },
-                    { url: 'https://huggingface.co/spaces/John2121/dondlingergc-digital-fortress-builder', title: 'Digital Fortress Builder', desc: 'Interactive drag-and-drop website builder with live preview and customization', icon: '🏰' },
-                    { url: 'https://huggingface.co/spaces/John2121/bistrobyte', title: 'BistroByte', desc: 'Modern restaurant tech platform with smart ordering and kitchen management', icon: '🍔' },
-                    { url: 'https://huggingface.co/spaces/John2121/GhostScriptMCP', title: 'GhostScript MCP', desc: 'Advanced automation scripting interface with AI-powered code generation', icon: '👻' },
-                    { url: 'https://huggingface.co/spaces/John2121/the-quilted-tapestry-emporium', title: 'The Quilted Tapestry Emporium', desc: 'Artisan quilting and textile showcase with custom design gallery', icon: '🧵' }
-                ];
-                this.loadCarnival((this.state.carnivalIndex - 1 + CARNIVAL_SPACES.length) % CARNIVAL_SPACES.length);
-            }
 
             initTours(container) {
                 const saved = JSON.parse(localStorage.getItem('matterportTours') || 'null');
@@ -1414,37 +1336,6 @@
                 if (saved.accent) document.documentElement.style.setProperty('--accent', saved.accent);
             }
 
-            // QR Code functionality
-            generateQRCode() {
-                const mobileUrl = `${window.location.origin}/mobilestatic/mobile.html`;
-                const qrContainer = document.getElementById('qr-code');
-
-                if (qrContainer && window.QRCode) {
-                    qrContainer.innerHTML = '';
-                    new QRCode(qrContainer, {
-                        text: mobileUrl,
-                        width: 128,
-                        height: 128,
-                        colorDark: "#000000",
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.H
-                    });
-                }
-            }
-
-            toggleQRCode() {
-                const container = document.getElementById('qr-container');
-                const toggle = document.getElementById('qr-toggle');
-
-                if (container.classList.contains('show')) {
-                    container.classList.remove('show');
-                    toggle.textContent = '📱 Mobile';
-                } else {
-                    this.generateQRCode();
-                    container.classList.add('show');
-                    toggle.textContent = '✕ Close';
-                }
-            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -1483,11 +1374,5 @@
         function splitWindowRight(id) {
             if (window.System) window.System.splitWindowRight(id);
         }
-
-        function toggleQRCode() {
-            if (window.System) window.System.toggleQRCode();
-        }
-    <script>
-        console.log('Loading QRCode library from CDN...');
     </script>
 </html>
