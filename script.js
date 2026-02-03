@@ -12,10 +12,15 @@ class RabbitHole {
         this.outgoingLinks = [];
         this.started = false;
         this.startX = null;
+        this.startY = null;
         this.history = [];
         this.currentIndex = -1;
         this.insights = [];
         this.swipeCount = 0;
+        this.isLoading = false;
+        this.lastSwipeTime = 0;
+        this.swipeDebounceMs = 600;
+        this.swipeThreshold = 60;
         this.analytics = {
 totalArticles: 0,
             totalTime: 0,
@@ -80,28 +85,36 @@ createParticles() {
         // Enhanced touch handling for welcome sequence
         document.addEventListener('touchstart', e => {
             this.startX = e.touches[0].clientX;
+            this.startY = e.touches[0].clientY;
         }, { passive: true });
 
         document.addEventListener('touchend', e => {
             if (this.startX === null) return;
             const dx = e.changedTouches[0].clientX - this.startX;
+            const dy = e.changedTouches[0].clientY - this.startY;
             this.startX = null;
+            this.startY = null;
 
-            if (!this.started) {
-                // Handle welcome sequence swipes
-                if (Math.abs(dx) > 60) {
+            // Debounce and ignore while loading
+            const now = Date.now();
+            if (this.isLoading) return;
+            if (now - this.lastSwipeTime < this.swipeDebounceMs) return;
+
+            // Only treat horizontal-dominant gestures as swipes
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > this.swipeThreshold) {
+                this.lastSwipeTime = now;
+                if (!this.started) {
                     this.nextWelcomeStep();
+                    return;
                 }
-                return;
-            }
-            
-            if (dx < -60) {
-                this.swipeCount++;
-                this.fetchLinkedArticle();
-            }
-            if (dx > 60) {
-                this.swipeCount++;
-                this.fetchRandomArticle();
+
+                if (dx < 0) {
+                    this.swipeCount++;
+                    this.fetchLinkedArticle();
+                } else {
+                    this.swipeCount++;
+                    this.fetchRandomArticle();
+                }
             }
         });
 
@@ -112,6 +125,7 @@ createParticles() {
                 return;
             }
             if (!this.started) return;
+            if (this.isLoading) return;
             if (e.key === 'ArrowLeft') this.fetchLinkedArticle();
             if (e.key === 'ArrowRight') this.fetchRandomArticle();
         });
@@ -151,7 +165,7 @@ animateEntrance() {
                 this.showRabbitAnimation();
             }
 const res = await fetch(
-                'https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=random&grnnamespace=0&prop=extracts|description|info&exintro=1&explaintext=1&inprop=url'
+                'https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=random&grnnamespace=0&prop=extracts|description|info|categories|pageimages|revisions&exintro=1&explaintext=1&inprop=url&piprop=thumbnail&pithumbsize=300&rvprop=timestamp'
             );
             const data = await res.json();
             const pages = data.query.pages;
@@ -181,7 +195,7 @@ const res = await fetch(
                 this.showRabbitAnimation();
             }
 const res = await fetch(
-                `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&titles=${encodeURIComponent(next)}&prop=extracts|description|info&exintro=1&explaintext=1&inprop=url`
+                `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&titles=${encodeURIComponent(next)}&prop=extracts|description|info|categories|pageimages|revisions&exintro=1&explaintext=1&inprop=url&piprop=thumbnail&pithumbsize=300&rvprop=timestamp`
             );
             const data = await res.json();
             const pages = data.query.pages;
@@ -258,10 +272,13 @@ updateProgress() {
     }
 
     setLoading(loading) {
+        this.isLoading = !!loading;
         if (loading) {
             this.card.classList.add('loading');
+            this.card.setAttribute('aria-busy', 'true');
         } else {
             this.card.classList.remove('loading');
+            this.card.removeAttribute('aria-busy');
         }
     }
     animateContent(animationClass) {
