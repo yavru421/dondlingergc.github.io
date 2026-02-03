@@ -9,20 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script>
-        console.log('Loading QRCode library from CDN...');
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
-        onload="console.log('✓ QRCode library loaded from CDN'); console.log('QRCode available:', !!window.QRCode);"
-        onerror="console.error('✗ Failed to load QRCode library from CDN. Falling back to local file.');"></script>
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="qrcode.min.js"></script>
     <script src="_site-config.js"></script>
-        <script src="js/bridge-client.js"></script>
-        <script>
-            // Debug: Check if BridgeClient is loaded
-            console.log('After bridge-client.js, window.BridgeClient =', window.BridgeClient);
-        </script>
-    <script src="js/file-manager.js"></script>
     <style>
         /* Error message style for JS fatal errors */
         #fatal-error {
@@ -546,8 +534,6 @@
             gap: 8px;
             box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
             z-index: 1001;
-            max-height: 60vh;
-            overflow-y: auto;
         }
 
         .start-menu.show {
@@ -673,35 +659,24 @@
                 display: block !important;
             }
         }
-        
-        /* Ensure Desktop is visible on non-mobile if JS fails */
-        @media (min-width: 769px) {
-            #desktop {
-                display: block;
-            }
-            .page-content {
-                display: none; 
-            }
-        }
 
         /* QR Code Display */
         .qr-container {
-            position: fixed; /* Changed from absolute to fixed */
-            top: 20%;
+            position: absolute;
+            top: 20px;
             right: 20px;
-            background: rgba(0, 0, 0, 0.95); /* Darker background */
+            background: rgba(0, 0, 0, 0.8);
             border: 2px solid var(--accent);
             border-radius: 12px;
-            padding: 24px;
+            padding: 16px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            z-index: 10000; /* Higher z-index */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
             display: none;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
-            max-width: 90vw; /* Responsive max width */
-            width: auto;
+            gap: 12px;
+            max-width: 200px;
         }
 
         .qr-container.show {
@@ -745,7 +720,6 @@
             font-weight: 600;
             transition: all 0.3s ease;
             z-index: 999;
-            visibility: visible !important;
         }
 
         .qr-toggle:hover {
@@ -756,38 +730,7 @@
 </head>
 
 <body>
-
     <div id="fatal-error"></div>
-
-    <!-- Temporary Cotton Thimble Widget (90 days) -->
-    <div id="cottonthimble-widget"
-        style="position:fixed;top:32px;right:32px;z-index:20000;background:rgba(255,255,255,0.97);border:2px solid #00d4ff;border-radius:16px;box-shadow:0 4px 24px #00d4ff44;padding:20px 28px;display:none;align-items:center;gap:18px;cursor:pointer;transition:box-shadow 0.2s;">
-        <span style="font-size:2.2rem;">🧵</span>
-        <div style="display:flex;flex-direction:column;">
-            <span style="font-weight:700;font-size:1.1rem;color:#00d4ff;">Cotton Thimble</span>
-            <span style="font-size:0.95rem;color:#333;">Virtual Store Tour</span>
-        </div>
-        <button
-            style="margin-left:18px;padding:8px 16px;background:#00d4ff;color:#000;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-size:1rem;box-shadow:0 2px 8px #00d4ff33;">Open</button>
-    </div>
-
-    <script>
-        // Remove widget after 90 days (timestamp check)
-        (function () {
-            const widget = document.getElementById('cottonthimble-widget');
-            const created = 1769721600000; // Jan 29, 2026 UTC ms
-            const now = Date.now();
-            const ninetyDays = 1000 * 60 * 60 * 24 * 90;
-            if (now - created > ninetyDays) {
-                widget && widget.remove();
-            } else if (widget) {
-                widget.onclick = function (e) {
-                    e.preventDefault();
-                    if (window.System) window.System.openWindow('cottonthimble');
-                };
-            }
-        })();
-    </script>
 
     <!-- Desktop UI -->
     <div id="desktop">
@@ -820,30 +763,9 @@
 
         <!-- QR Code Display -->
         <div class="qr-container" id="qr-container">
-            <h3 class="qr-title" id="qr-title">Mobile File Transfer</h3>
+            <h3 class="qr-title">Mobile Controller</h3>
             <div class="qr-code" id="qr-code"></div>
-            <p class="qr-instructions" id="qr-instructions">Scan to connect P2P</p>
-            
-            <div id="qr-answer-section" style="display:none; width: 100%; max-width: 300px; text-align: center; margin-top: 12px; border-top: 1px solid #444; padding-top: 12px;">
-                <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 8px;">Step 2: Scan the Answer from your phone</p>
-                
-                <div id="reader-container" style="display:none; margin-bottom: 10px;">
-                    <div id="qr-reader" style="width: 100%; height: 250px; background: #000;"></div>
-                    <button onclick="window.System.stopScanner()" style="margin-top: 5px; padding: 4px 12px; background: #cc0000; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Stop Camera</button>
-                </div>
-
-                <div id="manual-input-container">
-                    <button onclick="window.System.startScanner()" style="margin-bottom: 8px; padding: 8px 16px; background: #222; color: #fff; border: 1px solid #555; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 100%; gap: 8px;">
-                        <span>📷</span> Scan QR Answer
-                    </button>
-                    
-                    <details style="text-align: left; font-size: 0.75rem; color: #666; margin-top: 8px; cursor: pointer;">
-                        <summary>Or paste code manually</summary>
-                        <textarea id="qr-answer-input" placeholder='Paste Answer JSON here...' style="width: 100%; height: 50px; background: #111; color: #fff; border: 1px solid #444; border-radius: 4px; font-family: monospace; font-size: 0.7rem; resize: none; margin-top: 5px;"></textarea>
-                        <button onclick="window.System.handleManualAnswer()" style="margin-top: 5px; padding: 6px 16px; background: var(--accent); color: #000; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">Connect</button>
-                    </details>
-                </div>
-            </div>
+            <p class="qr-instructions">Scan to control this desktop remotely</p>
         </div>
 
         <div id="windows-container"></div>
@@ -884,84 +806,47 @@
         <h1>DondlingerGC Desktop</h1>
         <p><strong>Professional Digital Solutions Platform</strong></p>
         <p>Access tools, blueprints, and interactive web design features.</p>
-        <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 8px;">
-            <p style="margin-bottom: 10px;">If the desktop doesn't load automatically:</p>
-            <button onclick="document.getElementById('desktop').style.display='block'; document.querySelector('.page-content').style.display='none'; if(window.System) { window.System.renderDesktop(); window.System.applySavedSettings(); }" style="padding: 10px 20px; background: var(--accent); color: black; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">
-                🖥️ Force Desktop Mode
-            </button>
-        </div>
+        <p>Visit us on desktop for the full interactive experience.</p>
     </div>
 
     <script>
-        window.onerror = function(msg, url, line, col, error) {
-           console.error('Global Error:', msg, url, line, col, error);
-           // Only show major syntax/runtime errors visible to user if totally broken
-           if (document.getElementById('desktop').style.display !== 'block') {
-               const errDiv = document.createElement('div');
-               errDiv.style.cssText = 'position:fixed;top:10px;left:10px;background:#300;color:#f88;padding:10px;z-index:99999;border:1px solid red;max-width:90%;word-wrap:break-word;';
-               errDiv.innerText = 'JS Error: ' + msg + ' (Line ' + line + ')';
-               document.body.appendChild(errDiv);
-           }
-        };
-
         'use strict';
-        /* global BridgeClient, QRCode, VirtualSystem, Html5Qrcode */
 
         /**
          * 🖥️ Virtual Desktop Kernel (System)
          * Manages process lifecycle, state synchronization, and remote communication.
          */
         class VirtualSystem {
-            // Force desktop display
-            forceDesktop() {
-                try {
-                document.getElementById('desktop').style.display = 'block';
-                const pageContent = document.querySelector('.page-content');
-                if (pageContent) pageContent.style.display = 'none';
-                this.renderDesktop();
-                } catch(e) { alert('Desktop Load Failed: '+e.message); }
-            }
-
-            // Open window from hash if present
-            openWindowFromHash() {
-                const hash = window.location.hash.replace('#', '');
-                if (!hash) return;
-                const page = this.pages.find(p => p.id === hash);
-                if (page) {
-                    this.openWindow(hash);
-                }
-            }
-            // Animated clock particles
-            animateClockParticles() {
-                const container = document.getElementById('clock-particles');
-                if (!container) return;
-                container.innerHTML = '';
-                const numParticles = 24;
-                for (let i = 0; i < numParticles; i++) {
-                    const p = document.createElement('div');
-                    p.className = 'particle';
-                    const angle = (i / numParticles) * 2 * Math.PI;
-                    const radius = 180 + Math.random() * 40;
-                    const tx = Math.cos(angle) * radius;
-                    const ty = Math.sin(angle) * radius;
-                    p.style.setProperty('--tx', `${tx}px`);
-                    p.style.setProperty('--ty', `${ty}px`);
-                    p.style.left = '50%';
-                    p.style.top = '50%';
-                    p.style.transform = `translate(-50%, -50%)`;
-                    p.style.animationDelay = `${Math.random() * 10}s`;
-                    container.appendChild(p);
-                }
-            }
+                        // Animated clock particles
+                        animateClockParticles() {
+                            const container = document.getElementById('clock-particles');
+                            if (!container) return;
+                            container.innerHTML = '';
+                            const numParticles = 24;
+                            for (let i = 0; i < numParticles; i++) {
+                                const p = document.createElement('div');
+                                p.className = 'particle';
+                                const angle = (i / numParticles) * 2 * Math.PI;
+                                const radius = 180 + Math.random() * 40;
+                                const tx = Math.cos(angle) * radius;
+                                const ty = Math.sin(angle) * radius;
+                                p.style.setProperty('--tx', `${tx}px`);
+                                p.style.setProperty('--ty', `${ty}px`);
+                                p.style.left = '50%';
+                                p.style.top = '50%';
+                                p.style.transform = `translate(-50%, -50%)`;
+                                p.style.animationDelay = `${Math.random() * 10}s`;
+                                container.appendChild(p);
+                            }
+                        }
             constructor() {
                 this.pages = [
                     { id: 'home', title: '🏠 Updates', tooltip: 'View latest projects, news, and social media updates from DondlingerGC' },
                     { id: 'blueprints', title: '📐 Plans', special: true, tooltip: 'Explore architectural blueprints and construction plans repository' },
-                    { id: 'filemanager', title: '📁 File Manager', special: true, tooltip: 'Browse and manage files transferred from your mobile device' },
+                    { id: 'carnival', title: '🎪 Digital Carnival', special: true, tooltip: 'Explore weird, wonderful, and experimental web demos from HuggingFace Spaces' },
                     { id: 'contact', title: '📧 Contact', file: 'contact.html', tooltip: 'Get in touch with us to discuss your project needs' },
                     { id: 'fortress', title: '🎨 Website Builder', embed: 'fortress.html', embedTitle: 'Web Design Wizard', tooltip: 'Interactive web design tool to build your custom website' },
                     { id: 'chat', title: '💬 Chat', embed: 'chat.html', embedTitle: 'DGC Chat', tooltip: 'Live chat support and customer service portal' },
-                    { id: 'transfers', title: '📥 File Transfer', special: true, tooltip: 'Receive files uploaded from your mobile device' },
                     { id: 'taxidermy', title: '🦌 Taxidermy', embed: 'taxidermy.html', embedTitle: 'Wild Preserve Taxidermy', tooltip: 'Professional taxidermy services and wildlife preservation' },
                     { id: 'flappybird', title: '🐦 Flappy Bird', embedUrl: 'https://john2121-flappy-bird-revamped.static.hf.space', embedTitle: 'Flappy Bird Revamped', tooltip: 'Classic Flappy Bird game - tap to fly!' },
                     { id: 'tours', title: '🗺️ 3D Tours', special: true, tooltip: 'Explore Matterport 3D tours and virtual walkthroughs' },
@@ -980,25 +865,17 @@
                 };
 
                 this.sessionID = 'default';
-                // Use local server for testing, production uses relative path
+                // Use local mock server for testing, production uses relative path
                 this.bridgeURL = window.location.hostname === 'localhost' ? 'http://localhost:8787/api/bridge' : '/api/bridge';
 
                 this.init();
-                // Listen for hash changes
-                window.addEventListener('hashchange', () => this.openWindowFromHash());
             }
 
             init() {
-                try {
-                // Check if we are in Mobile P2P File Transfer mode
-                if (this.checkMobileP2PMode()) return;
-
                 // Always start services for command polling, regardless of mobile/desktop
                 this.startServices();
 
-                // If purely a mobile visitor (small screen) but NOT doing file transfer, let CSS handle showing the static page content
-                // UPDATED: Allow slightly permissive threshold or user will be stuck in fallback
-                if (window.innerWidth < 600) return; 
+                if (this.isMobile()) return;
 
                 document.getElementById('desktop').style.display = 'block';
                 const pageContent = document.querySelector('.page-content');
@@ -1006,245 +883,6 @@
 
                 this.renderDesktop();
                 this.applySavedSettings();
-                this.openWindowFromHash();
-                } catch(e) {
-                    console.error('System Init Failed:', e);
-                    // alert('System Init Failed: ' + e.message); // Optional debug
-                }
-            }
-
-            checkMobileP2PMode() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const isMobileMode = urlParams.get('mobile') === '1';
-                const sessionId = urlParams.get('session');
-                const hasOffer = urlParams.get('offer'); // Legacy check
-
-                if (isMobileMode || sessionId || hasOffer) {
-                    console.log('Mobile P2P Mode detected.', { sessionId, hasOffer });
-                    
-                    // Force mobile styling override
-                    document.documentElement.style.overflow = 'auto';
-                    document.body.style.overflow = 'auto'; // ALLOW SCROLLING on mobile
-                    document.body.style.background = '#111';
-                    document.body.style.color = '#fff';
-                    
-                    // Hide everything else
-                    document.getElementById('desktop').style.display = 'none';
-                    const pageContent = document.querySelector('.page-content');
-                    if (pageContent) pageContent.style.display = 'none';
-                    
-                    // Hide widgets
-                    const widget = document.getElementById('cottonthimble-widget');
-                    if (widget) widget.style.display = 'none';
-
-                    // Inject Mobile P2P Interface
-                    const mobileContainer = document.createElement('div');
-                    mobileContainer.id = 'mobile-p2p-interface';
-                    mobileContainer.style.cssText = `
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        overflow-y: auto;
-                        z-index: 999999;
-                        background: #0a0a0a;
-                        padding: 24px;
-                        box-sizing: border-box;
-                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-                        text-align: center;
-                        color: #fff;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                    `;
-
-                    mobileContainer.innerHTML = `
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📲</div>
-                        <h2 style="margin-bottom: 0.5rem; font-size: 1.8rem;">Secure File Transfer</h2>
-                        <p style="color: #aaa; margin-bottom: 2rem;">Direct Peer-to-Peer Connection</p>
-
-                        <div id="p2p-status" style="
-                            padding: 16px;
-                            background: #222;
-                            border-radius: 12px;
-                            width: 100%;
-                            margin-bottom: 24px;
-                            border: 1px solid #333;
-                        ">
-                            <div id="status-icon" style="font-size: 2rem; margin-bottom: 8px;">🔄</div>
-                            <div id="status-text" style="font-weight: bold;">Initializing...</div>
-                        </div>
-
-                        <div id="upload-section" style="display: none; width: 100%;">
-                            <label for="file-input" style="
-                                display: block;
-                                background: #007bff;
-                                color: white;
-                                padding: 20px;
-                                border-radius: 16px;
-                                font-size: 1.2rem;
-                                font-weight: bold;
-                                cursor: pointer;
-                                transition: transform 0.2s;
-                                box-shadow: 0 4px 12px rgba(0,123,255,0.4);
-                                margin-bottom: 16px;
-                            ">
-                                📤 Select Files to Send
-                            </label>
-                            <input type="file" id="file-input" multiple style="display: none;">
-                            <div id="file-list" style="text-align: left; color: #ccc; padding: 10px;"></div>
-                        </div>
-
-                        <div id="error-log" style="color: #ff4444; margin-top: 20px; font-family: monospace; font-size: 0.8rem; word-break: break-all;"></div>
-                    `;
-
-                    // DO NOT wipe body, it kills scripts. 
-                    // Instead, we just append the overlay which covers everything.
-                    // document.body.innerHTML = ''; 
-                    
-                    // Remove any existing overlay if we ran this twice
-                    const existing = document.getElementById('mobile-p2p-interface');
-                    if (existing) existing.remove();
-
-                    document.body.appendChild(mobileContainer);
-
-                    // Initialize Bridge Client
-                    setTimeout(() => {
-                        if (window.BridgeClient) {
-                            const statusText = document.getElementById('status-text');
-                            const statusIcon = document.getElementById('status-icon');
-                            const uploadSection = document.getElementById('upload-section');
-                            const errorLog = document.getElementById('error-log');
-
-                            // Setup Local Bridge Client
-                        window.BridgeClient.onStatusChange = (status) => {
-                            statusText.textContent = status;
-                            if (status.includes('Connected')) {
-                                statusIcon.textContent = '✅';
-                                statusText.style.color = '#4caf50';
-                                uploadSection.style.display = 'block';
-                            } else if (status.includes('Error') || status.includes('Disconnected')) {
-                                statusIcon.textContent = '❌';
-                                statusText.style.color = '#ff4444';
-                            } else {
-                                statusIcon.textContent = '🔄';
-                                statusText.style.color = '#fff';
-                            }
-                        };
-                        
-                        // Instantiate client if not already
-                        this.bridgeURL = window.location.hostname === 'localhost' ? 'http://localhost:8787/api/bridge' : '/api/bridge';
-                        const client = new BridgeClient();
-                        window.BridgeClient = client; // Bind to window for debug
-
-                        // 1. SIGNALING SERVER FLOW (New)
-                        if (sessionId) {
-                            statusText.textContent = 'Connecting via Signal Server...';
-                            
-                            // Poll for 'initiator' (Desktop) offer
-                            this._stopPolling = false;
-                            this.pollSignals(sessionId, 0, async (signals) => {
-                                for(const s of signals) {
-                                    if(s.sender === 'initiator') {
-                                        if (s.type === 'offer') {
-                                            console.log('✅ Received Offer from Desktop');
-                                            statusText.textContent = 'Connecting...';
-                                            
-                                            // Provide function to send answer back
-                                            await client.acceptOffer(s.content, async (answerSignal) => {
-                                                await this.sendSignal(sessionId, {
-                                                    type: answerSignal.type, 
-                                                    sender: 'remote', 
-                                                    content: answerSignal.sdp || answerSignal.candidate
-                                                });
-                                            });
-                                        } else if (s.type === 'ice') {
-                                            await client.addIceCandidate(s.content);
-                                        }
-                                    }
-                                }
-                            });
-                        } 
-                        // 2. LEGACY QR FLOW (Old)
-                        else if (hasOffer) {
-                            try {
-                                const offerData = JSON.parse(decodeURIComponent(hasOffer));
-                                statusText.textContent = 'Connecting... Generatng Answer...';
-                                const offerSdp = offerData.offer || offerData;
-
-                                client.acceptOffer(offerSdp, (signal) => {
-                                    if (signal.type === 'answer') {
-                                        // Display Answer QR Code
-                                        statusText.textContent = 'Scan this on Desktop to Finish';
-                                        statusIcon.textContent = '📲';
-                                        
-                                        const existingQr = document.getElementById('answer-qr');
-                                        if (existingQr) existingQr.remove();
-
-                                        const qrDiv = document.createElement('div');
-                                        qrDiv.id = 'answer-qr';
-                                        qrDiv.style.background = 'white';
-                                        qrDiv.style.padding = '16px';
-                                        qrDiv.style.borderRadius = '8px';
-                                        qrDiv.style.marginTop = '16px';
-                                        qrDiv.style.display = 'inline-block';
-                                        
-                                        const p2pStatus = document.getElementById('p2p-status');
-                                        p2pStatus.appendChild(qrDiv);
-                                        
-                                        new QRCode(qrDiv, {
-                                            text: JSON.stringify({ answer: signal.sdp }),
-                                            width: 256,
-                                            height: 256,
-                                            correctLevel: QRCode.CorrectLevel.L
-                                        });
-                                    }
-                                });
-                            } catch (e) {
-                                statusText.textContent = 'Invalid Link';
-                                errorLog.textContent = e.message;
-                            }
-                        } else {
-                            statusText.textContent = 'Waiting to connect...';
-                        }
-
-                        // File Input Handler
-                        const fileInput = document.getElementById('file-input');
-                        fileInput.addEventListener('change', async (e) => {
-                            const files = Array.from(e.target.files);
-                            if (files.length === 0) return;
-
-                            const fileList = document.getElementById('file-list');
-                            fileList.innerHTML = files.map(f => `<div>📄 ${f.name} (${(f.size/1024).toFixed(1)} KB)</div>`).join('');
-
-                            statusText.textContent = `Sending ${files.length} files...`;
-                            
-                            for (const file of files) {
-                                try {
-                                    await client.sendFile(file);
-                                } catch (err) {
-                                    console.error('Upload error:', err);
-                                    errorLog.textContent += `Failed to send ${file.name}: ${err.message}\n`;
-                                }
-                            }
-                            
-                            statusText.textContent = '✅ All files sent!';
-                            setTimeout(() => {
-                                statusText.textContent = 'Connected & Ready';
-                                fileList.innerHTML = '';
-                                fileInput.value = ''; // Reset
-                            }, 3000);
-                        });
-                    } else {
-                        const err = document.getElementById('error-log');
-                        if(err) err.textContent = 'BridgeClient library not loaded.';
-                    }
-                    }, 500);
-
-                    return true; // Stop normal init
-                }
-                return false;
             }
 
             isMobile() {
@@ -1304,9 +942,6 @@
                 win.classList.remove('minimized');
                 win.style.zIndex = ++this.state.zIndex;
 
-                // Update hash for shareability
-                window.location.hash = `#${id}`;
-
                 document.getElementById('start-menu')?.classList.remove('show');
                 this.updateTaskbar();
                 this.syncState();
@@ -1346,11 +981,6 @@
                     contentEl.innerHTML = this.getHomeHTML();
                 } else if (page.id === 'tours') {
                     this.initTours(contentEl);
-                } else if (page.id === 'transfers') {
-                    this.initFileTransfers(contentEl);
-                } else if (page.id === 'filemanager') {
-                    window.fileManager = new FileManager();
-                    window.fileManager.onWindowOpen();
                 } else if (page.embed || page.embedUrl) {
                     const url = page.embed || page.embedUrl;
                     contentEl.innerHTML = `<iframe src="${url}" style="width:100%;height:100%;border:none;background:#fff;"></iframe>`;
@@ -1595,115 +1225,6 @@
                 });
             }
 
-            initFileTransfers(container) {
-                container.innerHTML = `
-                    <div id="transfers-viewer" style="padding:24px;height:100%;display:flex;flex-direction:column;overflow-y:auto;">
-                        <div style="margin-bottom:24px;">
-                            <h2 style="color:var(--accent);margin:0 0 8px 0;font-size:2rem;">📥 File Transfer</h2>
-                            <p style="color:#666;font-size:0.95rem;margin:0;">Scan the QR code with your mobile device to upload files</p>
-                        </div>
-
-                        <div style="background:linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(0,212,255,0.05) 100%);border-radius:16px;padding:24px;border:2px solid var(--accent);margin-bottom:24px;">
-                            <h3 style="color:var(--accent);margin:0 0 12px 0;font-size:1.2rem;">📱 Mobile Upload</h3>
-                            <p style="color:#666;font-size:0.95rem;line-height:1.6;margin:0;">
-                                <strong>Step 1:</strong> Click the "📱 Mobile" button in the top-right corner<br>
-                                <strong>Step 2:</strong> Scan the QR code with any mobile device<br>
-                                <strong>Step 3:</strong> Upload files from your phone - they'll appear here in real-time
-                            </p>
-                        </div>
-
-                        <div style="background:rgba(30,41,59,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:20px;flex:1;overflow-y:auto;">
-                            <h3 style="color:#e2e8f0;margin:0 0 16px 0;font-size:1.1rem;">📂 Received Files</h3>
-                            <div id="files-list" style="display:flex;flex-direction:column;gap:12px;">
-                                <div style="text-align:center;padding:40px 20px;color:#94a3b8;">
-                                    <div style="font-size:3rem;margin-bottom:12px;">⏳</div>
-                                    <p style="margin:0;font-size:0.95rem;">Waiting for file uploads...</p>
-                                    <p style="margin:8px 0 0 0;font-size:0.85rem;color:#64748b;">Files will appear here when uploaded from mobile</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                // Start polling for files
-                this.pollForFiles(container);
-            }
-
-            pollForFiles(container) {
-                const filesList = container.querySelector('#files-list');
-                if (!filesList) return;
-
-                const poll = () => {
-                    fetch(`${this.bridgeURL}?action=pull&sessionId=${this.sessionID}`)
-                        .then(r => r.json())
-                        .then(cmd => {
-                            if (cmd && cmd.type === 'file_upload' && cmd.file) {
-                                const fileItem = document.createElement('div');
-                                fileItem.style.cssText = 'background:rgba(15,23,42,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;animation:slideIn 0.3s ease;';
-
-                                const fileName = cmd.file.name || 'Unknown File';
-                                const fileSize = cmd.file.size ? (cmd.file.size / 1024 / 1024).toFixed(2) + ' MB' : 'Unknown Size';
-
-                                fileItem.innerHTML = `
-                                    <div style="flex:1;min-width:0;">
-                                        <div style="color:#e2e8f0;font-weight:600;word-break:break-all;">${this.escapeHtml(fileName)}</div>
-                                        <div style="color:#94a3b8;font-size:0.85rem;margin-top:4px;">${fileSize}</div>
-                                    </div>
-                                    <button onclick="window.System.downloadFile(this)" data-file="${this.escapeHtml(fileName)}" data-data="${cmd.file.data}" style="padding:8px 16px;background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;white-space:nowrap;font-size:0.9rem;">⬇️ Download</button>
-                                `;
-
-                                // Add style for animation if not exists
-                                if (!document.getElementById('transfer-animation-style')) {
-                                    const style = document.createElement('style');
-                                    style.id = 'transfer-animation-style';
-                                    style.textContent = '@keyframes slideIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }';
-                                    document.head.appendChild(style);
-                                }
-
-                                if (filesList.querySelector('[data-empty]')) {
-                                    filesList.innerHTML = '';
-                                }
-                                filesList.insertBefore(fileItem, filesList.firstChild);
-                            }
-                        })
-                        .catch(err => console.log('Poll error:', err));
-
-                    setTimeout(poll, 1000); // Poll every second
-                };
-
-                poll();
-            }
-
-            downloadFile(button) {
-                const fileName = button.dataset.file;
-                const base64Data = button.dataset.data;
-
-                if (!base64Data) return;
-
-                try {
-                    const binaryString = atob(base64Data);
-                    const bytes = new Uint8Array(binaryString.length);
-                    for (let i = 0; i < binaryString.length; i++) {
-                        bytes[i] = binaryString.charCodeAt(i);
-                    }
-                    const blob = new Blob([bytes]);
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = fileName;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                } catch (e) {
-                    console.error('Download error:', e);
-                    alert('Error downloading file');
-                }
-            }
-
-            escapeHtml(text) {
-                const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-                return text.replace(/[&<>"']/g, m => map[m]);
-            }
-
             initCarnival(container) {
                 const CARNIVAL_SPACES = [
                     { url: 'https://huggingface.co/spaces/John2121/lawconnect-legal-services', title: 'LawConnect Legal Services', desc: 'Professional legal services platform with AI-powered assistance for connecting clients with attorneys', icon: '⚖️' },
@@ -1919,336 +1440,35 @@
                 if (saved.accent) document.documentElement.style.setProperty('--accent', saved.accent);
             }
 
-            startScanner() {
-                if (typeof Html5Qrcode === 'undefined') {
-                    alert('Scanner library not loaded yet. Please wait or refresh.');
-                    return;
-                }
-                const readerContainer = document.getElementById('reader-container');
-                const manualContainer = document.getElementById('manual-input-container');
-                readerContainer.style.display = 'block';
-                manualContainer.style.display = 'none';
-
-                if (this.html5QrCode) return;
-
-                this.html5QrCode = new Html5Qrcode("qr-reader");
-                const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-                
-                this.html5QrCode.start(
-                    { facingMode: "user" }, 
-                    config,
-                    (decodedText) => {
-                        console.log(`Scan success: ${decodedText}`);
-                        this.stopScanner();
-                        // Use the result
-                        const input = document.getElementById('qr-answer-input');
-                        if(input) input.value = decodedText;
-                        this.handleManualAnswer();
-                    },
-                    (errorMessage) => { /* ignore per-frame failures */ }
-                ).catch(err => {
-                    console.error("Unable to start scanning", err);
-                    alert("Camera start failed: " + err);
-                    this.stopScanner();
-                });
-            }
-
-            stopScanner() {
-                 const readerContainer = document.getElementById('reader-container');
-                 const manualContainer = document.getElementById('manual-input-container');
-                 if(readerContainer) readerContainer.style.display = 'none';
-                 if(manualContainer) manualContainer.style.display = 'block';
-
-                 if (this.html5QrCode) {
-                     this.html5QrCode.stop().then(() => {
-                         this.html5QrCode.clear();
-                         this.html5QrCode = null;
-                     }).catch(err => console.error(err));
-                 }
-            }
-
-            async handleManualAnswer() {
-                const input = document.getElementById('qr-answer-input');
-                if (!input || !input.value.trim()) return;
-                
-                try {
-                    const answerData = JSON.parse(input.value.trim());
-                    // Support { answer: "..." } or raw "..."
-                    const answerSdp = answerData.answer || answerData;
-                    
-                    if (this._p2pBridgeClient) {
-                         await this._p2pBridgeClient.acceptAnswer(answerSdp);
-                         document.getElementById('qr-title').textContent = 'Connecting...';
-                         // Visual feedback
-                         input.value = 'Processing...';
-                    }
-                } catch (e) {
-                    alert('Invalid configuration data: ' + e.message);
-                }
-            }
-
-            // P2P Signaling Helpers
-            async sendSignal(sessionId, signalData) {
-                try {
-                    console.log('📤 Sending signal:', signalData.type);
-                    await fetch(this.bridgeURL + '?action=store-signal&sessionId=' + sessionId, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(signalData)
-                    });
-                } catch (e) {
-                    console.error('Signal send failed', e);
-                }
-            }
-
-            async pollSignals(sessionId, since = 0, onSignals) {
-                if (this._stopPolling) return;
-                try {
-                    const res = await fetch(`${this.bridgeURL}?action=get-signals&sessionId=${sessionId}&since=${since}`);
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data.signals && data.signals.length > 0) {
-                            onSignals(data.signals);
-                            // Update timestamp to last seen
-                            const maxTs = Math.max(...data.signals.map(s => s.timestamp));
-                            setTimeout(() => this.pollSignals(sessionId, maxTs, onSignals), 1000);
-                        } else {
-                            setTimeout(() => this.pollSignals(sessionId, since, onSignals), 1000);
-                        }
-                    } else {
-                        setTimeout(() => this.pollSignals(sessionId, since, onSignals), 2000);
-                    }
-                } catch (e) {
-                    console.error('Poll failed', e);
-                    setTimeout(() => this.pollSignals(sessionId, since, onSignals), 3000);
-                }
-            }
-
-            createDesktopIcon(fileBlob, fileName) {
-                const desktop = document.getElementById('desktop');
-                const fileUrl = URL.createObjectURL(fileBlob);
-                
-                const iconDiv = document.createElement('div');
-                iconDiv.className = 'desktop-icon';
-                // Random position near center for visibility
-                const x = 100 + Math.random() * (window.innerWidth - 200);
-                const y = 100 + Math.random() * (window.innerHeight - 200);
-                
-                iconDiv.style.cssText = `
-                    position: absolute;
-                    left: ${x}px;
-                    top: ${y}px;
-                    width: 80px;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    cursor: pointer;
-                    z-index: 10;
-                    text-align: center;
-                    color: white;
-                    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-                `;
-
-                // Determine icon based on type
-                let iconChar = '📄';
-                if (fileName.match(/\.(jpg|jpeg|png|gif|webp)$/i)) iconChar = '🖼️';
-                else if (fileName.match(/\.(mp4|webm)$/i)) iconChar = '🎬';
-                else if (fileName.match(/\.(pdf)$/i)) iconChar = '📕';
-
-                iconDiv.innerHTML = `
-                    <div style="font-size: 3rem; margin-bottom: 4px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));">${iconChar}</div>
-                    <div style="font-size: 0.8rem; word-break: break-all; background: rgba(0,0,0,0.3); padding: 2px 4px; border-radius: 4px;">${fileName}</div>
-                `;
-
-                // Double click to open/download
-                iconDiv.ondblclick = () => {
-                    const a = document.createElement('a');
-                    a.href = fileUrl;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                };
-
-                // Drag functionality (simple)
-                let isDragging = false;
-                let startX, startY;
-
-                iconDiv.onmousedown = (e) => {
-                    isDragging = true;
-                    startX = e.clientX - iconDiv.offsetLeft;
-                    startY = e.clientY - iconDiv.offsetTop;
-                    iconDiv.style.zIndex = 100;
-                };
-
-                document.addEventListener('mousemove', (e) => {
-                    if (!isDragging) return;
-                    iconDiv.style.left = (e.clientX - startX) + 'px';
-                    iconDiv.style.top = (e.clientY - startY) + 'px';
-                });
-
-                document.addEventListener('mouseup', () => {
-                    isDragging = false;
-                    iconDiv.style.zIndex = 10;
-                });
-
-                desktop.appendChild(iconDiv);
-                
-                // Also add to file transfer history if window open
-                const filesList = document.getElementById('files-list');
-                if (filesList) {
-                     const fileItem = document.createElement('div');
-                     fileItem.innerHTML = `<div>New File: ${fileName}</div>`;
-                     filesList.prepend(fileItem);
-                }
-            }
-
-            // QR Code functionality - P2P FILE TRANSFER
-            async generateQRCode(manualIp = null) {
+            // QR Code functionality
+            generateQRCode() {
+                const mobileUrl = `${window.location.origin}/mobilestatic/mobile.html`;
                 const qrContainer = document.getElementById('qr-code');
-                if (!qrContainer) return;
-                
-                this._stopPolling = false;
-                const sessionId = Math.random().toString(36).substring(2, 9); // Random 7-char ID
-                this.currentSessionId = sessionId;
 
-                // Check for localhost and prompt for IP if needed
-                const hostname = window.location.hostname;
-                const port = window.location.port ? ':' + window.location.port : '';
-                const protocol = window.location.protocol;
-                
-                // If localhost or file:// protocol, prompt for LAN IP
-                if (!manualIp && (['localhost', '127.0.0.1', '[::1]'].includes(hostname) || protocol === 'file:' || !hostname)) {
-                     qrContainer.innerHTML = `
-                         <div style="padding: 10px; color: #fff; text-align: center;">
-                             <p style="color: #ffcc00; font-weight: bold; font-size: 1.1em;">⚠️ Setup Required</p>
-                             <p style="font-size: 0.9em; margin-bottom: 8px; color: #ccc;">
-                                To connect your phone, this page must be hosted on a network server (not just a file).
-                             </p>
-                             <div style="text-align:left; margin-bottom:10px; font-size:0.85em; background:rgba(255,255,255,0.1); padding:8px; border-radius:4px;">
-                                <strong>1. Start a server</strong> (e.g. Python: <code>python -m http.server</code>)<br>
-                                <strong>2. Enter your Computer's LAN IP:</strong>
-                             </div>
-                             <input type="text" id="lan-ip-input" placeholder="192.168.1.x:8000" style="padding: 8px; width: 90%; border-radius: 4px; border: 1px solid #555; background: #222; color: white; text-align:center;">
-                             <button onclick="window.System.generateQRCode(document.getElementById('lan-ip-input').value)" style="margin-top: 12px; padding: 8px 20px; background: var(--accent); color: black; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; display:block; margin-left:auto; margin-right:auto;">Generate QR</button>
-                         </div>
-                     `;
-                     return;
-                }
-
-                // Construct Base URL - Force HTTP if file protocol was used originally
-                let finalProtocol = protocol;
-                if (protocol === 'file:') finalProtocol = 'http:';
-                
-                let finalBaseUrl;
-                if (manualIp) {
-                    // If user didn't specify protocol in input, add it
-                    if (manualIp.startsWith('http')) {
-                         finalBaseUrl = manualIp + window.location.pathname;
-                    } else {
-                         // If user entered IP:PORT, usage
-                         finalBaseUrl = `${finalProtocol}//${manualIp}${window.location.pathname}`;
-                    }
-                } else {
-                    finalBaseUrl = window.location.href.split('?')[0];
-                }
-
-                qrContainer.innerHTML = '<div style="padding: 20px; text-align: center;">Initializing Secure Session...</div>';
-
-                if (!window.BridgeClient) {
-                     qrContainer.innerHTML = '<div style="color:#c00;padding:20px;">Error: BridgeClient library missing.</div>';
-                     return;
-                }
-
-                // Initialize P2P Client
-                if (!this._p2pBridgeClient) {
-                    this._p2pBridgeClient = new BridgeClient();
-                    
-                    // Hook up Desktop Icon creation
-                    this._p2pBridgeClient.onFileReceived = (blob, name) => {
-                        console.log('File Received!', name);
-                        this.createDesktopIcon(blob, name);
-                        document.getElementById('qr-instructions').textContent = 'File received! Ready for more.';
-                        
-                        // Play a sound? 
-                        // const audio = new Audio('ding.mp3'); audio.play().catch(e=>{});
-                    };
-
-                    // Progress indicator
-                    this._p2pBridgeClient.onProgress = (current, total) => {
-                         const percent = Math.round((current / total) * 100);
-                         document.getElementById('qr-instructions').textContent = `Receiving: ${percent}%`;
-                    };
-
-                    this._p2pBridgeClient.onStatusChange = (status) => {
-                        console.log('P2P Status:', status);
-                        if (status.includes('Connected')) {
-                            document.getElementById('qr-title').textContent = 'Connected!';
-                            document.getElementById('qr-instructions').textContent = 'Ready to drop files...';
-                            document.getElementById('qr-code').style.opacity = '0.2';
-                        }
-                    };
-                }
-                
-                // Start polling first so we don't miss any early answers (unlikely but safe)
-                this.pollSignals(sessionId, 0, (signals) => {
-                    signals.forEach(async (s) => {
-                        // We are Initiator, so we look for 'remote' answers/ice
-                        if (s.sender === 'remote') {
-                            if (s.type === 'answer') {
-                                console.log('✅ Received Answer via Signal Server');
-                                document.getElementById('qr-title').textContent = 'Connected!';
-                                document.getElementById('qr-instructions').textContent = 'Ready to receive files.';
-                                document.getElementById('qr-code').style.opacity = '0.2'; // Dim QR
-                                await this._p2pBridgeClient.acceptAnswer(s.content);
-                            } else if (s.type === 'ice') {
-                                await this._p2pBridgeClient.addIceCandidate(s.content);
-                            }
-                        }
+                if (qrContainer && window.QRCode) {
+                    qrContainer.innerHTML = '';
+                    new QRCode(qrContainer, {
+                        text: mobileUrl,
+                        width: 128,
+                        height: 128,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
                     });
-                });
-
-                // Start WebRTC and push Offer to server
-                await this._p2pBridgeClient.startAsInitiator(async (signal) => {
-                     // Signal callback: send to server
-                     // signal is { type: 'offer', sdp: ... } or { type: 'ice', candidate: ... }
-                     await this.sendSignal(sessionId, {
-                         type: signal.type,
-                         sender: 'initiator',
-                         content: signal.sdp || signal.candidate // Normalize content
-                     });
-                });
-
-                // Generate QR Code with Session ID
-                qrContainer.innerHTML = '';
-                const targetUrl = `${finalBaseUrl}?mobile=1&session=${sessionId}`;
-                
-                console.log('Generating QR with target:', targetUrl);
-
-                new QRCode(qrContainer, {
-                    text: targetUrl,
-                    width: 300,
-                    height: 300,
-                    correctLevel: QRCode.CorrectLevel.L
-                });
+                }
             }
 
             toggleQRCode() {
                 const container = document.getElementById('qr-container');
                 const toggle = document.getElementById('qr-toggle');
 
-                console.log('toggleQRCode called. Container:', container, 'Has show class:', container.classList.contains('show'));
-
                 if (container.classList.contains('show')) {
                     container.classList.remove('show');
                     toggle.textContent = '📱 Mobile';
-                    console.log('QR hidden');
                 } else {
-                    console.log('Generating QR code...');
                     this.generateQRCode();
                     container.classList.add('show');
                     toggle.textContent = '✕ Close';
-                    console.log('QR shown');
                 }
             }
         }
