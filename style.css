@@ -200,6 +200,7 @@ p {
   gap: 1rem;
   margin-top: 2rem;
   align-items: center;
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
 .rabbithole-btn {
