@@ -548,11 +548,22 @@ document.addEventListener('DOMContentLoaded', () => {
             quantumApp.loadArticleFromActionAPI(e.detail);
         });
     });
-    
     document.addEventListener('show-stats', () => {
         const stats = quantumApp.getStats();
         quantumApp.showError(`Stats: ${stats.totalArticles} articles, ${Math.round(stats.totalTime/60)} minutes explored`);
     });
+
+    // Calculator modal logic
+    window.openCalculatorModal = function() {
+        const modal = document.getElementById('calculator-modal');
+        modal.style.display = 'flex';
+        modal.classList.add('active');
+    };
+    window.closeCalculatorModal = function() {
+        const modal = document.getElementById('calculator-modal');
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+    };
 });
 // Initialize the rabbit hole experience
 // (initialization handled above to avoid creating multiple instances)
