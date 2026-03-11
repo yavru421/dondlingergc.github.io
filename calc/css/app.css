@@ -37,17 +37,17 @@
 }
 :root {
     color-scheme: dark;
-    --bg: #12161c;
-    --bg-top: #1b222b;
-    --panel: rgba(15, 20, 27, 0.86);
-    --panel-strong: rgba(10, 14, 20, 0.94);
-    --line: rgba(120, 206, 255, 0.16);
-    --line-strong: rgba(212, 155, 62, 0.32);
+    --bg: #181a1f;
+    --bg-top: #23272e;
+    --panel: rgba(24, 26, 31, 0.92);
+    --panel-strong: rgba(18, 22, 28, 0.96);
+    --line: rgba(255, 204, 0, 0.18);
+    --line-strong: rgba(200, 131, 42, 0.32);
     --text: #f1eee8;
     --muted: #9eacba;
-    --signal: #7dd6ff;
-    --signal-strong: #b9efff;
-    --accent: #d49b3e;
+    --signal: #ffcc00;
+    --signal-strong: #c8832a;
+    --accent: #c8832a;
     --accent-strong: #f1c26d;
     --ok: #7ed7a1;
     --warn: #ff9e83;
@@ -286,6 +286,9 @@ a:focus-visible {
     gap: 0.7rem;
     margin-top: 1.6rem;
     scrollbar-width: none;
+    background: #181a1f;
+    border-radius: 1rem;
+    padding: 0.5rem 0.2rem;
 }
 
 .mode-pills::-webkit-scrollbar {
@@ -294,9 +297,15 @@ a:focus-visible {
 
 .mode-pill,
 .button,
-.chip,
-.tool-badge {
     border-radius: 999px;
+    background: linear-gradient(90deg,#ffcc00 60%,#c8832a 100%);
+    color: #181a1f;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px #222;
+    border: none;
+    margin: 0 0.5rem;
+    cursor: pointer;
 }
 
 .mode-pill,
@@ -317,9 +326,9 @@ a:focus-visible {
 }
 
 .mode-pill.is-active {
-    background: rgba(212, 155, 62, 0.14);
-    border-color: rgba(212, 155, 62, 0.3);
-    color: var(--accent-strong);
+    background: #181a1f;
+    color: #ffcc00;
+    border: 2px solid #ffcc00;
 }
 
 .result-panel {
@@ -373,16 +382,16 @@ a:focus-visible {
 }
 
 .button-primary {
-    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-    color: #18120a;
+    background: linear-gradient(90deg,#ffcc00 60%,#c8832a 100%);
+    color: #181a1f;
     font-weight: 700;
-    box-shadow: 0 12px 26px rgba(212, 155, 62, 0.22);
+    box-shadow: 0 12px 26px #c8832a;
 }
 
 .button-ghost {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--text);
+    background: #23272e;
+    border: 1px solid #c8832a;
+    color: #ffcc00;
 }
 
 .tool-grid {

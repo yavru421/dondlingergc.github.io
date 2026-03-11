@@ -4,832 +4,385 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dondlinger General Contracting</title>
-    <meta name="description" content="Dondlinger General Contracting — professional construction services and the Jobsite Calculator, a free offline-first PWA for field math on iPhone and Android." />
-    <meta name="theme-color" content="#0d1117" />
-    <meta property="og:title" content="Dondlinger General Contracting" />
-    <meta property="og:description" content="Professional construction. Free jobsite calculator PWA — works offline, installs to your home screen." />
-    <meta property="og:type" content="website" />
+    <meta name="description" content="Dondlinger General Contracting and the Jobsite Calculator, a free offline-first construction calculator with live outputs." />
+    <meta name="theme-color" content="#12161c" />
     <style>
         :root {
             color-scheme: dark;
-            --bg:        #0d1117;
-            --bg2:       #131a24;
-            --surface:   rgba(19, 26, 36, 0.92);
-            --border:    rgba(255, 255, 255, 0.08);
-            --gold:      #c8832a;
-            --gold-lt:   #e8a84a;
-            --gold-glow: rgba(200, 131, 42, 0.25);
-            --steel:     #4a8fa8;
-            --text:      #edeae4;
-            --muted:     #8fa3b8;
-            --radius:    1.25rem;
-        }
-        *, *::before, *::after { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            margin: 0;
-            background: var(--bg);
-            color: var(--text);
-            font: 16px/1.6 "Segoe UI", system-ui, sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ── NOISE TEXTURE OVERLAY ── */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.035;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            background-size: 180px;
-        }
-
-        /* ── HEADER / NAV ── */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 clamp(1.25rem, 5vw, 3rem);
-            height: 4rem;
-            background: rgba(13, 17, 23, 0.88);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .wordmark {
-            display: flex;
-            flex-direction: column;
-            line-height: 1;
-            text-decoration: none;
-        }
-        .wordmark-main {
-            font-family: "Georgia", "Times New Roman", serif;
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--text);
-        }
-        .wordmark-sub {
-            font-size: 0.65rem;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-top: 0.1rem;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--muted);
-            font-size: 0.88rem;
-            letter-spacing: 0.04em;
-            transition: color 140ms;
-        }
-        nav a:hover { color: var(--text); }
-        nav a.nav-cta {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--gold);
-            border-radius: 999px;
-            color: var(--gold-lt);
-            margin-left: 1.5rem;
-        }
-        nav a.nav-cta:hover { background: var(--gold-glow); }
-
-        /* ── LAYOUT ── */
-        .wrap {
-            position: relative;
-            z-index: 1;
-            width: min(100%, 72rem);
-            margin: 0 auto;
-            padding: 0 clamp(1.25rem, 5vw, 3rem);
-        }
-
-        /* ── HERO ── */
-        .hero {
-            padding: clamp(4rem, 12vw, 8rem) 0 clamp(3rem, 8vw, 6rem);
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 2rem;
-            align-items: center;
-        }
-        @media (max-width: 700px) {
-            .hero { grid-template-columns: 1fr; }
-            .hero-badge { display: none; }
-        }
-
-        .hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.3rem 0.8rem;
-            border: 1px solid rgba(200, 131, 42, 0.35);
-            border-radius: 999px;
-            background: rgba(200, 131, 42, 0.08);
-            font-size: 0.73rem;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--gold-lt);
-            margin-bottom: 1.25rem;
-        }
-        .hero-eyebrow::before {
-            content: "";
-            display: block;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--gold);
-        }
-
-        h1 {
-            margin: 0;
-            font-family: "Georgia", "Times New Roman", serif;
-            font-size: clamp(2.8rem, 7vw, 5.5rem);
-            line-height: 0.93;
-            letter-spacing: -0.02em;
-        }
-        h1 em {
-            font-style: normal;
-            color: var(--gold);
-        }
-
-        .hero-lede {
-            max-width: 44ch;
-            margin: 1.5rem 0 0;
-            font-size: 1.1rem;
-            color: var(--muted);
-            line-height: 1.65;
-        }
-
-        .hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.85rem;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            min-height: 3rem;
-            padding: 0.75rem 1.4rem;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            text-decoration: none;
-            cursor: pointer;
-            border: none;
-            transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
-        }
-        .btn:hover { transform: translateY(-2px); }
-        .btn-gold {
-            background: linear-gradient(135deg, var(--gold), var(--gold-lt));
-            color: #0d1117;
-            box-shadow: 0 4px 20px var(--gold-glow);
-        }
-        .btn-gold:hover { box-shadow: 0 6px 32px rgba(200, 131, 42, 0.45); }
-        .btn-ghost {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
-            color: var(--text);
-        }
-        .btn-ghost:hover { background: rgba(255,255,255,0.08); }
-
-        /* Badge / Emblem */
-        .hero-badge {
-            width: clamp(9rem, 14vw, 13rem);
-            height: clamp(9rem, 14vw, 13rem);
-            border-radius: 50%;
-            border: 2px solid rgba(200, 131, 42, 0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.2rem;
-            background: radial-gradient(circle, rgba(200,131,42,0.08), transparent 70%);
-            flex-shrink: 0;
-        }
-        .badge-icon {
-            font-size: clamp(2rem, 4vw, 3rem);
-            line-height: 1;
-        }
-        .badge-label {
-            font-family: "Georgia", serif;
-            font-size: 0.62rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gold);
-            text-align: center;
-            padding: 0 0.5rem;
-        }
-
-        /* ── DIVIDER ── */
-        .rule {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 0;
-        }
-
-        /* ── STATS BAR ── */
-        .stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem 2.5rem;
-            padding: 1.75rem 0;
-        }
-        .stat {
-            display: flex;
-            flex-direction: column;
-        }
-        .stat-val {
-            font-family: "Georgia", serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--gold-lt);
-            line-height: 1;
-        }
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--muted);
-            letter-spacing: 0.05em;
-            margin-top: 0.25rem;
-        }
-
-        /* ── SECTION TITLES ── */
-        .section-head {
-            margin: 4rem 0 2rem;
-        }
-        .section-kicker {
-            font-size: 0.72rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 0.6rem;
-        }
-        .section-head h2 {
-            margin: 0;
-            font-family: "Georgia", serif;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            line-height: 1.1;
-        }
-
-        /* ── FEATURE PRODUCT CARD ── */
-        .product-card {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: center;
-            padding: clamp(1.5rem, 4vw, 2.5rem);
-            border: 1px solid rgba(200, 131, 42, 0.25);
-            border-radius: var(--radius);
-            background: linear-gradient(135deg, rgba(200,131,42,0.06), rgba(74,143,168,0.06));
-            margin-bottom: 1rem;
-        }
-        @media (max-width: 680px) {
-            .product-card { grid-template-columns: 1fr; }
-        }
-        .product-label {
-            font-size: 0.72rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 0.75rem;
-        }
-        .product-card h3 {
-            margin: 0 0 0.75rem;
-            font-family: "Georgia", serif;
-            font-size: clamp(1.5rem, 3.5vw, 2.3rem);
-            line-height: 1.1;
-        }
-        .product-card p {
-            color: var(--muted);
-            margin: 0 0 1.5rem;
-            max-width: 38ch;
-        }
-        .feature-pills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .pill {
-            padding: 0.35rem 0.75rem;
-            background: rgba(74, 143, 168, 0.1);
-            border: 1px solid rgba(74, 143, 168, 0.2);
-            border-radius: 999px;
-            font-size: 0.82rem;
-            color: #90c4d8;
-        }
-        .product-visual {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 10rem;
-        }
-        .calc-preview {
-            position: relative;
-            background: rgba(7, 12, 20, 0.9);
-            border: 1px solid rgba(122, 209, 255, 0.15);
-            border-radius: 1rem;
-            padding: 1.25rem 1.4rem;
-            font-family: "Cascadia Mono", "Consolas", monospace;
-            width: 100%;
-            max-width: 18rem;
-        }
-        .calc-preview-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.4rem 0;
-            font-size: 0.9rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .calc-preview-row:last-child { border-bottom: none; }
-        .calc-expr { color: var(--muted); }
-        .calc-result { color: #7ad1ff; font-weight: 700; }
-        .calc-preview-tag {
-            position: absolute;
-            top: -0.6rem;
-            right: 1rem;
-            background: var(--gold);
-            color: #0d1117;
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            padding: 0.15rem 0.5rem;
-            border-radius: 999px;
-            text-transform: uppercase;
-            font-family: "Segoe UI", system-ui, sans-serif;
-        }
-
-        /* ── INFO CARDS ── */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-            gap: 1rem;
-            margin-bottom: 4rem;
-        }
-        .info-card {
-            padding: 1.5rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--surface);
-            transition: border-color 200ms, transform 200ms;
-        }
-        .info-card:hover {
-            border-color: rgba(200, 131, 42, 0.3);
-            transform: translateY(-3px);
-        }
-        .card-icon {
-            font-size: 1.6rem;
-            margin-bottom: 0.75rem;
-            line-height: 1;
-        }
-        .info-card h3 {
-            margin: 0 0 0.5rem;
-            font-size: 1rem;
-            font-weight: 700;
-        }
-        .info-card p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--muted);
-            line-height: 1.55;
-        }
-
-        /* ── INSTALL SECTION ── */
-        .install-section {
-            padding: clamp(2rem, 5vw, 3rem);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--surface);
-            margin-bottom: 4rem;
-        }
-        .install-section h2 {
-            margin: 0 0 0.5rem;
-            font-family: "Georgia", serif;
-            font-size: 1.6rem;
-        }
-        .install-section > p {
-            color: var(--muted);
-            margin: 0 0 1.5rem;
-        }
-        .install-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-            gap: 1rem;
-        }
-        .install-step {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .step-num {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            border: 1px solid rgba(200, 131, 42, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--gold-lt);
-            flex-shrink: 0;
-        }
-        .install-step p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
-        .install-step strong { color: var(--text); }
-
-        /* ── FOOTER ── */
-        footer {
-            position: relative;
-            z-index: 1;
-            border-top: 1px solid var(--border);
-            padding: 2rem clamp(1.25rem, 5vw, 3rem);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--muted);
-            font-size: 0.85rem;
-        }
-        footer a { color: var(--muted); text-decoration: none; }
-        footer a:hover { color: var(--gold-lt); }
-    </style>
-</head>
-<body>
-    <header>
-        <a class="wordmark" href="/">
-            <span class="wordmark-main">Dondlinger GC</span>
-            <span class="wordmark-sub">General Contracting</span>
-        </a>
-        <nav>
-            <a href="#calculator">Calculator</a>
-            <a href="#install">Install</a>
-            <a class="nav-cta" href="/calc/">Open App</a>
-        </nav>
-    </header>
-
-    <div class="wrap">
-        <section class="hero">
-            <div class="hero-content">
-                <div class="hero-eyebrow">Dondlinger General Contracting</div>
-                <h1>Built for<br>the <em>Jobsite.</em></h1>
-                <p class="hero-lede">Professional construction services combined with a free, installable field calculator — because exact numbers matter when you're cutting lumber, pouring concrete, or laying out stairs.</p>
-                <div class="hero-actions">
-                    <a class="btn btn-gold" href="/calc/">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 8h6M8 5v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                        Open Calculator
-                    </a>
-                    <a class="btn btn-ghost" href="#install" id="installBtn">Install on Your Phone</a>
-                </div>
-            </div>
-            <div class="hero-badge" aria-hidden="true">
-                <div class="badge-icon">🏗️</div>
-                <div class="badge-label">Est.<br>Dondlinger<br>GC</div>
-            </div>
-        </section>
-
-        <hr class="rule" />
-
-        <div class="stats">
-            <div class="stat"><span class="stat-val">5</span><span class="stat-label">Calc Modes</span></div>
-            <div class="stat"><span class="stat-val">100%</span><span class="stat-label">Offline</span></div>
-            <div class="stat"><span class="stat-val">0</span><span class="stat-label">Signal Required</span></div>
-            <div class="stat"><span class="stat-val">Free</span><span class="stat-label">Always</span></div>
-        </div>
-
-        <hr class="rule" />
-
-        <!-- PRODUCT FEATURE -->
-        <section id="calculator">
-            <div class="section-head">
-                <div class="section-kicker">Free Tool</div>
-                <h2>Jobsite Calculator</h2>
-            </div>
-
-            <div class="product-card">
-                <div>
-                    <div class="product-label">Progressive Web App &mdash; iPhone &amp; Android</div>
-                    <h3>Exact Math,<br>No Signal.</h3>
-                    <p>Tape fractions, spacing layouts, concrete volumes, stair rise &amp; run, board feet — the calculations you're doing on paper, done right.</p>
-                    <div class="feature-pills">
-                        <span class="pill">3-1/2 + 7-5/8</span>
-                        <span class="pill">Equal Spacing</span>
-                        <span class="pill">Concrete</span>
-                        <span class="pill">Stairs</span>
-                        <span class="pill">Board Feet</span>
-                    </div>
-                    <div style="margin-top:1.5rem">
-                        <a class="btn btn-gold" href="/calc/">Open Calculator &rarr;</a>
-                    </div>
-                </div>
-                <div class="product-visual">
-                    <div class="calc-preview">
-                        <div class="calc-preview-tag">Live Preview</div>
-                        <div class="calc-preview-row"><span class="calc-expr">3-1/2 + 7-5/8</span><span class="calc-result">11-1/8"</span></div>
-                        <div class="calc-preview-row"><span class="calc-expr">16 spaces @ 10'</span><span class="calc-result">7-1/2"</span></div>
-                        <div class="calc-preview-row"><span class="calc-expr">12×16 slab 4"</span><span class="calc-result">2.37 yd³</span></div>
-                        <div class="calc-preview-row"><span class="calc-expr">Rise 8'2" / 7"</span><span class="calc-result">14 treads</span></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- WHY USE IT -->
-        <div class="card-grid">
-            <article class="info-card">
-                <div class="card-icon">📴</div>
-                <h3>Works Offline</h3>
-                <p>Install it once. Use it in the crawl space, attic, or trailer with zero bars. All math runs locally on your device.</p>
-            </article>
-            <article class="info-card">
-                <div class="card-icon">📐</div>
-                <h3>Fraction Tape Math</h3>
-                <p>Type measurements exactly as you read them off a tape — <strong>3-1/2 + 7-5/8</strong> — and get exact fractional answers back.</p>
-            </article>
-            <article class="info-card">
-                <div class="card-icon">👆</div>
-                <h3>Built for Dirty Hands</h3>
-                <p>Large tap targets, high contrast, minimal navigation. Designed to be used fast on a phone screen in bright sunlight.</p>
-            </article>
-            <article class="info-card">
-                <div class="card-icon">🏠</div>
-                <h3>Home Screen App</h3>
-                <p>Installs like a native app on iPhone and Android. No App Store. No subscription. Just tap and calc.</p>
-            </article>
-        </div>
-
-        <!-- INSTALL STEPS -->
-        <section class="install-section" id="install">
-            <h2>Install on Your Phone</h2>
-            <p>Takes 30 seconds. Works fully offline once installed.</p>
-            <div class="install-steps">
-                <div class="install-step">
-                    <div class="step-num">1</div>
-                    <p><strong>iPhone (Safari):</strong> Open <strong>dondlingergc.com/calc/</strong> in Safari — not Chrome.</p>
-                </div>
-                <div class="install-step">
-                    <div class="step-num">2</div>
-                    <p>Tap the <strong>Share &#9121;</strong> button at the bottom of the screen.</p>
-                </div>
-                <div class="install-step">
-                    <div class="step-num">3</div>
-                    <p>Tap <strong>"Add to Home Screen"</strong> and confirm. Done.</p>
-                </div>
-                <div class="install-step">
-                    <div class="step-num" style="border-color:rgba(74,143,168,0.4);color:#90c4d8">A</div>
-                    <p><strong>Android:</strong> Open in Chrome and tap the <strong>Install App</strong> button that appears automatically.</p>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <footer>
-        <div>&copy; 2026 Dondlinger General Contracting. All rights reserved.</div>
-        <div><a href="/calc/">Jobsite Calculator</a></div>
-    </footer>
-
-    <script>
-        (function () {
-            var btn = document.getElementById('installBtn');
-            if (!btn) return;
-            var ua = navigator.userAgent;
-            if (/iphone|ipad|ipod/i.test(ua)) {
-                btn.textContent = 'Install on iPhone';
-            } else if (/android/i.test(ua)) {
-                btn.textContent = 'Install on Android';
-            }
-        })();
-    </script>
-</body>
-</html>
-        :root {
-            color-scheme: dark;
-            --bg: #11161d;
-            --panel: rgba(22, 31, 42, 0.92);
-            --panel-border: rgba(0, 212, 255, 0.2);
-            --accent: #00d4ff;
-            --accent-strong: #78ecff;
-            --text: #f4f7fb;
-            --muted: #afc2d7;
+            --bg: #12161c;
+            --bg-2: #1a212a;
+            --panel: rgba(14, 19, 25, 0.9);
+            --line: rgba(255, 255, 255, 0.08);
+            --text: #f1eee8;
+            --muted: #9eacba;
+            --signal: #7dd6ff;
+            --accent: #d49b3e;
+            --accent-strong: #f1c26d;
         }
 
         * {
             box-sizing: border-box;
         }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font: 16px/1.55 Arial, sans-serif;
-            color: var(--text);
-            background:
-                radial-gradient(circle at top, rgba(0, 212, 255, 0.22), transparent 32%),
-                linear-gradient(180deg, #0a0f14 0%, var(--bg) 100%);
+        html {
+            scroll-behavior: smooth;
         }
 
-        main {
-            width: min(100%, 70rem);
+        body {
+            margin: 0;
+            color: var(--text);
+            font: 16px/1.55 "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(125, 214, 255, 0.14), transparent 32%),
+                radial-gradient(circle at top right, rgba(212, 155, 62, 0.14), transparent 24%),
+                linear-gradient(180deg, var(--bg-2), var(--bg));
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(125, 214, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(125, 214, 255, 0.05) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 90%);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 76rem);
             margin: 0 auto;
-            padding: 2rem 1.25rem 4rem;
+            padding: 0 clamp(1rem, 4vw, 2rem);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 0;
+            background: rgba(18, 22, 28, 0.84);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .brand strong {
+            font: 700 1.1rem/1 "Georgia", serif;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .brand span {
+            margin-top: 0.25rem;
+            color: var(--accent-strong);
+            font-size: 0.74rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.8rem;
+            padding: 0.7rem 1.1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(212, 155, 62, 0.28);
+            background: linear-gradient(135deg, rgba(212, 155, 62, 0.18), rgba(125, 214, 255, 0.12));
+            color: var(--accent-strong);
+            font-weight: 700;
         }
 
         .hero {
-            padding: 3rem 0 1.5rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+            gap: 1.25rem;
+            padding: clamp(3rem, 8vw, 6rem) 0 2rem;
+            align-items: center;
         }
 
         .eyebrow {
-            display: inline-block;
-            margin-bottom: 1rem;
-            padding: 0.35rem 0.75rem;
-            border: 1px solid var(--panel-border);
-            border-radius: 999px;
+            margin: 0 0 1rem;
             color: var(--accent-strong);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
             font-size: 0.78rem;
-            background: rgba(0, 212, 255, 0.08);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
         }
 
         h1 {
             margin: 0;
-            max-width: 12ch;
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            line-height: 0.95;
+            max-width: 10ch;
+            font: 700 clamp(3rem, 7vw, 5.2rem)/0.94 "Georgia", serif;
+            letter-spacing: -0.04em;
         }
 
-        .lede {
-            max-width: 42rem;
-            margin: 1.25rem 0 0;
+        .hero p {
+            max-width: 40rem;
             color: var(--muted);
-            font-size: 1.08rem;
-        }
-
-        .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.85rem;
-            margin-top: 1.75rem;
-        }
-
-        .button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 3.2rem;
-            padding: 0.85rem 1.2rem;
-            border-radius: 999px;
-            text-decoration: none;
-            font-weight: 700;
-        }
-
-        .button-primary {
-            background: var(--accent);
-            color: #0a1016;
-        }
-
-        .button-secondary {
-            border: 1px solid var(--panel-border);
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .card {
-            padding: 1.25rem;
-            border: 1px solid var(--panel-border);
-            border-radius: 1.25rem;
-            background: var(--panel);
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.24);
-        }
-
-        .card h2 {
-            margin: 0 0 0.75rem;
             font-size: 1.05rem;
         }
 
-        .card p,
-        .card li {
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .hero-actions a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 3rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .hero-actions .primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+            color: #16110a;
+        }
+
+        .hero-actions .secondary {
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .preview,
+        .feature {
+            border: 1px solid var(--line);
+            border-radius: 1.35rem;
+            background: var(--panel);
+        }
+
+        .preview {
+            padding: 1.25rem;
+        }
+
+        .preview-label {
+            color: var(--signal);
+            font-size: 0.78rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .preview-value {
+            margin-top: 0.75rem;
+            font: 700 2.5rem/1 "Georgia", serif;
+        }
+
+        .preview-list {
+            display: grid;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .preview-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--line);
             color: var(--muted);
         }
 
-        .card ul {
-            margin: 0;
-            padding-left: 1.2rem;
+        .preview-row strong {
+            color: var(--text);
         }
 
-        .install-steps {
-            margin-top: 2rem;
+        .stats,
+        .features {
+            display: grid;
+            gap: 1rem;
         }
 
-        .install-steps ol {
-            margin: 1rem 0 0;
-            padding-left: 1.25rem;
+        .stats {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            margin: 0 0 1rem;
         }
 
-        .install-steps li + li {
-            margin-top: 0.6rem;
+        .stat,
+        .feature {
+            padding: 1.1rem;
+        }
+
+        .stat strong {
+            display: block;
+            color: var(--accent-strong);
+            font: 700 1.6rem/1 "Georgia", serif;
+        }
+
+        .stat span,
+        .feature p {
+            color: var(--muted);
+        }
+
+        .features {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            padding-bottom: 4rem;
+        }
+
+        .feature h2 {
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
         }
 
         footer {
-            margin-top: 2rem;
-            color: #8fa1b5;
-            font-size: 0.92rem;
+            border-top: 1px solid var(--line);
+            padding: 1.5rem 0 2rem;
+            color: var(--muted);
+            font-size: 0.9rem;
         }
 
-        code {
-            font-family: Consolas, monospace;
-            color: var(--accent-strong);
+        @media (max-width: 900px) {
+            .hero,
+            .features,
+            .stats {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 640px) {
-            main {
-                padding-top: 1.5rem;
+            header {
+                flex-direction: column;
+                align-items: start;
             }
 
-            .hero {
-                padding-top: 1rem;
+            nav {
+                width: 100%;
+                justify-content: space-between;
             }
         }
     </style>
 </head>
 <body>
-    <main>
-        <section class="hero">
-            <span class="eyebrow">Free &middot; Offline &middot; No Signal Needed</span>
-            <h1>Jobsite Calculator</h1>
-            <p class="lede">Exact tape-measure math in the field. Add fractions, lay out spacing, figure concrete, stairs, and board feet — no cell service required.</p>
-            <div class="actions">
-                <a class="button button-primary" href="/calc/">Open Calculator</a>
-                <a class="button button-secondary" href="/calc/" id="installBtn">Install on Your Phone</a>
+    <div class="wrap">
+        <header style="background:linear-gradient(90deg,#ffcc00 60%,#c8832a 100%);color:#181a1f;padding:1.2rem 0 1rem 0;text-align:center;font-family:'Segoe UI',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:0.08em;box-shadow:0 2px 12px #222;display:flex;align-items:center;justify-content:center;gap:1.2rem;">
+            <span style="font-size:2.2rem;vertical-align:middle;margin-right:0.7rem;">&#128295;</span>
+            <span style="font-size:1.35rem;font-family:'Georgia',serif;color:#181a1f;letter-spacing:0.12em;">Dondlinger GC</span>
+            <span style="font-size:1rem;color:#222;background:#f1c26d;border-radius:999px;padding:0.25rem 0.7rem;margin-left:0.7rem;">Jobsite Tools</span>
+        </header>
+        <section style="display:flex;flex-direction:column;align-items:center;padding:3rem 0 2rem;">
+            <canvas id="dondlingerClock" width="260" height="260" style="background:transparent;border-radius:50%;box-shadow:0 0 32px #222;max-width:100%;"></canvas>
+            <div style="margin-top:2rem;text-align:center;">
+                <a class="cta" href="/calc/" style="background:linear-gradient(90deg,#ffcc00 60%,#c8832a 100%);color:#181a1f;font-weight:700;font-size:1.1rem;padding:1rem 2rem;border-radius:1rem;border:none;box-shadow:0 2px 8px #222;cursor:pointer;">Open Calculator</a>
+                <div style="margin-top:1rem;color:#c8832a;font-size:1rem;">Install on your phone for offline use.</div>
             </div>
         </section>
-
-        <section class="grid" aria-label="Calculator overview">
-            <article class="card">
-                <h2>What it calculates</h2>
-                <ul>
-                    <li>Fraction tape arithmetic &mdash; <em>3-1/2 + 7-5/8</em></li>
-                    <li>Equal spacing layout</li>
-                    <li>Concrete slabs &amp; footings</li>
-                    <li>Stair rise &amp; run</li>
-                    <li>Board feet</li>
-                </ul>
-            </article>
-            <article class="card">
-                <h2>Works anywhere on site</h2>
-                <p>Install it once to your home screen. After that it opens like a normal app — trailer, attic, crawl space — no connection required.</p>
-            </article>
-            <article class="card">
-                <h2>Built for the field</h2>
-                <p>Big inputs, minimal taps. Designed to be used fast with dirty hands on a small phone screen.</p>
-            </article>
-        </section>
-
-        <section class="card install-steps" id="install">
-            <h2>How to install</h2>
-            <p style="color:var(--muted);margin:0.25rem 0 0.75rem;">The install prompt appears automatically when you open the calculator.</p>
-            <ol>
-                <li><strong>iPhone (Safari):</strong> Open <strong>dondlingergc.com/calc/</strong> in Safari &rarr; tap the <strong>Share &#9121;</strong> button &rarr; tap <strong>Add to Home Screen</strong>.</li>
-                <li><strong>Android (Chrome):</strong> Open the calculator and tap the <strong>Install App</strong> button that appears at the top of the screen.</li>
-                <li>Launch it from your home screen — it works fully offline from there.</li>
-            </ol>
-        </section>
-
-        <footer>
-            &copy; Dondlinger General Contracting &mdash; <a href="/calc/" style="color:var(--accent);">dondlingergc.com/calc/</a>
-        </footer>
-    </main>
+        <footer style="text-align:center;padding:2rem 0 0;color:#c8832a;font-size:0.9rem;">&copy; 2026 Dondlinger General Contracting — Dondlinger GC Jobsite Tools</footer>
+    </div>
     <script>
-        // Upgrade install button label based on device
-        (function () {
-            var btn = document.getElementById('installBtn');
-            if (!btn) return;
-            var ua = navigator.userAgent;
-            if (/iphone|ipad|ipod/i.test(ua)) {
-                btn.textContent = 'Install on iPhone';
-            } else if (/android/i.test(ua)) {
-                btn.textContent = 'Install on Android';
-            }
-        })();
+    // Animated Dondlinger clock widget
+    const canvas = document.getElementById('dondlingerClock');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      const size = canvas.width;
+      const center = size / 2;
+      function drawClock() {
+        ctx.clearRect(0, 0, size, size);
+        // Outer ring
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(center, center, center-8, 0, 2*Math.PI);
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = '#d49b3e';
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = '#d49b3e';
+        ctx.stroke();
+        ctx.restore();
+        // Hour marks
+        for(let i=0;i<12;i++){
+          const angle = (i/12)*2*Math.PI;
+          const x1 = center + Math.cos(angle)*(center-28);
+          const y1 = center + Math.sin(angle)*(center-28);
+          const x2 = center + Math.cos(angle)*(center-16);
+          const y2 = center + Math.sin(angle)*(center-16);
+          ctx.beginPath();
+          ctx.moveTo(x1,y1);
+          ctx.lineTo(x2,y2);
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = '#f1c26d';
+          ctx.stroke();
+        }
+        // Brand center
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(center, center, 22, 0, 2*Math.PI);
+        ctx.fillStyle = '#12161c';
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = '#d49b3e';
+        ctx.fill();
+        ctx.restore();
+        ctx.save();
+        ctx.font = 'bold 1.2rem Georgia';
+        ctx.fillStyle = '#d49b3e';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('DGC', center, center);
+        ctx.restore();
+        // Hands
+        const now = new Date();
+        const hour = now.getHours()%12;
+        const min = now.getMinutes();
+        const sec = now.getSeconds();
+        // Hour hand
+        let angle = ((hour + min/60)/12)*2*Math.PI - Math.PI/2;
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.lineTo(center + Math.cos(angle)*(center-60), center + Math.sin(angle)*(center-60));
+        ctx.lineWidth = 7;
+        ctx.strokeStyle = '#d49b3e';
+        ctx.stroke();
+        ctx.restore();
+        // Minute hand
+        angle = ((min + sec/60)/60)*2*Math.PI - Math.PI/2;
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.lineTo(center + Math.cos(angle)*(center-38), center + Math.sin(angle)*(center-38));
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = '#7dd6ff';
+        ctx.stroke();
+        ctx.restore();
+        // Second hand
+        angle = (sec/60)*2*Math.PI - Math.PI/2;
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.lineTo(center + Math.cos(angle)*(center-28), center + Math.sin(angle)*(center-28));
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#f1c26d';
+        ctx.stroke();
+        ctx.restore();
+      }
+      setInterval(drawClock, 1000);
+      drawClock();
+    }
     </script>
 </body>
 </html>
