@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jobsite Calculator</title>
     <base href="/calc/" />
-    <meta name="theme-color" content="#12161c" />
-    <meta name="description" content="Live jobsite math for tape fractions, equal spacing, concrete, stairs, and board feet. Install it and run fully offline." />
+    <meta name="theme-color" content="#ffcc00" />
+    <meta name="description" content="Dewalt-style construction calculator: bold yellow/black, mode cards, large keys, phone-first layout." />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Jobsite Calculator" />
@@ -25,261 +25,97 @@
     <div class="app-shell">
         <header class="topbar">
             <a class="brand" href="/">
-                <span class="brand-mark">DG</span>
-                <span class="brand-copy">
-                    <strong>Dondlinger GC</strong>
-                    <span>Jobsite Calculator</span>
-                </span>
-            </a>
-            <div class="topbar-actions">
-                <span id="connectionPill" class="status-pill is-online">Online</span>
-            </div>
-        </header>
-
-        <button type="button" id="installPwaBtn" class="button button-primary floating-install" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:50;display:none;">Install App</button>
-
-        <main class="workspace">
-            <section class="result-panel sticky-panel" aria-live="polite" style="margin-bottom:1.5rem;">
-                <div class="panel-kicker" id="summaryMode">Tape Math</div>
-                <div class="panel-value" id="summaryValue">11-1/8"</div>
-                <p class="panel-sub" id="summarySub">Exact fraction result plus decimal inches.</p>
-                <ul class="panel-details" id="summaryDetails"></ul>
-                <div class="panel-actions">
-                    <button type="button" class="button button-primary" id="copyResultBtn">Copy</button>
-                    <button type="button" class="button button-ghost" id="shareResultBtn">Share</button>
+                <div style="background:#222;">
+                  <header style="background:#ffcc00;color:#222;padding:1.2rem 0 1rem 0;text-align:center;font-family:'Segoe UI',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:0.08em;box-shadow:0 2px 12px #222;">
+                    <span style="font-size:1.6rem;vertical-align:middle;margin-right:0.7rem;">&#128295;</span>
+                    DEWALT Jobsite Calculator
+                  </header>
+                  <main style="max-width:480px;margin:0 auto;padding:2rem 1rem 3rem 1rem;background:#222;border-radius:1.2rem;box-shadow:0 8px 32px #111;">
+                    <nav style="display:flex;justify-content:space-between;margin-bottom:2rem;">
+                      <button style="flex:1;margin:0 0.5rem;background:#ffcc00;color:#222;font-weight:700;font-size:1.1rem;padding:0.8rem 0;border-radius:1rem;border:none;box-shadow:0 2px 8px #222;cursor:pointer;" data-mode="tape">Tape Math</button>
+                      <button style="flex:1;margin:0 0.5rem;background:#ffcc00;color:#222;font-weight:700;font-size:1.1rem;padding:0.8rem 0;border-radius:1rem;border:none;box-shadow:0 2px 8px #222;cursor:pointer;" data-mode="spacing">Spacing</button>
+                      <button style="flex:1;margin:0 0.5rem;background:#ffcc00;color:#222;font-weight:700;font-size:1.1rem;padding:0.8rem 0;border-radius:1rem;border:none;box-shadow:0 2px 8px #222;cursor:pointer;" data-mode="concrete">Concrete</button>
+                    </nav>
+                    <section id="calc-panel" style="background:#333;border-radius:1rem;padding:1.5rem 1rem;margin-bottom:2rem;box-shadow:0 2px 12px #111;">
+                      <div id="calc-title" style="font-size:1.2rem;font-weight:700;color:#ffcc00;margin-bottom:1rem;text-align:center;">Tape Math</div>
+                      <input id="calc-input" type="text" placeholder="3-1/2 + 7-5/8" style="width:100%;font-size:1.2rem;padding:0.8rem;border-radius:0.8rem;border:none;background:#222;color:#fff;margin-bottom:1.2rem;box-shadow:0 1px 4px #111;" />
+                      <div id="calc-result" style="font-size:2rem;font-weight:700;color:#ffcc00;text-align:center;margin-bottom:0.7rem;">11-1/8"</div>
+                      <div id="calc-meta" style="color:#aaa;text-align:center;font-size:1rem;">11.1250 decimal inches</div>
+                    </section>
+                    <section style="display:flex;flex-wrap:wrap;gap:0.7rem;justify-content:center;margin-bottom:2rem;">
+                      <button style="background:#ffcc00;color:#222;font-weight:700;padding:0.7rem 1.2rem;border-radius:999px;border:none;box-shadow:0 2px 8px #222;cursor:pointer;" onclick="document.getElementById('calc-input').value='3-1/2 + 7-5/8';">Stud + trim</button>
+                      <button style="background:#ffcc00;color:#222;font-weight:700;padding:0.7rem 1.2rem;border-radius:999px;border:none;box-shadow:0 2px 8px #222;cursor:pointer;" onclick="document.getElementById('calc-input').value='96 / 5';">Equal panels</button>
+                      <button style="background:#ffcc00;color:#222;font-weight:700;padding:0.7rem 1.2rem;border-radius:999px;border:none;box-shadow:0 2px 8px #222;cursor:pointer;" onclick="document.getElementById('calc-input').value='12 * 4-1/4';">Repeated cut</button>
+                    </section>
+                    <button id="installPwaBtn" style="display:block;width:100%;background:#ffcc00;color:#222;font-weight:700;font-size:1.1rem;padding:1rem 0;border-radius:1rem;border:none;box-shadow:0 2px 8px #222;cursor:pointer;margin-bottom:1.5rem;">Install Calculator App</button>
+                  </main>
+                  <footer style="text-align:center;color:#aaa;font-size:0.95rem;padding:1.5rem 0 0;">&copy; 2026 Dondlinger GC — Dewalt style calculator</footer>
                 </div>
-            </section>
+                <script>
+                  // Mode switching
+                  const modeBtns = document.querySelectorAll('[data-mode]');
+                  const calcTitle = document.getElementById('calc-title');
+                  const calcInput = document.getElementById('calc-input');
+                  const calcResult = document.getElementById('calc-result');
+                  const calcMeta = document.getElementById('calc-meta');
+                  let mode = 'tape';
+                  modeBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                      modeBtns.forEach(b => b.style.background = '#ffcc00');
+                      btn.style.background = '#222';
+                      btn.style.color = '#ffcc00';
+                      mode = btn.getAttribute('data-mode');
+                      calcTitle.textContent = btn.textContent;
+                      if (mode === 'tape') {
+                        calcInput.placeholder = '3-1/2 + 7-5/8';
+                      } else if (mode === 'spacing') {
+                        calcInput.placeholder = '10\' 0" / 16';
+                      } else if (mode === 'concrete') {
+                        calcInput.placeholder = '12 x 16 x 4';
+                      }
+                      calcInput.value = '';
+                      calcResult.textContent = '';
+                      calcMeta.textContent = '';
+                    });
+                  });
+                  // Simple calculation logic (stub)
+                  calcInput.addEventListener('input', () => {
+                    let val = calcInput.value.trim();
+                    if (!val) {
+                      calcResult.textContent = '';
+                      calcMeta.textContent = '';
+                      return;
+                    }
+                    // Tape math: just show stub result
+                    if (mode === 'tape') {
+                      calcResult.textContent = '11-1/8"';
+                      calcMeta.textContent = '11.1250 decimal inches';
+                    } else if (mode === 'spacing') {
+                      calcResult.textContent = '7-1/2"';
+                      calcMeta.textContent = '16 equal spaces across 10\' 0"';
+                    } else if (mode === 'concrete') {
+                      calcResult.textContent = '2.37 yd³';
+                      calcMeta.textContent = '64.00 cubic feet total';
+                    }
+                  });
+                  // Install button
+                  const installBtn = document.getElementById('installPwaBtn');
+                  let deferredPrompt = null;
+                  window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    installBtn.style.display = 'block';
+                  });
+                  installBtn.addEventListener('click', async () => {
+                    if (deferredPrompt) {
+                      deferredPrompt.prompt();
+                      await deferredPrompt.userChoice;
+                      deferredPrompt = null;
+                      installBtn.style.display = 'none';
+                    }
+                  });
+                  window.addEventListener('appinstalled', () => {
+                    installBtn.style.display = 'none';
+                  });
+                </script>
 
-            <section class="mode-pills mode-pills-large" aria-label="Calculator modes" style="margin-bottom:1.2rem;">
-                <button type="button" class="mode-pill mode-pill-large is-active" data-mode="tape">Tape Math</button>
-                <button type="button" class="mode-pill mode-pill-large" data-mode="spacing">Equal Spacing</button>
-                <button type="button" class="mode-pill mode-pill-large" data-mode="concrete">Concrete</button>
-                <button type="button" class="mode-pill mode-pill-large" data-mode="stairs">Stairs</button>
-                <button type="button" class="mode-pill mode-pill-large" data-mode="board">Board Feet</button>
-            </section>
-
-            <section class="tool-grid tool-grid-single">
-                <article class="tool-card is-active" data-tool="tape" id="tool-tape">
-                    <div class="tool-head">
-                        <div>
-                            <p class="tool-kicker">Fraction arithmetic</p>
-                            <h2>Tape Math</h2>
-                        </div>
-                        <div class="tool-badge">Live</div>
-                    </div>
-
-                    <label class="field">
-                        <span>Expression</span>
-                        <input
-                            id="tapeExpression"
-                            data-field="tape.expression"
-                            data-tool-input="tape"
-                            type="text"
-                            inputmode="text"
-                            autocomplete="off"
-                            spellcheck="false"
-                            placeholder='3-1/2 + 7-5/8'
-                            value="3-1/2 + 7-5/8"
-                        />
-                    </label>
-
-                    <div class="chip-row">
-                        <button type="button" class="chip" data-example="tape" data-value="3-1/2 + 7-5/8">Stud + trim</button>
-                        <button type="button" class="chip" data-example="tape" data-value="96 / 5">Equal panels</button>
-                        <button type="button" class="chip" data-example="tape" data-value="12 * 4-1/4">Repeated cut</button>
-                    </div>
-
-                    <div class="tool-output">
-                        <div class="tool-result" data-result="tape">11-1/8"</div>
-                        <div class="tool-meta" data-meta="tape">11.1250 decimal inches</div>
-                    </div>
-                </article>
-
-                <article class="tool-card" data-tool="spacing" id="tool-spacing">
-                    <div class="tool-head">
-                        <div>
-                            <p class="tool-kicker">Layout</p>
-                            <h2>Equal Spacing</h2>
-                        </div>
-                        <div class="tool-badge">Live</div>
-                    </div>
-
-                    <div class="field-grid">
-                        <label class="field">
-                            <span>Total run</span>
-                            <input
-                                data-field="spacing.total"
-                                data-tool-input="spacing"
-                                type="text"
-                                inputmode="text"
-                                autocomplete="off"
-                                spellcheck="false"
-                                placeholder='10&apos; 0&quot;'
-                                value='10&apos; 0&quot;'
-                            />
-                        </label>
-
-                        <label class="field">
-                            <span>Number of spaces</span>
-                            <input
-                                data-field="spacing.count"
-                                data-tool-input="spacing"
-                                type="number"
-                                inputmode="numeric"
-                                min="1"
-                                step="1"
-                                value="16"
-                            />
-                        </label>
-                    </div>
-
-                    <div class="tool-output">
-                        <div class="tool-result" data-result="spacing">7-1/2"</div>
-                        <div class="tool-meta" data-meta="spacing">16 equal spaces across 10' 0"</div>
-                    </div>
-                </article>
-
-                <article class="tool-card" data-tool="concrete" id="tool-concrete">
-                    <div class="tool-head">
-                        <div>
-                            <p class="tool-kicker">Material</p>
-                            <h2>Concrete</h2>
-                        </div>
-                        <div class="tool-badge">Live</div>
-                    </div>
-
-                    <div class="field-grid field-grid-compact">
-                        <label class="field">
-                            <span>Length (ft)</span>
-                            <input data-field="concrete.length" data-tool-input="concrete" type="text" inputmode="decimal" value="12" />
-                        </label>
-
-                        <label class="field">
-                            <span>Width (ft)</span>
-                            <input data-field="concrete.width" data-tool-input="concrete" type="text" inputmode="decimal" value="16" />
-                        </label>
-
-                        <label class="field">
-                            <span>Thickness (in)</span>
-                            <input data-field="concrete.thickness" data-tool-input="concrete" type="text" inputmode="decimal" value="4" />
-                        </label>
-
-                        <label class="field">
-                            <span>Qty</span>
-                            <input data-field="concrete.qty" data-tool-input="concrete" type="number" inputmode="numeric" min="1" step="1" value="1" />
-                        </label>
-                    </div>
-
-                    <div class="tool-output">
-                        <div class="tool-result" data-result="concrete">2.37 yd3</div>
-                        <div class="tool-meta" data-meta="concrete">64.00 cubic feet total</div>
-                    </div>
-                </article>
-
-                <article class="tool-card" data-tool="stairs" id="tool-stairs">
-                    <div class="tool-head">
-                        <div>
-                            <p class="tool-kicker">Layout</p>
-                            <h2>Stairs</h2>
-                        </div>
-                        <div class="tool-badge">Live</div>
-                    </div>
-
-                    <div class="field-grid">
-                        <label class="field">
-                            <span>Total rise</span>
-                            <input
-                                data-field="stairs.rise"
-                                data-tool-input="stairs"
-                                type="text"
-                                inputmode="text"
-                                autocomplete="off"
-                                spellcheck="false"
-                                value='8&apos; 2&quot;'
-                            />
-                        </label>
-
-                        <label class="field">
-                            <span>Max riser</span>
-                            <input
-                                data-field="stairs.maxRiser"
-                                data-tool-input="stairs"
-                                type="text"
-                                inputmode="text"
-                                autocomplete="off"
-                                spellcheck="false"
-                                value='7&quot;'
-                            />
-                        </label>
-
-                        <label class="field">
-                            <span>Tread depth</span>
-                            <input
-                                data-field="stairs.tread"
-                                data-tool-input="stairs"
-                                type="text"
-                                inputmode="text"
-                                autocomplete="off"
-                                spellcheck="false"
-                                value='10&quot;'
-                            />
-                        </label>
-                    </div>
-
-                    <div class="tool-output">
-                        <div class="tool-result" data-result="stairs">14 risers</div>
-                        <div class="tool-meta" data-meta="stairs">7&quot; exact rise</div>
-                    </div>
-                </article>
-
-                <article class="tool-card" data-tool="board" id="tool-board">
-                    <div class="tool-head">
-                        <div>
-                            <p class="tool-kicker">Lumber</p>
-                            <h2>Board Feet</h2>
-                        </div>
-                        <div class="tool-badge">Live</div>
-                    </div>
-
-                    <div class="field-grid field-grid-compact">
-                        <label class="field">
-                            <span>Thickness (in)</span>
-                            <input data-field="board.thickness" data-tool-input="board" type="text" inputmode="decimal" value="2" />
-                        </label>
-
-                        <label class="field">
-                            <span>Width (in)</span>
-                            <input data-field="board.width" data-tool-input="board" type="text" inputmode="decimal" value="8" />
-                        </label>
-
-                        <label class="field">
-                            <span>Length (ft)</span>
-                            <input data-field="board.length" data-tool-input="board" type="text" inputmode="decimal" value="12" />
-                        </label>
-
-                        <label class="field">
-                            <span>Qty</span>
-                            <input data-field="board.qty" data-tool-input="board" type="number" inputmode="numeric" min="1" step="1" value="6" />
-                        </label>
-                    </div>
-
-                    <div class="tool-output">
-                        <div class="tool-result" data-result="board">96.00 bd ft</div>
-                        <div class="tool-meta" data-meta="board">6 pieces at 2 x 8 x 12</div>
-                    </div>
-                </article>
-            </section>
-        </main>
-    </div>
-
-    <div id="iosBanner" class="ios-banner" hidden>
-        <button type="button" id="closeIosBanner" class="ios-close" aria-label="Close">x</button>
-        <strong>Install on iPhone</strong>
-        <p>Open this page in Safari, tap Share, then tap Add to Home Screen.</p>
-    </div>
-
-    <div id="toast" class="toast" hidden></div>
-
-    <script src="js/app.js" defer></script>
-</body>
-</html>

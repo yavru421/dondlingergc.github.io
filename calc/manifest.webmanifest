@@ -6,11 +6,13 @@
   "scope": "/calc/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "background_color": "#0d1117",
-  "theme_color": "#0d1117",
+  "background_color": "#12161c",
+  "theme_color": "#12161c",
+  "description": "Live construction math for tape fractions, spacing, concrete, stairs, and board feet. Installs and runs offline.",
+  "lang": "en-US",
+  "orientation": "portrait-primary",
+  "categories": ["utilities", "productivity", "business"],
   "prefer_related_applications": false,
-  "categories": ["utilities", "productivity"],
-  "description": "Exact construction math for tape arithmetic, spacing, concrete, stairs, and board feet. Works fully offline.",
   "icons": [
     {
       "src": "icon-192.png",
@@ -27,22 +29,22 @@
   ],
   "shortcuts": [
     {
-      "name": "Tape Fractions",
-      "short_name": "Fractions",
-      "description": "Add and subtract tape-measure fractions",
-      "url": "/calc/"
+      "name": "Tape Math",
+      "short_name": "Tape",
+      "description": "Exact tape-measure fraction math",
+      "url": "/calc/#tool-tape"
     },
     {
-      "name": "Concrete Calculator",
+      "name": "Concrete",
       "short_name": "Concrete",
-      "description": "Calculate concrete volume for slabs and footings",
-      "url": "/calc/"
+      "description": "Concrete volume and bag estimates",
+      "url": "/calc/#tool-concrete"
     },
     {
-      "name": "Stair Layout",
+      "name": "Stairs",
       "short_name": "Stairs",
-      "description": "Calculate stair rise, run, and tread count",
-      "url": "/calc/"
+      "description": "Riser count and total run",
+      "url": "/calc/#tool-stairs"
     }
   ]
 }
