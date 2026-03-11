@@ -9,6 +9,9 @@ yarn-error.log*
 /build/
 .next/
 .nuxt/
+calc/**/*.br
+calc/**/*.gz
+calc/lib/
 
 # Environment variables
 .env

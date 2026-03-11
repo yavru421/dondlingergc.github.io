@@ -38,6 +38,13 @@ videos/grok-video-26711cab-2537-4625-8923-78299443e253(2).mp4 filter=lfs diff=lf
 videos/grok-video-26711cab-2537-4625-8923-78299443e253(1).mp4 filter=lfs diff=lfs merge=lfs -text
 videos/grok-video-26711cab-2537-4625-8923-78299443e253.mp4 filter=lfs diff=lfs merge=lfs -text
 videos/grok-video-6adc2d6b-2f0d-4c48-a419-4adac8b235f3.mp4 filter=lfs diff=lfs merge=lfs -text
+calc/index.html text eol=lf
+calc/*.js text eol=lf
+calc/service-worker-assets.js text eol=lf
+calc/_framework/*.js text eol=lf
+calc/css/*.css text eol=lf
+calc/*.css text eol=lf
+calc/manifest.webmanifest text eol=lf
 calc/wwwroot/index.html text eol=lf
 calc/wwwroot/*.js text eol=lf
 calc/wwwroot/service-worker-assets.js text eol=lf
