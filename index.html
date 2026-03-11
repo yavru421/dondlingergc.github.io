@@ -800,6 +800,7 @@
         <p><strong>Professional Digital Solutions Platform</strong></p>
         <p>Access tools, blueprints, and interactive web design features.</p>
         <p>For a mobile-optimized experience, <a href="/mobilestatic/mobile.html" style="color:#007bff;text-decoration:underline;font-weight:bold;">visit our mobile site here</a>.</p>
+        <p>Need the calculator on your phone? <a href="/calc/" style="color:#00d4ff;text-decoration:underline;font-weight:bold;">Open the Jobsite Calculator here</a> and install it as a PWA.</p>
         <p>Or, visit us on desktop for the full interactive experience.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
             <button id="force-desktop" class="view-toggle" type="button">View Desktop Anyway</button>
@@ -820,7 +821,7 @@
                     { id: 'home', title: '🏠 Updates', tooltip: 'View latest projects, news, and social media updates from DondlingerGC' },
                     { id: 'blueprints', title: '📐 Plans', special: true, tooltip: 'Explore architectural blueprints and construction plans repository' },
                     { id: 'contact', title: '📧 Contact', tooltip: 'Get in touch with us to discuss your project needs' },
-                    { id: 'calculator', title: '🧮 Calculator', embed: 'calc/wwwroot/', frameless: true, hideFromStartMenu: true, windowStyle: 'top: 72px; left: 96px; width: min(92%, 900px); height: min(82%, 680px);', tooltip: 'Launch the Jobsite Tape Calculator inside the desktop' },
+                    { id: 'calculator', title: '🧮 Calculator', embed: 'calc/', frameless: true, hideFromStartMenu: true, windowStyle: 'top: 72px; left: 96px; width: min(92%, 900px); height: min(82%, 680px);', tooltip: 'Launch the Jobsite Tape Calculator inside the desktop' },
                     { id: 'fortress', title: '🎨 Website Builder', embed: 'fortress.html', embedTitle: 'Web Design Wizard', tooltip: 'Interactive web design tool to build your custom website' },
                     { id: 'chat', title: '💬 Chat', embed: 'chat.html', embedTitle: 'DGC Chat', tooltip: 'Live chat support and customer service portal' },
                     { id: 'rabbithole', title: '🐇 Rabbit Hole', embedUrl: 'https://john2121-quantumrabbithole-explorer.static.hf.space', embedTitle: 'Rabbit Hole Explorer', tooltip: 'Immersive Rabbit Hole experience (mobile-optimized)' },
@@ -980,7 +981,7 @@
                                 <li>Click the calculator icon in the taskbar to open the calculator window.</li>
                                 <li>Use the <strong>Install</strong> button in the calculator window to add it to your device as a standalone app.</li>
                                 <li>The calculator PWA is fully offline-capable and will not interfere with the main site.</li>
-                                <li>For mobile devices, visit <strong>/calc/wwwroot/</strong> directly for the best experience.</li>
+                                <li>For mobile devices, visit <strong>/calc/</strong> directly for the best experience.</li>
                             </ul>
                             <p style="color:#666;font-size:1rem;">For technical details, see <strong>manifest.webmanifest</strong> and <strong>service-worker.js</strong> in the calculator directory.</p>
                         </div>
