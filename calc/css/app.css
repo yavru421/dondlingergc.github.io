@@ -93,13 +93,31 @@ a:focus-visible {
         content: "An error has occurred.";
     }
 
+.loading-shell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 0;
+}
+
+.loading-brand {
+    font-family: "Rockwell", "Georgia", serif;
+    font-size: clamp(1.5rem, 5vw, 2.4rem);
+    font-weight: 700;
+    color: var(--signal);
+    letter-spacing: 0.01em;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
 .loading-progress {
-    position: absolute;
+    position: relative;
     display: block;
-    width: 8rem;
-    height: 8rem;
-    inset: 20vh 0 auto 0;
-    margin: 0 auto 0 auto;
+    width: 7rem;
+    height: 7rem;
+    margin: 0 auto;
 }
 
     .loading-progress circle {
@@ -117,15 +135,42 @@ a:focus-visible {
         }
 
 .loading-progress-text {
-    position: absolute;
+    margin-top: 1.25rem;
     text-align: center;
-    font-weight: bold;
-    inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
+
+#installPwaBtn {
+    display: none;
+    position: fixed;
+    bottom: calc(1.25rem + env(safe-area-inset-bottom));
+    right: 1.25rem;
+    z-index: 1000;
+    padding: 0.75rem 1.35rem;
+    background: linear-gradient(135deg, #00d4ff, #78ecff);
+    color: #0a1016;
+    border: none;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: inherit;
+    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+#installPwaBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(0, 212, 255, 0.55);
+}
 
 code {
     color: #c02d76;

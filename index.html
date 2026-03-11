@@ -166,49 +166,62 @@
 <body>
     <main>
         <section class="hero">
-            <span class="eyebrow">Offline PWA</span>
+            <span class="eyebrow">Free &middot; Offline &middot; No Signal Needed</span>
             <h1>Jobsite Calculator</h1>
-            <p class="lede">Construction math that installs on iPhone and works offline. Built for tape fractions, equal spacing, concrete, stairs, and board feet.</p>
+            <p class="lede">Exact tape-measure math in the field. Add fractions, lay out spacing, figure concrete, stairs, and board feet — no cell service required.</p>
             <div class="actions">
                 <a class="button button-primary" href="/calc/">Open Calculator</a>
-                <a class="button button-secondary" href="#install">Install on iPhone</a>
+                <a class="button button-secondary" href="/calc/" id="installBtn">Install on Your Phone</a>
             </div>
         </section>
 
         <section class="grid" aria-label="Calculator overview">
             <article class="card">
-                <h2>What it does</h2>
+                <h2>What it calculates</h2>
                 <ul>
-                    <li>Fraction tape arithmetic</li>
+                    <li>Fraction tape arithmetic &mdash; <em>3-1/2 + 7-5/8</em></li>
                     <li>Equal spacing layout</li>
-                    <li>Concrete volume</li>
-                    <li>Stair layout</li>
+                    <li>Concrete slabs &amp; footings</li>
+                    <li>Stair rise &amp; run</li>
                     <li>Board feet</li>
                 </ul>
             </article>
             <article class="card">
-                <h2>Why this version</h2>
-                <p>The site has been cut back to the one thing that matters right now: a clean calculator PWA at <code>/calc/</code>.</p>
+                <h2>Works anywhere on site</h2>
+                <p>Install it once to your home screen. After that it opens like a normal app — trailer, attic, crawl space — no connection required.</p>
             </article>
             <article class="card">
-                <h2>Use it anywhere</h2>
-                <p>Open it once, install it to your home screen, and keep using it even when the connection is bad or gone.</p>
+                <h2>Built for the field</h2>
+                <p>Big inputs, minimal taps. Designed to be used fast with dirty hands on a small phone screen.</p>
             </article>
         </section>
 
         <section class="card install-steps" id="install">
-            <h2>Install on iPhone</h2>
+            <h2>How to install</h2>
+            <p style="color:var(--muted);margin:0.25rem 0 0.75rem;">The install prompt appears automatically when you open the calculator.</p>
             <ol>
-                <li>Open <code>dondlingergc.com/calc/</code> in Safari.</li>
-                <li>Tap the Share button.</li>
-                <li>Tap <strong>Add to Home Screen</strong>.</li>
-                <li>Launch it from your home screen like a normal app.</li>
+                <li><strong>iPhone (Safari):</strong> Open <strong>dondlingergc.com/calc/</strong> in Safari &rarr; tap the <strong>Share &#9121;</strong> button &rarr; tap <strong>Add to Home Screen</strong>.</li>
+                <li><strong>Android (Chrome):</strong> Open the calculator and tap the <strong>Install App</strong> button that appears at the top of the screen.</li>
+                <li>Launch it from your home screen — it works fully offline from there.</li>
             </ol>
         </section>
 
         <footer>
-            If you see an older broken version, clear the browser cache and remove the previous home-screen install before reinstalling <code>/calc/</code>.
+            &copy; Dondlinger General Contracting &mdash; <a href="/calc/" style="color:var(--accent);">dondlingergc.com/calc/</a>
         </footer>
     </main>
+    <script>
+        // Upgrade install button label based on device
+        (function () {
+            var btn = document.getElementById('installBtn');
+            if (!btn) return;
+            var ua = navigator.userAgent;
+            if (/iphone|ipad|ipod/i.test(ua)) {
+                btn.textContent = 'Install on iPhone';
+            } else if (/android/i.test(ua)) {
+                btn.textContent = 'Install on Android';
+            }
+        })();
+    </script>
 </body>
 </html>
