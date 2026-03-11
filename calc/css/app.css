@@ -112,6 +112,15 @@ a:focus-visible {
     opacity: 0.9;
 }
 
+.loading-sub {
+    margin-top: 1.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0.7;
+}
+
 .loading-progress {
     position: relative;
     display: block;
