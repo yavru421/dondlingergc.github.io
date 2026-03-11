@@ -4,9 +4,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Build outputs
-dist/
-build/
+# Build outputs (anchored to repo root only — calc/wwwroot/lib/** must not be excluded)
+/dist/
+/build/
 .next/
 .nuxt/
 
