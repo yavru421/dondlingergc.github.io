@@ -11,16 +11,91 @@
     gap: 1rem;
 }
 
-.intro-card[b-7058mmdl5y],
-.control-card[b-7058mmdl5y],
-.expression-card[b-7058mmdl5y],
-.result-card[b-7058mmdl5y],
-.info-card[b-7058mmdl5y] {
-    border: 1px solid var(--line);
-    border-radius: 1.5rem;
-    background: linear-gradient(180deg, rgba(24, 32, 41, 0.94), var(--surface-strong));
-    box-shadow: var(--shadow);
-    animation: rise-in-b-7058mmdl5y 420ms ease;
+.calculator-main[b-7058mmdl5y] {
+    max-width: 400px;
+    margin: 2rem auto;
+    background: #ffffff;
+    color: #000000;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+}
+
+.calculator-input[b-7058mmdl5y] {
+    margin-bottom: 1rem;
+}
+
+.calculator-input input[b-7058mmdl5y] {
+    width: 100%;
+    font-size: 1.4rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.calculator-keypad[b-7058mmdl5y] {
+    /* container for rows */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.calculator-keypad .keypad-row[b-7058mmdl5y] {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+}
+
+.key-button[b-7058mmdl5y] {
+    padding: 1rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 4px;
+    background: #f0f0f0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.key-button:hover[b-7058mmdl5y],
+.solve-button:hover[b-7058mmdl5y],
+.ghost-button:hover[b-7058mmdl5y] {
+    background: #e0e0e0;
+}
+
+.solve-button[b-7058mmdl5y] {
+    padding: 1rem;
+    background: #ffc107;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    grid-column: span 3;
+}
+
+.calculator-keypad .ghost-button[b-7058mmdl5y] {
+    grid-column: span 1;
+}
+
+.ghost-button[b-7058mmdl5y] {
+    background: #e0e0e0;
+    border: none;
+}
+
+.calculator-result[b-7058mmdl5y] {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    min-height: 2.5rem;
+}
+
+.result-primary[b-7058mmdl5y] {
+    font-weight: bold;
+    color: #333;
+}
+
+.result-expression[b-7058mmdl5y] {
+    font-size: 0.9rem;
+    color: #666;
 }
 
 .intro-card[b-7058mmdl5y],

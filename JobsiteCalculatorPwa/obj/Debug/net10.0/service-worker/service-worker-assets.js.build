@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "55Gg6foA",
+  "version": "Gd+v1Msi",
   "assets": [
     {
-      "hash": "sha256-K8FawtJ1o9J6K17KjTEqsPRIXpHAWMdsafmzX3Z7s3g=",
+      "hash": "sha256-NiR/JkdELAa61pkdnaawskmoeRWmKfOYLwTsL7VhRwQ=",
       "url": "JobsiteCalculatorPwa.styles.css"
     },
     {
@@ -10,12 +10,12 @@ self.assetsManifest = {
       "url": "_content/Microsoft.DotNet.HotReload.WebAssembly.Browser/Microsoft.DotNet.HotReload.WebAssembly.Browser.99zm1jdh75.lib.module.js"
     },
     {
-      "hash": "sha256-s6iPUCFTr2aOZ5xj5IOuXbJTCKbi+I9uBlJIXqjPyyU=",
-      "url": "_framework/JobsiteCalculatorPwa.9tru7qabjn.wasm"
+      "hash": "sha256-XVBtujg4btJlFxiwj3zoWY9qqTHZ7wTXdngboXejb9w=",
+      "url": "_framework/JobsiteCalculatorPwa.hje3orsz0n.wasm"
     },
     {
-      "hash": "sha256-4jy3jSJC1kGvyRDJu+KWI7DT7icdyDDT7Vjgm+Yq81s=",
-      "url": "_framework/JobsiteCalculatorPwa.a5yt1w9bh0.pdb"
+      "hash": "sha256-HDuTmfaXOPopTMJemEHLFj3X76in7v+Lgr15KHyq9/I=",
+      "url": "_framework/JobsiteCalculatorPwa.o55saqk40h.pdb"
     },
     {
       "hash": "sha256-1QB1pgBhRHTczFyqPBgNNAsGC03NKbdAKr0dXoqlkK0=",
@@ -810,10 +810,6 @@ self.assetsManifest = {
       "url": "_framework/blazor.webassembly.66stpp682q.js"
     },
     {
-      "hash": "sha256-VTkRX31KdIL3w93qlaKGE8sbEAaZVohIYAomm6EyEAk=",
-      "url": "_framework/dotnet.frxn8lsaxf.js"
-    },
-    {
       "hash": "sha256-L4ovgHdQmpwuB91URCQwVArHNPWjMH7RanoOM3KkPwg=",
       "url": "_framework/dotnet.js.map"
     },
@@ -832,6 +828,10 @@ self.assetsManifest = {
     {
       "hash": "sha256-YdXsn/a7hb+UMypOFCf8bmv3S6PbDPewiNWqmUM/1dk=",
       "url": "_framework/dotnet.runtime.zj9dll5ffg.js"
+    },
+    {
+      "hash": "sha256-qmAv0uY3a7vLT44bUR6kfcryLQ7h7MRqjFo5VVhNddo=",
+      "url": "_framework/dotnet.yp32gwtjdw.js"
     },
     {
       "hash": "sha256-SZLtQnRc0JkwqHab0VUVP7T3uBPSeYzxzDnpxPpUnHk=",
@@ -870,7 +870,7 @@ self.assetsManifest = {
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-Vq810/7ZZqmHLA8tuTBoMCLj0ciCJnUejU8a5HXlFSY=",
+      "hash": "sha256-e/D02YW/pMh0mKdsVmCBkDKjutQ0ol4SjSHaWrBGlVI=",
       "url": "index.html"
     },
     {
@@ -1050,7 +1050,7 @@ self.assetsManifest = {
       "url": "lib/bootstrap/dist/js/bootstrap.min.js.map"
     },
     {
-      "hash": "sha256-paS5SRGp7Dfl2tGznLnGfQOCsD0NTC3gy0izID/YZVE=",
+      "hash": "sha256-wMNXGJxiMIEmyQ+YOIdiq3z6aHGM9flGSHOSXyU0YXw=",
       "url": "manifest.webmanifest"
     }
   ]

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JobsiteCalculatorPwa")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+286329e86c7868bc9bd67c37fd7d175c8c68f566")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a178324f6da82f7ae7d8447ca4bf855bed75396")]
 [assembly: System.Reflection.AssemblyProductAttribute("JobsiteCalculatorPwa")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JobsiteCalculatorPwa")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
