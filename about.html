@@ -181,25 +181,7 @@
             </div>
         </main>
     </div>
-    <script>
-        (function () {
-            if (!window.SITE_CONFIG) return;
-            const cfg = window.SITE_CONFIG;
-            const footer = document.getElementById('site-footer');
-            if (footer) footer.textContent = `© ${new Date().getFullYear()} ${cfg.businessName} • ${cfg.location}`;
-            const nav = document.querySelector('.nav-header');
-            if (nav && !nav.querySelector('.brand')) {
-                const brand = document.createElement('div');
-                brand.className = 'brand';
-                brand.innerHTML = `<a href="index.html" class="brand-name">${cfg.businessName}</a><a href="tel:${cfg.phone}" class="brand-phone">${cfg.phone}</a>`;
-                nav.insertBefore(brand, nav.firstChild);
-            }
-            const heroTitle = document.getElementById('hero-title');
-            const heroSub = document.getElementById('hero-subline');
-            if (heroTitle) heroTitle.innerHTML = `${cfg.businessName}<br><span style="font-weight:600">Build with confidence.</span>`;
-            if (heroSub) heroSub.textContent = cfg.tagline || heroSub.textContent;
-        })();
-    </script>
+    <script src="js/about-page.js"></script>
 </body>
 
 </html>
