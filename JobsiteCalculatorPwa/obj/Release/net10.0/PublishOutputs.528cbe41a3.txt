@@ -1,0 +1,4 @@
+C:\Users\John\Desktop\tool_lmstudio_exploration\calc\wwwroot\index.html
+C:\Users\John\Desktop\tool_lmstudio_exploration\calc\JobsiteCalculatorPwa.runtimeconfig.json
+C:\Users\John\Desktop\tool_lmstudio_exploration\calc\dotnet.js
+C:\Users\John\Desktop\tool_lmstudio_exploration\calc\web.config

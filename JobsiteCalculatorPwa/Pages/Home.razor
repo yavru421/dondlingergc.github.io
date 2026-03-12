@@ -1,0 +1,79 @@
+@page "/"
+
+<PageTitle>Jobsite Tape Calculator</PageTitle>
+
+
+<div class="calculator-main">
+    <div class="calculator-input">
+        <input id="jobsite-expression"
+               class="expression-input"
+               @bind="Expression"
+               @bind:event="oninput"
+               autocomplete="off"
+               autocorrect="off"
+               autocapitalize="off"
+               spellcheck="false"
+               placeholder="Type tape math here" />
+    </div>
+    <div class="calculator-keypad">
+        <div class="keypad-row">
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("'"))">'</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("\""))">"</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("&"))">&</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("(") )">(</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken(")") )">)</button>
+        </div>
+        <div class="keypad-row">
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("7"))">7</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("8"))">8</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("9"))">9</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/2"))">1/2</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/4"))">1/4</button>
+        </div>
+        <div class="keypad-row">
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("4"))">4</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("5"))">5</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("6"))">6</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/8"))">1/8</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("+") )">+</button>
+        </div>
+        <div class="keypad-row">
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("1"))">1</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("2"))">2</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("3"))">3</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("-") )">-</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("0"))">0</button>
+        </div>
+        <div class="keypad-row">
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/2"))">1/2</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/4"))">1/4</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/8"))">1/8</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("+") )">+</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("-") )">-</button>
+        </div>
+        <div class="keypad-row">
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("*") )">*</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("/") )">/</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("=") )">=</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken(" "))">Space</button>
+        </div>
+        <div class="keypad-row">
+            <button class="solve-button" type="button" @onclick="SolveExpression">Solve</button>
+            <button class="ghost-button" type="button" @onclick="Backspace">Backspace</button>
+            <button class="ghost-button" type="button" @onclick="ClearExpression">Clear</button>
+        </div>
+    </div>
+    <div class="calculator-result">
+        @if (Result is null)
+        {
+            <div class="result-empty">
+                Enter an expression and tap Solve to see the result.
+            </div>
+        }
+        else
+        {
+            <div class="result-primary">@Result.Primary</div>
+            <div class="result-expression">@Result.Expression</div>
+        }
+    </div>
+</div>

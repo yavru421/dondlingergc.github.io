@@ -1,0 +1,4 @@
+C:\Users\John\Desktop\dondlingergc.com\publish_temp\wwwroot\index.html
+C:\Users\John\Desktop\dondlingergc.com\publish_temp\JobsiteCalculatorPwa.runtimeconfig.json
+C:\Users\John\Desktop\dondlingergc.com\publish_temp\dotnet.js
+C:\Users\John\Desktop\dondlingergc.com\publish_temp\web.config
