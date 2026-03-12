@@ -1,388 +1,1480 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <title>DondlingerGC-Web — Professional Websites & Online Tools</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dondlinger General Contracting</title>
-    <meta name="description" content="Dondlinger General Contracting and the Jobsite Calculator, a free offline-first construction calculator with live outputs." />
-    <meta name="theme-color" content="#12161c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="_site-config.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5487660440662949"
+         crossorigin="anonymous"></script>
+
+    
     <style>
+        /* Error message style for JS fatal errors */
+        #fatal-error {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #c00;
+            color: #fff;
+            font-size: 1.3em;
+            padding: 24px 16px;
+            z-index: 9999;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 12px #0008;
+            display: none;
+        }
+
         :root {
-            color-scheme: dark;
-            --bg: #12161c;
-            --bg-2: #1a212a;
-            --panel: rgba(14, 19, 25, 0.9);
-            --line: rgba(255, 255, 255, 0.08);
-            --text: #f1eee8;
-            --muted: #9eacba;
-            --signal: #7dd6ff;
-            --accent: #d49b3e;
-            --accent-strong: #f1c26d;
+            --bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            --accent: #00d4ff;
+            --window-bg: rgba(255, 255, 255, 0.98);
+            --border: rgba(255, 255, 255, 0.2);
+            --muted: #9aa3b2;
+            font-size: 16px;
         }
 
         * {
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            color: var(--text);
-            font: 16px/1.55 "Segoe UI", sans-serif;
-            background:
-                radial-gradient(circle at top left, rgba(125, 214, 255, 0.14), transparent 32%),
-                radial-gradient(circle at top right, rgba(212, 155, 62, 0.14), transparent 24%),
-                linear-gradient(180deg, var(--bg-2), var(--bg));
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            color: #fff;
+            overflow: hidden;
         }
 
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background-image:
-                linear-gradient(rgba(125, 214, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(125, 214, 255, 0.05) 1px, transparent 1px);
-            background-size: 28px 28px;
-            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 90%);
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        .wrap {
+        /* Desktop container */
+        #desktop {
+            display: block;
+            height: 100vh;
             position: relative;
-            z-index: 1;
-            width: min(100%, 76rem);
-            margin: 0 auto;
-            padding: 0 clamp(1rem, 4vw, 2rem);
+            overflow: hidden;
         }
 
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 10;
+        /* Desktop background */
+        .desktop-bg {
+            position: absolute;
+            inset: 0;
+            background: var(--bg);
+            z-index: 0;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 1rem 0;
-            background: rgba(18, 22, 28, 0.84);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--line);
-        }
-
-        .brand {
-            display: flex;
-            flex-direction: column;
-            line-height: 1;
-        }
-
-        .brand strong {
-            font: 700 1.1rem/1 "Georgia", serif;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        .brand span {
-            margin-top: 0.25rem;
-            color: var(--accent-strong);
-            font-size: 0.74rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
-
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .cta {
-            display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 2.8rem;
-            padding: 0.7rem 1.1rem;
-            border-radius: 999px;
-            border: 1px solid rgba(212, 155, 62, 0.28);
-            background: linear-gradient(135deg, rgba(212, 155, 62, 0.18), rgba(125, 214, 255, 0.12));
-            color: var(--accent-strong);
-            font-weight: 700;
+            overflow: hidden;
         }
 
-        .hero {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
-            gap: 1.25rem;
-            padding: clamp(3rem, 8vw, 6rem) 0 2rem;
+        /* Animated Clock Display */
+        .clock-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+
+        .clock-display.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .time-container {
+            position: relative;
+            display: flex;
+            gap: 16px;
             align-items: center;
         }
 
-        .eyebrow {
-            margin: 0 0 1rem;
-            color: var(--accent-strong);
-            font-size: 0.78rem;
-            letter-spacing: 0.2em;
+        .time-digit {
+            font-size: 8rem;
+            font-weight: 900;
+            color: var(--accent);
+            text-shadow: 0 0 40px var(--accent), 0 0 80px var(--accent), 0 0 120px rgba(0, 212, 255, 0.5);
+            font-family: 'Courier New', monospace;
+            letter-spacing: -4px;
+            position: relative;
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        .time-separator {
+            font-size: 8rem;
+            font-weight: 900;
+            color: var(--accent);
+            opacity: 0.6;
+            animation: blink 1s step-start infinite;
+        }
+
+        .date-display {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #fff;
             text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            animation: float 3s ease-in-out infinite;
         }
 
-        h1 {
-            margin: 0;
-            max-width: 10ch;
-            font: 700 clamp(3rem, 7vw, 5.2rem)/0.94 "Georgia", serif;
-            letter-spacing: -0.04em;
+        .analog-ring {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: rotate-ring 20s linear infinite;
+            box-shadow: 0 0 40px var(--accent), inset 0 0 40px var(--accent);
         }
 
-        .hero p {
-            max-width: 40rem;
-            color: var(--muted);
+        .analog-ring:nth-child(2) {
+            width: 450px;
+            height: 450px;
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+
+        .clock-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+            animation: float-particle 10s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+
+            0%,
+            100% {
+                text-shadow: 0 0 40px var(--accent), 0 0 80px var(--accent), 0 0 120px rgba(0, 212, 255, 0.5);
+            }
+
+            50% {
+                text-shadow: 0 0 60px var(--accent), 0 0 120px var(--accent), 0 0 180px rgba(0, 212, 255, 0.8);
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 0.6;
+            }
+
+            51%,
+            100% {
+                opacity: 0.1;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes rotate-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Scrolling Branded Messages */
+        .branded-scrollers {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .scroller {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: rgba(0, 212, 255, 0.12);
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+            animation: scroll-diagonal 30s linear infinite;
+        }
+
+        .scroller:nth-child(2) {
+            animation-delay: -10s;
+            animation-duration: 35s;
+            font-size: 2.2rem;
+            color: rgba(0, 212, 255, 0.1);
+        }
+
+        .scroller:nth-child(3) {
+            animation-delay: -20s;
+            animation-duration: 40s;
+            font-size: 2.8rem;
+            color: rgba(0, 212, 255, 0.09);
+        }
+
+        @keyframes scroll-diagonal {
+            0% {
+                transform: translate(-100%, 100vh) rotate(-15deg);
+            }
+
+            100% {
+                transform: translate(120vw, -100%) rotate(-15deg);
+            }
+        }
+
+        /* Window styles */
+        .window {
+            position: absolute;
+            background: var(--window-bg);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3), 0 0 0 1px rgba(0, 212, 255, 0.1);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: box-shadow 0.2s;
+        }
+
+        .window.active {
+            display: flex;
+        }
+
+        .window.minimized {
+            display: none !important;
+        }
+
+        .window.maximized {
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: calc(100% - 60px) !important;
+            border-radius: 0;
+        }
+
+        .window.split-left {
+            top: 0 !important;
+            left: 0 !important;
+            width: 50% !important;
+            height: calc(100% - 60px) !important;
+            border-radius: 0;
+        }
+
+        .window.split-right {
+            top: 0 !important;
+            left: 50% !important;
+            width: 50% !important;
+            height: calc(100% - 60px) !important;
+            border-radius: 0;
+        }
+
+        .window-header {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #000;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            user-select: none;
+            font-weight: 700;
+            font-size: 1em;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-control {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.1s;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .window-control:hover {
+            transform: scale(1.15);
+        }
+
+        .window-control:nth-child(1) {
+            background: #ff5f56;
+        }
+
+        .window-control:nth-child(2) {
+            background: #ffbd2e;
+        }
+
+        .window-control:nth-child(3) {
+            background: #27c93f;
+        }
+
+        .window-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            background: #fff;
+            color: #000;
+        }
+
+        .window-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .window-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            margin-top: 24px;
+            color: var(--accent);
+        }
+
+        .window-content p {
+            line-height: 1.7;
+            margin-bottom: 16px;
             font-size: 1.05rem;
         }
 
-        .hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-top: 1.5rem;
+        .window-content strong {
+            color: var(--accent);
         }
 
-        .hero-actions a {
+        /* Blueprints window specific styles */
+        .blueprints-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .blueprint-thumb {
+            width: 180px;
+            cursor: pointer;
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            background: #f7f7fa;
+            box-shadow: 0 2px 12px rgba(0, 212, 255, 0.2);
+            overflow: hidden;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .blueprint-thumb:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .blueprint-preview {
+            margin-top: 32px;
+            padding: 24px;
+            background: #f7f7fa;
+            border-radius: 10px;
+            border: 2px solid var(--accent);
+        }
+
+        .blueprint-preview img,
+        .blueprint-preview embed {
+            max-width: 100%;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 2px 12px rgba(0, 212, 255, 0.2);
+        }
+
+        .blueprint-preview embed {
+            width: 100%;
+            min-height: 500px;
+        }
+
+        /* Taskbar */
+        .taskbar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(10, 15, 25, 0.95), rgba(5, 10, 20, 0.98));
+            backdrop-filter: blur(12px);
+            border-top: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 12px;
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .start-button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.5);
+        }
+
+        .taskbar-apps {
+            display: flex;
+            gap: 6px;
+            flex: 1;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .taskbar-app {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .taskbar-app:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent);
+        }
+
+        .taskbar-app.active {
+            background: var(--accent);
+            color: #000;
+            font-weight: 600;
+        }
+
+        .taskbar-app.minimized {
+            opacity: 0.6;
+        }
+
+        .clock {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .taskbar-launcher {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 3rem;
-            padding: 0.8rem 1.2rem;
-            border-radius: 999px;
-            font-weight: 700;
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
         }
 
-        .hero-actions .primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-            color: #16110a;
+        .taskbar-launcher:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 0 14px rgba(0, 212, 255, 0.22);
         }
 
-        .hero-actions .secondary {
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.04);
+        .taskbar-launcher svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
         }
 
-        .preview,
-        .feature {
-            border: 1px solid var(--line);
-            border-radius: 1.35rem;
-            background: var(--panel);
+        /* Start menu */
+        .start-menu {
+            position: absolute;
+            bottom: 70px;
+            left: 16px;
+            width: 300px;
+            background: rgba(10, 15, 25, 0.98);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 16px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+            z-index: 1001;
         }
 
-        .preview {
-            padding: 1.25rem;
-        }
-
-        .preview-label {
-            color: var(--signal);
-            font-size: 0.78rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-        }
-
-        .preview-value {
-            margin-top: 0.75rem;
-            font: 700 2.5rem/1 "Georgia", serif;
-        }
-
-        .preview-list {
-            display: grid;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .preview-row {
+        .start-menu.show {
             display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid var(--line);
-            color: var(--muted);
         }
 
-        .preview-row strong {
-            color: var(--text);
-        }
-
-        .stats,
-        .features {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .stats {
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            margin: 0 0 1rem;
-        }
-
-        .stat,
-        .feature {
-            padding: 1.1rem;
-        }
-
-        .stat strong {
-            display: block;
-            color: var(--accent-strong);
-            font: 700 1.6rem/1 "Georgia", serif;
-        }
-
-        .stat span,
-        .feature p {
-            color: var(--muted);
-        }
-
-        .features {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            padding-bottom: 4rem;
-        }
-
-        .feature h2 {
-            margin: 0 0 0.5rem;
-            font-size: 1rem;
-        }
-
-        footer {
-            border-top: 1px solid var(--line);
-            padding: 1.5rem 0 2rem;
-            color: var(--muted);
+        .tooltip-toggle {
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
             font-size: 0.9rem;
         }
 
-        @media (max-width: 900px) {
-            .hero,
-            .features,
-            .stats {
-                grid-template-columns: 1fr;
-            }
+        .tooltip-toggle:hover {
+            background: rgba(0, 212, 255, 0.2);
         }
 
-        @media (max-width: 640px) {
-            header {
-                flex-direction: column;
-                align-items: start;
+        .tooltip-toggle.active {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.95);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-width: 300px;
+            z-index: 10000;
+            pointer-events: none;
+            border: 1px solid var(--accent);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        .start-menu-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #fff;
+            font-weight: 600;
+            border: 1px solid transparent;
+        }
+
+        .start-menu-item:hover {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        /* Context menu */
+        .context-menu {
+            position: absolute;
+            background: rgba(10, 15, 25, 0.98);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 8px;
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+            z-index: 2000;
+        }
+
+        .context-menu.show {
+            display: flex;
+        }
+
+        .context-menu-item {
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .context-menu-item:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        /* Mobile fallback */
+        .page-content {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .page-content .view-toggle {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 10px 14px;
+            background: var(--accent);
+            color: #000;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .page-content .view-toggle.secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .page-content p {
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 768px) {
+            html:not(.force-desktop) #desktop {
+                display: none !important;
             }
 
-            nav {
-                width: 100%;
-                justify-content: space-between;
+            html:not(.force-desktop) .page-content {
+                display: block !important;
+            }
+
+            html.force-desktop .page-content {
+                display: none !important;
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="wrap">
-        <header style="background:linear-gradient(90deg,#ffcc00 60%,#c8832a 100%);color:#181a1f;padding:1.2rem 0 1rem 0;text-align:center;font-family:'Segoe UI',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:0.08em;box-shadow:0 2px 12px #222;display:flex;align-items:center;justify-content:center;gap:1.2rem;">
-            <span style="font-size:2.2rem;vertical-align:middle;margin-right:0.7rem;">&#128295;</span>
-            <span style="font-size:1.35rem;font-family:'Georgia',serif;color:#181a1f;letter-spacing:0.12em;">Dondlinger GC</span>
-            <span style="font-size:1rem;color:#222;background:#f1c26d;border-radius:999px;padding:0.25rem 0.7rem;margin-left:0.7rem;">Jobsite Tools</span>
-        </header>
-        <section style="display:flex;flex-direction:column;align-items:center;padding:3rem 0 2rem;">
-            <canvas id="dondlingerClock" width="260" height="260" style="background:transparent;border-radius:50%;box-shadow:0 0 32px #222;max-width:100%;"></canvas>
-            <div style="margin-top:2rem;text-align:center;">
-                <a class="cta" href="/calc/" style="background:linear-gradient(90deg,#ffcc00 60%,#c8832a 100%);color:#181a1f;font-weight:700;font-size:1.1rem;padding:1rem 2rem;border-radius:1rem;border:none;box-shadow:0 2px 8px #222;cursor:pointer;">Open Calculator</a>
-                <div style="margin-top:1rem;color:#c8832a;font-size:1rem;">Install on your phone for offline use.</div>
+    <div id="fatal-error"></div>
+
+    <!-- Desktop UI -->
+    <div id="desktop">
+        <div class="desktop-bg">
+            <div class="analog-ring"></div>
+            <div class="analog-ring"></div>
+            <div style="position:absolute;top:60px;left:50%;transform:translateX(-50%);text-align:center;z-index:5;">
+                <h1
+                    style="font-size:3rem;font-weight:900;color:#fff;margin:0 0 8px 0;text-shadow:0 2px 20px rgba(0,0,0,0.8);letter-spacing:2px;">
+                    DONDLINGER GENERAL CONTRACTING</h1>
+                <p
+                    style="font-size:1.3rem;color:var(--accent);margin:0;text-shadow:0 2px 10px rgba(0,0,0,0.8);font-weight:600;letter-spacing:1px;">
+                    Design • Build • Digital</p>
             </div>
-        </section>
-        <footer style="text-align:center;padding:2rem 0 0;color:#c8832a;font-size:0.9rem;">&copy; 2026 Dondlinger General Contracting — Dondlinger GC Jobsite Tools</footer>
+            <!-- Announcement Banner -->
+            <div style="position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:10;background:#11161d;border:2px solid var(--accent);border-radius:12px;padding:18px 36px;box-shadow:0 4px 24px rgba(0,212,255,0.18);font-size:2rem;font-weight:900;color:#fff;letter-spacing:2px;text-align:center;">
+                <span style="color:var(--accent);font-size:2.2rem;margin-right:12px;">🧮</span>
+                <span style="color:#fff;">TRY THE NEW CONSTRUCTION CALCULATOR!</span>
+                <span style="color:var(--accent);font-size:2.2rem;margin-left:12px;">🧮</span>
+            </div>
+            <div class="clock-display" id="clock-display">
+                <div class="time-container">
+                    <span class="time-digit" id="hours">00</span>
+                    <span class="time-separator">:</span>
+                    <span class="time-digit" id="minutes">00</span>
+                    <span class="time-separator">:</span>
+                    <span class="time-digit" id="seconds">00</span>
+                </div>
+                <div class="date-display" id="date-display">Loading...</div>
+            </div>
+            <div class="clock-particles" id="clock-particles"></div>
+        </div>
+
+        <div id="windows-container"></div>
+
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <button class="start-button" onclick="toggleStartMenu()">START</button>
+            <div class="taskbar-apps" id="taskbar-apps"></div>
+            <button
+                class="taskbar-launcher calculator-launcher"
+                type="button"
+                title="Open Jobsite Tape Calculator"
+                aria-label="Open Jobsite Tape Calculator"
+                onclick="System.openWindow('calculator')">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v4h10V4H7Zm2 7H7v2h2v-2Zm4 0h-2v2h2v-2Zm4 0h-2v2h2v-2ZM9 15H7v2h2v-2Zm4 0h-2v2h2v-2Zm4 0h-2v2h2v-2Z" />
+                </svg>
+            </button>
+            <div class="clock" id="clock">00:00</div>
+        </div>
+
+        <!-- Start Menu -->
+        <div class="start-menu" id="start-menu">
+            <div class="tooltip-toggle" id="tooltip-toggle" onclick="toggleTooltips()">💡 Tooltips: OFF</div>
+            <div id="start-menu-items"></div>
+        </div>
+
+        <!-- Tooltip Container -->
+        <div class="tooltip" id="tooltip"></div>
+
+        <!-- Context Menu -->
+        <div class="context-menu" id="context-menu">
+            <div class="context-menu-item" onclick="restoreWindow(activeWindow?.id.replace('-window',''))">Restore</div>
+            <div class="context-menu-item" onclick="maximizeWindow(activeWindow?.id.replace('-window',''))">Maximize
+            </div>
+            <div class="context-menu-item" onclick="splitWindowLeft(activeWindow?.id.replace('-window',''))">Split Left
+            </div>
+            <div class="context-menu-item" onclick="splitWindowRight(activeWindow?.id.replace('-window',''))">Split
+                Right</div>
+            <div class="context-menu-item" onclick="minimizeWindow(activeWindow?.id.replace('-window',''))">Minimize
+            </div>
+            <div class="context-menu-item" onclick="closeWindow(activeWindow?.id.replace('-window',''))">Close</div>
+        </div>
     </div>
+
+    <!-- Mobile Fallback -->
+    <div class="page-content">
+        <h1>DondlingerGC Desktop</h1>
+        <p><strong>Professional Digital Solutions Platform</strong></p>
+        <p>Access tools, blueprints, and interactive web design features.</p>
+        <p>For a mobile-optimized experience, <a href="/mobilestatic/mobile.html" style="color:#007bff;text-decoration:underline;font-weight:bold;">visit our mobile site here</a>.</p>
+        <p>Need the calculator on your phone? <a href="/calc/" style="color:#00d4ff;text-decoration:underline;font-weight:bold;">Open the Jobsite Calculator here</a> and install it as a PWA.</p>
+        <p>Or, visit us on desktop for the full interactive experience.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+            <button id="force-desktop" class="view-toggle" type="button">View Desktop Anyway</button>
+            <button id="force-mobile" class="view-toggle secondary" type="button">Stay on Mobile</button>
+        </div>
+    </div>
+
     <script>
-    // Animated Dondlinger clock widget
-    const canvas = document.getElementById('dondlingerClock');
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      const size = canvas.width;
-      const center = size / 2;
-      function drawClock() {
-        ctx.clearRect(0, 0, size, size);
-        // Outer ring
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(center, center, center-8, 0, 2*Math.PI);
-        ctx.lineWidth = 8;
-        ctx.strokeStyle = '#d49b3e';
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = '#d49b3e';
-        ctx.stroke();
-        ctx.restore();
-        // Hour marks
-        for(let i=0;i<12;i++){
-          const angle = (i/12)*2*Math.PI;
-          const x1 = center + Math.cos(angle)*(center-28);
-          const y1 = center + Math.sin(angle)*(center-28);
-          const x2 = center + Math.cos(angle)*(center-16);
-          const y2 = center + Math.sin(angle)*(center-16);
-          ctx.beginPath();
-          ctx.moveTo(x1,y1);
-          ctx.lineTo(x2,y2);
-          ctx.lineWidth = 3;
-          ctx.strokeStyle = '#f1c26d';
-          ctx.stroke();
+        'use strict';
+
+        /**
+         * 🖥️ Virtual Desktop Kernel (System)
+         * Manages process lifecycle, state synchronization, and remote communication.
+         */
+        class VirtualSystem {
+            constructor() {
+                this.pages = [
+                    { id: 'home', title: '🏠 Updates', tooltip: 'View latest projects, news, and social media updates from DondlingerGC' },
+                    { id: 'blueprints', title: '📐 Plans', special: true, tooltip: 'Explore architectural blueprints and construction plans repository' },
+                    { id: 'contact', title: '📧 Contact', tooltip: 'Get in touch with us to discuss your project needs' },
+                    { id: 'calculator', title: '🧮 Calculator', embed: 'calc/', frameless: true, hideFromStartMenu: true, windowStyle: 'top: 72px; left: 96px; width: min(92%, 900px); height: min(82%, 680px);', tooltip: 'Launch the Jobsite Tape Calculator inside the desktop' },
+                    { id: 'fortress', title: '🎨 Website Builder', embed: 'fortress.html', embedTitle: 'Web Design Wizard', tooltip: 'Interactive web design tool to build your custom website' },
+                    { id: 'chat', title: '💬 Chat', embed: 'chat.html', embedTitle: 'DGC Chat', tooltip: 'Live chat support and customer service portal' },
+                    { id: 'rabbithole', title: '🐇 Rabbit Hole', embedUrl: 'https://john2121-quantumrabbithole-explorer.static.hf.space', embedTitle: 'Rabbit Hole Explorer', tooltip: 'Immersive Rabbit Hole experience (mobile-optimized)' },
+                    { id: 'taxidermy', title: '🦌 Taxidermy', embed: 'taxidermy.html', embedTitle: 'Wild Preserve Taxidermy', tooltip: 'Professional taxidermy services and wildlife preservation' },
+                    { id: 'tours', title: '🗺️ 3D Tours', special: true, tooltip: 'Explore Matterport 3D tours and virtual walkthroughs' },
+                    { id: 'cottonthimble', title: '🧵 Cotton Thimble', embed: 'cottonthimble.html', embedTitle: 'Cotton Thimble Store Tour', tooltip: 'Virtual tour of Cotton Thimble store in WI - Grandma\'s family store' },
+                    { id: 'settings', title: '⚙️ Settings', special: true, tooltip: 'Customize your desktop theme, colors, and preferences' }
+                ];
+
+                this.state = {
+                    openApps: new Set(),
+                    activeApp: null,
+                    minimizedApps: new Set(),
+                    tooltipsEnabled: false,
+                    lastRemoteCommandId: parseInt(localStorage.getItem('lastRemoteCommandId') || '0'),
+                    zIndex: 100
+                };
+
+                this.sessionID = 'default';
+                // Use local mock server for testing, production uses relative path
+                this.bridgeURL = window.location.hostname === 'localhost' ? 'http://localhost:8787/api/bridge' : '/api/bridge';
+                this.viewOverride = this.getViewOverride();
+
+                this.init();
+            }
+
+            init() {
+                // Always start services for command polling, regardless of mobile/desktop
+                this.startServices();
+
+                const isMobile = this.isMobile();
+                this.applyViewMode(isMobile);
+                this.setupViewToggleButtons();
+
+                if (isMobile) return;
+
+                this.renderDesktop();
+                this.applySavedSettings();
+            }
+
+            getViewOverride() {
+                try {
+                    const params = new URLSearchParams(window.location.search);
+                    const queryView = params.get('view');
+                    if (queryView === 'desktop' || queryView === 'mobile') return queryView;
+                    if (params.has('desktop')) return 'desktop';
+                    if (params.has('mobile')) return 'mobile';
+                    const stored = localStorage.getItem('viewOverride');
+                    if (stored === 'desktop' || stored === 'mobile') return stored;
+                } catch (e) { }
+                return null;
+            }
+
+            applyViewMode(isMobile) {
+                const desktop = document.getElementById('desktop');
+                const pageContent = document.querySelector('.page-content');
+
+                if (desktop) desktop.style.display = isMobile ? 'none' : 'block';
+                if (pageContent) pageContent.style.display = isMobile ? 'block' : 'none';
+                document.documentElement.classList.toggle('is-mobile', isMobile);
+                document.documentElement.classList.toggle('force-desktop', this.viewOverride === 'desktop');
+            }
+
+            setupViewToggleButtons() {
+                const forceDesktop = document.getElementById('force-desktop');
+                const forceMobile = document.getElementById('force-mobile');
+
+                if (forceDesktop) {
+                    forceDesktop.onclick = () => {
+                        localStorage.setItem('viewOverride', 'desktop');
+                        location.reload();
+                    };
+                }
+
+                if (forceMobile) {
+                    forceMobile.onclick = () => {
+                        localStorage.setItem('viewOverride', 'mobile');
+                        location.reload();
+                    };
+                }
+            }
+
+            isMobile() {
+                if (this.viewOverride === 'desktop') return false;
+                if (this.viewOverride === 'mobile') return true;
+                try {
+                    const ua = navigator.userAgent || navigator.vendor || window.opera || '';
+                    const mobileUA = /Android.+Mobile|iPhone|iPad|iPod|Windows Phone|Opera Mini|Mobi/i;
+                    const isMobileUA = mobileUA.test(ua);
+                    const isNarrow = Math.min(window.innerWidth, window.innerHeight) < 820;
+                    const hasTouch = (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) || ('ontouchstart' in window);
+                    // Treat as mobile when UA indicates a mobile device, or when the viewport is narrow on a touch device
+                    return isMobileUA || (hasTouch && isNarrow);
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            renderDesktop() {
+                const startMenuItems = document.getElementById('start-menu-items');
+                if (!startMenuItems) return;
+
+                this.pages.filter(page => !page.hideFromStartMenu).forEach((page) => {
+                    const menuItem = document.createElement('div');
+                    menuItem.className = 'start-menu-item';
+                    menuItem.textContent = page.title;
+                    menuItem.onclick = () => this.openWindow(page.id);
+                    startMenuItems.appendChild(menuItem);
+                });
+
+                // Add Calculator PWA Documentation item
+                const calcDocItem = document.createElement('div');
+                calcDocItem.className = 'start-menu-item';
+                calcDocItem.innerHTML = '🧮 Calculator PWA Documentation';
+                calcDocItem.onclick = () => {
+                    this.openCalculatorDocWindow();
+                };
+                startMenuItems.appendChild(calcDocItem);
+
+                setInterval(() => this.updateClock(), 1000);
+                this.updateClock();
+
+                // Setup Start Button
+                const startBtn = document.querySelector('.start-button');
+                if (startBtn) {
+                    startBtn.onclick = () => this.toggleStartMenu();
+                }
+
+                // Global click to close menus
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.start-button') && !e.target.closest('.start-menu')) {
+                        document.getElementById('start-menu')?.classList.remove('show');
+                    }
+                });
+            }
+
+            openCalculatorDocWindow() {
+                let win = document.getElementById('calculator-doc-window');
+                if (!win) {
+                    const container = document.getElementById('windows-container');
+                    win = document.createElement('div');
+                    win.className = 'window';
+                    win.id = 'calculator-doc-window';
+                    win.style.cssText = 'top: 120px; left: 120px; width: min(80%, 700px); height: min(70%, 480px);';
+                    win.innerHTML = `
+                        <div class="window-header">
+                            <span>🧮 Calculator PWA Documentation</span>
+                            <div class="window-controls">
+                                <div class="window-control" onclick="System.closeWindow('calculator-doc')"></div>
+                                <div class="window-control" onclick="System.minimizeWindow('calculator-doc')"></div>
+                                <div class="window-control" onclick="System.maximizeWindow('calculator-doc')"></div>
+                            </div>
+                        </div>
+                        <div class="window-content" id="calculator-doc-content">
+                            <h2 style="color:var(--accent);margin-bottom:16px;">Install the Jobsite Tape Calculator as a PWA</h2>
+                            <ul style="margin-bottom:18px;">
+                                <li>Click the calculator icon in the taskbar to open the calculator window.</li>
+                                <li>Use the <strong>Install</strong> button in the calculator window to add it to your device as a standalone app.</li>
+                                <li>The calculator PWA is fully offline-capable and will not interfere with the main site.</li>
+                                <li>For mobile devices, visit <strong>/calc/</strong> directly for the best experience.</li>
+                            </ul>
+                            <p style="color:#666;font-size:1rem;">For technical details, see <strong>manifest.webmanifest</strong> and <strong>service-worker.js</strong> in the calculator directory.</p>
+                        </div>
+                    `;
+                    container.appendChild(win);
+                }
+                win.classList.add('active');
+                win.classList.remove('minimized');
+                win.style.zIndex = ++this.state.zIndex;
+                this.state.openApps.add('calculator-doc');
+                this.state.minimizedApps.delete('calculator-doc');
+                this.state.activeApp = 'calculator-doc';
+                this.updateTaskbar();
+                this.syncState();
+            }
+
+            toggleStartMenu() {
+                document.getElementById('start-menu').classList.toggle('show');
+            }
+
+            openWindow(id) {
+                let win = document.getElementById(`${id}-window`);
+                if (!win) {
+                    this.createWindowElements(id);
+                    win = document.getElementById(`${id}-window`);
+                }
+                if (!win) return;
+
+                this.state.openApps.add(id);
+                this.state.minimizedApps.delete(id);
+                this.state.activeApp = id;
+
+                win.classList.add('active');
+                win.classList.remove('minimized');
+                win.style.zIndex = ++this.state.zIndex;
+
+                document.getElementById('start-menu')?.classList.remove('show');
+                this.updateTaskbar();
+                this.syncState();
+            }
+
+            createWindowElements(id) {
+                const page = this.pages.find(p => p.id === id);
+                if (!page) return;
+
+                const container = document.getElementById('windows-container');
+                const win = document.createElement('div');
+                win.className = 'window';
+                win.id = `${id}-window`;
+                win.style.cssText = page.windowStyle || 'top: 100px; left: 100px; width: min(85%, 750px); height: min(75%, 550px);';
+
+                win.innerHTML = `
+                    <div class="window-header">
+                        <span>${page.title}</span>
+                        <div class="window-controls">
+                            <div class="window-control" onclick="System.closeWindow('${page.id}')"></div>
+                            <div class="window-control" onclick="System.minimizeWindow('${page.id}')"></div>
+                            <div class="window-control" onclick="System.maximizeWindow('${page.id}')"></div>
+                        </div>
+                    </div>
+                    <div class="window-content" id="${page.id}-content">Loading...</div>
+                `;
+                container.appendChild(win);
+                this.setupDragging(win);
+                this.loadWindowContent(page);
+            }
+
+            loadWindowContent(page) {
+                const contentEl = document.getElementById(`${page.id}-content`);
+                if (!contentEl) return;
+
+                contentEl.style.padding = page.frameless ? '0' : '24px';
+                contentEl.style.overflow = page.frameless ? 'hidden' : 'auto';
+
+                if (page.id === 'home') {
+                    contentEl.innerHTML = this.getHomeHTML();
+                } else if (page.id === 'tours') {
+                    this.initTours(contentEl);
+                } else if (page.embed || page.embedUrl) {
+                    const url = page.embed || page.embedUrl;
+                    contentEl.innerHTML = `<iframe src="${url}" style="width:100%;height:100%;border:none;background:#fff;"></iframe>`;
+                } else if (page.id === 'blueprints') {
+                    this.initBlueprints(contentEl);
+                } else if (page.id === 'contact') {
+                    contentEl.innerHTML = this.getContactHTML();
+                } else if (page.id === 'settings') {
+                    this.initSettings(contentEl);
+                }
+            }
+
+            closeWindow(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) {
+                    win.classList.remove('active');
+                    this.state.openApps.delete(id);
+                    this.updateTaskbar();
+                    this.syncState();
+                }
+            }
+
+            minimizeWindow(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) {
+                    win.classList.add('minimized');
+                    this.state.minimizedApps.add(id);
+                    this.updateTaskbar();
+                    this.syncState();
+                }
+            }
+
+            maximizeWindow(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) win.classList.toggle('maximized');
+            }
+
+            restoreWindow(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) {
+                    win.classList.remove('minimized');
+                    this.state.minimizedApps.delete(id);
+                    this.updateTaskbar();
+                    this.syncState();
+                }
+            }
+
+            splitWindowLeft(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) {
+                    win.style.left = '0';
+                    win.style.width = '50vw';
+                    win.style.height = '100vh';
+                    win.style.top = '0';
+                }
+            }
+
+            splitWindowRight(id) {
+                const win = document.getElementById(`${id}-window`);
+                if (win) {
+                    win.style.left = '50vw';
+                    win.style.width = '50vw';
+                    win.style.height = '100vh';
+                    win.style.top = '0';
+                }
+            }
+
+            toggleTooltips() {
+                this.state.tooltipsEnabled = !this.state.tooltipsEnabled;
+                const toggle = document.getElementById('tooltip-toggle');
+                if (toggle) {
+                    toggle.textContent = `💡 Tooltips: ${this.state.tooltipsEnabled ? 'ON' : 'OFF'}`;
+                }
+            }
+
+            updateTaskbar() {
+                const taskbarApps = document.getElementById('taskbar-apps');
+                if (!taskbarApps) return;
+                taskbarApps.innerHTML = '';
+                this.state.openApps.forEach(id => {
+                    const page = this.pages.find(p => p.id === id);
+                    const task = document.createElement('div');
+                    task.className = 'taskbar-app' + (this.state.minimizedApps.has(id) ? ' minimized' : ' active');
+                    task.textContent = page ? page.title : id;
+                    task.onclick = () => this.openWindow(id);
+                    taskbarApps.appendChild(task);
+                });
+            }
+
+            startServices() {
+                if (location.protocol === 'file:') return;
+                setInterval(() => this.pollRemoteCommands(), 3000);
+            }
+
+            async pollRemoteCommands() {
+                if (location.protocol === 'file:') return;
+                try {
+                    const res = await fetch(`${this.bridgeURL}?action=pull&sessionId=${this.sessionID}`);
+                    if (!res.ok) return;
+                    const cmd = await res.json();
+                    if (cmd && cmd.timestamp > this.state.lastRemoteCommandId) {
+                        this.state.lastRemoteCommandId = cmd.timestamp;
+                        localStorage.setItem('lastRemoteCommandId', cmd.timestamp);
+                        this.executeCommand(cmd);
+                    }
+                } catch (e) { }
+            }
+
+            executeCommand(cmd) {
+                const { type, payload } = cmd;
+                switch (type) {
+                    case 'OPEN_APP': this.openWindow(payload.id); break;
+                    case 'CLOSE_APP': this.closeWindow(payload.id); break;
+                    case 'RELOAD': location.reload(); break;
+                    case 'ALERT': alert(payload.message); break;
+                }
+            }
+
+            async syncState() {
+                if (location.protocol === 'file:') return;
+                try {
+                    await fetch(`${this.bridgeURL}?action=sync&sessionId=${this.sessionID}`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            openApps: Array.from(this.state.openApps),
+                            minimizedApps: Array.from(this.state.minimizedApps),
+                            activeApp: this.state.activeApp,
+                            timestamp: Date.now()
+                        })
+                    });
+                } catch (e) { }
+            }
+
+            updateClock() {
+                const now = new Date();
+                // Update taskbar clock
+                const clock = document.getElementById('clock');
+                if (clock) clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                // Update animated clock display
+                const hours = document.getElementById('hours');
+                const minutes = document.getElementById('minutes');
+                const seconds = document.getElementById('seconds');
+                if (hours) hours.textContent = String(now.getHours()).padStart(2, '0');
+                if (minutes) minutes.textContent = String(now.getMinutes()).padStart(2, '0');
+                if (seconds) seconds.textContent = String(now.getSeconds()).padStart(2, '0');
+
+                // Update date display
+                const dateDisplay = document.getElementById('date-display');
+                if (dateDisplay) {
+                    dateDisplay.textContent = now.toLocaleDateString(undefined, {
+                        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                    });
+                }
+            }
+
+            setupDragging(win) {
+                const header = win.querySelector('.window-header');
+                let isDragging = false;
+                header.onmousedown = (e) => {
+                    if (e.target.closest('.window-controls')) return;
+                    isDragging = true;
+                    let startX = e.clientX - win.offsetLeft;
+                    let startY = e.clientY - win.offsetTop;
+                    const onMove = (e) => {
+                        if (!isDragging) return;
+                        win.style.left = (e.clientX - startX) + 'px';
+                        win.style.top = (e.clientY - startY) + 'px';
+                    };
+                    const onUp = () => {
+                        isDragging = false;
+                        document.removeEventListener('mousemove', onMove);
+                        document.removeEventListener('mouseup', onUp);
+                    };
+                    document.addEventListener('mousemove', onMove);
+                    document.addEventListener('mouseup', onUp);
+                };
+            }
+
+            getHomeHTML() {
+                return `
+                    <div style="padding:24px;overflow-y:auto;height:100%;">
+                        <div style="text-align:center;margin-bottom:32px;">
+                            <h2 style="color:var(--accent);margin:0 0 12px 0;font-size:2.2rem;">📢 Latest Updates</h2>
+                            <p style="color:#666;">Stay connected with our latest projects and announcements.</p>
+                        </div>
+                        <div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
+                            <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid02b4zEEqF4LFq2HAG6izPkimicUSU7dG27Fe3y3YfP4SCcaw2aTRkFgG51V2WDbxSEl%26id%3D61550821937890&show_text=true&width=500" width="500" height="661" style="border:none;border-radius:8px;" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getContactHTML() {
+                return `
+                    <div style="padding:24px;line-height:1.6;color:#1c1c1c;">
+                        <h2 style="margin:0 0 12px 0;color:#0b0d11;">📧 Contact John Dondlinger</h2>
+                        <p style="margin:0 0 8px 0;">Have a project in mind? Reach out directly.</p>
+                        <div style="padding:16px;border:1px solid rgba(0,0,0,0.08);border-radius:10px;background:#f9fbff;box-shadow:0 4px 16px rgba(0,0,0,0.05);max-width:420px;">
+                            <div style="font-weight:700;font-size:1.05rem;margin-bottom:8px;">John Dondlinger</div>
+                            <div style="margin-bottom:6px;">Email: <a href="mailto:dondlingergeneralcontracting@gmail.com">dondlingergeneralcontracting@gmail.com</a></div>
+                            <div style="margin-bottom:6px;">Phone: <a href="tel:7154593050">715.459.3050</a></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            initBlueprints(container) {
+                container.innerHTML = `<div id="blueprints-viewer"><h2>Architectural Blueprints</h2><div class="blueprints-list" style="display:flex;flex-wrap:wrap;gap:24px;"></div><div class="blueprint-preview" style="margin-top:32px;padding:24px;background:#f7f7fa;border-radius:10px;border:2px solid var(--accent);"></div><p style="margin-top:32px;color:var(--muted);font-size:15px;">All blueprints and plans are property of Dondlinger General Contracting. For demonstration only.</p></div>`;
+                fetch('blueprints.json').then(r => r.json()).then(blueprints => {
+                    const list = container.querySelector('.blueprints-list');
+                    const preview = container.querySelector('.blueprint-preview');
+                    list.innerHTML = '';
+
+                    blueprints.forEach((bp, idx) => {
+                        const item = document.createElement('div');
+                        item.className = 'blueprint-thumb';
+                        item.style = 'width:180px;cursor:pointer;border:2px solid var(--accent);border-radius:10px;background:#f7f7fa;box-shadow:0 2px 12px rgba(0,212,255,0.2);overflow:hidden;transition:box-shadow 0.2s, transform 0.2s;';
+
+                        item.innerHTML = `
+                            <div style="height:120px;display:flex;align-items:center;justify-content:center;background:#e0e0e0;">
+                                ${bp.type === 'pdf' ? '<span style=\'color:var(--accent);font-size:2.5em;\'>📄</span>' : `<img src='blueprints/${bp.filename}' alt='${bp.title}' style='max-width:100%;max-height:100px;display:block;margin:auto;' onerror="this.parentElement.innerHTML='<span style=\\'color:var(--accent);font-size:2.5em;\\'>📐</span>'">`}
+                            </div>
+                            <div style="padding:10px 8px 8px 8px;">
+                                <div style="font-weight:700;font-size:1em;color:var(--accent);">${bp.title}</div>
+                                <div style="font-size:0.95em;color:var(--muted);margin-top:2px;">${bp.description}</div>
+                            </div>
+                        `;
+
+                        item.onmouseenter = () => item.style.transform = 'translateY(-4px)';
+                        item.onmouseleave = () => item.style.transform = 'translateY(0)';
+
+                        item.onclick = () => {
+                            list.querySelectorAll('.blueprint-thumb').forEach(el => {
+                                el.style.boxShadow = '0 2px 12px rgba(0,212,255,0.2)';
+                                el.style.borderColor = 'var(--accent)';
+                            });
+                            item.style.boxShadow = '0 0 0 3px var(--accent), 0 2px 12px rgba(0,212,255,0.6)';
+                            item.style.borderColor = 'var(--accent)';
+
+                            preview.innerHTML = bp.type === 'pdf'
+                                ? `<embed src='blueprints/${bp.filename}#toolbar=0' type='application/pdf' style='width:100%;min-height:500px;border-radius:10px;background:#fff;' />`
+                                : `<img src='blueprints/${bp.filename}' alt='${bp.title}' style='max-width:100%;border-radius:10px;background:#fff;box-shadow:0 2px 12px rgba(0,212,255,0.2);' onerror="this.parentElement.innerHTML='<div style=\\'color:var(--muted); text-align:center;\\'>Preview not available<br>Project: ${bp.title}</div>'">`;
+                        };
+
+                        list.appendChild(item);
+                        if (idx === 0) item.onclick();
+                    });
+                }).catch(err => {
+                    container.innerHTML = '<div style="color:#c00;text-align:center;padding:40px;">Failed to load blueprints. Please try again later.</div>';
+                    console.error('Blueprints load error:', err);
+                });
+            }
+
+
+            initTours(container) {
+                const saved = JSON.parse(localStorage.getItem('matterportTours') || 'null');
+                this.tours = saved || [
+                    { title: 'Main Property', url: 'https://my.matterport.com/show/?m=7Cfk3WA9AN7&brand=0' },
+                    { title: 'Property 2', url: '' }
+                ];
+                this.tourIndex = 0;
+
+                container.innerHTML = `
+                    <div id="tours-viewer" style="padding:24px;height:100%;display:flex;flex-direction:column;overflow-y:auto;">
+                        <div style="text-align:center;margin-bottom:16px;">
+                            <h2 style="color:var(--accent);margin:0 0 8px 0;font-size:2rem;">🗺️ 3D Tours</h2>
+                            <p style="color:#666;margin:0;font-size:0.95rem;">Virtual walkthroughs (Matterport) — use the controls below to switch tours or paste a link to add another.</p>
+                        </div>
+
+                        <div id="tours-card" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(0,212,255,0.05) 0%, rgba(0,212,255,0.02) 100%);border-radius:16px;padding:20px;border:2px solid var(--accent);box-shadow:0 8px 24px rgba(0,212,255,0.2);min-height:420px;">
+                            <div id="tours-embed" style="width:100%;height:100%;max-height:640px;background:#fff;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+                                <div id="tours-embed-inner" style="width:100%;height:100%;"></div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;">
+                            <button id="tours-prev" style="padding:10px 18px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;">← Prev</button>
+                            <div id="tours-dots" style="display:flex;gap:8px;"></div>
+                            <button id="tours-next" style="padding:10px 18px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;">Next →</button>
+                        </div>
+
+                        <form id="tours-form" style="display:flex;gap:8px;align-items:center;justify-content:center;margin-top:16px;">
+                            <input id="tours-url-input" placeholder="Paste Matterport show URL (https://my.matterport.com/show/?m=...)" style="width:60%;padding:8px;border-radius:8px;border:1px solid #ccc;">
+                            <button id="tours-save" type="button" style="padding:8px 14px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;">Save</button>
+                        </form>
+                        <p id="tours-note" style="color:var(--muted);text-align:center;margin-top:10px;font-size:0.9rem;">Saved tours persist to your browser storage.</p>
+                    </div>
+                `;
+
+                // Setup event handlers
+                document.getElementById('tours-prev').onclick = () => this.prevTour();
+                document.getElementById('tours-next').onclick = () => this.nextTour();
+                document.getElementById('tours-save').onclick = () => {
+                    const val = document.getElementById('tours-url-input').value.trim();
+                    if (!val) return alert('Please paste a Matterport show URL.');
+                    this.tours[this.tourIndex].url = val;
+                    localStorage.setItem('matterportTours', JSON.stringify(this.tours));
+                    this.renderToursDots();
+                    this.loadTour(this.tourIndex);
+                };
+
+                this.renderToursDots();
+                this.loadTour(this.tourIndex);
+            }
+
+            loadTour(index) {
+                this.tourIndex = index;
+                const tour = this.tours[index];
+                const inner = document.getElementById('tours-embed-inner');
+                const input = document.getElementById('tours-url-input');
+                if (!inner) return;
+                inner.innerHTML = '';
+                if (!tour || !tour.url) {
+                    inner.innerHTML = `<div style="text-align:center;color:#666;padding:32px;">No tour configured. Paste a Matterport show URL and click Save.</div>`;
+                } else {
+                    const iframe = document.createElement('iframe');
+                    iframe.style.width = '100%';
+                    iframe.style.height = '100%';
+                    iframe.style.border = '0';
+                    iframe.src = tour.url;
+                    iframe.allow = 'autoplay; fullscreen; web-share; xr-spatial-tracking';
+                    iframe.allowFullscreen = true;
+                    inner.appendChild(iframe);
+                }
+                if (input) input.value = tour ? tour.url || '' : '';
+                // Update dots styling
+                const dots = document.getElementById('tours-dots');
+                if (dots) {
+                    Array.from(dots.children).forEach((d, i) => {
+                        d.style.cssText = `width:12px;height:12px;border-radius:50%;cursor:pointer;transition:all 0.2s;${i === index ? 'background:var(--accent);transform:scale(1.3);' : 'background:#ccc;'}`;
+                    });
+                }
+            }
+
+            renderToursDots() {
+                const dots = document.getElementById('tours-dots');
+                if (!dots) return;
+                dots.innerHTML = '';
+                this.tours.forEach((t, i) => {
+                    const dot = document.createElement('div');
+                    dot.onclick = () => this.loadTour(i);
+                    dot.style.cssText = `width:12px;height:12px;border-radius:50%;cursor:pointer;transition:all 0.2s;${i === this.tourIndex ? 'background:var(--accent);transform:scale(1.3);' : 'background:#ccc;'}`;
+                    dots.appendChild(dot);
+                });
+            }
+
+            nextTour() {
+                if (!this.tours || !this.tours.length) return;
+                this.loadTour((this.tourIndex + 1) % this.tours.length);
+            }
+
+            prevTour() {
+                if (!this.tours || !this.tours.length) return;
+                this.loadTour((this.tourIndex - 1 + this.tours.length) % this.tours.length);
+            }
+
+            initSettings(container) {
+                container.innerHTML = `
+                    <form id="settings-form" style="padding:24px;">
+                        <h2>Settings</h2>
+                        <label>Accent Color: <input type="color" id="settings-accent" value="#00d4ff"></label>
+                        <button type="submit">Save</button>
+                    </form>
+                `;
+                container.querySelector('form').onsubmit = (e) => {
+                    e.preventDefault();
+                    const accent = document.getElementById('settings-accent').value;
+                    localStorage.setItem('desktopSettings', JSON.stringify({ accent }));
+                    this.applySavedSettings();
+                };
+            }
+
+            applySavedSettings() {
+                const saved = JSON.parse(localStorage.getItem('desktopSettings') || '{}');
+                if (saved.accent) document.documentElement.style.setProperty('--accent', saved.accent);
+            }
+
         }
-        // Brand center
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(center, center, 22, 0, 2*Math.PI);
-        ctx.fillStyle = '#12161c';
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = '#d49b3e';
-        ctx.fill();
-        ctx.restore();
-        ctx.save();
-        ctx.font = 'bold 1.2rem Georgia';
-        ctx.fillStyle = '#d49b3e';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('DGC', center, center);
-        ctx.restore();
-        // Hands
-        const now = new Date();
-        const hour = now.getHours()%12;
-        const min = now.getMinutes();
-        const sec = now.getSeconds();
-        // Hour hand
-        let angle = ((hour + min/60)/12)*2*Math.PI - Math.PI/2;
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(center, center);
-        ctx.lineTo(center + Math.cos(angle)*(center-60), center + Math.sin(angle)*(center-60));
-        ctx.lineWidth = 7;
-        ctx.strokeStyle = '#d49b3e';
-        ctx.stroke();
-        ctx.restore();
-        // Minute hand
-        angle = ((min + sec/60)/60)*2*Math.PI - Math.PI/2;
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(center, center);
-        ctx.lineTo(center + Math.cos(angle)*(center-38), center + Math.sin(angle)*(center-38));
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = '#7dd6ff';
-        ctx.stroke();
-        ctx.restore();
-        // Second hand
-        angle = (sec/60)*2*Math.PI - Math.PI/2;
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(center, center);
-        ctx.lineTo(center + Math.cos(angle)*(center-28), center + Math.sin(angle)*(center-28));
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = '#f1c26d';
-        ctx.stroke();
-        ctx.restore();
-      }
-      setInterval(drawClock, 1000);
-      drawClock();
-    }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.System = new VirtualSystem();
+        });
+
+        // Global functions for HTML onclick handlers
+        function toggleStartMenu() {
+            if (window.System) window.System.toggleStartMenu();
+        }
+
+        function toggleTooltips() {
+            if (window.System) window.System.toggleTooltips();
+        }
+
+        function restoreWindow(id) {
+            if (window.System) window.System.restoreWindow(id);
+        }
+
+        function maximizeWindow(id) {
+            if (window.System) window.System.maximizeWindow(id);
+        }
+
+        function minimizeWindow(id) {
+            if (window.System) window.System.minimizeWindow(id);
+        }
+
+        function closeWindow(id) {
+            if (window.System) window.System.closeWindow(id);
+        }
+
+        function splitWindowLeft(id) {
+            if (window.System) window.System.splitWindowLeft(id);
+        }
+
+        function splitWindowRight(id) {
+            if (window.System) window.System.splitWindowRight(id);
+        }
     </script>
-</body>
 </html>
