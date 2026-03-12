@@ -36,18 +36,38 @@ public partial class Home : ComponentBase
 
     private readonly List<HistoryEntry> History = [];
 
-    private string Expression = "1'5\" + (12\" + 15\")=";
+    private string _expression = "1'5\" + (12\" + 15\")=";
     private DisplayMode PreferredDisplay = DisplayMode.FeetAndInches;
     private int PrecisionDenominator = 16;
     private ConstructionExpressionResult? Result;
     private string? ExpressionError;
 
+    private string Expression
+    {
+        get => _expression;
+        set
+        {
+            if (string.Equals(_expression, value, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            _expression = value;
+            RefreshResult();
+        }
+    }
+
     protected override void OnInitialized()
     {
-        SolveExpression();
+        RefreshResult();
     }
 
     private void SolveExpression()
+    {
+        EvaluateExpression(addToHistory: true);
+    }
+
+    private void EvaluateExpression(bool addToHistory)
     {
         ExpressionError = null;
 
@@ -58,7 +78,10 @@ public partial class Home : ComponentBase
                 PreferredDisplay,
                 PrecisionDenominator));
 
-            AddHistory(Result);
+            if (addToHistory)
+            {
+                AddHistory(Result);
+            }
         }
         catch (Exception ex)
         {
@@ -76,7 +99,7 @@ public partial class Home : ComponentBase
             return;
         }
 
-        SolveExpression();
+        EvaluateExpression(addToHistory: false);
     }
 
     private void AppendToken(string value)
@@ -97,8 +120,6 @@ public partial class Home : ComponentBase
     private void ClearExpression()
     {
         Expression = string.Empty;
-        Result = null;
-        ExpressionError = null;
     }
 
     private void LoadExample(string expression)

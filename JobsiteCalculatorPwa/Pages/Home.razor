@@ -67,13 +67,18 @@
         @if (Result is null)
         {
             <div class="result-empty">
-                Enter an expression and tap Solve to see the result.
+                Enter an expression to see the result live.
             </div>
         }
         else
         {
             <div class="result-primary">@Result.Primary</div>
             <div class="result-expression">@Result.Expression</div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(ExpressionError))
+        {
+            <div class="error-banner">@ExpressionError</div>
         }
     </div>
 </div>
