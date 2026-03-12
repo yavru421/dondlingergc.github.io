@@ -6,12 +6,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <title>DondlingerGC-Web — Professional Websites & Online Tools</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="_site-config.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5487660440662949"
-         crossorigin="anonymous"></script>
 
     
     <style>
@@ -49,7 +44,7 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
             background: var(--bg);
             min-height: 100vh;
             color: #fff;
@@ -762,7 +757,7 @@
                 type="button"
                 title="Open Jobsite Tape Calculator"
                 aria-label="Open Jobsite Tape Calculator"
-                onclick="System.openWindow('calculator')">
+                onclick="System.openCalculatorApp()">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v4h10V4H7Zm2 7H7v2h2v-2Zm4 0h-2v2h2v-2Zm4 0h-2v2h2v-2ZM9 15H7v2h2v-2Zm4 0h-2v2h2v-2Zm4 0h-2v2h2v-2Z" />
                 </svg>
@@ -821,7 +816,7 @@
                     { id: 'home', title: '🏠 Updates', tooltip: 'View latest projects, news, and social media updates from DondlingerGC' },
                     { id: 'blueprints', title: '📐 Plans', special: true, tooltip: 'Explore architectural blueprints and construction plans repository' },
                     { id: 'contact', title: '📧 Contact', tooltip: 'Get in touch with us to discuss your project needs' },
-                    { id: 'calculator', title: '🧮 Calculator', embed: 'calc/', frameless: true, hideFromStartMenu: true, windowStyle: 'top: 72px; left: 96px; width: min(92%, 900px); height: min(82%, 680px);', tooltip: 'Launch the Jobsite Tape Calculator inside the desktop' },
+                    { id: 'calculator', title: '🧮 Calculator', hideFromStartMenu: true, tooltip: 'Open the Jobsite Tape Calculator at /calc/' },
                     { id: 'fortress', title: '🎨 Website Builder', embed: 'fortress.html', embedTitle: 'Web Design Wizard', tooltip: 'Interactive web design tool to build your custom website' },
                     { id: 'chat', title: '💬 Chat', embed: 'chat.html', embedTitle: 'DGC Chat', tooltip: 'Live chat support and customer service portal' },
                     { id: 'rabbithole', title: '🐇 Rabbit Hole', embedUrl: 'https://john2121-quantumrabbithole-explorer.static.hf.space', embedTitle: 'Rabbit Hole Explorer', tooltip: 'Immersive Rabbit Hole experience (mobile-optimized)' },
@@ -978,8 +973,8 @@
                         <div class="window-content" id="calculator-doc-content">
                             <h2 style="color:var(--accent);margin-bottom:16px;">Install the Jobsite Tape Calculator as a PWA</h2>
                             <ul style="margin-bottom:18px;">
-                                <li>Click the calculator icon in the taskbar to open the calculator window.</li>
-                                <li>Use the <strong>Install</strong> button in the calculator window to add it to your device as a standalone app.</li>
+                                <li>Click the calculator icon in the taskbar to open <strong>/calc/</strong> directly.</li>
+                                <li>Use the <strong>Install</strong> button on the calculator page to add it to your device as a standalone app.</li>
                                 <li>The calculator PWA is fully offline-capable and will not interfere with the main site.</li>
                                 <li>For mobile devices, visit <strong>/calc/</strong> directly for the best experience.</li>
                             </ul>
@@ -1002,7 +997,16 @@
                 document.getElementById('start-menu').classList.toggle('show');
             }
 
+            openCalculatorApp() {
+                window.location.assign('/calc/');
+            }
+
             openWindow(id) {
+                if (id === 'calculator') {
+                    this.openCalculatorApp();
+                    return;
+                }
+
                 let win = document.getElementById(`${id}-window`);
                 if (!win) {
                     this.createWindowElements(id);
