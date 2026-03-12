@@ -42,7 +42,7 @@
 
 .calculator-keypad .keypad-row {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
 }
 
@@ -70,7 +70,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    grid-column: span 3;
+    grid-column: span 2;
 }
 
 .calculator-keypad .ghost-button {

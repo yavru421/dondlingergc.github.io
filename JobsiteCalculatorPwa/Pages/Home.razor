@@ -19,7 +19,6 @@
         <div class="keypad-row">
             <button class="key-button" type="button" @onclick="@(() => AppendToken("'"))">'</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("\""))">"</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("&"))">&</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("(") )">(</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken(")") )">)</button>
         </div>
@@ -28,31 +27,26 @@
             <button class="key-button" type="button" @onclick="@(() => AppendToken("8"))">8</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("9"))">9</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("1/2"))">1/2</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/4"))">1/4</button>
         </div>
         <div class="keypad-row">
             <button class="key-button" type="button" @onclick="@(() => AppendToken("4"))">4</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("5"))">5</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("6"))">6</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/8"))">1/8</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("+") )">+</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/4"))">1/4</button>
         </div>
         <div class="keypad-row">
             <button class="key-button" type="button" @onclick="@(() => AppendToken("1"))">1</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("2"))">2</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("3"))">3</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("-") )">-</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("0"))">0</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/8"))">1/8</button>
         </div>
         <div class="keypad-row">
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/2"))">1/2</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/4"))">1/4</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/8"))">1/8</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("0"))">0</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("+") )">+</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("-") )">-</button>
+            <button class="key-button" type="button" @onclick="@(() => AppendToken("*") )">*</button>
         </div>
         <div class="keypad-row">
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("*") )">*</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("/") )">/</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken("=") )">=</button>
             <button class="key-button" type="button" @onclick="@(() => AppendToken(" "))">Space</button>
