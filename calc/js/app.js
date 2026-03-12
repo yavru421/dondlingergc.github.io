@@ -545,8 +545,15 @@ function setActiveTool(tool) {
     for (const card of toolCards) {
         card.classList.toggle("is-active", card.dataset.tool === tool);
     }
+    // Sync tab UI (defined in index.html inline script)
+    if (typeof window._activateTab === "function") {
+        window._activateTab(tool);
+    }
     updateAll();
 }
+
+// Expose for tab buttons defined in HTML
+window._setActiveTool = setActiveTool;
 
 function showToast(message) {
     toast.textContent = message;

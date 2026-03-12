@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jobsite Calculator — Dondlinger GC</title>
     <base href="/calc/" />
-    <meta name="theme-color" content="#12161c" />
+    <meta name="theme-color" content="#10140f" />
     <meta name="description" content="Free offline construction calculator: tape fractions, equal spacing, concrete volume, stair layout, board feet. Installs on any phone." />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -40,195 +40,376 @@
         </header>
 
         <main class="workspace">
-            <!-- Hero: copy + live result panel -->
-            <div class="hero-panel">
-                <div class="hero-copy">
-                    <p class="eyebrow">Dondlinger GC — Jobsite Tools</p>
-                    <h1>Build&nbsp;fast.<br>Measure&nbsp;right.</h1>
-                    <p class="hero-text">Tape fractions, spacing, concrete, stairs, and board feet — with real math, not stubs. Works offline after first load.</p>
-                    <nav class="mode-pills" aria-label="Calculator modes">
-                        <button type="button" class="mode-pill" data-mode="tape">Tape Math</button>
-                        <button type="button" class="mode-pill" data-mode="spacing">Spacing</button>
-                        <button type="button" class="mode-pill" data-mode="concrete">Concrete</button>
-                        <button type="button" class="mode-pill" data-mode="stairs">Stairs</button>
-                        <button type="button" class="mode-pill" data-mode="board">Board Feet</button>
-                    </nav>
-                </div>
-                <div class="result-panel">
-                    <p class="panel-kicker" id="summaryMode">Tape Math</p>
-                    <div class="panel-value" id="summaryValue">—</div>
-                    <p class="panel-sub" id="summarySub">Type an expression below</p>
-                    <ul class="panel-details" id="summaryDetails"></ul>
-                    <div class="panel-actions">
-                        <button type="button" id="copyResultBtn" class="button button-ghost">Copy</button>
-                        <button type="button" id="shareResultBtn" class="button button-ghost">Share</button>
-                    </div>
+
+            <!-- Live result panel (always visible) -->
+            <div class="result-panel">
+                <p class="panel-kicker" id="summaryMode">Tape Math</p>
+                <div class="panel-value" id="summaryValue">—</div>
+                <p class="panel-sub" id="summarySub">Type or tap an input below</p>
+                <ul class="panel-details" id="summaryDetails"></ul>
+                <div class="panel-actions">
+                    <button type="button" id="copyResultBtn" class="button button-ghost">Copy</button>
+                    <button type="button" id="shareResultBtn" class="button button-ghost">Share</button>
                 </div>
             </div>
 
-            <!-- Tool cards -->
-            <div class="tool-grid">
+            <!-- Tab navigation -->
+            <nav class="tab-bar" aria-label="Calculator tabs">
+                <button type="button" class="tab-btn" data-mode="tape" aria-selected="true">
+                    <span class="tab-icon">📐</span>Tape
+                </button>
+                <button type="button" class="tab-btn" data-mode="spacing" aria-selected="false">
+                    <span class="tab-icon">↔️</span>Spacing
+                </button>
+                <button type="button" class="tab-btn" data-mode="concrete" aria-selected="false">
+                    <span class="tab-icon">🪨</span>Concrete
+                </button>
+                <button type="button" class="tab-btn" data-mode="stairs" aria-selected="false">
+                    <span class="tab-icon">🪜</span>Stairs
+                </button>
+                <button type="button" class="tab-btn" data-mode="board" aria-selected="false">
+                    <span class="tab-icon">🪵</span>Board Ft
+                </button>
+            </nav>
 
-                <!-- Tape Math -->
-                <div class="tool-card" data-tool="tape" id="tool-tape">
+            <!-- ── TAB: Tape Math ── -->
+            <div class="tab-panel" id="tab-tape" role="tabpanel">
+                <div class="tool-card" data-tool="tape">
                     <div class="tool-head">
                         <h2>Tape Math</h2>
                         <span class="tool-badge">Fractions</span>
                     </div>
+
                     <div class="field">
-                        <span>Expression</span>
-                        <input type="text" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false"
+                        <label class="field-label" for="tapeExpression">Expression</label>
+                        <input id="tapeExpression" type="text"
+                            inputmode="text"
+                            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                             placeholder="3-1/2 + 7-5/8"
                             data-field="tape.expression"
                             data-tool-input="tape" />
+                        <!-- Keyboard helpers -->
+                        <div class="key-row" data-keypad="tapeExpression">
+                            <button type="button" class="key" data-insert="'">ft&nbsp;<small>(')</small></button>
+                            <button type="button" class="key" data-insert='"'>in&nbsp;<small>(")</small></button>
+                            <button type="button" class="key" data-insert="1/2">½</button>
+                            <button type="button" class="key" data-insert="1/4">¼</button>
+                            <button type="button" class="key" data-insert="3/4">¾</button>
+                            <button type="button" class="key" data-insert="1/8">⅛</button>
+                            <button type="button" class="key" data-insert="3/8">⅜</button>
+                            <button type="button" class="key" data-insert="5/8">⅝</button>
+                            <button type="button" class="key" data-insert="7/8">⅞</button>
+                            <button type="button" class="key" data-insert="1/16">¹⁄₁₆</button>
+                            <button type="button" class="key" data-insert=" + ">+</button>
+                            <button type="button" class="key" data-insert=" - ">−</button>
+                            <button type="button" class="key" data-insert=" * ">×</button>
+                            <button type="button" class="key" data-insert=" / ">÷</button>
+                            <button type="button" class="key key-clear" data-clear="tapeExpression">✕</button>
+                        </div>
                     </div>
+
+                    <!-- Quick-load examples -->
                     <div class="chip-row">
                         <button type="button" class="chip" data-example="tape" data-value="3-1/2 + 7-5/8">Stud + trim</button>
                         <button type="button" class="chip" data-example="tape" data-value="96 / 5">5 equal panels</button>
                         <button type="button" class="chip" data-example="tape" data-value="12 * 4-1/4">Repeated cut</button>
                         <button type="button" class="chip" data-example="tape" data-value="16 - 3/4">Deduct kerf</button>
                     </div>
+
                     <div class="tool-output">
                         <div class="tool-result" data-result="tape">—</div>
                         <div class="tool-meta" data-meta="tape">Type an expression</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Equal Spacing -->
-                <div class="tool-card" data-tool="spacing" id="tool-spacing">
+            <!-- ── TAB: Equal Spacing ── -->
+            <div class="tab-panel" id="tab-spacing" role="tabpanel">
+                <div class="tool-card" data-tool="spacing">
                     <div class="tool-head">
                         <h2>Equal Spacing</h2>
                         <span class="tool-badge">On Center</span>
                     </div>
-                    <div class="field-grid">
+
+                    <div class="field-row">
                         <div class="field">
-                            <span>Total span</span>
-                            <input type="text" inputmode="decimal" autocomplete="off"
-                                placeholder="10' 0&quot;" data-field="spacing.total" data-tool-input="spacing" />
+                            <label class="field-label" for="spacingTotal">Total span</label>
+                            <input id="spacingTotal" type="text"
+                                inputmode="decimal"
+                                autocomplete="off" autocorrect="off"
+                                placeholder="10' 0&quot;"
+                                data-field="spacing.total"
+                                data-tool-input="spacing" />
+                            <div class="key-row" data-keypad="spacingTotal">
+                                <button type="button" class="key" data-insert="'">ft</button>
+                                <button type="button" class="key" data-insert='"'>in</button>
+                                <button type="button" class="key" data-insert="1/2">½</button>
+                                <button type="button" class="key" data-insert="1/4">¼</button>
+                                <button type="button" class="key" data-insert="3/4">¾</button>
+                                <button type="button" class="key key-clear" data-clear="spacingTotal">✕</button>
+                            </div>
                         </div>
                         <div class="field">
-                            <span>Spaces</span>
-                            <input type="number" inputmode="numeric" min="1" step="1"
-                                placeholder="16" data-field="spacing.count" data-tool-input="spacing" />
+                            <label class="field-label" for="spacingCount">Spaces</label>
+                            <input id="spacingCount" type="number"
+                                inputmode="numeric"
+                                min="1" step="1"
+                                placeholder="16"
+                                data-field="spacing.count"
+                                data-tool-input="spacing" />
                         </div>
                     </div>
+
                     <div class="tool-output">
                         <div class="tool-result" data-result="spacing">—</div>
                         <div class="tool-meta" data-meta="spacing">Enter span and count</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Concrete -->
-                <div class="tool-card" data-tool="concrete" id="tool-concrete">
+            <!-- ── TAB: Concrete ── -->
+            <div class="tab-panel" id="tab-concrete" role="tabpanel">
+                <div class="tool-card" data-tool="concrete">
                     <div class="tool-head">
                         <h2>Concrete</h2>
                         <span class="tool-badge">Volume</span>
                     </div>
-                    <div class="field-grid field-grid-compact">
+
+                    <div class="field-row">
                         <div class="field">
-                            <span>Length (ft)</span>
-                            <input type="number" inputmode="decimal" min="0" step="any"
-                                placeholder="12" data-field="concrete.length" data-tool-input="concrete" />
+                            <label class="field-label" for="concreteLength">Length (ft)</label>
+                            <input id="concreteLength" type="number"
+                                inputmode="decimal" min="0" step="any"
+                                placeholder="12"
+                                data-field="concrete.length"
+                                data-tool-input="concrete" />
                         </div>
                         <div class="field">
-                            <span>Width (ft)</span>
-                            <input type="number" inputmode="decimal" min="0" step="any"
-                                placeholder="10" data-field="concrete.width" data-tool-input="concrete" />
-                        </div>
-                        <div class="field">
-                            <span>Thick (in)</span>
-                            <input type="number" inputmode="decimal" min="0" step="any"
-                                placeholder="4" data-field="concrete.thickness" data-tool-input="concrete" />
-                        </div>
-                        <div class="field">
-                            <span>Pours</span>
-                            <input type="number" inputmode="numeric" min="1" step="1"
-                                placeholder="1" data-field="concrete.qty" data-tool-input="concrete" />
+                            <label class="field-label" for="concreteWidth">Width (ft)</label>
+                            <input id="concreteWidth" type="number"
+                                inputmode="decimal" min="0" step="any"
+                                placeholder="10"
+                                data-field="concrete.width"
+                                data-tool-input="concrete" />
                         </div>
                     </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label class="field-label" for="concreteThickness">Thickness (in)</label>
+                            <input id="concreteThickness" type="number"
+                                inputmode="decimal" min="0" step="any"
+                                placeholder="4"
+                                data-field="concrete.thickness"
+                                data-tool-input="concrete" />
+                        </div>
+                        <div class="field">
+                            <label class="field-label" for="concreteQty">Pours</label>
+                            <input id="concreteQty" type="number"
+                                inputmode="numeric" min="1" step="1"
+                                placeholder="1"
+                                data-field="concrete.qty"
+                                data-tool-input="concrete" />
+                        </div>
+                    </div>
+
                     <div class="tool-output">
                         <div class="tool-result" data-result="concrete">—</div>
                         <div class="tool-meta" data-meta="concrete">Enter dimensions</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Stairs -->
-                <div class="tool-card" data-tool="stairs" id="tool-stairs">
+            <!-- ── TAB: Stairs ── -->
+            <div class="tab-panel" id="tab-stairs" role="tabpanel">
+                <div class="tool-card" data-tool="stairs">
                     <div class="tool-head">
                         <h2>Stairs</h2>
                         <span class="tool-badge">Layout</span>
                     </div>
-                    <div class="field-grid">
-                        <div class="field">
-                            <span>Total rise</span>
-                            <input type="text" inputmode="decimal" autocomplete="off"
-                                placeholder="8' 4&quot;" data-field="stairs.rise" data-tool-input="stairs" />
-                        </div>
-                        <div class="field">
-                            <span>Max riser</span>
-                            <input type="text" inputmode="decimal" autocomplete="off"
-                                placeholder="7-3/4&quot;" data-field="stairs.maxRiser" data-tool-input="stairs" />
-                        </div>
-                        <div class="field">
-                            <span>Tread depth</span>
-                            <input type="text" inputmode="decimal" autocomplete="off"
-                                placeholder="10&quot;" data-field="stairs.tread" data-tool-input="stairs" />
+
+                    <div class="field">
+                        <label class="field-label" for="stairsRise">Total rise</label>
+                        <input id="stairsRise" type="text"
+                            inputmode="decimal"
+                            autocomplete="off" autocorrect="off"
+                            placeholder="8' 4&quot;"
+                            data-field="stairs.rise"
+                            data-tool-input="stairs" />
+                        <div class="key-row" data-keypad="stairsRise">
+                            <button type="button" class="key" data-insert="'">ft</button>
+                            <button type="button" class="key" data-insert='"'>in</button>
+                            <button type="button" class="key" data-insert="1/2">½</button>
+                            <button type="button" class="key" data-insert="1/4">¼</button>
+                            <button type="button" class="key" data-insert="3/4">¾</button>
+                            <button type="button" class="key" data-insert="1/8">⅛</button>
+                            <button type="button" class="key key-clear" data-clear="stairsRise">✕</button>
                         </div>
                     </div>
+
+                    <div class="field">
+                        <label class="field-label" for="stairsMaxRiser">Max riser height</label>
+                        <input id="stairsMaxRiser" type="text"
+                            inputmode="decimal"
+                            autocomplete="off" autocorrect="off"
+                            placeholder="7-3/4&quot;"
+                            data-field="stairs.maxRiser"
+                            data-tool-input="stairs" />
+                        <div class="key-row" data-keypad="stairsMaxRiser">
+                            <button type="button" class="key" data-insert='"'>in</button>
+                            <button type="button" class="key" data-insert="1/2">½</button>
+                            <button type="button" class="key" data-insert="1/4">¼</button>
+                            <button type="button" class="key" data-insert="3/4">¾</button>
+                            <button type="button" class="key" data-insert="1/8">⅛</button>
+                            <button type="button" class="key key-clear" data-clear="stairsMaxRiser">✕</button>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="stairsTread">Tread depth</label>
+                        <input id="stairsTread" type="text"
+                            inputmode="decimal"
+                            autocomplete="off" autocorrect="off"
+                            placeholder="10&quot;"
+                            data-field="stairs.tread"
+                            data-tool-input="stairs" />
+                        <div class="key-row" data-keypad="stairsTread">
+                            <button type="button" class="key" data-insert='"'>in</button>
+                            <button type="button" class="key" data-insert="1/2">½</button>
+                            <button type="button" class="key" data-insert="1/4">¼</button>
+                            <button type="button" class="key" data-insert="3/4">¾</button>
+                            <button type="button" class="key" data-insert="1/8">⅛</button>
+                            <button type="button" class="key key-clear" data-clear="stairsTread">✕</button>
+                        </div>
+                    </div>
+
                     <div class="tool-output">
                         <div class="tool-result" data-result="stairs">—</div>
                         <div class="tool-meta" data-meta="stairs">Enter rise and tread</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Board Feet -->
-                <div class="tool-card" data-tool="board" id="tool-board">
+            <!-- ── TAB: Board Feet ── -->
+            <div class="tab-panel" id="tab-board" role="tabpanel">
+                <div class="tool-card" data-tool="board">
                     <div class="tool-head">
                         <h2>Board Feet</h2>
                         <span class="tool-badge">Lumber</span>
                     </div>
-                    <div class="field-grid field-grid-compact">
+
+                    <div class="field-row">
                         <div class="field">
-                            <span>Thick (in)</span>
-                            <input type="number" inputmode="decimal" min="0" step="any"
-                                placeholder="2" data-field="board.thickness" data-tool-input="board" />
+                            <label class="field-label" for="boardThickness">Thickness (in)</label>
+                            <input id="boardThickness" type="number"
+                                inputmode="decimal" min="0" step="any"
+                                placeholder="2"
+                                data-field="board.thickness"
+                                data-tool-input="board" />
                         </div>
                         <div class="field">
-                            <span>Width (in)</span>
-                            <input type="number" inputmode="decimal" min="0" step="any"
-                                placeholder="6" data-field="board.width" data-tool-input="board" />
-                        </div>
-                        <div class="field">
-                            <span>Length (ft)</span>
-                            <input type="number" inputmode="decimal" min="0" step="any"
-                                placeholder="8" data-field="board.length" data-tool-input="board" />
-                        </div>
-                        <div class="field">
-                            <span>Pieces</span>
-                            <input type="number" inputmode="numeric" min="1" step="1"
-                                placeholder="1" data-field="board.qty" data-tool-input="board" />
+                            <label class="field-label" for="boardWidth">Width (in)</label>
+                            <input id="boardWidth" type="number"
+                                inputmode="decimal" min="0" step="any"
+                                placeholder="6"
+                                data-field="board.width"
+                                data-tool-input="board" />
                         </div>
                     </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label class="field-label" for="boardLength">Length (ft)</label>
+                            <input id="boardLength" type="number"
+                                inputmode="decimal" min="0" step="any"
+                                placeholder="8"
+                                data-field="board.length"
+                                data-tool-input="board" />
+                        </div>
+                        <div class="field">
+                            <label class="field-label" for="boardQty">Pieces</label>
+                            <input id="boardQty" type="number"
+                                inputmode="numeric" min="1" step="1"
+                                placeholder="1"
+                                data-field="board.qty"
+                                data-tool-input="board" />
+                        </div>
+                    </div>
+
                     <div class="tool-output">
                         <div class="tool-result" data-result="board">—</div>
                         <div class="tool-meta" data-meta="board">Enter dimensions</div>
                     </div>
                 </div>
+            </div>
 
-            </div><!-- /.tool-grid -->
         </main>
 
         <!-- iOS Safari install banner -->
         <div id="iosBanner" class="ios-banner" hidden>
             <button type="button" id="closeIosBanner" class="ios-close" aria-label="Close">✕</button>
             <strong>Add to Home Screen</strong>
-            <p>Tap <strong>Share</strong> then <strong>Add to Home Screen</strong> to install.</p>
+            <p>Tap <strong>Share ⬆</strong> then <strong>Add to Home Screen</strong> to install.</p>
         </div>
 
-        <!-- Toast notification -->
+        <!-- Toast -->
         <div id="toast" class="toast" hidden></div>
 
     </div><!-- /.app-shell -->
 
-    <script src="js/app.js"></script>
+    <script>
+    // Keypad insert helpers — runs before app.js so element IDs exist
+    document.addEventListener('click', function(e) {
+        const key = e.target.closest('[data-insert]');
+        if (key) {
+            const targetId = key.closest('[data-keypad]')?.dataset.keypad;
+            const input = targetId ? document.getElementById(targetId) : null;
+            if (!input) return;
+            const start = input.selectionStart ?? input.value.length;
+            const end   = input.selectionEnd   ?? input.value.length;
+            const ins   = key.dataset.insert;
+            input.value = input.value.slice(0, start) + ins + input.value.slice(end);
+            const pos = start + ins.length;
+            input.setSelectionRange(pos, pos);
+            input.focus();
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            return;
+        }
+        const clr = e.target.closest('[data-clear]');
+        if (clr) {
+            const input = document.getElementById(clr.dataset.clear);
+            if (!input) return;
+            input.value = '';
+            input.focus();
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+    });
 
+    // Tab switching — syncs the tab-btn.is-active, tab-panel.is-active,
+    // and delegates into app.js setActiveTool if available
+    (function() {
+        const tabBtns   = document.querySelectorAll('.tab-btn[data-mode]');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        function activateTab(mode) {
+            tabBtns.forEach(b => b.classList.toggle('is-active', b.dataset.mode === mode));
+            tabPanels.forEach(p => p.classList.toggle('is-active', p.id === 'tab-' + mode));
+        }
+
+        // Show first tab on load
+        activateTab('tape');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const mode = this.dataset.mode;
+                activateTab(mode);
+                // app.js exposes setActiveTool via window after it loads
+                if (typeof window._setActiveTool === 'function') {
+                    window._setActiveTool(mode);
+                }
+            });
+        });
+
+        // Let app.js call back to sync tab when a field is focused
+        window._activateTab = activateTab;
+    })();
+    </script>
+    <script src="js/app.js"></script>
