@@ -46,6 +46,27 @@ public partial class Home : ComponentBase
     {
         get => _expression;
         set
+        // Formatting pipeline for normalization
+        private string NormalizeExpression(string expr)
+        {
+            if (string.IsNullOrWhiteSpace(expr)) return string.Empty;
+            // Normalize operator spacing
+            expr = System.Text.RegularExpressions.Regex.Replace(expr, "\s*([+\-*/])\s*", " $1 ");
+            // Collapse multiple spaces
+            expr = System.Text.RegularExpressions.Regex.Replace(expr, "\s+", " ");
+            // Attach units directly to numbers/fractions
+            expr = System.Text.RegularExpressions.Regex.Replace(expr, "(\d|\d+\/\d)\s*(['\"])", "$1$2");
+            // Remove spaces before units
+            expr = System.Text.RegularExpressions.Regex.Replace(expr, "\s+(['\"])", "$1");
+            // Normalize fractions as atomic tokens
+            expr = System.Text.RegularExpressions.Regex.Replace(expr, "(\d+)\s*\/\s*(\d+)", "$1/$2");
+            // Remove spaces inside parentheses
+            expr = System.Text.RegularExpressions.Regex.Replace(expr, "\(\s*", "(");
+            expr = System.Text.RegularExpressions.Regex.Replace(expr, "\s*\)", ")");
+            // Remove trailing operators
+            expr = System.Text.RegularExpressions.Regex.Replace(expr, "([+\-*/])\s*$", "");
+            return expr.Trim();
+        }
         {
             if (string.Equals(_expression, value, StringComparison.Ordinal))
             {
@@ -56,22 +77,64 @@ public partial class Home : ComponentBase
             RefreshResult();
         }
     }
-
-    protected override void OnInitialized()
+                // Minimal formatting on keystroke: operator spacing
+                var formatted = System.Text.RegularExpressions.Regex.Replace(value, "\s*([+\-*/])\s*", " $1 ");
+                _expression = formatted;
+                RefreshResult();
     {
         RefreshResult();
     }
 
     private void SolveExpression()
-    {
+            // Keypad always inserts normalized tokens
+            if (value == "'" || value == "\"")
+            {
+                // Attach unit directly to previous number/fraction
+                Expression = System.Text.RegularExpressions.Regex.Replace(Expression, "(\d|\d+\/\d)\s*$", "$1") + value;
+            }
+            else if (value == "+" || value == "-" || value == "*" || value == "/")
+            {
+                Expression += " " + value + " ";
+            }
+            else if (value == "1/2" || value == "1/4" || value == "1/8")
+            {
+                Expression += value;
+            }
+            else
+            {
+                Expression += value;
+            }
+            // Optionally normalize after token insertion
+            Expression = NormalizeExpression(Expression);
         EvaluateExpression(addToHistory: true);
     }
 
     private void EvaluateExpression(bool addToHistory)
-    {
-        ExpressionError = null;
-
-        try
+            if (string.IsNullOrEmpty(Expression)) return;
+            // Smart backspace: delete whole token if after unit or fraction
+            var expr = Expression;
+            // Remove unit if at end
+            if (expr.EndsWith("'") || expr.EndsWith("\""))
+            {
+                Expression = expr[..^1];
+                return;
+            }
+            // Remove fraction if at end
+            var fracMatch = System.Text.RegularExpressions.Regex.Match(expr, "(\d+\/\d)$");
+            if (fracMatch.Success)
+            {
+                Expression = expr[..^fracMatch.Index];
+                return;
+            }
+            // Remove operator with spaces
+            var opMatch = System.Text.RegularExpressions.Regex.Match(expr, "\s([+\-*/])\s$", System.Text.RegularExpressions.RegexOptions.RightToLeft);
+            if (opMatch.Success)
+            {
+                Expression = expr[..^opMatch.Length];
+                return;
+            }
+            // Remove last character
+            Expression = expr[..^1];
         {
             Result = Calculator.EvaluateExpression(new ConstructionExpressionInput(
                 Expression,
@@ -81,8 +144,8 @@ public partial class Home : ComponentBase
             if (addToHistory)
             {
                 AddHistory(Result);
-            }
-        }
+            Expression = NormalizeExpression(expression);
+            SolveExpression();
         catch (Exception ex)
         {
             Result = null;
@@ -93,7 +156,9 @@ public partial class Home : ComponentBase
     private void RefreshResult()
     {
         if (string.IsNullOrWhiteSpace(Expression))
-        {
+            // Normalize on blur/solve
+            _expression = NormalizeExpression(Expression);
+            EvaluateExpression(addToHistory: false);
             Result = null;
             ExpressionError = null;
             return;
@@ -115,6 +180,15 @@ public partial class Home : ComponentBase
         }
 
         Expression = Expression[..^1];
+                if (!addToHistory)
+                {
+                    ExpressionError = "Incomplete or invalid expression.";
+                }
+                else
+                {
+                    Result = null;
+                    ExpressionError = ex.Message;
+                }
     }
 
     private void ClearExpression()
