@@ -11,7 +11,6 @@ yarn-error.log*
 .nuxt/
 calc/**/*.br
 calc/**/*.gz
-calc/lib/
 
 # Environment variables
 .env

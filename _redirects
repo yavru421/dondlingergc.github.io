@@ -1,2 +1,4 @@
 /calc/wwwroot /calc/ 301
 /calc/wwwroot/* /calc/:splat 301
+/calc/* /calc/index.html 200
+/* /index.html 200
