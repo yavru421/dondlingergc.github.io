@@ -1,78 +1,365 @@
 @page "/"
 
-<PageTitle>Jobsite Tape Calculator</PageTitle>
+<PageTitle>ForgeTape</PageTitle>
 
+<div class="ft-shell">
 
-<div class="calculator-main">
-    <div class="calculator-input">
-        <input id="jobsite-expression"
-               class="expression-input"
-               @bind="Expression"
-               @bind:event="oninput"
-               autocomplete="off"
-               autocorrect="off"
-               autocapitalize="off"
-               spellcheck="false"
-               placeholder="Type tape math here" />
-    </div>
-    <div class="calculator-keypad">
-        <div class="keypad-row">
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("'"))">'</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("\""))">"</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("(") )">(</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken(")") )">)</button>
-        </div>
-        <div class="keypad-row">
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("7"))">7</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("8"))">8</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("9"))">9</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/2"))">1/2</button>
-        </div>
-        <div class="keypad-row">
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("4"))">4</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("5"))">5</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("6"))">6</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/4"))">1/4</button>
-        </div>
-        <div class="keypad-row">
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("1"))">1</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("2"))">2</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("3"))">3</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("1/8"))">1/8</button>
-        </div>
-        <div class="keypad-row">
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("0"))">0</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("+") )">+</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("-") )">-</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("*") )">*</button>
-        </div>
-        <div class="keypad-row">
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("/") )">/</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken("=") )">=</button>
-            <button class="key-button" type="button" @onclick="@(() => AppendToken(" "))">Space</button>
-        </div>
-        <div class="keypad-row">
-            <button class="solve-button" type="button" @onclick="SolveExpression">Solve</button>
-            <button class="ghost-button" type="button" @onclick="Backspace">Backspace</button>
-            <button class="ghost-button" type="button" @onclick="ClearExpression">Clear</button>
-        </div>
-    </div>
-    <div class="calculator-result">
-        @if (Result is null)
+    @* ── Mode content ─────────────────────────────────────────────── *@
+    <div class="ft-content">
+
+        @if (ActiveMode == AppMode.Tape)
         {
-            <div class="result-empty">
-                Enter an expression to see the result live.
+            <div class="mode-panel">
+                <div class="mode-header">
+                    <div class="mode-title">Tape</div>
+                    <div class="mode-sub">Construction expression calculator</div>
+                </div>
+
+                <div class="expr-row">
+                    <input class="expr-input"
+                           @bind="Expression"
+                           @bind:event="oninput"
+                           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                           placeholder="e.g. 3'4 1/2&quot; + 9&quot;" />
+                </div>
+
+                <div class="keypad">
+                    <button class="key" @onclick="@(() => AppendToken("'"))">'</button>
+                    <button class="key" @onclick="@(() => AppendToken("\""))">"</button>
+                    <button class="key" @onclick="@(() => AppendToken("("))">(</button>
+                    <button class="key" @onclick="@(() => AppendToken(")"))">)</button>
+
+                    <button class="key" @onclick="@(() => AppendToken("7"))">7</button>
+                    <button class="key" @onclick="@(() => AppendToken("8"))">8</button>
+                    <button class="key" @onclick="@(() => AppendToken("9"))">9</button>
+                    <button class="key frac" @onclick="@(() => AppendToken("1/2"))">½</button>
+
+                    <button class="key" @onclick="@(() => AppendToken("4"))">4</button>
+                    <button class="key" @onclick="@(() => AppendToken("5"))">5</button>
+                    <button class="key" @onclick="@(() => AppendToken("6"))">6</button>
+                    <button class="key frac" @onclick="@(() => AppendToken("1/4"))">¼</button>
+
+                    <button class="key" @onclick="@(() => AppendToken("1"))">1</button>
+                    <button class="key" @onclick="@(() => AppendToken("2"))">2</button>
+                    <button class="key" @onclick="@(() => AppendToken("3"))">3</button>
+                    <button class="key frac" @onclick="@(() => AppendToken("1/8"))">⅛</button>
+
+                    <button class="key" @onclick="@(() => AppendToken("0"))">0</button>
+                    <button class="key op" @onclick="@(() => AppendToken("+"))">+</button>
+                    <button class="key op" @onclick="@(() => AppendToken("-"))">−</button>
+                    <button class="key frac" @onclick="@(() => AppendToken("1/16"))">¹⁄₁₆</button>
+
+                    <button class="key op" @onclick="@(() => AppendToken("*"))">×</button>
+                    <button class="key op" @onclick="@(() => AppendToken("/"))">÷</button>
+                    <button class="key ghost" @onclick="Backspace">⌫</button>
+                    <button class="key ghost" @onclick="ClearExpression">C</button>
+
+                    <button class="key solve span2" @onclick="SolveExpression">Solve</button>
+                    <button class="key ghost span2" @onclick="@(() => LoadExample(Examples[0].Expression))">Example</button>
+                </div>
+
+                @if (Result is not null)
+                {
+                    <div class="result-block">
+                        <div class="result-primary">@Result.Primary</div>
+                        <div class="result-breakdown">@Result.Breakdown</div>
+                        @if (!string.Equals(Result.Primary, Result.FeetAndInches, StringComparison.Ordinal))
+                        {
+                            <div class="result-alt">@Result.FeetAndInches</div>
+                        }
+                    </div>
+                }
+                else if (!string.IsNullOrWhiteSpace(ExpressionError))
+                {
+                    <div class="error-banner">@ExpressionError</div>
+                }
+                else
+                {
+                    <div class="result-empty">Result appears here</div>
+                }
+
+                @if (History.Count > 0)
+                {
+                    <div class="history-label">Recent</div>
+                    <div class="history-list">
+                        @foreach (var entry in History)
+                        {
+                            <button class="history-item" @onclick="@(() => LoadExample(entry.Expression))">
+                                <span class="history-expr">@entry.Expression</span>
+                                <span class="history-result">@entry.Result</span>
+                            </button>
+                        }
+                    </div>
+                }
             </div>
         }
-        else
+
+        @if (ActiveMode == AppMode.Spacing)
         {
-            <div class="result-primary">@Result.Primary</div>
-            <div class="result-expression">@Result.Expression</div>
+            <div class="mode-panel">
+                <div class="mode-header">
+                    <div class="mode-title">Equal Spacing</div>
+                    <div class="mode-sub">Balusters, studs, pickets, tiles</div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Opening / Total span</label>
+                    <input class="field-input" @bind="SpacingOpening" placeholder="e.g. 8'6&quot;" />
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Item width</label>
+                    <input class="field-input" @bind="SpacingItemWidth" placeholder='e.g. 1 1/2"' />
+                </div>
+                <div class="field-row">
+                    <div class="field-group half">
+                        <label class="field-label">Item count</label>
+                        <input class="field-input" type="number" min="1" @bind="SpacingItemCount" />
+                    </div>
+                    <div class="field-group half check-group">
+                        <label class="check-label">
+                            <input type="checkbox" @bind="SpacingIncludeEdgeGaps" />
+                            Include edge gaps
+                        </label>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn-solve" @onclick="SolveSpacing">Calculate</button>
+                    <button class="btn-ghost" @onclick="ClearSpacing">Clear</button>
+                </div>
+
+                @if (SpacingResult is not null)
+                {
+                    <div class="result-block">
+                        <div class="result-primary">@SpacingResult.Gap <span class="result-label">gap</span></div>
+                        <div class="result-grid">
+                            <div class="result-cell">
+                                <span>Center to center</span>
+                                <strong>@SpacingResult.CenterToCenter</strong>
+                            </div>
+                            <div class="result-cell">
+                                <span>Free space</span>
+                                <strong>@SpacingResult.FreeSpace</strong>
+                            </div>
+                            <div class="result-cell">
+                                <span>Gaps</span>
+                                <strong>@SpacingResult.GapCount (@SpacingResult.Mode)</strong>
+                            </div>
+                        </div>
+                        <div class="result-breakdown">@SpacingResult.Breakdown</div>
+                    </div>
+                }
+                else if (!string.IsNullOrWhiteSpace(SpacingError))
+                {
+                    <div class="error-banner">@SpacingError</div>
+                }
+            </div>
         }
 
-        @if (!string.IsNullOrWhiteSpace(ExpressionError))
+        @if (ActiveMode == AppMode.Concrete)
         {
-            <div class="error-banner">@ExpressionError</div>
+            <div class="mode-panel">
+                <div class="mode-header">
+                    <div class="mode-title">Concrete</div>
+                    <div class="mode-sub">Slabs, footings, piers</div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group half">
+                        <label class="field-label">Length</label>
+                        <input class="field-input" @bind="ConcreteLength" placeholder='e.g. 12&apos;' />
+                    </div>
+                    <div class="field-group half">
+                        <label class="field-label">Width</label>
+                        <input class="field-input" @bind="ConcreteWidth" placeholder="e.g. 10'" />
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group half">
+                        <label class="field-label">Thickness</label>
+                        <input class="field-input" @bind="ConcreteThickness" placeholder='e.g. 4"' />
+                    </div>
+                    <div class="field-group half">
+                        <label class="field-label">Waste %</label>
+                        <input class="field-input" type="number" min="0" max="50" @bind="ConcreteWaste" />
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn-solve" @onclick="SolveConcrete">Calculate</button>
+                    <button class="btn-ghost" @onclick="ClearConcrete">Clear</button>
+                </div>
+
+                @if (ConcreteCalcResult is not null)
+                {
+                    <div class="result-block">
+                        <div class="result-primary">@ConcreteCalcResult.CubicYardsWithWaste <span class="result-label">yd³ w/ waste</span></div>
+                        <div class="result-grid">
+                            <div class="result-cell">
+                                <span>Area</span>
+                                <strong>@ConcreteCalcResult.Area</strong>
+                            </div>
+                            <div class="result-cell">
+                                <span>Cubic yards</span>
+                                <strong>@ConcreteCalcResult.CubicYards</strong>
+                            </div>
+                            <div class="result-cell">
+                                <span>60 lb bags</span>
+                                <strong>@ConcreteCalcResult.Bags60</strong>
+                            </div>
+                            <div class="result-cell">
+                                <span>80 lb bags</span>
+                                <strong>@ConcreteCalcResult.Bags80</strong>
+                            </div>
+                        </div>
+                        <div class="result-breakdown">@ConcreteCalcResult.Breakdown</div>
+                    </div>
+                }
+                else if (!string.IsNullOrWhiteSpace(ConcreteError))
+                {
+                    <div class="error-banner">@ConcreteError</div>
+                }
+            </div>
         }
+
+        @if (ActiveMode == AppMode.Stairs)
+        {
+            <div class="mode-panel">
+                <div class="mode-header">
+                    <div class="mode-title">Stairs</div>
+                    <div class="mode-sub">Riser layout + code check</div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Total rise</label>
+                    <input class="field-input" @bind="StairsTotalRise" placeholder='e.g. 8&apos;11"' />
+                </div>
+                <div class="field-row">
+                    <div class="field-group half">
+                        <label class="field-label">Target riser</label>
+                        <input class="field-input" @bind="StairsTargetRise" placeholder='7 1/2"' />
+                    </div>
+                    <div class="field-group half">
+                        <label class="field-label">Max riser (code)</label>
+                        <input class="field-input" @bind="StairsMaxRise" placeholder='7 3/4"' />
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn-solve" @onclick="SolveStairs">Calculate</button>
+                    <button class="btn-ghost" @onclick="ClearStairs">Clear</button>
+                </div>
+
+                @if (StairsCalcResult is not null)
+                {
+                    <div class="result-block">
+                        <div class="result-primary">@StairsCalcResult.ActualRise <span class="result-label">actual rise</span></div>
+                        <div class="result-grid">
+                            <div class="result-cell">
+                                <span>Risers</span>
+                                <strong>@StairsCalcResult.RiserCount</strong>
+                            </div>
+                            <div class="result-cell">
+                                <span>Treads</span>
+                                <strong>@StairsCalcResult.TreadCount</strong>
+                            </div>
+                            <div class="result-cell code-check @(StairsCalcResult.CodeCheck == "Within limit" ? "pass" : "fail")">
+                                <span>Code check</span>
+                                <strong>@StairsCalcResult.CodeCheck</strong>
+                            </div>
+                        </div>
+                        <div class="result-breakdown">@StairsCalcResult.Breakdown</div>
+                    </div>
+                }
+                else if (!string.IsNullOrWhiteSpace(StairsError))
+                {
+                    <div class="error-banner">@StairsError</div>
+                }
+            </div>
+        }
+
+        @if (ActiveMode == AppMode.BoardFeet)
+        {
+            <div class="mode-panel">
+                <div class="mode-header">
+                    <div class="mode-title">Board Feet</div>
+                    <div class="mode-sub">Lumber volume + quantity</div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group half">
+                        <label class="field-label">Thickness</label>
+                        <input class="field-input" @bind="BfThickness" placeholder='1"' />
+                    </div>
+                    <div class="field-group half">
+                        <label class="field-label">Width</label>
+                        <input class="field-input" @bind="BfWidth" placeholder='e.g. 5 1/2"' />
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group half">
+                        <label class="field-label">Length</label>
+                        <input class="field-input" @bind="BfLength" placeholder="e.g. 8'" />
+                    </div>
+                    <div class="field-group half">
+                        <label class="field-label">Quantity</label>
+                        <input class="field-input" type="number" min="1" @bind="BfQuantity" />
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn-solve" @onclick="SolveBoardFeet">Calculate</button>
+                    <button class="btn-ghost" @onclick="ClearBoardFeet">Clear</button>
+                </div>
+
+                @if (BfResult is not null)
+                {
+                    <div class="result-block">
+                        <div class="result-primary">@BfResult.TotalBoardFeet <span class="result-label">total</span></div>
+                        <div class="result-grid">
+                            <div class="result-cell">
+                                <span>Per piece</span>
+                                <strong>@BfResult.PerPieceBoardFeet</strong>
+                            </div>
+                            <div class="result-cell">
+                                <span>Linear feet</span>
+                                <strong>@BfResult.LinearFeet</strong>
+                            </div>
+                        </div>
+                        <div class="result-breakdown">@BfResult.Breakdown</div>
+                    </div>
+                }
+                else if (!string.IsNullOrWhiteSpace(BoardFeetError))
+                {
+                    <div class="error-banner">@BoardFeetError</div>
+                }
+            </div>
+        }
+
     </div>
+
+    @* ── Tab bar ───────────────────────────────────────────────────── *@
+    <nav class="tab-bar">
+        <button class="tab @(ActiveMode == AppMode.Tape ? "active" : "")" @onclick="@(() => SetMode(AppMode.Tape))">
+            <span class="tab-icon">📏</span>
+            <span class="tab-label">Tape</span>
+        </button>
+        <button class="tab @(ActiveMode == AppMode.Spacing ? "active" : "")" @onclick="@(() => SetMode(AppMode.Spacing))">
+            <span class="tab-icon">⬌</span>
+            <span class="tab-label">Spacing</span>
+        </button>
+        <button class="tab @(ActiveMode == AppMode.Concrete ? "active" : "")" @onclick="@(() => SetMode(AppMode.Concrete))">
+            <span class="tab-icon">🧱</span>
+            <span class="tab-label">Concrete</span>
+        </button>
+        <button class="tab @(ActiveMode == AppMode.Stairs ? "active" : "")" @onclick="@(() => SetMode(AppMode.Stairs))">
+            <span class="tab-icon">🪜</span>
+            <span class="tab-label">Stairs</span>
+        </button>
+        <button class="tab @(ActiveMode == AppMode.BoardFeet ? "active" : "")" @onclick="@(() => SetMode(AppMode.BoardFeet))">
+            <span class="tab-icon">🪵</span>
+            <span class="tab-label">Bd Ft</span>
+        </button>
+    </nav>
+
 </div>
