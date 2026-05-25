@@ -1,13 +1,13 @@
 self.assetsManifest = {
-  "version": "VqmOVCDs",
+  "version": "lxYFPnMT",
   "assets": [
     {
-      "hash": "sha256-fALcsFeAatpQ9Uk7iLdB+KLF8wDVS0gB9/xlNJB/4KY=",
+      "hash": "sha256-3jjd2Io4oOlWZ/gdOZVBKMyXUNmnawjpGI2+9FqDxfY=",
       "url": "JobsiteCalculatorPwa.styles.css"
     },
     {
-      "hash": "sha256-Eo4o7W0JpBo9+qCiIQAQEZOXG0lO8GlNE04DNTMQD58=",
-      "url": "_framework/JobsiteCalculatorPwa.2cy514ywkt.wasm"
+      "hash": "sha256-7rd3+oj5dn1uez9RmOQzwlwoor249NU8CcbYbqHM1dk=",
+      "url": "_framework/JobsiteCalculatorPwa.myh4kotjdl.wasm"
     },
     {
       "hash": "sha256-GN2BZ8dMg7o9nz3F4Zcw/FFsc3gWOKQ3eZYYywau17U=",
@@ -146,8 +146,8 @@ self.assetsManifest = {
       "url": "_framework/blazor.webassembly.66stpp682q.js"
     },
     {
-      "hash": "sha256-7zNuL/PsRj3MV8SBtK3HqCeoBtjscwcoNkSXVHrauDA=",
-      "url": "_framework/dotnet.9ayyym7kxk.js"
+      "hash": "sha256-LUikCqLvo8U1ANdvakPv/3+LW9t9t4HAwyTo3kIVVCw=",
+      "url": "_framework/dotnet.dkp3ofnexu.js"
     },
     {
       "hash": "sha256-i4MH1ttKidpkFY/9i4kRe+7ux5JQMZds+qXuSkJqeog=",
@@ -178,19 +178,19 @@ self.assetsManifest = {
       "url": "css/app.css"
     },
     {
-      "hash": "sha256-4mWsDy3aHl36ZbGt8zByK7Pvd4kRUoNgTYzRnwmPHwg=",
+      "hash": "sha256-9MybolbvhSzSlb5xPvtb53Jt8IuCOtS/WwmQGy16HpU=",
       "url": "favicon.png"
     },
     {
-      "hash": "sha256-DbpQaq68ZSb5IoPosBErM1QWBfsbTxpJqhU0REi6wP4=",
+      "hash": "sha256-FQBTzn3tt+Sbdms58nyTnB9W1smUFygGFzTmo8M3GZc=",
       "url": "icon-192.png"
     },
     {
-      "hash": "sha256-oEo6d+KqX5fjxTiZk/w9NB3Mi0+ycS5yLwCKwr4IkbA=",
+      "hash": "sha256-Yx1iqQOxllGsX6W4Q9tCutGimE5yBBKaetbTpHQ/AQI=",
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-8ISaDFMFBuZsvjJLue0avzMhE9jWt8Vas2ma2PO13a4=",
+      "hash": "sha256-92lGc2M2K1MwltwZAuklpwTi9FPZ6FSOmE856fi3hMI=",
       "url": "index.html"
     },
     {
@@ -376,6 +376,10 @@ self.assetsManifest = {
     {
       "hash": "sha256-4II5ipnCtU1mt/zDUoHMdWq0FASCEYKrlM+EfLqzXgI=",
       "url": "manifest.webmanifest"
+    },
+    {
+      "hash": "sha256-/0fa3FWs8uU4pJ6wCKosY2sNZFxCY9oWSPGACRpAUV4=",
+      "url": "pourready-logo.png"
     }
   ]
 };
