@@ -1,350 +1,120 @@
-using Microsoft.AspNetCore.Components;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using JobsiteCalculatorPwa.Models;
-using JobsiteCalculatorPwa.Services;
-using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace JobsiteCalculatorPwa.Pages;
 
 public partial class Home : ComponentBase
 {
-    [Inject]
-    private ConstructionMathService Calculator { get; set; } = default!;
+    private int CurrentStep = 1;
+    private ConcreteProjectMode SelectedMode;
+    
+    private ConcreteSectionInput MainSlab = new() { Name = "Main Slab" };
+    private List<ThickenedSectionInput> ThickenedSections = new();
+    private ConcreteEstimationResult? Result;
+    private bool IsCopied = false;
 
-    // ── Mode ────────────────────────────────────────────────────────────────
-
-    private enum AppMode { Tape, Spacing, Concrete, Stairs, BoardFeet }
-    private AppMode ActiveMode = AppMode.Tape;
-
-    private void SetMode(AppMode mode)
+    private void SelectProject(ConcreteProjectMode mode)
     {
-        ActiveMode = mode;
-        ClearAllErrors();
-    }
-
-    private void ClearAllErrors()
-    {
-        ExpressionError = null;
-        SpacingError = null;
-        ConcreteError = null;
-        StairsError = null;
-        BoardFeetError = null;
-    }
-
-    // ── Shared settings ─────────────────────────────────────────────────────
-
-    private readonly int[] PrecisionOptions = [64, 32, 16, 8, 4, 2];
-    private DisplayMode PreferredDisplay = DisplayMode.FeetAndInches;
-    private int PrecisionDenominator = 16;
-
-    private static string GetDisplayLabel(DisplayMode mode) =>
-        mode switch
+        SelectedMode = mode;
+        CurrentStep = 2;
+        
+        // Reset defaults
+        MainSlab = new ConcreteSectionInput { Name = "Main Slab" };
+        if (mode == ConcreteProjectMode.Columns)
         {
-            DisplayMode.FeetAndInches => "Feet + inches",
-            DisplayMode.FractionalInches => "Fraction inches",
-            DisplayMode.DecimalFeet => "Decimal feet",
-            DisplayMode.Millimeters => "Millimeters",
-            _ => mode.ToString(),
+            MainSlab.IsRoundColumn = true;
+        }
+        ThickenedSections.Clear();
+        Result = null;
+        IsCopied = false;
+    }
+
+    private string GetProjectTypeName()
+    {
+        return SelectedMode switch
+        {
+            ConcreteProjectMode.Slab => "Slab",
+            ConcreteProjectMode.MonolithicSlab => "Monolithic Slab",
+            ConcreteProjectMode.Footings => "Footings",
+            ConcreteProjectMode.PouredWalls => "Poured Walls",
+            ConcreteProjectMode.Columns => "Columns",
+            _ => "Project"
         };
-
-    // ── Tape mode ────────────────────────────────────────────────────────────
-
-    private readonly ExampleExpression[] Examples =
-    [
-        new("Inside add", "1'5\" + (12\" + 15\")", "Simple parenthesis check"),
-        new("Repeated run", "((3'11 1/2\" + 5/8\") * 6) - 1/4\"", "Good for repeated parts"),
-        new("Split a difference", "(7'11 1/4\" - 3'5 1/4\") / 3", "Common layout math"),
-    ];
-
-    private readonly List<HistoryEntry> History = [];
-
-    private string _expression = "1'5\" + (12\" + 15\")=";
-    private ConstructionExpressionResult? Result;
-    private string? ExpressionError;
-
-    private string Expression
-    {
-        get => _expression;
-        set
-        {
-            if (string.Equals(_expression, value, StringComparison.Ordinal)) return;
-            var formatted = Regex.Replace(value, @"\s*([+\-*/])\s*", " $1 ");
-            _expression = formatted;
-            RefreshResult();
-        }
     }
 
-    private void RefreshResult()
+    private void AddThickenedSection()
     {
-        if (string.IsNullOrWhiteSpace(Expression))
-        {
-            Result = null;
-            ExpressionError = null;
-            return;
-        }
-        EvaluateExpression(addToHistory: false);
+        ThickenedSections.Add(new ThickenedSectionInput { Name = $"Edge {ThickenedSections.Count + 1}" });
     }
 
-    private void SolveExpression()
+    private void RemoveThickenedSection(int index)
     {
-        _expression = NormalizeExpression(Expression);
-        EvaluateExpression(addToHistory: true);
-    }
-
-    private void EvaluateExpression(bool addToHistory)
-    {
-        try
+        if (index >= 0 && index < ThickenedSections.Count)
         {
-            Result = Calculator.EvaluateExpression(new ConstructionExpressionInput(
-                Expression,
-                PreferredDisplay,
-                PrecisionDenominator));
-
-            ExpressionError = null;
-
-            if (addToHistory)
+            ThickenedSections.RemoveAt(index);
+            // Re-index names
+            for (int i = 0; i < ThickenedSections.Count; i++)
             {
-                AddHistory(Result);
-            }
-        }
-        catch (Exception ex)
-        {
-            if (!addToHistory)
-            {
-                ExpressionError = null; // silent on live update
-            }
-            else
-            {
-                Result = null;
-                ExpressionError = ex.Message;
+                ThickenedSections[i].Name = $"Edge {i + 1}";
             }
         }
     }
 
-    private void AppendToken(string value)
+    private void Calculate()
     {
-        if (value == "'" || value == "\"")
-        {
-            Expression = Regex.Replace(Expression, @"(\d|\d+\/\d)\s*$", "$1") + value;
-        }
-        else if (value is "+" or "-" or "*" or "/")
-        {
-            Expression += " " + value + " ";
-        }
-        else
-        {
-            Expression += value;
-        }
-        Expression = NormalizeExpression(Expression);
+        Result = MathEngine.Calculate(SelectedMode, MainSlab, ThickenedSections);
+        CurrentStep = 3;
     }
 
-    private void Backspace()
+    private void ResetProject()
     {
-        if (Expression.Length == 0) return;
+        CurrentStep = 1;
+        SelectedMode = default;
+        MainSlab = new ConcreteSectionInput { Name = "Main Slab" };
+        ThickenedSections.Clear();
+        Result = null;
+        IsCopied = false;
+    }
 
-        var expr = Expression;
+    private async Task CopyToClipboard()
+    {
+        if (Result == null) return;
 
-        if (expr.EndsWith('\'') || expr.EndsWith('"'))
+        var sb = new StringBuilder();
+        sb.AppendLine("| Section | Cubic Feet | Cubic Yards |");
+        sb.AppendLine("| --- | --- | --- |");
+        foreach (var section in Result.Sections)
         {
-            Expression = expr[..^1];
-            return;
+            sb.AppendLine($"| {section.Name} | {section.CubicFeet} | {section.CubicYards} |");
         }
+        sb.AppendLine($"| **Total Order Volume** | **{Math.Round(Result.TotalCubicFeetWithWaste, 2)} Cubic Feet** | **{Result.TotalCubicYardsWithWaste} Yards** |");
+        sb.AppendLine();
+        sb.AppendLine("### Bag Equivalents");
+        sb.AppendLine($"- 40 lb bags: {Result.Bags40lb}");
+        sb.AppendLine($"- 50 lb bags: {Result.Bags50lb}");
+        sb.AppendLine($"- 60 lb bags: {Result.Bags60lb}");
+        sb.AppendLine($"- 80 lb bags: {Result.Bags80lb}");
 
-        var fracMatch = Regex.Match(expr, @"(\d+\/\d+)$");
-        if (fracMatch.Success)
-        {
-            Expression = expr[..^fracMatch.Length];
-            return;
-        }
-
-        var opMatch = Regex.Match(expr, @"\s([+\-*/])\s$");
-        if (opMatch.Success)
-        {
-            Expression = expr[..^opMatch.Length];
-            return;
-        }
-
-        Expression = expr[..^1];
-    }
-
-    private void ClearExpression() => Expression = string.Empty;
-
-    private void LoadExample(string expression)
-    {
-        Expression = expression;
-        SolveExpression();
-    }
-
-    private void AddHistory(ConstructionExpressionResult result)
-    {
-        History.RemoveAll(e => string.Equals(e.Expression, result.Expression, StringComparison.OrdinalIgnoreCase));
-        History.Insert(0, new HistoryEntry(result.Expression, result.Primary));
-        if (History.Count > 6) History.RemoveRange(6, History.Count - 6);
-    }
-
-    private static string NormalizeExpression(string expr)
-    {
-        if (string.IsNullOrWhiteSpace(expr)) return string.Empty;
-        expr = Regex.Replace(expr, @"\s*([+\-*/])\s*", " $1 ");
-        expr = Regex.Replace(expr, @"\s+", " ");
-        expr = Regex.Replace(expr, @"(\d|\d+\/\d)\s*(['""])", "$1$2");
-        expr = Regex.Replace(expr, @"\s+(['""])", "$1");
-        expr = Regex.Replace(expr, @"(\d+)\s*\/\s*(\d+)", "$1/$2");
-        expr = Regex.Replace(expr, @"\(\s*", "(");
-        expr = Regex.Replace(expr, @"\s*\)", ")");
-        expr = Regex.Replace(expr, @"([+\-*/])\s*$", "");
-        return expr.Trim();
-    }
-
-    // ── Spacing mode ─────────────────────────────────────────────────────────
-
-    private string SpacingOpening = string.Empty;
-    private string SpacingItemWidth = string.Empty;
-    private int SpacingItemCount = 1;
-    private bool SpacingIncludeEdgeGaps = true;
-    private EqualSpacingResult? SpacingResult;
-    private string? SpacingError;
-
-    private void SolveSpacing()
-    {
         try
         {
-            SpacingResult = Calculator.SolveEqualSpacing(new EqualSpacingInput(
-                SpacingOpening,
-                SpacingItemWidth,
-                SpacingItemCount,
-                SpacingIncludeEdgeGaps,
-                PrecisionDenominator,
-                PreferredDisplay));
-            SpacingError = null;
+            bool success = await JSRuntime.InvokeAsync<bool>("clipboardFunctions.copyText", sb.ToString());
+            if (success)
+            {
+                IsCopied = true;
+                StateHasChanged();
+                await Task.Delay(2000);
+                IsCopied = false;
+                StateHasChanged();
+            }
         }
         catch (Exception ex)
         {
-            SpacingResult = null;
-            SpacingError = ex.Message;
+            Console.WriteLine($"Error copying to clipboard: {ex.Message}");
         }
     }
-
-    private void ClearSpacing()
-    {
-        SpacingOpening = string.Empty;
-        SpacingItemWidth = string.Empty;
-        SpacingItemCount = 1;
-        SpacingIncludeEdgeGaps = true;
-        SpacingResult = null;
-        SpacingError = null;
-    }
-
-    // ── Concrete mode ─────────────────────────────────────────────────────────
-
-    private string ConcreteLength = string.Empty;
-    private string ConcreteWidth = string.Empty;
-    private string ConcreteThickness = "4\"";
-    private int ConcreteWaste = 10;
-    private ConcreteResult? ConcreteCalcResult;
-    private string? ConcreteError;
-
-    private void SolveConcrete()
-    {
-        try
-        {
-            ConcreteCalcResult = Calculator.SolveConcrete(new ConcreteInput(
-                ConcreteLength,
-                ConcreteWidth,
-                ConcreteThickness,
-                ConcreteWaste));
-            ConcreteError = null;
-        }
-        catch (Exception ex)
-        {
-            ConcreteCalcResult = null;
-            ConcreteError = ex.Message;
-        }
-    }
-
-    private void ClearConcrete()
-    {
-        ConcreteLength = string.Empty;
-        ConcreteWidth = string.Empty;
-        ConcreteThickness = "4\"";
-        ConcreteWaste = 10;
-        ConcreteCalcResult = null;
-        ConcreteError = null;
-    }
-
-    // ── Stairs mode ───────────────────────────────────────────────────────────
-
-    private string StairsTotalRise = string.Empty;
-    private string StairsTargetRise = "7 1/2\"";
-    private string StairsMaxRise = "7 3/4\"";
-    private StairResult? StairsCalcResult;
-    private string? StairsError;
-
-    private void SolveStairs()
-    {
-        try
-        {
-            StairsCalcResult = Calculator.SolveStairs(new StairInput(
-                StairsTotalRise,
-                StairsTargetRise,
-                StairsMaxRise,
-                PrecisionDenominator));
-            StairsError = null;
-        }
-        catch (Exception ex)
-        {
-            StairsCalcResult = null;
-            StairsError = ex.Message;
-        }
-    }
-
-    private void ClearStairs()
-    {
-        StairsTotalRise = string.Empty;
-        StairsTargetRise = "7 1/2\"";
-        StairsMaxRise = "7 3/4\"";
-        StairsCalcResult = null;
-        StairsError = null;
-    }
-
-    // ── Board Feet mode ───────────────────────────────────────────────────────
-
-    private string BfThickness = "1\"";
-    private string BfWidth = string.Empty;
-    private string BfLength = string.Empty;
-    private int BfQuantity = 1;
-    private BoardFootResult? BfResult;
-    private string? BoardFeetError;
-
-    private void SolveBoardFeet()
-    {
-        try
-        {
-            BfResult = Calculator.SolveBoardFeet(new BoardFootInput(
-                BfThickness,
-                BfWidth,
-                BfLength,
-                BfQuantity));
-            BoardFeetError = null;
-        }
-        catch (Exception ex)
-        {
-            BfResult = null;
-            BoardFeetError = ex.Message;
-        }
-    }
-
-    private void ClearBoardFeet()
-    {
-        BfThickness = "1\"";
-        BfWidth = string.Empty;
-        BfLength = string.Empty;
-        BfQuantity = 1;
-        BfResult = null;
-        BoardFeetError = null;
-    }
-
-    // ── Records ───────────────────────────────────────────────────────────────
-
-    private sealed record ExampleExpression(string Label, string Expression, string Note);
-    private sealed record HistoryEntry(string Expression, string Result);
 }

@@ -62,3 +62,15 @@ emmbedments.txt
 # Build scripts (if not needed in deployment)
 # *.ps1
 # *.py
+
+# .NET Build outputs
+JobsiteCalculatorPwa/bin/
+JobsiteCalculatorPwa/obj/
+
+# Local temporary folders
+publish_temp/
+
+# Test directories
+TestConsole/
+TestConsole10/
+TestScript/
