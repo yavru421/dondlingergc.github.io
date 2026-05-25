@@ -16,12 +16,58 @@
     border-bottom: 2px solid #333;
     padding-bottom: 1rem;
     margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.app-header-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.app-logo-name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ff9800;
+    opacity: 0.7;
+}
+
+.app-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
 .app-header h1 {
     font-size: 1.8rem;
-    color: #ff9800; /* Vibrant Orange for construction vibe */
+    color: #ff9800;
     margin: 0;
+}
+
+.btn-install {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    color: #121212;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    white-space: nowrap;
+}
+
+.btn-install:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
 }
 
 .btn-reset {
@@ -74,6 +120,17 @@ h3 {
     border-color: #ff9800;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(255, 152, 0, 0.2);
+}
+
+.field-note {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    background-color: #1a1a1a;
+    border-left: 3px solid #ff9800;
+    border-radius: 4px;
+    color: #aaa;
+    font-size: 0.85rem;
+    line-height: 1.5;
 }
 
 /* Step 2 */
@@ -295,6 +352,11 @@ h3 {
 @media (max-width: 600px) {
     .app-header h1 {
         font-size: 1.5rem;
+    }
+
+    .app-header-actions {
+        width: 100%;
+        justify-content: flex-end;
     }
     
     .btn-calculate {

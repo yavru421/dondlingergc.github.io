@@ -1,6 +1,6 @@
 {
-  "name": "ForgeTape Construction Math",
-  "short_name": "ForgeTape",
+  "name": "PourReady",
+  "short_name": "PourReady",
   "id": "/calc/",
   "start_url": "/calc/",
   "scope": "/calc/",
@@ -20,5 +20,5 @@
       "sizes": "192x192"
     }
   ],
-  "description": "Exact construction math for tape arithmetic, spacing, concrete, stairs, and board feet."
+  "description": "PourReady — concrete estimator built in the field for the field. Free to use."
 }

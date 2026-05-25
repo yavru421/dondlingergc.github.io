@@ -17,6 +17,22 @@ public partial class Home : ComponentBase
     private List<ThickenedSectionInput> ThickenedSections = new();
     private ConcreteEstimationResult? Result;
     private bool IsCopied = false;
+    private bool IsInstallable = false;
+    private bool _firstRenderDone = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!_firstRenderDone)
+        {
+            _firstRenderDone = true;
+            try
+            {
+                IsInstallable = await JSRuntime.InvokeAsync<bool>("pwaInstall.isAvailable");
+                StateHasChanged();
+            }
+            catch { /* JS not ready yet */ }
+        }
+    }
 
     private void SelectProject(ConcreteProjectMode mode)
     {
@@ -115,6 +131,23 @@ public partial class Home : ComponentBase
         catch (Exception ex)
         {
             Console.WriteLine($"Error copying to clipboard: {ex.Message}");
+        }
+    }
+
+    private async Task InstallPwa()
+    {
+        try
+        {
+            var accepted = await JSRuntime.InvokeAsync<bool>("pwaInstall.prompt");
+            if (accepted)
+            {
+                IsInstallable = false;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"PWA install error: {ex.Message}");
         }
     }
 }
