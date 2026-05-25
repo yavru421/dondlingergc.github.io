@@ -22,7 +22,11 @@
                     Add to Home Screen
                 </button>
             }
-            @if (CurrentStep > 1)
+            @if (CurrentStep == 2)
+            {
+                <button class="btn-back" @onclick="GoBack">← Back</button>
+            }
+            @if (CurrentStep == 3)
             {
                 <button class="btn-reset" @onclick="ResetProject">New Project</button>
             }
@@ -60,6 +64,10 @@
                             <option value="true">Round (Sonotube)</option>
                             <option value="false">Square / Rectangular</option>
                         </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Number of Columns</label>
+                        <input type="number" step="1" min="1" @bind="MainSlab.ColumnCount" placeholder="e.g., 6" />
                     </div>
                 }
 
@@ -114,9 +122,9 @@
                             <input type="number" step="0.1" @bind="MainSlab.WidthFeet" placeholder="e.g., 1.5" />
                         </div>
                         <div class="input-group tooltip-container">
-                            <label>Depth (ft) [Uses Thickness input]</label>
+                            <label>Depth (in)</label>
                             <input type="number" step="0.1" @bind="MainSlab.ThicknessInches" placeholder="e.g., 48" />
-                            <span class="tooltip-text">Enter the depth of the column in inches (e.g. 48 for 4ft)</span>
+                            <span class="tooltip-text">Enter depth in inches (e.g. 48 = 4 ft)</span>
                         </div>
                     }
                     else
@@ -168,6 +176,18 @@
                 }
             }
 
+            <div class="waste-selector">
+                <span class="waste-label">Waste Buffer</span>
+                <div class="waste-buttons">
+                    <button class="@(WastePercent == 5 ? "btn-waste active" : "btn-waste")" @onclick="() => WastePercent = 5">5%</button>
+                    <button class="@(WastePercent == 10 ? "btn-waste active" : "btn-waste")" @onclick="() => WastePercent = 10">10%</button>
+                    <button class="@(WastePercent == 15 ? "btn-waste active" : "btn-waste")" @onclick="() => WastePercent = 15">15%</button>
+                </div>
+            </div>
+            @if (_validationError != null)
+            {
+                <div class="validation-error">⚠ @_validationError</div>
+            }
             <button class="btn-calculate" @onclick="Calculate">Calculate Volume</button>
         </div>
     }
@@ -214,6 +234,8 @@
                     <li>80 lb bags: @Result.Bags80lb</li>
                 </ul>
             </div>
+
+            <p class="waste-note">Bag counts based on @WastePercent% waste. Ready-mix order rounded up to nearest ¼ yard.</p>
 
             <div class="action-buttons">
                 <button class="btn-copy" @onclick="CopyToClipboard">

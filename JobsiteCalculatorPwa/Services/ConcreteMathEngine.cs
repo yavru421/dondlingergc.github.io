@@ -9,10 +9,12 @@ public class ConcreteMathEngine
     public ConcreteEstimationResult Calculate(
         ConcreteProjectMode mode, 
         ConcreteSectionInput mainSlab, 
-        List<ThickenedSectionInput>? thickenedSections = null)
+        List<ThickenedSectionInput>? thickenedSections = null,
+        int wastePercent = 10)
     {
         var result = new ConcreteEstimationResult();
         double totalCubicFeet = 0;
+        double wasteMultiplier = 1.0 + (wastePercent / 100.0);
 
         if (mode == ConcreteProjectMode.Slab || mode == ConcreteProjectMode.MonolithicSlab || 
             mode == ConcreteProjectMode.Footings || mode == ConcreteProjectMode.PouredWalls || 
@@ -25,33 +27,79 @@ public class ConcreteMathEngine
                 double radiusFeet = (mainSlab.DiameterInches / 2.0) / 12.0;
                 // For columns, LengthFeet acts as the depth/height
                 baseVolumeCf = Math.PI * (radiusFeet * radiusFeet) * mainSlab.LengthFeet;
+                // Multiply by column count
+                int count = Math.Max(1, mainSlab.ColumnCount);
+                baseVolumeCf *= count;
+                string sectionName = mainSlab.Name + (count > 1 ? $" (×{count})" : "");
+                totalCubicFeet += baseVolumeCf;
+                result.Sections.Add(new SectionResult
+                {
+                    Name = sectionName,
+                    CubicFeet = Math.Round(baseVolumeCf, 2),
+                    CubicYards = Math.Round(baseVolumeCf / 27.0, 2)
+                });
+            }
+            else if (mode == ConcreteProjectMode.Columns && !mainSlab.IsRoundColumn)
+            {
+                double thicknessFeet = mainSlab.ThicknessInches / 12.0;
+                baseVolumeCf = mainSlab.LengthFeet * mainSlab.WidthFeet * thicknessFeet;
+                // Multiply by column count
+                int count = Math.Max(1, mainSlab.ColumnCount);
+                baseVolumeCf *= count;
+                string sectionName = mainSlab.Name + (count > 1 ? $" (×{count})" : "");
+                totalCubicFeet += baseVolumeCf;
+                result.Sections.Add(new SectionResult
+                {
+                    Name = sectionName,
+                    CubicFeet = Math.Round(baseVolumeCf, 2),
+                    CubicYards = Math.Round(baseVolumeCf / 27.0, 2)
+                });
             }
             else if (mode == ConcreteProjectMode.Footings)
             {
                 double thicknessFeet = mainSlab.ThicknessInches / 12.0;
                 double widthFeet = mainSlab.WidthInches / 12.0;
                 baseVolumeCf = mainSlab.LengthFeet * widthFeet * thicknessFeet;
+                if (baseVolumeCf > 0)
+                {
+                    totalCubicFeet += baseVolumeCf;
+                    result.Sections.Add(new SectionResult
+                    {
+                        Name = mainSlab.Name,
+                        CubicFeet = Math.Round(baseVolumeCf, 2),
+                        CubicYards = Math.Round(baseVolumeCf / 27.0, 2)
+                    });
+                }
             }
             else if (mode == ConcreteProjectMode.PouredWalls)
             {
                 double thicknessFeet = mainSlab.ThicknessInches / 12.0;
                 baseVolumeCf = mainSlab.LengthFeet * mainSlab.HeightFeet * thicknessFeet;
+                if (baseVolumeCf > 0)
+                {
+                    totalCubicFeet += baseVolumeCf;
+                    result.Sections.Add(new SectionResult
+                    {
+                        Name = mainSlab.Name,
+                        CubicFeet = Math.Round(baseVolumeCf, 2),
+                        CubicYards = Math.Round(baseVolumeCf / 27.0, 2)
+                    });
+                }
             }
             else
             {
                 double thicknessFeet = mainSlab.ThicknessInches / 12.0;
                 baseVolumeCf = mainSlab.LengthFeet * mainSlab.WidthFeet * thicknessFeet;
-            }
-
-            if (baseVolumeCf > 0)
-            {
-                totalCubicFeet += baseVolumeCf;
-                result.Sections.Add(new SectionResult
+                if (baseVolumeCf > 0)
                 {
-                    Name = mainSlab.Name,
-                    CubicFeet = Math.Round(baseVolumeCf, 2),
-                    CubicYards = Math.Round(baseVolumeCf / 27.0, 2)
-                });
+                    totalCubicFeet += baseVolumeCf;
+                    result.Sections.Add(new SectionResult
+                    {
+                        Name = mainSlab.Name,
+                        CubicFeet = Math.Round(baseVolumeCf, 2),
+                        CubicYards = Math.Round(baseVolumeCf / 27.0, 2)
+                    });
+                }
             }
         }
 
@@ -89,8 +137,8 @@ public class ConcreteMathEngine
         // Formula 4: Total & Waste Logic
         result.TotalCubicYards = totalCubicFeet / 27.0;
         
-        // Add 10% waste
-        double totalVolumeWithWasteCy = result.TotalCubicYards * 1.10;
+        // Add configurable waste %
+        double totalVolumeWithWasteCy = result.TotalCubicYards * wasteMultiplier;
         
         // Rounding Rule: Final Total Order Volume rounded up to nearest 1/4 cubic yard (0.25)
         double roundedCy = Math.Ceiling(totalVolumeWithWasteCy * 4.0) / 4.0;
@@ -98,8 +146,8 @@ public class ConcreteMathEngine
         result.TotalCubicYardsWithWaste = roundedCy;
         result.TotalCubicFeetWithWaste = roundedCy * 27.0;
 
-        // Bag Equivalents (Calculated on exact raw volume + 10% waste, prior to ready-mix rounding)
-        double exactVolumeCfWithWaste = totalCubicFeet * 1.10;
+        // Bag Equivalents (Calculated on exact raw volume + waste %, prior to ready-mix rounding)
+        double exactVolumeCfWithWaste = totalCubicFeet * wasteMultiplier;
         
         // 40 lb bag: 0.30 ft³
         // 50 lb bag: 0.375 ft³

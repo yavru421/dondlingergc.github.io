@@ -1,17 +1,13 @@
 self.assetsManifest = {
-  "version": "c2ZlJ4ct",
+  "version": "wvCH8RrL",
   "assets": [
     {
-      "hash": "sha256-LnLNNhdAUnjVDvCfDD7OhyJAbxqe/C7Sqld8EAhEYDc=",
+      "hash": "sha256-m0uVnTR9bzpu66KtIT4KT5Mm4mh+JeqJXI5450T1BLQ=",
       "url": "JobsiteCalculatorPwa.styles.css"
     },
     {
-      "hash": "sha256-SoVmuxnM72qn+pIXcywH/Gwvf2P1r5vc67oKHM6pAqg=",
-      "url": "_framework/JobsiteCalculatorPwa.u2ta90up34.wasm"
-    },
-    {
-      "hash": "sha256-GN2BZ8dMg7o9nz3F4Zcw/FFsc3gWOKQ3eZYYywau17U=",
-      "url": "_framework/Microsoft.AspNetCore.Components.8on9hrw84o.wasm"
+      "hash": "sha256-jpgtMiAk0mvueSNbtvx0nf1JOOahURHXWinXB8fZZn8=",
+      "url": "_framework/JobsiteCalculatorPwa.ig6bigq9r0.wasm"
     },
     {
       "hash": "sha256-InNVlfHXAMjGIBqwwd92NJdJGoGRaEV49jHpRtNZrxg=",
@@ -20,6 +16,10 @@ self.assetsManifest = {
     {
       "hash": "sha256-Zwf8epQmYDdXPvLeo0xZlJOzjK6A9la6xnI4JNt77hY=",
       "url": "_framework/Microsoft.AspNetCore.Components.WebAssembly.bzbj0p8nw9.wasm"
+    },
+    {
+      "hash": "sha256-HX5s6qhKnBpTgrbWy9uz3rtkGBljJ/0Q6uJWcCP4smU=",
+      "url": "_framework/Microsoft.AspNetCore.Components.h3mtdrfsqs.wasm"
     },
     {
       "hash": "sha256-3DH5Li3nbKgskNzRybjZBIfXSoxH/TN0wolg2KHl/YQ=",
@@ -154,8 +154,8 @@ self.assetsManifest = {
       "url": "_framework/dotnet.native.rjbmzc4jpg.js"
     },
     {
-      "hash": "sha256-X6mvNq18PEapKY+80pW5/pHJTWwzJ3Jx3TAYnIqRaaw=",
-      "url": "_framework/dotnet.pyo1am0jan.js"
+      "hash": "sha256-7SIOq5+/PFn9c80A3dDvToY6mWuM4OcDsLsh9LtOaqY=",
+      "url": "_framework/dotnet.nn4ee8ijif.js"
     },
     {
       "hash": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU=",
@@ -190,7 +190,7 @@ self.assetsManifest = {
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-7iS2kD9Zbg/fjbVvnwoQN1dN1YLTbeTZUWtHALiKhJ8=",
+      "hash": "sha256-xrTJ+dEIGIUOuxHsRAc78sAKFpzwt2E862wfLzlgBVs=",
       "url": "index.html"
     },
     {
@@ -374,7 +374,7 @@ self.assetsManifest = {
       "url": "lib/bootstrap/dist/js/bootstrap.min.js.map"
     },
     {
-      "hash": "sha256-4II5ipnCtU1mt/zDUoHMdWq0FASCEYKrlM+EfLqzXgI=",
+      "hash": "sha256-JE8Arek3+M7J7J+dTe2I3M1gOKJwfW3ZjBUyTBGkexc=",
       "url": "manifest.webmanifest"
     },
     {

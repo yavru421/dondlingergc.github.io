@@ -19,6 +19,8 @@ public partial class Home : ComponentBase
     private bool IsCopied = false;
     private bool IsInstallable = false;
     private bool _firstRenderDone = false;
+    private int WastePercent = 10;
+    private string? _validationError;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -38,6 +40,8 @@ public partial class Home : ComponentBase
     {
         SelectedMode = mode;
         CurrentStep = 2;
+        _validationError = null;
+        WastePercent = 10;
         
         // Reset defaults
         MainSlab = new ConcreteSectionInput { Name = "Main Slab" };
@@ -83,13 +87,65 @@ public partial class Home : ComponentBase
 
     private void Calculate()
     {
-        Result = MathEngine.Calculate(SelectedMode, MainSlab, ThickenedSections);
+        // Validation
+        _validationError = null;
+
+        if (SelectedMode == ConcreteProjectMode.Slab || SelectedMode == ConcreteProjectMode.MonolithicSlab)
+        {
+            if (!(MainSlab.LengthFeet > 0 && MainSlab.WidthFeet > 0 && MainSlab.ThicknessInches > 0))
+            {
+                _validationError = "Please enter all dimensions (Length, Width, and Thickness).";
+                return;
+            }
+        }
+        else if (SelectedMode == ConcreteProjectMode.Footings)
+        {
+            if (!(MainSlab.LengthFeet > 0 && MainSlab.WidthInches > 0 && MainSlab.ThicknessInches > 0))
+            {
+                _validationError = "Please enter Length, Width (in), and Thickness (in).";
+                return;
+            }
+        }
+        else if (SelectedMode == ConcreteProjectMode.PouredWalls)
+        {
+            if (!(MainSlab.LengthFeet > 0 && MainSlab.HeightFeet > 0 && MainSlab.ThicknessInches > 0))
+            {
+                _validationError = "Please enter Length, Height, and Thickness.";
+                return;
+            }
+        }
+        else if (SelectedMode == ConcreteProjectMode.Columns && MainSlab.IsRoundColumn)
+        {
+            if (!(MainSlab.DiameterInches > 0 && MainSlab.LengthFeet > 0))
+            {
+                _validationError = "Please enter Diameter and Depth.";
+                return;
+            }
+        }
+        else if (SelectedMode == ConcreteProjectMode.Columns && !MainSlab.IsRoundColumn)
+        {
+            if (!(MainSlab.LengthFeet > 0 && MainSlab.WidthFeet > 0 && MainSlab.ThicknessInches > 0))
+            {
+                _validationError = "Please enter Length, Width, and Depth.";
+                return;
+            }
+        }
+
+        Result = MathEngine.Calculate(SelectedMode, MainSlab, ThickenedSections, WastePercent);
         CurrentStep = 3;
+    }
+
+    private void GoBack()
+    {
+        CurrentStep = 1;
+        _validationError = null;
     }
 
     private void ResetProject()
     {
         CurrentStep = 1;
+        _validationError = null;
+        WastePercent = 10;
         SelectedMode = default;
         MainSlab = new ConcreteSectionInput { Name = "Main Slab" };
         ThickenedSections.Clear();

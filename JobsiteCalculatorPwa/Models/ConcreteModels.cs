@@ -16,6 +16,7 @@ public class ConcreteSectionInput
     public double HeightFeet { get; set; } // Used for Poured Walls
     public bool IsRoundColumn { get; set; } // Used for Columns
     public double DiameterInches { get; set; } // Used for Round Columns
+    public int ColumnCount { get; set; } = 1;
 }
 
 public class ThickenedSectionInput
