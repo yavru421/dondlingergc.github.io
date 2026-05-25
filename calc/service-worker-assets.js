@@ -1,13 +1,13 @@
 self.assetsManifest = {
-  "version": "lxYFPnMT",
+  "version": "kVOkAl66",
   "assets": [
     {
-      "hash": "sha256-3jjd2Io4oOlWZ/gdOZVBKMyXUNmnawjpGI2+9FqDxfY=",
+      "hash": "sha256-6ouD+dog+tUUTD2UxoBSzk5TCBOfxm/VIpSAUozBos8=",
       "url": "JobsiteCalculatorPwa.styles.css"
     },
     {
-      "hash": "sha256-7rd3+oj5dn1uez9RmOQzwlwoor249NU8CcbYbqHM1dk=",
-      "url": "_framework/JobsiteCalculatorPwa.myh4kotjdl.wasm"
+      "hash": "sha256-gq6XXUgJuS1L5x5N2HCldO7MFn8VXZMgSm61xK022rU=",
+      "url": "_framework/JobsiteCalculatorPwa.mb6iy3fytc.wasm"
     },
     {
       "hash": "sha256-GN2BZ8dMg7o9nz3F4Zcw/FFsc3gWOKQ3eZYYywau17U=",
@@ -146,10 +146,6 @@ self.assetsManifest = {
       "url": "_framework/blazor.webassembly.66stpp682q.js"
     },
     {
-      "hash": "sha256-LUikCqLvo8U1ANdvakPv/3+LW9t9t4HAwyTo3kIVVCw=",
-      "url": "_framework/dotnet.dkp3ofnexu.js"
-    },
-    {
       "hash": "sha256-i4MH1ttKidpkFY/9i4kRe+7ux5JQMZds+qXuSkJqeog=",
       "url": "_framework/dotnet.native.f749u69f30.wasm"
     },
@@ -160,6 +156,10 @@ self.assetsManifest = {
     {
       "hash": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU=",
       "url": "_framework/dotnet.runtime.r2kbxkuujc.js"
+    },
+    {
+      "hash": "sha256-vDH/42gJ0GS2bPcx3TlquFRgau/QcIASA7XmmolM+Kk=",
+      "url": "_framework/dotnet.w1stb4mvqy.js"
     },
     {
       "hash": "sha256-SZLtQnRc0JkwqHab0VUVP7T3uBPSeYzxzDnpxPpUnHk=",
@@ -190,7 +190,7 @@ self.assetsManifest = {
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-92lGc2M2K1MwltwZAuklpwTi9FPZ6FSOmE856fi3hMI=",
+      "hash": "sha256-5qrhr6y2epTolLdI7BIpoQTsCFByzcc/PxEwJikAiT0=",
       "url": "index.html"
     },
     {
@@ -376,6 +376,10 @@ self.assetsManifest = {
     {
       "hash": "sha256-4II5ipnCtU1mt/zDUoHMdWq0FASCEYKrlM+EfLqzXgI=",
       "url": "manifest.webmanifest"
+    },
+    {
+      "hash": "sha256-+gsPtb5QbMIaYk3k0pd6Kg72UUJIqeGJTcYO0hZOLjw=",
+      "url": "pourready-icon.png"
     },
     {
       "hash": "sha256-/0fa3FWs8uU4pJ6wCKosY2sNZFxCY9oWSPGACRpAUV4=",
