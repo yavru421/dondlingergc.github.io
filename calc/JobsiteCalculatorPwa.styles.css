@@ -116,9 +116,9 @@
 }
 
 .app-logo-icon[b-7058mmdl5y] {
-    height: 48px;
-    width: 48px;
-    border-radius: 10px;
+    height: 28px;
+    width: 28px;
+    border-radius: 5px;
     flex-shrink: 0;
 }
 
@@ -129,26 +129,26 @@
 }
 
 .app-logo-pour[b-7058mmdl5y] {
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: 800;
     color: #4A5568;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
 }
 
 .app-logo-ready[b-7058mmdl5y] {
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: 800;
     color: #f97316;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
 }
 
 .app-logo-sub[b-7058mmdl5y] {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #666;
-    margin-top: 2px;
+    color: #555;
+    margin-top: 1px;
 }
 
 .app-header-actions[b-7058mmdl5y] {
