@@ -33,16 +33,9 @@
         <a href="." class="reload">Reload</a>
         <span class="dismiss">🗙</span>
     </div>
-    <script src="_framework/blazor.webassembly#[.{fingerprint}].js" autostart="false"></script>
+    <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
     <script src="js/clipboard.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });</script>
-    <script>
-        Blazor.start({
-            loadBootResource: function (type, name, defaultUri, integrity) {
-                return `${defaultUri}?v=2`;
-            }
-        });
-    </script>
 </body>
 
 </html>

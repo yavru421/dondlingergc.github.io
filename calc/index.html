@@ -8,7 +8,7 @@
     <base href="/calc/" />
     <meta name="theme-color" content="#11161d" />
     <meta name="description" content="ForgeTape is an offline-first construction calculator PWA for fraction math, spacing, concrete, stairs, and board feet." />
-    <link href="_framework/dotnet.f9bbzksfit.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-PZ+wmpd7zMevte3iv/TIQKO3CRIfatdYaQN9GKUiPik=" />
+    <link href="_framework/dotnet.15naytv6fm.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-WwZtAQmUURuPB3iGx2gs2X2JhK38kmlRZNou2IXDFSc=" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -19,7 +19,7 @@
     <script type="importmap">{
   "imports": {
     "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.66stpp682q.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.f9bbzksfit.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.15naytv6fm.js",
     "./_framework/dotnet.native.js": "./_framework/dotnet.native.rjbmzc4jpg.js",
     "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.r2kbxkuujc.js"
   },
@@ -27,8 +27,8 @@
   "integrity": {
     "./_framework/blazor.webassembly.66stpp682q.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
     "./_framework/blazor.webassembly.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
-    "./_framework/dotnet.f9bbzksfit.js": "sha256-PZ+wmpd7zMevte3iv/TIQKO3CRIfatdYaQN9GKUiPik=",
-    "./_framework/dotnet.js": "sha256-PZ+wmpd7zMevte3iv/TIQKO3CRIfatdYaQN9GKUiPik=",
+    "./_framework/dotnet.15naytv6fm.js": "sha256-WwZtAQmUURuPB3iGx2gs2X2JhK38kmlRZNou2IXDFSc=",
+    "./_framework/dotnet.js": "sha256-WwZtAQmUURuPB3iGx2gs2X2JhK38kmlRZNou2IXDFSc=",
     "./_framework/dotnet.native.js": "sha256-95bE510j3EADMNW2OKa/DMBhu8N632dl5HGeBfXNEf4=",
     "./_framework/dotnet.native.rjbmzc4jpg.js": "sha256-95bE510j3EADMNW2OKa/DMBhu8N632dl5HGeBfXNEf4=",
     "./_framework/dotnet.runtime.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU=",
@@ -51,16 +51,9 @@
         <a href="." class="reload">Reload</a>
         <span class="dismiss">🗙</span>
     </div>
-    <script src="_framework/blazor.webassembly.66stpp682q.js" autostart="false"></script>
+    <script src="_framework/blazor.webassembly.66stpp682q.js"></script>
     <script src="js/clipboard.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });</script>
-    <script>
-        Blazor.start({
-            loadBootResource: function (type, name, defaultUri, integrity) {
-                return `${defaultUri}?v=2`;
-            }
-        });
-    </script>
 </body>
 
 </html>
