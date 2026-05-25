@@ -126,7 +126,7 @@ public class ConcreteMathEngine
                     totalCubicFeet += trenchVolumeCf;
                     result.Sections.Add(new SectionResult
                     {
-                        Name = ts.Name,
+                        Name = string.IsNullOrWhiteSpace(ts.Name) ? $"Edge {i + 1}" : ts.Name,
                         CubicFeet = Math.Round(trenchVolumeCf, 2),
                         CubicYards = Math.Round(trenchVolumeCf / 27.0, 2)
                     });

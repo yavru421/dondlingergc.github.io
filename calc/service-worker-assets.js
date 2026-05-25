@@ -1,13 +1,17 @@
 self.assetsManifest = {
-  "version": "wvCH8RrL",
+  "version": "CMN0zQFC",
   "assets": [
     {
-      "hash": "sha256-m0uVnTR9bzpu66KtIT4KT5Mm4mh+JeqJXI5450T1BLQ=",
+      "hash": "sha256-DnCivRd1I2QFVUzZB61j8Zv1pib62wLWDr+qp7NjAzo=",
       "url": "JobsiteCalculatorPwa.styles.css"
     },
     {
-      "hash": "sha256-jpgtMiAk0mvueSNbtvx0nf1JOOahURHXWinXB8fZZn8=",
-      "url": "_framework/JobsiteCalculatorPwa.ig6bigq9r0.wasm"
+      "hash": "sha256-eXY7ivEnAq7Jj9FyfdkVvnDeIX0dCULs3Xiyo70ziLU=",
+      "url": "_framework/JobsiteCalculatorPwa.firdh36v7z.wasm"
+    },
+    {
+      "hash": "sha256-Wv7bqWbTZVDVPBqZrIQSVTRV7GdBNoPgY29J5pe5/EU=",
+      "url": "_framework/Microsoft.AspNetCore.Components.25fk06mtd8.wasm"
     },
     {
       "hash": "sha256-InNVlfHXAMjGIBqwwd92NJdJGoGRaEV49jHpRtNZrxg=",
@@ -16,10 +20,6 @@ self.assetsManifest = {
     {
       "hash": "sha256-Zwf8epQmYDdXPvLeo0xZlJOzjK6A9la6xnI4JNt77hY=",
       "url": "_framework/Microsoft.AspNetCore.Components.WebAssembly.bzbj0p8nw9.wasm"
-    },
-    {
-      "hash": "sha256-HX5s6qhKnBpTgrbWy9uz3rtkGBljJ/0Q6uJWcCP4smU=",
-      "url": "_framework/Microsoft.AspNetCore.Components.h3mtdrfsqs.wasm"
     },
     {
       "hash": "sha256-3DH5Li3nbKgskNzRybjZBIfXSoxH/TN0wolg2KHl/YQ=",
@@ -146,16 +146,16 @@ self.assetsManifest = {
       "url": "_framework/blazor.webassembly.66stpp682q.js"
     },
     {
+      "hash": "sha256-TFNnZDmZd3G2A1k5qkaW4M8qI7L4O9HCItw+YDGnZtg=",
+      "url": "_framework/dotnet.k8wihux19k.js"
+    },
+    {
       "hash": "sha256-i4MH1ttKidpkFY/9i4kRe+7ux5JQMZds+qXuSkJqeog=",
       "url": "_framework/dotnet.native.f749u69f30.wasm"
     },
     {
       "hash": "sha256-95bE510j3EADMNW2OKa/DMBhu8N632dl5HGeBfXNEf4=",
       "url": "_framework/dotnet.native.rjbmzc4jpg.js"
-    },
-    {
-      "hash": "sha256-7SIOq5+/PFn9c80A3dDvToY6mWuM4OcDsLsh9LtOaqY=",
-      "url": "_framework/dotnet.nn4ee8ijif.js"
     },
     {
       "hash": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU=",
@@ -190,7 +190,7 @@ self.assetsManifest = {
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-xrTJ+dEIGIUOuxHsRAc78sAKFpzwt2E862wfLzlgBVs=",
+      "hash": "sha256-RpkD1YkYIYrdxvrXZH/12AJgipzfOik713XlgsPBpcU=",
       "url": "index.html"
     },
     {

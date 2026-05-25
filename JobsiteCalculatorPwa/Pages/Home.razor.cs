@@ -67,9 +67,14 @@ public partial class Home : ComponentBase
         };
     }
 
+    private void EditProject()
+    {
+        CurrentStep = 2;
+    }
+
     private void AddThickenedSection()
     {
-        ThickenedSections.Add(new ThickenedSectionInput { Name = $"Edge {ThickenedSections.Count + 1}" });
+        ThickenedSections.Add(new ThickenedSectionInput());
     }
 
     private void RemoveThickenedSection(int index)
@@ -77,11 +82,6 @@ public partial class Home : ComponentBase
         if (index >= 0 && index < ThickenedSections.Count)
         {
             ThickenedSections.RemoveAt(index);
-            // Re-index names
-            for (int i = 0; i < ThickenedSections.Count; i++)
-            {
-                ThickenedSections[i].Name = $"Edge {i + 1}";
-            }
         }
     }
 

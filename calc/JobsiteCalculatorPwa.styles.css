@@ -448,6 +448,7 @@ h3[b-7058mmdl5y] {
 .action-buttons[b-7058mmdl5y] {
     display: flex;
     justify-content: flex-end;
+    width: 100%;
 }
 
 .btn-copy[b-7058mmdl5y] {
@@ -565,4 +566,31 @@ h3[b-7058mmdl5y] {
     text-align: right;
     margin-bottom: 1rem;
     margin-top: -1rem;
+}
+
+.badge-unit[b-7058mmdl5y] {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    margin-left: 0.4rem;
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: middle;
+}
+.badge-unit.ft[b-7058mmdl5y] {
+    background-color: rgba(76, 175, 80, 0.15);
+    border: 1px solid #4caf50;
+    color: #4caf50;
+}
+.badge-unit.in[b-7058mmdl5y] {
+    background-color: rgba(33, 150, 243, 0.15);
+    border: 1px solid #2196f3;
+    color: #2196f3;
+}
+.bag-helper[b-7058mmdl5y] {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
 }

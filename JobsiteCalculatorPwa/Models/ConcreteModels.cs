@@ -21,7 +21,7 @@ public class ConcreteSectionInput
 
 public class ThickenedSectionInput
 {
-    public string Name { get; set; } = "Thickened Edge";
+    public string Name { get; set; } = "";
     public double LengthFeet { get; set; }
     public double WidthInches { get; set; }
     public double TotalDepthInches { get; set; }
