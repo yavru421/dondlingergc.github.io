@@ -43,7 +43,12 @@
                 <button class="btn-type" @onclick="() => SelectProject(ConcreteProjectMode.Footings)">Footings</button>
                 <button class="btn-type" @onclick="() => SelectProject(ConcreteProjectMode.PouredWalls)">Poured Walls</button>
                 <button class="btn-type" @onclick="() => SelectProject(ConcreteProjectMode.Columns)">Columns / Sonotubes</button>
-                <button class="btn-type" @onclick="OpenTriangleCalculator" style="border-color:#ff9800; color:#ff9800;">📐 Triangle Squaring</button>
+            </div>
+            <div class="utility-section" style="margin-top: 1.5rem; border-top: 1px solid #333; padding-top: 1.5rem;">
+                <h3 style="font-size: 1.1rem; color: #bdbdbd; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Utility Calculators</h3>
+                <button class="btn-type btn-utility" @onclick="OpenTriangleCalculator" style="border-color:#ff9800; color:#ff9800; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1.2rem;">
+                    📐 Triangle Squaring Calculator
+                </button>
             </div>
             <p class="field-note">🚧 Built in the field for the field. Free to use. Results are estimates — always verify with your supplier.
             </p>
