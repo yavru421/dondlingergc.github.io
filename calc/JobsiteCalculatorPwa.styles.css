@@ -747,11 +747,25 @@ h3[b-7058mmdl5y] {
 
 @media (max-width: 600px) {
     .primary-result[b-u9sh2yp9u6] {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
     .inputs-row[b-u9sh2yp9u6] {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
+    }
+    .result-breakdown[b-u9sh2yp9u6] {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .card[b-u9sh2yp9u6] {
+        padding: 1rem;
+    }
+    .preset-buttons[b-u9sh2yp9u6] {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.4rem;
     }
 }
 
