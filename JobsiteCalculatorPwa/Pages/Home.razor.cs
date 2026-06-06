@@ -10,6 +10,9 @@ namespace JobsiteCalculatorPwa.Pages;
 
 public partial class Home : ComponentBase
 {
+    [Inject]
+    private NavigationManager Navigation { get; set; } = default!;
+
     private int CurrentStep = 1;
     private ConcreteProjectMode SelectedMode;
     
@@ -21,6 +24,11 @@ public partial class Home : ComponentBase
     private bool _firstRenderDone = false;
     private int WastePercent = 10;
     private string? _validationError;
+
+    private void OpenTriangleCalculator()
+    {
+        Navigation.NavigateTo("triangle");
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
