@@ -1,4 +1,72 @@
 @inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
+
 <div class="app-shell">
+    @if (Installable)
+    {
+        <div class="ios-install-banner">
+            <div class="ios-install-content">
+                <span class="ios-install-icon">📲</span>
+                <div class="ios-install-text">
+                    <strong>Install PourReady</strong>
+                    <span>Add to Home Screen for offline field use</span>
+                </div>
+                <button class="ios-install-btn" @onclick="InstallClicked">Install</button>
+            </div>
+        </div>
+    }
+
+    @if (showInstructions)
+    {
+        <div class="ios-instructions-overlay" @onclick="ToggleInstructions">
+            <div class="ios-instructions-card" @onclick:stopPropagation>
+                <h3>Install on iOS</h3>
+                <ol>
+                    <li>Tap the <strong>Share</strong> button <span class="share-icon">⎋</span> at the bottom of Safari.</li>
+                    <li>Scroll down and tap <strong>Add to Home Screen</strong> <span class="add-icon">⨁</span>.</li>
+                    <li>Tap <strong>Add</strong> in the top-right corner to complete installation.</li>
+                </ol>
+                <button class="ios-close-btn" @onclick="ToggleInstructions">Got it</button>
+            </div>
+        </div>
+    }
+
     @Body
 </div>
+
+@code {
+    private bool Installable { get; set; } = false;
+    private bool showInstructions { get; set; } = false;
+
+    // Delegate matching OnInstallable
+    private static Action? OnInstallable;
+
+    protected override void OnInitialized()
+    {
+        // Hook the static action to trigger component UI updates
+        OnInstallable = () =>
+        {
+            Installable = true;
+            StateHasChanged();
+        };
+    }
+
+    [JSInvokable]
+    public static void PWAInstallable()
+    {
+        // Trigger the delegate
+        OnInstallable?.Invoke();
+    }
+
+    private async Task InstallClicked()
+    {
+        // Call the JavaScript registration helper to log/provide visual cues
+        await JSRuntime.InvokeVoidAsync("pwaInstall.showiOSInstructions");
+        showInstructions = true;
+    }
+
+    private void ToggleInstructions()
+    {
+        showInstructions = !showInstructions;
+    }
+}

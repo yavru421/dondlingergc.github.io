@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>PourReady — Concrete Estimator</title>
     <base href="/calc/" />
     <meta name="theme-color" content="#11161d" />
@@ -17,6 +19,7 @@
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="JobsiteCalculatorPwa.styles.css" rel="stylesheet" />
     <link href="manifest.webmanifest" rel="manifest" />
+    <link rel="apple-touch-icon" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
     <script type="importmap"></script>
@@ -38,7 +41,29 @@
     </div>
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
     <script src="js/clipboard.js"></script>
-    <script>navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });</script>
+    <script>
+        navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' })
+            .then(reg => {
+                console.log('ServiceWorker registered with scope:', reg.scope);
+                
+                // Detect iOS device and standalone mode
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                const isStandalone = window.navigator.standalone === true;
+                
+                if (isIOS && !isStandalone) {
+                    // Poll until DotNet interop is available
+                    function notifyPwaInstallable() {
+                        if (window.DotNet && window.DotNet.invokeMethodAsync) {
+                            window.DotNet.invokeMethodAsync('JobsiteCalculatorPwa', 'PWAInstallable')
+                                .catch(err => console.error('Failed to notify Blazor PWAInstallable:', err));
+                        } else {
+                            setTimeout(notifyPwaInstallable, 200);
+                        }
+                    }
+                    notifyPwaInstallable();
+                }
+            });
+    </script>
     <script>
         // PWA install prompt capture
         window._deferredInstallPrompt = null;
@@ -54,6 +79,9 @@
                 var choice = await window._deferredInstallPrompt.userChoice;
                 window._deferredInstallPrompt = null;
                 return choice.outcome === 'accepted';
+            },
+            showiOSInstructions: function () {
+                console.log("iOS PWA installation instructions requested.");
             }
         };
     </script>

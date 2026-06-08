@@ -1,1484 +1,785 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <title>DondlingerGC-Web — Professional Websites & Online Tools</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="_site-config.js"></script>
-
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, overflow=hidden">
+    <title>Dondlinger Digital | Physics Universe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <style>
-        /* Error message style for JS fatal errors */
-        #fatal-error {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #c00;
-            color: #fff;
-            font-size: 1.3em;
-            padding: 24px 16px;
-            z-index: 9999;
-            text-align: center;
-            font-weight: bold;
-            letter-spacing: 1px;
-            box-shadow: 0 2px 12px #0008;
-            display: none;
-        }
-
         :root {
-            --bg: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            --bg-dark: #020617;
             --accent: #00d4ff;
-            --window-bg: rgba(255, 255, 255, 0.98);
-            --border: rgba(255, 255, 255, 0.2);
-            --muted: #9aa3b2;
-            font-size: 16px;
         }
 
         * {
             box-sizing: border-box;
+        }
+
+        body, html {
             margin: 0;
             padding: 0;
-        }
-
-        body {
-            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-            background: var(--bg);
-            min-height: 100vh;
-            color: #fff;
-            overflow: hidden;
-        }
-
-        /* Desktop container */
-        #desktop {
-            display: block;
+            width: 100vw;
             height: 100vh;
-            position: relative;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 50%, #0f172a 0%, var(--bg-dark) 100%);
             overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
         }
 
-        /* Desktop background */
-        .desktop-bg {
+        .bg-text {
             position: absolute;
-            inset: 0;
-            background: var(--bg);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Outfit', sans-serif;
+            font-size: 8vw;
+            font-weight: 800;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
             z-index: 0;
+            white-space: nowrap;
+            letter-spacing: -2px;
+        }
+
+        .bg-text span {
+            color: rgba(0, 212, 255, 0.05);
+        }
+
+        #dom-world {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Default Physics App Size */
+        .phys-app {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            border-radius: 24px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
+            transform-origin: center center;
+            pointer-events: auto;
+            cursor: grab;
+            transition: border-color 0.3s, box-shadow 0.3s, width 0.4s, height 0.4s, border-radius 0.4s;
+            user-select: none;
         }
 
-        /* Animated Clock Display */
-        .clock-display {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 32px;
-            opacity: 1;
-            transition: opacity 0.5s;
+        .phys-app:active { cursor: grabbing; }
+        .phys-app:hover {
+            border-color: rgba(0, 212, 255, 0.8);
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4), inset 0 0 20px rgba(255,255,255,0.1);
         }
 
-        .clock-display.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .time-container {
-            position: relative;
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .time-digit {
-            font-size: 8rem;
-            font-weight: 900;
-            color: var(--accent);
-            text-shadow: 0 0 40px var(--accent), 0 0 80px var(--accent), 0 0 120px rgba(0, 212, 255, 0.5);
-            font-family: 'Courier New', monospace;
-            letter-spacing: -4px;
-            position: relative;
-            animation: glow-pulse 2s ease-in-out infinite;
-        }
-
-        .time-separator {
-            font-size: 8rem;
-            font-weight: 900;
-            color: var(--accent);
-            opacity: 0.6;
-            animation: blink 1s step-start infinite;
-        }
-
-        .date-display {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 8px;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .analog-ring {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border: 3px solid var(--accent);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: rotate-ring 20s linear infinite;
-            box-shadow: 0 0 40px var(--accent), inset 0 0 40px var(--accent);
-        }
-
-        .analog-ring:nth-child(2) {
-            width: 450px;
-            height: 450px;
-            animation-duration: 30s;
-            animation-direction: reverse;
-        }
-
-        .clock-particles {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent);
-            animation: float-particle 10s ease-in-out infinite;
-        }
-
-        @keyframes glow-pulse {
-
-            0%,
-            100% {
-                text-shadow: 0 0 40px var(--accent), 0 0 80px var(--accent), 0 0 120px rgba(0, 212, 255, 0.5);
-            }
-
-            50% {
-                text-shadow: 0 0 60px var(--accent), 0 0 120px var(--accent), 0 0 180px rgba(0, 212, 255, 0.8);
-            }
-        }
-
-        @keyframes blink {
-
-            0%,
-            50% {
-                opacity: 0.6;
-            }
-
-            51%,
-            100% {
-                opacity: 0.1;
-            }
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes rotate-ring {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes float-particle {
-            0% {
-                transform: translate(0, 0) scale(1);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 1;
-            }
-
-            90% {
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(var(--tx), var(--ty)) scale(0);
-                opacity: 0;
-            }
-        }
-
-        /* Scrolling Branded Messages */
-        .branded-scrollers {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .scroller {
-            position: absolute;
-            white-space: nowrap;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: rgba(0, 212, 255, 0.12);
-            text-transform: uppercase;
-            letter-spacing: 8px;
-            text-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
-            animation: scroll-diagonal 30s linear infinite;
-        }
-
-        .scroller:nth-child(2) {
-            animation-delay: -10s;
-            animation-duration: 35s;
-            font-size: 2.2rem;
-            color: rgba(0, 212, 255, 0.1);
-        }
-
-        .scroller:nth-child(3) {
-            animation-delay: -20s;
-            animation-duration: 40s;
-            font-size: 2.8rem;
-            color: rgba(0, 212, 255, 0.09);
-        }
-
-        @keyframes scroll-diagonal {
-            0% {
-                transform: translate(-100%, 100vh) rotate(-15deg);
-            }
-
-            100% {
-                transform: translate(120vw, -100%) rotate(-15deg);
-            }
-        }
-
-        /* Window styles */
-        .window {
-            position: absolute;
-            background: var(--window-bg);
-            border: 2px solid var(--accent);
+        .app-icon-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
             border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3), 0 0 0 1px rgba(0, 212, 255, 0.1);
+            margin-bottom: 8px;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            background: #111;
+            transition: 0.4s;
+        }
+
+        .app-emoji {
+            font-size: 50px;
+            margin-bottom: 8px;
+            pointer-events: none;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+            transition: 0.4s;
+        }
+
+        .app-label {
+            font-weight: 600;
+            font-size: 13px;
+            text-align: center;
+            pointer-events: none;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            padding: 0 8px;
+            transition: 0.4s;
+        }
+
+        /* THE EXPANDED STATE */
+        .phys-app.expanded {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) rotate(0deg) !important;
+            width: 90vw !important;
+            max-width: 600px !important;
+            height: 70vh !important;
+            max-height: 500px !important;
+            z-index: 1000;
+            cursor: default;
+            background: rgba(15, 23, 42, 0.85);
+            border-color: rgba(0, 212, 255, 0.8);
+            box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 80px rgba(0, 212, 255, 0.3);
+            border-radius: 30px;
+        }
+
+        .phys-app.expanded .app-icon-img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            margin-top: -30px;
+        }
+
+        .phys-app.expanded .app-emoji {
+            font-size: 100px;
+            margin-bottom: 20px;
+            margin-top: -30px;
+        }
+
+        .phys-app.expanded .app-label {
+            font-size: 2.5rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .expanded-content {
             display: none;
             flex-direction: column;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            transition: box-shadow 0.2s;
-        }
-
-        .window.active {
-            display: flex;
-        }
-
-        .window.minimized {
-            display: none !important;
-        }
-
-        .window.maximized {
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: calc(100% - 60px) !important;
-            border-radius: 0;
-        }
-
-        .window.split-left {
-            top: 0 !important;
-            left: 0 !important;
-            width: 50% !important;
-            height: calc(100% - 60px) !important;
-            border-radius: 0;
-        }
-
-        .window.split-right {
-            top: 0 !important;
-            left: 50% !important;
-            width: 50% !important;
-            height: calc(100% - 60px) !important;
-            border-radius: 0;
-        }
-
-        .window-header {
-            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
-            color: #000;
-            padding: 12px 16px;
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            cursor: move;
-            user-select: none;
-            font-weight: 700;
-            font-size: 1em;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+            opacity: 0;
+            padding: 0 30px;
+            animation: fadeIn 0.4s forwards 0.3s;
         }
 
-        .window-controls {
+        .phys-app.expanded .expanded-content {
             display: flex;
-            gap: 8px;
         }
 
-        .window-control {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        .app-desc {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 15px 0 30px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-close {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px 24px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.1s;
-            border: 2px solid rgba(0, 0, 0, 0.3);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+        .btn-close:hover {
+            background: rgba(255,255,255,0.1);
         }
 
-        .window-control:hover {
-            transform: scale(1.15);
-        }
-
-        .window-control:nth-child(1) {
-            background: #ff5f56;
-        }
-
-        .window-control:nth-child(2) {
-            background: #ffbd2e;
-        }
-
-        .window-control:nth-child(3) {
-            background: #27c93f;
-        }
-
-        .window-content {
-            flex: 1;
-            padding: 24px;
-            overflow-y: auto;
+        .btn-launch {
             background: #fff;
             color: #000;
-        }
-
-        .window-content h1 {
-            font-size: 2.5rem;
-            margin-bottom: 16px;
-            color: var(--accent);
-        }
-
-        .window-content h2 {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-            margin-top: 24px;
-            color: var(--accent);
-        }
-
-        .window-content p {
-            line-height: 1.7;
-            margin-bottom: 16px;
-            font-size: 1.05rem;
-        }
-
-        .window-content strong {
-            color: var(--accent);
-        }
-
-        /* Blueprints window specific styles */
-        .blueprints-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
-        .blueprint-thumb {
-            width: 180px;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 12px;
             cursor: pointer;
-            border: 2px solid var(--accent);
-            border-radius: 10px;
-            background: #f7f7fa;
-            box-shadow: 0 2px 12px rgba(0, 212, 255, 0.2);
-            overflow: hidden;
-            transition: box-shadow 0.2s, transform 0.2s;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+            text-decoration: none;
+            display: inline-block;
         }
-
-        .blueprint-thumb:hover {
-            transform: translateY(-4px);
+        .btn-launch:hover {
+            background: var(--accent);
             box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
         }
 
-        .blueprint-preview {
-            margin-top: 32px;
-            padding: 24px;
-            background: #f7f7fa;
-            border-radius: 10px;
-            border: 2px solid var(--accent);
-        }
 
-        .blueprint-preview img,
-        .blueprint-preview embed {
-            max-width: 100%;
-            border-radius: 8px;
-            background: #fff;
-            box-shadow: 0 2px 12px rgba(0, 212, 255, 0.2);
-        }
-
-        .blueprint-preview embed {
-            width: 100%;
-            min-height: 500px;
-        }
-
-        /* Taskbar */
-        .taskbar {
+        /* THE CHAOS CREATURE */
+        .chaos-creature {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: linear-gradient(180deg, rgba(10, 15, 25, 0.95), rgba(5, 10, 20, 0.98));
-            backdrop-filter: blur(12px);
-            border-top: 2px solid var(--accent);
+            width: 120px;
+            height: 120px;
+            background: transparent;
             display: flex;
-            align-items: center;
-            padding: 0 16px;
-            gap: 12px;
-            z-index: 1000;
-            box-shadow: 0 -4px 20px rgba(0, 212, 255, 0.2);
-        }
-
-        .start-button {
-            background: var(--accent);
-            color: #000;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
-        }
-
-        .start-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.5);
-        }
-
-        .taskbar-apps {
-            display: flex;
-            gap: 6px;
-            flex: 1;
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-
-        .taskbar-app {
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.85rem;
-            border: 1px solid transparent;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .taskbar-app:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--accent);
-        }
-
-        .taskbar-app.active {
-            background: var(--accent);
-            color: #000;
-            font-weight: 600;
-        }
-
-        .taskbar-app.minimized {
-            opacity: 0.6;
-        }
-
-        .clock {
-            color: #fff;
-            font-weight: 600;
-            font-size: 1rem;
-            padding: 8px 12px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .taskbar-launcher {
-            display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 42px;
-            height: 42px;
-            padding: 0;
-            border: 1px solid transparent;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
+            font-size: 90px;
+            filter: drop-shadow(0 0 40px rgba(255, 0, 0, 0.8));
+            transform-origin: center center;
+            pointer-events: auto;
             cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
+            z-index: 20;
+            animation: pulse-creature 0.5s infinite alternate;
         }
 
-        .taskbar-launcher:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--accent);
-            box-shadow: 0 0 14px rgba(0, 212, 255, 0.22);
+        @keyframes pulse-creature {
+            from { filter: drop-shadow(0 0 30px rgba(255, 0, 0, 0.6)) scale(0.95); }
+            to { filter: drop-shadow(0 0 60px rgba(255, 50, 0, 1)) scale(1.05); }
         }
 
-        .taskbar-launcher svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-        }
-
-        /* Start menu */
-        .start-menu {
-            position: absolute;
-            bottom: 70px;
-            left: 16px;
-            width: 300px;
-            background: rgba(10, 15, 25, 0.98);
-            backdrop-filter: blur(12px);
-            border: 2px solid var(--accent);
-            border-radius: 12px;
-            padding: 16px;
-            display: none;
-            flex-direction: column;
-            gap: 8px;
-            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
-            z-index: 1001;
-        }
-
-        .start-menu.show {
+        /* =========================================
+           CHAOS OVERLAY STYLES 
+           ========================================= */
+        #chaos-overlay {
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh;
+            background: rgba(10, 0, 20, 0.95);
+            z-index: 9999;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', Courier, monospace;
+            color: #0f0;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
         }
 
-        .tooltip-toggle {
-            padding: 10px 16px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            font-size: 0.9rem;
+        #chaos-overlay.active {
+            opacity: 1;
+            pointer-events: all;
         }
 
-        .tooltip-toggle:hover {
-            background: rgba(0, 212, 255, 0.2);
-        }
+        .hidden { display: none !important; }
 
-        .tooltip-toggle.active {
-            background: var(--accent);
-            color: #000;
-        }
-
-        .tooltip {
+        /* CRT Scanline Effect */
+        .crt-overlay {
             position: absolute;
-            background: rgba(0, 0, 0, 0.95);
-            color: #fff;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            max-width: 300px;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
             z-index: 10000;
             pointer-events: none;
-            border: 1px solid var(--accent);
-            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
-            opacity: 0;
-            transition: opacity 0.2s;
         }
 
-        .tooltip.show {
-            opacity: 1;
+        .glitch-container {
+            position: relative;
+            z-index: 10001;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            padding: 20px;
         }
 
-        .start-menu-item {
-            padding: 12px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
+        .alien-avatar {
+            font-size: 8rem;
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+            filter: drop-shadow(0 0 20px #f0f);
+            margin: 0;
+            line-height: 1;
+        }
+
+        .glitch-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
             color: #fff;
-            font-weight: 600;
-            border: 1px solid transparent;
+            text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00;
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+            margin-bottom: 2rem;
+            letter-spacing: 5px;
         }
 
-        .start-menu-item:hover {
-            background: var(--accent);
-            color: #000;
-            border-color: var(--accent);
+        .terminal-logs {
+            text-align: left;
+            background: rgba(0, 20, 0, 0.8);
+            border: 1px solid #0f0;
+            padding: 20px;
+            height: 200px;
+            overflow-y: auto;
+            box-shadow: 0 0 15px #0f0 inset;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            text-shadow: 0 0 5px #0f0;
+            scrollbar-width: thin;
+            scrollbar-color: #0f0 transparent;
         }
+        
+        .terminal-logs::-webkit-scrollbar { width: 8px; }
+        .terminal-logs::-webkit-scrollbar-track { background: transparent; }
+        .terminal-logs::-webkit-scrollbar-thumb { background: #0f0; }
 
-        /* Context menu */
-        .context-menu {
-            position: absolute;
-            background: rgba(10, 15, 25, 0.98);
-            backdrop-filter: blur(12px);
-            border: 2px solid var(--accent);
-            border-radius: 8px;
-            padding: 8px;
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
-            z-index: 2000;
-        }
-
-        .context-menu.show {
-            display: flex;
-        }
-
-        .context-menu-item {
-            padding: 8px 12px;
-            border-radius: 4px;
+        .cyber-button {
+            background: rgba(255, 0, 60, 0.1);
+            color: #ff003c;
+            border: 2px solid #ff003c;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-family: inherit;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            transition: 0.2s;
+            box-shadow: 0 0 10px #ff003c, inset 0 0 10px #ff003c;
+            outline: none;
+        }
+
+        .cyber-button:hover {
+            background: #ff003c;
             color: #fff;
-            font-size: 0.9rem;
+            box-shadow: 0 0 30px #ff003c;
+            text-shadow: 0 0 5px #fff;
         }
 
-        .context-menu-item:hover {
-            background: var(--accent);
-            color: #000;
+        /* Glitch Animations */
+        @keyframes glitch-anim-1 {
+            0% { transform: translate(0) skew(0deg); }
+            20% { transform: translate(-5px, 5px) skew(5deg); filter: drop-shadow(0 0 20px #f0f) hue-rotate(90deg); }
+            40% { transform: translate(5px, -5px) skew(-5deg); filter: drop-shadow(0 0 30px #0ff) hue-rotate(180deg); }
+            60% { transform: translate(-2px, 2px) skew(2deg); filter: drop-shadow(0 0 40px #f0f) hue-rotate(270deg); }
+            80% { transform: translate(2px, -2px) skew(-2deg); }
+            100% { transform: translate(0) skew(0deg); }
         }
 
-        /* Mobile fallback */
-        .page-content {
-            padding: 40px 20px;
-            max-width: 800px;
-            margin: 0 auto;
+        @keyframes glitch-anim-2 {
+            0% { text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; }
+            15% { text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; }
+            16% { text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff, -0.05em -0.05em 0 #fffc00; }
+            49% { text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff, -0.05em -0.05em 0 #fffc00; }
+            50% { text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff, 0 -0.04em 0 #fffc00; }
+            99% { text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff, 0 -0.04em 0 #fffc00; }
+            100% { text-shadow: -0.025em 0 0 #00fffc, -0.025em -0.025em 0 #fc00ff, -0.025em -0.05em 0 #fffc00; }
         }
 
-        .page-content h1 {
-            font-size: 2.5rem;
-            margin-bottom: 16px;
-        }
-
-        .page-content .view-toggle {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 10px 14px;
-            background: var(--accent);
-            color: #000;
-            border-radius: 8px;
-            font-weight: 700;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .page-content .view-toggle.secondary {
-            background: transparent;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-        }
-
-        .page-content p {
-            line-height: 1.7;
-            margin-bottom: 16px;
-        }
-
-        @media (max-width: 768px) {
-            html:not(.force-desktop) #desktop {
-                display: none !important;
-            }
-
-            html:not(.force-desktop) .page-content {
-                display: block !important;
-            }
-
-            html.force-desktop .page-content {
-                display: none !important;
-            }
-        }
     </style>
 </head>
-
 <body>
-    <div id="fatal-error"></div>
 
-    <!-- Desktop UI -->
-    <div id="desktop">
-        <div class="desktop-bg">
-            <div class="analog-ring"></div>
-            <div class="analog-ring"></div>
-            <div style="position:absolute;top:60px;left:50%;transform:translateX(-50%);text-align:center;z-index:5;">
-                <h1
-                    style="font-size:3rem;font-weight:900;color:#fff;margin:0 0 8px 0;text-shadow:0 2px 20px rgba(0,0,0,0.8);letter-spacing:2px;">
-                    DONDLINGER GENERAL CONTRACTING</h1>
-                <p
-                    style="font-size:1.3rem;color:var(--accent);margin:0;text-shadow:0 2px 10px rgba(0,0,0,0.8);font-weight:600;letter-spacing:1px;">
-                    Design • Build • Digital</p>
-            </div>
-            <!-- Announcement Banner -->
-            <div style="position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:10;background:#11161d;border:2px solid var(--accent);border-radius:12px;padding:18px 36px;box-shadow:0 4px 24px rgba(0,212,255,0.18);font-size:2rem;font-weight:900;color:#fff;letter-spacing:2px;text-align:center;">
-                <span style="color:var(--accent);font-size:2.2rem;margin-right:12px;">🧮</span>
-                <span style="color:#fff;">TRY THE NEW CONSTRUCTION CALCULATOR!</span>
-                <span style="color:var(--accent);font-size:2.2rem;margin-left:12px;">🧮</span>
-            </div>
-            <div class="clock-display" id="clock-display">
-                <div class="time-container">
-                    <span class="time-digit" id="hours">00</span>
-                    <span class="time-separator">:</span>
-                    <span class="time-digit" id="minutes">00</span>
-                    <span class="time-separator">:</span>
-                    <span class="time-digit" id="seconds">00</span>
+    <div class="bg-text">DONDLINGER <span>UNIVERSE</span></div>
+
+    <div id="dom-world">
+        <!-- The Aggravator Creature -->
+        <div class="chaos-creature" id="creature">👾</div>
+
+        <!-- App 1 -->
+        <div class="phys-app">
+            <img src="calc/pourready-icon.png" class="app-icon-img" onerror="this.src='https://via.placeholder.com/120/111827/00d4ff?text=PR'">
+            <div class="app-label">Blazor PWA</div>
+            <div class="expanded-content">
+                <div class="app-desc">PourReady — concrete estimator built in the field for the field. Free to use.</div>
+                <div class="btn-row">
+                    <button class="btn-close">Return to Orbit</button>
+                    <a href="https://blazorpwa.dondlingergc.com" class="btn-launch" target="_blank">Launch App</a>
                 </div>
-                <div class="date-display" id="date-display">Loading...</div>
             </div>
-            <div class="clock-particles" id="clock-particles"></div>
         </div>
 
-        <div id="windows-container"></div>
-
-        <!-- Taskbar -->
-        <div class="taskbar">
-            <button class="start-button" onclick="toggleStartMenu()">START</button>
-            <div class="taskbar-apps" id="taskbar-apps"></div>
-            <button
-                class="taskbar-launcher calculator-launcher"
-                type="button"
-                title="Open Jobsite Tape Calculator"
-                aria-label="Open Jobsite Tape Calculator"
-                onclick="System.openCalculatorApp()">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v4h10V4H7Zm2 7H7v2h2v-2Zm4 0h-2v2h2v-2Zm4 0h-2v2h2v-2ZM9 15H7v2h2v-2Zm4 0h-2v2h2v-2Zm4 0h-2v2h2v-2Z" />
-                </svg>
-            </button>
-            <div class="clock" id="clock">00:00</div>
+        <!-- App 2 -->
+        <div class="phys-app">
+            <div class="app-emoji">🎬</div>
+            <div class="app-label">ShotStack Studio</div>
+            <div class="expanded-content">
+                <div class="app-desc">Next-generation video intelligence and automation platform. Seamlessly integrate your media workflows.</div>
+                <div class="btn-row">
+                    <button class="btn-close">Return to Orbit</button>
+                    <a href="https://shotstackstudio.dondlingergc.com" class="btn-launch" target="_blank">Launch App</a>
+                </div>
+            </div>
         </div>
 
-        <!-- Start Menu -->
-        <div class="start-menu" id="start-menu">
-            <div class="tooltip-toggle" id="tooltip-toggle" onclick="toggleTooltips()">💡 Tooltips: OFF</div>
-            <div id="start-menu-items"></div>
+        <!-- App 3 -->
+        <div class="phys-app">
+            <div class="app-emoji">🎨</div>
+            <div class="app-label">Digital Fortress Builder</div>
+            <div class="expanded-content">
+                <div class="app-desc">Web Design Wizard. An interactive web design tool to build your custom website visually.</div>
+                <div class="btn-row">
+                    <button class="btn-close">Return to Orbit</button>
+                    <a href="fortress.html" class="btn-launch" target="_blank">Launch App</a>
+                </div>
+            </div>
         </div>
 
-        <!-- Tooltip Container -->
-        <div class="tooltip" id="tooltip"></div>
+        <!-- App 4 -->
+        <div class="phys-app">
+            <div class="app-emoji">💬</div>
+            <div class="app-label">DGC Chat</div>
+            <div class="expanded-content">
+                <div class="app-desc">Live chat support and customer service portal. Directly connect with the DGC team.</div>
+                <div class="btn-row">
+                    <button class="btn-close">Return to Orbit</button>
+                    <a href="chat.html" class="btn-launch" target="_blank">Launch App</a>
+                </div>
+            </div>
+        </div>
 
-        <!-- Context Menu -->
-        <div class="context-menu" id="context-menu">
-            <div class="context-menu-item" onclick="restoreWindow(activeWindow?.id.replace('-window',''))">Restore</div>
-            <div class="context-menu-item" onclick="maximizeWindow(activeWindow?.id.replace('-window',''))">Maximize
+        <!-- App 5 -->
+        <div class="phys-app">
+            <img src="mobilestatic/rabbit-animation.gif" class="app-icon-img" onerror="this.src='https://via.placeholder.com/120/111827/8b5cf6?text=RH'">
+            <div class="app-label">RabbitHole Explorer</div>
+            <div class="expanded-content">
+                <div class="app-desc">Dive into the infinite knowledge universe with our cutting-edge, mobile-first Wikipedia exploration experience.</div>
+                <div class="btn-row">
+                    <button class="btn-close">Return to Orbit</button>
+                    <a href="https://john2121-quantumrabbithole-explorer.static.hf.space" class="btn-launch" target="_blank">Launch App</a>
+                </div>
             </div>
-            <div class="context-menu-item" onclick="splitWindowLeft(activeWindow?.id.replace('-window',''))">Split Left
+        </div>
+
+        <!-- App 6 -->
+        <div class="phys-app">
+            <div class="app-emoji">🦌</div>
+            <div class="app-label">Wild Preserve Taxidermy</div>
+            <div class="expanded-content">
+                <div class="app-desc">Professional taxidermy services and wildlife preservation. A Wild Preserve legacy.</div>
+                <div class="btn-row">
+                    <button class="btn-close">Return to Orbit</button>
+                    <a href="taxidermy.html" class="btn-launch" target="_blank">Launch App</a>
+                </div>
             </div>
-            <div class="context-menu-item" onclick="splitWindowRight(activeWindow?.id.replace('-window',''))">Split
-                Right</div>
-            <div class="context-menu-item" onclick="minimizeWindow(activeWindow?.id.replace('-window',''))">Minimize
+        </div>
+
+        <!-- App 7 -->
+        <div class="phys-app">
+            <div class="app-emoji">🧵</div>
+            <div class="app-label">Cotton Thimble Tour</div>
+            <div class="expanded-content">
+                <div class="app-desc">Virtual tour of Cotton Thimble store in Wisconsin. Step inside Grandma's family store.</div>
+                <div class="btn-row">
+                    <button class="btn-close">Return to Orbit</button>
+                    <a href="cottonthimble.html" class="btn-launch" target="_blank">Launch App</a>
+                </div>
             </div>
-            <div class="context-menu-item" onclick="closeWindow(activeWindow?.id.replace('-window',''))">Close</div>
+        </div>
+
+    </div>
+
+    <!-- =========================================
+         CHAOS OVERLAY HTML 
+         ========================================= -->
+    <div id="chaos-overlay" class="hidden">
+        <div class="crt-overlay"></div>
+        <div class="glitch-container">
+            <h1 class="glitch-title" data-text="SYSTEM ANOMALY">SYSTEM ANOMALY</h1>
+            <p class="alien-avatar">👾</p>
+            <div class="terminal-logs" id="terminal-logs"></div>
+            <button id="close-chaos" class="cyber-button">RESTORE REALITY [x]</button>
         </div>
     </div>
 
-    <!-- Mobile Fallback -->
-    <div class="page-content">
-        <h1>DondlingerGC Desktop</h1>
-        <p><strong>Professional Digital Solutions Platform</strong></p>
-        <p>Access tools, blueprints, and interactive web design features.</p>
-        <p>For a mobile-optimized experience, <a href="/mobilestatic/mobile.html" style="color:#007bff;text-decoration:underline;font-weight:bold;">visit our mobile site here</a>.</p>
-        <p>Need the calculator on your phone? <a href="/calc/" style="color:#00d4ff;text-decoration:underline;font-weight:bold;">Open the Jobsite Calculator here</a> and install it as a PWA.</p>
-        <p>Or, visit us on desktop for the full interactive experience.</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
-            <button id="force-desktop" class="view-toggle" type="button">View Desktop Anyway</button>
-            <button id="force-mobile" class="view-toggle secondary" type="button">Stay on Mobile</button>
-        </div>
-    </div>
 
     <script>
-        'use strict';
+        const Engine = Matter.Engine,
+              Render = Matter.Render,
+              Runner = Matter.Runner,
+              Bodies = Matter.Bodies,
+              Composite = Matter.Composite,
+              Mouse = Matter.Mouse,
+              MouseConstraint = Matter.MouseConstraint;
 
-        /**
-         * 🖥️ Virtual Desktop Kernel (System)
-         * Manages process lifecycle, state synchronization, and remote communication.
-         */
-        class VirtualSystem {
-            constructor() {
-                this.pages = [
-                    { id: 'home', title: '🏠 Updates', tooltip: 'View latest projects, news, and social media updates from DondlingerGC' },
-                    { id: 'blueprints', title: '📐 Plans', special: true, tooltip: 'Explore architectural blueprints and construction plans repository' },
-                    { id: 'contact', title: '📧 Contact', tooltip: 'Get in touch with us to discuss your project needs' },
-                    { id: 'calculator', title: '🧮 Calculator', hideFromStartMenu: true, tooltip: 'Open the Jobsite Tape Calculator at /calc/' },
-                    { id: 'fortress', title: '🎨 Website Builder', embed: 'fortress.html', embedTitle: 'Web Design Wizard', tooltip: 'Interactive web design tool to build your custom website' },
-                    { id: 'chat', title: '💬 Chat', embed: 'chat.html', embedTitle: 'DGC Chat', tooltip: 'Live chat support and customer service portal' },
-                    { id: 'rabbithole', title: '🐇 Rabbit Hole', embedUrl: 'https://john2121-quantumrabbithole-explorer.static.hf.space', embedTitle: 'Rabbit Hole Explorer', tooltip: 'Immersive Rabbit Hole experience (mobile-optimized)' },
-                    { id: 'taxidermy', title: '🦌 Taxidermy', embed: 'taxidermy.html', embedTitle: 'Wild Preserve Taxidermy', tooltip: 'Professional taxidermy services and wildlife preservation' },
-                    { id: 'tours', title: '🗺️ 3D Tours', special: true, tooltip: 'Explore Matterport 3D tours and virtual walkthroughs' },
-                    { id: 'cottonthimble', title: '🧵 Cotton Thimble', embed: 'cottonthimble.html', embedTitle: 'Cotton Thimble Store Tour', tooltip: 'Virtual tour of Cotton Thimble store in WI - Grandma\'s family store' },
-                    { id: 'settings', title: '⚙️ Settings', special: true, tooltip: 'Customize your desktop theme, colors, and preferences' }
-                ];
+        const engine = Engine.create();
+        const world = engine.world;
+        engine.gravity.y = 0.15; // Lunar Gravity
 
-                this.state = {
-                    openApps: new Set(),
-                    activeApp: null,
-                    minimizedApps: new Set(),
-                    tooltipsEnabled: false,
-                    lastRemoteCommandId: parseInt(localStorage.getItem('lastRemoteCommandId') || '0'),
-                    zIndex: 100
-                };
+        const render = Render.create({
+            element: document.body,
+            engine: engine,
+            options: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+                wireframes: false,
+                background: 'transparent'
+            }
+        });
+        render.canvas.style.position = 'absolute';
+        render.canvas.style.top = '0';
+        render.canvas.style.left = '0';
+        render.canvas.style.zIndex = '5';
+        
+        const wallOptions = { isStatic: true, render: { visible: false } };
+        const ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight + 250, window.innerWidth * 2, 500, wallOptions);
+        const leftWall = Bodies.rectangle(-250, window.innerHeight / 2, 500, window.innerHeight * 2, wallOptions);
+        const rightWall = Bodies.rectangle(window.innerWidth + 250, window.innerHeight / 2, 500, window.innerHeight * 2, wallOptions);
+        const ceiling = Bodies.rectangle(window.innerWidth / 2, -250, window.innerWidth * 2, 500, wallOptions);
 
-                this.sessionID = 'default';
-                // Use local mock server for testing, production uses relative path
-                this.bridgeURL = window.location.hostname === 'localhost' ? 'http://localhost:8787/api/bridge' : '/api/bridge';
-                this.viewOverride = this.getViewOverride();
+        Composite.add(world, [ground, leftWall, rightWall, ceiling]);
 
-                this.init();
+        const bodiesMap = [];
+        const size = 140; 
+        const radius = 24; 
+
+        // Creature
+        const creatureElem = document.getElementById('creature');
+        const creatureSize = 100;
+        const creatureBody = Bodies.circle(window.innerWidth / 2, window.innerHeight / 2, creatureSize/2, {
+            restitution: 0.9, 
+            friction: 0.1,
+            frictionAir: 0, 
+            density: 1.5, 
+            render: { visible: false }
+        });
+        Composite.add(world, creatureBody);
+
+        setInterval(() => {
+            if (creatureBody.position.y > window.innerHeight + 200 || creatureBody.position.y < -200 || creatureBody.position.x < -200 || creatureBody.position.x > window.innerWidth + 200) {
+                Matter.Body.setPosition(creatureBody, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
+                Matter.Body.setVelocity(creatureBody, { x: 0, y: 0 });
             }
 
-            init() {
-                // Always start services for command polling, regardless of mobile/desktop
-                this.startServices();
+            const speed = 25 + Math.random() * 15; 
+            const angle = Math.random() * Math.PI * 2;
+            Matter.Body.setVelocity(creatureBody, {
+                x: Math.cos(angle) * speed,
+                y: Math.sin(angle) * speed
+            });
+            
+            creatureElem.style.transform += ` scale(1.4)`;
+            setTimeout(() => {
+                creatureElem.style.transform = creatureElem.style.transform.replace(' scale(1.4)', '');
+            }, 200);
+        }, 3000);
 
-                const isMobile = this.isMobile();
-                this.applyViewMode(isMobile);
-                this.setupViewToggleButtons();
+        // Apps
+        const domElements = document.querySelectorAll('.phys-app');
+        domElements.forEach((el, index) => {
+            const startX = (window.innerWidth / 2) + ((Math.random() - 0.5) * 600);
+            const startY = 100 + Math.random() * 300; 
 
-                if (isMobile) return;
+            const body = Bodies.rectangle(startX, startY, size, size, {
+                chamfer: { radius: radius },
+                restitution: 0.85,
+                friction: 0.1,
+                frictionAir: 0.01,
+                density: 0.05,
+                render: { visible: false } 
+            });
 
-                this.renderDesktop();
-                this.applySavedSettings();
-            }
+            Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.1);
+            Composite.add(world, body);
+            bodiesMap.push({ body: body, elem: el });
 
-            getViewOverride() {
-                try {
-                    const params = new URLSearchParams(window.location.search);
-                    const queryView = params.get('view');
-                    if (queryView === 'desktop' || queryView === 'mobile') return queryView;
-                    if (params.has('desktop')) return 'desktop';
-                    if (params.has('mobile')) return 'mobile';
-                    const stored = localStorage.getItem('viewOverride');
-                    if (stored === 'desktop' || stored === 'mobile') return stored;
-                } catch (e) { }
-                return null;
-            }
-
-            applyViewMode(isMobile) {
-                const desktop = document.getElementById('desktop');
-                const pageContent = document.querySelector('.page-content');
-
-                if (desktop) desktop.style.display = isMobile ? 'none' : 'block';
-                if (pageContent) pageContent.style.display = isMobile ? 'block' : 'none';
-                document.documentElement.classList.toggle('is-mobile', isMobile);
-                document.documentElement.classList.toggle('force-desktop', this.viewOverride === 'desktop');
-            }
-
-            setupViewToggleButtons() {
-                const forceDesktop = document.getElementById('force-desktop');
-                const forceMobile = document.getElementById('force-mobile');
-
-                if (forceDesktop) {
-                    forceDesktop.onclick = () => {
-                        localStorage.setItem('viewOverride', 'desktop');
-                        location.reload();
-                    };
-                }
-
-                if (forceMobile) {
-                    forceMobile.onclick = () => {
-                        localStorage.setItem('viewOverride', 'mobile');
-                        location.reload();
-                    };
-                }
-            }
-
-            isMobile() {
-                if (this.viewOverride === 'desktop') return false;
-                if (this.viewOverride === 'mobile') return true;
-                try {
-                    const ua = navigator.userAgent || navigator.vendor || window.opera || '';
-                    const mobileUA = /Android.+Mobile|iPhone|iPad|iPod|Windows Phone|Opera Mini|Mobi/i;
-                    const isMobileUA = mobileUA.test(ua);
-                    const isNarrow = Math.min(window.innerWidth, window.innerHeight) < 820;
-                    const hasTouch = (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) || ('ontouchstart' in window);
-                    // Treat as mobile when UA indicates a mobile device, or when the viewport is narrow on a touch device
-                    return isMobileUA || (hasTouch && isNarrow);
-                } catch (e) {
-                    return false;
-                }
-            }
-
-            renderDesktop() {
-                const startMenuItems = document.getElementById('start-menu-items');
-                if (!startMenuItems) return;
-
-                this.pages.filter(page => !page.hideFromStartMenu).forEach((page) => {
-                    const menuItem = document.createElement('div');
-                    menuItem.className = 'start-menu-item';
-                    menuItem.textContent = page.title;
-                    menuItem.onclick = () => this.openWindow(page.id);
-                    startMenuItems.appendChild(menuItem);
+            function openApp() {
+                if (el.classList.contains('expanded')) return;
+                
+                document.querySelectorAll('.phys-app.expanded').forEach(otherEl => {
+                    otherEl.querySelector('.btn-close').click();
                 });
 
-                // Add Calculator PWA Documentation item
-                const calcDocItem = document.createElement('div');
-                calcDocItem.className = 'start-menu-item';
-                calcDocItem.innerHTML = '🧮 Calculator PWA Documentation';
-                calcDocItem.onclick = () => {
-                    this.openCalculatorDocWindow();
-                };
-                startMenuItems.appendChild(calcDocItem);
+                el.classList.add('expanded');
+                
+                Matter.Body.setStatic(body, true);
+                Matter.Body.setPosition(body, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
+                Matter.Body.setAngle(body, 0);
 
-                setInterval(() => this.updateClock(), 1000);
-                this.updateClock();
+                const expandedWidth = Math.min(window.innerWidth * 0.9, 600);
+                const expandedHeight = Math.min(window.innerHeight * 0.7, 500);
+                
+                const scaleX = expandedWidth / size;
+                const scaleY = expandedHeight / size;
+                Matter.Body.scale(body, scaleX, scaleY);
+                
+                el.dataset.scaleX = scaleX;
+                el.dataset.scaleY = scaleY;
+            }
 
-                // Setup Start Button
-                const startBtn = document.querySelector('.start-button');
-                if (startBtn) {
-                    startBtn.onclick = () => this.toggleStartMenu();
+            const closeBtn = el.querySelector('.btn-close');
+            closeBtn.addEventListener('mousedown', e => e.stopPropagation());
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                el.classList.remove('expanded');
+                
+                const scaleX = parseFloat(el.dataset.scaleX);
+                const scaleY = parseFloat(el.dataset.scaleY);
+                
+                Matter.Body.scale(body, 1/scaleX, 1/scaleY);
+                Matter.Body.setStatic(body, false);
+            });
+
+            let startPos = { x: 0, y: 0 };
+            el.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.btn-close') || e.target.closest('.btn-launch')) return;
+                startPos = { x: e.clientX, y: e.clientY };
+            });
+
+            el.addEventListener('mouseup', (e) => {
+                if (e.target.closest('.btn-close') || e.target.closest('.btn-launch')) return;
+                const dist = Math.hypot(e.clientX - startPos.x, e.clientY - startPos.y);
+                if (dist < 5) { 
+                    openApp();
                 }
-
-                // Global click to close menus
-                document.addEventListener('click', (e) => {
-                    if (!e.target.closest('.start-button') && !e.target.closest('.start-menu')) {
-                        document.getElementById('start-menu')?.classList.remove('show');
-                    }
-                });
-            }
-
-            openCalculatorDocWindow() {
-                let win = document.getElementById('calculator-doc-window');
-                if (!win) {
-                    const container = document.getElementById('windows-container');
-                    win = document.createElement('div');
-                    win.className = 'window';
-                    win.id = 'calculator-doc-window';
-                    win.style.cssText = 'top: 120px; left: 120px; width: min(80%, 700px); height: min(70%, 480px);';
-                    win.innerHTML = `
-                        <div class="window-header">
-                            <span>🧮 Calculator PWA Documentation</span>
-                            <div class="window-controls">
-                                <div class="window-control" onclick="System.closeWindow('calculator-doc')"></div>
-                                <div class="window-control" onclick="System.minimizeWindow('calculator-doc')"></div>
-                                <div class="window-control" onclick="System.maximizeWindow('calculator-doc')"></div>
-                            </div>
-                        </div>
-                        <div class="window-content" id="calculator-doc-content">
-                            <h2 style="color:var(--accent);margin-bottom:16px;">Install the Jobsite Tape Calculator as a PWA</h2>
-                            <ul style="margin-bottom:18px;">
-                                <li>Click the calculator icon in the taskbar to open <strong>/calc/</strong> directly.</li>
-                                <li>Use the <strong>Install</strong> button on the calculator page to add it to your device as a standalone app.</li>
-                                <li>The calculator PWA is fully offline-capable and will not interfere with the main site.</li>
-                                <li>For mobile devices, visit <strong>/calc/</strong> directly for the best experience.</li>
-                            </ul>
-                            <p style="color:#666;font-size:1rem;">For technical details, see <strong>manifest.webmanifest</strong> and <strong>service-worker.js</strong> in the calculator directory.</p>
-                        </div>
-                    `;
-                    container.appendChild(win);
+            });
+            
+            el.addEventListener('touchstart', (e) => {
+                if (e.target.closest('.btn-close') || e.target.closest('.btn-launch')) return;
+                startPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }, {passive: true});
+            
+            el.addEventListener('touchend', (e) => {
+                if (e.target.closest('.btn-close') || e.target.closest('.btn-launch')) return;
+                const touch = e.changedTouches[0];
+                const dist = Math.hypot(touch.clientX - startPos.x, touch.clientY - startPos.y);
+                if (dist < 5) {
+                    openApp();
                 }
-                win.classList.add('active');
-                win.classList.remove('minimized');
-                win.style.zIndex = ++this.state.zIndex;
-                this.state.openApps.add('calculator-doc');
-                this.state.minimizedApps.delete('calculator-doc');
-                this.state.activeApp = 'calculator-doc';
-                this.updateTaskbar();
-                this.syncState();
-            }
-
-            toggleStartMenu() {
-                document.getElementById('start-menu').classList.toggle('show');
-            }
-
-            openCalculatorApp() {
-                window.location.assign('/calc/');
-            }
-
-            openWindow(id) {
-                if (id === 'calculator') {
-                    this.openCalculatorApp();
-                    return;
-                }
-
-                let win = document.getElementById(`${id}-window`);
-                if (!win) {
-                    this.createWindowElements(id);
-                    win = document.getElementById(`${id}-window`);
-                }
-                if (!win) return;
-
-                this.state.openApps.add(id);
-                this.state.minimizedApps.delete(id);
-                this.state.activeApp = id;
-
-                win.classList.add('active');
-                win.classList.remove('minimized');
-                win.style.zIndex = ++this.state.zIndex;
-
-                document.getElementById('start-menu')?.classList.remove('show');
-                this.updateTaskbar();
-                this.syncState();
-            }
-
-            createWindowElements(id) {
-                const page = this.pages.find(p => p.id === id);
-                if (!page) return;
-
-                const container = document.getElementById('windows-container');
-                const win = document.createElement('div');
-                win.className = 'window';
-                win.id = `${id}-window`;
-                win.style.cssText = page.windowStyle || 'top: 100px; left: 100px; width: min(85%, 750px); height: min(75%, 550px);';
-
-                win.innerHTML = `
-                    <div class="window-header">
-                        <span>${page.title}</span>
-                        <div class="window-controls">
-                            <div class="window-control" onclick="System.closeWindow('${page.id}')"></div>
-                            <div class="window-control" onclick="System.minimizeWindow('${page.id}')"></div>
-                            <div class="window-control" onclick="System.maximizeWindow('${page.id}')"></div>
-                        </div>
-                    </div>
-                    <div class="window-content" id="${page.id}-content">Loading...</div>
-                `;
-                container.appendChild(win);
-                this.setupDragging(win);
-                this.loadWindowContent(page);
-            }
-
-            loadWindowContent(page) {
-                const contentEl = document.getElementById(`${page.id}-content`);
-                if (!contentEl) return;
-
-                contentEl.style.padding = page.frameless ? '0' : '24px';
-                contentEl.style.overflow = page.frameless ? 'hidden' : 'auto';
-
-                if (page.id === 'home') {
-                    contentEl.innerHTML = this.getHomeHTML();
-                } else if (page.id === 'tours') {
-                    this.initTours(contentEl);
-                } else if (page.embed || page.embedUrl) {
-                    const url = page.embed || page.embedUrl;
-                    contentEl.innerHTML = `<iframe src="${url}" style="width:100%;height:100%;border:none;background:#fff;"></iframe>`;
-                } else if (page.id === 'blueprints') {
-                    this.initBlueprints(contentEl);
-                } else if (page.id === 'contact') {
-                    contentEl.innerHTML = this.getContactHTML();
-                } else if (page.id === 'settings') {
-                    this.initSettings(contentEl);
-                }
-            }
-
-            closeWindow(id) {
-                const win = document.getElementById(`${id}-window`);
-                if (win) {
-                    win.classList.remove('active');
-                    this.state.openApps.delete(id);
-                    this.updateTaskbar();
-                    this.syncState();
-                }
-            }
-
-            minimizeWindow(id) {
-                const win = document.getElementById(`${id}-window`);
-                if (win) {
-                    win.classList.add('minimized');
-                    this.state.minimizedApps.add(id);
-                    this.updateTaskbar();
-                    this.syncState();
-                }
-            }
-
-            maximizeWindow(id) {
-                const win = document.getElementById(`${id}-window`);
-                if (win) win.classList.toggle('maximized');
-            }
-
-            restoreWindow(id) {
-                const win = document.getElementById(`${id}-window`);
-                if (win) {
-                    win.classList.remove('minimized');
-                    this.state.minimizedApps.delete(id);
-                    this.updateTaskbar();
-                    this.syncState();
-                }
-            }
-
-            splitWindowLeft(id) {
-                const win = document.getElementById(`${id}-window`);
-                if (win) {
-                    win.style.left = '0';
-                    win.style.width = '50vw';
-                    win.style.height = '100vh';
-                    win.style.top = '0';
-                }
-            }
-
-            splitWindowRight(id) {
-                const win = document.getElementById(`${id}-window`);
-                if (win) {
-                    win.style.left = '50vw';
-                    win.style.width = '50vw';
-                    win.style.height = '100vh';
-                    win.style.top = '0';
-                }
-            }
-
-            toggleTooltips() {
-                this.state.tooltipsEnabled = !this.state.tooltipsEnabled;
-                const toggle = document.getElementById('tooltip-toggle');
-                if (toggle) {
-                    toggle.textContent = `💡 Tooltips: ${this.state.tooltipsEnabled ? 'ON' : 'OFF'}`;
-                }
-            }
-
-            updateTaskbar() {
-                const taskbarApps = document.getElementById('taskbar-apps');
-                if (!taskbarApps) return;
-                taskbarApps.innerHTML = '';
-                this.state.openApps.forEach(id => {
-                    const page = this.pages.find(p => p.id === id);
-                    const task = document.createElement('div');
-                    task.className = 'taskbar-app' + (this.state.minimizedApps.has(id) ? ' minimized' : ' active');
-                    task.textContent = page ? page.title : id;
-                    task.onclick = () => this.openWindow(id);
-                    taskbarApps.appendChild(task);
-                });
-            }
-
-            startServices() {
-                if (location.protocol === 'file:') return;
-                setInterval(() => this.pollRemoteCommands(), 3000);
-            }
-
-            async pollRemoteCommands() {
-                if (location.protocol === 'file:') return;
-                try {
-                    const res = await fetch(`${this.bridgeURL}?action=pull&sessionId=${this.sessionID}`);
-                    if (!res.ok) return;
-                    const cmd = await res.json();
-                    if (cmd && cmd.timestamp > this.state.lastRemoteCommandId) {
-                        this.state.lastRemoteCommandId = cmd.timestamp;
-                        localStorage.setItem('lastRemoteCommandId', cmd.timestamp);
-                        this.executeCommand(cmd);
-                    }
-                } catch (e) { }
-            }
-
-            executeCommand(cmd) {
-                const { type, payload } = cmd;
-                switch (type) {
-                    case 'OPEN_APP': this.openWindow(payload.id); break;
-                    case 'CLOSE_APP': this.closeWindow(payload.id); break;
-                    case 'RELOAD': location.reload(); break;
-                    case 'ALERT': alert(payload.message); break;
-                }
-            }
-
-            async syncState() {
-                if (location.protocol === 'file:') return;
-                try {
-                    await fetch(`${this.bridgeURL}?action=sync&sessionId=${this.sessionID}`, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            openApps: Array.from(this.state.openApps),
-                            minimizedApps: Array.from(this.state.minimizedApps),
-                            activeApp: this.state.activeApp,
-                            timestamp: Date.now()
-                        })
-                    });
-                } catch (e) { }
-            }
-
-            updateClock() {
-                const now = new Date();
-                // Update taskbar clock
-                const clock = document.getElementById('clock');
-                if (clock) clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-                // Update animated clock display
-                const hours = document.getElementById('hours');
-                const minutes = document.getElementById('minutes');
-                const seconds = document.getElementById('seconds');
-                if (hours) hours.textContent = String(now.getHours()).padStart(2, '0');
-                if (minutes) minutes.textContent = String(now.getMinutes()).padStart(2, '0');
-                if (seconds) seconds.textContent = String(now.getSeconds()).padStart(2, '0');
-
-                // Update date display
-                const dateDisplay = document.getElementById('date-display');
-                if (dateDisplay) {
-                    dateDisplay.textContent = now.toLocaleDateString(undefined, {
-                        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-                    });
-                }
-            }
-
-            setupDragging(win) {
-                const header = win.querySelector('.window-header');
-                let isDragging = false;
-                header.onmousedown = (e) => {
-                    if (e.target.closest('.window-controls')) return;
-                    isDragging = true;
-                    let startX = e.clientX - win.offsetLeft;
-                    let startY = e.clientY - win.offsetTop;
-                    const onMove = (e) => {
-                        if (!isDragging) return;
-                        win.style.left = (e.clientX - startX) + 'px';
-                        win.style.top = (e.clientY - startY) + 'px';
-                    };
-                    const onUp = () => {
-                        isDragging = false;
-                        document.removeEventListener('mousemove', onMove);
-                        document.removeEventListener('mouseup', onUp);
-                    };
-                    document.addEventListener('mousemove', onMove);
-                    document.addEventListener('mouseup', onUp);
-                };
-            }
-
-            getHomeHTML() {
-                return `
-                    <div style="padding:24px;overflow-y:auto;height:100%;">
-                        <div style="text-align:center;margin-bottom:32px;">
-                            <h2 style="color:var(--accent);margin:0 0 12px 0;font-size:2.2rem;">📢 Latest Updates</h2>
-                            <p style="color:#666;">Stay connected with our latest projects and announcements.</p>
-                        </div>
-                        <div style="display:flex;flex-direction:column;align-items:center;gap:32px;">
-                            <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3Dpfbid02b4zEEqF4LFq2HAG6izPkimicUSU7dG27Fe3y3YfP4SCcaw2aTRkFgG51V2WDbxSEl%26id%3D61550821937890&show_text=true&width=500" width="500" height="661" style="border:none;border-radius:8px;" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
-                        </div>
-                    </div>
-                `;
-            }
-
-            getContactHTML() {
-                return `
-                    <div style="padding:24px;line-height:1.6;color:#1c1c1c;">
-                        <h2 style="margin:0 0 12px 0;color:#0b0d11;">📧 Contact John Dondlinger</h2>
-                        <p style="margin:0 0 8px 0;">Have a project in mind? Reach out directly.</p>
-                        <div style="padding:16px;border:1px solid rgba(0,0,0,0.08);border-radius:10px;background:#f9fbff;box-shadow:0 4px 16px rgba(0,0,0,0.05);max-width:420px;">
-                            <div style="font-weight:700;font-size:1.05rem;margin-bottom:8px;">John Dondlinger</div>
-                            <div style="margin-bottom:6px;">Email: <a href="mailto:dondlingergeneralcontracting@gmail.com">dondlingergeneralcontracting@gmail.com</a></div>
-                            <div style="margin-bottom:6px;">Phone: <a href="tel:7154593050">715.459.3050</a></div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            initBlueprints(container) {
-                container.innerHTML = `<div id="blueprints-viewer"><h2>Architectural Blueprints</h2><div class="blueprints-list" style="display:flex;flex-wrap:wrap;gap:24px;"></div><div class="blueprint-preview" style="margin-top:32px;padding:24px;background:#f7f7fa;border-radius:10px;border:2px solid var(--accent);"></div><p style="margin-top:32px;color:var(--muted);font-size:15px;">All blueprints and plans are property of Dondlinger General Contracting. For demonstration only.</p></div>`;
-                fetch('blueprints.json').then(r => r.json()).then(blueprints => {
-                    const list = container.querySelector('.blueprints-list');
-                    const preview = container.querySelector('.blueprint-preview');
-                    list.innerHTML = '';
-
-                    blueprints.forEach((bp, idx) => {
-                        const item = document.createElement('div');
-                        item.className = 'blueprint-thumb';
-                        item.style = 'width:180px;cursor:pointer;border:2px solid var(--accent);border-radius:10px;background:#f7f7fa;box-shadow:0 2px 12px rgba(0,212,255,0.2);overflow:hidden;transition:box-shadow 0.2s, transform 0.2s;';
-
-                        item.innerHTML = `
-                            <div style="height:120px;display:flex;align-items:center;justify-content:center;background:#e0e0e0;">
-                                ${bp.type === 'pdf' ? '<span style=\'color:var(--accent);font-size:2.5em;\'>📄</span>' : `<img src='blueprints/${bp.filename}' alt='${bp.title}' style='max-width:100%;max-height:100px;display:block;margin:auto;' onerror="this.parentElement.innerHTML='<span style=\\'color:var(--accent);font-size:2.5em;\\'>📐</span>'">`}
-                            </div>
-                            <div style="padding:10px 8px 8px 8px;">
-                                <div style="font-weight:700;font-size:1em;color:var(--accent);">${bp.title}</div>
-                                <div style="font-size:0.95em;color:var(--muted);margin-top:2px;">${bp.description}</div>
-                            </div>
-                        `;
-
-                        item.onmouseenter = () => item.style.transform = 'translateY(-4px)';
-                        item.onmouseleave = () => item.style.transform = 'translateY(0)';
-
-                        item.onclick = () => {
-                            list.querySelectorAll('.blueprint-thumb').forEach(el => {
-                                el.style.boxShadow = '0 2px 12px rgba(0,212,255,0.2)';
-                                el.style.borderColor = 'var(--accent)';
-                            });
-                            item.style.boxShadow = '0 0 0 3px var(--accent), 0 2px 12px rgba(0,212,255,0.6)';
-                            item.style.borderColor = 'var(--accent)';
-
-                            preview.innerHTML = bp.type === 'pdf'
-                                ? `<embed src='blueprints/${bp.filename}#toolbar=0' type='application/pdf' style='width:100%;min-height:500px;border-radius:10px;background:#fff;' />`
-                                : `<img src='blueprints/${bp.filename}' alt='${bp.title}' style='max-width:100%;border-radius:10px;background:#fff;box-shadow:0 2px 12px rgba(0,212,255,0.2);' onerror="this.parentElement.innerHTML='<div style=\\'color:var(--muted); text-align:center;\\'>Preview not available<br>Project: ${bp.title}</div>'">`;
-                        };
-
-                        list.appendChild(item);
-                        if (idx === 0) item.onclick();
-                    });
-                }).catch(err => {
-                    container.innerHTML = '<div style="color:#c00;text-align:center;padding:40px;">Failed to load blueprints. Please try again later.</div>';
-                    console.error('Blueprints load error:', err);
-                });
-            }
-
-
-            initTours(container) {
-                const saved = JSON.parse(localStorage.getItem('matterportTours') || 'null');
-                this.tours = saved || [
-                    { title: 'Main Property', url: 'https://my.matterport.com/show/?m=7Cfk3WA9AN7&brand=0' },
-                    { title: 'Property 2', url: '' }
-                ];
-                this.tourIndex = 0;
-
-                container.innerHTML = `
-                    <div id="tours-viewer" style="padding:24px;height:100%;display:flex;flex-direction:column;overflow-y:auto;">
-                        <div style="text-align:center;margin-bottom:16px;">
-                            <h2 style="color:var(--accent);margin:0 0 8px 0;font-size:2rem;">🗺️ 3D Tours</h2>
-                            <p style="color:#666;margin:0;font-size:0.95rem;">Virtual walkthroughs (Matterport) — use the controls below to switch tours or paste a link to add another.</p>
-                        </div>
-
-                        <div id="tours-card" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(0,212,255,0.05) 0%, rgba(0,212,255,0.02) 100%);border-radius:16px;padding:20px;border:2px solid var(--accent);box-shadow:0 8px 24px rgba(0,212,255,0.2);min-height:420px;">
-                            <div id="tours-embed" style="width:100%;height:100%;max-height:640px;background:#fff;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;">
-                                <div id="tours-embed-inner" style="width:100%;height:100%;"></div>
-                            </div>
-                        </div>
-
-                        <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;">
-                            <button id="tours-prev" style="padding:10px 18px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;">← Prev</button>
-                            <div id="tours-dots" style="display:flex;gap:8px;"></div>
-                            <button id="tours-next" style="padding:10px 18px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;">Next →</button>
-                        </div>
-
-                        <form id="tours-form" style="display:flex;gap:8px;align-items:center;justify-content:center;margin-top:16px;">
-                            <input id="tours-url-input" placeholder="Paste Matterport show URL (https://my.matterport.com/show/?m=...)" style="width:60%;padding:8px;border-radius:8px;border:1px solid #ccc;">
-                            <button id="tours-save" type="button" style="padding:8px 14px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;">Save</button>
-                        </form>
-                        <p id="tours-note" style="color:var(--muted);text-align:center;margin-top:10px;font-size:0.9rem;">Saved tours persist to your browser storage.</p>
-                    </div>
-                `;
-
-                // Setup event handlers
-                document.getElementById('tours-prev').onclick = () => this.prevTour();
-                document.getElementById('tours-next').onclick = () => this.nextTour();
-                document.getElementById('tours-save').onclick = () => {
-                    const val = document.getElementById('tours-url-input').value.trim();
-                    if (!val) return alert('Please paste a Matterport show URL.');
-                    this.tours[this.tourIndex].url = val;
-                    localStorage.setItem('matterportTours', JSON.stringify(this.tours));
-                    this.renderToursDots();
-                    this.loadTour(this.tourIndex);
-                };
-
-                this.renderToursDots();
-                this.loadTour(this.tourIndex);
-            }
-
-            loadTour(index) {
-                this.tourIndex = index;
-                const tour = this.tours[index];
-                const inner = document.getElementById('tours-embed-inner');
-                const input = document.getElementById('tours-url-input');
-                if (!inner) return;
-                inner.innerHTML = '';
-                if (!tour || !tour.url) {
-                    inner.innerHTML = `<div style="text-align:center;color:#666;padding:32px;">No tour configured. Paste a Matterport show URL and click Save.</div>`;
-                } else {
-                    const iframe = document.createElement('iframe');
-                    iframe.style.width = '100%';
-                    iframe.style.height = '100%';
-                    iframe.style.border = '0';
-                    iframe.src = tour.url;
-                    iframe.allow = 'autoplay; fullscreen; web-share; xr-spatial-tracking';
-                    iframe.allowFullscreen = true;
-                    inner.appendChild(iframe);
-                }
-                if (input) input.value = tour ? tour.url || '' : '';
-                // Update dots styling
-                const dots = document.getElementById('tours-dots');
-                if (dots) {
-                    Array.from(dots.children).forEach((d, i) => {
-                        d.style.cssText = `width:12px;height:12px;border-radius:50%;cursor:pointer;transition:all 0.2s;${i === index ? 'background:var(--accent);transform:scale(1.3);' : 'background:#ccc;'}`;
-                    });
-                }
-            }
-
-            renderToursDots() {
-                const dots = document.getElementById('tours-dots');
-                if (!dots) return;
-                dots.innerHTML = '';
-                this.tours.forEach((t, i) => {
-                    const dot = document.createElement('div');
-                    dot.onclick = () => this.loadTour(i);
-                    dot.style.cssText = `width:12px;height:12px;border-radius:50%;cursor:pointer;transition:all 0.2s;${i === this.tourIndex ? 'background:var(--accent);transform:scale(1.3);' : 'background:#ccc;'}`;
-                    dots.appendChild(dot);
-                });
-            }
-
-            nextTour() {
-                if (!this.tours || !this.tours.length) return;
-                this.loadTour((this.tourIndex + 1) % this.tours.length);
-            }
-
-            prevTour() {
-                if (!this.tours || !this.tours.length) return;
-                this.loadTour((this.tourIndex - 1 + this.tours.length) % this.tours.length);
-            }
-
-            initSettings(container) {
-                container.innerHTML = `
-                    <form id="settings-form" style="padding:24px;">
-                        <h2>Settings</h2>
-                        <label>Accent Color: <input type="color" id="settings-accent" value="#00d4ff"></label>
-                        <button type="submit">Save</button>
-                    </form>
-                `;
-                container.querySelector('form').onsubmit = (e) => {
-                    e.preventDefault();
-                    const accent = document.getElementById('settings-accent').value;
-                    localStorage.setItem('desktopSettings', JSON.stringify({ accent }));
-                    this.applySavedSettings();
-                };
-            }
-
-            applySavedSettings() {
-                const saved = JSON.parse(localStorage.getItem('desktopSettings') || '{}');
-                if (saved.accent) document.documentElement.style.setProperty('--accent', saved.accent);
-            }
-
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            window.System = new VirtualSystem();
+            });
         });
 
-        // Global functions for HTML onclick handlers
-        function toggleStartMenu() {
-            if (window.System) window.System.toggleStartMenu();
+        const mouse = Mouse.create(render.canvas);
+        const mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: { visible: false }
+            }
+        });
+        Composite.add(world, mouseConstraint);
+        render.mouse = mouse; 
+
+        Matter.Events.on(engine, 'afterUpdate', function() {
+            bodiesMap.forEach(map => {
+                const pos = map.body.position;
+                const angle = map.body.angle;
+                map.elem.style.transform = `translate(${pos.x - size/2}px, ${pos.y - size/2}px) rotate(${angle}rad)`;
+            });
+
+            const cPos = creatureBody.position;
+            const cAngle = creatureBody.angle;
+            creatureElem.style.transform = `translate(${cPos.x - creatureSize/2}px, ${cPos.y - creatureSize/2}px) rotate(${cAngle}rad)`;
+        });
+
+        window.addEventListener('resize', () => {
+            render.canvas.width = window.innerWidth;
+            render.canvas.height = window.innerHeight;
+            Matter.Body.setPosition(ground, { x: window.innerWidth / 2, y: window.innerHeight + 250 });
+            Matter.Body.setPosition(rightWall, { x: window.innerWidth + 250, y: window.innerHeight / 2 });
+            Matter.Body.setPosition(leftWall, { x: -250, y: window.innerHeight / 2 });
+            Matter.Body.setPosition(ceiling, { x: window.innerWidth / 2, y: -250 });
+            
+            const expandedApp = document.querySelector('.phys-app.expanded');
+            if (expandedApp) {
+                const map = bodiesMap.find(m => m.elem === expandedApp);
+                if (map) {
+                    const body = map.body;
+                    Matter.Body.setPosition(body, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
+                    
+                    const scaleX = parseFloat(expandedApp.dataset.scaleX);
+                    const scaleY = parseFloat(expandedApp.dataset.scaleY);
+                    Matter.Body.scale(body, 1/scaleX, 1/scaleY); 
+                    
+                    const newW = Math.min(window.innerWidth * 0.9, 600);
+                    const newH = Math.min(window.innerHeight * 0.7, 500);
+                    const newScaleX = newW / size;
+                    const newScaleY = newH / size;
+                    
+                    Matter.Body.scale(body, newScaleX, newScaleY);
+                    expandedApp.dataset.scaleX = newScaleX;
+                    expandedApp.dataset.scaleY = newScaleY;
+                }
+            }
+        });
+
+        /* =========================================
+           CHAOS OVERLAY LOGIC 
+           ========================================= */
+        const overlay = document.getElementById('chaos-overlay');
+        const closeChaosBtn = document.getElementById('close-chaos');
+        const logsContainer = document.getElementById('terminal-logs');
+
+        const logs = [
+            "INITIALIZING CHAOS PROTOCOL...",
+            "BYPASSING MATTER.JS PHYSICS ENGINE... [SUCCESS]",
+            "GRAVITY: DISABLED.",
+            "FRICTION: NEUTRALIZED.",
+            "ENTITY #404 (ALIEN) AWAKENED.",
+            "WARNING: REALITY CONTAINMENT BREACH DETECTED.",
+            "DOWNLOADING BIO-SIGNATURE...",
+            "DATA CORRUPT. GLITCH CASCADE IMMINENT.",
+            "SYSTEM COMPROMISED...",
+            "> AWAITING USER OVERRIDE."
+        ];
+
+        let typeInterval;
+
+        function typeLogs() {
+            logsContainer.innerHTML = "";
+            let logIndex = 0;
+            let charIndex = 0;
+            
+            typeInterval = setInterval(() => {
+                if (logIndex < logs.length) {
+                    if (charIndex === 0) {
+                        logsContainer.innerHTML += "<div>> </div>";
+                    }
+                    
+                    const currentLog = logs[logIndex];
+                    const divs = logsContainer.querySelectorAll('div');
+                    const lastDiv = divs[divs.length - 1];
+                    
+                    lastDiv.innerHTML += currentLog.charAt(charIndex);
+                    charIndex++;
+                    
+                    if (charIndex >= currentLog.length) {
+                        logIndex++;
+                        charIndex = 0;
+                        logsContainer.scrollTop = logsContainer.scrollHeight;
+                    }
+                } else {
+                    clearInterval(typeInterval);
+                }
+            }, 25);
         }
 
-        function toggleTooltips() {
-            if (window.System) window.System.toggleTooltips();
+        creatureElem.addEventListener('mousedown', (e) => {
+            e.stopPropagation(); // Stop physics drag
+            triggerChaosOverlay();
+        });
+
+        function triggerChaosOverlay() {
+            if (engine.timing) engine.timing.timeScale = 0; // Pause physics
+            
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.classList.add('active'); }, 10);
+            
+            typeLogs();
         }
 
-        function restoreWindow(id) {
-            if (window.System) window.System.restoreWindow(id);
-        }
+        closeChaosBtn.addEventListener('click', () => {
+            overlay.classList.remove('active');
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                clearInterval(typeInterval);
+                if (engine.timing) engine.timing.timeScale = 1; // Resume physics
+            }, 500);
+        });
 
-        function maximizeWindow(id) {
-            if (window.System) window.System.maximizeWindow(id);
-        }
-
-        function minimizeWindow(id) {
-            if (window.System) window.System.minimizeWindow(id);
-        }
-
-        function closeWindow(id) {
-            if (window.System) window.System.closeWindow(id);
-        }
-
-        function splitWindowLeft(id) {
-            if (window.System) window.System.splitWindowLeft(id);
-        }
-
-        function splitWindowRight(id) {
-            if (window.System) window.System.splitWindowRight(id);
-        }
+        Render.run(render);
+        const runner = Runner.create();
+        Runner.run(runner, engine);
     </script>
+</body>
 </html>
