@@ -226,18 +226,86 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 90px;
-            filter: drop-shadow(0 0 40px rgba(255, 0, 0, 0.8));
             transform-origin: center center;
             pointer-events: auto;
             cursor: pointer;
             z-index: 20;
-            animation: pulse-creature 0.5s infinite alternate;
+            perspective: 800px;
         }
 
-        @keyframes pulse-creature {
-            from { filter: drop-shadow(0 0 30px rgba(255, 0, 0, 0.6)) scale(0.95); }
-            to { filter: drop-shadow(0 0 60px rgba(255, 50, 0, 1)) scale(1.05); }
+        /* 3D Holographic Cyber-Orb */
+        .orb-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: orb-spin 12s infinite linear;
+        }
+
+        @keyframes orb-spin {
+            from { transform: rotate3d(1, 1, 1, 0deg); }
+            to { transform: rotate3d(1, 1, 1, 360deg); }
+        }
+
+        .orb-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            transform-style: preserve-3d;
+        }
+
+        .orb-ring-1 {
+            border-color: rgba(255, 0, 85, 0.8);
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4), inset 0 0 15px rgba(255, 0, 85, 0.4);
+            animation: rotate-ring-1 4s infinite linear;
+        }
+
+        .orb-ring-2 {
+            border-color: rgba(0, 212, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4), inset 0 0 15px rgba(0, 212, 255, 0.4);
+            animation: rotate-ring-2 6s infinite linear;
+        }
+
+        .orb-ring-3 {
+            border-color: rgba(255, 252, 0, 0.8);
+            box-shadow: 0 0 15px rgba(255, 252, 0, 0.4), inset 0 0 15px rgba(255, 252, 0, 0.4);
+            animation: rotate-ring-3 8s infinite linear;
+        }
+
+        .orb-core {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #ff3b7e 0%, #a2003c 50%, #000 100%);
+            box-shadow: 0 0 35px #ff0055, inset -5px -5px 15px rgba(0,0,0,0.8);
+            animation: pulse-core 1.5s infinite alternate;
+        }
+
+        @keyframes rotate-ring-1 {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            100% { transform: rotateX(360deg) rotateY(180deg) rotateZ(360deg); }
+        }
+
+        @keyframes rotate-ring-2 {
+            0% { transform: rotateX(180deg) rotateY(0deg) rotateZ(0deg); }
+            100% { transform: rotateX(180deg) rotateY(360deg) rotateZ(360deg); }
+        }
+
+        @keyframes rotate-ring-3 {
+            0% { transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg); }
+            100% { transform: rotateX(360deg) rotateY(180deg) rotateZ(360deg); }
+        }
+
+        @keyframes pulse-core {
+            0% { transform: scale(0.85); filter: brightness(0.9); }
+            100% { transform: scale(1.15); filter: brightness(1.4); }
         }
 
         /* =========================================
@@ -381,7 +449,14 @@
 
     <div id="dom-world">
         <!-- The Aggravator Creature -->
-        <div class="chaos-creature" id="creature">👾</div>
+        <div class="chaos-creature" id="creature">
+            <div class="orb-container">
+                <div class="orb-ring orb-ring-1"></div>
+                <div class="orb-ring orb-ring-2"></div>
+                <div class="orb-ring orb-ring-3"></div>
+                <div class="orb-core"></div>
+            </div>
+        </div>
 
         <!-- App 1: PourReady -->
         <div class="phys-app">
@@ -496,7 +571,14 @@
         <div class="crt-overlay"></div>
         <div class="glitch-container">
             <h1 class="glitch-title" data-text="SYSTEM ANOMALY">SYSTEM ANOMALY</h1>
-            <p class="alien-avatar">👾</p>
+            <div class="alien-avatar" style="width: 140px; height: 140px; margin: 0 auto 20px; perspective: 800px;">
+                <div class="orb-container" style="animation: orb-spin 6s infinite linear;">
+                    <div class="orb-ring orb-ring-1" style="border-color: #ff0055; box-shadow: 0 0 20px #ff0055;"></div>
+                    <div class="orb-ring orb-ring-2" style="border-color: #00d4ff; box-shadow: 0 0 20px #00d4ff;"></div>
+                    <div class="orb-ring orb-ring-3" style="border-color: #fffc00; box-shadow: 0 0 20px #fffc00;"></div>
+                    <div class="orb-core" style="top: 35px; left: 35px; width: 70px; height: 70px; background: radial-gradient(circle, #ff0055, #000); box-shadow: 0 0 40px #ff0055;"></div>
+                </div>
+            </div>
             <div class="terminal-logs" id="terminal-logs"></div>
             <button id="close-chaos" class="cyber-button">RESTORE REALITY [x]</button>
         </div>
