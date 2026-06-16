@@ -1,878 +1,748 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, overflow=hidden">
-    <title>Dondlinger Digital | Physics Universe</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="matter.min.js"></script>
-    <style>
-        :root {
-            --bg-dark: #020617;
-            --accent: #00d4ff;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dondlinger Digital — Engineering Division. A curated catalog of field-tested progressive web applications." />
+  <meta name="theme-color" content="#050709" />
+  <title>DONDLINGER DIGITAL // PWA CATALOG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        * {
-            box-sizing: border-box;
-        }
+    :root {
+      --bg-deep:      #050709;
+      --bg-mid:       #0d1117;
+      --card-bg:      rgba(15, 18, 28, 0.70);
+      --card-border:  rgba(255, 255, 255, 0.06);
+      --card-glow:    rgba(255, 255, 255, 0.03);
+      --text-primary: #e8eaf0;
+      --text-muted:   rgba(180, 190, 210, 0.55);
+      --text-faint:   rgba(180, 190, 210, 0.28);
+      --accent-info:      #00e5ff;
+      --accent-pour:      #ff6b35;
+      --accent-shot:      #00bfff;
+      --accent-tap:       #39ff14;
+      --accent-ampli:     #bf5fff;
+      --nav-size: 58px;
+      --header-h: 56px;
+      --ease-card: cubic-bezier(0.25, 1, 0.5, 1);
+    }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: var(--bg-dark);
-            background-image: radial-gradient(circle at 50% 50%, #0f172a 0%, var(--bg-dark) 100%);
-            overflow: hidden;
-            font-family: 'Inter', sans-serif;
-            color: #fff;
-        }
+    html, body { height: 100%; overflow-x: hidden; }
 
-        .bg-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Outfit', sans-serif;
-            font-size: 8vw;
-            font-weight: 800;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.03);
-            pointer-events: none;
-            z-index: 0;
-            white-space: nowrap;
-            letter-spacing: -2px;
-        }
+    body {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      background: linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-mid) 100%);
+      min-height: 100vh;
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+    }
 
-        .bg-text span {
-            color: rgba(0, 212, 255, 0.05);
-        }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
 
-        #dom-world {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10;
-        }
+    /* ─── HEADER ─── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: var(--header-h);
+      background: rgba(8, 10, 16, 0.95);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px; overflow: hidden;
+    }
+    header::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.012) 2px, rgba(255,255,255,0.012) 4px);
+      pointer-events: none;
+    }
+    .header-brand {
+      font-size: 0.78rem; font-weight: 800; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--text-primary); user-select: none;
+    }
+    .header-brand span { color: var(--accent-info); }
+    .header-status {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.7rem; font-weight: 400; letter-spacing: 1.5px;
+      color: var(--text-muted); text-transform: uppercase;
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #39ff14;
+      box-shadow: 0 0 6px #39ff14, 0 0 12px rgba(57,255,20,0.5);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
 
-        /* Default Physics App Size */
-        .phys-app {
-            position: absolute;
-            width: 140px;
-            height: 140px;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 2px solid rgba(0, 212, 255, 0.2);
-            border-radius: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
-            transform-origin: center center;
-            pointer-events: auto;
-            cursor: grab;
-            transition: border-color 0.3s, box-shadow 0.3s, width 0.4s, height 0.4s, border-radius 0.4s;
-            user-select: none;
-        }
+    /* ─── MAIN ─── */
+    main {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: calc(var(--header-h) + 32px) 24px 24px;
+      gap: 32px;
+    }
 
-        .phys-app:active { cursor: grabbing; }
-        .phys-app:hover {
-            border-color: rgba(0, 212, 255, 0.8);
-            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4), inset 0 0 20px rgba(255,255,255,0.1);
-        }
+    /* ─── CAROUSEL WRAPPER ─── */
+    .carousel-outer {
+      position: relative; display: flex; align-items: center;
+      gap: 16px; width: 100%; max-width: 860px;
+    }
+    .carousel-stage {
+      flex: 1; perspective: 1400px; height: 440px; position: relative;
+    }
+    .cards-container {
+      position: relative; width: 100%; height: 100%; transform-style: preserve-3d;
+    }
 
-        .app-icon-img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            pointer-events: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            background: #111;
-            transition: 0.4s;
-        }
+    /* ─── APP TILE ─── */
+    .app-tile {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      border-radius: 18px; padding: 28px 30px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border: 1px solid var(--card-border);
+      box-shadow: inset 0 1px 0 var(--card-glow), 0 8px 48px rgba(0,0,0,0.55), 0 2px 12px rgba(0,0,0,0.4);
+      display: flex; flex-direction: column; gap: 16px;
+      cursor: pointer;
+      transition: transform 0.55s var(--ease-card), opacity 0.55s var(--ease-card), box-shadow 0.3s ease;
+      will-change: transform, opacity;
+      overflow: hidden;
+      transform-origin: center center;
+    }
+    /* scan-line texture */
+    .app-tile::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.018) 2px, rgba(255,255,255,0.018) 4px);
+      pointer-events: none; border-radius: inherit; z-index: 1;
+    }
+    /* shimmer */
+    .app-tile::before {
+      content: ''; position: absolute;
+      top: -100%; left: -60%; width: 40%; height: 300%;
+      background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.045) 50%, transparent 100%);
+      transform: skewX(-20deg); pointer-events: none; z-index: 5;
+    }
+    .app-tile.active-card:hover::before { animation: shimmer 1.5s ease forwards; }
+    @keyframes shimmer { 0%{left:-60%} 100%{left:130%} }
 
-        .app-emoji {
-            font-size: 50px;
-            margin-bottom: 8px;
-            pointer-events: none;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
-            transition: 0.4s;
-        }
+    .tile-monogram {
+      position: absolute; bottom: -14px; right: 16px;
+      font-size: 8rem; font-weight: 800; color: rgba(255,255,255,0.04);
+      user-select: none; pointer-events: none; line-height: 1;
+      letter-spacing: -4px; z-index: 0;
+    }
 
-        .app-label {
-            font-weight: 600;
-            font-size: 13px;
-            text-align: center;
-            pointer-events: none;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-            padding: 0 8px;
-            transition: 0.4s;
-        }
+    /* ─── TILE TOP ─── */
+    .tile-top {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; position: relative; z-index: 2;
+    }
+    .tile-meta { display: flex; flex-direction: column; gap: 4px; }
+    .tile-number { font-size: 0.75rem; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; color: var(--text-faint); }
+    .tile-name { font-size: 1.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.1; }
+    .tile-icon-wrap {
+      width: 72px; height: 72px; border-radius: 14px;
+      background: rgba(6,8,14,0.92);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; overflow: hidden; position: relative;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .tile-icon-wrap img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* THE EXPANDED STATE */
-        .phys-app.expanded {
-            position: fixed !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) rotate(0deg) !important;
-            width: 90vw !important;
-            max-width: 600px !important;
-            height: 70vh !important;
-            max-height: 500px !important;
-            z-index: 1000;
-            cursor: default;
-            background: rgba(15, 23, 42, 0.85);
-            border-color: rgba(0, 212, 255, 0.8);
-            box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 80px rgba(0, 212, 255, 0.3);
-            border-radius: 30px;
-        }
+    /* ─── TILE BODY & PREVIEWS ─── */
+    .tile-body {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: space-between; gap: 12px; position: relative; z-index: 2;
+    }
+    .tile-desc { font-size: 0.82rem; font-weight: 300; line-height: 1.6; color: var(--text-muted); }
+    
+    .tile-preview {
+      width: 100%; height: 130px; border-radius: 10px;
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+      position: relative; margin-top: 4px;
+    }
+    .tile-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.3s ease; }
+    .app-tile.active-card:hover .tile-preview img { opacity: 1; }
+    .tile-preview-fallback { font-size: 0.65rem; color: var(--text-faint); letter-spacing: 1.5px; text-transform: uppercase; }
 
-        .phys-app.expanded .app-icon-img {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 20px;
-            margin-top: -30px;
-        }
+    .tile-cta-wrap { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .tile-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 6px; border: 1px solid currentColor;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; cursor: pointer; background: transparent;
+      transition: background 0.2s ease; align-self: flex-start;
+      font-family: inherit;
+    }
+    .tile-cta:hover { background: rgba(255,255,255,0.06); }
 
-        .phys-app.expanded .app-emoji {
-            font-size: 100px;
-            margin-bottom: 20px;
-            margin-top: -30px;
-        }
+    /* ─── ACCENT COLORS PER APP ─── */
+    [data-app="greeting"] .tile-name, [data-app="greeting"] .tile-cta { color: var(--accent-info); }
+    [data-app="greeting"] .tile-icon-wrap { box-shadow: 0 0 14px rgba(0,229,255,0.25), inset 0 0 12px rgba(0,229,255,0.08); }
+    [data-app="pourready"] .tile-name, [data-app="pourready"] .tile-cta { color: var(--accent-pour); }
+    [data-app="pourready"] .tile-icon-wrap { box-shadow: 0 0 14px rgba(255,107,53,0.3), inset 0 0 12px rgba(255,107,53,0.1); }
+    [data-app="shotstack"] .tile-name, [data-app="shotstack"] .tile-cta { color: var(--accent-shot); }
+    [data-app="shotstack"] .tile-icon-wrap { box-shadow: 0 0 14px rgba(0,191,255,0.3), inset 0 0 12px rgba(0,191,255,0.1); }
+    [data-app="tap"] .tile-name, [data-app="tap"] .tile-cta { color: var(--accent-tap); }
+    [data-app="tap"] .tile-icon-wrap { box-shadow: 0 0 14px rgba(57,255,20,0.3), inset 0 0 12px rgba(57,255,20,0.1); }
+    [data-app="ampliloop"] .tile-name, [data-app="ampliloop"] .tile-cta { color: var(--accent-ampli); }
+    [data-app="ampliloop"] .tile-icon-wrap { box-shadow: 0 0 14px rgba(191,95,255,0.3), inset 0 0 12px rgba(191,95,255,0.1); }
 
-        .phys-app.expanded .app-label {
-            font-size: 2.5rem;
-            font-family: 'Outfit', sans-serif;
-        }
+    /* ─── ACTIVE CARD ─── */
+    .app-tile.active-card { z-index: 10; pointer-events: auto; }
+    .app-tile.active-card:hover {
+      box-shadow: inset 0 1px 0 var(--card-glow), 0 16px 64px rgba(0,0,0,0.7), 0 4px 24px rgba(0,0,0,0.5);
+    }
 
-        .expanded-content {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            opacity: 0;
-            padding: 0 30px;
-            animation: fadeIn 0.4s forwards 0.3s;
-        }
+    /* ─── NAV BUTTONS ─── */
+    .nav-btn {
+      width: var(--nav-size); height: var(--nav-size); border-radius: 50%;
+      background: rgba(12,15,24,0.75);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+      color: var(--text-primary); z-index: 20;
+    }
+    .nav-btn:hover {
+      border-color: var(--accent-info);
+      box-shadow: 0 0 12px rgba(0,229,255,0.3), 0 0 24px rgba(0,229,255,0.12);
+      transform: scale(1.08);
+    }
+    .nav-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
-        .phys-app.expanded .expanded-content {
-            display: flex;
-        }
+    /* ─── DOT INDICATORS ─── */
+    .deck-dots { display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .deck-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .deck-dot.active { transform: scale(1.35); }
+    .deck-dot[data-index="0"].active { background: var(--accent-info);  box-shadow: 0 0 8px rgba(0,229,255,0.6); }
+    .deck-dot[data-index="1"].active { background: var(--accent-pour);  box-shadow: 0 0 8px rgba(255,107,53,0.6); }
+    .deck-dot[data-index="2"].active { background: var(--accent-shot);  box-shadow: 0 0 8px rgba(0,191,255,0.6); }
+    .deck-dot[data-index="3"].active { background: var(--accent-tap);   box-shadow: 0 0 8px rgba(57,255,20,0.6); }
+    .deck-dot[data-index="4"].active { background: var(--accent-ampli); box-shadow: 0 0 8px rgba(191,95,255,0.6); }
 
-        @keyframes fadeIn { to { opacity: 1; } }
+    /* ─── MODAL ─── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal-window {
+      background: rgba(12,16,26,0.92);
+      backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 16px; width: 100%; max-width: 860px;
+      max-height: calc(100vh - 48px); overflow-y: auto;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.75), 0 8px 32px rgba(0,0,0,0.5);
+      transform: scale(0.92); transition: transform 0.3s ease;
+    }
+    .modal-overlay.open .modal-window { transform: scale(1); }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .modal-title { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+    .modal-close {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--text-muted);
+      transition: background 0.2s ease, color 0.2s ease; font-family: inherit;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); }
+    .modal-close svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+    .modal-screenshot { width: 100%; height: 240px; object-fit: cover; display: block; background: rgba(8,10,16,0.8); }
+    .modal-screenshot-placeholder {
+      width: 100%; height: 240px; background: rgba(8,10,16,0.8);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-faint); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+    }
+    .modal-body {
+      padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    }
+    .modal-section-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--text-faint); margin-bottom: 10px; }
+    .modal-desc-text { font-size: 0.84rem; font-weight: 300; line-height: 1.75; color: var(--text-muted); }
+    .modal-audience-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .modal-audience-list li { font-size: 0.78rem; font-weight: 400; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+    .modal-audience-list li::before { content: '▸'; font-size: 0.65rem; }
+    .modal-footer { padding: 16px 24px 24px; }
+    .modal-launch-btn {
+      display: block; width: 100%; padding: 14px 24px; border-radius: 10px;
+      border: none; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; text-align: center; text-decoration: none;
+      cursor: pointer; transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease; color: #fff;
+    }
+    .modal-launch-btn:hover { opacity: 0.88; transform: translateY(-1px); }
 
-        .app-desc {
-            color: #94a3b8;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin: 15px 0 30px;
-        }
+    /* ─── FOOTER ─── */
+    footer {
+      text-align: center; padding: 20px 24px;
+      font-size: 0.72rem; font-weight: 300; letter-spacing: 1.5px;
+      color: var(--text-faint); text-transform: uppercase;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
 
-        .btn-row {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+    /* ─── PULSE ─── */
+    @keyframes pulse-ring {
+      0%  { box-shadow: 0 0 0 0 rgba(0,229,255,0.35); }
+      70% { box-shadow: 0 0 0 20px rgba(0,229,255,0); }
+      100%{ box-shadow: 0 0 0 0 rgba(0,229,255,0); }
+    }
+    .pulse-anim { animation: pulse-ring 0.7s ease forwards; }
 
-        .btn-close {
-            background: transparent;
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 12px 24px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: 0.2s;
-        }
-        .btn-close:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .btn-launch {
-            background: #fff;
-            color: #000;
-            border: none;
-            padding: 12px 32px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: 0.2s;
-            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-launch:hover {
-            background: var(--accent);
-            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
-        }
-
-
-        /* THE CHAOS CREATURE */
-        .chaos-creature {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            background: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform-origin: center center;
-            pointer-events: auto;
-            cursor: pointer;
-            z-index: 20;
-            perspective: 800px;
-        }
-
-        /* 3D Holographic Cyber-Orb */
-        .orb-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: orb-spin 12s infinite linear;
-        }
-
-        @keyframes orb-spin {
-            from { transform: rotate3d(1, 1, 1, 0deg); }
-            to { transform: rotate3d(1, 1, 1, 360deg); }
-        }
-
-        .orb-ring {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            transform-style: preserve-3d;
-        }
-
-        .orb-ring-1 {
-            border-color: rgba(255, 0, 85, 0.8);
-            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4), inset 0 0 15px rgba(255, 0, 85, 0.4);
-            animation: rotate-ring-1 4s infinite linear;
-        }
-
-        .orb-ring-2 {
-            border-color: rgba(0, 212, 255, 0.8);
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4), inset 0 0 15px rgba(0, 212, 255, 0.4);
-            animation: rotate-ring-2 6s infinite linear;
-        }
-
-        .orb-ring-3 {
-            border-color: rgba(255, 252, 0, 0.8);
-            box-shadow: 0 0 15px rgba(255, 252, 0, 0.4), inset 0 0 15px rgba(255, 252, 0, 0.4);
-            animation: rotate-ring-3 8s infinite linear;
-        }
-
-        .orb-core {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #ff3b7e 0%, #a2003c 50%, #000 100%);
-            box-shadow: 0 0 35px #ff0055, inset -5px -5px 15px rgba(0,0,0,0.8);
-            animation: pulse-core 1.5s infinite alternate;
-        }
-
-        @keyframes rotate-ring-1 {
-            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-            100% { transform: rotateX(360deg) rotateY(180deg) rotateZ(360deg); }
-        }
-
-        @keyframes rotate-ring-2 {
-            0% { transform: rotateX(180deg) rotateY(0deg) rotateZ(0deg); }
-            100% { transform: rotateX(180deg) rotateY(360deg) rotateZ(360deg); }
-        }
-
-        @keyframes rotate-ring-3 {
-            0% { transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg); }
-            100% { transform: rotateX(360deg) rotateY(180deg) rotateZ(360deg); }
-        }
-
-        @keyframes pulse-core {
-            0% { transform: scale(0.85); filter: brightness(0.9); }
-            100% { transform: scale(1.15); filter: brightness(1.4); }
-        }
-
-        /* =========================================
-           CHAOS OVERLAY STYLES 
-           ========================================= */
-        #chaos-overlay {
-            position: fixed;
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh;
-            background: rgba(10, 0, 20, 0.95);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Courier New', Courier, monospace;
-            color: #0f0;
-            overflow: hidden;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
-        }
-
-        #chaos-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .hidden { display: none !important; }
-
-        /* CRT Scanline Effect */
-        .crt-overlay {
-            position: absolute;
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
-            z-index: 10000;
-            pointer-events: none;
-        }
-
-        .glitch-container {
-            position: relative;
-            z-index: 10001;
-            text-align: center;
-            max-width: 600px;
-            width: 90%;
-            padding: 20px;
-        }
-
-        .alien-avatar {
-            font-size: 8rem;
-            animation: glitch-anim-1 2s infinite linear alternate-reverse;
-            filter: drop-shadow(0 0 20px #f0f);
-            margin: 0;
-            line-height: 1;
-        }
-
-        .glitch-title {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: bold;
-            text-transform: uppercase;
-            position: relative;
-            color: #fff;
-            text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00;
-            animation: glitch-anim-2 3s infinite linear alternate-reverse;
-            margin-bottom: 2rem;
-            letter-spacing: 5px;
-        }
-
-        .terminal-logs {
-            text-align: left;
-            background: rgba(0, 20, 0, 0.8);
-            border: 1px solid #0f0;
-            padding: 20px;
-            height: 200px;
-            overflow-y: auto;
-            box-shadow: 0 0 15px #0f0 inset;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-            line-height: 1.5;
-            text-shadow: 0 0 5px #0f0;
-            scrollbar-width: thin;
-            scrollbar-color: #0f0 transparent;
-        }
-        
-        .terminal-logs::-webkit-scrollbar { width: 8px; }
-        .terminal-logs::-webkit-scrollbar-track { background: transparent; }
-        .terminal-logs::-webkit-scrollbar-thumb { background: #0f0; }
-
-        .cyber-button {
-            background: rgba(255, 0, 60, 0.1);
-            color: #ff003c;
-            border: 2px solid #ff003c;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-family: inherit;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-            transition: 0.2s;
-            box-shadow: 0 0 10px #ff003c, inset 0 0 10px #ff003c;
-            outline: none;
-        }
-
-        .cyber-button:hover {
-            background: #ff003c;
-            color: #fff;
-            box-shadow: 0 0 30px #ff003c;
-            text-shadow: 0 0 5px #fff;
-        }
-
-        /* Glitch Animations */
-        @keyframes glitch-anim-1 {
-            0% { transform: translate(0) skew(0deg); }
-            20% { transform: translate(-5px, 5px) skew(5deg); filter: drop-shadow(0 0 20px #f0f) hue-rotate(90deg); }
-            40% { transform: translate(5px, -5px) skew(-5deg); filter: drop-shadow(0 0 30px #0ff) hue-rotate(180deg); }
-            60% { transform: translate(-2px, 2px) skew(2deg); filter: drop-shadow(0 0 40px #f0f) hue-rotate(270deg); }
-            80% { transform: translate(2px, -2px) skew(-2deg); }
-            100% { transform: translate(0) skew(0deg); }
-        }
-
-        @keyframes glitch-anim-2 {
-            0% { text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; }
-            15% { text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; }
-            16% { text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff, -0.05em -0.05em 0 #fffc00; }
-            49% { text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff, -0.05em -0.05em 0 #fffc00; }
-            50% { text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff, 0 -0.04em 0 #fffc00; }
-            99% { text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff, 0 -0.04em 0 #fffc00; }
-            100% { text-shadow: -0.025em 0 0 #00fffc, -0.025em -0.025em 0 #fc00ff, -0.025em -0.05em 0 #fffc00; }
-        }
-
-    </style>
+    /* ─── MOBILE ─── */
+    @media (max-width: 768px) {
+      main { padding: calc(var(--header-h) + 20px) 16px 20px; justify-content: flex-start; gap: 20px; }
+      .carousel-outer { flex-direction: column; max-width: 100%; }
+      .nav-btn { display: none; }
+      .carousel-stage { height: auto; perspective: none; width: 100%; }
+      .cards-container { transform-style: flat; display: flex; flex-direction: column; gap: 16px; position: static; height: auto; }
+      .app-tile {
+        position: relative; inset: auto;
+        transform: none !important; opacity: 1 !important; pointer-events: auto !important;
+        height: auto; min-height: 280px;
+        animation: stagger-in 0.4s ease both;
+      }
+      .app-tile:nth-child(1){animation-delay:0.00s}
+      .app-tile:nth-child(2){animation-delay:0.07s}
+      .app-tile:nth-child(3){animation-delay:0.14s}
+      .app-tile:nth-child(4){animation-delay:0.21s}
+      .app-tile:nth-child(5){animation-delay:0.28s}
+      @keyframes stagger-in { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+      .modal-body { grid-template-columns: 1fr; }
+      .modal-screenshot,.modal-screenshot-placeholder { height: 160px; }
+      .header-brand { font-size: 0.65rem; }
+    }
+    @media (max-width: 480px) {
+      header { padding: 0 16px; }
+      .header-status { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-    <div id="dom-world">
-        <!-- The Aggravator Creature -->
-        <div class="chaos-creature" id="creature">
-            <div class="orb-container">
-                <div class="orb-ring orb-ring-1"></div>
-                <div class="orb-ring orb-ring-2"></div>
-                <div class="orb-ring orb-ring-3"></div>
-                <div class="orb-core"></div>
-            </div>
-        </div>
-
-        <!-- App 1: PourReady -->
-        <div class="phys-app">
-            <img src="calc/pourready-icon.png" class="app-icon-img" onerror="this.src='https://via.placeholder.com/120/111827/00d4ff?text=PR'">
-            <div class="app-label">PourReady</div>
-            <div class="expanded-content">
-                <div class="app-desc">PourReady — concrete estimator built in the field for the field. Free to use.</div>
-                <div class="btn-row">
-                    <button class="btn-close">Return to Orbit</button>
-                    <a href="/calc/" class="btn-launch" target="_blank">Launch App</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- App 8: Blazor PWA -->
-        <div class="phys-app">
-            <div class="app-emoji">⚡</div>
-            <div class="app-label">Blazor PWA</div>
-            <div class="expanded-content">
-                <div class="app-desc">WebAssembly Progressive Web Application architecture deployment.</div>
-                <div class="btn-row">
-                    <button class="btn-close">Return to Orbit</button>
-                    <a href="https://blazorpwa.dondlingergc.com" class="btn-launch" target="_blank">Launch App</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- App 2 -->
-        <div class="phys-app">
-            <div class="app-emoji">🎬</div>
-            <div class="app-label">ShotStack Studio</div>
-            <div class="expanded-content">
-                <div class="app-desc">Next-generation video intelligence and automation platform. Seamlessly integrate your media workflows.</div>
-                <div class="btn-row">
-                    <button class="btn-close">Return to Orbit</button>
-                    <a href="https://shotstackstudio.dondlingergc.com" class="btn-launch" target="_blank">Launch App</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- App 3 -->
-        <div class="phys-app">
-            <div class="app-emoji">🎨</div>
-            <div class="app-label">Digital Fortress Builder</div>
-            <div class="expanded-content">
-                <div class="app-desc">Web Design Wizard. An interactive web design tool to build your custom website visually.</div>
-                <div class="btn-row">
-                    <button class="btn-close">Return to Orbit</button>
-                    <a href="fortress.html" class="btn-launch" target="_blank">Launch App</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- App 4 -->
-        <div class="phys-app">
-            <div class="app-emoji">💬</div>
-            <div class="app-label">DGC Chat</div>
-            <div class="expanded-content">
-                <div class="app-desc">Live chat support and customer service portal. Directly connect with the DGC team.</div>
-                <div class="btn-row">
-                    <button class="btn-close">Return to Orbit</button>
-                    <a href="chat.html" class="btn-launch" target="_blank">Launch App</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- App 5 -->
-        <div class="phys-app">
-            <img src="mobilestatic/rabbit-animation.gif" class="app-icon-img" onerror="this.src='https://via.placeholder.com/120/111827/8b5cf6?text=RH'">
-            <div class="app-label">RabbitHole Explorer</div>
-            <div class="expanded-content">
-                <div class="app-desc">Dive into the infinite knowledge universe with our cutting-edge, mobile-first Wikipedia exploration experience.</div>
-                <div class="btn-row">
-                    <button class="btn-close">Return to Orbit</button>
-                    <a href="https://john2121-quantumrabbithole-explorer.static.hf.space" class="btn-launch" target="_blank">Launch App</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- App 6 -->
-        <div class="phys-app">
-            <div class="app-emoji">🦌</div>
-            <div class="app-label">Wild Preserve Taxidermy</div>
-            <div class="expanded-content">
-                <div class="app-desc">Professional taxidermy services and wildlife preservation. A Wild Preserve legacy.</div>
-                <div class="btn-row">
-                    <button class="btn-close">Return to Orbit</button>
-                    <a href="taxidermy.html" class="btn-launch" target="_blank">Launch App</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- App 7 -->
-        <div class="phys-app">
-            <div class="app-emoji">🧵</div>
-            <div class="app-label">Cotton Thimble Tour</div>
-            <div class="expanded-content">
-                <div class="app-desc">Virtual tour of Cotton Thimble store in Wisconsin. Step inside Grandma's family store.</div>
-                <div class="btn-row">
-                    <button class="btn-close">Return to Orbit</button>
-                    <a href="cottonthimble.html" class="btn-launch" target="_blank">Launch App</a>
-                </div>
-            </div>
-        </div>
-
+  <!-- HEADER -->
+  <header>
+    <div class="header-brand">DONDLINGER <span>//</span> DIGITAL &nbsp;·&nbsp; ENGINEERING</div>
+    <div class="header-status">
+      <div class="status-dot"></div>
+      [ PWA CATALOG v2.0 ]
     </div>
+  </header>
 
-    <!-- =========================================
-         CHAOS OVERLAY HTML 
-         ========================================= -->
-    <div id="chaos-overlay" class="hidden">
-        <div class="crt-overlay"></div>
-        <div class="glitch-container">
-            <h1 class="glitch-title" data-text="SYSTEM ANOMALY">SYSTEM ANOMALY</h1>
-            <div class="alien-avatar" style="width: 140px; height: 140px; margin: 0 auto 20px; perspective: 800px;">
-                <div class="orb-container" style="animation: orb-spin 6s infinite linear;">
-                    <div class="orb-ring orb-ring-1" style="border-color: #ff0055; box-shadow: 0 0 20px #ff0055;"></div>
-                    <div class="orb-ring orb-ring-2" style="border-color: #00d4ff; box-shadow: 0 0 20px #00d4ff;"></div>
-                    <div class="orb-ring orb-ring-3" style="border-color: #fffc00; box-shadow: 0 0 20px #fffc00;"></div>
-                    <div class="orb-core" style="top: 35px; left: 35px; width: 70px; height: 70px; background: radial-gradient(circle, #ff0055, #000); box-shadow: 0 0 40px #ff0055;"></div>
-                </div>
+  <!-- MAIN -->
+  <main>
+    <div class="carousel-outer">
+      <!-- PREV -->
+      <button class="nav-btn" id="btn-prev" aria-label="Previous card">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+
+      <!-- STAGE -->
+      <div class="carousel-stage" id="carousel-stage">
+        <div class="cards-container" id="cards-container">
+
+          <!-- 00 · INFO -->
+          <div class="app-tile" data-app="greeting" data-index="0" role="button" tabindex="0" aria-label="Catalog info">
+            <div class="tile-monogram">00</div>
+            <div class="tile-top">
+              <div class="tile-meta">
+                <span class="tile-number">// 00</span>
+                <span class="tile-name">Dondlinger<br>Digital</span>
+              </div>
+              <div class="tile-icon-wrap">
+                <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                  <rect width="38" height="38" rx="8" fill="rgba(0,229,255,0.08)"/>
+                  <path d="M10 19h18M19 10v18" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="19" cy="19" r="6" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3"/>
+                </svg>
+              </div>
             </div>
-            <div class="terminal-logs" id="terminal-logs"></div>
-            <button id="close-chaos" class="cyber-button">RESTORE REALITY [x]</button>
-        </div>
+            <div class="tile-body">
+              <p class="tile-desc">A curated engineering catalog of field-tested progressive web applications. Each tool is purpose-built, ruthlessly scoped, and deployed for performance at the edge. No bloat. No guesswork. Just precision engineering.</p>
+              <button class="tile-cta" style="pointer-events:none;cursor:default;">◈ &nbsp;CATALOG // ACTIVE</button>
+            </div>
+          </div>
+
+          <!-- 01 · POURREADY -->
+          <div class="app-tile" data-app="pourready" data-index="1" role="button" tabindex="0" aria-label="Open PourReady details">
+            <div class="tile-monogram">01</div>
+            <div class="tile-top">
+              <div class="tile-meta">
+                <span class="tile-number">// 01</span>
+                <span class="tile-name">PourReady</span>
+              </div>
+              <div class="tile-icon-wrap">
+                <img src="calc/pourready-logo.png" alt="PourReady logo" loading="lazy" />
+              </div>
+            </div>
+            <div class="tile-body">
+              <p class="tile-desc">A field-tested concrete volume estimator built directly for jobsites. Precise calculations for slabs, footings, walls, and columns.</p>
+              <div class="tile-preview">
+                <img src="img/pourready.png" alt="PourReady preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="tile-preview-fallback" style="display:none;">[ POURREADY FIELD VIEW ]</div>
+              </div>
+              <div class="tile-cta-wrap">
+                <button class="tile-cta">▶ &nbsp;DETAILS</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 02 · SHOTSTACK -->
+          <div class="app-tile" data-app="shotstack" data-index="2" role="button" tabindex="0" aria-label="Open ShotStack details">
+            <div class="tile-monogram">02</div>
+            <div class="tile-top">
+              <div class="tile-meta">
+                <span class="tile-number">// 02</span>
+                <span class="tile-name">ShotStack</span>
+              </div>
+              <div class="tile-icon-wrap">
+                <img src="img/shotstack.png" alt="ShotStack logo" loading="lazy" />
+              </div>
+            </div>
+            <div class="tile-body">
+              <p class="tile-desc">A standalone storyboard tool to organize and compile multiple screenshots and layouts into a single scrollable PDF storyboard.</p>
+              <div class="tile-preview">
+                <img src="img/shotstack.png" alt="ShotStack preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="tile-preview-fallback" style="display:none;">[ SHOTSTACK SCREEN VIEW ]</div>
+              </div>
+              <div class="tile-cta-wrap">
+                <button class="tile-cta">▶ &nbsp;DETAILS</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03 · TAP -->
+          <div class="app-tile" data-app="tap" data-index="3" role="button" tabindex="0" aria-label="Open TAP details">
+            <div class="tile-monogram">03</div>
+            <div class="tile-top">
+              <div class="tile-meta">
+                <span class="tile-number">// 03</span>
+                <span class="tile-name">TAP<br>Protocol</span>
+              </div>
+              <div class="tile-icon-wrap">
+                <img src="img/tapprotocol.png" alt="TAP Protocol logo" loading="lazy" />
+              </div>
+            </div>
+            <div class="tile-body">
+              <p class="tile-desc">A minimalist field utility providing instant, authenticated location and timestamp verification directly from the field.</p>
+              <div class="tile-preview">
+                <img src="img/tapprotocol.png" alt="TAP Protocol preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="tile-preview-fallback" style="display:none;">[ TAP VERIFICATION VIEW ]</div>
+              </div>
+              <div class="tile-cta-wrap">
+                <button class="tile-cta">▶ &nbsp;DETAILS</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 04 · AMPLILOOP -->
+          <div class="app-tile" data-app="ampliloop" data-index="4" role="button" tabindex="0" aria-label="Open AmpliLoop details">
+            <div class="tile-monogram">04</div>
+            <div class="tile-top">
+              <div class="tile-meta">
+                <span class="tile-number">// 04</span>
+                <span class="tile-name">AmpliLoop<br>Studio</span>
+              </div>
+              <div class="tile-icon-wrap">
+                <img src="img/blazorcore.png" alt="AmpliLoop Studio logo" loading="lazy" />
+              </div>
+            </div>
+            <div class="tile-body">
+              <p class="tile-desc">Premium Algorithmic Rap Beat Studio, Metronome and Instrument Tuner PWA engineered with Blazor WebAssembly performance.</p>
+              <div class="tile-preview">
+                <img src="img/blazorcore.png" alt="AmpliLoop Studio preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="tile-preview-fallback" style="display:none;">[ AMPLILOOP CORE VIEW ]</div>
+              </div>
+              <div class="tile-cta-wrap">
+                <button class="tile-cta">▶ &nbsp;DETAILS</button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /cards-container -->
+      </div><!-- /carousel-stage -->
+
+      <!-- NEXT -->
+      <button class="nav-btn" id="btn-next" aria-label="Next card">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div><!-- /carousel-outer -->
+
+    <!-- DOTS -->
+    <div class="deck-dots" id="deck-dots" role="tablist" aria-label="Card navigation">
+      <div class="deck-dot active" data-index="0" role="tab" tabindex="0" aria-label="Info card"></div>
+      <div class="deck-dot" data-index="1" role="tab" tabindex="0" aria-label="PourReady card"></div>
+      <div class="deck-dot" data-index="2" role="tab" tabindex="0" aria-label="ShotStack card"></div>
+      <div class="deck-dot" data-index="3" role="tab" tabindex="0" aria-label="TAP card"></div>
+      <div class="deck-dot" data-index="4" role="tab" tabindex="0" aria-label="AmpliLoop card"></div>
     </div>
+  </main>
 
+  <!-- FOOTER -->
+  <footer>DONDLINGER DIGITAL &nbsp;·&nbsp; ENGINEERING DIVISION &nbsp;·&nbsp; <span id="footer-year"></span></footer>
 
-    <script>
-        const Engine = Matter.Engine,
-              Render = Matter.Render,
-              Runner = Matter.Runner,
-              Bodies = Matter.Bodies,
-              Composite = Matter.Composite,
-              Mouse = Matter.Mouse,
-              MouseConstraint = Matter.MouseConstraint;
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <div class="modal-window" id="modal-window">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title-text"></div>
+        <button class="modal-close" id="modal-close" aria-label="Close modal">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="modal-img-wrap"></div>
+      <div class="modal-body">
+        <div>
+          <div class="modal-section-label">// Description</div>
+          <p class="modal-desc-text" id="modal-desc"></p>
+        </div>
+        <div>
+          <div class="modal-section-label">// Built For</div>
+          <ul class="modal-audience-list" id="modal-audience"></ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a id="modal-launch-btn" class="modal-launch-btn" href="#"></a>
+      </div>
+    </div>
+  </div>
 
-        const engine = Engine.create();
-        const world = engine.world;
-        engine.gravity.y = 0.15; // Lunar Gravity
+  <script>
+    'use strict';
 
-        const render = Render.create({
-            element: document.body,
-            engine: engine,
-            options: {
-                width: window.innerWidth,
-                height: window.innerHeight,
-                wireframes: false,
-                background: 'transparent'
-            }
-        });
-        render.canvas.style.position = 'absolute';
-        render.canvas.style.top = '0';
-        render.canvas.style.left = '0';
-        render.canvas.style.zIndex = '5';
-        
-        const wallOptions = { isStatic: true, render: { visible: false } };
-        const ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight + 250, window.innerWidth * 2, 500, wallOptions);
-        const leftWall = Bodies.rectangle(-250, window.innerHeight / 2, 500, window.innerHeight * 2, wallOptions);
-        const rightWall = Bodies.rectangle(window.innerWidth + 250, window.innerHeight / 2, 500, window.innerHeight * 2, wallOptions);
-        const ceiling = Bodies.rectangle(window.innerWidth / 2, -250, window.innerWidth * 2, 500, wallOptions);
+    /* APP DATA */
+    const APP_DATA = {
+      pourready: {
+        title: 'PourReady // 01',
+        accent: '#ff6b35',
+        screenshot: 'img/pourready-screen.png',
+        desc: 'A field-tested concrete volume estimator built directly for jobsites. Eliminates mental math errors by providing precise calculations for slabs, footings, walls, and columns. Features dynamic input validation and waste-percentage toggles.',
+        who: ['Concrete Foremen', 'General Contractors', 'Field Estimators'],
+        link: './calc/index.html',
+        external: false,
+        btnLabel: '⟶  OPEN POURREADY',
+      },
+      shotstack: {
+        title: 'ShotStack // 02',
+        accent: '#00bfff',
+        screenshot: 'img/shotstack-screen.png',
+        desc: 'A standalone web application built for scrollable PDF compilation and layout formatting. Designed for camera crews, video editors, and production sets to easily organize and compile multiple screenshots and script layouts into a single scrollable PDF storyboard.',
+        who: ['Camera Crews', 'Video Editors', 'Producers', 'Media Managers'],
+        link: 'https://shotstackstudio.dondlingergc.com',
+        external: true,
+        btnLabel: '⟶  LAUNCH SHOTSTACK',
+      },
+      tap: {
+        title: 'TAP: Time & Place // 03',
+        accent: '#39ff14',
+        screenshot: 'img/tap-screen.png',
+        desc: 'A minimalist utility for tracking Time & Place. Provides instant location and timestamp verification directly from the field without unnecessary bloat.',
+        who: ['Field Workers', 'Logistics Teams', 'Timekeepers'],
+        link: 'https://tap.dondlingergc.com',
+        external: true,
+        btnLabel: '⟶  LAUNCH TAP',
+      },
+      ampliloop: {
+        title: 'AmpliLoop Studio // 04',
+        accent: '#bf5fff',
+        screenshot: 'img/ampliloop-screen.png',
+        desc: 'Premium Algorithmic Rap Beat Studio, Instrument Tuner, and Metronome PWA. Engineered with Blazor WebAssembly to deliver true C# performance on the edge, featuring algorithmic beat generation and professional utility tools with a Line6 hardware aesthetic.',
+        who: ['Musicians', 'Beatmakers', 'Audio Engineers'],
+        link: 'https://blazorpwa.dondlingergc.com',
+        external: true,
+        btnLabel: '⟶  LAUNCH AMPLILOOP',
+      },
+    };
 
-        Composite.add(world, [ground, leftWall, rightWall, ceiling]);
+    /* FOOTER YEAR */
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
 
-        const bodiesMap = [];
-        const size = 140; 
-        const radius = 24; 
+    /* CAROUSEL STATE */
+    const TOTAL = 5;
+    let currentIndex = 0;
+    let isAnimating = false;
 
-        // Creature
-        const creatureElem = document.getElementById('creature');
-        const creatureSize = 100;
-        const creatureBody = Bodies.circle(window.innerWidth / 2, window.innerHeight / 2, creatureSize/2, {
-            restitution: 0.9, 
-            friction: 0.1,
-            frictionAir: 0, 
-            density: 1.5, 
-            render: { visible: false }
-        });
-        Composite.add(world, creatureBody);
+    const tiles = Array.from(document.querySelectorAll('.app-tile'));
+    const dots  = Array.from(document.querySelectorAll('.deck-dot'));
 
-        setInterval(() => {
-            if (creatureBody.position.y > window.innerHeight + 200 || creatureBody.position.y < -200 || creatureBody.position.x < -200 || creatureBody.position.x > window.innerWidth + 200) {
-                Matter.Body.setPosition(creatureBody, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
-                Matter.Body.setVelocity(creatureBody, { x: 0, y: 0 });
-            }
+    function positionCards(idx) {
+      tiles.forEach((tile, i) => {
+        const offset    = i - idx;
+        const absOffset = Math.abs(offset);
+        tile.classList.remove('active-card');
 
-            const speed = 25 + Math.random() * 15; 
-            const angle = Math.random() * Math.PI * 2;
-            Matter.Body.setVelocity(creatureBody, {
-                x: Math.cos(angle) * speed,
-                y: Math.sin(angle) * speed
-            });
-            
-            creatureElem.style.transform += ` scale(1.4)`;
-            setTimeout(() => {
-                creatureElem.style.transform = creatureElem.style.transform.replace(' scale(1.4)', '');
-            }, 200);
-        }, 3000);
-
-        // Apps
-        const domElements = document.querySelectorAll('.phys-app');
-        domElements.forEach((el, index) => {
-            const startX = (window.innerWidth / 2) + ((Math.random() - 0.5) * 600);
-            const startY = 100 + Math.random() * 300; 
-
-            const body = Bodies.rectangle(startX, startY, size, size, {
-                chamfer: { radius: radius },
-                restitution: 0.85,
-                friction: 0.1,
-                frictionAir: 0.01,
-                density: 0.05,
-                render: { visible: false } 
-            });
-
-            Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.1);
-            Composite.add(world, body);
-            bodiesMap.push({ body: body, elem: el });
-
-            function openApp() {
-                if (el.classList.contains('expanded')) return;
-                
-                document.querySelectorAll('.phys-app.expanded').forEach(otherEl => {
-                    otherEl.querySelector('.btn-close').click();
-                });
-
-                el.classList.add('expanded');
-                
-                Matter.Body.setStatic(body, true);
-                Matter.Body.setPosition(body, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
-                Matter.Body.setAngle(body, 0);
-
-                const expandedWidth = Math.min(window.innerWidth * 0.9, 600);
-                const expandedHeight = Math.min(window.innerHeight * 0.7, 500);
-                
-                const scaleX = expandedWidth / size;
-                const scaleY = expandedHeight / size;
-                Matter.Body.scale(body, scaleX, scaleY);
-                
-                el.dataset.scaleX = scaleX;
-                el.dataset.scaleY = scaleY;
-            }
-
-            const closeBtn = el.querySelector('.btn-close');
-            closeBtn.addEventListener('mousedown', e => e.stopPropagation());
-            closeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                el.classList.remove('expanded');
-                
-                const scaleX = parseFloat(el.dataset.scaleX);
-                const scaleY = parseFloat(el.dataset.scaleY);
-                
-                Matter.Body.scale(body, 1/scaleX, 1/scaleY);
-                Matter.Body.setStatic(body, false);
-            });
-
-            let startPos = { x: 0, y: 0 };
-            el.addEventListener('mousedown', (e) => {
-                if (e.target.closest('.btn-close') || e.target.closest('.btn-launch')) return;
-                startPos = { x: e.clientX, y: e.clientY };
-            });
-
-            el.addEventListener('mouseup', (e) => {
-                if (e.target.closest('.btn-close') || e.target.closest('.btn-launch')) return;
-                const dist = Math.hypot(e.clientX - startPos.x, e.clientY - startPos.y);
-                if (dist < 5) { 
-                    openApp();
-                }
-            });
-            
-            el.addEventListener('touchstart', (e) => {
-                if (e.target.closest('.btn-close') || e.target.closest('.btn-launch')) return;
-                startPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-            }, {passive: true});
-            
-            el.addEventListener('touchend', (e) => {
-                if (e.target.closest('.btn-close') || e.target.closest('.btn-launch')) return;
-                const touch = e.changedTouches[0];
-                const dist = Math.hypot(touch.clientX - startPos.x, touch.clientY - startPos.y);
-                if (dist < 5) {
-                    openApp();
-                }
-            });
-        });
-
-        const mouse = Mouse.create(render.canvas);
-        const mouseConstraint = MouseConstraint.create(engine, {
-            mouse: mouse,
-            constraint: {
-                stiffness: 0.2,
-                render: { visible: false }
-            }
-        });
-        Composite.add(world, mouseConstraint);
-        render.mouse = mouse; 
-
-        Matter.Events.on(engine, 'afterUpdate', function() {
-            bodiesMap.forEach(map => {
-                const pos = map.body.position;
-                const angle = map.body.angle;
-                map.elem.style.transform = `translate(${pos.x - size/2}px, ${pos.y - size/2}px) rotate(${angle}rad)`;
-            });
-
-            const cPos = creatureBody.position;
-            const cAngle = creatureBody.angle;
-            creatureElem.style.transform = `translate(${cPos.x - creatureSize/2}px, ${cPos.y - creatureSize/2}px) rotate(${cAngle}rad)`;
-        });
-
-        window.addEventListener('resize', () => {
-            render.canvas.width = window.innerWidth;
-            render.canvas.height = window.innerHeight;
-            Matter.Body.setPosition(ground, { x: window.innerWidth / 2, y: window.innerHeight + 250 });
-            Matter.Body.setPosition(rightWall, { x: window.innerWidth + 250, y: window.innerHeight / 2 });
-            Matter.Body.setPosition(leftWall, { x: -250, y: window.innerHeight / 2 });
-            Matter.Body.setPosition(ceiling, { x: window.innerWidth / 2, y: -250 });
-            
-            const expandedApp = document.querySelector('.phys-app.expanded');
-            if (expandedApp) {
-                const map = bodiesMap.find(m => m.elem === expandedApp);
-                if (map) {
-                    const body = map.body;
-                    Matter.Body.setPosition(body, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
-                    
-                    const scaleX = parseFloat(expandedApp.dataset.scaleX);
-                    const scaleY = parseFloat(expandedApp.dataset.scaleY);
-                    Matter.Body.scale(body, 1/scaleX, 1/scaleY); 
-                    
-                    const newW = Math.min(window.innerWidth * 0.9, 600);
-                    const newH = Math.min(window.innerHeight * 0.7, 500);
-                    const newScaleX = newW / size;
-                    const newScaleY = newH / size;
-                    
-                    Matter.Body.scale(body, newScaleX, newScaleY);
-                    expandedApp.dataset.scaleX = newScaleX;
-                    expandedApp.dataset.scaleY = newScaleY;
-                }
-            }
-        });
-
-        /* =========================================
-           CHAOS OVERLAY LOGIC 
-           ========================================= */
-        const overlay = document.getElementById('chaos-overlay');
-        const closeChaosBtn = document.getElementById('close-chaos');
-        const logsContainer = document.getElementById('terminal-logs');
-
-        const logs = [
-            "INITIALIZING CHAOS PROTOCOL...",
-            "BYPASSING MATTER.JS PHYSICS ENGINE... [SUCCESS]",
-            "GRAVITY: DISABLED.",
-            "FRICTION: NEUTRALIZED.",
-            "ENTITY #404 (ALIEN) AWAKENED.",
-            "WARNING: REALITY CONTAINMENT BREACH DETECTED.",
-            "DOWNLOADING BIO-SIGNATURE...",
-            "DATA CORRUPT. GLITCH CASCADE IMMINENT.",
-            "SYSTEM COMPROMISED...",
-            "> AWAITING USER OVERRIDE."
-        ];
-
-        let typeInterval;
-
-        function typeLogs() {
-            logsContainer.innerHTML = "";
-            let logIndex = 0;
-            let charIndex = 0;
-            
-            typeInterval = setInterval(() => {
-                if (logIndex < logs.length) {
-                    if (charIndex === 0) {
-                        logsContainer.innerHTML += "<div>> </div>";
-                    }
-                    
-                    const currentLog = logs[logIndex];
-                    const divs = logsContainer.querySelectorAll('div');
-                    const lastDiv = divs[divs.length - 1];
-                    
-                    lastDiv.innerHTML += currentLog.charAt(charIndex);
-                    charIndex++;
-                    
-                    if (charIndex >= currentLog.length) {
-                        logIndex++;
-                        charIndex = 0;
-                        logsContainer.scrollTop = logsContainer.scrollHeight;
-                    }
-                } else {
-                    clearInterval(typeInterval);
-                }
-            }, 25);
+        if (offset === 0) {
+          tile.classList.add('active-card');
+          tile.style.transform   = 'translateX(0) translateZ(0) rotateY(0deg) scale(1)';
+          tile.style.opacity     = '1';
+          tile.style.zIndex      = '10';
+          tile.style.pointerEvents = 'auto';
+        } else {
+          const dir = Math.sign(offset);
+          const tx  = dir * absOffset * 42;
+          const tz  = -absOffset * 60;
+          const ry  = -dir * absOffset * 5;
+          const sc  = Math.max(1 - absOffset * 0.05, 0.7);
+          const op  = Math.max(0.85 - absOffset * 0.18, 0.15);
+          tile.style.transform   = `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`;
+          tile.style.opacity     = String(op);
+          tile.style.zIndex      = String(10 - absOffset);
+          tile.style.pointerEvents = 'auto';
         }
+      });
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
 
-        creatureElem.addEventListener('mousedown', (e) => {
-            e.stopPropagation(); // Stop physics drag
-            triggerChaosOverlay();
+    function navigateTo(idx, force) {
+      if (!force && isAnimating) return;
+      idx = Math.max(0, Math.min(TOTAL - 1, idx));
+      if (idx === currentIndex && !force) return;
+      isAnimating = true;
+      currentIndex = idx;
+      positionCards(currentIndex);
+      setTimeout(() => { isAnimating = false; }, 580);
+    }
+
+    /* INIT — defer transitions so first layout is instant */
+    requestAnimationFrame(() => {
+      positionCards(0);
+      requestAnimationFrame(() => {
+        tiles.forEach(t => {
+          t.style.transition = 'transform 0.55s cubic-bezier(0.25,1,0.5,1), opacity 0.55s cubic-bezier(0.25,1,0.5,1), box-shadow 0.3s ease';
         });
+      });
+    });
 
-        function triggerChaosOverlay() {
-            if (engine.timing) engine.timing.timeScale = 0; // Pause physics
-            
-            overlay.classList.remove('hidden');
-            setTimeout(() => { overlay.classList.add('active'); }, 10);
-            
-            typeLogs();
+    /* NAV BUTTONS */
+    document.getElementById('btn-prev').addEventListener('click', () => navigateTo(currentIndex - 1));
+    document.getElementById('btn-next').addEventListener('click', () => navigateTo(currentIndex + 1));
+
+    /* DOT CLICKS */
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => navigateTo(parseInt(dot.dataset.index)));
+      dot.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigateTo(parseInt(dot.dataset.index)); }
+      });
+    });
+
+    /* KEYBOARD */
+    document.addEventListener('keydown', e => {
+      if (document.getElementById('modal-overlay').classList.contains('open')) return;
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); navigateTo(currentIndex - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); navigateTo(currentIndex + 1); }
+    });
+
+    /* CARD CLICK */
+    tiles.forEach(tile => {
+      function activate() {
+        const tileIdx = parseInt(tile.dataset.index);
+        const appKey  = tile.dataset.app;
+        const isMobile = window.innerWidth <= 768;
+        if (!isMobile && tileIdx !== currentIndex) { navigateTo(tileIdx); return; }
+        if (appKey === 'greeting') {
+          tile.classList.remove('pulse-anim');
+          void tile.offsetWidth;
+          tile.classList.add('pulse-anim');
+          setTimeout(() => tile.classList.remove('pulse-anim'), 750);
+          return;
         }
+        openModal(appKey);
+      }
+      tile.addEventListener('click', activate);
+      tile.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+      });
+    });
 
-        closeChaosBtn.addEventListener('click', () => {
-            overlay.classList.remove('active');
-            
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                clearInterval(typeInterval);
-                if (engine.timing) engine.timing.timeScale = 1; // Resume physics
-            }, 500);
-        });
+    /* TOUCH SWIPE */
+    let tX = 0, tY = 0;
+    const stage = document.getElementById('carousel-stage');
+    stage.addEventListener('touchstart', e => { tX = e.changedTouches[0].clientX; tY = e.changedTouches[0].clientY; }, { passive: true });
+    stage.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - tX;
+      const dy = e.changedTouches[0].clientY - tY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 60) {
+        if (dx < 0) navigateTo(currentIndex + 1); else navigateTo(currentIndex - 1);
+      }
+    }, { passive: true });
 
-        Render.run(render);
-        const runner = Runner.create();
-        Runner.run(runner, engine);
-    </script>
+    /* MODAL */
+    const overlay    = document.getElementById('modal-overlay');
+    const titleEl    = document.getElementById('modal-title-text');
+    const imgWrap    = document.getElementById('modal-img-wrap');
+    const descEl     = document.getElementById('modal-desc');
+    const audienceEl = document.getElementById('modal-audience');
+    const launchBtn  = document.getElementById('modal-launch-btn');
+    const closeBtn   = document.getElementById('modal-close');
+
+    function openModal(appKey) {
+      const d = APP_DATA[appKey];
+      if (!d) return;
+
+      titleEl.textContent = d.title;
+      titleEl.style.color = d.accent;
+      descEl.textContent  = d.desc;
+      audienceEl.innerHTML = d.who.map(w => `<li>${w}</li>`).join('');
+
+      /* screenshot — graceful fallback */
+      imgWrap.innerHTML = '';
+      const img = new Image();
+      img.alt = d.title + ' screenshot';
+      img.className = 'modal-screenshot';
+      img.onerror = () => {
+        imgWrap.innerHTML = '<div class="modal-screenshot-placeholder">[ NO PREVIEW AVAILABLE ]</div>';
+      };
+      img.src = d.screenshot;
+      imgWrap.appendChild(img);
+
+      /* launch button */
+      launchBtn.href        = d.link;
+      launchBtn.textContent = d.btnLabel;
+      launchBtn.style.background  = d.accent;
+      launchBtn.style.boxShadow   = `0 4px 24px ${d.accent}44`;
+      if (d.external) {
+        launchBtn.setAttribute('target', '_blank');
+        launchBtn.setAttribute('rel', 'noopener noreferrer');
+      } else {
+        launchBtn.removeAttribute('target');
+        launchBtn.removeAttribute('rel');
+      }
+
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    });
+  </script>
 </body>
 </html>
