@@ -148,30 +148,37 @@
     .tile-number { font-size: 0.75rem; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; color: var(--text-faint); }
     .tile-name { font-size: 1.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.1; }
     .tile-icon-wrap {
-      width: 72px; height: 72px; border-radius: 14px;
+      width: 64px; height: 64px; border-radius: 12px;
       background: rgba(6,8,14,0.92);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; overflow: hidden; position: relative;
       border: 1px solid rgba(255,255,255,0.06);
     }
-    .tile-icon-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .tile-icon-wrap img { width: 100%; height: 100%; object-fit: contain; }
 
     /* ─── TILE BODY & PREVIEWS ─── */
     .tile-body {
       flex: 1; display: flex; flex-direction: column;
       justify-content: space-between; gap: 12px; position: relative; z-index: 2;
     }
-    .tile-desc { font-size: 0.82rem; font-weight: 300; line-height: 1.6; color: var(--text-muted); }
+    .tile-desc { font-size: 0.82rem; font-weight: 300; line-height: 1.5; color: var(--text-muted); }
     
     .tile-preview {
-      width: 100%; height: 130px; border-radius: 10px;
-      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);
+      width: 100%; height: 180px; border-radius: 10px;
+      background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08);
       overflow: hidden; display: flex; align-items: center; justify-content: center;
       position: relative; margin-top: 4px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
-    .tile-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.3s ease; }
-    .app-tile.active-card:hover .tile-preview img { opacity: 1; }
-    .tile-preview-fallback { font-size: 0.65rem; color: var(--text-faint); letter-spacing: 1.5px; text-transform: uppercase; }
+    .tile-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: opacity 0.3s ease, transform 0.4s ease; }
+    .app-tile.active-card:hover .tile-preview img { opacity: 1; transform: scale(1.03); }
+    .tile-preview-fallback {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px;
+      background: #0d1117; color: var(--text-muted); font-size: 0.65rem;
+      letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;
+    }
+    .tile-preview-fallback svg { width: 32px; height: 32px; opacity: 0.45; }
 
     .tile-cta-wrap { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
     .tile-cta {
@@ -238,20 +245,20 @@
     /* ─── MODAL ─── */
     .modal-overlay {
       position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       display: flex; align-items: center; justify-content: center; padding: 24px;
       opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
     .modal-overlay.open { opacity: 1; pointer-events: auto; }
     .modal-window {
-      background: rgba(12,16,26,0.92);
+      background: rgba(12,16,26,0.95);
       backdrop-filter: blur(28px) saturate(160%);
       -webkit-backdrop-filter: blur(28px) saturate(160%);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 16px; width: 100%; max-width: 860px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; width: 100%; max-width: 900px;
       max-height: calc(100vh - 48px); overflow-y: auto;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.75), 0 8px 32px rgba(0,0,0,0.5);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.85), 0 8px 32px rgba(0,0,0,0.6);
       transform: scale(0.92); transition: transform 0.3s ease;
     }
     .modal-overlay.open .modal-window { transform: scale(1); }
@@ -269,12 +276,15 @@
     }
     .modal-close:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); }
     .modal-close svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; }
-    .modal-screenshot { width: 100%; height: 240px; object-fit: cover; display: block; background: rgba(8,10,16,0.8); }
+    
+    #modal-img-wrap { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); background: #000; overflow: hidden; }
+    .modal-screenshot { width: 100%; height: 380px; object-fit: contain; display: block; background: #000; }
     .modal-screenshot-placeholder {
-      width: 100%; height: 240px; background: rgba(8,10,16,0.8);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-faint); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+      width: 100%; height: 380px; background: #07090e;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+      color: var(--text-muted); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
     }
+    .modal-screenshot-placeholder svg { width: 48px; height: 48px; opacity: 0.35; }
     .modal-body {
       padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
     }
@@ -311,29 +321,30 @@
 
     /* ─── MOBILE ─── */
     @media (max-width: 768px) {
-      main { padding: calc(var(--header-h) + 20px) 16px 20px; justify-content: flex-start; gap: 20px; }
+      main { padding: calc(var(--header-h) + 16px) 12px 16px; justify-content: flex-start; gap: 16px; }
       .carousel-outer { flex-direction: column; max-width: 100%; }
       .nav-btn { display: none; }
       .carousel-stage { height: auto; perspective: none; width: 100%; }
-      .cards-container { transform-style: flat; display: flex; flex-direction: column; gap: 16px; position: static; height: auto; }
+      .cards-container { transform-style: flat; display: flex; flex-direction: column; gap: 20px; position: static; height: auto; }
       .app-tile {
         position: relative; inset: auto;
         transform: none !important; opacity: 1 !important; pointer-events: auto !important;
-        height: auto; min-height: 280px;
+        height: auto; min-height: 380px; padding: 20px 22px;
         animation: stagger-in 0.4s ease both;
       }
+      .tile-preview { height: 200px; }
       .app-tile:nth-child(1){animation-delay:0.00s}
       .app-tile:nth-child(2){animation-delay:0.07s}
       .app-tile:nth-child(3){animation-delay:0.14s}
       .app-tile:nth-child(4){animation-delay:0.21s}
       .app-tile:nth-child(5){animation-delay:0.28s}
       @keyframes stagger-in { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
-      .modal-body { grid-template-columns: 1fr; }
-      .modal-screenshot,.modal-screenshot-placeholder { height: 160px; }
+      .modal-body { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
+      .modal-screenshot,.modal-screenshot-placeholder { height: 260px; }
       .header-brand { font-size: 0.65rem; }
     }
     @media (max-width: 480px) {
-      header { padding: 0 16px; }
+      header { padding: 0 12px; }
       .header-status { display: none; }
     }
   </style>
@@ -535,7 +546,7 @@
       pourready: {
         title: 'PourReady // 01',
         accent: '#ff6b35',
-        screenshot: 'img/pourready-screen.png',
+        screenshot: 'img/pourready.png',
         desc: 'A field-tested concrete volume estimator built directly for jobsites. Eliminates mental math errors by providing precise calculations for slabs, footings, walls, and columns. Features dynamic input validation and waste-percentage toggles.',
         who: ['Concrete Foremen', 'General Contractors', 'Field Estimators'],
         link: './calc/index.html',
@@ -545,7 +556,7 @@
       shotstack: {
         title: 'ShotStack // 02',
         accent: '#00bfff',
-        screenshot: 'img/shotstack-screen.png',
+        screenshot: 'img/shotstack.png',
         desc: 'A standalone web application built for scrollable PDF compilation and layout formatting. Designed for camera crews, video editors, and production sets to easily organize and compile multiple screenshots and script layouts into a single scrollable PDF storyboard.',
         who: ['Camera Crews', 'Video Editors', 'Producers', 'Media Managers'],
         link: 'https://shotstackstudio.dondlingergc.com',
@@ -555,7 +566,7 @@
       tap: {
         title: 'TAP: Time & Place // 03',
         accent: '#39ff14',
-        screenshot: 'img/tap-screen.png',
+        screenshot: 'img/tapprotocol.png',
         desc: 'A minimalist utility for tracking Time & Place. Provides instant location and timestamp verification directly from the field without unnecessary bloat.',
         who: ['Field Workers', 'Logistics Teams', 'Timekeepers'],
         link: 'https://tap.dondlingergc.com',
@@ -565,7 +576,7 @@
       ampliloop: {
         title: 'AmpliLoop Studio // 04',
         accent: '#bf5fff',
-        screenshot: 'img/ampliloop-screen.png',
+        screenshot: 'img/blazorcore.png',
         desc: 'Premium Algorithmic Rap Beat Studio, Instrument Tuner, and Metronome PWA. Engineered with Blazor WebAssembly to deliver true C# performance on the edge, featuring algorithmic beat generation and professional utility tools with a Line6 hardware aesthetic.',
         who: ['Musicians', 'Beatmakers', 'Audio Engineers'],
         link: 'https://blazorpwa.dondlingergc.com',
