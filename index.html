@@ -94,7 +94,7 @@
       gap: 16px; width: 100%; max-width: 860px;
     }
     .carousel-stage {
-      flex: 1; perspective: 1400px; height: 440px; position: relative;
+      flex: 1; perspective: 1400px; height: 500px; position: relative;
     }
     .cards-container {
       position: relative; width: 100%; height: 100%; transform-style: preserve-3d;
@@ -148,13 +148,13 @@
     .tile-number { font-size: 0.75rem; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; color: var(--text-faint); }
     .tile-name { font-size: 1.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.1; }
     .tile-icon-wrap {
-      width: 64px; height: 64px; border-radius: 12px;
+      width: 96px; height: 96px; border-radius: 16px;
       background: rgba(6,8,14,0.92);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; overflow: hidden; position: relative;
       border: 1px solid rgba(255,255,255,0.06);
     }
-    .tile-icon-wrap img { width: 100%; height: 100%; object-fit: contain; }
+    .tile-icon-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
 
     /* ─── TILE BODY & PREVIEWS ─── */
     .tile-body {
@@ -164,14 +164,14 @@
     .tile-desc { font-size: 0.82rem; font-weight: 300; line-height: 1.5; color: var(--text-muted); }
     
     .tile-preview {
-      width: 100%; height: 180px; border-radius: 10px;
+      width: 100%; height: 220px; border-radius: 10px;
       background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08);
       overflow: hidden; display: flex; align-items: center; justify-content: center;
       position: relative; margin-top: 4px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
-    .tile-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: opacity 0.3s ease, transform 0.4s ease; }
-    .app-tile.active-card:hover .tile-preview img { opacity: 1; transform: scale(1.03); }
+    .tile-preview img { width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0.95; transition: opacity 0.3s ease, transform 0.4s ease; }
+    .app-tile.active-card:hover .tile-preview img { opacity: 1; transform: scale(1.05); }
     .tile-preview-fallback {
       position: absolute; inset: 0; display: flex; flex-direction: column;
       align-items: center; justify-content: center; gap: 8px;
@@ -426,14 +426,11 @@
                 <span class="tile-number">// 02</span>
                 <span class="tile-name">ShotStack</span>
               </div>
-              <div class="tile-icon-wrap">
-                <img src="img/shotstack.png" alt="ShotStack logo" loading="lazy" />
-              </div>
             </div>
             <div class="tile-body">
               <p class="tile-desc">A standalone storyboard tool to organize and compile multiple screenshots and layouts into a single scrollable PDF storyboard.</p>
               <div class="tile-preview">
-                <img src="img/shotstack.png" alt="ShotStack preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <img src="img/shotstackstudio_screenshot.PNG" alt="ShotStack preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
                 <div class="tile-preview-fallback" style="display:none;">[ SHOTSTACK SCREEN VIEW ]</div>
               </div>
               <div class="tile-cta-wrap">
@@ -450,14 +447,11 @@
                 <span class="tile-number">// 03</span>
                 <span class="tile-name">TAP<br>Protocol</span>
               </div>
-              <div class="tile-icon-wrap">
-                <img src="img/tapprotocol.png" alt="TAP Protocol logo" loading="lazy" />
-              </div>
             </div>
             <div class="tile-body">
               <p class="tile-desc">A minimalist field utility providing instant, authenticated location and timestamp verification directly from the field.</p>
               <div class="tile-preview">
-                <img src="img/tapprotocol.png" alt="TAP Protocol preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <img src="img/TAP_screenshot.PNG" alt="TAP Protocol preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
                 <div class="tile-preview-fallback" style="display:none;">[ TAP VERIFICATION VIEW ]</div>
               </div>
               <div class="tile-cta-wrap">
@@ -473,9 +467,6 @@
               <div class="tile-meta">
                 <span class="tile-number">// 04</span>
                 <span class="tile-name">AmpliLoop<br>Studio</span>
-              </div>
-              <div class="tile-icon-wrap">
-                <img src="img/blazorcore.png" alt="AmpliLoop Studio logo" loading="lazy" />
               </div>
             </div>
             <div class="tile-body">
@@ -556,7 +547,7 @@
       shotstack: {
         title: 'ShotStack // 02',
         accent: '#00bfff',
-        screenshot: 'img/shotstack.png',
+        screenshot: 'img/shotstackstudio_screenshot.PNG',
         desc: 'A standalone web application built for scrollable PDF compilation and layout formatting. Designed for camera crews, video editors, and production sets to easily organize and compile multiple screenshots and script layouts into a single scrollable PDF storyboard.',
         who: ['Camera Crews', 'Video Editors', 'Producers', 'Media Managers'],
         link: 'https://shotstackstudio.dondlingergc.com',
@@ -566,7 +557,7 @@
       tap: {
         title: 'TAP: Time & Place // 03',
         accent: '#39ff14',
-        screenshot: 'img/tapprotocol.png',
+        screenshot: 'img/TAP_screenshot.PNG',
         desc: 'A minimalist utility for tracking Time & Place. Provides instant location and timestamp verification directly from the field without unnecessary bloat.',
         who: ['Field Workers', 'Logistics Teams', 'Timekeepers'],
         link: 'https://tap.dondlingergc.com',
