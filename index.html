@@ -3,528 +3,623 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Dondlinger Digital — Engineering Division. A curated catalog of field-tested progressive web applications." />
-  <meta name="theme-color" content="#050709" />
-  <title>DONDLINGER DIGITAL // PWA CATALOG</title>
+  <meta name="description" content="Dondlinger Digital — Engineering Division. A curated catalog of premium progressive web applications." />
+  <title>Dondlinger Digital — Premium Catalog Preview</title>
+  
+  <!-- Modern Geometric Sans-Serif Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg-deep:      #050709;
-      --bg-mid:       #0d1117;
-      --card-bg:      rgba(15, 18, 28, 0.70);
-      --card-border:  rgba(255, 255, 255, 0.06);
-      --card-glow:    rgba(255, 255, 255, 0.03);
-      --text-primary: #e8eaf0;
-      --text-muted:   rgba(180, 190, 210, 0.55);
-      --text-faint:   rgba(180, 190, 210, 0.28);
+      --bg-slate:     #080A10;
+      --bg-obsidian:  #040508;
+      --card-bg:      rgba(17, 24, 39, 0.45);
+      --card-border:  rgba(255, 255, 255, 0.07);
+      --text-white:   #F9FAFB;
+      --text-gray:    #9CA3AF;
+      --text-dim:     #6B7280;
+      
       --accent-info:      #00e5ff;
       --accent-pour:      #ff6b35;
       --accent-shot:      #00bfff;
       --accent-tap:       #39ff14;
       --accent-ampli:     #bf5fff;
-      --nav-size: 58px;
-      --header-h: 56px;
-      --ease-card: cubic-bezier(0.25, 1, 0.5, 1);
-    }
 
-    html, body { height: 100%; overflow-x: hidden; }
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
     body {
-      font-family: 'JetBrains Mono', 'Courier New', monospace;
-      background: linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-mid) 100%);
+      font-family: var(--font-sans);
+      background-color: var(--bg-slate);
+      background-image: 
+        radial-gradient(at 10% 20%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
       min-height: 100vh;
-      color: var(--text-primary);
+      color: var(--text-white);
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
     }
 
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-deep); }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+    /* Ambient glow elements */
+    .ambient-glow-1 {
+      position: absolute; width: 600px; height: 600px;
+      top: -200px; left: -100px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0) 70%);
+      pointer-events: none; filter: blur(60px);
+    }
+    .ambient-glow-2 {
+      position: absolute; width: 500px; height: 500px;
+      bottom: -100px; right: -100px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(6, 182, 212, 0) 70%);
+      pointer-events: none; filter: blur(60px);
+    }
 
-    /* ─── HEADER ─── */
+    /* Header styling */
     header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      height: var(--header-h);
-      background: rgba(8, 10, 16, 0.95);
-      backdrop-filter: blur(24px) saturate(160%);
-      -webkit-backdrop-filter: blur(24px) saturate(160%);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 28px; overflow: hidden;
+      width: 100%; max-width: 1200px; margin: 0 auto;
+      height: 80px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 10; position: relative;
     }
-    header::after {
-      content: ''; position: absolute; inset: 0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.012) 2px, rgba(255,255,255,0.012) 4px);
-      pointer-events: none;
-    }
-    .header-brand {
-      font-size: 0.78rem; font-weight: 800; letter-spacing: 2.5px;
-      text-transform: uppercase; color: var(--text-primary); user-select: none;
-    }
-    .header-brand span { color: var(--accent-info); }
-    .header-status {
+
+    .brand {
+      font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--text-white) 30%, #a5b4fc 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       display: flex; align-items: center; gap: 8px;
-      font-size: 0.7rem; font-weight: 400; letter-spacing: 1.5px;
-      color: var(--text-muted); text-transform: uppercase;
+    }
+    .brand span { font-weight: 300; opacity: 0.6; }
+
+    .status-badge {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.15);
+      border-radius: 9999px; padding: 6px 14px;
+      font-size: 0.75rem; font-weight: 600; color: var(--accent-tap);
+      display: flex; align-items: center; gap: 8px;
     }
     .status-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: #39ff14;
-      box-shadow: 0 0 6px #39ff14, 0 0 12px rgba(57,255,20,0.5);
-      animation: blink 2s ease-in-out infinite;
+      width: 6px; height: 6px; border-radius: 50%;
+      background-color: var(--accent-tap);
+      box-shadow: 0 0 8px var(--accent-tap);
+      animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
 
-    /* ─── MAIN ─── */
+    /* Main Area Grid Layout */
     main {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: calc(var(--header-h) + 32px) 24px 24px;
-      gap: 32px;
+      flex: 1; width: 100%; max-width: 1200px; margin: 0 auto;
+      padding: 40px 24px; display: flex; flex-direction: column; gap: 32px;
+      z-index: 10; position: relative;
     }
 
-    /* ─── CAROUSEL WRAPPER ─── */
-    .carousel-outer {
-      position: relative; display: flex; align-items: center;
-      gap: 16px; width: 100%; max-width: 860px;
+    .hero-section {
+      max-width: 600px;
     }
-    .carousel-stage {
-      flex: 1; perspective: 1400px; height: 500px; position: relative;
+    .hero-section h1 {
+      font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; line-height: 1.15;
+      margin-bottom: 12px;
     }
-    .cards-container {
-      position: relative; width: 100%; height: 100%; transform-style: preserve-3d;
+    .hero-section p {
+      color: var(--text-gray); font-size: 1.05rem; line-height: 1.6;
     }
 
-    /* ─── APP TILE ─── */
-    .app-tile {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      border-radius: 18px; padding: 28px 30px;
+    .grid-container {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    /* Sleek Glassmorphic Spotlight Card */
+    .glow-card {
       background: var(--card-bg);
-      backdrop-filter: blur(20px) saturate(150%);
-      -webkit-backdrop-filter: blur(20px) saturate(150%);
       border: 1px solid var(--card-border);
-      box-shadow: inset 0 1px 0 var(--card-glow), 0 8px 48px rgba(0,0,0,0.55), 0 2px 12px rgba(0,0,0,0.4);
-      display: flex; flex-direction: column; gap: 16px;
+      border-radius: 20px; padding: 28px;
+      position: relative; overflow: hidden;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       cursor: pointer;
-      transition: transform 0.55s var(--ease-card), opacity 0.55s var(--ease-card), box-shadow 0.3s ease;
-      will-change: transform, opacity;
-      overflow: hidden;
-      transform-origin: center center;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
-    /* scan-line texture */
-    .app-tile::after {
-      content: ''; position: absolute; inset: 0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.018) 2px, rgba(255,255,255,0.018) 4px);
-      pointer-events: none; border-radius: inherit; z-index: 1;
-    }
-    /* shimmer */
-    .app-tile::before {
-      content: ''; position: absolute;
-      top: -100%; left: -60%; width: 40%; height: 300%;
-      background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.045) 50%, transparent 100%);
-      transform: skewX(-20deg); pointer-events: none; z-index: 5;
-    }
-    .app-tile.active-card:hover::before { animation: shimmer 1.5s ease forwards; }
-    @keyframes shimmer { 0%{left:-60%} 100%{left:130%} }
-
-    .tile-monogram {
-      position: absolute; bottom: -14px; right: 16px;
-      font-size: 8rem; font-weight: 800; color: rgba(255,255,255,0.04);
-      user-select: none; pointer-events: none; line-height: 1;
-      letter-spacing: -4px; z-index: 0;
+    .glow-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
     }
 
-    /* ─── TILE TOP ─── */
-    .tile-top {
-      display: flex; align-items: flex-start;
-      justify-content: space-between; position: relative; z-index: 2;
+    /* Spotlight mouse tracking element */
+    .glow-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255, 255, 255, 0.05), transparent 40%);
+      pointer-events: none; z-index: 1;
     }
-    .tile-meta { display: flex; flex-direction: column; gap: 4px; }
-    .tile-number { font-size: 0.75rem; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; color: var(--text-faint); }
-    .tile-name { font-size: 1.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.1; }
-    .tile-icon-wrap {
-      width: 96px; height: 96px; border-radius: 16px;
-      background: rgba(6,8,14,0.92);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; overflow: hidden; position: relative;
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-    .tile-icon-wrap img { width: 100%; height: 100%; object-fit: contain; }
 
-    /* ─── TILE BODY & PREVIEWS ─── */
-    .tile-body {
-      flex: 1; display: flex; flex-direction: column;
-      justify-content: space-between; gap: 12px; position: relative; z-index: 2;
+    .card-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      z-index: 2;
     }
-    .tile-desc { font-size: 0.82rem; font-weight: 300; line-height: 1.5; color: var(--text-muted); }
+    .card-meta { display: flex; flex-direction: column; gap: 2px; }
+    .card-number { font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; color: var(--text-dim); }
+    .card-name { font-size: 1.4rem; font-weight: 700; color: var(--text-white); }
     
-    .tile-preview {
-      width: 100%; height: 220px; border-radius: 10px;
-      background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08);
+    .card-icon-wrap {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex; align-items: center; justify-content: center;
+      transition: background-color 0.3s ease;
+      overflow: hidden;
+    }
+    .card-icon-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .glow-card:hover .card-icon-wrap { background: rgba(255, 255, 255, 0.06); }
+
+    .card-body {
+      font-size: 0.9rem; color: var(--text-gray); line-height: 1.6;
+      flex: 1; display: flex; flex-direction: column; gap: 16px; z-index: 2;
+    }
+
+    .card-preview {
+      width: 100%; height: 160px; border-radius: 10px;
+      background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.06);
       overflow: hidden; display: flex; align-items: center; justify-content: center;
       position: relative; margin-top: 4px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
-    .tile-preview img { width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0.95; transition: opacity 0.3s ease, transform 0.4s ease; }
-    .app-tile.active-card:hover .tile-preview img { opacity: 1; transform: scale(1.05); }
-    .tile-preview-fallback {
-      position: absolute; inset: 0; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 8px;
-      background: #0d1117; color: var(--text-muted); font-size: 0.65rem;
-      letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;
+    .card-preview img {
+      width: 100%; height: 100%; object-fit: cover; opacity: 0.85;
+      transition: opacity 0.3s ease, transform 0.4s ease;
     }
-    .tile-preview-fallback svg { width: 32px; height: 32px; opacity: 0.45; }
+    .glow-card:hover .card-preview img { opacity: 1; transform: scale(1.03); }
 
-    .tile-cta-wrap { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
-    .tile-cta {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 14px; border-radius: 6px; border: 1px solid currentColor;
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; cursor: pointer; background: transparent;
-      transition: background 0.2s ease; align-self: flex-start;
-      font-family: inherit;
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.5px; transition: color 0.2s ease, transform 0.2s ease;
+      margin-top: auto; align-self: flex-start;
     }
-    .tile-cta:hover { background: rgba(255,255,255,0.06); }
+    .glow-card:hover .card-cta { transform: translateX(4px); }
 
-    /* ─── ACCENT COLORS PER APP ─── */
-    [data-app="greeting"] .tile-name, [data-app="greeting"] .tile-cta { color: var(--accent-info); }
-    [data-app="greeting"] .tile-icon-wrap { box-shadow: 0 0 14px rgba(0,229,255,0.25), inset 0 0 12px rgba(0,229,255,0.08); }
-    [data-app="pourready"] .tile-name, [data-app="pourready"] .tile-cta { color: var(--accent-pour); }
-    [data-app="pourready"] .tile-icon-wrap { box-shadow: 0 0 14px rgba(255,107,53,0.3), inset 0 0 12px rgba(255,107,53,0.1); }
-    [data-app="shotstack"] .tile-name, [data-app="shotstack"] .tile-cta { color: var(--accent-shot); }
-    [data-app="shotstack"] .tile-icon-wrap { box-shadow: 0 0 14px rgba(0,191,255,0.3), inset 0 0 12px rgba(0,191,255,0.1); }
-    [data-app="tap"] .tile-name, [data-app="tap"] .tile-cta { color: var(--accent-tap); }
-    [data-app="tap"] .tile-icon-wrap { box-shadow: 0 0 14px rgba(57,255,20,0.3), inset 0 0 12px rgba(57,255,20,0.1); }
-    [data-app="ampliloop"] .tile-name, [data-app="ampliloop"] .tile-cta { color: var(--accent-ampli); }
-    [data-app="ampliloop"] .tile-icon-wrap { box-shadow: 0 0 14px rgba(191,95,255,0.3), inset 0 0 12px rgba(191,95,255,0.1); }
+    /* Custom Accents */
+    [data-app="greeting"] .card-name { color: var(--accent-info); }
+    [data-app="greeting"] .card-cta { color: var(--accent-info); }
+    [data-app="pourready"] .card-name { color: var(--accent-pour); }
+    [data-app="pourready"] .card-cta { color: var(--accent-pour); }
+    [data-app="shotstack"] .card-name { color: var(--accent-shot); }
+    [data-app="shotstack"] .card-cta { color: var(--accent-shot); }
+    [data-app="tap"] .card-name { color: var(--accent-tap); }
+    [data-app="tap"] .card-cta { color: var(--accent-tap); }
+    [data-app="ampliloop"] .card-name { color: var(--accent-ampli); }
+    [data-app="ampliloop"] .card-cta { color: var(--accent-ampli); }
+    [data-app="sentinel"] .card-name { color: var(--accent-info); }
+    [data-app="sentinel"] .card-cta { color: var(--accent-info); }
 
-    /* ─── ACTIVE CARD ─── */
-    .app-tile.active-card { z-index: 10; pointer-events: auto; }
-    .app-tile.active-card:hover {
-      box-shadow: inset 0 1px 0 var(--card-glow), 0 16px 64px rgba(0,0,0,0.7), 0 4px 24px rgba(0,0,0,0.5);
+    /* Live Dashboard Telemetry card styling */
+    .dashboard-panel {
+      background: rgba(0, 229, 255, 0.03);
+      border: 1px solid rgba(0, 229, 255, 0.15);
     }
-
-    /* ─── NAV BUTTONS ─── */
-    .nav-btn {
-      width: var(--nav-size); height: var(--nav-size); border-radius: 50%;
-      background: rgba(12,15,24,0.75);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.12);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; flex-shrink: 0;
-      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
-      color: var(--text-primary); z-index: 20;
+    .telemetry-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
-    .nav-btn:hover {
-      border-color: var(--accent-info);
-      box-shadow: 0 0 12px rgba(0,229,255,0.3), 0 0 24px rgba(0,229,255,0.12);
-      transform: scale(1.08);
+    .telemetry-row:last-child { border-bottom: none; }
+    .telemetry-label { font-size: 0.8rem; color: var(--text-gray); }
+    .telemetry-value { font-size: 0.95rem; font-weight: 700; color: var(--text-white); }
+    
+    .aqi-container {
+      display: flex; align-items: center; gap: 8px;
     }
-    .nav-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-
-    /* ─── DOT INDICATORS ─── */
-    .deck-dots { display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .deck-dot {
+    .aqi-indicator {
       width: 8px; height: 8px; border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
+      background: var(--accent-tap);
+      box-shadow: 0 0 8px var(--accent-tap);
     }
-    .deck-dot.active { transform: scale(1.35); }
-    .deck-dot[data-index="0"].active { background: var(--accent-info);  box-shadow: 0 0 8px rgba(0,229,255,0.6); }
-    .deck-dot[data-index="1"].active { background: var(--accent-pour);  box-shadow: 0 0 8px rgba(255,107,53,0.6); }
-    .deck-dot[data-index="2"].active { background: var(--accent-shot);  box-shadow: 0 0 8px rgba(0,191,255,0.6); }
-    .deck-dot[data-index="3"].active { background: var(--accent-tap);   box-shadow: 0 0 8px rgba(57,255,20,0.6); }
-    .deck-dot[data-index="4"].active { background: var(--accent-ampli); box-shadow: 0 0 8px rgba(191,95,255,0.6); }
 
-    /* ─── MODAL ─── */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    /* Modern Detail Dialog Overlay */
+    .dialog-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(4, 5, 8, 0.8);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       display: flex; align-items: center; justify-content: center; padding: 24px;
       opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
-    .modal-overlay.open { opacity: 1; pointer-events: auto; }
-    .modal-window {
-      background: rgba(12,16,26,0.95);
-      backdrop-filter: blur(28px) saturate(160%);
-      -webkit-backdrop-filter: blur(28px) saturate(160%);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px; width: 100%; max-width: 900px;
-      max-height: calc(100vh - 48px); overflow-y: auto;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.85), 0 8px 32px rgba(0,0,0,0.6);
-      transform: scale(0.92); transition: transform 0.3s ease;
-    }
-    .modal-overlay.open .modal-window { transform: scale(1); }
-    .modal-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.07);
-    }
-    .modal-title { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
-    .modal-close {
-      width: 36px; height: 36px; border-radius: 8px;
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; color: var(--text-muted);
-      transition: background 0.2s ease, color 0.2s ease; font-family: inherit;
-    }
-    .modal-close:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); }
-    .modal-close svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+    .dialog-overlay.open { opacity: 1; pointer-events: auto; }
     
-    #modal-img-wrap { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); background: #000; overflow: hidden; }
-    .modal-screenshot { width: 100%; height: 380px; object-fit: contain; display: block; background: #000; }
-    .modal-screenshot-placeholder {
-      width: 100%; height: 380px; background: #07090e;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-      color: var(--text-muted); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+    .dialog-window {
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid var(--card-border);
+      border-radius: 24px; width: 95%; max-width: 1400px; height: 95vh;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+      overflow: hidden; transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; flex-direction: column;
     }
-    .modal-screenshot-placeholder svg { width: 48px; height: 48px; opacity: 0.35; }
-    .modal-body {
-      padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-    }
-    .modal-section-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--text-faint); margin-bottom: 10px; }
-    .modal-desc-text { font-size: 0.84rem; font-weight: 300; line-height: 1.75; color: var(--text-muted); }
-    .modal-audience-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    .modal-audience-list li { font-size: 0.78rem; font-weight: 400; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
-    .modal-audience-list li::before { content: '▸'; font-size: 0.65rem; }
-    .modal-footer { padding: 16px 24px 24px; }
-    .modal-launch-btn {
-      display: block; width: 100%; padding: 14px 24px; border-radius: 10px;
-      border: none; font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem; font-weight: 700; letter-spacing: 2.5px;
-      text-transform: uppercase; text-align: center; text-decoration: none;
-      cursor: pointer; transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease; color: #fff;
-    }
-    .modal-launch-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .dialog-overlay.open .dialog-window { transform: scale(1); }
 
-    /* ─── FOOTER ─── */
+    .dialog-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .dialog-title { font-size: 1.25rem; font-weight: 700; }
+    .dialog-close {
+      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06);
+      width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--text-white); transition: background 0.2s ease;
+    }
+    .dialog-close:hover { background: rgba(255, 255, 255, 0.08); }
+
+    .dialog-screenshot-wrap {
+      width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: #000; overflow: hidden; height: 280px; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .dialog-screenshot {
+      width: 100%; height: 100%; object-fit: contain;
+    }
+
+    .dialog-body {
+      padding: 24px; display: flex; flex-direction: column; gap: 20px;
+    }
+    .dialog-section { display: flex; flex-direction: column; gap: 8px; }
+    .dialog-section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-dim); }
+    .dialog-text { font-size: 0.95rem; color: var(--text-gray); line-height: 1.6; }
+    
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px; padding: 4px 12px; font-size: 0.8rem; color: var(--text-gray);
+    }
+
+    .dialog-footer {
+      padding: 24px; border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .launch-btn {
+      display: block; width: 100%; padding: 14px; border-radius: 12px;
+      border: none; text-align: center; text-decoration: none; font-weight: 600;
+      color: var(--text-white); cursor: pointer; transition: filter 0.2s ease, transform 0.1s ease;
+    }
+    .launch-btn:hover { filter: brightness(1.1); }
+    .launch-btn:active { transform: scale(0.99); }
+
+    /* Custom high-fidelity telemetry styles for popups */
+    .telemetry-detail-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    @media (max-width: 580px) {
+      .telemetry-detail-grid { grid-template-columns: 1fr; }
+    }
+    .telemetry-detail-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px; padding: 20px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .telemetry-detail-header {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-dim);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 8px;
+    }
+    .telemetry-detail-val {
+      font-size: 2rem; font-weight: 800; color: var(--accent-info);
+    }
+    .telemetry-subval {
+      font-size: 0.8rem; color: var(--text-gray); margin-top: -8px;
+    }
+    .pollen-bar-row {
+      display: flex; flex-direction: column; gap: 4px; margin-top: 6px;
+    }
+    .pollen-bar-header {
+      display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-gray);
+    }
+    .pollen-bar-bg {
+      height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;
+    }
+    .pollen-bar-fill {
+      height: 100%; background: var(--accent-info); width: 0%; border-radius: 999px;
+      transition: width 1s cubic-bezier(0.1, 0.8, 0.25, 1);
+    }
+
+    /* Live Dashboard Animations */
+    .live-dot-wrap {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: #ef4444; font-weight: 700; font-size: 0.75rem; letter-spacing: 1px;
+    }
+    .live-dot {
+      width: 8px; height: 8px; border-radius: 50%; background-color: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+      animation: rapid-pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes rapid-pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 12px #ef4444; }
+      50% { opacity: 0.3; box-shadow: 0 0 2px #ef4444; }
+    }
+    .digital-clock {
+      font-family: monospace; font-size: 1rem; color: var(--accent-info);
+      background: rgba(0, 229, 255, 0.05); padding: 4px 10px; border-radius: 6px;
+      border: 1px solid rgba(0, 229, 255, 0.1); margin-top: 8px;
+      display: inline-block; text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+    }
+    .hud-refreshing {
+      animation: hud-glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes hud-glow {
+      from { border-color: rgba(0, 229, 255, 0.15); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); }
+      to { border-color: rgba(0, 229, 255, 0.5); box-shadow: 0 8px 32px rgba(0, 229, 255, 0.15); }
+    }
+
+    /* Footer */
     footer {
-      text-align: center; padding: 20px 24px;
-      font-size: 0.72rem; font-weight: 300; letter-spacing: 1.5px;
-      color: var(--text-faint); text-transform: uppercase;
-      border-top: 1px solid rgba(255,255,255,0.04);
+      width: 100%; max-width: 1200px; margin: 0 auto;
+      padding: 32px 24px; border-top: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center; font-size: 0.8rem; color: var(--text-dim);
+      z-index: 10; position: relative;
     }
 
-    /* ─── PULSE ─── */
-    @keyframes pulse-ring {
-      0%  { box-shadow: 0 0 0 0 rgba(0,229,255,0.35); }
-      70% { box-shadow: 0 0 0 20px rgba(0,229,255,0); }
-      100%{ box-shadow: 0 0 0 0 rgba(0,229,255,0); }
-    }
-    .pulse-anim { animation: pulse-ring 0.7s ease forwards; }
+    .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    .dashboard-panel { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+    .chart-box { position: relative; width: 100%; height: 250px; }
+    .radar-box { position: relative; width: 100%; height: 300px; display: flex; justify-content: center; }
+    @media (max-width: 1024px) { .dashboard-grid { grid-template-columns: 1fr; } }
 
-    /* ─── MOBILE ─── */
-    @media (max-width: 768px) {
-      main { padding: calc(var(--header-h) + 16px) 12px 16px; justify-content: flex-start; gap: 16px; }
-      .carousel-outer { flex-direction: column; max-width: 100%; }
-      .nav-btn { display: none; }
-      .carousel-stage { height: auto; perspective: none; width: 100%; }
-      .cards-container { transform-style: flat; display: flex; flex-direction: column; gap: 20px; position: static; height: auto; }
-      .app-tile {
-        position: relative; inset: auto;
-        transform: none !important; opacity: 1 !important; pointer-events: auto !important;
-        height: auto; min-height: 380px; padding: 20px 22px;
-        animation: stagger-in 0.4s ease both;
-      }
-      .tile-preview { height: 200px; }
-      .app-tile:nth-child(1){animation-delay:0.00s}
-      .app-tile:nth-child(2){animation-delay:0.07s}
-      .app-tile:nth-child(3){animation-delay:0.14s}
-      .app-tile:nth-child(4){animation-delay:0.21s}
-      .app-tile:nth-child(5){animation-delay:0.28s}
-      @keyframes stagger-in { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
-      .modal-body { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
-      .modal-screenshot,.modal-screenshot-placeholder { height: 260px; }
-      .header-brand { font-size: 0.65rem; }
-    }
-    @media (max-width: 480px) {
-      header { padding: 0 12px; }
-      .header-status { display: none; }
-    }
   </style>
 </head>
 <body>
 
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
   <!-- HEADER -->
   <header>
-    <div class="header-brand">DONDLINGER <span>//</span> DIGITAL &nbsp;·&nbsp; ENGINEERING</div>
-    <div class="header-status">
+    <div class="brand">Dondlinger <span>//</span> Digital</div>
+    <div class="status-badge">
       <div class="status-dot"></div>
-      [ PWA CATALOG v2.0 ]
+      Operations Active
     </div>
   </header>
 
   <!-- MAIN -->
   <main>
-    <div class="carousel-outer">
-      <!-- PREV -->
-      <button class="nav-btn" id="btn-prev" aria-label="Previous card">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
+    <section class="hero-section">
+      <h1>Premium PWA Portal</h1>
+      <p>Purpose-built, lightweight progressive web applications designed for immediate execution and offline availability.</p>
+    </section>
 
-      <!-- STAGE -->
-      <div class="carousel-stage" id="carousel-stage">
-        <div class="cards-container" id="cards-container">
-
-          <!-- 00 · INFO -->
-          <div class="app-tile" data-app="greeting" data-index="0" role="button" tabindex="0" aria-label="Catalog info">
-            <div class="tile-monogram">00</div>
-            <div class="tile-top">
-              <div class="tile-meta">
-                <span class="tile-number">// 00</span>
-                <span class="tile-name">Dondlinger<br>Digital</span>
-              </div>
-              <div class="tile-icon-wrap">
-                <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-                  <rect width="38" height="38" rx="8" fill="rgba(0,229,255,0.08)"/>
-                  <path d="M10 19h18M19 10v18" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round"/>
-                  <circle cx="19" cy="19" r="6" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3"/>
-                </svg>
-              </div>
-            </div>
-            <div class="tile-body">
-              <p class="tile-desc">A curated engineering catalog of field-tested progressive web applications. Each tool is purpose-built, ruthlessly scoped, and deployed for performance at the edge. No bloat. No guesswork. Just precision engineering.</p>
-              <button class="tile-cta" style="pointer-events:none;cursor:default;">◈ &nbsp;CATALOG // ACTIVE</button>
-            </div>
+    <!-- LIVE TELEMETRY HUD -->
+    <section class="telemetry-section" style="width: 100%; margin-bottom: 32px;">
+      <div class="glow-card dashboard-panel" data-app="sentinel" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; cursor: pointer;">
+        <div class="card-top" style="flex: 1; min-width: 250px;">
+          <div class="card-meta">
+            <span class="card-number" style="color: var(--accent-info); display: flex; align-items: center; gap: 12px;">
+              // LIVE METRICS
+              <span class="live-dot-wrap"><div class="live-dot"></div> REC</span>
+            </span>
+            <span class="card-name" style="font-size: 1.8rem;">Live Field Conditions</span>
+            <div class="digital-clock" id="live-clock">00:00:00</div>
           </div>
-
-          <!-- 01 · POURREADY -->
-          <div class="app-tile" data-app="pourready" data-index="1" role="button" tabindex="0" aria-label="Open PourReady details">
-            <div class="tile-monogram">01</div>
-            <div class="tile-top">
-              <div class="tile-meta">
-                <span class="tile-number">// 01</span>
-                <span class="tile-name">PourReady</span>
-              </div>
-              <div class="tile-icon-wrap">
-                <img src="calc/pourready-logo.png" alt="PourReady logo" loading="lazy" />
-              </div>
-            </div>
-            <div class="tile-body">
-              <p class="tile-desc">A field-tested concrete volume estimator built directly for jobsites. Precise calculations for slabs, footings, walls, and columns.</p>
-              <div class="tile-preview">
-                <img src="img/pourready.png" alt="PourReady preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-                <div class="tile-preview-fallback" style="display:none;">[ POURREADY FIELD VIEW ]</div>
-              </div>
-              <div class="tile-cta-wrap">
-                <button class="tile-cta">▶ &nbsp;DETAILS</button>
-              </div>
-            </div>
+          <div class="card-icon-wrap" style="margin-top: 16px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-info)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
           </div>
-
-          <!-- 02 · SHOTSTACK -->
-          <div class="app-tile" data-app="shotstack" data-index="2" role="button" tabindex="0" aria-label="Open ShotStack details">
-            <div class="tile-monogram">02</div>
-            <div class="tile-top">
-              <div class="tile-meta">
-                <span class="tile-number">// 02</span>
-                <span class="tile-name">ShotStack</span>
-              </div>
-            </div>
-            <div class="tile-body">
-              <p class="tile-desc">A standalone storyboard tool to organize and compile multiple screenshots and layouts into a single scrollable PDF storyboard.</p>
-              <div class="tile-preview">
-                <img src="img/shotstackstudio_screenshot.PNG" alt="ShotStack preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-                <div class="tile-preview-fallback" style="display:none;">[ SHOTSTACK SCREEN VIEW ]</div>
-              </div>
-              <div class="tile-cta-wrap">
-                <button class="tile-cta">▶ &nbsp;DETAILS</button>
-              </div>
-            </div>
+        </div>
+        <div class="card-body" style="flex: 2; flex-direction: row; justify-content: flex-end; align-items: center; gap: 32px; min-width: 300px;">
+          <div class="telemetry-row" style="border: none; padding: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
+            <span class="telemetry-label">Wisconsin River Flow (USGS)</span>
+            <span class="telemetry-value" id="telemetry-flow" style="font-size: 1.4rem; color: var(--accent-info);">Loading...</span>
           </div>
-
-          <!-- 03 · TAP -->
-          <div class="app-tile" data-app="tap" data-index="3" role="button" tabindex="0" aria-label="Open TAP details">
-            <div class="tile-monogram">03</div>
-            <div class="tile-top">
-              <div class="tile-meta">
-                <span class="tile-number">// 03</span>
-                <span class="tile-name">TAP<br>Protocol</span>
-              </div>
-            </div>
-            <div class="tile-body">
-              <p class="tile-desc">A minimalist field utility providing instant, authenticated location and timestamp verification directly from the field.</p>
-              <div class="tile-preview">
-                <img src="img/TAP_screenshot.PNG" alt="TAP Protocol preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-                <div class="tile-preview-fallback" style="display:none;">[ TAP VERIFICATION VIEW ]</div>
-              </div>
-              <div class="tile-cta-wrap">
-                <button class="tile-cta">▶ &nbsp;DETAILS</button>
-              </div>
-            </div>
+          <div class="telemetry-row" style="border: none; padding: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
+            <span class="telemetry-label">Regional Air Quality Index</span>
+            <span class="aqi-container">
+              <div class="aqi-indicator" id="aqi-indicator"></div>
+              <span class="telemetry-value" id="telemetry-aqi" style="font-size: 1.4rem;">Loading...</span>
+            </span>
           </div>
+          <span class="card-cta" style="margin-top: 0;">Collapse Telemetry ⟵</span>
+        </div>
+      </div>
+    
+      <!-- INLINE EXPANDABLE DASHBOARD -->
+      <div id="sentinel-dashboard-container" style="display: block; width: 100%; margin-top: 24px; animation: glowPulse 2s infinite alternate;">
+        <div class="dashboard-grid">
+            
+            <!-- LEFT COLUMN: HYDROLOGY -->
+            <div class="dashboard-panel">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="telemetry-detail-header" style="border: none; padding: 0;">USGS Hydrology (05400760)</span>
+                <span class="live-dot-wrap" style="color: var(--accent-info); font-size: 0.65rem;"><div class="live-dot" style="background: var(--accent-info);"></div> LIVE</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px;">
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Discharge</div><div id="metric-cfs" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- CFS</div></div>
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Gauge Height</div><div id="metric-gauge" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- ft</div></div>
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Velocity</div><div id="metric-vel" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- ft/s</div></div>
+              </div>
+              <div class="chart-box"><canvas id="hydroChart"></canvas></div>
+            </div>
 
-          <!-- 04 · AMPLILOOP -->
-          <div class="app-tile" data-app="ampliloop" data-index="4" role="button" tabindex="0" aria-label="Open AmpliLoop details">
-            <div class="tile-monogram">04</div>
-            <div class="tile-top">
-              <div class="tile-meta">
-                <span class="tile-number">// 04</span>
-                <span class="tile-name">AmpliLoop<br>Studio</span>
+            <!-- RIGHT COLUMN: ATMOSPHERICS -->
+            <div class="dashboard-panel">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="telemetry-detail-header" style="border: none; padding: 0;">EPA Air Quality Composition</span>
+                <div class="telemetry-subval" id="detail-aqi-status" style="margin: 0; border: none; padding: 0;">Status: --</div>
               </div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px;">
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">US AQI</div><div id="metric-aqi" style="font-weight: 700; color: var(--accent-tap); font-size: 1.2rem;">--</div></div>
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Dust</div><div id="metric-dust" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- μg/m³</div></div>
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">UV Index</div><div id="metric-uv" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">--</div></div>
+              </div>
+              <div class="radar-box"><canvas id="aqiRadarChart"></canvas></div>
             </div>
-            <div class="tile-body">
-              <p class="tile-desc">Premium Algorithmic Rap Beat Studio, Metronome and Instrument Tuner PWA engineered with Blazor WebAssembly performance.</p>
-              <div class="tile-preview">
-                <img src="img/blazorcore.png" alt="AmpliLoop Studio preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-                <div class="tile-preview-fallback" style="display:none;">[ AMPLILOOP CORE VIEW ]</div>
+
+            <!-- FULL WIDTH BOTTOM: FORECAST -->
+            <div class="dashboard-panel" style="grid-column: 1 / -1;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="telemetry-detail-header" style="border: none; padding: 0;">72-Hour Construction Weather Forecast</span>
               </div>
-              <div class="tile-cta-wrap">
-                <button class="tile-cta">▶ &nbsp;DETAILS</button>
-              </div>
+              <div class="chart-box"><canvas id="weatherChart"></canvas></div>
             </div>
+
           </div>
+        
+      </div>
+    </section>
 
-        </div><!-- /cards-container -->
-      </div><!-- /carousel-stage -->
+    <!-- App Grid -->
+    <div class="grid-container">
+      
+      <!-- 00 · DONDLINGER DIGITAL INTRO -->
+      <div class="glow-card" data-app="greeting" data-index="0">
+        <div class="card-top">
+          <div class="card-meta">
+            <span class="card-number">// CATALOG INFO</span>
+            <span class="card-name">Dondlinger Digital</span>
+          </div>
+          <div class="card-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 38 38" fill="none">
+              <rect width="38" height="38" rx="8" fill="rgba(0,229,255,0.08)"/>
+              <path d="M10 19h18M19 10v18" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="19" cy="19" r="6" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A curated engineering catalog of field-tested progressive web applications. Each tool is purpose-built, ruthlessly scoped, and deployed for performance at the edge. No bloat. No guesswork. Just precision engineering.</p>
+          <span class="card-cta">Active Catalog ⟶</span>
+        </div>
+      </div>
 
-      <!-- NEXT -->
-      <button class="nav-btn" id="btn-next" aria-label="Next card">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
-    </div><!-- /carousel-outer -->
+      <!-- 01 · POURREADY -->
+      <div class="glow-card" data-app="pourready" data-index="1">
+        <div class="card-top">
+          <div class="card-meta">
+            <span class="card-number">// PWA 01</span>
+            <span class="card-name">PourReady</span>
+          </div>
+          <div class="card-icon-wrap">
+            <img src="calc/pourready-logo.png" alt="PourReady logo" />
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A field-tested concrete volume estimator built directly for jobsites. Precise calculations for slabs, footings, walls, and columns.</p>
+          <div class="card-preview">
+            <img src="img/pourready.png" alt="PourReady preview" />
+          </div>
+          <span class="card-cta">View Details ⟶</span>
+        </div>
+      </div>
 
-    <!-- DOTS -->
-    <div class="deck-dots" id="deck-dots" role="tablist" aria-label="Card navigation">
-      <div class="deck-dot active" data-index="0" role="tab" tabindex="0" aria-label="Info card"></div>
-      <div class="deck-dot" data-index="1" role="tab" tabindex="0" aria-label="PourReady card"></div>
-      <div class="deck-dot" data-index="2" role="tab" tabindex="0" aria-label="ShotStack card"></div>
-      <div class="deck-dot" data-index="3" role="tab" tabindex="0" aria-label="TAP card"></div>
-      <div class="deck-dot" data-index="4" role="tab" tabindex="0" aria-label="AmpliLoop card"></div>
+      <!-- 02 · SHOTSTACK -->
+      <div class="glow-card" data-app="shotstack" data-index="2">
+        <div class="card-top">
+          <div class="card-meta">
+            <span class="card-number">// PWA 02</span>
+            <span class="card-name">ShotStack</span>
+          </div>
+          <div class="card-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-shot)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A standalone storyboard tool to organize and compile multiple screenshots and layouts into a single scrollable PDF storyboard.</p>
+          <div class="card-preview">
+            <img src="img/shotstackstudio_screenshot.PNG" alt="ShotStack preview" />
+          </div>
+          <span class="card-cta">View Details ⟶</span>
+        </div>
+      </div>
+
+      <!-- 03 · TAP -->
+      <div class="glow-card" data-app="tap" data-index="3">
+        <div class="card-top">
+          <div class="card-meta">
+            <span class="card-number">// PWA 03</span>
+            <span class="card-name">TAP Protocol</span>
+          </div>
+          <div class="card-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-tap)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A minimalist field utility providing instant, authenticated location and timestamp verification directly from the field.</p>
+          <div class="card-preview">
+            <img src="img/TAP_screenshot.PNG" alt="TAP Protocol preview" />
+          </div>
+          <span class="card-cta">View Details ⟶</span>
+        </div>
+      </div>
+
+      <!-- 04 · AMPLILOOP -->
+      <div class="glow-card" data-app="ampliloop" data-index="4">
+        <div class="card-top">
+          <div class="card-meta">
+            <span class="card-number">// PWA 04</span>
+            <span class="card-name">AmpliLoop</span>
+          </div>
+          <div class="card-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ampli)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13"/>
+              <circle cx="6" cy="18" r="3"/>
+              <circle cx="18" cy="16" r="3"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>Premium Algorithmic Rap Beat Studio, Metronome, and Instrument Tuner PWA engineered with Blazor WebAssembly performance.</p>
+          <div class="card-preview">
+            <img src="img/blazorcore.png" alt="AmpliLoop preview" />
+          </div>
+          <span class="card-cta">View Details ⟶</span>
+        </div>
+      </div>
+
     </div>
   </main>
 
   <!-- FOOTER -->
-  <footer>DONDLINGER DIGITAL &nbsp;·&nbsp; ENGINEERING DIVISION &nbsp;·&nbsp; <span id="footer-year"></span></footer>
+  <footer>Dondlinger Digital &nbsp;·&nbsp; <span id="footer-year"></span></footer>
 
-  <!-- MODAL -->
-  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
-    <div class="modal-window" id="modal-window">
-      <div class="modal-header">
-        <div class="modal-title" id="modal-title-text"></div>
-        <button class="modal-close" id="modal-close" aria-label="Close modal">
-          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+  <!-- DETAIL MODAL / DIALOG -->
+  <div class="dialog-overlay" id="dialog-overlay" role="dialog" aria-modal="true" aria-labelledby="dialog-title-text">
+    <div class="dialog-window" id="dialog-window">
+      <div class="dialog-header">
+        <div class="dialog-title" id="dialog-title-text">App Details</div>
+        <button class="dialog-close" id="dialog-close" aria-label="Close dialog">✕</button>
       </div>
-      <div id="modal-img-wrap"></div>
-      <div class="modal-body">
-        <div>
-          <div class="modal-section-label">// Description</div>
-          <p class="modal-desc-text" id="modal-desc"></p>
-        </div>
-        <div>
-          <div class="modal-section-label">// Built For</div>
-          <ul class="modal-audience-list" id="modal-audience"></ul>
-        </div>
+      
+      <!-- Screen preview for standard apps inside dialog -->
+      <div class="dialog-screenshot-wrap" id="dialog-screenshot-container">
+        <img class="dialog-screenshot" id="dialog-screenshot" src="" alt="App screenshot" />
       </div>
-      <div class="modal-footer">
-        <a id="modal-launch-btn" class="modal-launch-btn" href="#"></a>
+
+      <div class="dialog-body">
+        
+        <!-- STANDARD APP VIEW -->
+        <div id="standard-dialog-view">
+          <div class="dialog-section" style="margin-bottom: 20px;">
+            <span class="dialog-section-label">Description</span>
+            <p class="dialog-text" id="dialog-desc"></p>
+          </div>
+          <div class="dialog-section">
+            <span class="dialog-section-label">Built For</span>
+            <div class="tag-list" id="dialog-audience"></div>
+          </div>
+        </div>
+
+        <!-- SPECIAL TELEMETRY HUD VIEW -->
+        <div id="telemetry-dialog-view" style="display: none; width: 100%;">
+          </div></div><div class="dialog-footer">
+        <a id="dialog-launch-btn" class="launch-btn" href="#">Launch App</a>
       </div>
     </div>
   </div>
@@ -532,219 +627,293 @@
   <script>
     'use strict';
 
-    /* APP DATA */
+    
+    /* App details database */
     const APP_DATA = {
+      greeting: {
+        title: 'Dondlinger Digital // 00',
+        accent: 'var(--accent-info)',
+        screenshot: '',
+        desc: 'A curated engineering catalog of field-tested progressive web applications. Each tool is purpose-built, ruthlessly scoped, and deployed for performance at the edge. No bloat. No guesswork. Just precision engineering.',
+        who: ['Engineers', 'Developers', 'Product Designers'],
+        link: '#',
+        btnLabel: 'Catalog Info Active'
+      },
       pourready: {
         title: 'PourReady // 01',
-        accent: '#ff6b35',
+        accent: 'var(--accent-pour)',
         screenshot: 'img/pourready.png',
-        desc: 'A field-tested concrete volume estimator built directly for jobsites. Eliminates mental math errors by providing precise calculations for slabs, footings, walls, and columns. Features dynamic input validation and waste-percentage toggles.',
-        who: ['Concrete Foremen', 'General Contractors', 'Field Estimators'],
+        desc: 'A field-tested concrete volume estimator built directly for jobsites. Precise calculations for slabs, footings, walls, and columns with custom waste safety margins.',
+        who: ['Concrete Foremen', 'Contractors', 'Field Estimators'],
         link: './calc/index.html',
-        external: false,
-        btnLabel: '⟶  OPEN POURREADY',
+        btnLabel: 'Open PourReady'
       },
       shotstack: {
         title: 'ShotStack // 02',
-        accent: '#00bfff',
+        accent: 'var(--accent-shot)',
         screenshot: 'img/shotstackstudio_screenshot.PNG',
-        desc: 'A standalone web application built for scrollable PDF compilation and layout formatting. Designed for camera crews, video editors, and production sets to easily organize and compile multiple screenshots and script layouts into a single scrollable PDF storyboard.',
-        who: ['Camera Crews', 'Video Editors', 'Producers', 'Media Managers'],
+        desc: 'A storyboard compiler allowing video editors, film directors, and design teams to compile images, screenshots, and annotation notes into an exportable PDF layout.',
+        who: ['Directors', 'Video Editors', 'Production Crew'],
         link: 'https://shotstackstudio.dondlingergc.com',
-        external: true,
-        btnLabel: '⟶  LAUNCH SHOTSTACK',
+        btnLabel: 'Launch ShotStack'
       },
       tap: {
         title: 'TAP: Time & Place // 03',
-        accent: '#39ff14',
+        accent: 'var(--accent-tap)',
         screenshot: 'img/TAP_screenshot.PNG',
-        desc: 'A minimalist utility for tracking Time & Place. Provides instant location and timestamp verification directly from the field without unnecessary bloat.',
-        who: ['Field Workers', 'Logistics Teams', 'Timekeepers'],
+        desc: 'An authenticated, minimal field tracking protocol providing cryptographic proofs of location, activity, and duration directly from active project sites.',
+        who: ['Field Supervisors', 'Auditors', 'Project Managers'],
         link: 'https://tap.dondlingergc.com',
-        external: true,
-        btnLabel: '⟶  LAUNCH TAP',
+        btnLabel: 'Launch TAP Protocol'
       },
       ampliloop: {
         title: 'AmpliLoop Studio // 04',
-        accent: '#bf5fff',
+        accent: 'var(--accent-ampli)',
         screenshot: 'img/blazorcore.png',
-        desc: 'Premium Algorithmic Rap Beat Studio, Instrument Tuner, and Metronome PWA. Engineered with Blazor WebAssembly to deliver true C# performance on the edge, featuring algorithmic beat generation and professional utility tools with a Line6 hardware aesthetic.',
-        who: ['Musicians', 'Beatmakers', 'Audio Engineers'],
+        desc: 'A high-performance algorithmic rap beat generator, precise metronome, and software instrument tuner running locally via fast Blazor WebAssembly compiles.',
+        who: ['Artists', 'Audio Engineers', 'Producers'],
         link: 'https://blazorpwa.dondlingergc.com',
-        external: true,
-        btnLabel: '⟶  LAUNCH AMPLILOOP',
+        btnLabel: 'Launch AmpliLoop Studio'
       },
+      dashboard: {
+        title: 'Field Operations HUD // 05',
+        accent: 'var(--accent-info)',
+        screenshot: '',
+        desc: 'A live dashboard pulling environmental telemetry and USGS streamflow diagnostics for regional project management and outdoor logistics coordinates.',
+        who: ['Field Superintendents', 'Surveyors', 'Logistics Managers'],
+        link: '#',
+        btnLabel: 'Close HUD Details'
+      }
     };
 
-    /* FOOTER YEAR */
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    /* Cache for live variables */
+    let telemetryCache = {
+      cfs: 15700,
+      gauge: 10.42,
+      aqi: 20,
+      pm10: 0,
+      pm25: 0,
+      uv: 0
+    };
 
-    /* CAROUSEL STATE */
-    const TOTAL = 5;
-    let currentIndex = 0;
-    let isAnimating = false;
+    /* Mouse Spotlight Shine Effect */
+    const cards = document.querySelectorAll('.glow-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
 
-    const tiles = Array.from(document.querySelectorAll('.app-tile'));
-    const dots  = Array.from(document.querySelectorAll('.deck-dot'));
-
-    function positionCards(idx) {
-      tiles.forEach((tile, i) => {
-        const offset    = i - idx;
-        const absOffset = Math.abs(offset);
-        tile.classList.remove('active-card');
-
-        if (offset === 0) {
-          tile.classList.add('active-card');
-          tile.style.transform   = 'translateX(0) translateZ(0) rotateY(0deg) scale(1)';
-          tile.style.opacity     = '1';
-          tile.style.zIndex      = '10';
-          tile.style.pointerEvents = 'auto';
+    
+    /* Inline Dashboard Toggle */
+    const sentinelCard = document.querySelector('[data-app="sentinel"]');
+    const sentinelContainer = document.getElementById('sentinel-dashboard-container');
+    if (sentinelCard && sentinelContainer) {
+      sentinelCard.addEventListener('click', () => {
+        if (sentinelContainer.style.display === 'none') {
+          sentinelContainer.style.display = 'block';
+          document.querySelector('[data-app="sentinel"] .card-cta').textContent = 'Collapse Telemetry ⟵';
         } else {
-          const dir = Math.sign(offset);
-          const tx  = dir * absOffset * 42;
-          const tz  = -absOffset * 60;
-          const ry  = -dir * absOffset * 5;
-          const sc  = Math.max(1 - absOffset * 0.05, 0.7);
-          const op  = Math.max(0.85 - absOffset * 0.18, 0.15);
-          tile.style.transform   = `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`;
-          tile.style.opacity     = String(op);
-          tile.style.zIndex      = String(10 - absOffset);
-          tile.style.pointerEvents = 'auto';
+          sentinelContainer.style.display = 'none';
+          document.querySelector('[data-app="sentinel"] .card-cta').textContent = 'More Telemetry ⟶';
         }
       });
-      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
     }
 
-    function navigateTo(idx, force) {
-      if (!force && isAnimating) return;
-      idx = Math.max(0, Math.min(TOTAL - 1, idx));
-      if (idx === currentIndex && !force) return;
-      isAnimating = true;
-      currentIndex = idx;
-      positionCards(currentIndex);
-      setTimeout(() => { isAnimating = false; }, 580);
-    }
-
-    /* INIT — defer transitions so first layout is instant */
-    requestAnimationFrame(() => {
-      positionCards(0);
-      requestAnimationFrame(() => {
-        tiles.forEach(t => {
-          t.style.transition = 'transform 0.55s cubic-bezier(0.25,1,0.5,1), opacity 0.55s cubic-bezier(0.25,1,0.5,1), box-shadow 0.3s ease';
+    /* Live Telemetry Data Fetch */
+    async function fetchTelemetry() {
+      // 1. Fetch USGS Hydrology (Flow, Gauge, Velocity for 7 Days)
+      try {
+        const hydroRes = await fetch('https://waterservices.usgs.gov/nwis/iv/?format=json&sites=05400760&parameterCd=00060,00065&period=P7D');
+        const hydroData = await hydroRes.json();
+        
+        let cfsData=[], gaugeData=[], labels=[];
+        hydroData.value.timeSeries.forEach(series => {
+          const code = series.variable.variableCode[0].value;
+          const vals = series.values[0].value;
+          if (!vals || vals.length === 0) return;
+          
+          const currentVal = vals[vals.length - 1].value;
+          
+          if (code === '00060') {
+            document.getElementById('metric-cfs').textContent = `${parseFloat(currentVal).toLocaleString()} CFS`;
+            document.getElementById('telemetry-flow').textContent = `${parseFloat(currentVal).toLocaleString()} CFS`;
+            const step = Math.max(1, Math.floor(vals.length / 40));
+            for(let i=0; i<vals.length; i+=step) {
+              cfsData.push(parseFloat(vals[i].value));
+              const d = new Date(vals[i].dateTime);
+              labels.push(d.toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric' }));
+            }
+          } else if (code === '00065') {
+            document.getElementById('metric-gauge').textContent = `${parseFloat(currentVal).toFixed(2)} ft`;
+            const step = Math.max(1, Math.floor(vals.length / 40));
+            for(let i=0; i<vals.length; i+=step) gaugeData.push(parseFloat(vals[i].value));
+          } else if (code === '72254') {
+            document.getElementById('metric-vel').textContent = `${parseFloat(currentVal).toFixed(2)} ft/s`;
+          }
         });
-      });
-    });
 
-    /* NAV BUTTONS */
-    document.getElementById('btn-prev').addEventListener('click', () => navigateTo(currentIndex - 1));
-    document.getElementById('btn-next').addEventListener('click', () => navigateTo(currentIndex + 1));
+        // Hydrology Chart
+        if (window.hydroChartInst) window.hydroChartInst.destroy();
+        window.hydroChartInst = new Chart(document.getElementById('hydroChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Flow (CFS)', data: cfsData, borderColor: '#00e5ff', backgroundColor: 'rgba(0, 229, 255, 0.1)', yAxisID: 'y', fill: true, tension: 0.4, pointRadius: 0 },
+              { label: 'Gauge (ft)', data: gaugeData, borderColor: '#a78bfa', yAxisID: 'y1', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#6B7280', maxTicksLimit: 7 } },
+              y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#00e5ff' } },
+              y1: { type: 'linear', display: true, position: 'right', grid: { display: false }, ticks: { color: '#a78bfa' } }
+            },
+            plugins: { legend: { labels: { color: '#9CA3AF' } } }
+          }
+        });
+      } catch (err) { console.error(err); }
 
-    /* DOT CLICKS */
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => navigateTo(parseInt(dot.dataset.index)));
-      dot.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigateTo(parseInt(dot.dataset.index)); }
-      });
-    });
+      // 2. Fetch Open-Meteo AQI
+      try {
+        const aqiRes = await fetch('https://air-quality-api.open-meteo.com/v1/air-quality?latitude=44.3936&longitude=-89.8173&current=us_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,dust,uv_index');
+        const aqiData = await aqiRes.json();
+        const c = aqiData.current;
+        
+        document.getElementById('metric-aqi').textContent = c.us_aqi || 20;
+        document.getElementById('telemetry-aqi').textContent = c.us_aqi || 20;
+        document.getElementById('metric-dust').textContent = `${c.dust || 0} μg/m³`;
+        document.getElementById('metric-uv').textContent = c.uv_index || 0;
+        
+        let status = 'Excellent', statusColor = 'var(--accent-tap)';
+        if (c.us_aqi > 50) { status = 'Moderate'; statusColor = 'var(--accent-pour)'; }
+        if (c.us_aqi > 100) { status = 'Unhealthy'; statusColor = '#EF4444'; }
+        
+        const statusEl = document.getElementById('detail-aqi-status');
+        statusEl.textContent = `Status: ${status}`; statusEl.style.color = statusColor;
+        document.getElementById('metric-aqi').style.color = statusColor;
 
-    /* KEYBOARD */
-    document.addEventListener('keydown', e => {
-      if (document.getElementById('modal-overlay').classList.contains('open')) return;
-      if (e.key === 'ArrowLeft')  { e.preventDefault(); navigateTo(currentIndex - 1); }
-      if (e.key === 'ArrowRight') { e.preventDefault(); navigateTo(currentIndex + 1); }
-    });
+        // AQI Radar Chart
+        if (window.aqiRadarInst) window.aqiRadarInst.destroy();
+        window.aqiRadarInst = new Chart(document.getElementById('aqiRadarChart').getContext('2d'), {
+          type: 'radar',
+          data: {
+            labels: ['PM10', 'PM2.5', 'Ozone', 'NO2', 'SO2', 'CO'],
+            datasets: [{
+              label: 'Concentration (μg/m³)',
+              data: [c.pm10||0, c.pm2_5||0, c.ozone||0, c.nitrogen_dioxide||0, c.sulphur_dioxide||0, c.carbon_monoxide||0],
+              backgroundColor: 'rgba(0, 255, 136, 0.2)', borderColor: '#00ff88', pointBackgroundColor: '#00ff88', borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#9CA3AF' }, ticks: { display: false } } },
+            plugins: { legend: { display: false } }
+          }
+        });
+      } catch (err) { console.error(err); }
 
-    /* CARD CLICK */
-    tiles.forEach(tile => {
-      function activate() {
-        const tileIdx = parseInt(tile.dataset.index);
-        const appKey  = tile.dataset.app;
-        const isMobile = window.innerWidth <= 768;
-        if (!isMobile && tileIdx !== currentIndex) { navigateTo(tileIdx); return; }
-        if (appKey === 'greeting') {
-          tile.classList.remove('pulse-anim');
-          void tile.offsetWidth;
-          tile.classList.add('pulse-anim');
-          setTimeout(() => tile.classList.remove('pulse-anim'), 750);
-          return;
-        }
-        openModal(appKey);
-      }
-      tile.addEventListener('click', activate);
-      tile.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
-      });
-    });
+      // 3. Fetch Open-Meteo Weather Forecast
+      try {
+        const wxRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=44.3936&longitude=-89.8173&hourly=temperature_2m,precipitation,wind_gusts_10m&forecast_days=3&timezone=America%2FChicago');
+        const wxData = await wxRes.json();
+        
+        const h = wxData.hourly;
+        const labels = h.time.map(t => new Date(t).toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric' }));
+        
+        if (window.wxChartInst) window.wxChartInst.destroy();
+        window.wxChartInst = new Chart(document.getElementById('weatherChart').getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              { type: 'line', label: 'Wind Gusts (mph)', data: h.wind_gusts_10m, borderColor: '#ff9900', tension: 0.4, yAxisID: 'y', pointRadius: 0 },
+              { type: 'line', label: 'Temp (°F)', data: h.temperature_2m, borderColor: '#EF4444', borderDash: [5,5], tension: 0.4, yAxisID: 'y', pointRadius: 0 },
+              { type: 'bar', label: 'Precipitation (in)', data: h.precipitation, backgroundColor: 'rgba(0, 229, 255, 0.5)', yAxisID: 'y1' }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#6B7280', maxTicksLimit: 12 } },
+              y: { display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#ff9900' } },
+              y1: { display: true, position: 'right', grid: { display: false }, ticks: { color: '#00e5ff' } }
+            },
+            plugins: { legend: { labels: { color: '#9CA3AF' } } }
+          }
+        });
+      } catch(err) { console.error(err); }
+    }
 
-    /* TOUCH SWIPE */
-    let tX = 0, tY = 0;
-    const stage = document.getElementById('carousel-stage');
-    stage.addEventListener('touchstart', e => { tX = e.changedTouches[0].clientX; tY = e.changedTouches[0].clientY; }, { passive: true });
-    stage.addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].clientX - tX;
-      const dy = e.changedTouches[0].clientY - tY;
-      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 60) {
-        if (dx < 0) navigateTo(currentIndex + 1); else navigateTo(currentIndex - 1);
-      }
-    }, { passive: true });
+    function openDialog(key) {
+      const info = APP_DATA[key];
+      if (!info) return;
 
-    /* MODAL */
-    const overlay    = document.getElementById('modal-overlay');
-    const titleEl    = document.getElementById('modal-title-text');
-    const imgWrap    = document.getElementById('modal-img-wrap');
-    const descEl     = document.getElementById('modal-desc');
-    const audienceEl = document.getElementById('modal-audience');
-    const launchBtn  = document.getElementById('modal-launch-btn');
-    const closeBtn   = document.getElementById('modal-close');
+      titleEl.textContent = info.title;
+      titleEl.style.color = info.accent;
 
-    function openModal(appKey) {
-      const d = APP_DATA[appKey];
-      if (!d) return;
-
-      titleEl.textContent = d.title;
-      titleEl.style.color = d.accent;
-      descEl.textContent  = d.desc;
-      audienceEl.innerHTML = d.who.map(w => `<li>${w}</li>`).join('');
-
-      /* screenshot — graceful fallback */
-      imgWrap.innerHTML = '';
-      const img = new Image();
-      img.alt = d.title + ' screenshot';
-      img.className = 'modal-screenshot';
-      img.onerror = () => {
-        imgWrap.innerHTML = '<div class="modal-screenshot-placeholder">[ NO PREVIEW AVAILABLE ]</div>';
-      };
-      img.src = d.screenshot;
-      imgWrap.appendChild(img);
-
-      /* launch button */
-      launchBtn.href        = d.link;
-      launchBtn.textContent = d.btnLabel;
-      launchBtn.style.background  = d.accent;
-      launchBtn.style.boxShadow   = `0 4px 24px ${d.accent}44`;
-      if (d.external) {
-        launchBtn.setAttribute('target', '_blank');
-        launchBtn.setAttribute('rel', 'noopener noreferrer');
+      if (key === 'dashboard') {
+        screenshotContainer.style.display = 'none';
+        standardView.style.display = 'none';
+        telemetryView.style.display = 'block';
+        launchBtn.textContent = 'Close HUD';
+        launchBtn.style.backgroundColor = 'var(--accent-info)';
+        
+        // Trigger pollen animation fills
+        
       } else {
-        launchBtn.removeAttribute('target');
-        launchBtn.removeAttribute('rel');
+        if (info.screenshot) {
+          screenshotEl.src = info.screenshot;
+          screenshotContainer.style.display = 'flex';
+        } else {
+          screenshotContainer.style.display = 'none';
+        }
+        
+        standardView.style.display = 'block';
+        telemetryView.style.display = 'none';
+        descEl.textContent = info.desc;
+        audienceEl.innerHTML = info.who.map(w => `<span class="tag">${w}</span>`).join('');
+        launchBtn.textContent = info.btnLabel;
+        launchBtn.style.backgroundColor = info.accent;
       }
 
+      launchBtn.href = info.link;
+      
       overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      closeBtn.focus();
     }
 
-    function closeModal() {
+    function closeDialog() {
       overlay.classList.remove('open');
-      document.body.style.overflow = '';
+      // Reset animations
+      document.getElementById('fill-pm10').style.width = '0%';
+      document.getElementById('fill-pm25').style.width = '0%';
+      document.getElementById('fill-uv').style.width = '0%';
     }
 
-    closeBtn.addEventListener('click', closeModal);
-    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const appKey = card.dataset.app;
+        if(appKey === 'sentinel') return;
+        openDialog(appKey);
+      });
     });
+
+    const closeBtn = document.querySelector('.close-btn');
+    if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+    // overlay.addEventListener('click', e => { if (e.target === overlay) closeDialog(); });
+    
+    // Init Page Details
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    fetchTelemetry();
   </script>
 </body>
 </html>
+
+
