@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dondlinger Digital — Gateway Portal Showcase</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Share+Tech+Mono&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Matter.js for Physics Theme -->
+  <script src="matter.min.js"></script>
+  
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --font-sans: 'Outfit', sans-serif;
+      --font-tech: 'Share Tech Mono', monospace;
+      --font-display: 'Syne', sans-serif;
+      
+      --c-bg: #070809;
+      --c-cyan: #00e5ff;
+      --c-amber: #ffb830;
+      --c-green: #00ff66;
+      --c-red: #ff3b30;
+    }
+    
+    body {
+      background: var(--c-bg);
+      color: #e2e8f0;
+      font-family: var(--font-sans);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* THEME SWITCHER CONTROLS */
+    .portal-switcher {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: flex;
+      background: rgba(15, 17, 23, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      padding: 6px;
+      gap: 5px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+    }
+    
+    .switcher-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-family: var(--font-tech);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+    }
+    
+    .switcher-btn:hover {
+      color: #fff;
+    }
+    
+    .switcher-btn.active {
+      background: var(--c-amber);
+      color: #000;
+      font-weight: 700;
+    }
+
+    /* GENERAL PORTAL CONTAINERS */
+    .portal-stage {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      overflow: hidden;
+    }
+    
+    .portal-stage.active {
+      display: block;
+    }
+
+    /* SHARED INTERFACE VIEWS (Revealed after transition) */
+    .destination-view {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #040506;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+    }
+    
+    .destination-view.revealed {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 200;
+    }
+    
+    .dest-header {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
+    
+    .reset-portal-btn {
+      margin-top: 40px;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #94a3b8;
+      padding: 10px 24px;
+      font-family: var(--font-tech);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+    
+    .reset-portal-btn:hover {
+      border-color: #fff;
+      color: #fff;
+    }
+
+    /* ==================================================== */
+    /* PORTAL 1: THE HYDRAULIC TECTONIC SPLIT               */
+    /* ==================================================== */
+    .theme-split {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    
+    .split-side {
+      width: 50%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: width 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+      overflow: hidden;
+    }
+    
+    .split-left {
+      background: #181a1c;
+      border-right: 2px solid var(--c-amber);
+    }
+    
+    .split-right {
+      background: #090e14;
+    }
+    
+    .split-side::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    
+    .split-left::before {
+      /* Concrete texture mockup grid */
+      background-image: 
+        radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 20px 20px, 100px 100px;
+    }
+    
+    .split-right::before {
+      /* Glowing telemetry wiring grid */
+      background-image: linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    
+    .split-label-container {
+      text-align: center;
+      z-index: 10;
+      pointer-events: none;
+      padding: 0 40px;
+    }
+    
+    .split-tag {
+      font-family: var(--font-tech);
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+    
+    .split-left .split-tag { color: var(--c-amber); }
+    .split-right .split-tag { color: var(--c-cyan); }
+    
+    .split-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: #fff;
+    }
+    
+    /* Hover and trigger states */
+    .split-side:hover {
+      width: 58%;
+    }
+    .split-side:hover ~ .split-side {
+      width: 42%;
+    }
+    
+    /* Active transition triggers */
+    .split-triggered-left .split-left { width: 100% !important; }
+    .split-triggered-left .split-right { width: 0% !important; }
+    
+    .split-triggered-right .split-left { width: 0% !important; }
+    .split-triggered-right .split-right { width: 100% !important; }
+
+    /* ==================================================== */
+    /* PORTAL 2: THE CORE STRESS FRACTURE                   */
+    /* ==================================================== */
+    .theme-fracture {
+      position: relative;
+    }
+    
+    .fracture-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      cursor: crosshair;
+    }
+    
+    .fracture-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-tech);
+      font-size: 0.8rem;
+      color: var(--c-hazard-yellow);
+      z-index: 15;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    /* ==================================================== */
+    /* PORTAL 3: RETRO CRT COMPILER GATE                    */
+    /* ==================================================== */
+    .theme-compiler {
+      background: #050505;
+      color: var(--c-green);
+      font-family: var(--font-mono), monospace;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .crt-scanlines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+      z-index: 99;
+    }
+    
+    .compiler-terminal {
+      flex: 1;
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      background: #000;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      font-size: 0.9rem;
+      position: relative;
+    }
+    
+    .compiler-choice-row {
+      display: flex;
+      gap: 40px;
+      margin-top: 30px;
+    }
+    
+    .compiler-option-box {
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      padding: 20px 30px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex: 1;
+    }
+    
+    .compiler-option-box:hover {
+      background: rgba(0, 255, 102, 0.08);
+      border-color: var(--c-green);
+      box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
+    }
+    
+    .compiler-cursor {
+      display: inline-block;
+      width: 10px;
+      height: 16px;
+      background: var(--c-green);
+      vertical-align: middle;
+      animation: cursorBlink 1s infinite alternate;
+    }
+    
+    @keyframes cursorBlink {
+      0%, 40% { opacity: 1; }
+      60%, 100% { opacity: 0; }
+    }
+
+    /* ==================================================== */
+    /* PORTAL 4: SURVEYING VIEWPORT                         */
+    /* ==================================================== */
+    .theme-surveyor {
+      background: #090a0c;
+    }
+    
+    .surveyor-viewport-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+    }
+    
+    .surveyor-transit-overlay {
+      position: absolute;
+      inset: 0;
+      border: 40px solid #000;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10;
+      box-shadow: inset 0 0 100px rgba(0,0,0,1);
+    }
+    
+    .surveyor-hud-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 260px;
+      height: 260px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 15;
+    }
+    
+    .surveyor-hud-crosshairs {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 350px;
+      height: 350px;
+      pointer-events: none;
+      z-index: 15;
+    }
+    
+    .surveyor-hud-crosshairs::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 0; right: 0; height: 1px;
+      background: rgba(255,255,255,0.25);
+    }
+    
+    .surveyor-hud-crosshairs::after {
+      content: '';
+      position: absolute;
+      left: 50%; top: 0; bottom: 0; width: 1px;
+      background: rgba(255,255,255,0.25);
+    }
+    
+    .surveyor-click-zones {
+      position: absolute;
+      inset: 40px;
+      display: flex;
+      z-index: 20;
+    }
+    
+    .surveyor-zone {
+      width: 50%;
+      height: 100%;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .surveyor-zone-label {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-tech);
+      font-size: 0.85rem;
+      background: rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 8px 16px;
+      white-space: nowrap;
+      color: #fff;
+      transition: all 0.2s ease;
+      opacity: 0.5;
+    }
+    
+    .surveyor-zone:hover .surveyor-zone-label {
+      opacity: 1;
+      border-color: var(--c-hazard-yellow);
+      box-shadow: 0 0 10px rgba(241,196,15,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PORTAL SWITCHER NAVIGATION -->
+  <div class="portal-switcher">
+    <button class="switcher-btn active" onclick="activatePortal('split')">Split Screen</button>
+    <button class="switcher-btn" onclick="activatePortal('fracture')">Stress Fracture</button>
+    <button class="switcher-btn" onclick="activatePortal('compiler')">Compiler Shell</button>
+    <button class="switcher-btn" onclick="activatePortal('surveyor')">Surveyor View</button>
+  </div>
+
+  <!-- DESTINATION VIEW A: DONDLINGER DIGITAL DATABASE -->
+  <div id="view-database" class="destination-view">
+    <div class="dest-header" style="color: var(--c-amber);">Dondlinger Digital Database</div>
+    <p style="color: #94a3b8; margin-bottom: 20px;">[REVEALED PATH 01 - CURATED PWA CATALOG]</p>
+    <div style="font-family: var(--font-tech); font-size: 1.2rem; color: #fff;">
+      Connecting core nodes... SUCCESS.<br>
+      - Concrete Volume PWA: ACTIVE<br>
+      - Storyboard Engine PWA: ACTIVE<br>
+      - Beat Studio PWA: ACTIVE
+    </div>
+    <button class="reset-portal-btn" onclick="resetActiveGateway()">Return to Gateway</button>
+  </div>
+
+  <!-- DESTINATION VIEW B: WAZEECHA WEATHER WALKTHROUGH -->
+  <div id="view-telemetry" class="destination-view">
+    <div class="dest-header" style="color: var(--c-cyan);">Wazeecha Weather Walkthrough</div>
+    <p style="color: #94a3b8; margin-bottom: 20px;">[REVEALED PATH 02 - LIVE TELEMETRY HUD]</p>
+    <div style="font-family: var(--font-tech); font-size: 1.2rem; color: #fff;">
+      Fetching live feeds... SUCCESS.<br>
+      - Wisconsin River flow: <span style="color: var(--c-cyan);" id="live-flow-lbl">14,250 CFS</span><br>
+      - EPA Air Quality Status: <span style="color: var(--c-green);" id="live-aqi-lbl">42 AQI (Healthy)</span>
+    </div>
+    <button class="reset-portal-btn" onclick="resetActiveGateway()">Return to Gateway</button>
+  </div>
+
+
+  <!-- ==================================================== -->
+  /* PORTAL 1: THE HYDRAULIC TECTONIC SPLIT               */
+  <!-- ==================================================== -->
+  <div id="portal-split" class="portal-stage active">
+    <div class="theme-split" id="split-wrapper">
+      <div class="split-side split-left" onclick="revealPath('database')">
+        <div class="split-label-container">
+          <div class="split-tag">Division 01</div>
+          <div class="split-title">Dondlinger Digital Database</div>
+        </div>
+      </div>
+      <div class="split-side split-right" onclick="revealPath('telemetry')">
+        <div class="split-label-container">
+          <div class="split-tag">Division 02</div>
+          <div class="split-title">Wazeecha Weather Walkthrough</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================================================== -->
+  /* PORTAL 2: THE CORE STRESS FRACTURE                   */
+  <!-- ==================================================== -->
+  <div id="portal-fracture" class="portal-stage">
+    <div class="theme-fracture">
+      <canvas class="fracture-canvas" id="fracture-canvas"></canvas>
+      <div class="fracture-hint">Click concrete core to fracture left (Database) or right (Telemetry)</div>
+    </div>
+  </div>
+
+
+  <!-- ==================================================== -->
+  /* PORTAL 3: RETRO CRT COMPILER GATE                    */
+  <!-- ==================================================== -->
+  <div id="portal-compiler" class="portal-stage">
+    <div class="theme-compiler">
+      <div class="crt-scanlines"></div>
+      <div class="compiler-terminal">
+        <div>DONDLINGER_GATEWAY_BIOS v4.16</div>
+        <div>SYS_CHECK: OK</div>
+        <div>NET_QUERY_CACHE: RESOLVED</div>
+        <div style="margin-top: 15px; color: #fff;">WARNING: BINARY GATEWAY CONSOLE - USER CHOOSE PATH DETECTED.</div>
+        <div>PLEASE SELECT TERMINAL SEGMENT PATH ROUTE:</div>
+        
+        <div class="compiler-choice-row">
+          <div class="compiler-option-box" onclick="revealPath('database')">
+            <div>[PATH A] DONDLINGER_PWA_DATABASE</div>
+            <div style="font-size: 0.75rem; opacity: 0.6; margin-top: 5px;">Execute concrete layout & app catalog systems.</div>
+          </div>
+          <div class="compiler-option-box" onclick="revealPath('telemetry')">
+            <div>[PATH B] WAZEECHA_WEATHER_TELEMETRY</div>
+            <div style="font-size: 0.75rem; opacity: 0.6; margin-top: 5px;">Execute real-time river flow & air metrics.</div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 40px;">
+          <span>$ EXECUTE_ROUTE &gt; </span><span class="compiler-cursor"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================================================== -->
+  /* PORTAL 4: SURVEYING VIEWPORT                         */
+  <!-- ==================================================== -->
+  <div id="portal-surveyor" class="portal-stage">
+    <div class="theme-surveyor">
+      <canvas class="surveyor-viewport-canvas" id="surveyor-canvas"></canvas>
+      
+      <div class="surveyor-transit-overlay"></div>
+      <div class="surveyor-hud-center"></div>
+      <div class="surveyor-hud-crosshairs"></div>
+      
+      <div class="surveyor-click-zones">
+        <div class="surveyor-zone" onclick="revealPath('database')">
+          <span class="surveyor-zone-label">Align PWA Database</span>
+        </div>
+        <div class="surveyor-zone" onclick="revealPath('telemetry')">
+          <span class="surveyor-zone-label">Align Weather Walkthrough</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- GATEWAY PORTAL MANAGEMENT ---
+    let activePortalId = 'split';
+    
+    function activatePortal(id) {
+      // Hide all portals
+      document.querySelectorAll('.portal-stage').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.switcher-btn').forEach(b => b.classList.remove('active'));
+      
+      // Activate target
+      const stage = document.getElementById('portal-' + id);
+      stage.classList.add('active');
+      activePortalId = id;
+      
+      // Highlight nav button
+      const activeBtn = Array.from(document.querySelectorAll('.switcher-btn')).find(b => b.textContent.toLowerCase().includes(id.substring(0, 4)));
+      if (activeBtn) activeBtn.classList.add('active');
+      
+      // Reset view reveal status
+      resetActiveGateway();
+      
+      // Trigger canvas sizing/renders if relevant
+      if (id === 'fracture') initFractureSlab();
+      if (id === 'surveyor') initSurveyorCanvas();
+    }
+    
+    function revealPath(path) {
+      // Trigger theme transitions
+      if (activePortalId === 'split') {
+        const wrap = document.getElementById('split-wrapper');
+        if (path === 'database') {
+          wrap.className = 'theme-split split-triggered-left';
+        } else {
+          wrap.className = 'theme-split split-triggered-right';
+        }
+      }
+      
+      // Fade in the transition view
+      setTimeout(() => {
+        const view = path === 'database' ? document.getElementById('view-database') : document.getElementById('view-telemetry');
+        view.classList.add('revealed');
+      }, 500);
+      
+      playMechanicalClick();
+    }
+    
+    function resetActiveGateway() {
+      // Reset transition view classes
+      document.querySelectorAll('.destination-view').forEach(v => v.classList.remove('revealed'));
+      
+      // Reset theme classes
+      if (activePortalId === 'split') {
+        document.getElementById('split-wrapper').className = 'theme-split';
+      }
+      if (activePortalId === 'fracture') {
+        initFractureSlab();
+      }
+    }
+    
+    function playMechanicalClick() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(140, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.2);
+      } catch(e) {}
+    }
+
+
+    // ====================================================
+    // PORTAL 2: STRESS FRACTURE CANVAS ENGINE
+    // ====================================================
+    const fCanvas = document.getElementById('fracture-canvas');
+    const fCtx = fCanvas.getContext('2d');
+    
+    let fPoints = [];
+    let fSlabOpacity = 1.0;
+    let fSlabCracked = false;
+    
+    function resizeFractureCanvas() {
+      fCanvas.width = window.innerWidth;
+      fCanvas.height = window.innerHeight;
+    }
+    
+    function initFractureSlab() {
+      resizeFractureCanvas();
+      fPoints = [];
+      fSlabOpacity = 1.0;
+      fSlabCracked = false;
+      fCanvas.style.opacity = 1.0;
+      
+      fCtx.fillStyle = '#1e2022';
+      fCtx.fillRect(0,0,fCanvas.width,fCanvas.height);
+      
+      // Rough concrete grid noise
+      fCtx.fillStyle = 'rgba(255,255,255,0.01)';
+      for(let i=0; i<800; i++) {
+        fCtx.fillRect(Math.random()*fCanvas.width, Math.random()*fCanvas.height, 2, 2);
+      }
+      fCtx.fillStyle = 'rgba(0,0,0,0.15)';
+      for(let i=0; i<600; i++) {
+        fCtx.fillRect(Math.random()*fCanvas.width, Math.random()*fCanvas.height, 4, 4);
+      }
+      
+      // Crosshair yellow framing lines
+      fCtx.strokeStyle = 'rgba(241, 196, 15, 0.2)';
+      fCtx.lineWidth = 1;
+      fCtx.beginPath();
+      fCtx.moveTo(fCanvas.width/2, 0); fCtx.lineTo(fCanvas.width/2, fCanvas.height);
+      fCtx.moveTo(0, fCanvas.height/2); fCtx.lineTo(fCanvas.width, fCanvas.height/2);
+      fCtx.stroke();
+      
+      fCtx.fillStyle = 'rgba(241, 196, 15, 0.4)';
+      fCtx.font = '10px var(--font-tech)';
+      fCtx.fillText("SURVEY SECTOR A: DATABASE", 50, 80);
+      fCtx.fillText("SURVEY SECTOR B: TELEMETRY", fCanvas.width - 250, 80);
+    }
+    
+    fCanvas.addEventListener('click', (e) => {
+      if (fSlabCracked) return;
+      const rect = fCanvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      if (fPoints.length === 0) fPoints.push({x, y});
+      
+      let curX = fPoints[fPoints.length-1].x;
+      let curY = fPoints[fPoints.length-1].y;
+      
+      for(let i=0; i<5; i++) {
+        curX += (Math.random() - 0.5) * 80;
+        curY += (Math.random() - 0.5) * 80;
+        fPoints.push({x: curX, y: curY});
+      }
+      
+      // Render cracks
+      fCtx.strokeStyle = '#050607';
+      fCtx.lineWidth = 4;
+      fCtx.beginPath();
+      for(let i=0; i<fPoints.length; i++) {
+        if(i===0) fCtx.moveTo(fPoints[i].x, fPoints[i].y);
+        else fCtx.lineTo(fPoints[i].x, fPoints[i].y);
+      }
+      fCtx.stroke();
+      
+      playMechanicalClick();
+      
+      if (fPoints.length > 20) {
+        fSlabCracked = true;
+        // Check which sector was hit more (left vs right)
+        const path = x < fCanvas.width/2 ? 'database' : 'telemetry';
+        let fade = setInterval(() => {
+          fSlabOpacity -= 0.1;
+          fCanvas.style.opacity = fSlabOpacity;
+          if (fSlabOpacity <= 0) {
+            clearInterval(fade);
+            revealPath(path);
+          }
+        }, 30);
+      }
+    });
+
+
+    // ====================================================
+    // PORTAL 4: SURVEYOR VIEWPORT GRID ENGINE
+    // ====================================================
+    const sCanvas = document.getElementById('surveyor-canvas');
+    const sCtx = sCanvas.getContext('2d');
+    
+    let sWidth = sCanvas.width = window.innerWidth;
+    let sHeight = sCanvas.height = window.innerHeight;
+    
+    window.addEventListener('resize', () => {
+      if (activePortalId === 'surveyor') {
+        sWidth = sCanvas.width = window.innerWidth;
+        sHeight = sCanvas.height = window.innerHeight;
+      }
+    });
+    
+    function initSurveyorCanvas() {
+      sWidth = sCanvas.width = window.innerWidth;
+      sHeight = sCanvas.height = window.innerHeight;
+    }
+    
+    function drawSurveyor() {
+      if (activePortalId !== 'surveyor') {
+        requestAnimationFrame(drawSurveyor);
+        return;
+      }
+      
+      sCtx.fillStyle = '#06080a';
+      sCtx.fillRect(0,0,sWidth,sHeight);
+      
+      // Render rotating visual mesh elements representing database (left) and telemetry (right)
+      const time = Date.now() * 0.001;
+      
+      // Left Wireframe Cube (Database)
+      sCtx.strokeStyle = 'rgba(241,196,15,0.1)';
+      sCtx.lineWidth = 1;
+      sCtx.save();
+      sCtx.translate(sWidth * 0.3, sHeight * 0.5);
+      sCtx.rotate(time * 0.5);
+      sCtx.strokeRect(-100, -100, 200, 200);
+      sCtx.strokeRect(-60, -60, 120, 120);
+      sCtx.restore();
+      
+      // Right Waveform Grid (Telemetry)
+      sCtx.strokeStyle = 'rgba(0,229,255,0.1)';
+      sCtx.save();
+      sCtx.translate(sWidth * 0.7, sHeight * 0.5);
+      sCtx.beginPath();
+      for(let i=-150; i<150; i+=10) {
+        const waveY = Math.sin(i * 0.03 + time * 3) * 30;
+        if (i===-150) sCtx.moveTo(i, waveY);
+        else sCtx.lineTo(i, waveY);
+      }
+      sCtx.stroke();
+      sCtx.restore();
+      
+      requestAnimationFrame(drawSurveyor);
+    }
+    
+    drawSurveyor();
+    
+    
+    // --- DYNAMIC TELEMETRY SYNC ---
+    async function fetchLiveMetrics() {
+      try {
+        const res = await fetch('https://waterservices.usgs.gov/nwis/iv/?format=json&sites=05400760&parameterCd=00060');
+        const data = await res.json();
+        const cfs = data.value.timeSeries[0].values[0].value[0].value;
+        document.getElementById('live-flow-lbl').textContent = parseFloat(cfs).toLocaleString() + ' CFS';
+      } catch(e) {}
+      
+      try {
+        const res = await fetch('https://air-quality-api.open-meteo.com/v1/air-quality?latitude=44.3936&longitude=-89.8173&current=us_aqi');
+        const data = await res.json();
+        const aqi = data.current.us_aqi;
+        document.getElementById('live-aqi-lbl').textContent = aqi + ' AQI';
+      } catch(e) {}
+    }
+    
+    fetchLiveMetrics();
+  </script>
+</body>
+</html>

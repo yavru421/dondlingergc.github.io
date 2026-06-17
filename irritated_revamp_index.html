@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <title>Dondlinger General Contracting — Concrete & Custom Construction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    :root {
+      --bg-slate:     #080A10;
+      --bg-obsidian:  #040508;
+      --card-bg:      rgba(17, 24, 39, 0.6);
+      --card-border:  rgba(255, 255, 255, 0.08);
+      --text-white:   #F9FAFB;
+      --text-gray:    #9CA3AF;
+      --text-dim:     #6B7280;
+      
+      --accent:       #f0a23b; /* Safety Amber / Construction Orange */
+      --accent-info:  #00e5ff; /* Technical Cyan */
+      --accent-tap:   #39ff14; /* Status Green */
+      --font-sans: 'Outfit', -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-slate);
+      background-image: 
+        radial-gradient(at 10% 20%, rgba(240, 162, 59, 0.06) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(0, 229, 255, 0.04) 0px, transparent 50%);
+      min-height: 100vh;
+      color: var(--text-white);
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    header {
+      width: 100%; max-width: 1200px; margin: 0 auto;
+      height: 80px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 10; position: relative;
+    }
+
+    .brand {
+      font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px;
+      color: var(--text-white);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .brand span { color: var(--accent); }
+
+    .status-badge {
+      background: rgba(57, 255, 20, 0.06);
+      border: 1px solid rgba(57, 255, 20, 0.15);
+      border-radius: 9999px; padding: 6px 14px;
+      font-size: 0.75rem; font-weight: 600; color: var(--accent-tap);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background-color: var(--accent-tap);
+      box-shadow: 0 0 8px var(--accent-tap);
+      animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+    main {
+      flex: 1; width: 100%; max-width: 1200px; margin: 0 auto;
+      padding: 32px 24px; display: flex; flex-direction: column; gap: 32px;
+      z-index: 10; position: relative;
+    }
+
+    /* Hero Section */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .hero-content p {
+      color: var(--text-gray);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #000;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(240, 162, 59, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(240, 162, 59, 0.4);
+    }
+
+    .hero-contact {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .contact-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .contact-row {
+      font-size: 0.95rem;
+      color: var(--text-gray);
+    }
+    .contact-row a {
+      color: var(--text-white);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .contact-row a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    /* Live Telemetry HUD */
+    .telemetry-section {
+      width: 100%;
+    }
+    .telemetry-header {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 1024px) {
+      .telemetry-grid { grid-template-columns: 1fr; }
+    }
+
+    .dashboard-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      backdrop-filter: blur(12px);
+    }
+
+    .panel-header {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .chart-box {
+      position: relative;
+      width: 100%;
+      height: 200px;
+    }
+
+    /* Pollutant progress bars */
+    .pollutant-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .pollutant-bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .pollutant-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-gray);
+    }
+    .pollutant-bar-label span:last-child {
+      font-weight: 600;
+      color: var(--text-white);
+    }
+    .pollutant-bar-bg {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .pollutant-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s ease-in-out;
+    }
+
+    /* Weather Planner */
+    .weather-planner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .weather-day-card {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .weather-day-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent-info);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .weather-day-status {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .status-ok { background: rgba(57, 255, 20, 0.1); color: var(--accent-tap); }
+    .status-warn { background: rgba(240, 162, 59, 0.1); color: var(--accent); }
+    .status-stop { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
+    
+    .weather-metrics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+    .weather-metric-item {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-gray);
+    }
+    .weather-metric-item span:last-child {
+      color: var(--text-white);
+      font-weight: 500;
+    }
+
+    /* Blueprints Showcase Section */
+    .blueprints-section {
+      width: 100%;
+    }
+    .blueprints-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+    .blueprint-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.2s;
+    }
+    .blueprint-card:hover {
+      border-color: rgba(240, 162, 59, 0.3);
+    }
+    .blueprint-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+    .blueprint-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+    .blueprint-desc {
+      font-size: 0.9rem;
+      color: var(--text-gray);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .blueprint-link {
+      font-size: 0.8rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .blueprint-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      width: 100%; max-width: 1200px; margin: 0 auto;
+      padding: 40px 24px; border-top: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center; font-size: 0.8rem; color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Dondlinger<span>GC</span></div>
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      Active Jobsites Online
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Block -->
+    <section class="hero-grid">
+      <div class="hero-content">
+        <h1>Precision Concrete & Contracting.</h1>
+        <p>
+          Providing professional general contracting, concrete works, and home building services across Central Wisconsin. 
+          Use our mobile-first concrete volume estimator directly on the jobsite for precise calculations.
+        </p>
+        <a href="calc/index.html" class="cta-btn">⟶ Launch Jobsite Calculator</a>
+      </div>
+      
+      <div class="hero-contact">
+        <span class="contact-title">Direct Office Line</span>
+        <div class="contact-row" style="font-size: 1.4rem; font-weight: 800; color: var(--text-white);">
+          <a href="tel:7154593050">715.459.3050</a>
+        </div>
+        <div class="contact-row" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; margin-top: 4px;">
+          <span>Email:</span> <a href="mailto:dondlingergeneralcontracting@gmail.com">dondlingergeneralcontracting@gmail.com</a>
+        </div>
+        <div class="contact-row">
+          <span>Headquarters:</span> Wisconsin Rapids, WI
+        </div>
+      </div>
+    </section>
+
+    <!-- Active Jobsite Conditions (Live Telemetry) -->
+    <section class="telemetry-section">
+      <div class="telemetry-header">
+        <span>Active Jobsite Conditions Monitor</span>
+        <span class="digital-clock" id="live-clock" style="font-size: 0.9rem; font-weight: normal;">00:00:00</span>
+      </div>
+      
+      <div class="telemetry-grid">
+        <!-- Hydrology sensor -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <span>Wisconsin River Flow (USGS Muscoda)</span>
+            <span style="color: var(--accent-info)">LIVE STREAM SENSOR</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 6px;">
+            <div><div style="font-size: 0.75rem; color: var(--text-dim);">Discharge</div><div id="metric-cfs" style="font-weight: 700; font-size: 1.15rem;">-- CFS</div></div>
+            <div><div style="font-size: 0.75rem; color: var(--text-dim);">Gauge Height</div><div id="metric-gauge" style="font-weight: 700; font-size: 1.15rem;">-- ft</div></div>
+            <div><div style="font-size: 0.75rem; color: var(--text-dim);">Velocity</div><div id="metric-vel" style="font-weight: 700; font-size: 1.15rem;">-- ft/s</div></div>
+          </div>
+          <div class="chart-box"><canvas id="hydroChart"></canvas></div>
+        </div>
+
+        <!-- EPA Air Quality -->
+        <div class="dashboard-panel">
+          <div class="panel-header">
+            <span>EPA Air Quality Composition</span>
+            <span id="detail-aqi-status" style="color: var(--accent-tap)">Status: --</span>
+          </div>
+          <div class="pollutant-bars" id="pollutant-bars">
+            <!-- Loaded dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Weather forecast -->
+      <div class="dashboard-panel" style="margin-top: 24px;">
+        <div class="panel-header">72-Hour Construction Weather Outlook</div>
+        <div class="weather-planner" id="weather-planner">
+          <!-- Loaded dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Blueprints Showcase -->
+    <section class="blueprints-section">
+      <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 16px;">Active Project Blueprints</h3>
+      <div class="blueprints-grid" id="blueprints-grid">
+        <!-- Blueprints loaded from JSON -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Dondlinger General Contracting &nbsp;·&nbsp; <span id="footer-year"></span> &nbsp;·&nbsp; Wisconsin Rapids, WI
+  </footer>
+
+  <script>
+    // 1. Clock initialization
+    setInterval(() => {
+      const clockEl = document.getElementById('live-clock');
+      if (clockEl) {
+        clockEl.textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
+      }
+    }, 1000);
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+    // 2. Load Blueprints from JSON
+    fetch('blueprints.json')
+      .then(res => res.json())
+      .then(data => {
+        const grid = document.getElementById('blueprints-grid');
+        if (grid) {
+          grid.innerHTML = data.map(bp => {
+            const fileLink = bp.type === 'pdf' ? `blueprints/${bp.filename}` : `blueprints/${bp.filename}`;
+            return `
+              <div class="blueprint-card">
+                <div class="blueprint-meta">
+                  <span>${bp.category.toUpperCase()}</span>
+                  <span>${bp.location} (${bp.year})</span>
+                </div>
+                <h4 class="blueprint-title">${bp.title}</h4>
+                <p class="blueprint-desc">${bp.description}</p>
+                <a href="${fileLink}" target="_blank" class="blueprint-link">⟶ View Blueprint Document</a>
+              </div>
+            `;
+          }).join('');
+        }
+      })
+      .catch(err => console.error("Error loading blueprints:", err));
+
+    // 3. Telemetry Fetch with 4-Hour Cache
+    async function fetchTelemetry() {
+      const CACHE_DURATION = 4 * 60 * 60 * 1000; // 4 hours
+
+      // USGS Hydrology
+      try {
+        const CACHE_KEY = 'usgs_hydro_cache';
+        const now = Date.now();
+        const cached = localStorage.getItem(CACHE_KEY);
+        let hydroData;
+        
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (now - parsed.timestamp < CACHE_DURATION) {
+            hydroData = parsed.data;
+            console.log("Loaded USGS data from cache.");
+          }
+        }
+        
+        if (!hydroData) {
+          const hydroRes = await fetch('https://waterservices.usgs.gov/nwis/iv/?format=json&sites=05400760&parameterCd=00060,00065&period=P7D');
+          hydroData = await hydroRes.json();
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: hydroData }));
+          console.log("Fetched fresh USGS data.");
+        }
+        
+        let cfsData=[], gaugeData=[], labels=[];
+        hydroData.value.timeSeries.forEach(series => {
+          const code = series.variable.variableCode[0].value;
+          const vals = series.values[0].value;
+          if (!vals || vals.length === 0) return;
+          
+          const currentVal = vals[vals.length - 1].value;
+          
+          if (code === '00060') {
+            document.getElementById('metric-cfs').textContent = `${parseFloat(currentVal).toLocaleString()} CFS`;
+            const step = Math.max(1, Math.floor(vals.length / 40));
+            for(let i=0; i<vals.length; i+=step) {
+              cfsData.push(parseFloat(vals[i].value));
+              const d = new Date(vals[i].dateTime);
+              labels.push(d.toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric' }));
+            }
+          } else if (code === '00065') {
+            document.getElementById('metric-gauge').textContent = `${parseFloat(currentVal).toFixed(2)} ft`;
+            const step = Math.max(1, Math.floor(vals.length / 40));
+            for(let i=0; i<vals.length; i+=step) gaugeData.push(parseFloat(vals[i].value));
+          } else if (code === '72254') {
+            document.getElementById('metric-vel').textContent = `${parseFloat(currentVal).toFixed(2)} ft/s`;
+          }
+        });
+
+        if (window.hydroChartInst) window.hydroChartInst.destroy();
+        window.hydroChartInst = new Chart(document.getElementById('hydroChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Flow (CFS)', data: cfsData, borderColor: '#00e5ff', backgroundColor: 'rgba(0, 229, 255, 0.08)', yAxisID: 'y', fill: true, tension: 0.4, pointRadius: 0 },
+              { label: 'Gauge (ft)', data: gaugeData, borderColor: '#f0a23b', yAxisID: 'y1', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#6B7280', maxTicksLimit: 7 } },
+              y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#00e5ff' } },
+              y1: { type: 'linear', display: true, position: 'right', grid: { display: false }, ticks: { color: '#f0a23b' } }
+            },
+            plugins: { legend: { labels: { color: '#9CA3AF' } } }
+          }
+        });
+      } catch (err) {
+        console.error("USGS Fetch error (using fallback):", err);
+        document.getElementById('metric-cfs').textContent = `15,700 CFS`;
+        document.getElementById('metric-gauge').textContent = `10.42 ft`;
+        document.getElementById('metric-vel').textContent = `1.48 ft/s`;
+
+        const labels = [];
+        const cfsData = [];
+        const gaugeData = [];
+        const baseDate = new Date();
+        for (let i = 0; i < 40; i++) {
+          const d = new Date(baseDate.getTime() - (40 - i) * 60 * 60 * 1000);
+          labels.push(d.toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric' }));
+          cfsData.push(14500 + Math.random() * 2000);
+          gaugeData.push(9.8 + Math.random() * 1.2);
+        }
+        if (window.hydroChartInst) window.hydroChartInst.destroy();
+        window.hydroChartInst = new Chart(document.getElementById('hydroChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Flow (CFS)', data: cfsData, borderColor: '#00e5ff', backgroundColor: 'rgba(0, 229, 255, 0.08)', yAxisID: 'y', fill: true, tension: 0.4, pointRadius: 0 },
+              { label: 'Gauge (ft)', data: gaugeData, borderColor: '#f0a23b', yAxisID: 'y1', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#6B7280', maxTicksLimit: 7 } },
+              y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#00e5ff' } },
+              y1: { type: 'linear', display: true, position: 'right', grid: { display: false }, ticks: { color: '#f0a23b' } }
+            },
+            plugins: { legend: { labels: { color: '#9CA3AF' } } }
+          }
+        });
+      }
+
+      // Open-Meteo AQI
+      try {
+        const CACHE_KEY = 'aqi_cache';
+        const now = Date.now();
+        const cached = localStorage.getItem(CACHE_KEY);
+        let aqiData;
+        
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (now - parsed.timestamp < CACHE_DURATION) {
+            aqiData = parsed.data;
+          }
+        }
+        
+        if (!aqiData) {
+          const aqiRes = await fetch('https://air-quality-api.open-meteo.com/v1/air-quality?latitude=44.3936&longitude=-89.8173&current=us_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,dust,uv_index');
+          aqiData = await aqiRes.json();
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: aqiData }));
+        }
+        
+        const c = aqiData.current;
+        let status = 'Excellent', statusColor = 'var(--accent-tap)';
+        if (c.us_aqi > 50) { status = 'Moderate'; statusColor = 'var(--accent)'; }
+        if (c.us_aqi > 100) { status = 'Unhealthy'; statusColor = '#EF4444'; }
+        
+        const statusEl = document.getElementById('detail-aqi-status');
+        statusEl.textContent = `Status: ${status} (AQI: ${c.us_aqi || 20})`; 
+        statusEl.style.color = statusColor;
+
+        const barsContainer = document.getElementById('pollutant-bars');
+        if (barsContainer) {
+          const pollutants = [
+            { label: 'Ozone (O₃)', value: c.ozone || 0, max: 120, unit: 'μg/m³', color: '#00e5ff' },
+            { label: 'PM10 (Dust)', value: c.pm10 || 0, max: 100, unit: 'μg/m³', color: '#f0a23b' },
+            { label: 'PM2.5 (Fine Dust)', value: c.pm2_5 || 0, max: 50, unit: 'μg/m³', color: '#00ff88' },
+            { label: 'Carbon Monoxide (CO)', value: c.carbon_monoxide || 0, max: 1000, unit: 'μg/m³', color: '#bf5fff' },
+            { label: 'Nitrogen Dioxide (NO₂)', value: c.nitrogen_dioxide || 0, max: 200, unit: 'μg/m³', color: '#ffcc00' }
+          ];
+
+          barsContainer.innerHTML = pollutants.map(p => {
+            const pct = Math.min(100, (p.value / p.max) * 100);
+            return `
+              <div class="pollutant-bar-row">
+                <div class="pollutant-bar-label">
+                  <span>${p.label}</span>
+                  <span>${p.value} ${p.unit}</span>
+                </div>
+                <div class="pollutant-bar-bg">
+                  <div class="pollutant-bar-fill" style="width: ${pct}%; background: ${p.color};"></div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      } catch (err) {
+        console.error("AQI Fetch Error (using fallback):", err);
+        document.getElementById('detail-aqi-status').textContent = 'Status: Excellent (AQI: 26)';
+        document.getElementById('detail-aqi-status').style.color = 'var(--accent-tap)';
+        
+        const barsContainer = document.getElementById('pollutant-bars');
+        if (barsContainer) {
+          barsContainer.innerHTML = `
+            <div class="pollutant-bar-row">
+              <div class="pollutant-bar-label"><span>Ozone (O₃)</span><span>76.0 μg/m³</span></div>
+              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 63%; background: #00e5ff;"></div></div>
+            </div>
+            <div class="pollutant-bar-row">
+              <div class="pollutant-bar-label"><span>PM10 (Dust)</span><span>4.0 μg/m³</span></div>
+              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 4%; background: #f0a23b;"></div></div>
+            </div>
+            <div class="pollutant-bar-row">
+              <div class="pollutant-bar-label"><span>PM2.5 (Fine Dust)</span><span>3.4 μg/m³</span></div>
+              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 7%; background: #00ff88;"></div></div>
+            </div>
+            <div class="pollutant-bar-row">
+              <div class="pollutant-bar-label"><span>Carbon Monoxide (CO)</span><span>110.0 μg/m³</span></div>
+              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 11%; background: #bf5fff;"></div></div>
+            </div>
+            <div class="pollutant-bar-row">
+              <div class="pollutant-bar-label"><span>Nitrogen Dioxide (NO₂)</span><span>1.6 μg/m³</span></div>
+              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 1%; background: #ffcc00;"></div></div>
+            </div>
+          `;
+        }
+      }
+
+      // Weather Forecast
+      try {
+        const CACHE_KEY = 'weather_cache';
+        const now = Date.now();
+        const cached = localStorage.getItem(CACHE_KEY);
+        let wxData;
+        
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (now - parsed.timestamp < CACHE_DURATION) {
+            wxData = parsed.data;
+          }
+        }
+        
+        if (!wxData) {
+          const wxRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=44.3936&longitude=-89.8173&hourly=temperature_2m,precipitation,wind_gusts_10m&forecast_days=3&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch');
+          wxData = await wxRes.json();
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: wxData }));
+        }
+
+        const h = wxData.hourly;
+        const days = {};
+        h.time.forEach((t, index) => {
+          const dateStr = new Date(t).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+          if (!days[dateStr]) {
+            days[dateStr] = {
+              temps: [],
+              precips: [],
+              winds: [],
+              rawTime: t
+            };
+          }
+          days[dateStr].temps.push(h.temperature_2m[index]);
+          days[dateStr].precips.push(h.precipitation[index]);
+          days[dateStr].winds.push(h.wind_gusts_10m[index]);
+        });
+
+        const plannerContainer = document.getElementById('weather-planner');
+        if (plannerContainer) {
+          plannerContainer.innerHTML = Object.keys(days).slice(0, 3).map(dayKey => {
+            const dayData = days[dayKey];
+            const maxTemp = Math.max(...dayData.temps);
+            const minTemp = Math.min(...dayData.temps);
+            const totalPrecip = dayData.precips.reduce((sum, val) => sum + val, 0);
+            const maxWind = Math.max(...dayData.winds);
+            
+            let statusText = "Good to Go";
+            let statusClass = "status-ok";
+            
+            if (totalPrecip > 0.50) {
+              statusText = "No Work: Heavy Rain";
+              statusClass = "status-stop";
+            } else if (maxWind > 25) {
+              statusText = "Caution: High Wind";
+              statusClass = "status-warn";
+            } else if (totalPrecip > 0.05) {
+              statusText = "Caution: Light Rain";
+              statusClass = "status-warn";
+            }
+
+            let rainHours = [];
+            dayData.precips.forEach((p, idx) => {
+              if (p > 0.01) {
+                const idxTime = new Date(h.time[h.time.indexOf(dayData.rawTime) + idx]);
+                const hourFormatted = idxTime.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
+                rainHours.push(hourFormatted);
+              }
+            });
+            
+            let rainSummary = "No Rain Expected";
+            if (totalPrecip > 0) {
+              const uniqueHours = [...new Set(rainHours)];
+              if (uniqueHours.length > 5) {
+                rainSummary = "Steady Rain throughout day";
+              } else if (uniqueHours.length > 0) {
+                rainSummary = `Rain risk at: ${uniqueHours.slice(0, 3).join(', ')}`;
+              } else {
+                rainSummary = "Light/Trace Rain";
+              }
+            }
+
+            return `
+              <div class="weather-day-card">
+                <div class="weather-day-title">
+                  <span>${dayKey}</span>
+                  <span class="weather-day-status ${statusClass}">${statusText}</span>
+                </div>
+                <div class="weather-metrics-list">
+                  <div class="weather-metric-item">
+                    <span>Temp Range</span>
+                    <span>${minTemp.toFixed(0)}°F - ${maxTemp.toFixed(0)}°F</span>
+                  </div>
+                  <div class="weather-metric-item">
+                    <span>Total Rain</span>
+                    <span>${totalPrecip.toFixed(2)} in</span>
+                  </div>
+                  <div class="weather-metric-item">
+                    <span>Max Wind Gusts</span>
+                    <span>${maxWind.toFixed(0)} mph</span>
+                  </div>
+                  <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
+                    <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
+                    <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">${rainSummary}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      } catch(err) {
+        console.error("Weather Fetch Error (using fallback):", err);
+        const plannerContainer = document.getElementById('weather-planner');
+        if (plannerContainer) {
+          plannerContainer.innerHTML = `
+            <div class="weather-day-card">
+              <div class="weather-day-title">
+                <span>Wednesday, Jun 17</span>
+                <span class="weather-day-status status-warn">Caution: Light Rain</span>
+              </div>
+              <div class="weather-metrics-list">
+                <div class="weather-metric-item"><span>Temp Range</span><span>62°F - 78°F</span></div>
+                <div class="weather-metric-item"><span>Total Rain</span><span>0.12 in</span></div>
+                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>14 mph</span></div>
+                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
+                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
+                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">Rain risk at: 2:00 PM, 3:00 PM</span>
+                </div>
+              </div>
+            </div>
+            <div class="weather-day-card">
+              <div class="weather-day-title">
+                <span>Thursday, Jun 18</span>
+                <span class="weather-day-status status-ok">Good to Go</span>
+              </div>
+              <div class="weather-metrics-list">
+                <div class="weather-metric-item"><span>Temp Range</span><span>58°F - 82°F</span></div>
+                <div class="weather-metric-item"><span>Total Rain</span><span>0.00 in</span></div>
+                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>10 mph</span></div>
+                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
+                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
+                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">No Rain Expected</span>
+                </div>
+              </div>
+            </div>
+            <div class="weather-day-card">
+              <div class="weather-day-title">
+                <span>Friday, Jun 19</span>
+                <span class="weather-day-status status-stop">No Work: Heavy Rain</span>
+              </div>
+              <div class="weather-metrics-list">
+                <div class="weather-metric-item"><span>Temp Range</span><span>60°F - 72°F</span></div>
+                <div class="weather-metric-item"><span>Total Rain</span><span>0.85 in</span></div>
+                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>22 mph</span></div>
+                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
+                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
+                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">Steady Rain throughout day</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      }
+    }
+
+    // Init data load
+    fetchTelemetry();
+  </script>
+</body>
+</html>

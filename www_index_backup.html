@@ -16,21 +16,25 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg-slate:     #080A10;
+      --bg-slate:     #1C1C1E;
       --bg-obsidian:  #040508;
-      --card-bg:      rgba(17, 24, 39, 0.45);
+      --card-bg:      rgba(44, 44, 46, 0.6);
       --card-border:  rgba(255, 255, 255, 0.07);
       --text-white:   #F9FAFB;
-      --text-gray:    #9CA3AF;
+      --text-gray:    #EBEBF5;
       --text-dim:     #6B7280;
       
-      --accent-info:      #00e5ff;
+      --accent-info:      #0A84FF;
       --accent-pour:      #ff6b35;
       --accent-shot:      #00bfff;
       --accent-tap:       #39ff14;
       --accent-ampli:     #bf5fff;
 
-      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-sans: system-ui, -apple-system, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -38,7 +42,11 @@
       background-color: var(--bg-slate);
       background-image: 
         radial-gradient(at 10% 20%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-        radial-gradient(at 90% 80%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
+        radial-gradient(at 90% 80%, rgba(6, 182, 212, 0.08) 0px, transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      background-position: 0 0, 0 0, -1px -1px, -1px -1px;
       min-height: 100vh;
       color: var(--text-white);
       display: flex;
@@ -47,19 +55,45 @@
       position: relative;
     }
 
-    /* Ambient glow elements */
-    .ambient-glow-1 {
-      position: absolute; width: 600px; height: 600px;
-      top: -200px; left: -100px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0) 70%);
-      pointer-events: none; filter: blur(60px);
+    /* Ambient glow elements & Grid Fade */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: radial-gradient(circle at 50% 50%, transparent 20%, var(--bg-slate) 100%);
+      pointer-events: none;
+      z-index: -1;
     }
-    .ambient-glow-2 {
-      position: absolute; width: 500px; height: 500px;
-      bottom: -100px; right: -100px;
-      background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(6, 182, 212, 0) 70%);
-      pointer-events: none; filter: blur(60px);
+
+    
+    
+
+    /* Keyframes for life */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
+    @keyframes floatFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.05); }
+    }
+    
+      50% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.3); }
+    }
+    @keyframes bounceChevron {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+    
+    .animate-in {
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+    .delay-4 { animation-delay: 1.2s; }
 
     /* Header styling */
     header {
@@ -93,14 +127,13 @@
     @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
 
     /* Main Area Grid Layout */
-    main {
-      flex: 1; width: 100%; max-width: 1200px; margin: 0 auto;
+    main { flex: 1; width: 100%; max-width: 1200px; margin: 0 auto; overflow: visible;
       padding: 24px 24px; display: flex; flex-direction: column; gap: 20px;
       z-index: 10; position: relative;
     }
 
     .hero-section {
-      max-width: 600px;
+      max-width: 800px;
     }
     .hero-section h1 {
       font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; line-height: 1.15;
@@ -110,19 +143,132 @@
       color: var(--text-gray); font-size: 1.05rem; line-height: 1.6;
     }
 
+    /* Hero Navigation Container */
+    .hero-nav-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+      width: 100%;
+    }
+    @media (max-width: 640px) {
+      .hero-nav-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-nav-card {
+      background: rgba(17, 24, 39, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: block;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .hero-nav-card:hover {
+      transform: translateY(-2px);
+      background: rgba(17, 24, 39, 0.6);
+    }
+
+    .nav-card-telemetry:hover {
+      border-color: rgba(0, 229, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 229, 255, 0.1);
+    }
+
+    .nav-card-pwa:hover {
+      border-color: rgba(57, 255, 20, 0.3);
+      box-shadow: 0 8px 24px rgba(57, 255, 20, 0.1);
+    }
+
+    .nav-card-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .nav-card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .hero-nav-card:hover .nav-card-icon {
+      background: rgba(255, 255, 255, 0.05);
+      transform: scale(1.05);
+    }
+
+    .nav-card-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-white);
+      transition: color 0.3s ease;
+    }
+
+    .nav-card-telemetry:hover .nav-card-title {
+      color: var(--accent-info);
+    }
+
+    .nav-card-pwa:hover .nav-card-title {
+      color: var(--accent-tap);
+    }
+
+    .nav-card-desc {
+      font-size: 0.8rem;
+      color: var(--text-gray);
+    }
+
+    .nav-card-arrow {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      transition: all 0.3s ease;
+    }
+
+    .nav-card-telemetry:hover .nav-card-arrow {
+      color: var(--accent-info);
+      transform: translateY(2px);
+    }
+
+    .nav-card-pwa:hover .nav-card-arrow {
+      color: var(--accent-tap);
+      transform: translateY(2px);
+    }
+
     .grid-container {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
       gap: 24px;
     }
 
     /* Sleek Glassmorphic Spotlight Card */
     .glow-card {
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px; padding: 28px;
       position: relative; overflow: hidden;
       backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      
       cursor: pointer;
       display: flex; flex-direction: column; gap: 16px;
       transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
@@ -205,7 +351,7 @@
     .dashboard-panel {
       background: rgba(0, 229, 255, 0.03);
       border: 1px solid rgba(0, 229, 255, 0.15);
-    }
+     width: 400px; flex-shrink: 0;}
     .telemetry-row {
       display: flex; align-items: center; justify-content: space-between;
       padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -235,7 +381,7 @@
     
     .dialog-window {
       background: rgba(17, 24, 39, 0.85);
-      border: 1px solid var(--card-border);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 24px; width: 95%; max-width: 1400px; height: 95vh;
       box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
       overflow: hidden; transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -330,27 +476,19 @@
       display: inline-flex; align-items: center; gap: 6px;
       color: #ef4444; font-weight: 700; font-size: 0.75rem; letter-spacing: 1px;
     }
-    .live-dot {
-      width: 8px; height: 8px; border-radius: 50%; background-color: #ef4444;
-      box-shadow: 0 0 8px #ef4444;
-      animation: rapid-pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    @keyframes rapid-pulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 12px #ef4444; }
+    
+    
       50% { opacity: 0.3; box-shadow: 0 0 2px #ef4444; }
     }
     .digital-clock {
-      font-family: monospace; font-size: 1rem; color: var(--accent-info);
+       font-size: 1rem; color: var(--accent-info);
       background: rgba(0, 229, 255, 0.05); padding: 4px 10px; border-radius: 6px;
       border: 1px solid rgba(0, 229, 255, 0.1); margin-top: 8px;
-      display: inline-block; text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+      display: inline-block; 
     }
-    .hud-refreshing {
-      animation: hud-glow 2s ease-in-out infinite alternate;
-    }
-    @keyframes hud-glow {
-      from { border-color: rgba(0, 229, 255, 0.15); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); }
-      to { border-color: rgba(0, 229, 255, 0.5); box-shadow: 0 8px 32px rgba(0, 229, 255, 0.15); }
+    
+    
+      to { border-color: rgba(0, 229, 255, 0.5);  }
     }
 
     /* Footer */
@@ -361,11 +499,33 @@
       z-index: 10; position: relative;
     }
 
-    .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
-    .dashboard-panel { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+    .dashboard-grid { 
+      display: flex; 
+      flex-direction: row; 
+      gap: 32px; 
+      width: 100%; 
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0 40px 20px 40px; 
+      scrollbar-width: none;
+    }
+    .dashboard-grid::-webkit-scrollbar { display: none; }
+    .dashboard-grid::-webkit-scrollbar { display: none; }
+    .dashboard-panel { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px;  width: 400px; flex-shrink: 0;}
     .chart-box { position: relative; width: 100%; height: 250px; }
     .radar-box { position: relative; width: 100%; height: 300px; display: flex; justify-content: center; }
-    @media (max-width: 1024px) { .dashboard-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 1024px) { .dashboard-grid { 
+      display: flex; 
+      flex-direction: row; 
+      gap: 32px; 
+      width: 100%; 
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0 40px 20px 40px; 
+      scrollbar-width: none;
+    }
+    .dashboard-grid::-webkit-scrollbar { display: none; }
+    .dashboard-grid::-webkit-scrollbar { display: none; } }
 
     /* Pollutant progress bars */
     .pollutant-bars {
@@ -453,39 +613,157 @@
       font-weight: 500;
     }
 
+    /* ==================================================== */
+    /* PORTAL 1: THE HYDRAULIC TECTONIC SPLIT               */
+    /* ==================================================== */
+            .portal-stage {
+      position: fixed; inset: 0; width: 100vw; height: 100vh;
+      z-index: 9999;
+      background: #111827; /* Clean outdoor dark slate */
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.8s ease, visibility 0.8s;
+      visibility: visible; opacity: 1;
+    }
+    
+    .portal-stage.hidden-gateway { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .trail-sign-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .trail-sign-path {
+      cursor: pointer;
+      padding: 20px 40px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0.6;
+    }
+
+    .path-text {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 2.5rem;
+      font-weight: 300; /* Thin, elegant, non-corporate */
+      letter-spacing: 1px;
+      color: #ffffff;
+      transition: all 0.4s ease;
+    }
+
+    .trail-sign-path:hover {
+      opacity: 1;
+      transform: translateY(-4px);
+    }
+    
+    .path-left:hover .path-text {
+      color: #eab308; /* Subdued earth yellow */
+    }
+    
+    .path-right:hover .path-text {
+      color: #38bdf8; /* Subdued sky blue */
+    }
+
+    .trail-sign-separator {
+      width: 2px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    @media (min-width: 768px) {
+      .trail-sign-nav {
+        flex-direction: row;
+        gap: 80px;
+      }
+      .trail-sign-separator {
+        width: 1px;
+        height: 120px;
+      }
+    }
+    /* Hidden Sections for transition */
+    .content-section {
+      transition: opacity 0.8s ease;
+      opacity: 0;
+      visibility: hidden;
+      display: none;
+    }
+    
+    .content-section.active {
+      opacity: 1;
+      visibility: visible;
+      display: block;
+    }
+
+    /* Return Button */
+    .return-portal-btn {
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: var(--text-gray);
+      padding: 10px 24px;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .return-portal-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #fff;
+      color: #fff;
+    }
+
   </style>
 </head>
 <body>
 
-  <div class="ambient-glow-1"></div>
-  <div class="ambient-glow-2"></div>
+  
 
-  <!-- HEADER -->
-  <header>
-    <div class="brand">Dondlinger <span>//</span> Digital</div>
-    <div class="status-badge">
-      <div class="status-dot"></div>
-      Operations Active
+  <!-- GATEWAY HERO / SPLIT SCREEN -->
+  <!-- CLEAN TRAIL SIGNAGE GATEWAY -->
+  <div id="portal-split" class="portal-stage">
+    <div class="trail-sign-nav">
+      <div class="trail-sign-path path-left" onclick="revealPath('database')">
+        <span class="path-text">Dondlinger Digital Database</span>
+      </div>
+      
+      <div class="trail-sign-separator"></div>
+      
+      <div class="trail-sign-path path-right" onclick="revealPath('telemetry')">
+        <span class="path-text">Wazeecha-Weather-Walkthrough</span>
+      </div>
     </div>
-  </header>
+  </div>
 
   <!-- MAIN -->
   <main>
-    <section class="hero-section">
-      <h1>Operations & PWA Portal</h1>
-      <p>Real-time environmental telemetry alongside field-tested progressive web applications.</p>
-    </section>
 
     <!-- LIVE TELEMETRY HUD -->
-    <section class="telemetry-section" style="width: 100%; margin-bottom: 32px;">
-      <div class="glow-card dashboard-panel" data-app="sentinel" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; cursor: pointer;">
+    <section id="wazeecha-telemetry" class="telemetry-section content-section" style="width: 100vw; height: 100vh; position: fixed; inset: 0; z-index: 9999; background: var(--bg-slate); margin: 0; padding: 0; display: flex; flex-direction: column; overflow: hidden;">
+    <!-- Pseudo-background for parallax -->
+    <div id="walkthrough-bg" style="position: absolute; inset: -50vw; background-image: radial-gradient(circle at center, #2C2C2E 0%, #1C1C1E 100%); background-size: 200vw 100vh; z-index: -1;"></div>
+
+    <div class="dashboard-grid" style="display: flex; flex-direction: row; align-items: center; width: 100%; height: 100%; overflow-x: auto; overflow-y: hidden; padding: 0 40px; gap: 40px; scrollbar-width: none;">
+        
+        <!-- Trail Marker 1: Portal Return & Summary -->
+        <div style="display: flex; flex-direction: column; gap: 24px; flex-shrink: 0; width: 500px; padding-left: 40px;">
+            <button class="return-portal-btn" onclick="resetActiveGateway()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Return to Portal
+      </button>
+            <div class="glow-card dashboard-panel" data-app="sentinel" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; cursor: pointer;">
         <div class="card-top" style="flex: 1; min-width: 250px;">
           <div class="card-meta">
             <span class="card-number" style="color: var(--accent-info); display: flex; align-items: center; gap: 12px;">
-              // LIVE METRICS
-              <span class="live-dot-wrap"><div class="live-dot"></div> REC</span>
+              // WWW TELEMETRY HUB
+              <span class="live-dot-wrap"> REC</span>
             </span>
-            <span class="card-name" style="font-size: 1.8rem;">Live Field Conditions</span>
+            <span class="card-name" style="font-size: 1.8rem; text-transform: uppercase; letter-spacing: -0.5px;">Wazeecha-Weather-Walkthrough</span>
             <div class="digital-clock" id="live-clock">00:00:00</div>
           </div>
           <div class="card-icon-wrap" style="margin-top: 16px;">
@@ -506,24 +784,23 @@
               <span class="telemetry-value" id="telemetry-aqi" style="font-size: 1.4rem;">Loading...</span>
             </span>
           </div>
-          <span class="card-cta" style="margin-top: 0;">More Telemetry ⟶</span>
+          <span class="card-cta" style="margin-top: 0;">Collapse Telemetry ⟵</span>
         </div>
       </div>
-    
-      <!-- INLINE EXPANDABLE DASHBOARD -->
-      <div id="sentinel-dashboard-container" style="display: none; width: 100%; margin-top: 24px; animation: glowPulse 2s infinite alternate;">
-        <div class="dashboard-grid">
-            
-            <!-- LEFT COLUMN: HYDROLOGY -->
+        </div>
+
+        <!-- Weather Forecast Track (5 Days) -->
+        <div id="weather-forecast-track" style="display: contents;"></div>
+        <!-- LEFT COLUMN: HYDROLOGY -->
             <div class="dashboard-panel">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="telemetry-detail-header" style="border: none; padding: 0;">USGS Hydrology (05400760)</span>
-                <span class="live-dot-wrap" style="color: var(--accent-info); font-size: 0.65rem;"><div class="live-dot" style="background: var(--accent-info);"></div> LIVE</span>
+                <span class="telemetry-detail-header" style="border: none; padding: 0;">Wisconsin River Levels</span>
+                <span class="live-dot-wrap" style="color: var(--accent-info); font-size: 0.65rem;"> LIVE</span>
               </div>
               <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px;">
-                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Discharge</div><div id="metric-cfs" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- CFS</div></div>
-                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Gauge Height</div><div id="metric-gauge" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- ft</div></div>
-                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Velocity</div><div id="metric-vel" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- ft/s</div></div>
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Water Flow</div><div id="metric-cfs" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- CFS</div></div>
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">River Depth</div><div id="metric-gauge" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- ft</div></div>
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Current Speed</div><div id="metric-vel" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- ft/s</div></div>
               </div>
               <div class="chart-box"><canvas id="hydroChart"></canvas></div>
             </div>
@@ -531,7 +808,7 @@
             <!-- RIGHT COLUMN: ATMOSPHERICS -->
             <div class="dashboard-panel">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="telemetry-detail-header" style="border: none; padding: 0;">EPA Air Quality Composition</span>
+                <span class="telemetry-detail-header" style="border: none; padding: 0;">Local Air Quality</span>
                 <div class="telemetry-subval" id="detail-aqi-status" style="margin: 0; border: none; padding: 0;">Status: --</div>
               </div>
               <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px;">
@@ -542,134 +819,134 @@
               <div class="pollutant-bars" id="pollutant-bars"></div>
             </div>
 
-            <!-- FULL WIDTH BOTTOM: FORECAST -->
-            <div class="dashboard-panel" style="grid-column: 1 / -1;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="telemetry-detail-header" style="border: none; padding: 0;">72-Hour Construction Weather Forecast</span>
-              </div>
-              <div class="weather-planner" id="weather-planner"></div>
-            </div>
+
 
           </div>
-        
-      </div>
-    </section>
-
-    <!-- App Grid -->
-    <div class="grid-container">
-      
-      <!-- 00 · DONDLINGER DIGITAL INTRO -->
-      <div class="glow-card" data-app="greeting" data-index="0">
-        <div class="card-top">
-          <div class="card-meta">
-            <span class="card-number">// CATALOG INFO</span>
-            <span class="card-name">Dondlinger Digital</span>
-          </div>
-          <div class="card-icon-wrap">
-            <svg width="24" height="24" viewBox="0 0 38 38" fill="none">
-              <rect width="38" height="38" rx="8" fill="rgba(0,229,255,0.08)"/>
-              <path d="M10 19h18M19 10v18" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="19" cy="19" r="6" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3"/>
-            </svg>
-          </div>
-        </div>
-        <div class="card-body">
-          <p>A curated engineering catalog of field-tested progressive web applications. Each tool is purpose-built, ruthlessly scoped, and deployed for performance at the edge. No bloat. No guesswork. Just precision engineering.</p>
-          <span class="card-cta">Active Catalog ⟶</span>
-        </div>
-      </div>
-
-      <!-- 01 · POURREADY -->
-      <div class="glow-card" data-app="pourready" data-index="1">
-        <div class="card-top">
-          <div class="card-meta">
-            <span class="card-number">// PWA 01</span>
-            <span class="card-name">PourReady</span>
-          </div>
-          <div class="card-icon-wrap">
-            <img src="calc/pourready-logo.png" alt="PourReady logo" />
-          </div>
-        </div>
-        <div class="card-body">
-          <p>A field-tested concrete volume estimator built directly for jobsites. Precise calculations for slabs, footings, walls, and columns.</p>
-          <div class="card-preview">
-            <img src="img/pourready.png" alt="PourReady preview" />
-          </div>
-          <span class="card-cta">View Details ⟶</span>
-        </div>
-      </div>
-
-      <!-- 02 · SHOTSTACK -->
-      <div class="glow-card" data-app="shotstack" data-index="2">
-        <div class="card-top">
-          <div class="card-meta">
-            <span class="card-number">// PWA 02</span>
-            <span class="card-name">ShotStack</span>
-          </div>
-          <div class="card-icon-wrap">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-shot)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
-            </svg>
-          </div>
-        </div>
-        <div class="card-body">
-          <p>A standalone storyboard tool to organize and compile multiple screenshots and layouts into a single scrollable PDF storyboard.</p>
-          <div class="card-preview">
-            <img src="img/shotstackstudio_screenshot.PNG" alt="ShotStack preview" />
-          </div>
-          <span class="card-cta">View Details ⟶</span>
-        </div>
-      </div>
-
-      <!-- 03 · TAP -->
-      <div class="glow-card" data-app="tap" data-index="3">
-        <div class="card-top">
-          <div class="card-meta">
-            <span class="card-number">// PWA 03</span>
-            <span class="card-name">TAP Protocol</span>
-          </div>
-          <div class="card-icon-wrap">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-tap)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="card-body">
-          <p>A minimalist field utility providing instant, authenticated location and timestamp verification directly from the field.</p>
-          <div class="card-preview">
-            <img src="img/TAP_screenshot.PNG" alt="TAP Protocol preview" />
-          </div>
-          <span class="card-cta">View Details ⟶</span>
-        </div>
-      </div>
-
-      <!-- 04 · AMPLILOOP -->
-      <div class="glow-card" data-app="ampliloop" data-index="4">
-        <div class="card-top">
-          <div class="card-meta">
-            <span class="card-number">// PWA 04</span>
-            <span class="card-name">AmpliLoop</span>
-          </div>
-          <div class="card-icon-wrap">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ampli)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 18V5l12-2v13"/>
-              <circle cx="6" cy="18" r="3"/>
-              <circle cx="18" cy="16" r="3"/>
-            </svg>
-          </div>
-        </div>
-        <div class="card-body">
-          <p>Premium Algorithmic Rap Beat Studio, Metronome, and Instrument Tuner PWA engineered with Blazor WebAssembly performance.</p>
-          <div class="card-preview">
-            <img src="img/blazorcore.png" alt="AmpliLoop preview" />
-          </div>
-          <span class="card-cta">View Details ⟶</span>
-        </div>
-      </div>
 
     </div>
+</section>
+
+    <!-- App Grid Section -->
+    <section id="pwa-catalog" class="content-section" style="scroll-margin-top: 100px; width: 100%;">
+      <button class="return-portal-btn" onclick="resetActiveGateway()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Return to Portal
+      </button>
+      <div class="grid-container">
+        
+        <!-- 00 · DONDLINGER DIGITAL INTRO -->
+        <div class="glow-card" data-app="greeting" data-index="0">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// CATALOG INFO</span>
+              <span class="card-name">Dondlinger Digital</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 38 38" fill="none">
+                <rect width="38" height="38" rx="8" fill="rgba(0,229,255,0.08)"/>
+                <path d="M10 19h18M19 10v18" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="19" cy="19" r="6" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A curated engineering catalog of field-tested progressive web applications. Each tool is purpose-built, ruthlessly scoped, and deployed for performance at the edge. No bloat. No guesswork. Just precision engineering.</p>
+            <span class="card-cta">Active Catalog ⟶</span>
+          </div>
+        </div>
+
+        <!-- 01 · POURREADY -->
+        <div class="glow-card" data-app="pourready" data-index="1">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 01</span>
+              <span class="card-name">PourReady</span>
+            </div>
+            <div class="card-icon-wrap">
+              <img src="calc/pourready-logo.png" alt="PourReady logo" />
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A field-tested concrete volume estimator built directly for jobsites. Precise calculations for slabs, footings, walls, and columns.</p>
+            <div class="card-preview">
+              <img src="img/pourready.png" alt="PourReady preview" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 02 · SHOTSTACK -->
+        <div class="glow-card" data-app="shotstack" data-index="2">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 02</span>
+              <span class="card-name">ShotStack</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-shot)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A standalone storyboard tool to organize and compile multiple screenshots and layouts into a single scrollable PDF storyboard.</p>
+            <div class="card-preview">
+              <img src="img/shotstackstudio_screenshot.PNG" alt="ShotStack preview" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 03 · TAP -->
+        <div class="glow-card" data-app="tap" data-index="3">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 03</span>
+              <span class="card-name">TAP Protocol</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-tap)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A minimalist field utility providing instant, authenticated location and timestamp verification directly from the field.</p>
+            <div class="card-preview">
+              <img src="img/TAP_screenshot.PNG" alt="TAP Protocol preview" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 04 · AMPLILOOP -->
+        <div class="glow-card" data-app="ampliloop" data-index="4">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 04</span>
+              <span class="card-name">AmpliLoop</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ampli)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18V5l12-2v13"/>
+                <circle cx="6" cy="18" r="3"/>
+                <circle cx="18" cy="16" r="3"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Premium Algorithmic Rap Beat Studio, Metronome, and Instrument Tuner PWA engineered with Blazor WebAssembly performance.</p>
+            <div class="card-preview">
+              <img src="img/blazorcore.png" alt="AmpliLoop preview" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
   </main>
 
   <!-- FOOTER -->
@@ -704,7 +981,10 @@
 
         <!-- SPECIAL TELEMETRY HUD VIEW -->
         <div id="telemetry-dialog-view" style="display: none; width: 100%;">
-          </div></div><div class="dialog-footer">
+        </div>
+      </div>
+      
+      <div class="dialog-footer">
         <a id="dialog-launch-btn" class="launch-btn" href="#">Launch App</a>
       </div>
     </div>
@@ -713,7 +993,17 @@
   <script>
     'use strict';
 
-    
+    // Declare DOM variables to prevent strict mode ReferenceErrors
+    const overlay = document.getElementById('dialog-overlay');
+    const titleEl = document.getElementById('dialog-title-text');
+    const screenshotContainer = document.getElementById('dialog-screenshot-container');
+    const screenshotEl = document.getElementById('dialog-screenshot');
+    const standardView = document.getElementById('standard-dialog-view');
+    const telemetryView = document.getElementById('telemetry-dialog-view');
+    const launchBtn = document.getElementById('dialog-launch-btn');
+    const descEl = document.getElementById('dialog-desc');
+    const audienceEl = document.getElementById('dialog-audience');
+
     /* App details database */
     const APP_DATA = {
       greeting: {
@@ -794,7 +1084,6 @@
       });
     });
 
-    
     /* Inline Dashboard Toggle */
     const sentinelCard = document.querySelector('[data-app="sentinel"]');
     const sentinelContainer = document.getElementById('sentinel-dashboard-container');
@@ -813,7 +1102,7 @@
     /* Live Telemetry Data Fetch */
     async function fetchTelemetry() {
       const CACHE_DURATION = 4 * 60 * 60 * 1000; // 4 hours
-      // 1. Fetch USGS Hydrology (Flow, Gauge, Velocity for 7 Days)
+      // 1. Fetch USGS Hydrology (Flow, Gauge, Current Speed for 7 Days)
       try {
         const CACHE_KEY = 'usgs_hydro_cache';
         const now = Date.now();
@@ -838,24 +1127,24 @@
         let cfsData=[], gaugeData=[], labels=[];
         hydroData.value.timeSeries.forEach(series => {
           const code = series.variable.variableCode[0].value;
-          const vals = series.values[0].value;
-          if (!vals || vals.length === 0) return;
+          const valuesList = series.values[0].value;
+          if (!valuesList || valuesList.length === 0) return;
           
-          const currentVal = vals[vals.length - 1].value;
+          const currentVal = valuesList[valuesList.length - 1].value;
           
           if (code === '00060') {
             document.getElementById('metric-cfs').textContent = `${parseFloat(currentVal).toLocaleString()} CFS`;
             document.getElementById('telemetry-flow').textContent = `${parseFloat(currentVal).toLocaleString()} CFS`;
-            const step = Math.max(1, Math.floor(vals.length / 40));
-            for(let i=0; i<vals.length; i+=step) {
-              cfsData.push(parseFloat(vals[i].value));
-              const d = new Date(vals[i].dateTime);
+            const step = Math.max(1, Math.floor(valuesList.length / 40));
+            for(let i=0; i<valuesList.length; i+=step) {
+              cfsData.push(parseFloat(valuesList[i].value));
+              const d = new Date(valuesList[i].dateTime);
               labels.push(d.toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric' }));
             }
           } else if (code === '00065') {
             document.getElementById('metric-gauge').textContent = `${parseFloat(currentVal).toFixed(2)} ft`;
-            const step = Math.max(1, Math.floor(vals.length / 40));
-            for(let i=0; i<vals.length; i+=step) gaugeData.push(parseFloat(vals[i].value));
+            const step = Math.max(1, Math.floor(valuesList.length / 40));
+            for(let i=0; i<valuesList.length; i+=step) gaugeData.push(parseFloat(valuesList[i].value));
           } else if (code === '72254') {
             document.getElementById('metric-vel').textContent = `${parseFloat(currentVal).toFixed(2)} ft/s`;
           }
@@ -1023,7 +1312,7 @@
 
       // 3. Fetch Open-Meteo Weather Forecast
       try {
-        const CACHE_KEY = 'weather_cache';
+        const CACHE_KEY = 'weather_cache_v3';
         const now = Date.now();
         const cached = localStorage.getItem(CACHE_KEY);
         let wxData;
@@ -1037,7 +1326,7 @@
         }
         
         if (!wxData) {
-          const wxRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=44.3936&longitude=-89.8173&hourly=temperature_2m,precipitation,wind_gusts_10m&forecast_days=3&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch');
+          const wxRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=44.3936&longitude=-89.8173&hourly=temperature_2m,precipitation,wind_gusts_10m,weather_code&forecast_days=5&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch');
           wxData = await wxRes.json();
           localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: wxData }));
           console.log("Fetched fresh Weather data and updated cache.");
@@ -1052,17 +1341,19 @@
               temps: [],
               precips: [],
               winds: [],
+              codes: [],
               rawTime: t
             };
           }
           days[dateStr].temps.push(h.temperature_2m[index]);
           days[dateStr].precips.push(h.precipitation[index]);
           days[dateStr].winds.push(h.wind_gusts_10m[index]);
+          days[dateStr].codes.push(h.weather_code[index]);
         });
 
-        const plannerContainer = document.getElementById('weather-planner');
-        if (plannerContainer) {
-          plannerContainer.innerHTML = Object.keys(days).slice(0, 3).map(dayKey => {
+        const weatherTrack = document.getElementById('weather-forecast-track');
+        if (weatherTrack) {
+          weatherTrack.innerHTML = Object.keys(days).slice(0, 5).map(dayKey => {
             const dayData = days[dayKey];
             const maxTemp = Math.max(...dayData.temps);
             const minTemp = Math.min(...dayData.temps);
@@ -1072,14 +1363,18 @@
             let statusText = "Good to Go";
             let statusClass = "status-ok";
             
-            if (totalPrecip > 0.50) {
+            const worstCode = Math.max(...dayData.codes.filter(c => c !== null));
+            if (worstCode >= 95) {
+              statusText = "DANGER: Thunderstorms";
+              statusClass = "status-stop";
+            } else if (worstCode >= 61 && worstCode <= 67) {
               statusText = "No Work: Heavy Rain";
               statusClass = "status-stop";
             } else if (maxWind > 25) {
               statusText = "Caution: High Wind";
               statusClass = "status-warn";
-            } else if (totalPrecip > 0.05) {
-              statusText = "Caution: Light Rain";
+            } else if (totalPrecip > 0.05 || (worstCode >= 51 && worstCode <= 55)) {
+              statusText = "Caution: Light Rain/Drizzle";
               statusClass = "status-warn";
             }
 
@@ -1105,31 +1400,34 @@
             }
 
             return `
-              <div class="weather-day-card">
-                <div class="weather-day-title">
-                  <span>${dayKey}</span>
-                  <span class="weather-day-status ${statusClass}">${statusText}</span>
+            <div class="dashboard-panel weather-card" style="min-width: 350px; width: 350px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 8px;">
+                <span class="telemetry-detail-header" style="border: none; padding: 0; font-size: 1.1rem; color: var(--accent-info);">${dayKey}</span>
+              </div>
+              
+              <div style="margin-top: 16px; margin-bottom: 20px;">
+                <span class="weather-day-status ${statusClass}" style="display: inline-block; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px;">${statusText}</span>
+              </div>
+              
+              <div class="weather-metrics-list" style="display: flex; flex-direction: column; gap: 12px;">
+                <div class="weather-metric-item" style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                  <span style="color: var(--text-dim);">Temp Range</span>
+                  <span style="font-weight: 600; color: var(--text-white);">${Math.round(minTemp)}°F - ${Math.round(maxTemp)}°F</span>
                 </div>
-                <div class="weather-metrics-list">
-                  <div class="weather-metric-item">
-                    <span>Temp Range</span>
-                    <span>${minTemp.toFixed(0)}°F - ${maxTemp.toFixed(0)}°F</span>
-                  </div>
-                  <div class="weather-metric-item">
-                    <span>Total Rain</span>
-                    <span>${totalPrecip.toFixed(2)} in</span>
-                  </div>
-                  <div class="weather-metric-item">
-                    <span>Max Wind Gusts</span>
-                    <span>${maxWind.toFixed(0)} mph</span>
-                  </div>
-                  <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
-                    <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
-                    <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">${rainSummary}</span>
-                  </div>
+                <div class="weather-metric-item" style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                  <span style="color: var(--text-dim);">Total Rain</span>
+                  <span style="font-weight: 600; color: var(--text-white);">${totalPrecip.toFixed(2)} in</span>
+                </div>
+                <div class="weather-metric-item" style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                  <span style="color: var(--text-dim);">Max Wind Gusts</span>
+                  <span style="font-weight: 600; color: var(--text-white);">${Math.round(maxWind)} mph</span>
+                </div>
+                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 12px; display: flex;">
+                  <span style="color: var(--text-dim); font-size: 0.8rem;">Precipitation Timing</span>
+                  <span style="font-weight: 500; font-size: 0.85rem; color: var(--accent-info);">${rainSummary}</span>
                 </div>
               </div>
-            `;
+            </div>`;
           }).join('');
         }
       } catch(err) {
@@ -1200,9 +1498,6 @@
         telemetryView.style.display = 'block';
         launchBtn.textContent = 'Close HUD';
         launchBtn.style.backgroundColor = 'var(--accent-info)';
-        
-        // Trigger pollen animation fills
-        
       } else {
         if (info.screenshot) {
           screenshotEl.src = info.screenshot;
@@ -1220,16 +1515,18 @@
       }
 
       launchBtn.href = info.link;
-      
       overlay.classList.add('open');
     }
 
     function closeDialog() {
       overlay.classList.remove('open');
-      // Reset animations
-      document.getElementById('fill-pm10').style.width = '0%';
-      document.getElementById('fill-pm25').style.width = '0%';
-      document.getElementById('fill-uv').style.width = '0%';
+      // Reset animations safely
+      const fillPm10 = document.getElementById('fill-pm10');
+      if (fillPm10) fillPm10.style.width = '0%';
+      const fillPm25 = document.getElementById('fill-pm25');
+      if (fillPm25) fillPm25.style.width = '0%';
+      const fillUv = document.getElementById('fill-uv');
+      if (fillUv) fillUv.style.width = '0%';
     }
 
     cards.forEach(card => {
@@ -1240,9 +1537,9 @@
       });
     });
 
-    const closeBtn = document.querySelector('.close-btn');
+    const closeBtn = document.getElementById('dialog-close');
     if(closeBtn) closeBtn.addEventListener('click', closeDialog);
-    // overlay.addEventListener('click', e => { if (e.target === overlay) closeDialog(); });
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeDialog(); });
     
     // Init Page Details
     document.getElementById('footer-year').textContent = new Date().getFullYear();
@@ -1255,8 +1552,76 @@
         clockEl.textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
       }
     }, 1000);
+    // --- GATEWAY PORTAL MANAGEMENT ---
+    let activePortalId = 'split';
+    
+    function revealPath(path) {
+      const wrap = document.getElementById('split-wrapper');
+      if (path === 'database') {
+        wrap.className = 'theme-split split-triggered-left';
+      } else {
+        wrap.className = 'theme-split split-triggered-right';
+      }
+      
+      // Fade in the transition view after a short delay
+      setTimeout(() => {
+        const portal = document.getElementById('portal-split');
+        portal.classList.add('hidden-gateway');
+        
+        const viewId = path === 'database' ? 'pwa-catalog' : 'wazeecha-telemetry';
+        document.getElementById(viewId).classList.add('active');
+        
+        // Ensure scroll brings the new section into view
+        document.getElementById(viewId).scrollIntoView({ behavior: 'smooth' });
+      }, 600);
+      
+      playMechanicalClick();
+    }
+    
+    function resetActiveGateway() {
+      // Hide content views
+      document.querySelectorAll('.content-section').forEach(v => v.classList.remove('active'));
+      
+      // Reset gateway
+      const portal = document.getElementById('portal-split');
+      portal.classList.remove('hidden-gateway');
+      
+      
+    }
+    
+    function playMechanicalClick() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(140, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.2);
+      } catch(e) {}
+    }
+  
+    const mainContainer = document.querySelector('main');
+    const scrollTrack = document.querySelector('.dashboard-grid');
+    const walkBg = document.getElementById('walkthrough-bg');
+
+    window.addEventListener('wheel', (e) => {
+      const portal = document.getElementById('portal-split');
+      const telemetry = document.getElementById('wazeecha-telemetry');
+      if (portal.classList.contains('hidden-gateway') && telemetry.classList.contains('active')) {
+          e.preventDefault();
+          scrollTrack.scrollLeft += e.deltaY;
+          if (walkBg) {
+              walkBg.style.transform = `translateX(${-scrollTrack.scrollLeft * 0.2}px)`;
+          }
+      }
+    }, { passive: false });
   </script>
+
 </body>
 </html>
-
-

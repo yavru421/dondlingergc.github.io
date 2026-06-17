@@ -95,7 +95,7 @@
     /* Main Area Grid Layout */
     main {
       flex: 1; width: 100%; max-width: 1200px; margin: 0 auto;
-      padding: 24px 24px; display: flex; flex-direction: column; gap: 20px;
+      padding: 40px 24px; display: flex; flex-direction: column; gap: 32px;
       z-index: 10; position: relative;
     }
 
@@ -367,92 +367,6 @@
     .radar-box { position: relative; width: 100%; height: 300px; display: flex; justify-content: center; }
     @media (max-width: 1024px) { .dashboard-grid { grid-template-columns: 1fr; } }
 
-    /* Pollutant progress bars */
-    .pollutant-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
-    }
-    .pollutant-bar-row {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .pollutant-bar-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: var(--text-gray);
-    }
-    .pollutant-bar-label span:last-child {
-      font-weight: 600;
-      color: var(--text-white);
-    }
-    .pollutant-bar-bg {
-      height: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .pollutant-bar-fill {
-      height: 100%;
-      border-radius: 4px;
-      transition: width 1s ease-in-out;
-    }
-
-    /* Construction Weather Planner */
-    .weather-planner {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .weather-day-card {
-      background: rgba(255, 255, 255, 0.01);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      border-radius: 12px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .weather-day-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--accent-info);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      padding-bottom: 6px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .weather-day-status {
-      font-size: 0.75rem;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-weight: 600;
-    }
-    .status-ok { background: rgba(57, 255, 20, 0.1); color: var(--accent-tap); border: 1px solid rgba(57, 255, 20, 0.2); }
-    .status-warn { background: rgba(255, 107, 53, 0.1); color: var(--accent-pour); border: 1px solid rgba(255, 107, 53, 0.2); }
-    .status-stop { background: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.2); }
-    
-    .weather-metrics-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 0.85rem;
-    }
-    .weather-metric-item {
-      display: flex;
-      justify-content: space-between;
-      color: var(--text-gray);
-    }
-    .weather-metric-item span:last-child {
-      color: var(--text-white);
-      font-weight: 500;
-    }
-
   </style>
 </head>
 <body>
@@ -472,8 +386,8 @@
   <!-- MAIN -->
   <main>
     <section class="hero-section">
-      <h1>Operations & PWA Portal</h1>
-      <p>Real-time environmental telemetry alongside field-tested progressive web applications.</p>
+      <h1>Premium PWA Portal</h1>
+      <p>Purpose-built, lightweight progressive web applications designed for immediate execution and offline availability.</p>
     </section>
 
     <!-- LIVE TELEMETRY HUD -->
@@ -506,12 +420,12 @@
               <span class="telemetry-value" id="telemetry-aqi" style="font-size: 1.4rem;">Loading...</span>
             </span>
           </div>
-          <span class="card-cta" style="margin-top: 0;">More Telemetry ⟶</span>
+          <span class="card-cta" style="margin-top: 0;">Collapse Telemetry ⟵</span>
         </div>
       </div>
     
       <!-- INLINE EXPANDABLE DASHBOARD -->
-      <div id="sentinel-dashboard-container" style="display: none; width: 100%; margin-top: 24px; animation: glowPulse 2s infinite alternate;">
+      <div id="sentinel-dashboard-container" style="display: block; width: 100%; margin-top: 24px; animation: glowPulse 2s infinite alternate;">
         <div class="dashboard-grid">
             
             <!-- LEFT COLUMN: HYDROLOGY -->
@@ -539,7 +453,7 @@
                 <div><div style="font-size: 0.75rem; color: var(--text-dim);">Dust</div><div id="metric-dust" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- μg/m³</div></div>
                 <div><div style="font-size: 0.75rem; color: var(--text-dim);">UV Index</div><div id="metric-uv" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">--</div></div>
               </div>
-              <div class="pollutant-bars" id="pollutant-bars"></div>
+              <div class="radar-box"><canvas id="aqiRadarChart"></canvas></div>
             </div>
 
             <!-- FULL WIDTH BOTTOM: FORECAST -->
@@ -547,7 +461,7 @@
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <span class="telemetry-detail-header" style="border: none; padding: 0;">72-Hour Construction Weather Forecast</span>
               </div>
-              <div class="weather-planner" id="weather-planner"></div>
+              <div class="chart-box"><canvas id="weatherChart"></canvas></div>
             </div>
 
           </div>
@@ -812,28 +726,10 @@
 
     /* Live Telemetry Data Fetch */
     async function fetchTelemetry() {
-      const CACHE_DURATION = 4 * 60 * 60 * 1000; // 4 hours
       // 1. Fetch USGS Hydrology (Flow, Gauge, Velocity for 7 Days)
       try {
-        const CACHE_KEY = 'usgs_hydro_cache';
-        const now = Date.now();
-        const cached = localStorage.getItem(CACHE_KEY);
-        let hydroData;
-        
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          if (now - parsed.timestamp < CACHE_DURATION) {
-            hydroData = parsed.data;
-            console.log("Loaded USGS data from 4-hour browser cache.");
-          }
-        }
-        
-        if (!hydroData) {
-          const hydroRes = await fetch('https://waterservices.usgs.gov/nwis/iv/?format=json&sites=05400760&parameterCd=00060,00065&period=P7D');
-          hydroData = await hydroRes.json();
-          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: hydroData }));
-          console.log("Fetched fresh USGS data and updated cache.");
-        }
+        const hydroRes = await fetch('https://waterservices.usgs.gov/nwis/iv/?format=json&sites=05400760&parameterCd=00060,00065&period=P7D');
+        const hydroData = await hydroRes.json();
         
         let cfsData=[], gaugeData=[], labels=[];
         hydroData.value.timeSeries.forEach(series => {
@@ -883,68 +779,12 @@
             plugins: { legend: { labels: { color: '#9CA3AF' } } }
           }
         });
-      } catch (err) {
-        console.error("USGS Fetch error (using fallback):", err);
-        // Fallback
-        document.getElementById('metric-cfs').textContent = `15,700 CFS`;
-        document.getElementById('telemetry-flow').textContent = `15,700 CFS`;
-        document.getElementById('metric-gauge').textContent = `10.42 ft`;
-        document.getElementById('metric-vel').textContent = `1.48 ft/s`;
-
-        const labels = [];
-        const cfsData = [];
-        const gaugeData = [];
-        const baseDate = new Date();
-        for (let i = 0; i < 40; i++) {
-          const d = new Date(baseDate.getTime() - (40 - i) * 60 * 60 * 1000);
-          labels.push(d.toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric' }));
-          cfsData.push(14500 + Math.random() * 2000);
-          gaugeData.push(9.8 + Math.random() * 1.2);
-        }
-        if (window.hydroChartInst) window.hydroChartInst.destroy();
-        window.hydroChartInst = new Chart(document.getElementById('hydroChart').getContext('2d'), {
-          type: 'line',
-          data: {
-            labels: labels,
-            datasets: [
-              { label: 'Flow (CFS)', data: cfsData, borderColor: '#00e5ff', backgroundColor: 'rgba(0, 229, 255, 0.1)', yAxisID: 'y', fill: true, tension: 0.4, pointRadius: 0 },
-              { label: 'Gauge (ft)', data: gaugeData, borderColor: '#a78bfa', yAxisID: 'y1', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }
-            ]
-          },
-          options: {
-            responsive: true, maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
-            scales: {
-              x: { grid: { display: false }, ticks: { color: '#6B7280', maxTicksLimit: 7 } },
-              y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#00e5ff' } },
-              y1: { type: 'linear', display: true, position: 'right', grid: { display: false }, ticks: { color: '#a78bfa' } }
-            },
-            plugins: { legend: { labels: { color: '#9CA3AF' } } }
-          }
-        });
-      }
+      } catch (err) { console.error(err); }
 
       // 2. Fetch Open-Meteo AQI
       try {
-        const CACHE_KEY = 'aqi_cache';
-        const now = Date.now();
-        const cached = localStorage.getItem(CACHE_KEY);
-        let aqiData;
-        
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          if (now - parsed.timestamp < CACHE_DURATION) {
-            aqiData = parsed.data;
-            console.log("Loaded AQI data from 4-hour browser cache.");
-          }
-        }
-        
-        if (!aqiData) {
-          const aqiRes = await fetch('https://air-quality-api.open-meteo.com/v1/air-quality?latitude=44.3936&longitude=-89.8173&current=us_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,dust,uv_index');
-          aqiData = await aqiRes.json();
-          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: aqiData }));
-          console.log("Fetched fresh AQI data and updated cache.");
-        }
+        const aqiRes = await fetch('https://air-quality-api.open-meteo.com/v1/air-quality?latitude=44.3936&longitude=-89.8173&current=us_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,dust,uv_index');
+        const aqiData = await aqiRes.json();
         const c = aqiData.current;
         
         document.getElementById('metric-aqi').textContent = c.us_aqi || 20;
@@ -960,231 +800,56 @@
         statusEl.textContent = `Status: ${status}`; statusEl.style.color = statusColor;
         document.getElementById('metric-aqi').style.color = statusColor;
 
-        const barsContainer = document.getElementById('pollutant-bars');
-        if (barsContainer) {
-          const pollutants = [
-            { label: 'Ozone (O₃)', value: c.ozone || 0, max: 120, unit: 'μg/m³', color: '#00e5ff' },
-            { label: 'PM10 (Dust)', value: c.pm10 || 0, max: 100, unit: 'μg/m³', color: '#ff6b35' },
-            { label: 'PM2.5 (Fine Dust)', value: c.pm2_5 || 0, max: 50, unit: 'μg/m³', color: '#00ff88' },
-            { label: 'Carbon Monoxide (CO)', value: c.carbon_monoxide || 0, max: 1000, unit: 'μg/m³', color: '#bf5fff' },
-            { label: 'Nitrogen Dioxide (NO₂)', value: c.nitrogen_dioxide || 0, max: 200, unit: 'μg/m³', color: '#ffcc00' }
-          ];
-
-          barsContainer.innerHTML = pollutants.map(p => {
-            const pct = Math.min(100, (p.value / p.max) * 100);
-            return `
-              <div class="pollutant-bar-row">
-                <div class="pollutant-bar-label">
-                  <span>${p.label}</span>
-                  <span>${p.value} ${p.unit}</span>
-                </div>
-                <div class="pollutant-bar-bg">
-                  <div class="pollutant-bar-fill" style="width: ${pct}%; background: ${p.color};"></div>
-                </div>
-              </div>
-            `;
-          }).join('');
-        }
-      } catch (err) {
-        console.error("AQI Fetch Error (using fallback):", err);
-        document.getElementById('metric-aqi').textContent = '26';
-        document.getElementById('telemetry-aqi').textContent = '26';
-        document.getElementById('metric-dust').textContent = '1 μg/m³';
-        document.getElementById('metric-uv').textContent = '3.65';
-        document.getElementById('detail-aqi-status').textContent = 'Status: Excellent';
-        document.getElementById('detail-aqi-status').style.color = 'var(--accent-tap)';
-        
-        const barsContainer = document.getElementById('pollutant-bars');
-        if (barsContainer) {
-          barsContainer.innerHTML = `
-            <div class="pollutant-bar-row">
-              <div class="pollutant-bar-label"><span>Ozone (O₃)</span><span>76.0 μg/m³</span></div>
-              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 63%; background: #00e5ff;"></div></div>
-            </div>
-            <div class="pollutant-bar-row">
-              <div class="pollutant-bar-label"><span>PM10 (Dust)</span><span>4.0 μg/m³</span></div>
-              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 4%; background: #ff6b35;"></div></div>
-            </div>
-            <div class="pollutant-bar-row">
-              <div class="pollutant-bar-label"><span>PM2.5 (Fine Dust)</span><span>3.4 μg/m³</span></div>
-              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 7%; background: #00ff88;"></div></div>
-            </div>
-            <div class="pollutant-bar-row">
-              <div class="pollutant-bar-label"><span>Carbon Monoxide (CO)</span><span>110.0 μg/m³</span></div>
-              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 11%; background: #bf5fff;"></div></div>
-            </div>
-            <div class="pollutant-bar-row">
-              <div class="pollutant-bar-label"><span>Nitrogen Dioxide (NO₂)</span><span>1.6 μg/m³</span></div>
-              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 1%; background: #ffcc00;"></div></div>
-            </div>
-          `;
-        }
-      }
+        // AQI Radar Chart
+        if (window.aqiRadarInst) window.aqiRadarInst.destroy();
+        window.aqiRadarInst = new Chart(document.getElementById('aqiRadarChart').getContext('2d'), {
+          type: 'radar',
+          data: {
+            labels: ['PM10', 'PM2.5', 'Ozone', 'NO2', 'SO2', 'CO'],
+            datasets: [{
+              label: 'Concentration (μg/m³)',
+              data: [c.pm10||0, c.pm2_5||0, c.ozone||0, c.nitrogen_dioxide||0, c.sulphur_dioxide||0, c.carbon_monoxide||0],
+              backgroundColor: 'rgba(0, 255, 136, 0.2)', borderColor: '#00ff88', pointBackgroundColor: '#00ff88', borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#9CA3AF' }, ticks: { display: false } } },
+            plugins: { legend: { display: false } }
+          }
+        });
+      } catch (err) { console.error(err); }
 
       // 3. Fetch Open-Meteo Weather Forecast
       try {
-        const CACHE_KEY = 'weather_cache';
-        const now = Date.now();
-        const cached = localStorage.getItem(CACHE_KEY);
-        let wxData;
+        const wxRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=44.3936&longitude=-89.8173&hourly=temperature_2m,precipitation,wind_gusts_10m&forecast_days=3&timezone=America%2FChicago');
+        const wxData = await wxRes.json();
         
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          if (now - parsed.timestamp < CACHE_DURATION) {
-            wxData = parsed.data;
-            console.log("Loaded Weather data from 4-hour browser cache.");
-          }
-        }
-        
-        if (!wxData) {
-          const wxRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=44.3936&longitude=-89.8173&hourly=temperature_2m,precipitation,wind_gusts_10m&forecast_days=3&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch');
-          wxData = await wxRes.json();
-          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: wxData }));
-          console.log("Fetched fresh Weather data and updated cache.");
-        }
         const h = wxData.hourly;
+        const labels = h.time.map(t => new Date(t).toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric' }));
         
-        const days = {};
-        h.time.forEach((t, index) => {
-          const dateStr = new Date(t).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-          if (!days[dateStr]) {
-            days[dateStr] = {
-              temps: [],
-              precips: [],
-              winds: [],
-              rawTime: t
-            };
+        if (window.wxChartInst) window.wxChartInst.destroy();
+        window.wxChartInst = new Chart(document.getElementById('weatherChart').getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              { type: 'line', label: 'Wind Gusts (mph)', data: h.wind_gusts_10m, borderColor: '#ff9900', tension: 0.4, yAxisID: 'y', pointRadius: 0 },
+              { type: 'line', label: 'Temp (°F)', data: h.temperature_2m, borderColor: '#EF4444', borderDash: [5,5], tension: 0.4, yAxisID: 'y', pointRadius: 0 },
+              { type: 'bar', label: 'Precipitation (in)', data: h.precipitation, backgroundColor: 'rgba(0, 229, 255, 0.5)', yAxisID: 'y1' }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#6B7280', maxTicksLimit: 12 } },
+              y: { display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#ff9900' } },
+              y1: { display: true, position: 'right', grid: { display: false }, ticks: { color: '#00e5ff' } }
+            },
+            plugins: { legend: { labels: { color: '#9CA3AF' } } }
           }
-          days[dateStr].temps.push(h.temperature_2m[index]);
-          days[dateStr].precips.push(h.precipitation[index]);
-          days[dateStr].winds.push(h.wind_gusts_10m[index]);
         });
-
-        const plannerContainer = document.getElementById('weather-planner');
-        if (plannerContainer) {
-          plannerContainer.innerHTML = Object.keys(days).slice(0, 3).map(dayKey => {
-            const dayData = days[dayKey];
-            const maxTemp = Math.max(...dayData.temps);
-            const minTemp = Math.min(...dayData.temps);
-            const totalPrecip = dayData.precips.reduce((sum, val) => sum + val, 0);
-            const maxWind = Math.max(...dayData.winds);
-            
-            let statusText = "Good to Go";
-            let statusClass = "status-ok";
-            
-            if (totalPrecip > 0.50) {
-              statusText = "No Work: Heavy Rain";
-              statusClass = "status-stop";
-            } else if (maxWind > 25) {
-              statusText = "Caution: High Wind";
-              statusClass = "status-warn";
-            } else if (totalPrecip > 0.05) {
-              statusText = "Caution: Light Rain";
-              statusClass = "status-warn";
-            }
-
-            let rainHours = [];
-            dayData.precips.forEach((p, idx) => {
-              if (p > 0.01) {
-                const idxTime = new Date(h.time[h.time.indexOf(dayData.rawTime) + idx]);
-                const hourFormatted = idxTime.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
-                rainHours.push(hourFormatted);
-              }
-            });
-            
-            let rainSummary = "No Rain Expected";
-            if (totalPrecip > 0) {
-              const uniqueHours = [...new Set(rainHours)];
-              if (uniqueHours.length > 5) {
-                rainSummary = "Steady Rain throughout day";
-              } else if (uniqueHours.length > 0) {
-                rainSummary = `Rain risk at: ${uniqueHours.slice(0, 3).join(', ')}`;
-              } else {
-                rainSummary = "Light/Trace Rain";
-              }
-            }
-
-            return `
-              <div class="weather-day-card">
-                <div class="weather-day-title">
-                  <span>${dayKey}</span>
-                  <span class="weather-day-status ${statusClass}">${statusText}</span>
-                </div>
-                <div class="weather-metrics-list">
-                  <div class="weather-metric-item">
-                    <span>Temp Range</span>
-                    <span>${minTemp.toFixed(0)}°F - ${maxTemp.toFixed(0)}°F</span>
-                  </div>
-                  <div class="weather-metric-item">
-                    <span>Total Rain</span>
-                    <span>${totalPrecip.toFixed(2)} in</span>
-                  </div>
-                  <div class="weather-metric-item">
-                    <span>Max Wind Gusts</span>
-                    <span>${maxWind.toFixed(0)} mph</span>
-                  </div>
-                  <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
-                    <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
-                    <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">${rainSummary}</span>
-                  </div>
-                </div>
-              </div>
-            `;
-          }).join('');
-        }
-      } catch(err) {
-        console.error("Weather Fetch Error (using fallback):", err);
-        const plannerContainer = document.getElementById('weather-planner');
-        if (plannerContainer) {
-          plannerContainer.innerHTML = `
-            <div class="weather-day-card">
-              <div class="weather-day-title">
-                <span>Wednesday, Jun 17</span>
-                <span class="weather-day-status status-warn">Caution: Light Rain</span>
-              </div>
-              <div class="weather-metrics-list">
-                <div class="weather-metric-item"><span>Temp Range</span><span>62°F - 78°F</span></div>
-                <div class="weather-metric-item"><span>Total Rain</span><span>0.12 in</span></div>
-                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>14 mph</span></div>
-                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
-                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
-                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">Rain risk at: 2:00 PM, 3:00 PM</span>
-                </div>
-              </div>
-            </div>
-            <div class="weather-day-card">
-              <div class="weather-day-title">
-                <span>Thursday, Jun 18</span>
-                <span class="weather-day-status status-ok">Good to Go</span>
-              </div>
-              <div class="weather-metrics-list">
-                <div class="weather-metric-item"><span>Temp Range</span><span>58°F - 82°F</span></div>
-                <div class="weather-metric-item"><span>Total Rain</span><span>0.00 in</span></div>
-                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>10 mph</span></div>
-                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
-                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
-                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">No Rain Expected</span>
-                </div>
-              </div>
-            </div>
-            <div class="weather-day-card">
-              <div class="weather-day-title">
-                <span>Friday, Jun 19</span>
-                <span class="weather-day-status status-stop">No Work: Heavy Rain</span>
-              </div>
-              <div class="weather-metrics-list">
-                <div class="weather-metric-item"><span>Temp Range</span><span>60°F - 72°F</span></div>
-                <div class="weather-metric-item"><span>Total Rain</span><span>0.85 in</span></div>
-                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>22 mph</span></div>
-                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
-                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
-                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">Steady Rain throughout day</span>
-                </div>
-              </div>
-            </div>
-          `;
-        }
-      }
+      } catch(err) { console.error(err); }
     }
 
     function openDialog(key) {
@@ -1247,14 +912,6 @@
     // Init Page Details
     document.getElementById('footer-year').textContent = new Date().getFullYear();
     fetchTelemetry();
-
-    // Init Live Clock
-    setInterval(() => {
-      const clockEl = document.getElementById('live-clock');
-      if (clockEl) {
-        clockEl.textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
-      }
-    }, 1000);
   </script>
 </body>
 </html>
