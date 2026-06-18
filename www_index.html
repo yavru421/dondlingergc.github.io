@@ -1386,6 +1386,7 @@
             const maxTemp = Math.max(...dayData.temps);
             const minTemp = Math.min(...dayData.temps);
             const totalPrecip = dayData.precips.reduce((sum, val) => sum + val, 0);
+            const maxWind = Math.max(...dayData.winds);
             
             const workPrecipTotal = dayData.workPrecips.reduce((sum, val) => sum + val, 0);
             const maxWorkWind = dayData.workWinds.length > 0 ? Math.max(...dayData.workWinds) : 0;
