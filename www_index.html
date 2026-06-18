@@ -1353,13 +1353,17 @@
         
         const days = {};
         h.time.forEach((t, index) => {
-          const dateStr = new Date(t).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+          const dateObj = new Date(t);
+          const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
           if (!days[dateStr]) {
             days[dateStr] = {
               temps: [],
               precips: [],
               winds: [],
               codes: [],
+              workPrecips: [],
+              workWinds: [],
+              workCodes: [],
               rawTime: t
             };
           }
@@ -1367,6 +1371,12 @@
           days[dateStr].precips.push(h.precipitation[index]);
           days[dateStr].winds.push(h.wind_gusts_10m[index]);
           days[dateStr].codes.push(h.weather_code[index]);
+          
+          if (dateObj.getHours() <= 15) {
+            days[dateStr].workPrecips.push(h.precipitation[index]);
+            days[dateStr].workWinds.push(h.wind_gusts_10m[index]);
+            days[dateStr].workCodes.push(h.weather_code[index]);
+          }
         });
 
         const weatherTrack = document.getElementById('weather-forecast-track');
@@ -1376,22 +1386,25 @@
             const maxTemp = Math.max(...dayData.temps);
             const minTemp = Math.min(...dayData.temps);
             const totalPrecip = dayData.precips.reduce((sum, val) => sum + val, 0);
-            const maxWind = Math.max(...dayData.winds);
+            
+            const workPrecipTotal = dayData.workPrecips.reduce((sum, val) => sum + val, 0);
+            const maxWorkWind = dayData.workWinds.length > 0 ? Math.max(...dayData.workWinds) : 0;
+            const validWorkCodes = dayData.workCodes.filter(c => c !== null);
+            const worstWorkCode = validWorkCodes.length > 0 ? Math.max(...validWorkCodes) : 0;
             
             let statusText = "Good to Go";
             let statusClass = "status-ok";
             
-            const worstCode = Math.max(...dayData.codes.filter(c => c !== null));
-            if (worstCode >= 95) {
+            if (worstWorkCode >= 95) {
               statusText = "DANGER: Thunderstorms";
               statusClass = "status-stop";
-            } else if (worstCode >= 61 && worstCode <= 67) {
+            } else if (worstWorkCode >= 61 && worstWorkCode <= 67) {
               statusText = "No Work: Heavy Rain";
               statusClass = "status-stop";
-            } else if (maxWind > 25) {
+            } else if (maxWorkWind > 25) {
               statusText = "Caution: High Wind";
               statusClass = "status-warn";
-            } else if (totalPrecip > 0.05 || (worstCode >= 51 && worstCode <= 55)) {
+            } else if (workPrecipTotal > 0.05 || (worstWorkCode >= 51 && worstWorkCode <= 55)) {
               statusText = "Caution: Light Rain/Drizzle";
               statusClass = "status-warn";
             }
