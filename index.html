@@ -770,7 +770,7 @@
     <!-- Pseudo-background for parallax -->
     <div id="walkthrough-bg" style="position: absolute; inset: -50vw; background-image: radial-gradient(circle at center, #2C2C2E 0%, #1C1C1E 100%); background-size: 200vw 100vh; z-index: -1;"></div>
 
-    <div class="dashboard-grid" style="display: flex; flex-direction: row; align-items: stretch; width: 100%; height: 100%; padding: 40px; gap: 40px; overflow-y: hidden; overflow-x: auto; scrollbar-width: none;">
+    <div class="dashboard-grid" style="display: flex; flex-direction: row; align-items: stretch; width: 100%; height: 100%; padding: 40px; gap: 40px; overflow-y: auto; overflow-x: auto; scrollbar-width: none;">
         
         <!-- Left Column: Controls & Core Hub -->
         <div style="display: flex; flex-direction: column; gap: 24px; min-width: 450px; flex-shrink: 0;">
@@ -1766,7 +1766,7 @@
 
     // --- WAZEECHA WEATHER PUSH NOTIFICATION SYSTEM ---
     const BACKEND_URL = ""; // Empty string forces relative paths natively
-    const vapidPublicKey = "BCPKbThp0d-QD3Ai8Y3eQuY54X4qsneKeJU8m05cbDcpC7Gks7GjXmONPy6e9Xs-NWtffzprS6Muyqvci7wJSPE";
+    const vapidPublicKey = "BMb36GOhjyJJzODjpDxXhmv7PZxyR-e2miXbuOakZESk83z-TgtgobvOXYIWGkgaDTREY9A5XcaXDTBfWQToHOM";
     let swReg = null;
     let isSubscribed = false;
 
@@ -1845,14 +1845,22 @@
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${password}` },
           body: JSON.stringify({ title, message })
         });
-        const data = await res.json();
+        
+        let data;
+        try {
+          data = await res.json();
+        } catch(e) {
+          const text = await res.text();
+          throw new Error(`Server returned non-JSON (${res.status}): ${text.substring(0, 100)}`);
+        }
+
         if (data.success) {
           alert(`Broadcast sent to ${data.count} devices!`);
         } else {
           alert(`Failed: ${data.error}`);
         }
       } catch (err) {
-        alert("Error sending broadcast.");
+        alert("Error sending broadcast: " + err.message);
       }
     }
 

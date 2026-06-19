@@ -1,4 +1,4 @@
-import webpush from 'web-push';
+import { buildPushHTTPRequest } from '@pushforge/builder';
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -8,6 +8,8 @@ export async function onRequestPost(context) {
     const authHeader = request.headers.get('Authorization');
     const token = authHeader ? authHeader.split(' ')[1] : null;
     
+    // We compare with the string version of the JWK or a specific password. 
+    // Wait, the frontend passes `password` which should match the env.VAPID_PRIVATE_KEY
     if (!token || token !== env.VAPID_PRIVATE_KEY) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), { 
         status: 401, 
@@ -26,11 +28,6 @@ export async function onRequestPost(context) {
       });
     }
 
-    // 3. Configure web-push
-    const vapidSubject = env.VAPID_SUBJECT || 'mailto:john@dondlingergc.com';
-    const vapidPublicKey = env.VAPID_PUBLIC_KEY || 'BCPKbThp0d-QD3Ai8Y3eQuY54X4qsneKeJU8m05cbDcpC7Gks7GjXmONPy6e9Xs-NWtffzprS6Muyqvci7wJSPE';
-    
-    // Explicitly check for private key to avoid obscure crashes
     if (!env.VAPID_PRIVATE_KEY) {
        return new Response(JSON.stringify({ error: 'VAPID_PRIVATE_KEY is not configured in Cloudflare Pages' }), { 
         status: 500, 
@@ -38,10 +35,18 @@ export async function onRequestPost(context) {
       });
     }
     
-    webpush.setVapidDetails(vapidSubject, vapidPublicKey, env.VAPID_PRIVATE_KEY);
+    // Parse the JWK stored in the environment variable
+    let privateJWK;
+    try {
+      privateJWK = JSON.parse(env.VAPID_PRIVATE_KEY);
+    } catch(e) {
+      return new Response(JSON.stringify({ error: 'VAPID_PRIVATE_KEY is not a valid JSON string (must be JWK)' }), { 
+        status: 500, 
+        headers: { 'Content-Type': 'application/json' } 
+      });
+    }
 
     // 4. Fetch all active subscriptions from D1
-    // In Pages Functions, env.DB is the bound D1 database
     const { results: subs } = await env.DB.prepare('SELECT endpoint, p256dh, auth FROM subscriptions').all();
     
     if (!subs || subs.length === 0) {
@@ -50,30 +55,40 @@ export async function onRequestPost(context) {
       });
     }
 
-    const payload = JSON.stringify({
-      title: title || 'Admin Broadcast',
-      body: message,
-      data: { url: '/#wazeecha-telemetry', category: 'info', timestamp: Date.now() }
-    });
+    // 5. Dispatch pushes in parallel using @pushforge/builder
+    const sendPromises = subs.map(async (subRow) => {
+      try {
+        const { endpoint, headers, body: reqBody } = await buildPushHTTPRequest({
+          privateJWK,
+          subscription: {
+            endpoint: subRow.endpoint,
+            keys: { p256dh: subRow.p256dh, auth: subRow.auth }
+          },
+          message: {
+            payload: {
+              title: title || 'Admin Broadcast',
+              body: message,
+              data: { url: '/#wazeecha-telemetry', category: 'info', timestamp: Date.now() }
+            },
+            adminContact: env.VAPID_SUBJECT || 'mailto:john@dondlingergc.com'
+          }
+        });
 
-    // 5. Dispatch pushes in parallel
-    const sendPromises = subs.map(subRow => {
-      return webpush.sendNotification({ 
-        endpoint: subRow.endpoint, 
-        keys: { p256dh: subRow.p256dh, auth: subRow.auth } 
-      }, payload)
-      .catch(async (err) => {
-        // Auto-prune dead subscriptions (410 Gone, 404 Not Found)
-        if (err.statusCode === 410 || err.statusCode === 404) {
+        const res = await fetch(endpoint, { method: "POST", headers, body: reqBody });
+        
+        // Auto-prune dead subscriptions
+        if (res.status === 410 || res.status === 404) {
           try {
             await env.DB.prepare('DELETE FROM subscriptions WHERE endpoint = ?').bind(subRow.endpoint).run();
           } catch(e) {}
         }
-      });
+      } catch(err) {
+        // Log individual push failure but don't crash
+        console.error("Push failed for " + subRow.endpoint, err);
+      }
     });
 
     await Promise.all(sendPromises);
-    
     return new Response(JSON.stringify({ success: true, count: subs.length }), { 
       headers: { 'Content-Type': 'application/json' } 
     });
