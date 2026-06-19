@@ -16,8 +16,5 @@
   "bugs": {
     "url": "https://github.com/yavru421/dondlingergc.github.io/issues"
   },
-  "homepage": "https://github.com/yavru421/dondlingergc.github.io#readme",
-  "dependencies": {
-    "@pushforge/builder": "^2.0.5"
-  }
+  "homepage": "https://github.com/yavru421/dondlingergc.github.io#readme"
 }

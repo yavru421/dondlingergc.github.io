@@ -1,27 +1,39 @@
 
 
 self.addEventListener('push', event => {
-    let payload = { title: 'Wazeecha Telemetry', body: 'New weather/river level alert!' };
-    try {
-        if (event.data) {
-            payload = event.data.json();
-        }
-    } catch (e) {
-        if (event.data) {
-            payload.body = event.data.text();
-        }
-    }
-
-    const options = {
-        body: payload.body,
-        icon: 'dondlinger_logo.png',
-        badge: 'dondlinger_logo.png',
-        vibrate: [200, 100, 200],
-        data: payload.data || {}
-    };
-
     event.waitUntil(
-        self.registration.showNotification(payload.title, options)
+        (async () => {
+            let payload = { title: 'Wazeecha Telemetry', body: 'New weather/river level alert!', data: {} };
+            
+            try {
+                if (event.data) {
+                    payload = event.data.json();
+                } else {
+                    const res = await fetch('/latest-notification');
+                    if (res.ok) {
+                        const data = await res.json();
+                        payload.title = data.title || payload.title;
+                        payload.body = data.message || payload.body;
+                    }
+                }
+            } catch (e) {
+                if (event.data) {
+                    payload.body = event.data.text();
+                } else {
+                    console.error('Error fetching latest notification', e);
+                }
+            }
+
+            const options = {
+                body: payload.body,
+                icon: 'dondlinger_logo.png',
+                badge: 'dondlinger_logo.png',
+                vibrate: [200, 100, 200],
+                data: payload.data || {}
+            };
+
+            await self.registration.showNotification(payload.title, options);
+        })()
     );
 });
 
