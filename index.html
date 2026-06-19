@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Dondlinger Digital — Engineering Division. A curated catalog of premium progressive web applications." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="dondlinger_logo.png" />
   <title>Dondlinger Digital — Premium Catalog Preview</title>
   
   <!-- Modern Geometric Sans-Serif Font -->
@@ -837,6 +841,25 @@
               <div class="pollutant-bars" id="pollutant-bars"></div>
             </div>
 
+            <!-- WEATHER ALERTS PANEL (Web Push) -->
+            <div class="dashboard-panel" style="min-width: 320px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <span class="telemetry-detail-header" style="border: none; padding: 0;">Weather Alerts</span>
+                  <span class="live-dot-wrap" style="color: var(--accent-info); font-size: 0.65rem; border-color: var(--accent-info);"> PUSH</span>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 16px; line-height: 1.4;">
+                  Subscribe to push notifications for critical Wisconsin River level alerts, flow warnings, and severe local weather updates.
+                </div>
+              </div>
+              <div id="weather-push-container">
+                <button id="btn-weather-push" onclick="toggleWeatherPush()" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--accent-info); background: transparent; color: var(--text-white); font-family: inherit; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
+                  Checking Status...
+                </button>
+                <div id="weather-push-status" style="margin-top: 10px; font-size: 0.75rem; color: var(--text-dim); text-align: center; word-break: break-all; max-height: 60px; overflow-y: auto;"></div>
+              </div>
+            </div>
+
 
 
           </div>
@@ -1641,6 +1664,112 @@
           }
       }
     }, { passive: false });
+
+    // --- WAZEECHA WEATHER PUSH NOTIFICATION SYSTEM ---
+    const vapidPublicKey = "BDfS8aW_wZ7h2LzJ9sZ2179p1j8uW_x1W4h3lZ9yX_6z1J7p2Q_4h2L3z1J7p8qX_9p2Q_4h2L3z1J7p8qX_9A";
+    let swReg = null;
+    let isSubscribed = false;
+
+    function urlBase64ToUint8Array(base64String) {
+      const padding = '='.repeat((4 - base64String.length % 4) % 4);
+      const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+      const rawData = window.atob(base64);
+      const outputArray = new Uint8Array(rawData.length);
+      for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+      }
+      return outputArray;
+    }
+
+    async function initWeatherPush() {
+      const btn = document.getElementById('btn-weather-push');
+      const status = document.getElementById('weather-push-status');
+      
+      if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Notifications Unsupported";
+          btn.style.borderColor = "var(--accent-pour)";
+        }
+        if (status) {
+          status.innerHTML = "💡 iOS setup: Add to Home Screen (Share -> Add to Home Screen) and open as standalone PWA.";
+        }
+        return;
+      }
+
+      try {
+        swReg = await navigator.serviceWorker.register('sw.js');
+        const subscription = await swReg.pushManager.getSubscription();
+        isSubscribed = !!subscription;
+        updateWeatherPushUI(subscription);
+      } catch (err) {
+        console.error("Failed to init weather push SW:", err);
+        if (btn) btn.textContent = "Error Loading Service Worker";
+      }
+    }
+
+    function updateWeatherPushUI(subscription) {
+      const btn = document.getElementById('btn-weather-push');
+      const status = document.getElementById('weather-push-status');
+      
+      if (!btn) return;
+
+      if (subscription) {
+        isSubscribed = true;
+        btn.textContent = "Disable Alerts";
+        btn.style.background = "var(--accent-info)";
+        btn.style.color = "var(--bg-obsidian)";
+        if (status) {
+          status.innerHTML = `<span style="color: var(--accent-tap);">✓ Subscribed!</span><br><span style="font-size:0.65rem; color:#888; cursor:pointer;" onclick="navigator.clipboard.writeText('${JSON.stringify(subscription)}')">Click to copy subscription token</span>`;
+        }
+      } else {
+        isSubscribed = false;
+        btn.textContent = "Enable Weather Alerts";
+        btn.style.background = "transparent";
+        btn.style.color = "var(--text-white)";
+        if (status) status.textContent = "Not subscribed";
+      }
+    }
+
+    async function toggleWeatherPush() {
+      const btn = document.getElementById('btn-weather-push');
+      const status = document.getElementById('weather-push-status');
+      if (!swReg) return;
+
+      if (isSubscribed) {
+        const subscription = await swReg.pushManager.getSubscription();
+        if (subscription) {
+          await subscription.unsubscribe();
+          updateWeatherPushUI(null);
+        }
+      } else {
+        if (btn) btn.textContent = "Requesting permission...";
+        
+        try {
+          const permission = await Notification.requestPermission();
+          if (permission !== 'granted') {
+            if (status) status.textContent = "Permission denied.";
+            if (btn) btn.textContent = "Enable Weather Alerts";
+            return;
+          }
+
+          const convertedKey = urlBase64ToUint8Array(vapidPublicKey);
+          const subscription = await swReg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: convertedKey
+          });
+          
+          updateWeatherPushUI(subscription);
+        } catch (err) {
+          console.error("Subscription failed:", err);
+          if (status) status.textContent = "Subscription failed: " + err.message;
+          if (btn) btn.textContent = "Enable Weather Alerts";
+        }
+      }
+    }
+
+    // Initialize check on load
+    window.addEventListener('DOMContentLoaded', initWeatherPush);
   </script>
 
 </body>
