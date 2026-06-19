@@ -2,9 +2,19 @@ export async function onRequestPost(context) {
   const { request, env } = context;
 
   try {
+    const contentLength = request.headers.get('Content-Length');
+    if (contentLength && parseInt(contentLength, 10) > 2048) {
+      return new Response(JSON.stringify({ error: 'Payload too large' }), { status: 413, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    const text = await request.text();
+    if (new TextEncoder().encode(text).length > 2048) {
+      return new Response(JSON.stringify({ error: 'Payload too large' }), { status: 413, headers: { 'Content-Type': 'application/json' } });
+    }
+
     let body;
     try {
-      body = await request.json();
+      body = JSON.parse(text);
     } catch (e) {
       return new Response(JSON.stringify({ error: 'Invalid JSON payload' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
@@ -15,6 +25,28 @@ export async function onRequestPost(context) {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
+    }
+
+    let endpointUrl;
+    try {
+      endpointUrl = new URL(endpoint);
+    } catch (e) {
+      return new Response(JSON.stringify({ error: 'Invalid endpoint URL' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    const allowedHosts = [
+      'googleapis.com',
+      'mozilla.com',
+      'apple.com',
+      'windows.net'
+    ];
+
+    const isValidHost = allowedHosts.some(host => {
+      return endpointUrl.hostname === host || endpointUrl.hostname.endsWith('.' + host);
+    });
+
+    if (!isValidHost) {
+      return new Response(JSON.stringify({ error: 'Unsupported push service provider' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
 
     const preferences_river = preferences.river ? 1 : 0;

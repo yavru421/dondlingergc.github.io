@@ -44,7 +44,7 @@ export async function onRequestPost(context) {
     const authHeader = request.headers.get('Authorization');
     const token = authHeader ? authHeader.split(' ')[1] : null;
     
-    if (!token || token !== env.VAPID_PRIVATE_KEY) {
+    if (!token || token !== env.API_SECRET) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
     }
 
@@ -66,8 +66,7 @@ export async function onRequestPost(context) {
       return new Response(JSON.stringify({ error: 'VAPID_PRIVATE_KEY is not a valid JSON string (must be JWK)' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
     }
 
-    // Ensure notifications table exists and insert the new notification
-    await env.DB.prepare('CREATE TABLE IF NOT EXISTS notifications (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, message TEXT, timestamp INTEGER)').run();
+    // Insert the new notification
     await env.DB.prepare('INSERT INTO notifications (title, message, timestamp) VALUES (?, ?, ?)').bind(title || 'Admin Broadcast', message, Date.now()).run();
 
     const { results: subs } = await env.DB.prepare('SELECT endpoint FROM subscriptions').all();

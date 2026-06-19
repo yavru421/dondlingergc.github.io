@@ -1203,6 +1203,16 @@
   <script>
     'use strict';
 
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     // Declare DOM variables to prevent strict mode ReferenceErrors
     const overlay = document.getElementById('dialog-overlay');
     const titleEl = document.getElementById('dialog-title-text');
@@ -1474,11 +1484,11 @@
             return `
               <div class="pollutant-bar-row">
                 <div class="pollutant-bar-label">
-                  <span>${p.label}</span>
-                  <span>${p.value} ${p.unit}</span>
+                  <span>${escapeHtml(p.label)}</span>
+                  <span>${escapeHtml(p.value)} ${escapeHtml(p.unit)}</span>
                 </div>
                 <div class="pollutant-bar-bg">
-                  <div class="pollutant-bar-fill" style="width: ${pct}%; background: ${p.color};"></div>
+                  <div class="pollutant-bar-fill" style="width: ${pct}%; background: ${escapeHtml(p.color)};"></div>
                 </div>
               </div>
             `;
@@ -1626,11 +1636,11 @@
             return `
             <div class="dashboard-panel weather-card" style="min-width: 350px; width: 350px;">
               <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 8px;">
-                <span class="telemetry-detail-header" style="border: none; padding: 0; font-size: 1.1rem; color: var(--accent-info);">${dayKey}</span>
+                <span class="telemetry-detail-header" style="border: none; padding: 0; font-size: 1.1rem; color: var(--accent-info);">${escapeHtml(dayKey)}</span>
               </div>
               
               <div style="margin-top: 16px; margin-bottom: 20px;">
-                <span class="weather-day-status ${statusClass}" style="display: inline-block; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px;">${statusText}</span>
+                <span class="weather-day-status ${escapeHtml(statusClass)}" style="display: inline-block; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px;">${escapeHtml(statusText)}</span>
               </div>
               
               <div class="weather-metrics-list" style="display: flex; flex-direction: column; gap: 12px;">
@@ -1648,7 +1658,7 @@
                 </div>
                 <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 12px; display: flex;">
                   <span style="color: var(--text-dim); font-size: 0.8rem;">Precipitation Timing</span>
-                  <span style="font-weight: 500; font-size: 0.85rem; color: var(--accent-info);">${rainSummary}</span>
+                  <span style="font-weight: 500; font-size: 0.85rem; color: var(--accent-info);">${escapeHtml(rainSummary)}</span>
                 </div>
               </div>
             </div>`;
@@ -1890,7 +1900,13 @@
         btn.style.background = "var(--accent-info)";
         btn.style.color = "var(--bg-obsidian)";
         if (status) {
-          status.innerHTML = `<span style="color: var(--accent-tap);">✓ Subscribed!</span><br><span style="font-size:0.65rem; color:#888; cursor:pointer;" onclick="navigator.clipboard.writeText('${JSON.stringify(subscription)}')">Click to copy subscription token</span>`;
+          status.innerHTML = `<span style="color: var(--accent-tap);">✓ Subscribed!</span><br><span id="copy-token-trigger" style="font-size:0.65rem; color:#888; cursor:pointer;">Click to copy subscription token</span>`;
+          const trigger = document.getElementById('copy-token-trigger');
+          if (trigger) {
+            trigger.addEventListener('click', () => {
+              navigator.clipboard.writeText(JSON.stringify(subscription));
+            });
+          }
         }
       } else {
         isSubscribed = false;
@@ -1902,7 +1918,7 @@
     }
 
     async function sendAdminBroadcast() {
-      const password = prompt("Enter VAPID_PRIVATE_KEY for Admin Access:");
+      const password = prompt("Enter API_SECRET for Admin Access:");
       if (!password) return;
       const title = prompt("Enter Broadcast Title:", "System Alert");
       if (!title) return;

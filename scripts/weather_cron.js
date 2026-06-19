@@ -34,10 +34,10 @@ function writeCooldowns(data) {
 
 async function sendBroadcast(title, message) {
     const siteUrl = process.env.SITE_URL;
-    const vapidKey = process.env.VAPID_PRIVATE_KEY;
+    const apiSecret = process.env.API_SECRET;
 
-    if (!siteUrl || !vapidKey) {
-        console.error("Missing SITE_URL or VAPID_PRIVATE_KEY environment variables.");
+    if (!siteUrl || !apiSecret) {
+        console.error("Missing SITE_URL or API_SECRET environment variables.");
         process.exit(1);
     }
 
@@ -49,7 +49,7 @@ async function sendBroadcast(title, message) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${vapidKey}`,
+                'Authorization': `Bearer ${apiSecret}`,
                 'Content-Length': Buffer.byteLength(payload)
             }
         }, (res) => {
