@@ -28,7 +28,7 @@
       --text-gray:    #EBEBF5;
       --text-dim:     #6B7280;
       
-      --accent-info:      #0A84FF;
+      --accent-info: #39FF14;
       --accent-pour:      #ff6b35;
       --accent-shot:      #00bfff;
       --accent-tap:       #39ff14;
@@ -82,7 +82,7 @@
       50% { transform: translateY(-20px) scale(1.05); }
     }
     
-      50% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(57, 255, 20, 0.3); }
     }
     @keyframes bounceChevron {
       0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
@@ -181,8 +181,8 @@
     }
 
     .nav-card-telemetry:hover {
-      border-color: rgba(0, 229, 255, 0.3);
-      box-shadow: 0 8px 24px rgba(0, 229, 255, 0.1);
+      border-color: rgba(57, 255, 20, 0.3);
+      box-shadow: 0 8px 24px rgba(57, 255, 20, 0.1);
     }
 
     .nav-card-pwa:hover {
@@ -353,8 +353,8 @@
 
     /* Live Dashboard Telemetry card styling */
     .dashboard-panel {
-      background: rgba(0, 229, 255, 0.03);
-      border: 1px solid rgba(0, 229, 255, 0.15);
+      background: rgba(57, 255, 20, 0.03);
+      border: 1px solid rgba(57, 255, 20, 0.15);
      width: 400px; flex-shrink: 0;}
     .telemetry-row {
       display: flex; align-items: center; justify-content: space-between;
@@ -486,13 +486,13 @@
     }
     .digital-clock {
        font-size: 1rem; color: var(--accent-info);
-      background: rgba(0, 229, 255, 0.05); padding: 4px 10px; border-radius: 6px;
-      border: 1px solid rgba(0, 229, 255, 0.1); margin-top: 8px;
+      background: rgba(57, 255, 20, 0.05); padding: 4px 10px; border-radius: 6px;
+      border: 1px solid rgba(57, 255, 20, 0.1); margin-top: 8px;
       display: inline-block; 
     }
     
     
-      to { border-color: rgba(0, 229, 255, 0.5);  }
+      to { border-color: rgba(57, 255, 20, 0.5);  }
     }
 
     /* Footer */
@@ -770,117 +770,197 @@
     <!-- Pseudo-background for parallax -->
     <div id="walkthrough-bg" style="position: absolute; inset: -50vw; background-image: radial-gradient(circle at center, #2C2C2E 0%, #1C1C1E 100%); background-size: 200vw 100vh; z-index: -1;"></div>
 
-    <div class="dashboard-grid" style="display: flex; flex-direction: row; align-items: center; width: 100%; height: 100%; overflow-x: auto; overflow-y: hidden; padding: 0 40px; gap: 40px; scrollbar-width: none;">
+    <div class="dashboard-grid" style="display: grid; grid-template-columns: 450px 1fr 1fr; grid-template-rows: auto auto; width: 100%; height: 100%; padding: 40px; gap: 24px; overflow-y: auto; overflow-x: hidden;">
         
-        <!-- Trail Marker 1: Portal Return & Summary -->
-        <div style="display: flex; flex-direction: column; gap: 24px; flex-shrink: 0; width: 500px; padding-left: 40px;">
-            <button class="return-portal-btn" onclick="resetActiveGateway()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-        Return to Portal
-      </button>
-            <div class="glow-card dashboard-panel" data-app="sentinel" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; cursor: pointer;">
-        <div class="card-top" style="flex: 1; min-width: 250px;">
-          <div class="card-meta">
-            <span class="card-number" style="color: var(--accent-info); display: flex; align-items: center; gap: 12px;">
-              // WWW TELEMETRY HUB
-              <span class="live-dot-wrap"> REC</span>
-            </span>
-            <span class="card-name" style="font-size: 1.8rem; text-transform: uppercase; letter-spacing: -0.5px;">Wazeecha-Weather-Walkthrough</span>
-            <div class="digital-clock" id="live-clock">00:00:00</div>
-          </div>
-          <div class="card-icon-wrap" style="margin-top: 16px;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-info)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
-            </svg>
-          </div>
-        </div>
-        <div class="card-body" style="flex: 2; flex-direction: row; justify-content: flex-end; align-items: center; gap: 32px; min-width: 300px;">
-          <div class="telemetry-row" style="border: none; padding: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
-            <span class="telemetry-label">Wisconsin River Flow (USGS)</span>
-            <span class="telemetry-value" id="telemetry-flow" style="font-size: 1.4rem; color: var(--accent-info);">Loading...</span>
-          </div>
-          <div class="telemetry-row" style="border: none; padding: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
-            <span class="telemetry-label">Regional Air Quality Index</span>
-            <span class="aqi-container">
-              <div class="aqi-indicator" id="aqi-indicator"></div>
-              <span class="telemetry-value" id="telemetry-aqi" style="font-size: 1.4rem;">Loading...</span>
-            </span>
-          </div>
-          <span class="card-cta" style="margin-top: 0;">Collapse Telemetry ⟵</span>
-        </div>
-      </div>
-            <!-- WEATHER ALERTS PANEL (Web Push) -->
-            <div class="dashboard-panel" style="min-width: 320px; display: flex; flex-direction: column; justify-content: space-between;">
-              <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                  <span class="telemetry-detail-header" style="border: none; padding: 0;">Weather Alerts</span>
-                  <span class="live-dot-wrap" style="color: var(--accent-info); font-size: 0.65rem; border-color: var(--accent-info);"> PUSH</span>
+        <!-- Left Column: Controls & Core Hub -->
+        <div style="display: flex; flex-direction: column; gap: 24px; grid-row: 1 / span 2;">
+            <button class="return-portal-btn" onclick="resetActiveGateway()" style="align-self: flex-start; background: rgba(57, 255, 20, 0.05); border: 1px solid rgba(57, 255, 20, 0.3); color: var(--accent-info); box-shadow: 0 0 15px rgba(57, 255, 20,0.05); padding: 12px 24px; border-radius: 8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Return to Portal
+            </button>
+
+            <!-- MAIN HUB CARD -->
+            <div class="glow-card dashboard-panel" data-app="sentinel" style="position: relative; border-radius: 12px; background: linear-gradient(145deg, rgba(15,20,30,0.9), rgba(5,10,15,0.95)); border: 1px solid rgba(57, 255, 20,0.3); box-shadow: inset 0 0 20px rgba(57, 255, 20,0.05), 0 10px 30px rgba(0,0,0,0.5); width: 100%; padding: 30px; cursor: default;">
+                <!-- Decorative Corners -->
+                <div style="position: absolute; top: 8px; left: 8px; width: 6px; height: 6px; border-top: 2px solid var(--accent-info); border-left: 2px solid var(--accent-info);"></div>
+                <div style="position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; border-top: 2px solid var(--accent-info); border-right: 2px solid var(--accent-info);"></div>
+                <div style="position: absolute; bottom: 8px; left: 8px; width: 6px; height: 6px; border-bottom: 2px solid var(--accent-info); border-left: 2px solid var(--accent-info);"></div>
+                <div style="position: absolute; bottom: 8px; right: 8px; width: 6px; height: 6px; border-bottom: 2px solid var(--accent-info); border-right: 2px solid var(--accent-info);"></div>
+                
+                <div class="card-meta" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+                    <div>
+                        <span class="card-number" style="color: var(--accent-info); font-family: monospace; letter-spacing: 2px; font-size: 0.85rem;">// WWW TELEMETRY HUB</span>
+                        <h2 class="card-name" style="font-size: 1.5rem; font-weight: 800; text-transform: uppercase; margin-top: 8px; letter-spacing: 1px; text-shadow: 0 0 15px rgba(57, 255, 20,0.2);">Wazeecha Walkthrough</h2>
+                    </div>
+                    <div class="live-dot-wrap" style="background: rgba(239, 68, 68, 0.1); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(239, 68, 68, 0.3); letter-spacing: 1.5px;">
+                        <div class="status-dot" style="background: #ef4444; box-shadow: 0 0 8px #ef4444;"></div> REC
+                    </div>
                 </div>
-                <div style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 16px; line-height: 1.4;">
-                  Subscribe to push notifications for critical Wisconsin River level alerts, flow warnings, and severe local weather updates.
+
+                <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.5); padding: 16px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 24px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-info)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px;">System Clock</span>
+                            <div class="digital-clock" id="live-clock" style="font-family: monospace; font-size: 1.6rem; font-weight: 700; color: #fff; background: transparent; border: none; padding: 0; margin: 0; cursor: crosshair; letter-spacing: 2px;">00:00:00</div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div id="weather-push-container">
-                <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
-                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
-                    <input type="checkbox" id="pref-river-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
-                    <span>River Flow Alerts</span>
-                  </label>
-                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
-                    <input type="checkbox" id="pref-aqi-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
-                    <span>Air Quality Alerts</span>
-                  </label>
-                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
-                    <input type="checkbox" id="pref-weather-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
-                    <span>Weather Advisories</span>
-                  </label>
+
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 12px 16px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                        <span class="telemetry-label" style="text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; color: var(--text-gray);">WI River Flow</span>
+                        <span class="telemetry-value" id="telemetry-flow" style="font-size: 1.2rem; color: var(--accent-info); font-family: monospace; font-weight: 700;">Loading...</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 12px 16px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                        <span class="telemetry-label" style="text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; color: var(--text-gray);">Regional AQI</span>
+                        <div class="aqi-container" style="display: flex; align-items: center; gap: 10px;">
+                            <div class="aqi-indicator" id="aqi-indicator" style="width: 10px; height: 10px;"></div>
+                            <span class="telemetry-value" id="telemetry-aqi" style="font-size: 1.2rem; font-family: monospace; font-weight: 700;">Loading...</span>
+                        </div>
+                    </div>
                 </div>
-                <button id="btn-weather-push" onclick="toggleWeatherPush()" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--accent-info); background: transparent; color: var(--text-white); font-family: inherit; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
-                  Checking Status...
-                </button>
-                <div id="weather-push-status" style="margin-top: 10px; font-size: 0.75rem; color: var(--text-dim); text-align: center; word-break: break-all; max-height: 60px; overflow-y: auto;"></div>
-                <div style="text-align: right; margin-top: 8px;">
-                  <span style="font-size: 0.65rem; color: var(--bg-slate); cursor: pointer;" onclick="sendAdminBroadcast()">Admin Broadcast</span>
-                </div>
-              </div>
             </div>
+
+            <!-- WEATHER ALERTS PANEL -->
+            <div class="dashboard-panel" style="background: rgba(15,20,30,0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; width: 100%; position: relative; overflow: hidden; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); backdrop-filter: blur(12px);">
+                <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent-info); box-shadow: 0 0 10px var(--accent-info);"></div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 style="font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #fff;">Alert Terminal</h3>
+                    <span class="live-dot-wrap" style="color: var(--accent-info); border: 1px solid rgba(57, 255, 20,0.3); padding: 4px 8px; border-radius: 4px; font-size: 0.65rem; background: rgba(57, 255, 20,0.05);">PUSH SECURE</span>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-gray); margin-bottom: 24px; line-height: 1.6;">Subscribe to encrypted push notifications for critical river level anomalies, flow warnings, and severe atmospheric shifts.</p>
+                
+                <div id="weather-push-container" style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);">
+                    <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
+                        <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; transition: opacity 0.2s; opacity: 0.9;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
+                            <input type="checkbox" id="pref-river-alerts" checked style="accent-color: var(--accent-info); width: 18px; height: 18px; cursor: pointer;">
+                            <span style="font-size: 0.9rem; color: #EBEBF5; font-weight: 500;">Hydrology Alerts</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; transition: opacity 0.2s; opacity: 0.9;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
+                            <input type="checkbox" id="pref-aqi-alerts" checked style="accent-color: var(--accent-info); width: 18px; height: 18px; cursor: pointer;">
+                            <span style="font-size: 0.9rem; color: #EBEBF5; font-weight: 500;">Air Quality Degradation</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; transition: opacity 0.2s; opacity: 0.9;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
+                            <input type="checkbox" id="pref-weather-alerts" checked style="accent-color: var(--accent-info); width: 18px; height: 18px; cursor: pointer;">
+                            <span style="font-size: 0.9rem; color: #EBEBF5; font-weight: 500;">Severe Weather Protocols</span>
+                        </label>
+                    </div>
+                    <button id="btn-weather-push" onclick="toggleWeatherPush()" style="width: 100%; padding: 14px; border-radius: 6px; border: 1px solid rgba(57, 255, 20,0.5); background: rgba(57, 255, 20,0.1); color: var(--accent-info); font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(57, 255, 20,0.1);">
+                        Initialize Uplink
+                    </button>
+                    <div id="weather-push-status" style="margin-top: 14px; font-size: 0.8rem; color: var(--accent-info); text-align: center; font-family: monospace; text-transform: uppercase; letter-spacing: 0.5px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middle Column: Hydrology -->
+        <div class="dashboard-panel" style="grid-row: 1 / span 2; width: 100%; display: flex; flex-direction: column; background: rgba(15,20,30,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); backdrop-filter: blur(12px);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px;">
+                <h3 style="font-size: 1.3rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; display: flex; align-items: center; gap: 12px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-info)" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                    Hydrology Core
+                </h3>
+                <span class="live-dot-wrap" style="background: rgba(57, 255, 20,0.1); color: var(--accent-info); padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(57, 255, 20,0.3); font-size: 0.7rem; letter-spacing: 1px;">USGS LIVE</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+                <div style="background: rgba(0,0,0,0.4); padding: 20px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);">
+                    <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Water Flow</div>
+                    <div id="metric-cfs" style="font-family: monospace; font-weight: 700; color: var(--accent-info); font-size: 1.5rem; text-shadow: 0 0 15px rgba(57, 255, 20,0.3);">-- CFS</div>
+                </div>
+                <div style="background: rgba(0,0,0,0.4); padding: 20px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);">
+                    <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">River Depth</div>
+                    <div id="metric-gauge" style="font-family: monospace; font-weight: 700; color: #a78bfa; font-size: 1.5rem; text-shadow: 0 0 15px rgba(167,139,250,0.3);">-- ft</div>
+                </div>
+                <div style="background: rgba(0,0,0,0.4); padding: 20px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);">
+                    <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Velocity</div>
+                    <div id="metric-vel" style="font-family: monospace; font-weight: 700; color: #34d399; font-size: 1.5rem; text-shadow: 0 0 15px rgba(52,211,153,0.3);">-- ft/s</div>
+                </div>
+            </div>
+
+            <div class="chart-box" style="flex-grow: 1; min-height: 400px; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 0 20px rgba(0,0,0,0.5);"><canvas id="hydroChart"></canvas></div>
+        </div>
+
+        <!-- Right Column: Atmospherics -->
+        <div class="dashboard-panel" style="grid-row: 1; width: 100%; display: flex; flex-direction: column; background: rgba(15,20,30,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); backdrop-filter: blur(12px);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px;">
+                <h3 style="font-size: 1.3rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; display: flex; align-items: center; gap: 12px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-tap)" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    Atmospherics
+                </h3>
+                <div class="telemetry-subval" id="detail-aqi-status" style="margin: 0; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; background: rgba(0,0,0,0.4); padding: 4px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);">STATUS: --</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+                <div style="background: rgba(0,0,0,0.4); padding: 20px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); text-align: center; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);">
+                    <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">US AQI</div>
+                    <div id="metric-aqi" style="font-family: monospace; font-weight: 800; color: var(--accent-tap); font-size: 2rem; text-shadow: 0 0 20px rgba(57,255,20,0.4); line-height: 1;">--</div>
+                </div>
+                <div style="background: rgba(0,0,0,0.4); padding: 20px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); text-align: center; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Dust Density</div>
+                    <div id="metric-dust" style="font-family: monospace; font-weight: 700; color: #fff; font-size: 1.3rem;">-- μg/m³</div>
+                </div>
+                <div style="background: rgba(0,0,0,0.4); padding: 20px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); text-align: center; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">UV Index</div>
+                    <div id="metric-uv" style="font-family: monospace; font-weight: 700; color: #facc15; font-size: 1.6rem; text-shadow: 0 0 15px rgba(250,204,21,0.3);">--</div>
+                </div>
+            </div>
+
+            <div class="pollutant-bars" id="pollutant-bars" style="background: rgba(0,0,0,0.3); padding: 24px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); flex-grow: 1; box-shadow: inset 0 0 20px rgba(0,0,0,0.4);"></div>
         </div>
 
         <!-- Weather Forecast Track (5 Days) -->
-        <div id="weather-forecast-track" style="display: contents;"></div>
-        <!-- LEFT COLUMN: HYDROLOGY -->
-            <div class="dashboard-panel">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="telemetry-detail-header" style="border: none; padding: 0;">Wisconsin River Levels</span>
-                <span class="live-dot-wrap" style="color: var(--accent-info); font-size: 0.65rem;"> LIVE</span>
-              </div>
-              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px;">
-                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Water Flow</div><div id="metric-cfs" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- CFS</div></div>
-                <div><div style="font-size: 0.75rem; color: var(--text-dim);">River Depth</div><div id="metric-gauge" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- ft</div></div>
-                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Current Speed</div><div id="metric-vel" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- ft/s</div></div>
-              </div>
-              <div class="chart-box"><canvas id="hydroChart"></canvas></div>
-            </div>
+        <div style="grid-row: 2; grid-column: 3; display: flex; flex-direction: column; gap: 16px; background: rgba(15,20,30,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); backdrop-filter: blur(12px); min-height: 250px;">
+            <h3 style="font-size: 1.3rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                Atmospheric Forecast
+            </h3>
+            <div id="weather-forecast-track" style="display: contents;"></div>
+        </div>
 
-            <!-- RIGHT COLUMN: ATMOSPHERICS -->
-            <div class="dashboard-panel">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="telemetry-detail-header" style="border: none; padding: 0;">Local Air Quality</span>
-                <div class="telemetry-subval" id="detail-aqi-status" style="margin: 0; border: none; padding: 0;">Status: --</div>
-              </div>
-              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px;">
-                <div><div style="font-size: 0.75rem; color: var(--text-dim);">US AQI</div><div id="metric-aqi" style="font-weight: 700; color: var(--accent-tap); font-size: 1.2rem;">--</div></div>
-                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Dust</div><div id="metric-dust" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- μg/m³</div></div>
-                <div><div style="font-size: 0.75rem; color: var(--text-dim);">UV Index</div><div id="metric-uv" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">--</div></div>
-              </div>
-              <div class="pollutant-bars" id="pollutant-bars"></div>
-            </div>
+    </div>
 
-
-
-
-
-          </div>
+    <!-- 3x Click Admin Broadcast Trigger -->
+    <script>
+      (function() {
+        let clickCount = 0;
+        let clickTimer = null;
+        
+        const attachTrigger = () => {
+            const clockEl = document.getElementById('live-clock');
+            if (clockEl) {
+                clockEl.addEventListener('click', () => {
+                    clickCount++;
+                    if (clickCount === 1) {
+                        clickTimer = setTimeout(() => {
+                            clickCount = 0;
+                        }, 1500);
+                    }
+                    if (clickCount >= 3) {
+                        clearTimeout(clickTimer);
+                        clickCount = 0;
+                        if (typeof sendAdminBroadcast === 'function') {
+                            sendAdminBroadcast();
+                        } else {
+                            console.warn('sendAdminBroadcast is not defined');
+                        }
+                    }
+                });
+            } else {
+                setTimeout(attachTrigger, 500); // Retry if not found yet
+            }
+        };
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', attachTrigger);
+        } else {
+            attachTrigger();
+        }
+      })();
+    </script>
 
     </div>
 </section>
@@ -902,7 +982,7 @@
             </div>
             <div class="card-icon-wrap">
               <svg width="24" height="24" viewBox="0 0 38 38" fill="none">
-                <rect width="38" height="38" rx="8" fill="rgba(0,229,255,0.08)"/>
+                <rect width="38" height="38" rx="8" fill="rgba(57, 255, 20,0.08)"/>
                 <path d="M10 19h18M19 10v18" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round"/>
                 <circle cx="19" cy="19" r="6" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3"/>
               </svg>
@@ -1216,7 +1296,7 @@
           data: {
             labels: labels,
             datasets: [
-              { label: 'Flow (CFS)', data: cfsData, borderColor: '#00e5ff', backgroundColor: 'rgba(0, 229, 255, 0.1)', yAxisID: 'y', fill: true, tension: 0.4, pointRadius: 0 },
+              { label: 'Flow (CFS)', data: cfsData, borderColor: '#00e5ff', backgroundColor: 'rgba(57, 255, 20, 0.1)', yAxisID: 'y', fill: true, tension: 0.4, pointRadius: 0 },
               { label: 'Gauge (ft)', data: gaugeData, borderColor: '#a78bfa', yAxisID: 'y1', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }
             ]
           },
@@ -1255,7 +1335,7 @@
           data: {
             labels: labels,
             datasets: [
-              { label: 'Flow (CFS)', data: cfsData, borderColor: '#00e5ff', backgroundColor: 'rgba(0, 229, 255, 0.1)', yAxisID: 'y', fill: true, tension: 0.4, pointRadius: 0 },
+              { label: 'Flow (CFS)', data: cfsData, borderColor: '#00e5ff', backgroundColor: 'rgba(57, 255, 20, 0.1)', yAxisID: 'y', fill: true, tension: 0.4, pointRadius: 0 },
               { label: 'Gauge (ft)', data: gaugeData, borderColor: '#a78bfa', yAxisID: 'y1', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }
             ]
           },
