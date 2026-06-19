@@ -853,6 +853,20 @@
                 </div>
               </div>
               <div id="weather-push-container">
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
+                    <input type="checkbox" id="pref-river-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
+                    <span>River Flow Alerts</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
+                    <input type="checkbox" id="pref-aqi-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
+                    <span>Air Quality Alerts</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
+                    <input type="checkbox" id="pref-weather-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
+                    <span>Weather Advisories</span>
+                  </label>
+                </div>
                 <button id="btn-weather-push" onclick="toggleWeatherPush()" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--accent-info); background: transparent; color: var(--text-white); font-family: inherit; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
                   Checking Status...
                 </button>
@@ -1666,7 +1680,8 @@
     }, { passive: false });
 
     // --- WAZEECHA WEATHER PUSH NOTIFICATION SYSTEM ---
-    const vapidPublicKey = "BCuplhxITlY401c4obXUjfIfKmHzAgbtD2x9QTFcgD90p3XgsfBkCwrL1Do4oTBe1cyKS78aKK9p01zVW4n9SIU";
+    const BACKEND_URL = "https://wazeecha-telemetry-dispatcher.dondlingergc.workers.dev";
+    const vapidPublicKey = "BCPKbThp0d-QD3Ai8Y3eQuY54X4qsneKeJU8m05cbDcpC7Gks7GjXmONPy6e9Xs-NWtffzprS6Muyqvci7wJSPE";
     let swReg = null;
     let isSubscribed = false;
 
@@ -1739,6 +1754,16 @@
       if (isSubscribed) {
         const subscription = await swReg.pushManager.getSubscription();
         if (subscription) {
+          if (status) status.textContent = "Unsubscribing from server...";
+          try {
+            await fetch(`${BACKEND_URL}/unsubscribe`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(subscription)
+            });
+          } catch (e) {
+            console.warn("Failed to notify backend of unsubscription:", e);
+          }
           await subscription.unsubscribe();
           updateWeatherPushUI(null);
         }
@@ -1759,6 +1784,26 @@
             applicationServerKey: convertedKey
           });
           
+          if (status) status.textContent = "Registering with alert server...";
+          try {
+            const subJson = subscription.toJSON();
+            const payload = {
+              ...subJson,
+              preferences: {
+                river: document.getElementById('pref-river-alerts').checked,
+                aqi: document.getElementById('pref-aqi-alerts').checked,
+                weather: document.getElementById('pref-weather-alerts').checked
+              }
+            };
+            await fetch(`${BACKEND_URL}/subscribe`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+          } catch (e) {
+            console.warn("Failed to register subscription with backend:", e);
+          }
+
           updateWeatherPushUI(subscription);
         } catch (err) {
           console.error("Subscription failed:", err);
@@ -1768,8 +1813,20 @@
       }
     }
 
+    function checkDeepLink() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const hash = window.location.hash;
+      if (urlParams.get('view') === 'telemetry' || hash === '#wazeecha-telemetry') {
+        revealPath('telemetry');
+      }
+    }
+
     // Initialize check on load
-    window.addEventListener('DOMContentLoaded', initWeatherPush);
+    window.addEventListener('DOMContentLoaded', () => {
+      initWeatherPush();
+      checkDeepLink();
+    });
+    window.addEventListener('hashchange', checkDeepLink);
   </script>
 
 </body>
