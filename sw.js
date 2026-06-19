@@ -1,6 +1,4 @@
-self.addEventListener('fetch', event => {
-    // Let browser request resources naturally
-});
+
 
 self.addEventListener('push', event => {
     let payload = { title: 'Wazeecha Telemetry', body: 'New weather/river level alert!' };
