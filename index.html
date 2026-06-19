@@ -1311,10 +1311,10 @@
 
     /* Live Telemetry Data Fetch */
     async function fetchTelemetry() {
-      const CACHE_DURATION = 4 * 60 * 60 * 1000; // 4 hours
+      const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
       // 1. Fetch USGS Hydrology (Flow, Gauge, Current Speed for 7 Days)
       try {
-        const CACHE_KEY = 'usgs_hydro_cache';
+        const CACHE_KEY = 'usgs_hydro_cache_v2';
         const now = Date.now();
         const cached = localStorage.getItem(CACHE_KEY);
         let hydroData;
@@ -1425,7 +1425,7 @@
 
       // 2. Fetch Open-Meteo AQI
       try {
-        const CACHE_KEY = 'aqi_cache';
+        const CACHE_KEY = 'aqi_cache_v3';
         const now = Date.now();
         const cached = localStorage.getItem(CACHE_KEY);
         let aqiData;
@@ -1522,7 +1522,7 @@
 
       // 3. Fetch Open-Meteo Weather Forecast
       try {
-        const CACHE_KEY = 'weather_cache_v3';
+        const CACHE_KEY = 'weather_cache_v4';
         const now = Date.now();
         const cached = localStorage.getItem(CACHE_KEY);
         let wxData;
@@ -1564,7 +1564,7 @@
           days[dateStr].winds.push(h.wind_gusts_10m[index]);
           days[dateStr].codes.push(h.weather_code[index]);
           
-          if (dateObj.getHours() <= 15) {
+          if (dateObj.getHours() <= 18) {
             days[dateStr].workPrecips.push(h.precipitation[index]);
             days[dateStr].workWinds.push(h.wind_gusts_10m[index]);
             days[dateStr].workCodes.push(h.weather_code[index]);
