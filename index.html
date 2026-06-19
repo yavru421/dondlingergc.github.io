@@ -809,6 +809,41 @@
           <span class="card-cta" style="margin-top: 0;">Collapse Telemetry ⟵</span>
         </div>
       </div>
+            <!-- WEATHER ALERTS PANEL (Web Push) -->
+            <div class="dashboard-panel" style="min-width: 320px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <span class="telemetry-detail-header" style="border: none; padding: 0;">Weather Alerts</span>
+                  <span class="live-dot-wrap" style="color: var(--accent-info); font-size: 0.65rem; border-color: var(--accent-info);"> PUSH</span>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 16px; line-height: 1.4;">
+                  Subscribe to push notifications for critical Wisconsin River level alerts, flow warnings, and severe local weather updates.
+                </div>
+              </div>
+              <div id="weather-push-container">
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
+                    <input type="checkbox" id="pref-river-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
+                    <span>River Flow Alerts</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
+                    <input type="checkbox" id="pref-aqi-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
+                    <span>Air Quality Alerts</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
+                    <input type="checkbox" id="pref-weather-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
+                    <span>Weather Advisories</span>
+                  </label>
+                </div>
+                <button id="btn-weather-push" onclick="toggleWeatherPush()" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--accent-info); background: transparent; color: var(--text-white); font-family: inherit; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
+                  Checking Status...
+                </button>
+                <div id="weather-push-status" style="margin-top: 10px; font-size: 0.75rem; color: var(--text-dim); text-align: center; word-break: break-all; max-height: 60px; overflow-y: auto;"></div>
+                <div style="text-align: right; margin-top: 8px;">
+                  <span style="font-size: 0.65rem; color: var(--bg-slate); cursor: pointer;" onclick="sendAdminBroadcast()">Admin Broadcast</span>
+                </div>
+              </div>
+            </div>
         </div>
 
         <!-- Weather Forecast Track (5 Days) -->
@@ -841,38 +876,7 @@
               <div class="pollutant-bars" id="pollutant-bars"></div>
             </div>
 
-            <!-- WEATHER ALERTS PANEL (Web Push) -->
-            <div class="dashboard-panel" style="min-width: 320px; display: flex; flex-direction: column; justify-content: space-between;">
-              <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                  <span class="telemetry-detail-header" style="border: none; padding: 0;">Weather Alerts</span>
-                  <span class="live-dot-wrap" style="color: var(--accent-info); font-size: 0.65rem; border-color: var(--accent-info);"> PUSH</span>
-                </div>
-                <div style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 16px; line-height: 1.4;">
-                  Subscribe to push notifications for critical Wisconsin River level alerts, flow warnings, and severe local weather updates.
-                </div>
-              </div>
-              <div id="weather-push-container">
-                <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
-                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
-                    <input type="checkbox" id="pref-river-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
-                    <span>River Flow Alerts</span>
-                  </label>
-                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
-                    <input type="checkbox" id="pref-aqi-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
-                    <span>Air Quality Alerts</span>
-                  </label>
-                  <label style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-gray); cursor: pointer; user-select: none;">
-                    <input type="checkbox" id="pref-weather-alerts" checked style="accent-color: var(--accent-info); cursor: pointer; width: 16px; height: 16px; border-radius: 4px;">
-                    <span>Weather Advisories</span>
-                  </label>
-                </div>
-                <button id="btn-weather-push" onclick="toggleWeatherPush()" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--accent-info); background: transparent; color: var(--text-white); font-family: inherit; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
-                  Checking Status...
-                </button>
-                <div id="weather-push-status" style="margin-top: 10px; font-size: 0.75rem; color: var(--text-dim); text-align: center; word-break: break-all; max-height: 60px; overflow-y: auto;"></div>
-              </div>
-            </div>
+
 
 
 
@@ -1743,6 +1747,31 @@
         btn.style.background = "transparent";
         btn.style.color = "var(--text-white)";
         if (status) status.textContent = "Not subscribed";
+      }
+    }
+
+    async function sendAdminBroadcast() {
+      const password = prompt("Enter VAPID_PRIVATE_KEY for Admin Access:");
+      if (!password) return;
+      const title = prompt("Enter Broadcast Title:", "System Alert");
+      if (!title) return;
+      const message = prompt("Enter Broadcast Message:");
+      if (!message) return;
+      
+      try {
+        const res = await fetch(`${BACKEND_URL}/broadcast`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${password}` },
+          body: JSON.stringify({ title, message })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert(`Broadcast sent to ${data.count} devices!`);
+        } else {
+          alert(`Failed: ${data.error}`);
+        }
+      } catch (err) {
+        alert("Error sending broadcast.");
       }
     }
 

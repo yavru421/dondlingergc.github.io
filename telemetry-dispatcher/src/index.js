@@ -105,6 +105,54 @@ export default {
         });
       }
 
+      if (url.pathname === '/broadcast' && request.method === 'POST') {
+        const authHeader = request.headers.get('Authorization');
+        if (authHeader !== `Bearer ${env.VAPID_PRIVATE_KEY}`) {
+          return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+        }
+        
+        let body;
+        try {
+          body = await request.json();
+        } catch (e) {
+          return new Response(JSON.stringify({ error: 'Invalid JSON payload' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+        }
+
+        const { title, message } = body;
+        if (!message) {
+          return new Response(JSON.stringify({ error: 'Message required' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+        }
+
+        const vapidSubject = env.VAPID_SUBJECT || 'mailto:john@dondlingergc.com';
+        const vapidPublicKey = env.VAPID_PUBLIC_KEY || 'BCPKbThp0d-QD3Ai8Y3eQuY54X4qsneKeJU8m05cbDcpC7Gks7GjXmONPy6e9Xs-NWtffzprS6Muyqvci7wJSPE';
+        webpush.setVapidDetails(vapidSubject, vapidPublicKey, env.VAPID_PRIVATE_KEY);
+
+        const { results: subs } = await env.DB.prepare('SELECT endpoint, p256dh, auth FROM subscriptions').all();
+        if (!subs || subs.length === 0) {
+          return new Response(JSON.stringify({ success: true, count: 0, message: 'No subscribers found' }), { headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+        }
+
+        const payload = JSON.stringify({
+          title: title || 'Admin Broadcast',
+          body: message,
+          data: { url: '/#wazeecha-telemetry', category: 'info', timestamp: Date.now() }
+        });
+
+        const sendPromises = subs.map(subRow => {
+          return webpush.sendNotification({ endpoint: subRow.endpoint, keys: { p256dh: subRow.p256dh, auth: subRow.auth } }, payload)
+            .catch(async (err) => {
+              if (err.statusCode === 410 || err.statusCode === 404) {
+                try {
+                  await env.DB.prepare('DELETE FROM subscriptions WHERE endpoint = ?').bind(subRow.endpoint).run();
+                } catch(e) {}
+              }
+            });
+        });
+
+        await Promise.all(sendPromises);
+        return new Response(JSON.stringify({ success: true, count: subs.length }), { headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+      }
+
       return new Response('Not Found', { status: 404, headers: corsHeaders });
     } catch (err) {
       return new Response(JSON.stringify({ error: err.message }), {
