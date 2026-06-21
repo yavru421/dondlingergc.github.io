@@ -31,5 +31,5 @@ jobs:
       - name: Check Weather and Broadcast
         run: node scripts/weather_cron.js
         env:
-          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          API_SECRET: ${{ secrets.API_SECRET }}
           SITE_URL: ${{ secrets.SITE_URL }}
