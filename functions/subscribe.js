@@ -38,7 +38,8 @@ export async function onRequestPost(context) {
       'googleapis.com',
       'mozilla.com',
       'apple.com',
-      'windows.net'
+      'windows.net',
+      'windows.com'
     ];
 
     const isValidHost = allowedHosts.some(host => {
