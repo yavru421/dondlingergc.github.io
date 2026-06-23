@@ -4,6 +4,9 @@ const https = require('https');
 // Open-Meteo URL for Lake Wazeecha
 const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast?latitude=44.3936&longitude=-89.8173&current=temperature_2m,precipitation,weather_code,wind_gusts_10m&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code&timezone=America%2FChicago&wind_speed_unit=mph&precipitation_unit=inch&temperature_unit=fahrenheit';
 
+// USGS URL for Wisconsin River (Site 05400760)
+const USGS_URL = 'https://waterservices.usgs.gov/nwis/iv/?format=json&sites=05400760&parameterCd=00060,00065&siteStatus=all';
+
 const STATE_FILE = 'cooldown.json';
 
 // Helper to convert WMO Weather Codes to descriptive text
@@ -34,6 +37,23 @@ async function fetchWeather() {
         }).on('error', reject);
     });
 }
+
+async function fetchUSGS() {
+    return new Promise((resolve, reject) => {
+        https.get(USGS_URL, (res) => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => {
+                try {
+                    resolve(JSON.parse(data));
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        }).on('error', reject);
+    });
+}
+
 
 function readState() {
     if (fs.existsSync(STATE_FILE)) {
@@ -108,6 +128,9 @@ async function main() {
         console.log("Fetching weather data from Open-Meteo...");
         const data = await fetchWeather();
         
+        console.log("Fetching river data from USGS...");
+        const usgsData = await fetchUSGS();
+
         const current = data.current;
         const daily = data.daily;
         
@@ -244,6 +267,49 @@ async function main() {
                     state.last_alert_time[alertType] = now;
                 }
             }
+        }
+
+        // 7. RIVER DATA ALERTS (USGS)
+        try {
+            if (usgsData && usgsData.value && usgsData.value.timeSeries) {
+                const timeSeries = usgsData.value.timeSeries;
+                let currentDischarge = null;
+                let currentGauge = null;
+
+                for (const ts of timeSeries) {
+                    const variableCode = ts.variable.variableCode[0].value;
+                    const values = ts.values[0].value;
+                    if (values && values.length > 0) {
+                        const latestValue = parseFloat(values[values.length - 1].value);
+                        if (variableCode === '00060') currentDischarge = latestValue;
+                        if (variableCode === '00065') currentGauge = latestValue;
+                    }
+                }
+
+                console.log(`USGS River Data - Discharge: ${currentDischarge} cfs, Gauge Height: ${currentGauge} ft`);
+
+                if (currentDischarge !== null) {
+                    // Alert if discharge > 10,000 cfs
+                    if (currentDischarge > 10000 && state.last_high_discharge_alert !== todayDate) {
+                        const title = "River Alert: High Discharge";
+                        const message = `Wisconsin River discharge is critically high at ${currentDischarge} cfs.`;
+                        const success = await trySendBroadcast(title, message);
+                        if (success) state.last_high_discharge_alert = todayDate;
+                    }
+                }
+
+                if (currentGauge !== null) {
+                    // Alert if gauge height > 15 ft
+                    if (currentGauge > 15 && state.last_high_gauge_alert !== todayDate) {
+                        const title = "River Alert: High Gauge";
+                        const message = `Wisconsin River gauge height is critically high at ${currentGauge} ft.`;
+                        const success = await trySendBroadcast(title, message);
+                        if (success) state.last_high_gauge_alert = todayDate;
+                    }
+                }
+            }
+        } catch (usgsErr) {
+            console.error("Error evaluating USGS data:", usgsErr);
         }
 
         // Write state back to JSON file

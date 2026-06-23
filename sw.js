@@ -6,8 +6,13 @@ self.addEventListener('push', event => {
             let payload = { title: 'Wazeecha Telemetry', body: 'New weather/river level alert!', data: {} };
             
             try {
-                if (event.data) {
-                    payload = event.data.json();
+                const textData = event.data ? event.data.text() : "";
+                if (textData) {
+                    try {
+                        payload = JSON.parse(textData);
+                    } catch (e) {
+                        payload.body = textData;
+                    }
                 } else {
                     const res = await fetch('/latest-notification');
                     if (res.ok) {
@@ -17,11 +22,7 @@ self.addEventListener('push', event => {
                     }
                 }
             } catch (e) {
-                if (event.data) {
-                    payload.body = event.data.text();
-                } else {
-                    console.error('Error fetching latest notification', e);
-                }
+                console.error('Error fetching latest notification', e);
             }
 
             const options = {
