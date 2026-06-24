@@ -1,44 +1,38 @@
-# Dondlinger GC Website Setup
+# dondlingergc.com
 
-## Prerequisites
-- Node.js and npm installed
-- Cloudflare account with domain dondlingergc.com
+This repo is now centered on one thing: the **Jobsite Calculator** PWA.
 
-## Install Wrangler
-Since npm install failed due to build issues, download Wrangler manually:
+## Product
 
-1. Go to https://github.com/cloudflare/wrangler/releases/latest
-2. Download `wrangler-v3.28.1-x86_64-pc-windows-msvc.zip` (or latest version)
-3. Extract to a folder, e.g., `C:\wrangler`
-4. Add `C:\wrangler` to your PATH environment variable
+- Primary app route: `/calc/`
+- Goal: installable on **iPhone Safari** and usable offline
+- Stack: static site + published Blazor WebAssembly assets
 
-Alternatively, if npm works: `npm install -g wrangler`
+## Current structure
 
-## Setup
-1. Authenticate: `wrangler auth login`
-2. Create D1 database: `wrangler d1 create dondlingergc_db`
-3. Copy the database_id from the output
-4. Update `wrangler.toml` with the actual database_id
-5. Create the table: `wrangler d1 execute dondlingergc_db --file=schema.sql`
-6. Deploy: `wrangler pages deploy .`
+- [index.html](C:/Users/John/Desktop/dondlingergc.com/index.html): minimal landing page that points people to `/calc/`
+- [calc/index.html](C:/Users/John/Desktop/dondlingergc.com/calc/index.html): real calculator entrypoint
+- [calc/service-worker.js](C:/Users/John/Desktop/dondlingergc.com/calc/service-worker.js): PWA offline worker scoped to `/calc/`
+- [calc/manifest.webmanifest](C:/Users/John/Desktop/dondlingergc.com/calc/manifest.webmanifest): install metadata for phone/home-screen install
+- [calc/_framework](C:/Users/John/Desktop/dondlingergc.com/calc/_framework): Blazor WebAssembly runtime assets
 
-## Features Added
-- 3D Architectural Preview with Three.js
-- Contact form with D1 storage
-- Blueprints gallery with PDFs and images
-- Glassmorphism UI
-- View Transitions API
+## iPhone install flow
 
-## Subdomains Setup
-To create dedicated subdomains:
+1. Open `https://dondlingergc.com/calc/` in Safari.
+2. Tap `Share`.
+3. Tap `Add to Home Screen`.
+4. Launch the installed app from the home screen.
 
-1. In Cloudflare Dashboard > Pages > Your Project > Custom Domains
-2. Add `blueprints.dondlingergc.com` and `portal.dondlingergc.com`
-3. Update `functions/index.js` to route based on hostname
-4. For blueprints subdomain, serve the gallery
-5. For portal, serve client portal with authentication
+## Deployment notes
 
-## Next Steps
-- Seed blueprints data into D1
-- Add authentication for portal
-- Implement dynamic project gallery
+- Deploy the `calc/` directory exactly as published.
+- Do not rewrite `/calc/*` requests to the main site.
+- Keep `service-worker.js`, `service-worker-assets.js`, `manifest.webmanifest`, and `index.html` fresh after deploy.
+- Purge Cloudflare cache after changing calculator assets.
+
+## Cloudflare requirements
+
+- Exclude `/calc/*` from challenge/bot features while stabilizing the PWA.
+- Disable Rocket Loader and similar HTML/script rewriting on `/calc/*`.
+- Ensure missing files under `/calc/*` do not fall back to HTML.
+- If a static asset under `/calc/*` returns `text/html`, the deployment is still wrong.

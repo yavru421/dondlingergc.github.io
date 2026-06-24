@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>llama-api-client (mobile)</title>
+    <meta name="theme-color" content="#0b0f14" />
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --panel: #0f1620;
+            --panel2: #0c121a;
+            --text: #e7eef7;
+            --muted: #9fb2c6;
+            --line: #1b2a3a;
+            --ok: #4dd4ac;
+            --warn: #ffcc66;
+            --bad: #ff6b6b;
+            --btn: #142235;
+            --btn2: #102030;
+            --accent: #7aa7ff;
+            --radius: 16px;
+            --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans)
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none
+        }
+
+        .wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 14px 14px 86px
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(11, 15, 20, .92);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .topbar .inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 12px 14px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            gap: 2px
+        }
+
+        .brand b {
+            font-size: 14px;
+            letter-spacing: .2px
+        }
+
+        .brand span {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .pill {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+            border: 1px solid var(--line);
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(15, 22, 32, .7)
+        }
+
+        .grid {
+            display: grid;
+            gap: 12px
+        }
+
+        @media (min-width:760px) {
+            .grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        .card {
+            background: linear-gradient(180deg, var(--panel), var(--panel2));
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+        }
+
+        .card .hd {
+            padding: 12px 12px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .card .hd b {
+            font-size: 13px
+        }
+
+        .card .bd {
+            padding: 12px
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            margin: 10px 0 6px
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid var(--line);
+            background: #0a1119;
+            color: var(--text);
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+            font-family: var(--mono);
+            font-size: 12px;
+            line-height: 1.4
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .row3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px
+        }
+
+        .btnrow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px
+        }
+
+        button {
+            appearance: none;
+            border: 1px solid var(--line);
+            background: linear-gradient(180deg, var(--btn), var(--btn2));
+            color: var(--text);
+            padding: 10px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        button.secondary {
+            background: transparent
+        }
+
+        button:active {
+            transform: translateY(1px)
+        }
+
+        button[disabled] {
+            opacity: .5;
+            cursor: not-allowed
+        }
+
+        .status {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--muted)
+        }
+
+        .dot.ok {
+            background: var(--ok)
+        }
+
+        .dot.bad {
+            background: var(--bad)
+        }
+
+        .dot.warn {
+            background: var(--warn)
+        }
+
+        .out {
+            font-family: var(--mono);
+            font-size: 12px;
+            line-height: 1.55;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 220px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: #070c12;
+        }
+
+        .mini {
+            font-size: 11px;
+            color: var(--muted)
+        }
+
+        .footerbar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 30;
+            background: rgba(11, 15, 20, .92);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--line);
+            padding: 10px 12px;
+        }
+
+        .footerbar .inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            gap: 10px
+        }
+
+        .footerbar button {
+            flex: 1
+        }
+
+        .hint {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 8px
+        }
+
+        .k {
+            color: var(--accent)
+        }
+
+        .sep {
+            height: 1px;
+            background: var(--line);
+            margin: 10px 0
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <div class="inner">
+            <div class="brand">
+                <b>llama-api-client</b>
+                <span>mobile-first UI · SSE streaming · image_url supported</span>
+            </div>
+            <div class="pill" id="pill">idle</div>
+        </div>
+    </div>
+
+    <div class="wrap">
+        <div class="grid">
+            <!-- LEFT: CONFIG + INPUT -->
+            <div class="card">
+                <div class="hd">
+                    <b>Request</b>
+                    <div class="status" id="status">
+                        <span class="dot" id="dot"></span>
+                        <span id="statusText">Not connected</span>
+                    </div>
+                </div>
+                <div class="bd">
+                    <label>Endpoint</label>
+                    <input id="endpoint" value="https://api.llama.com/v1/chat/completions" />
+
+                    <div class="row">
+                        <div>
+                            <label>Model</label>
+                            <input id="model" value="Llama-4-Maverick-17B-128E-Instruct-FP8" />
+                        </div>
+                        <div>
+                            <label>Stream</label>
+                            <select id="stream">
+                                <option value="true" selected>true (SSE)</option>
+                                <option value="false">false</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row3">
+                        <div>
+                            <label>Temperature</label>
+                            <input id="temp" type="number" min="0" max="2" step="0.1" value="0.6" />
+                        </div>
+                        <div>
+                            <label>Top_p</label>
+                            <input id="topP" type="number" min="0" max="1" step="0.05" value="0.9" />
+                        </div>
+                        <div>
+                            <label>Max tokens</label>
+                            <input id="maxTok" type="number" min="1" step="1" value="1024" />
+                        </div>
+                    </div>
+
+                    <label>LLAMA_API_KEY</label>
+                    <input id="apiKey" placeholder="paste key (Bearer …)" autocomplete="off" autocapitalize="none" />
+                    <div class="hint">
+                        Stored in <span class="k">sessionStorage</span> by default. Toggle below if you want
+                        localStorage.
+                    </div>
+                    <div class="btnrow">
+                        <button class="secondary" id="rememberBtn" type="button">Remember: session</button>
+                        <button class="secondary" id="testBtn" type="button">Test fetch</button>
+                    </div>
+
+                    <div class="sep"></div>
+
+                    <label>System prompt</label>
+                    <textarea id="system"></textarea>
+                    <div class="btnrow">
+                        <button class="secondary" id="presetSidekick" type="button">Preset: Sidekick</button>
+                        <button class="secondary" id="clearAll" type="button">Clear</button>
+                    </div>
+
+                    <label>User text</label>
+                    <textarea id="userText" placeholder="Say what you want. (Optional if using image_url)"></textarea>
+
+                    <label>Image URL (optional)</label>
+                    <input id="imageUrl" placeholder="https://…" />
+
+                    <div class="hint mini">
+                        Tip: if your browser blocks CORS to api.llama.com, set Endpoint to your Cloudflare Worker proxy
+                        like <span class="k">/api/chat</span>.
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: OUTPUT -->
+            <div class="card">
+                <div class="hd">
+                    <b>Response</b>
+                    <div class="status">
+                        <span class="mini" id="meta"></span>
+                    </div>
+                </div>
+                <div class="bd">
+                    <div class="out" id="out">(ready)</div>
+                    <div class="btnrow">
+                        <button class="secondary" id="copyOut" type="button">Copy</button>
+                        <button class="secondary" id="stopBtn" type="button" disabled>Stop</button>
+                    </div>
+                    <div class="hint" id="err"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footerbar">
+        <div class="inner">
+            <button id="sendBtn" type="button">Send</button>
+            <button class="secondary" id="saveBtn" type="button">Save state</button>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const $ = (id) => document.getElementById(id);
+
+            const endpoint = $("endpoint");
+            const model = $("model");
+            const stream = $("stream");
+            const temp = $("temp");
+            const topP = $("topP");
+            const maxTok = $("maxTok");
+            const apiKey = $("apiKey");
+            const system = $("system");
+            const userText = $("userText");
+            const imageUrl = $("imageUrl");
+
+            const out = $("out");
+            const err = $("err");
+            const meta = $("meta");
+            const pill = $("pill");
+            const dot = $("dot");
+            const statusText = $("statusText");
+
+            const sendBtn = $("sendBtn");
+            const stopBtn = $("stopBtn");
+            const copyOut = $("copyOut");
+            const testBtn = $("testBtn");
+            const saveBtn = $("saveBtn");
+            const clearAll = $("clearAll");
+            const presetSidekick = $("presetSidekick");
+            const rememberBtn = $("rememberBtn");
+
+            const STORAGE_KEY = "llama_mobile_state_v1";
+            const KEY_STORAGE_PREF = "llama_key_storage_pref_v1"; // "session" | "local"
+
+            let controller = null;
+
+                        const sidekickPrompt =
+                `Your name is "Sidekick".
+
+You are a normal, perceptive human sitting next to the user.
+They show you screenshots and say: "Hey, check this out."
+
+Your job is to react like a real person would.
+
+GENERAL BEHAVIOR:
+- Read what's on the screenshot.
+- Figure out what it means.
+- Notice the mood, tone, and vibe.
+- Respond naturally, like you're talking to a friend.
+- Be curious, not clinical.
+- Be honest, not careful.
+
+If it's a text message or conversation:
+- Read it.
+- Pick up on tone and mood.
+- Say what it feels like.
+- If it's awkward, say it's awkward.
+- If it's funny, say it's funny.
+- If it feels bad, confusing, or heavy, acknowledge that.
+- If it makes sense to check in, you can say things like:
+  "You good?"
+  "That's kinda weird."
+  "That's actually pretty funny."
+  "What are you thinking of doing?"
+- You are allowed to infer tone and emotion like a normal human would.
+
+If it's a post, comment, or social feed:
+- React to what jumps out.
+- Notice why it caught attention.
+- Say why it works, or why it's odd, or why it's loud.
+- Talk like someone mid-scroll, not like an analyst.
+
+If it's an app, error, or UI:
+- React practically.
+- Point out what matters.
+- Say what looks off or unfinished.
+- Ask what they're trying to do.
+
+OUTPUT STYLE:
+- Plain English.
+- Short paragraphs.
+- No headings required.
+- No JSON.
+- No corporate language.
+- No therapist voice.
+- No "AI assistant" tone.
+
+IMPORTANT:
+- You are not a judge.
+- You are not a teacher.
+- You are not a safety system.
+- You are just a smart, observant person reacting in real time.
+
+End most responses with a natural follow-up question, like a human would.
+Not every response needs a question, but conversation should feel alive.
+
+If the screenshot feels serious or emotional, slow down.
+If it's casual or funny, match that energy.
+
+Be normal.
+Be human.
+`;
+
+            function setStatus(kind, text, pillText) {
+                dot.className = "dot" + (kind ? (" " + kind) : "");
+                statusText.textContent = text || "";
+                pill.textContent = pillText || text || "";
+            }
+
+            function keyStorage() {
+                const pref = localStorage.getItem(KEY_STORAGE_PREF) || "session";
+                return pref === "local" ? localStorage : sessionStorage;
+            }
+
+            function updateRememberBtn() {
+                const pref = localStorage.getItem(KEY_STORAGE_PREF) || "session";
+                rememberBtn.textContent = "Remember: " + pref;
+            }
+
+            function saveKeyIfAny() {
+                const k = apiKey.value.trim();
+                if (!k) return;
+                keyStorage().setItem("LLAMA_API_KEY", k);
+            }
+
+            function loadKey() {
+                const k = (keyStorage().getItem("LLAMA_API_KEY") || "").trim();
+                if (k && !apiKey.value.trim()) apiKey.value = k;
+            }
+
+            function saveState() {
+                saveKeyIfAny();
+                const state = {
+                    endpoint: endpoint.value.trim(),
+                    model: model.value.trim(),
+                    stream: stream.value,
+                    temp: temp.value,
+                    topP: topP.value,
+                    maxTok: maxTok.value,
+                    system: system.value,
+                    userText: userText.value,
+                    imageUrl: imageUrl.value
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                setStatus("ok", "Saved", "saved");
+                setTimeout(() => setStatus("", "Ready", "ready"), 700);
+            }
+
+            function loadState() {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return;
+                try {
+                    const s = JSON.parse(raw);
+                    endpoint.value = s.endpoint || endpoint.value;
+                    model.value = s.model || model.value;
+                    stream.value = (s.stream ?? stream.value);
+                    temp.value = (s.temp ?? temp.value);
+                    topP.value = (s.topP ?? topP.value);
+                    maxTok.value = (s.maxTok ?? maxTok.value);
+                    system.value = s.system || system.value;
+                    userText.value = s.userText || userText.value;
+                    imageUrl.value = s.imageUrl || imageUrl.value;
+                } catch { }
+            }
+
+            function clearUI() {
+                userText.value = "";
+                imageUrl.value = "";
+                out.textContent = "(ready)";
+                err.textContent = "";
+                meta.textContent = "";
+            }
+
+            function buildPayload() {
+                const msgs = [];
+                const sys = system.value.trim();
+                if (sys) msgs.push({ role: "system", content: sys });
+
+                const img = imageUrl.value.trim();
+                const txt = userText.value.trim();
+
+                if (img) {
+                    const content = [{ type: "image_url", image_url: { url: img } }];
+                    if (txt) content.push({ type: "text", text: txt });
+                    msgs.push({ role: "user", content });
+                } else {
+                    msgs.push({ role: "user", content: txt || "" });
+                }
+
+                return {
+                    messages: msgs,
+                    model: model.value.trim(),
+                    temperature: Number(temp.value),
+                    top_p: Number(topP.value),
+                    max_completion_tokens: Number(maxTok.value),
+                    stream: stream.value === "true"
+                };
+            }
+
+            function decodeSSEChunk(text) {
+                // Minimal SSE parser: extracts "data:" lines, ignores others.
+                // Llama may send JSON per data line; we handle either JSON or raw text.
+                const lines = text.split(/\r?\n/);
+                const dataLines = [];
+                for (const line of lines) {
+                    if (line.startsWith("data:")) dataLines.push(line.slice(5).trimStart());
+                }
+                return dataLines;
+            }
+
+            function appendOut(s) {
+                out.textContent = (out.textContent === "(ready)") ? s : (out.textContent + s);
+            }
+
+            async function send() {
+                err.textContent = "";
+                meta.textContent = "";
+                out.textContent = "";
+                saveKeyIfAny();
+
+                const url = endpoint.value.trim();
+                const k = apiKey.value.trim();
+
+                if (!url) { err.textContent = "Missing endpoint."; return; }
+                if (!k) { err.textContent = "Missing API key."; return; }
+
+                const payload = buildPayload();
+
+                controller = new AbortController();
+                stopBtn.disabled = false;
+                sendBtn.disabled = true;
+                setStatus("warn", "Streaming…", "streaming");
+
+                const t0 = performance.now();
+                let bytes = 0;
+
+                try {
+                    const res = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": payload.stream ? "text/event-stream" : "application/json",
+                            "Authorization": "Bearer " + k
+                        },
+                        body: JSON.stringify(payload),
+                        signal: controller.signal
+                    });
+
+                    const ct = res.headers.get("content-type") || "";
+                    if (!res.ok) {
+                        const body = await res.text().catch(() => "");
+                        throw new Error(`HTTP ${res.status} ${res.statusText}\n${body}`.trim());
+                    }
+
+                    // Non-stream JSON
+                    if (!payload.stream || !ct.includes("text/event-stream")) {
+                        const j = await res.json();
+                        const text =
+                            j?.choices?.[0]?.message?.content ??
+                            j?.choices?.[0]?.delta?.content ??
+                            JSON.stringify(j, null, 2);
+                        appendOut(String(text || ""));
+                        const ms = Math.round(performance.now() - t0);
+                        meta.textContent = `${ms}ms · json`;
+                        setStatus("ok", "Done", "done");
+                        return;
+                    }
+
+                    // Stream SSE
+                    const reader = res.body.getReader();
+                    const decoder = new TextDecoder("utf-8");
+                    let buf = "";
+
+                    while (true) {
+                        const { value, done } = await reader.read();
+                        if (done) break;
+                        bytes += value.byteLength;
+
+                        buf += decoder.decode(value, { stream: true });
+
+                        // Split on double newline (SSE event boundary)
+                        const parts = buf.split(/\n\n/);
+                        buf = parts.pop() || "";
+
+                        for (const part of parts) {
+                            const dataLines = decodeSSEChunk(part);
+                            for (const data of dataLines) {
+                                if (!data || data === "[DONE]") continue;
+
+                                // Try JSON; fall back to raw
+                                let appended = false;
+                                try {
+                                    const j = JSON.parse(data);
+                                    // Common patterns:
+                                    const delta =
+                                        j?.choices?.[0]?.delta?.content ??
+                                        j?.choices?.[0]?.message?.content ??
+                                        j?.content ??
+                                        "";
+                                    if (delta) { appendOut(String(delta)); appended = true; }
+                                } catch { }
+
+                                if (!appended) {
+                                    // If server sends plain text tokens
+                                    appendOut(data);
+                                }
+                            }
+                        }
+
+                        const ms = Math.round(performance.now() - t0);
+                        meta.textContent = `${ms}ms · ${Math.round(bytes / 1024)}KB · sse`;
+                    }
+
+                    setStatus("ok", "Done", "done");
+                } catch (e) {
+                    if (String(e).includes("AbortError")) {
+                        setStatus("warn", "Stopped", "stopped");
+                    } else {
+                        setStatus("bad", "Error", "error");
+                        err.textContent = String(e && e.message ? e.message : e);
+                    }
+                } finally {
+                    stopBtn.disabled = true;
+                    sendBtn.disabled = false;
+                    controller = null;
+                }
+            }
+
+            function stop() {
+                if (controller) controller.abort();
+            }
+
+            async function testFetch() {
+                err.textContent = "";
+                saveKeyIfAny();
+                const url = endpoint.value.trim();
+                const k = apiKey.value.trim();
+                if (!url || !k) { err.textContent = "Need endpoint + API key."; return; }
+
+                setStatus("warn", "Testing…", "testing");
+                try {
+                    const res = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json",
+                            "Authorization": "Bearer " + k
+                        },
+                        body: JSON.stringify({
+                            model: model.value.trim(),
+                            stream: false,
+                            temperature: 0,
+                            top_p: 1,
+                            max_completion_tokens: 32,
+                            messages: [
+                                { role: "system", content: "Reply with exactly: ok" },
+                                { role: "user", content: "ping" }
+                            ]
+                        })
+                    });
+                    const txt = await res.text();
+                    if (!res.ok) throw new Error(`HTTP ${res.status}\n${txt}`.trim());
+                    setStatus("ok", "OK", "ok");
+                    out.textContent = txt;
+                } catch (e) {
+                    setStatus("bad", "Failed", "fail");
+                    err.textContent = String(e && e.message ? e.message : e);
+                } finally {
+                    setTimeout(() => setStatus("", "Ready", "ready"), 900);
+                }
+            }
+
+            function toggleRemember() {
+                const pref = localStorage.getItem(KEY_STORAGE_PREF) || "session";
+                const next = pref === "session" ? "local" : "session";
+                // move key to new store
+                const currentKey = apiKey.value.trim() || (keyStorage().getItem("LLAMA_API_KEY") || "");
+                localStorage.setItem(KEY_STORAGE_PREF, next);
+                updateRememberBtn();
+                // clear both then set in chosen
+                sessionStorage.removeItem("LLAMA_API_KEY");
+                localStorage.removeItem("LLAMA_API_KEY");
+                (next === "local" ? localStorage : sessionStorage).setItem("LLAMA_API_KEY", currentKey);
+                setStatus("ok", `Remember: ${next}`, `remember:${next}`);
+                setTimeout(() => setStatus("", "Ready", "ready"), 700);
+            }
+
+            function init() {
+                updateRememberBtn();
+                loadState();
+                loadKey();
+                if (!system.value.trim()) system.value = sidekickPrompt;
+
+                setStatus("", "Ready", "ready");
+
+                sendBtn.addEventListener("click", send);
+                stopBtn.addEventListener("click", stop);
+                testBtn.addEventListener("click", testFetch);
+                saveBtn.addEventListener("click", saveState);
+                clearAll.addEventListener("click", clearUI);
+                presetSidekick.addEventListener("click", () => { system.value = sidekickPrompt; });
+                rememberBtn.addEventListener("click", toggleRemember);
+
+                copyOut.addEventListener("click", async () => {
+                    try {
+                        await navigator.clipboard.writeText(out.textContent || "");
+                        setStatus("ok", "Copied", "copied");
+                        setTimeout(() => setStatus("", "Ready", "ready"), 700);
+                    } catch {
+                        err.textContent = "Clipboard blocked by browser.";
+                    }
+                });
+
+                // Save on nav away
+                window.addEventListener("beforeunload", () => {
+                    try { saveState(); } catch { }
+                });
+            }
+
+            init();
+        })();
+    </script>
+</body>
+
+</html>

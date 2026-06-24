@@ -1,0 +1,239 @@
+@page "/triangle"
+@using JobsiteCalculatorPwa.Models
+@using System.Globalization
+@inject NavigationManager Navigation
+
+<PageTitle>Myles of Triangles: square-finder</PageTitle>
+
+<div class="estimator-container">
+    <header class="app-header">
+        <div class="app-header-brand">
+            <div class="app-logo-text">
+                <span class="app-logo-pour" style="font-size: 1.2rem;">Myles of Triangles</span>
+                <span style="font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #666; font-weight: bold;">Square-Finder</span>
+            </div>
+        </div>
+        <div class="app-header-actions">
+            <button class="btn-back" @onclick="GoBack">← Back</button>
+        </div>
+    </header>
+
+    <div class="step-2">
+        <h2>Myles of Triangles: square-finder</h2>
+        <p class="section-desc">Enter the length of Side A and Side B to find the diagonal/hypotenuse Side C. Useful for squaring formwork (e.g. 3-4-5 rule).</p>
+
+        <!-- Visual Schematic -->
+        <div class="schematic-container">
+            <svg viewBox="0 0 200 140" class="triangle-svg">
+                <polygon points="30,20 30,110 170,110" fill="none" stroke="#f97316" stroke-width="3" />
+                <rect x="30" y="100" width="10" height="10" fill="none" stroke="#bdbdbd" stroke-width="1.5" />
+                <text x="15" y="70" class="svg-label">A</text>
+                <text x="100" y="125" class="svg-label">B</text>
+                <text x="110" y="55" class="svg-label accent">C</text>
+            </svg>
+        </div>
+
+        <!-- Preset Buttons -->
+        <div class="preset-row">
+            <span class="preset-label">Standard Presets</span>
+            <div class="preset-buttons">
+                <button class="btn-preset" @onclick="() => LoadPreset(3, 4)">3' - 4' - 5'</button>
+                <button class="btn-preset" @onclick="() => LoadPreset(6, 8)">6' - 8' - 10'</button>
+                <button class="btn-preset" @onclick="() => LoadPreset(9, 12)">9' - 12' - 15'</button>
+                <button class="btn-preset" @onclick="() => LoadPreset(12, 16)">12' - 16' - 20'</button>
+            </div>
+        </div>
+
+        <div class="calculator-grid">
+            <!-- Side A Inputs -->
+            <div class="card dimension-card">
+                <h3>Side A (Vertical)</h3>
+                <div class="inputs-row">
+                    <div class="input-col">
+                        <label>Feet</label>
+                        <input type="number" min="0" step="1" @bind="SideA.Feet" @bind:after="Recalculate" class="form-control" />
+                    </div>
+                    <div class="input-col">
+                        <label>Inches</label>
+                        <input type="number" min="0" max="11" step="1" @bind="SideA.Inches" @bind:after="Recalculate" class="form-control" />
+                    </div>
+                    <div class="input-col">
+                        <label>Numerator</label>
+                        <select @bind="SideA.Numerator" @bind:after="Recalculate" class="form-select">
+                            @for (int i = 0; i <= 15; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="input-col">
+                        <label>Denominator</label>
+                        <select @bind="SideA.Denominator" @bind:after="Recalculate" class="form-select">
+                            <option value="1">/1</option>
+                            <option value="2">/2</option>
+                            <option value="4">/4</option>
+                            <option value="8">/8</option>
+                            <option value="16">/16</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="computed-readout">
+                    Total: @GetReadableInput(SideA)
+                </div>
+            </div>
+
+            <!-- Side B Inputs -->
+            <div class="card dimension-card">
+                <h3>Side B (Horizontal)</h3>
+                <div class="inputs-row">
+                    <div class="input-col">
+                        <label>Feet</label>
+                        <input type="number" min="0" step="1" @bind="SideB.Feet" @bind:after="Recalculate" class="form-control" />
+                    </div>
+                    <div class="input-col">
+                        <label>Inches</label>
+                        <input type="number" min="0" max="11" step="1" @bind="SideB.Inches" @bind:after="Recalculate" class="form-control" />
+                    </div>
+                    <div class="input-col">
+                        <label>Numerator</label>
+                        <select @bind="SideB.Numerator" @bind:after="Recalculate" class="form-select">
+                            @for (int i = 0; i <= 15; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="input-col">
+                        <label>Denominator</label>
+                        <select @bind="SideB.Denominator" @bind:after="Recalculate" class="form-select">
+                            <option value="1">/1</option>
+                            <option value="2">/2</option>
+                            <option value="4">/4</option>
+                            <option value="8">/8</option>
+                            <option value="16">/16</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="computed-readout">
+                    Total: @GetReadableInput(SideB)
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Card -->
+        <div class="card result-card">
+            <h3>Calculated Side C (Hypotenuse)</h3>
+            @if (ResultValid)
+            {
+                <div class="result-display">
+                    <div class="primary-result">@FormattedResultC</div>
+                    <div class="result-breakdown">
+                        <div class="breakdown-item">
+                            <span class="breakdown-lbl">Decimal Inches:</span>
+                            <span class="breakdown-val">@DecimalInchesC.ToString("0.###", CultureInfo.InvariantCulture)"</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-lbl">Decimal Feet:</span>
+                            <span class="breakdown-val">@DecimalFeetC.ToString("0.###", CultureInfo.InvariantCulture) ft</span>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="result-placeholder">Enter measurements for Side A and Side B to calculate.</div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private class TriangleInput
+    {
+        public int Feet { get; set; } = 0;
+        public int Inches { get; set; } = 0;
+        public int Numerator { get; set; } = 0;
+        public int Denominator { get; set; } = 1;
+
+        public decimal ToTotalInches()
+        {
+            decimal baseInches = (Feet * 12) + Inches;
+            decimal fraction = Denominator > 0 ? (decimal)Numerator / Denominator : 0;
+            return baseInches + fraction;
+        }
+    }
+
+    private TriangleInput SideA = new() { Feet = 3 };
+    private TriangleInput SideB = new() { Feet = 4 };
+
+    private bool ResultValid = false;
+    private string FormattedResultC = "";
+    private decimal DecimalInchesC = 0;
+    private decimal DecimalFeetC = 0;
+
+    protected override void OnInitialized()
+    {
+        Recalculate();
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("");
+    }
+
+    private void LoadPreset(int feetA, int feetB)
+    {
+        SideA = new TriangleInput { Feet = feetA, Inches = 0, Numerator = 0, Denominator = 1 };
+        SideB = new TriangleInput { Feet = feetB, Inches = 0, Numerator = 0, Denominator = 1 };
+        Recalculate();
+    }
+
+    private void Recalculate()
+    {
+        decimal a = SideA.ToTotalInches();
+        decimal b = SideB.ToTotalInches();
+
+        if (a <= 0 && b <= 0)
+        {
+            ResultValid = false;
+            return;
+        }
+
+        double a2 = (double)(a * a);
+        double b2 = (double)(b * b);
+        double c = Math.Sqrt(a2 + b2);
+
+        DecimalInchesC = (decimal)c;
+        DecimalFeetC = DecimalInchesC / 12m;
+
+        try
+        {
+            var fraction = FractionValue.FromDecimalString(DecimalInchesC.ToString("0.#####", CultureInfo.InvariantCulture));
+            var meas = new Measurement(fraction);
+            FormattedResultC = meas.ToFeetAndInchesString(16); // Round to nearest 1/16th inch
+            ResultValid = true;
+        }
+        catch
+        {
+            // Fallback string if parsing fails
+            int wholeFeet = (int)(DecimalFeetC);
+            decimal remainingInches = DecimalInchesC - (wholeFeet * 12);
+            FormattedResultC = $"{wholeFeet}' {remainingInches.ToString("0.##", CultureInfo.InvariantCulture)}\"";
+            ResultValid = true;
+        }
+    }
+
+    private string GetReadableInput(TriangleInput input)
+    {
+        decimal inches = input.ToTotalInches();
+        try
+        {
+            var fraction = FractionValue.FromDecimalString(inches.ToString("0.#####", CultureInfo.InvariantCulture));
+            return new Measurement(fraction).ToFeetAndInchesString(16);
+        }
+        catch
+        {
+            return $"{input.Feet}' {input.Inches}\"";
+        }
+    }
+}

@@ -1,0 +1,80 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs (anchored to repo root only — calc/wwwroot/lib/** must not be excluded)
+/dist/
+/build/
+.next/
+.nuxt/
+calc/**/*.br
+calc/**/*.gz
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Wrangler
+.wrangler/
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+
+# Temporary text files and reports
+*unbelievable*.txt
+*BUILD_REPORT*.txt
+emmbedments.txt
+
+# Build scripts (if not needed in deployment)
+# *.ps1
+# *.py
+
+# .NET Build outputs
+JobsiteCalculatorPwa/bin/
+JobsiteCalculatorPwa/obj/
+
+# Local temporary folders
+publish_temp/
+
+# Test directories
+TestConsole/
+TestConsole10/
+TestScript/
+
+# Runtime state cache
+cooldown.json
+

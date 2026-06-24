@@ -1,0 +1,35 @@
+name: Weather Push Notifications Cron
+
+on:
+  schedule:
+    # Run every 15 minutes
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # Allow manual trigger for testing
+
+jobs:
+  check-weather:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # We use cache to store the cooldown timestamp between runs
+      - name: Cache Cooldown Data
+        id: cache-cooldown
+        uses: actions/cache@v3
+        with:
+          path: cooldown.json
+          key: weather-cooldown-${{ github.run_id }}
+          restore-keys: |
+            weather-cooldown-
+
+      - name: Check Weather and Broadcast
+        run: node scripts/weather_cron.js
+        env:
+          API_SECRET: ${{ secrets.API_SECRET }}
+          SITE_URL: ${{ secrets.SITE_URL }}

@@ -1,0 +1,261 @@
+@page "/"
+@using JobsiteCalculatorPwa.Models
+@inject JobsiteCalculatorPwa.Services.ConcreteMathEngine MathEngine
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Concrete Estimator</PageTitle>
+
+<div class="estimator-container">
+    <header class="app-header">
+        <div class="app-header-brand">
+            <img src="pourready-icon.png" alt="PourReady" class="app-logo-icon" />
+            <div class="app-logo-text">
+                <span class="app-logo-pour">Pour</span><span class="app-logo-ready">Ready</span>
+                <span class="app-logo-sub">Concrete Volume Estimation</span>
+            </div>
+        </div>
+        <div class="app-header-actions">
+            @if (IsInstallable)
+            {
+                <button class="btn-install" @onclick="InstallPwa" id="btn-install-pwa">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
+                    Add to Home Screen
+                </button>
+            }
+            @if (CurrentStep == 2)
+            {
+                <button class="btn-back" @onclick="GoBack">← Back</button>
+            }
+            @if (CurrentStep == 3)
+            {
+                <button class="btn-reset" @onclick="ResetProject">New Project</button>
+            }
+        </div>
+    </header>
+
+    @if (CurrentStep == 1)
+    {
+        <div class="step-1">
+            <h2>What type of concrete project would you like to estimate?</h2>
+            <div class="project-types">
+                <button class="btn-type" @onclick="() => SelectProject(ConcreteProjectMode.Slab)">Slab</button>
+                <button class="btn-type" @onclick="() => SelectProject(ConcreteProjectMode.MonolithicSlab)">Monolithic Slab (Mono Slab)</button>
+                <button class="btn-type" @onclick="() => SelectProject(ConcreteProjectMode.Footings)">Footings</button>
+                <button class="btn-type" @onclick="() => SelectProject(ConcreteProjectMode.PouredWalls)">Poured Walls</button>
+                <button class="btn-type" @onclick="() => SelectProject(ConcreteProjectMode.Columns)">Columns / Sonotubes</button>
+            </div>
+            <div class="utility-section" style="margin-top: 1.5rem; border-top: 1px solid #333; padding-top: 1.5rem;">
+                <h3 style="font-size: 1.1rem; color: #bdbdbd; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Utility Calculators</h3>
+                <button class="btn-type btn-utility" @onclick="OpenTriangleCalculator" style="border-color:#ff9800; color:#ff9800; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1.2rem;">
+                    📐 Myles of Triangles: square-finder
+                </button>
+            </div>
+            <p class="field-note">🚧 Built in the field for the field. Free to use. Results are estimates — always verify with your supplier.
+            </p>
+        </div>
+    }
+    else if (CurrentStep == 2)
+    {
+        <div class="step-2">
+            <h2>@GetProjectTypeName() Details</h2>
+
+            <div class="card main-slab-card">
+                <h3>Main Dimensions</h3>
+                
+                @if (SelectedMode == ConcreteProjectMode.Columns)
+                {
+                    <div class="input-group">
+                        <label>Column Type</label>
+                        <select @bind="MainSlab.IsRoundColumn" class="form-select">
+                            <option value="true">Round (Sonotube)</option>
+                            <option value="false">Square / Rectangular</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Number of Columns</label>
+                        <input type="number" step="1" min="1" @bind="MainSlab.ColumnCount" placeholder="e.g., 6" />
+                    </div>
+                }
+
+                @if (SelectedMode == ConcreteProjectMode.Columns && MainSlab.IsRoundColumn)
+                {
+                    <div class="input-group tooltip-container">
+                        <label>Diameter <span class="badge-unit in">in</span></label>
+                        <input type="number" step="0.1" @bind="MainSlab.DiameterInches" placeholder="e.g., 12" />
+                        <span class="tooltip-text">Standard Sonotubes: 8", 10", 12"</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Depth <span class="badge-unit ft">ft</span></label>
+                        <input type="number" step="0.1" @bind="MainSlab.LengthFeet" placeholder="e.g., 4" />
+                    </div>
+                }
+                else
+                {
+                    <div class="input-group">
+                        <label>Length <span class="badge-unit ft">ft</span></label>
+                        <input type="number" step="0.1" @bind="MainSlab.LengthFeet" placeholder="e.g., 20" />
+                    </div>
+                    
+                    @if (SelectedMode == ConcreteProjectMode.Footings)
+                    {
+                        <div class="input-group tooltip-container">
+                            <label>Width <span class="badge-unit in">in</span></label>
+                            <input type="number" step="0.1" @bind="MainSlab.WidthInches" placeholder="e.g., 16" />
+                            <span class="tooltip-text">Standard trench width for frost walls</span>
+                        </div>
+                        <div class="input-group tooltip-container">
+                            <label>Thickness <span class="badge-unit in">in</span></label>
+                            <input type="number" step="0.1" @bind="MainSlab.ThicknessInches" placeholder="e.g., 8" />
+                            <span class="tooltip-text">Rule of thumb: 1/2 of footing width</span>
+                        </div>
+                    }
+                    else if (SelectedMode == ConcreteProjectMode.PouredWalls)
+                    {
+                        <div class="input-group">
+                            <label>Height <span class="badge-unit ft">ft</span></label>
+                            <input type="number" step="0.1" @bind="MainSlab.HeightFeet" placeholder="e.g., 8" />
+                        </div>
+                        <div class="input-group tooltip-container">
+                            <label>Thickness <span class="badge-unit in">in</span></label>
+                            <input type="number" step="0.1" @bind="MainSlab.ThicknessInches" placeholder="e.g., 8" />
+                            <span class="tooltip-text">Typical foundation walls are 8" or 10"</span>
+                        </div>
+                    }
+                    else if (SelectedMode == ConcreteProjectMode.Columns && !MainSlab.IsRoundColumn)
+                    {
+                        <div class="input-group">
+                            <label>Width <span class="badge-unit ft">ft</span></label>
+                            <input type="number" step="0.1" @bind="MainSlab.WidthFeet" placeholder="e.g., 1.5" />
+                        </div>
+                        <div class="input-group tooltip-container">
+                            <label>Depth <span class="badge-unit in">in</span></label>
+                            <input type="number" step="0.1" @bind="MainSlab.ThicknessInches" placeholder="e.g., 48" />
+                            <span class="tooltip-text">Enter depth in inches (e.g. 48 = 4 ft)</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="input-group">
+                            <label>Width <span class="badge-unit ft">ft</span></label>
+                            <input type="number" step="0.1" @bind="MainSlab.WidthFeet" placeholder="e.g., 10" />
+                        </div>
+                        <div class="input-group tooltip-container">
+                            <label>Thickness <span class="badge-unit in">in</span></label>
+                            <input type="number" step="0.1" @bind="MainSlab.ThicknessInches" placeholder="e.g., 4" />
+                            <span class="tooltip-text">For 4" slab: rebar/mesh at 2" depth</span>
+                        </div>
+                    }
+                }
+            </div>
+
+            @if (SelectedMode == ConcreteProjectMode.MonolithicSlab)
+            {
+                <div class="thickened-sections-header">
+                    <h3>Thickened Edges / Trenches</h3>
+                    <button class="btn-add" @onclick="AddThickenedSection">+ Add Section</button>
+                </div>
+
+                @for (int i = 0; i < ThickenedSections.Count; i++)
+                {
+                    var index = i;
+                    var ts = ThickenedSections[i];
+                    <div class="card thickened-card" @key="ts">
+                        <div class="card-header">
+                            <h4>@(string.IsNullOrWhiteSpace(ts.Name) ? $"Edge {index + 1}" : ts.Name)</h4>
+                            <button class="btn-remove" @onclick="() => RemoveThickenedSection(index)">Remove</button>
+                        </div>
+                        <div class="input-group">
+                            <label>Section Label (Optional)</label>
+                            <input type="text" @bind="ts.Name" placeholder="e.g., Outside L, East footing" id="ts-name-@index" />
+                        </div>
+                        <div class="input-group tooltip-container">
+                            <label>Length <span class="badge-unit ft">ft</span></label>
+                            <input type="number" step="0.1" @bind="ts.LengthFeet" placeholder="e.g., 20" id="ts-length-@index" />
+                        </div>
+                        <div class="input-group tooltip-container">
+                            <label>Width <span class="badge-unit in">in</span></label>
+                            <input type="number" step="0.1" @bind="ts.WidthInches" placeholder="e.g., 16" id="ts-width-@index" />
+                            <span class="tooltip-text">SPS 321: Min 4" beyond each face of wall</span>
+                        </div>
+                        <div class="input-group tooltip-container">
+                            <label>Total Depth (from top of slab) <span class="badge-unit in">in</span></label>
+                            <input type="number" step="0.1" @bind="ts.TotalDepthInches" placeholder="e.g., 12" id="ts-depth-@index" />
+                            <span class="tooltip-text">For frost-protected footings, depth is typically 48" in WI. Check local building codes.</span>
+                        </div>
+                    </div>
+                }
+            }
+
+            <div class="waste-selector">
+                <span class="waste-label">Waste Buffer</span>
+                <div class="waste-buttons">
+                    <button class="@(WastePercent == 5 ? "btn-waste active" : "btn-waste")" @onclick="() => WastePercent = 5">5%</button>
+                    <button class="@(WastePercent == 10 ? "btn-waste active" : "btn-waste")" @onclick="() => WastePercent = 10">10%</button>
+                    <button class="@(WastePercent == 15 ? "btn-waste active" : "btn-waste")" @onclick="() => WastePercent = 15">15%</button>
+                </div>
+            </div>
+            @if (_validationError != null)
+            {
+                <div class="validation-error">⚠ @_validationError</div>
+            }
+            <button class="btn-calculate" @onclick="Calculate">Calculate Volume</button>
+        </div>
+    }
+    else if (CurrentStep == 3 && Result != null)
+    {
+        <div class="step-3">
+            <h2>Estimation Result</h2>
+
+            <div class="result-table-container">
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th>Cubic Feet</th>
+                            <th>Cubic Yards</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sec in Result.Sections)
+                        {
+                            <tr>
+                                <td>@sec.Name</td>
+                                <td>@sec.CubicFeet</td>
+                                <td>@sec.CubicYards</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><strong>Total Order Volume (incl. @WastePercent% waste)</strong></td>
+                            <td><strong>@Math.Round(Result.TotalCubicFeetWithWaste, 2) Cubic Feet</strong></td>
+                            <td><strong>@Result.TotalCubicYardsWithWaste Yards</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="bags-container">
+                <h3>Bag Equivalents</h3>
+                <p class="bag-helper">For mixing by hand. 1 Cubic Yard = forty-five 80 lb bags.</p>
+                <ul>
+                    <li>40 lb bags: @Result.Bags40lb</li>
+                    <li>50 lb bags: @Result.Bags50lb</li>
+                    <li>60 lb bags: @Result.Bags60lb</li>
+                    <li>80 lb bags: @Result.Bags80lb</li>
+                </ul>
+            </div>
+
+            <p class="waste-note">Bag counts based on @WastePercent% waste. Ready-mix order rounded up to nearest ¼ yard.</p>
+
+            <div class="action-buttons" style="gap: 0.75rem; justify-content: space-between; width: 100%;">
+                <button class="btn-back" @onclick="EditProject" style="padding: 0.8rem 1.5rem; font-size: 1rem;">
+                    ← Edit Details
+                </button>
+                <button class="btn-copy" @onclick="CopyToClipboard">
+                    @(IsCopied ? "Copied!" : "Copy to Clipboard")
+                </button>
+            </div>
+        </div>
+    }
+</div>

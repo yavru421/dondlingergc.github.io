@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dondlinger Digital — Engineering Division. A curated catalog of premium progressive web applications." />
+  <title>Dondlinger Digital — Premium Catalog Preview</title>
+  
+  <!-- Modern Geometric Sans-Serif Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js"></script>
+  
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-slate:     #1C1C1E;
+      --bg-obsidian:  #040508;
+      --card-bg:      rgba(44, 44, 46, 0.6);
+      --card-border:  rgba(255, 255, 255, 0.07);
+      --text-white:   #F9FAFB;
+      --text-gray:    #EBEBF5;
+      --text-dim:     #6B7280;
+      
+      --accent-info:      #0A84FF;
+      --accent-pour:      #ff6b35;
+      --accent-shot:      #00bfff;
+      --accent-tap:       #39ff14;
+      --accent-ampli:     #bf5fff;
+
+      --font-sans: system-ui, -apple-system, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-slate);
+      background-image: 
+        radial-gradient(at 10% 20%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(6, 182, 212, 0.08) 0px, transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+      min-height: 100vh;
+      color: var(--text-white);
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient glow elements & Grid Fade */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: radial-gradient(circle at 50% 50%, transparent 20%, var(--bg-slate) 100%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    
+    
+
+    /* Keyframes for life */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.05); }
+    }
+    
+      50% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.3); }
+    }
+    @keyframes bounceChevron {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+    
+    .animate-in {
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+    .delay-4 { animation-delay: 1.2s; }
+
+    /* Header styling */
+    header {
+      width: 100%; max-width: 1200px; margin: 0 auto;
+      height: 80px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 10; position: relative;
+    }
+
+    .brand {
+      font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--text-white) 30%, #a5b4fc 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .brand span { font-weight: 300; opacity: 0.6; }
+
+    .status-badge {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.15);
+      border-radius: 9999px; padding: 6px 14px;
+      font-size: 0.75rem; font-weight: 600; color: var(--accent-tap);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background-color: var(--accent-tap);
+      box-shadow: 0 0 8px var(--accent-tap);
+      animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+    /* Main Area Grid Layout */
+    main { flex: 1; width: 100%; max-width: 1200px; margin: 0 auto; overflow: visible;
+      padding: 24px 24px; display: flex; flex-direction: column; gap: 20px;
+      z-index: 10; position: relative;
+    }
+
+    .hero-section {
+      max-width: 800px;
+    }
+    .hero-section h1 {
+      font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .hero-section p {
+      color: var(--text-gray); font-size: 1.05rem; line-height: 1.6;
+    }
+
+    /* Hero Navigation Container */
+    .hero-nav-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+      width: 100%;
+    }
+    @media (max-width: 640px) {
+      .hero-nav-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-nav-card {
+      background: rgba(17, 24, 39, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: block;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .hero-nav-card:hover {
+      transform: translateY(-2px);
+      background: rgba(17, 24, 39, 0.6);
+    }
+
+    .nav-card-telemetry:hover {
+      border-color: rgba(0, 229, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 229, 255, 0.1);
+    }
+
+    .nav-card-pwa:hover {
+      border-color: rgba(57, 255, 20, 0.3);
+      box-shadow: 0 8px 24px rgba(57, 255, 20, 0.1);
+    }
+
+    .nav-card-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .nav-card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .hero-nav-card:hover .nav-card-icon {
+      background: rgba(255, 255, 255, 0.05);
+      transform: scale(1.05);
+    }
+
+    .nav-card-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-white);
+      transition: color 0.3s ease;
+    }
+
+    .nav-card-telemetry:hover .nav-card-title {
+      color: var(--accent-info);
+    }
+
+    .nav-card-pwa:hover .nav-card-title {
+      color: var(--accent-tap);
+    }
+
+    .nav-card-desc {
+      font-size: 0.8rem;
+      color: var(--text-gray);
+    }
+
+    .nav-card-arrow {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      transition: all 0.3s ease;
+    }
+
+    .nav-card-telemetry:hover .nav-card-arrow {
+      color: var(--accent-info);
+      transform: translateY(2px);
+    }
+
+    .nav-card-pwa:hover .nav-card-arrow {
+      color: var(--accent-tap);
+      transform: translateY(2px);
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    /* Sleek Glassmorphic Spotlight Card */
+    .glow-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px; padding: 28px;
+      position: relative; overflow: hidden;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      
+      cursor: pointer;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glow-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Spotlight mouse tracking element */
+    .glow-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255, 255, 255, 0.05), transparent 40%);
+      pointer-events: none; z-index: 1;
+    }
+
+    .card-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      z-index: 2;
+    }
+    .card-meta { display: flex; flex-direction: column; gap: 2px; }
+    .card-number { font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; color: var(--text-dim); }
+    .card-name { font-size: 1.4rem; font-weight: 700; color: var(--text-white); }
+    
+    .card-icon-wrap {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex; align-items: center; justify-content: center;
+      transition: background-color 0.3s ease;
+      overflow: hidden;
+    }
+    .card-icon-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .glow-card:hover .card-icon-wrap { background: rgba(255, 255, 255, 0.06); }
+
+    .card-body {
+      font-size: 0.9rem; color: var(--text-gray); line-height: 1.6;
+      flex: 1; display: flex; flex-direction: column; gap: 16px; z-index: 2;
+    }
+
+    .card-preview {
+      width: 100%; height: 160px; border-radius: 10px;
+      background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+      position: relative; margin-top: 4px;
+    }
+    .card-preview img {
+      width: 100%; height: 100%; object-fit: cover; opacity: 0.85;
+      transition: opacity 0.3s ease, transform 0.4s ease;
+    }
+    .glow-card:hover .card-preview img { opacity: 1; transform: scale(1.03); }
+
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.5px; transition: color 0.2s ease, transform 0.2s ease;
+      margin-top: auto; align-self: flex-start;
+    }
+    .glow-card:hover .card-cta { transform: translateX(4px); }
+
+    /* Custom Accents */
+    [data-app="greeting"] .card-name { color: var(--accent-info); }
+    [data-app="greeting"] .card-cta { color: var(--accent-info); }
+    [data-app="pourready"] .card-name { color: var(--accent-pour); }
+    [data-app="pourready"] .card-cta { color: var(--accent-pour); }
+    [data-app="shotstack"] .card-name { color: var(--accent-shot); }
+    [data-app="shotstack"] .card-cta { color: var(--accent-shot); }
+    [data-app="tap"] .card-name { color: var(--accent-tap); }
+    [data-app="tap"] .card-cta { color: var(--accent-tap); }
+    [data-app="ampliloop"] .card-name { color: var(--accent-ampli); }
+    [data-app="ampliloop"] .card-cta { color: var(--accent-ampli); }
+    [data-app="sentinel"] .card-name { color: var(--accent-info); }
+    [data-app="sentinel"] .card-cta { color: var(--accent-info); }
+
+    /* Live Dashboard Telemetry card styling */
+    .dashboard-panel {
+      background: rgba(0, 229, 255, 0.03);
+      border: 1px solid rgba(0, 229, 255, 0.15);
+     width: 400px; flex-shrink: 0;}
+    .telemetry-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .telemetry-row:last-child { border-bottom: none; }
+    .telemetry-label { font-size: 0.8rem; color: var(--text-gray); }
+    .telemetry-value { font-size: 0.95rem; font-weight: 700; color: var(--text-white); }
+    
+    .aqi-container {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .aqi-indicator {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent-tap);
+      box-shadow: 0 0 8px var(--accent-tap);
+    }
+
+    /* Modern Detail Dialog Overlay */
+    .dialog-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(4, 5, 8, 0.8);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    }
+    .dialog-overlay.open { opacity: 1; pointer-events: auto; }
+    
+    .dialog-window {
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px; width: 95%; max-width: 1400px; height: 95vh;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+      overflow: hidden; transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; flex-direction: column;
+    }
+    .dialog-overlay.open .dialog-window { transform: scale(1); }
+
+    .dialog-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .dialog-title { font-size: 1.25rem; font-weight: 700; }
+    .dialog-close {
+      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06);
+      width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--text-white); transition: background 0.2s ease;
+    }
+    .dialog-close:hover { background: rgba(255, 255, 255, 0.08); }
+
+    .dialog-screenshot-wrap {
+      width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: #000; overflow: hidden; height: 280px; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .dialog-screenshot {
+      width: 100%; height: 100%; object-fit: contain;
+    }
+
+    .dialog-body {
+      padding: 24px; display: flex; flex-direction: column; gap: 20px;
+    }
+    .dialog-section { display: flex; flex-direction: column; gap: 8px; }
+    .dialog-section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-dim); }
+    .dialog-text { font-size: 0.95rem; color: var(--text-gray); line-height: 1.6; }
+    
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px; padding: 4px 12px; font-size: 0.8rem; color: var(--text-gray);
+    }
+
+    .dialog-footer {
+      padding: 24px; border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .launch-btn {
+      display: block; width: 100%; padding: 14px; border-radius: 12px;
+      border: none; text-align: center; text-decoration: none; font-weight: 600;
+      color: var(--text-white); cursor: pointer; transition: filter 0.2s ease, transform 0.1s ease;
+    }
+    .launch-btn:hover { filter: brightness(1.1); }
+    .launch-btn:active { transform: scale(0.99); }
+
+    /* Custom high-fidelity telemetry styles for popups */
+    .telemetry-detail-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    @media (max-width: 580px) {
+      .telemetry-detail-grid { grid-template-columns: 1fr; }
+    }
+    .telemetry-detail-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px; padding: 20px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .telemetry-detail-header {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-dim);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 8px;
+    }
+    .telemetry-detail-val {
+      font-size: 2rem; font-weight: 800; color: var(--accent-info);
+    }
+    .telemetry-subval {
+      font-size: 0.8rem; color: var(--text-gray); margin-top: -8px;
+    }
+    .pollen-bar-row {
+      display: flex; flex-direction: column; gap: 4px; margin-top: 6px;
+    }
+    .pollen-bar-header {
+      display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-gray);
+    }
+    .pollen-bar-bg {
+      height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;
+    }
+    .pollen-bar-fill {
+      height: 100%; background: var(--accent-info); width: 0%; border-radius: 999px;
+      transition: width 1s cubic-bezier(0.1, 0.8, 0.25, 1);
+    }
+
+    /* Live Dashboard Animations */
+    .live-dot-wrap {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: #ef4444; font-weight: 700; font-size: 0.75rem; letter-spacing: 1px;
+    }
+    
+    
+      50% { opacity: 0.3; box-shadow: 0 0 2px #ef4444; }
+    }
+    .digital-clock {
+       font-size: 1rem; color: var(--accent-info);
+      background: rgba(0, 229, 255, 0.05); padding: 4px 10px; border-radius: 6px;
+      border: 1px solid rgba(0, 229, 255, 0.1); margin-top: 8px;
+      display: inline-block; 
+    }
+    
+    
+      to { border-color: rgba(0, 229, 255, 0.5);  }
+    }
+
+    /* Footer */
+    footer {
+      width: 100%; max-width: 1200px; margin: 0 auto;
+      padding: 32px 24px; border-top: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center; font-size: 0.8rem; color: var(--text-dim);
+      z-index: 10; position: relative;
+    }
+
+    .dashboard-grid { 
+      display: flex; 
+      flex-direction: row; 
+      gap: 32px; 
+      width: 100%; 
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0 40px 20px 40px; 
+      scrollbar-width: none;
+    }
+    .dashboard-grid::-webkit-scrollbar { display: none; }
+    .dashboard-grid::-webkit-scrollbar { display: none; }
+    .dashboard-panel { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px;  width: 400px; flex-shrink: 0;}
+    .chart-box { position: relative; width: 100%; height: 250px; }
+    .radar-box { position: relative; width: 100%; height: 300px; display: flex; justify-content: center; }
+    @media (max-width: 1024px) { .dashboard-grid { 
+      display: flex; 
+      flex-direction: row; 
+      gap: 32px; 
+      width: 100%; 
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0 40px 20px 40px; 
+      scrollbar-width: none;
+    }
+    .dashboard-grid::-webkit-scrollbar { display: none; }
+    .dashboard-grid::-webkit-scrollbar { display: none; } }
+
+    /* Pollutant progress bars */
+    .pollutant-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .pollutant-bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .pollutant-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-gray);
+    }
+    .pollutant-bar-label span:last-child {
+      font-weight: 600;
+      color: var(--text-white);
+    }
+    .pollutant-bar-bg {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .pollutant-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease-in-out;
+    }
+
+    /* Construction Weather Planner */
+    .weather-planner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .weather-day-card {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .weather-day-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-info);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .weather-day-status {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .status-ok { background: rgba(57, 255, 20, 0.1); color: var(--accent-tap); border: 1px solid rgba(57, 255, 20, 0.2); }
+    .status-warn { background: rgba(255, 107, 53, 0.1); color: var(--accent-pour); border: 1px solid rgba(255, 107, 53, 0.2); }
+    .status-stop { background: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+    
+    .weather-metrics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+    .weather-metric-item {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-gray);
+    }
+    .weather-metric-item span:last-child {
+      color: var(--text-white);
+      font-weight: 500;
+    }
+
+    /* ==================================================== */
+    /* PORTAL 1: THE HYDRAULIC TECTONIC SPLIT               */
+    /* ==================================================== */
+                    .portal-stage {
+      position: fixed; inset: 0; width: 100vw; height: 100vh;
+      z-index: 9999;
+      background: var(--bg-slate);
+      transition: opacity 0.8s ease, visibility 0.8s;
+      visibility: visible; opacity: 1;
+    }
+    
+    .portal-stage.hidden-gateway { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .theme-split {
+      display: flex; width: 100%; height: 100%; position: relative;
+    }
+    
+    .split-side {
+      width: 50%; height: 100%; position: relative;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+      overflow: hidden;
+    }
+    
+    .split-left { background: linear-gradient(135deg, #1f2937 0%, #111827 100%); border-right: 1px solid rgba(255,255,255,0.05); }
+    .split-right { background: linear-gradient(135deg, #111827 0%, #030712 100%); }
+    
+    .split-side::after {
+      content: ''; position: absolute; inset: 0; opacity: 0;
+      transition: opacity 0.8s ease; pointer-events: none;
+    }
+    .split-left::after { background: radial-gradient(circle at center, rgba(255, 184, 48, 0.1) 0%, transparent 70%); }
+    .split-right::after { background: radial-gradient(circle at center, rgba(56, 189, 248, 0.1) 0%, transparent 70%); }
+    
+    .split-side:hover::after { opacity: 1; }
+    
+    .split-label-container {
+      text-align: center; z-index: 10; pointer-events: none; padding: 0 40px; display: flex; flex-direction: column; align-items: center;
+    }
+    
+    .split-tag {
+      font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 500;
+      letter-spacing: 4px; color: rgba(255,255,255,0.4); margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    
+    .split-title {
+      font-family: 'Outfit', sans-serif; font-weight: 300; font-size: 2.8rem;
+      line-height: 1.1; color: #f3f4f6; transition: all 0.5s ease;
+    }
+
+    .split-desc {
+      font-family: 'Outfit', sans-serif; font-weight: 300; font-size: 1.1rem;
+      color: rgba(255,255,255,0.5); margin-top: 16px; opacity: 0;
+      transform: translateY(10px); transition: all 0.5s ease; max-width: 450px; line-height: 1.5;
+    }
+    
+    /* Hover and trigger states */
+    .split-side:hover { width: 58%; }
+    .split-side:hover ~ .split-side { width: 42%; }
+    
+    .split-left:hover .split-title { color: #fff; transform: translateY(-5px); text-shadow: 0 10px 30px rgba(255, 184, 48, 0.2); }
+    .split-right:hover .split-title { color: #fff; transform: translateY(-5px); text-shadow: 0 10px 30px rgba(56, 189, 248, 0.2); }
+    
+    .split-side:hover .split-desc { opacity: 1; transform: translateY(0); }
+    
+    /* Active transition triggers */
+    .split-triggered-left .split-left { width: 100% !important; }
+    .split-triggered-left .split-right { width: 0% !important; }
+    
+    .split-triggered-right .split-left { width: 0% !important; }
+    .split-triggered-right .split-right { width: 100% !important; }
+/* Hidden Sections for transition */
+    .content-section {
+      transition: opacity 0.8s ease;
+      opacity: 0;
+      visibility: hidden;
+      display: none;
+    }
+    
+    .content-section.active {
+      opacity: 1;
+      visibility: visible;
+      display: block;
+    }
+
+    /* Return Button */
+    .return-portal-btn {
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: var(--text-gray);
+      padding: 10px 24px;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .return-portal-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #fff;
+      color: #fff;
+    }
+
+  </style>
+</head>
+<body>
+
+  
+
+  <!-- GATEWAY HERO / SPLIT SCREEN -->
+  <div id="portal-split" class="portal-stage">
+    <div class="theme-split" id="split-wrapper">
+      <div class="split-side split-left" onclick="revealPath('database')">
+        <div class="split-label-container">
+          <div class="split-tag">PWA Catalog</div>
+          <div class="split-title">Dondlinger Digital Database</div>
+          <div class="split-desc">Access the curated engineering catalog of purpose-built progressive web applications.</div>
+        </div>
+      </div>
+      <div class="split-side split-right" onclick="revealPath('telemetry')">
+        <div class="split-label-container">
+          <div class="split-tag">Live Telemetry</div>
+          <div class="split-title">Wazeecha-Weather-Walkthrough</div>
+          <div class="split-desc">Real-time hydrology flow and atmospheric forecasting for the Wisconsin River.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <div class="split-side split-right" onclick="revealPath('telemetry')">
+        <div class="split-label-container">
+          <div class="split-tag"></div>
+          <div class="split-title">Wazeecha-Weather-Walkthrough</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- LIVE TELEMETRY HUD -->
+    <section id="wazeecha-telemetry" class="telemetry-section content-section" style="width: 100vw; height: 100vh; position: fixed; inset: 0; z-index: 9999; background: var(--bg-slate); margin: 0; padding: 0; display: flex; flex-direction: column; overflow: hidden;">
+    <!-- Pseudo-background for parallax -->
+    <div id="walkthrough-bg" style="position: absolute; inset: -50vw; background-image: radial-gradient(circle at center, #2C2C2E 0%, #1C1C1E 100%); background-size: 200vw 100vh; z-index: -1;"></div>
+
+    <div class="dashboard-grid" style="display: flex; flex-direction: row; align-items: center; width: 100%; height: 100%; overflow-x: auto; overflow-y: hidden; padding: 0 40px; gap: 40px; scrollbar-width: none;">
+        
+        <!-- Trail Marker 1: Portal Return & Summary -->
+        <div style="display: flex; flex-direction: column; gap: 24px; flex-shrink: 0; width: 500px; padding-left: 40px;">
+            <button class="return-portal-btn" onclick="resetActiveGateway()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Return to Portal
+      </button>
+            <div class="glow-card dashboard-panel" data-app="sentinel" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; cursor: pointer;">
+        <div class="card-top" style="flex: 1; min-width: 250px;">
+          <div class="card-meta">
+            <span class="card-number" style="color: var(--accent-info); display: flex; align-items: center; gap: 12px;">
+              // WWW TELEMETRY HUB
+              <span class="live-dot-wrap"> REC</span>
+            </span>
+            <span class="card-name" style="font-size: 1.8rem; text-transform: uppercase; letter-spacing: -0.5px;">Wazeecha-Weather-Walkthrough</span>
+            <div class="digital-clock" id="live-clock">00:00:00</div>
+          </div>
+          <div class="card-icon-wrap" style="margin-top: 16px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-info)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body" style="flex: 2; flex-direction: row; justify-content: flex-end; align-items: center; gap: 32px; min-width: 300px;">
+          <div class="telemetry-row" style="border: none; padding: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
+            <span class="telemetry-label">Wisconsin River Flow (USGS)</span>
+            <span class="telemetry-value" id="telemetry-flow" style="font-size: 1.4rem; color: var(--accent-info);">Loading...</span>
+          </div>
+          <div class="telemetry-row" style="border: none; padding: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
+            <span class="telemetry-label">Regional Air Quality Index</span>
+            <span class="aqi-container">
+              <div class="aqi-indicator" id="aqi-indicator"></div>
+              <span class="telemetry-value" id="telemetry-aqi" style="font-size: 1.4rem;">Loading...</span>
+            </span>
+          </div>
+          <span class="card-cta" style="margin-top: 0;">Collapse Telemetry ⟵</span>
+        </div>
+      </div>
+        </div>
+
+        <!-- Weather Forecast Track (5 Days) -->
+        <div id="weather-forecast-track" style="display: contents;"></div>
+        <!-- LEFT COLUMN: HYDROLOGY -->
+            <div class="dashboard-panel">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="telemetry-detail-header" style="border: none; padding: 0;">Wisconsin River Levels</span>
+                <span class="live-dot-wrap" style="color: var(--accent-info); font-size: 0.65rem;"> LIVE</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px;">
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Water Flow</div><div id="metric-cfs" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- CFS</div></div>
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">River Depth</div><div id="metric-gauge" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- ft</div></div>
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Current Speed</div><div id="metric-vel" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- ft/s</div></div>
+              </div>
+              <div class="chart-box"><canvas id="hydroChart"></canvas></div>
+            </div>
+
+            <!-- RIGHT COLUMN: ATMOSPHERICS -->
+            <div class="dashboard-panel">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span class="telemetry-detail-header" style="border: none; padding: 0;">Local Air Quality</span>
+                <div class="telemetry-subval" id="detail-aqi-status" style="margin: 0; border: none; padding: 0;">Status: --</div>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px;">
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">US AQI</div><div id="metric-aqi" style="font-weight: 700; color: var(--accent-tap); font-size: 1.2rem;">--</div></div>
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">Dust</div><div id="metric-dust" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">-- μg/m³</div></div>
+                <div><div style="font-size: 0.75rem; color: var(--text-dim);">UV Index</div><div id="metric-uv" style="font-weight: 700; color: var(--text-white); font-size: 1.2rem;">--</div></div>
+              </div>
+              <div class="pollutant-bars" id="pollutant-bars"></div>
+            </div>
+
+
+
+          </div>
+
+    </div>
+</section>
+
+    <!-- App Grid Section -->
+    <section id="pwa-catalog" class="content-section" style="scroll-margin-top: 100px; width: 100%;">
+      <button class="return-portal-btn" onclick="resetActiveGateway()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Return to Portal
+      </button>
+      <div class="grid-container">
+        
+        <!-- 00 · DONDLINGER DIGITAL INTRO -->
+        <div class="glow-card" data-app="greeting" data-index="0">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// CATALOG INFO</span>
+              <span class="card-name">Dondlinger Digital</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 38 38" fill="none">
+                <rect width="38" height="38" rx="8" fill="rgba(0,229,255,0.08)"/>
+                <path d="M10 19h18M19 10v18" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="19" cy="19" r="6" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A curated engineering catalog of field-tested progressive web applications. Each tool is purpose-built, ruthlessly scoped, and deployed for performance at the edge. No bloat. No guesswork. Just precision engineering.</p>
+            <span class="card-cta">Active Catalog ⟶</span>
+          </div>
+        </div>
+
+        <!-- 01 · POURREADY -->
+        <div class="glow-card" data-app="pourready" data-index="1">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 01</span>
+              <span class="card-name">PourReady</span>
+            </div>
+            <div class="card-icon-wrap">
+              <img src="calc/pourready-logo.png" alt="PourReady logo" />
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A field-tested concrete volume estimator built directly for jobsites. Precise calculations for slabs, footings, walls, and columns.</p>
+            <div class="card-preview">
+              <img src="img/pourready.png" alt="PourReady preview" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 02 · SHOTSTACK -->
+        <div class="glow-card" data-app="shotstack" data-index="2">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 02</span>
+              <span class="card-name">ShotStack</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-shot)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A standalone storyboard tool to organize and compile multiple screenshots and layouts into a single scrollable PDF storyboard.</p>
+            <div class="card-preview">
+              <img src="img/shotstackstudio_screenshot.PNG" alt="ShotStack preview" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 03 · TAP -->
+        <div class="glow-card" data-app="tap" data-index="3">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 03</span>
+              <span class="card-name">TAP Protocol</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-tap)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A minimalist field utility providing instant, authenticated location and timestamp verification directly from the field.</p>
+            <div class="card-preview">
+              <img src="img/TAP_screenshot.PNG" alt="TAP Protocol preview" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 04 · AMPLILOOP -->
+        <div class="glow-card" data-app="ampliloop" data-index="4">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 04</span>
+              <span class="card-name">AmpliLoop</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ampli)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18V5l12-2v13"/>
+                <circle cx="6" cy="18" r="3"/>
+                <circle cx="18" cy="16" r="3"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Premium Algorithmic Rap Beat Studio, Metronome, and Instrument Tuner PWA engineered with Blazor WebAssembly performance.</p>
+            <div class="card-preview">
+              <img src="img/blazorcore.png" alt="AmpliLoop preview" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>Dondlinger Digital &nbsp;·&nbsp; <span id="footer-year"></span></footer>
+
+  <!-- DETAIL MODAL / DIALOG -->
+  <div class="dialog-overlay" id="dialog-overlay" role="dialog" aria-modal="true" aria-labelledby="dialog-title-text">
+    <div class="dialog-window" id="dialog-window">
+      <div class="dialog-header">
+        <div class="dialog-title" id="dialog-title-text">App Details</div>
+        <button class="dialog-close" id="dialog-close" aria-label="Close dialog">✕</button>
+      </div>
+      
+      <!-- Screen preview for standard apps inside dialog -->
+      <div class="dialog-screenshot-wrap" id="dialog-screenshot-container">
+        <img class="dialog-screenshot" id="dialog-screenshot" src="" alt="App screenshot" />
+      </div>
+
+      <div class="dialog-body">
+        
+        <!-- STANDARD APP VIEW -->
+        <div id="standard-dialog-view">
+          <div class="dialog-section" style="margin-bottom: 20px;">
+            <span class="dialog-section-label">Description</span>
+            <p class="dialog-text" id="dialog-desc"></p>
+          </div>
+          <div class="dialog-section">
+            <span class="dialog-section-label">Built For</span>
+            <div class="tag-list" id="dialog-audience"></div>
+          </div>
+        </div>
+
+        <!-- SPECIAL TELEMETRY HUD VIEW -->
+        <div id="telemetry-dialog-view" style="display: none; width: 100%;">
+        </div>
+      </div>
+      
+      <div class="dialog-footer">
+        <a id="dialog-launch-btn" class="launch-btn" href="#">Launch App</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    'use strict';
+
+    // Declare DOM variables to prevent strict mode ReferenceErrors
+    const overlay = document.getElementById('dialog-overlay');
+    const titleEl = document.getElementById('dialog-title-text');
+    const screenshotContainer = document.getElementById('dialog-screenshot-container');
+    const screenshotEl = document.getElementById('dialog-screenshot');
+    const standardView = document.getElementById('standard-dialog-view');
+    const telemetryView = document.getElementById('telemetry-dialog-view');
+    const launchBtn = document.getElementById('dialog-launch-btn');
+    const descEl = document.getElementById('dialog-desc');
+    const audienceEl = document.getElementById('dialog-audience');
+
+    /* App details database */
+    const APP_DATA = {
+      greeting: {
+        title: 'Dondlinger Digital // 00',
+        accent: 'var(--accent-info)',
+        screenshot: '',
+        desc: 'A curated engineering catalog of field-tested progressive web applications. Each tool is purpose-built, ruthlessly scoped, and deployed for performance at the edge. No bloat. No guesswork. Just precision engineering.',
+        who: ['Engineers', 'Developers', 'Product Designers'],
+        link: '#',
+        btnLabel: 'Catalog Info Active'
+      },
+      pourready: {
+        title: 'PourReady // 01',
+        accent: 'var(--accent-pour)',
+        screenshot: 'img/pourready.png',
+        desc: 'A field-tested concrete volume estimator built directly for jobsites. Precise calculations for slabs, footings, walls, and columns with custom waste safety margins.',
+        who: ['Concrete Foremen', 'Contractors', 'Field Estimators'],
+        link: './calc/index.html',
+        btnLabel: 'Open PourReady'
+      },
+      shotstack: {
+        title: 'ShotStack // 02',
+        accent: 'var(--accent-shot)',
+        screenshot: 'img/shotstackstudio_screenshot.PNG',
+        desc: 'A storyboard compiler allowing video editors, film directors, and design teams to compile images, screenshots, and annotation notes into an exportable PDF layout.',
+        who: ['Directors', 'Video Editors', 'Production Crew'],
+        link: 'https://shotstackstudio.dondlingergc.com',
+        btnLabel: 'Launch ShotStack'
+      },
+      tap: {
+        title: 'TAP: Time & Place // 03',
+        accent: 'var(--accent-tap)',
+        screenshot: 'img/TAP_screenshot.PNG',
+        desc: 'An authenticated, minimal field tracking protocol providing cryptographic proofs of location, activity, and duration directly from active project sites.',
+        who: ['Field Supervisors', 'Auditors', 'Project Managers'],
+        link: 'https://tap.dondlingergc.com',
+        btnLabel: 'Launch TAP Protocol'
+      },
+      ampliloop: {
+        title: 'AmpliLoop Studio // 04',
+        accent: 'var(--accent-ampli)',
+        screenshot: 'img/blazorcore.png',
+        desc: 'A high-performance algorithmic rap beat generator, precise metronome, and software instrument tuner running locally via fast Blazor WebAssembly compiles.',
+        who: ['Artists', 'Audio Engineers', 'Producers'],
+        link: 'https://blazorpwa.dondlingergc.com',
+        btnLabel: 'Launch AmpliLoop Studio'
+      },
+      dashboard: {
+        title: 'Field Operations HUD // 05',
+        accent: 'var(--accent-info)',
+        screenshot: '',
+        desc: 'A live dashboard pulling environmental telemetry and USGS streamflow diagnostics for regional project management and outdoor logistics coordinates.',
+        who: ['Field Superintendents', 'Surveyors', 'Logistics Managers'],
+        link: '#',
+        btnLabel: 'Close HUD Details'
+      }
+    };
+
+    /* Cache for live variables */
+    let telemetryCache = {
+      cfs: 15700,
+      gauge: 10.42,
+      aqi: 20,
+      pm10: 0,
+      pm25: 0,
+      uv: 0
+    };
+
+    /* Mouse Spotlight Shine Effect */
+    const cards = document.querySelectorAll('.glow-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    /* Inline Dashboard Toggle */
+    const sentinelCard = document.querySelector('[data-app="sentinel"]');
+    const sentinelContainer = document.getElementById('sentinel-dashboard-container');
+    if (sentinelCard && sentinelContainer) {
+      sentinelCard.addEventListener('click', () => {
+        if (sentinelContainer.style.display === 'none') {
+          sentinelContainer.style.display = 'block';
+          document.querySelector('[data-app="sentinel"] .card-cta').textContent = 'Collapse Telemetry ⟵';
+        } else {
+          sentinelContainer.style.display = 'none';
+          document.querySelector('[data-app="sentinel"] .card-cta').textContent = 'More Telemetry ⟶';
+        }
+      });
+    }
+
+    /* Live Telemetry Data Fetch */
+    async function fetchTelemetry() {
+      const CACHE_DURATION = 4 * 60 * 60 * 1000; // 4 hours
+      // 1. Fetch USGS Hydrology (Flow, Gauge, Current Speed for 7 Days)
+      try {
+        const CACHE_KEY = 'usgs_hydro_cache';
+        const now = Date.now();
+        const cached = localStorage.getItem(CACHE_KEY);
+        let hydroData;
+        
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (now - parsed.timestamp < CACHE_DURATION) {
+            hydroData = parsed.data;
+            console.log("Loaded USGS data from 4-hour browser cache.");
+          }
+        }
+        
+        if (!hydroData) {
+          const hydroRes = await fetch('https://waterservices.usgs.gov/nwis/iv/?format=json&sites=05400760&parameterCd=00060,00065&period=P7D');
+          hydroData = await hydroRes.json();
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: hydroData }));
+          console.log("Fetched fresh USGS data and updated cache.");
+        }
+        
+        let cfsData=[], gaugeData=[], labels=[];
+        hydroData.value.timeSeries.forEach(series => {
+          const code = series.variable.variableCode[0].value;
+          const valuesList = series.values[0].value;
+          if (!valuesList || valuesList.length === 0) return;
+          
+          const currentVal = valuesList[valuesList.length - 1].value;
+          
+          if (code === '00060') {
+            document.getElementById('metric-cfs').textContent = `${parseFloat(currentVal).toLocaleString()} CFS`;
+            document.getElementById('telemetry-flow').textContent = `${parseFloat(currentVal).toLocaleString()} CFS`;
+            const step = Math.max(1, Math.floor(valuesList.length / 40));
+            for(let i=0; i<valuesList.length; i+=step) {
+              cfsData.push(parseFloat(valuesList[i].value));
+              const d = new Date(valuesList[i].dateTime);
+              labels.push(d.toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric' }));
+            }
+          } else if (code === '00065') {
+            document.getElementById('metric-gauge').textContent = `${parseFloat(currentVal).toFixed(2)} ft`;
+            const step = Math.max(1, Math.floor(valuesList.length / 40));
+            for(let i=0; i<valuesList.length; i+=step) gaugeData.push(parseFloat(valuesList[i].value));
+          } else if (code === '72254') {
+            document.getElementById('metric-vel').textContent = `${parseFloat(currentVal).toFixed(2)} ft/s`;
+          }
+        });
+
+        // Hydrology Chart
+        if (window.hydroChartInst) window.hydroChartInst.destroy();
+        window.hydroChartInst = new Chart(document.getElementById('hydroChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Flow (CFS)', data: cfsData, borderColor: '#00e5ff', backgroundColor: 'rgba(0, 229, 255, 0.1)', yAxisID: 'y', fill: true, tension: 0.4, pointRadius: 0 },
+              { label: 'Gauge (ft)', data: gaugeData, borderColor: '#a78bfa', yAxisID: 'y1', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#6B7280', maxTicksLimit: 7 } },
+              y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#00e5ff' } },
+              y1: { type: 'linear', display: true, position: 'right', grid: { display: false }, ticks: { color: '#a78bfa' } }
+            },
+            plugins: { legend: { labels: { color: '#9CA3AF' } } }
+          }
+        });
+      } catch (err) {
+        console.error("USGS Fetch error (using fallback):", err);
+        // Fallback
+        document.getElementById('metric-cfs').textContent = `15,700 CFS`;
+        document.getElementById('telemetry-flow').textContent = `15,700 CFS`;
+        document.getElementById('metric-gauge').textContent = `10.42 ft`;
+        document.getElementById('metric-vel').textContent = `1.48 ft/s`;
+
+        const labels = [];
+        const cfsData = [];
+        const gaugeData = [];
+        const baseDate = new Date();
+        for (let i = 0; i < 40; i++) {
+          const d = new Date(baseDate.getTime() - (40 - i) * 60 * 60 * 1000);
+          labels.push(d.toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric' }));
+          cfsData.push(14500 + Math.random() * 2000);
+          gaugeData.push(9.8 + Math.random() * 1.2);
+        }
+        if (window.hydroChartInst) window.hydroChartInst.destroy();
+        window.hydroChartInst = new Chart(document.getElementById('hydroChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Flow (CFS)', data: cfsData, borderColor: '#00e5ff', backgroundColor: 'rgba(0, 229, 255, 0.1)', yAxisID: 'y', fill: true, tension: 0.4, pointRadius: 0 },
+              { label: 'Gauge (ft)', data: gaugeData, borderColor: '#a78bfa', yAxisID: 'y1', borderDash: [5, 5], tension: 0.4, pointRadius: 0 }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#6B7280', maxTicksLimit: 7 } },
+              y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#00e5ff' } },
+              y1: { type: 'linear', display: true, position: 'right', grid: { display: false }, ticks: { color: '#a78bfa' } }
+            },
+            plugins: { legend: { labels: { color: '#9CA3AF' } } }
+          }
+        });
+      }
+
+      // 2. Fetch Open-Meteo AQI
+      try {
+        const CACHE_KEY = 'aqi_cache';
+        const now = Date.now();
+        const cached = localStorage.getItem(CACHE_KEY);
+        let aqiData;
+        
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (now - parsed.timestamp < CACHE_DURATION) {
+            aqiData = parsed.data;
+            console.log("Loaded AQI data from 4-hour browser cache.");
+          }
+        }
+        
+        if (!aqiData) {
+          const aqiRes = await fetch('https://air-quality-api.open-meteo.com/v1/air-quality?latitude=44.3936&longitude=-89.8173&current=us_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,dust,uv_index');
+          aqiData = await aqiRes.json();
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: aqiData }));
+          console.log("Fetched fresh AQI data and updated cache.");
+        }
+        const c = aqiData.current;
+        
+        document.getElementById('metric-aqi').textContent = c.us_aqi || 20;
+        document.getElementById('telemetry-aqi').textContent = c.us_aqi || 20;
+        document.getElementById('metric-dust').textContent = `${c.dust || 0} μg/m³`;
+        document.getElementById('metric-uv').textContent = c.uv_index || 0;
+        
+        let status = 'Excellent', statusColor = 'var(--accent-tap)';
+        if (c.us_aqi > 50) { status = 'Moderate'; statusColor = 'var(--accent-pour)'; }
+        if (c.us_aqi > 100) { status = 'Unhealthy'; statusColor = '#EF4444'; }
+        
+        const statusEl = document.getElementById('detail-aqi-status');
+        statusEl.textContent = `Status: ${status}`; statusEl.style.color = statusColor;
+        document.getElementById('metric-aqi').style.color = statusColor;
+
+        const barsContainer = document.getElementById('pollutant-bars');
+        if (barsContainer) {
+          const pollutants = [
+            { label: 'Ozone (O₃)', value: c.ozone || 0, max: 120, unit: 'μg/m³', color: '#00e5ff' },
+            { label: 'PM10 (Dust)', value: c.pm10 || 0, max: 100, unit: 'μg/m³', color: '#ff6b35' },
+            { label: 'PM2.5 (Fine Dust)', value: c.pm2_5 || 0, max: 50, unit: 'μg/m³', color: '#00ff88' },
+            { label: 'Carbon Monoxide (CO)', value: c.carbon_monoxide || 0, max: 1000, unit: 'μg/m³', color: '#bf5fff' },
+            { label: 'Nitrogen Dioxide (NO₂)', value: c.nitrogen_dioxide || 0, max: 200, unit: 'μg/m³', color: '#ffcc00' }
+          ];
+
+          barsContainer.innerHTML = pollutants.map(p => {
+            const pct = Math.min(100, (p.value / p.max) * 100);
+            return `
+              <div class="pollutant-bar-row">
+                <div class="pollutant-bar-label">
+                  <span>${p.label}</span>
+                  <span>${p.value} ${p.unit}</span>
+                </div>
+                <div class="pollutant-bar-bg">
+                  <div class="pollutant-bar-fill" style="width: ${pct}%; background: ${p.color};"></div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      } catch (err) {
+        console.error("AQI Fetch Error (using fallback):", err);
+        document.getElementById('metric-aqi').textContent = '26';
+        document.getElementById('telemetry-aqi').textContent = '26';
+        document.getElementById('metric-dust').textContent = '1 μg/m³';
+        document.getElementById('metric-uv').textContent = '3.65';
+        document.getElementById('detail-aqi-status').textContent = 'Status: Excellent';
+        document.getElementById('detail-aqi-status').style.color = 'var(--accent-tap)';
+        
+        const barsContainer = document.getElementById('pollutant-bars');
+        if (barsContainer) {
+          barsContainer.innerHTML = `
+            <div class="pollutant-bar-row">
+              <div class="pollutant-bar-label"><span>Ozone (O₃)</span><span>76.0 μg/m³</span></div>
+              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 63%; background: #00e5ff;"></div></div>
+            </div>
+            <div class="pollutant-bar-row">
+              <div class="pollutant-bar-label"><span>PM10 (Dust)</span><span>4.0 μg/m³</span></div>
+              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 4%; background: #ff6b35;"></div></div>
+            </div>
+            <div class="pollutant-bar-row">
+              <div class="pollutant-bar-label"><span>PM2.5 (Fine Dust)</span><span>3.4 μg/m³</span></div>
+              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 7%; background: #00ff88;"></div></div>
+            </div>
+            <div class="pollutant-bar-row">
+              <div class="pollutant-bar-label"><span>Carbon Monoxide (CO)</span><span>110.0 μg/m³</span></div>
+              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 11%; background: #bf5fff;"></div></div>
+            </div>
+            <div class="pollutant-bar-row">
+              <div class="pollutant-bar-label"><span>Nitrogen Dioxide (NO₂)</span><span>1.6 μg/m³</span></div>
+              <div class="pollutant-bar-bg"><div class="pollutant-bar-fill" style="width: 1%; background: #ffcc00;"></div></div>
+            </div>
+          `;
+        }
+      }
+
+      // 3. Fetch Open-Meteo Weather Forecast
+      try {
+        const CACHE_KEY = 'weather_cache_v3';
+        const now = Date.now();
+        const cached = localStorage.getItem(CACHE_KEY);
+        let wxData;
+        
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (now - parsed.timestamp < CACHE_DURATION) {
+            wxData = parsed.data;
+            console.log("Loaded Weather data from 4-hour browser cache.");
+          }
+        }
+        
+        if (!wxData) {
+          const wxRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=44.3936&longitude=-89.8173&hourly=temperature_2m,precipitation,wind_gusts_10m,weather_code&forecast_days=5&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch');
+          wxData = await wxRes.json();
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: wxData }));
+          console.log("Fetched fresh Weather data and updated cache.");
+        }
+        const h = wxData.hourly;
+        
+        const days = {};
+        h.time.forEach((t, index) => {
+          const dateObj = new Date(t);
+          const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+          if (!days[dateStr]) {
+            days[dateStr] = {
+              temps: [],
+              precips: [],
+              winds: [],
+              codes: [],
+              workPrecips: [],
+              workWinds: [],
+              workCodes: [],
+              rawTime: t
+            };
+          }
+          days[dateStr].temps.push(h.temperature_2m[index]);
+          days[dateStr].precips.push(h.precipitation[index]);
+          days[dateStr].winds.push(h.wind_gusts_10m[index]);
+          days[dateStr].codes.push(h.weather_code[index]);
+          
+          if (dateObj.getHours() <= 15) {
+            days[dateStr].workPrecips.push(h.precipitation[index]);
+            days[dateStr].workWinds.push(h.wind_gusts_10m[index]);
+            days[dateStr].workCodes.push(h.weather_code[index]);
+          }
+        });
+
+        const weatherTrack = document.getElementById('weather-forecast-track');
+        if (weatherTrack) {
+          weatherTrack.innerHTML = Object.keys(days).slice(0, 5).map(dayKey => {
+            const dayData = days[dayKey];
+            const maxTemp = Math.max(...dayData.temps);
+            const minTemp = Math.min(...dayData.temps);
+            const totalPrecip = dayData.precips.reduce((sum, val) => sum + val, 0);
+            const maxWind = Math.max(...dayData.winds);
+            
+            const workPrecipTotal = dayData.workPrecips.reduce((sum, val) => sum + val, 0);
+            const maxWorkWind = dayData.workWinds.length > 0 ? Math.max(...dayData.workWinds) : 0;
+            const validWorkCodes = dayData.workCodes.filter(c => c !== null);
+            const worstWorkCode = validWorkCodes.length > 0 ? Math.max(...validWorkCodes) : 0;
+            
+            let statusText = "Good to Go";
+            let statusClass = "status-ok";
+            
+            if (worstWorkCode >= 95) {
+              statusText = "DANGER: Thunderstorms";
+              statusClass = "status-stop";
+            } else if (worstWorkCode >= 61 && worstWorkCode <= 67) {
+              statusText = "No Work: Heavy Rain";
+              statusClass = "status-stop";
+            } else if (maxWorkWind > 25) {
+              statusText = "Caution: High Wind";
+              statusClass = "status-warn";
+            } else if (workPrecipTotal > 0.05 || (worstWorkCode >= 51 && worstWorkCode <= 55)) {
+              statusText = "Caution: Light Rain/Drizzle";
+              statusClass = "status-warn";
+            }
+
+            let rainHours = [];
+            dayData.precips.forEach((p, idx) => {
+              if (p > 0.01) {
+                const idxTime = new Date(h.time[h.time.indexOf(dayData.rawTime) + idx]);
+                const hourFormatted = idxTime.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
+                rainHours.push(hourFormatted);
+              }
+            });
+            
+            let rainSummary = "No Rain Expected";
+            if (totalPrecip > 0) {
+              const uniqueHours = [...new Set(rainHours)];
+              if (uniqueHours.length > 5) {
+                rainSummary = "Steady Rain throughout day";
+              } else if (uniqueHours.length > 0) {
+                rainSummary = `Rain risk at: ${uniqueHours.slice(0, 3).join(', ')}`;
+              } else {
+                rainSummary = "Light/Trace Rain";
+              }
+            }
+
+            return `
+            <div class="dashboard-panel weather-card" style="min-width: 350px; width: 350px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 8px;">
+                <span class="telemetry-detail-header" style="border: none; padding: 0; font-size: 1.1rem; color: var(--accent-info);">${dayKey}</span>
+              </div>
+              
+              <div style="margin-top: 16px; margin-bottom: 20px;">
+                <span class="weather-day-status ${statusClass}" style="display: inline-block; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px;">${statusText}</span>
+              </div>
+              
+              <div class="weather-metrics-list" style="display: flex; flex-direction: column; gap: 12px;">
+                <div class="weather-metric-item" style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                  <span style="color: var(--text-dim);">Temp Range</span>
+                  <span style="font-weight: 600; color: var(--text-white);">${Math.round(minTemp)}°F - ${Math.round(maxTemp)}°F</span>
+                </div>
+                <div class="weather-metric-item" style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                  <span style="color: var(--text-dim);">Total Rain</span>
+                  <span style="font-weight: 600; color: var(--text-white);">${totalPrecip.toFixed(2)} in</span>
+                </div>
+                <div class="weather-metric-item" style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                  <span style="color: var(--text-dim);">Max Wind Gusts</span>
+                  <span style="font-weight: 600; color: var(--text-white);">${Math.round(maxWind)} mph</span>
+                </div>
+                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 12px; display: flex;">
+                  <span style="color: var(--text-dim); font-size: 0.8rem;">Precipitation Timing</span>
+                  <span style="font-weight: 500; font-size: 0.85rem; color: var(--accent-info);">${rainSummary}</span>
+                </div>
+              </div>
+            </div>`;
+          }).join('');
+        }
+      } catch(err) {
+        console.error("Weather Fetch Error (using fallback):", err);
+        const plannerContainer = document.getElementById('weather-planner');
+        if (plannerContainer) {
+          plannerContainer.innerHTML = `
+            <div class="weather-day-card">
+              <div class="weather-day-title">
+                <span>Wednesday, Jun 17</span>
+                <span class="weather-day-status status-warn">Caution: Light Rain</span>
+              </div>
+              <div class="weather-metrics-list">
+                <div class="weather-metric-item"><span>Temp Range</span><span>62°F - 78°F</span></div>
+                <div class="weather-metric-item"><span>Total Rain</span><span>0.12 in</span></div>
+                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>14 mph</span></div>
+                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
+                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
+                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">Rain risk at: 2:00 PM, 3:00 PM</span>
+                </div>
+              </div>
+            </div>
+            <div class="weather-day-card">
+              <div class="weather-day-title">
+                <span>Thursday, Jun 18</span>
+                <span class="weather-day-status status-ok">Good to Go</span>
+              </div>
+              <div class="weather-metrics-list">
+                <div class="weather-metric-item"><span>Temp Range</span><span>58°F - 82°F</span></div>
+                <div class="weather-metric-item"><span>Total Rain</span><span>0.00 in</span></div>
+                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>10 mph</span></div>
+                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
+                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
+                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">No Rain Expected</span>
+                </div>
+              </div>
+            </div>
+            <div class="weather-day-card">
+              <div class="weather-day-title">
+                <span>Friday, Jun 19</span>
+                <span class="weather-day-status status-stop">No Work: Heavy Rain</span>
+              </div>
+              <div class="weather-metrics-list">
+                <div class="weather-metric-item"><span>Temp Range</span><span>60°F - 72°F</span></div>
+                <div class="weather-metric-item"><span>Total Rain</span><span>0.85 in</span></div>
+                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>22 mph</span></div>
+                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
+                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
+                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">Steady Rain throughout day</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      }
+    }
+
+    function openDialog(key) {
+      const info = APP_DATA[key];
+      if (!info) return;
+
+      titleEl.textContent = info.title;
+      titleEl.style.color = info.accent;
+
+      if (key === 'dashboard') {
+        screenshotContainer.style.display = 'none';
+        standardView.style.display = 'none';
+        telemetryView.style.display = 'block';
+        launchBtn.textContent = 'Close HUD';
+        launchBtn.style.backgroundColor = 'var(--accent-info)';
+      } else {
+        if (info.screenshot) {
+          screenshotEl.src = info.screenshot;
+          screenshotContainer.style.display = 'flex';
+        } else {
+          screenshotContainer.style.display = 'none';
+        }
+        
+        standardView.style.display = 'block';
+        telemetryView.style.display = 'none';
+        descEl.textContent = info.desc;
+        audienceEl.innerHTML = info.who.map(w => `<span class="tag">${w}</span>`).join('');
+        launchBtn.textContent = info.btnLabel;
+        launchBtn.style.backgroundColor = info.accent;
+      }
+
+      launchBtn.href = info.link;
+      overlay.classList.add('open');
+    }
+
+    function closeDialog() {
+      overlay.classList.remove('open');
+      // Reset animations safely
+      const fillPm10 = document.getElementById('fill-pm10');
+      if (fillPm10) fillPm10.style.width = '0%';
+      const fillPm25 = document.getElementById('fill-pm25');
+      if (fillPm25) fillPm25.style.width = '0%';
+      const fillUv = document.getElementById('fill-uv');
+      if (fillUv) fillUv.style.width = '0%';
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const appKey = card.dataset.app;
+        if(appKey === 'sentinel') return;
+        openDialog(appKey);
+      });
+    });
+
+    const closeBtn = document.getElementById('dialog-close');
+    if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeDialog(); });
+    
+    // Init Page Details
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    fetchTelemetry();
+
+    // Init Live Clock
+    setInterval(() => {
+      const clockEl = document.getElementById('live-clock');
+      if (clockEl) {
+        clockEl.textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
+      }
+    }, 1000);
+    // --- GATEWAY PORTAL MANAGEMENT ---
+    let activePortalId = 'split';
+    
+    function revealPath(path) {
+      const wrap = document.getElementById('split-wrapper');
+      if (path === 'database') {
+        wrap.className = 'theme-split split-triggered-left';
+      } else {
+        wrap.className = 'theme-split split-triggered-right';
+      }
+      
+      // Fade in the transition view after a short delay
+      setTimeout(() => {
+        const portal = document.getElementById('portal-split');
+        portal.classList.add('hidden-gateway');
+        
+        const viewId = path === 'database' ? 'pwa-catalog' : 'wazeecha-telemetry';
+        document.getElementById(viewId).classList.add('active');
+        
+        // Ensure scroll brings the new section into view
+        document.getElementById(viewId).scrollIntoView({ behavior: 'smooth' });
+      }, 600);
+      
+      playMechanicalClick();
+    }
+    
+    function resetActiveGateway() {
+      // Hide content views
+      document.querySelectorAll('.content-section').forEach(v => v.classList.remove('active'));
+      
+      // Reset gateway
+      const portal = document.getElementById('portal-split');
+      portal.classList.remove('hidden-gateway');
+      
+      const wrap = document.getElementById('split-wrapper');
+      if (wrap) wrap.className = 'theme-split';
+    }
+    
+    function playMechanicalClick() {
+      // Audio removed per user request
+    }
+  
+    const mainContainer = document.querySelector('main');
+    const scrollTrack = document.querySelector('.dashboard-grid');
+    const walkBg = document.getElementById('walkthrough-bg');
+
+    window.addEventListener('wheel', (e) => {
+      const portal = document.getElementById('portal-split');
+      const telemetry = document.getElementById('wazeecha-telemetry');
+      if (portal.classList.contains('hidden-gateway') && telemetry.classList.contains('active')) {
+          e.preventDefault();
+          scrollTrack.scrollLeft += e.deltaY;
+          if (walkBg) {
+              walkBg.style.transform = `translateX(${-scrollTrack.scrollLeft * 0.2}px)`;
+          }
+      }
+    }, { passive: false });
+  </script>
+
+</body>
+</html>
