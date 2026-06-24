@@ -7,6 +7,9 @@ const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast?latitude=44.3936&lon
 // USGS URL for Wisconsin River (Site 05400760)
 const USGS_URL = 'https://waterservices.usgs.gov/nwis/iv/?format=json&sites=05400760&parameterCd=00060,00065&siteStatus=all';
 
+// NWS URL for Lake Wazeecha active weather alerts
+const NWS_URL = 'https://api.weather.gov/alerts/active?point=44.3936,-89.8173';
+
 const STATE_FILE = 'cooldown.json';
 
 // Helper to convert WMO Weather Codes to descriptive text
@@ -45,6 +48,31 @@ async function fetchUSGS() {
             res.on('data', chunk => data += chunk);
             res.on('end', () => {
                 try {
+                    resolve(JSON.parse(data));
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        }).on('error', reject);
+    });
+}
+
+async function fetchNWSAlerts() {
+    return new Promise((resolve, reject) => {
+        const options = {
+            headers: {
+                'User-Agent': 'dondlingergc-weather-app (contact@dondlingergc.com)'
+            }
+        };
+        https.get(NWS_URL, options, (res) => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => {
+                try {
+                    if (res.statusCode !== 200) {
+                        reject(new Error(`NWS API returned status ${res.statusCode}`));
+                        return;
+                    }
                     resolve(JSON.parse(data));
                 } catch (e) {
                     reject(e);
@@ -310,6 +338,48 @@ async function main() {
             }
         } catch (usgsErr) {
             console.error("Error evaluating USGS data:", usgsErr);
+        }
+
+        // 8. NWS ACTIVE ALERTS
+        try {
+            console.log("Fetching live NWS weather alerts...");
+            const nwsData = await fetchNWSAlerts();
+            const now = Date.now();
+
+            if (nwsData && nwsData.features) {
+                if (!state.sent_nws_alerts) {
+                    state.sent_nws_alerts = {};
+                }
+
+                for (const feature of nwsData.features) {
+                    const props = feature.properties;
+                    const alertId = props.id || feature.id;
+                    if (!alertId) continue;
+
+                    // Only send if we haven't notified about this alert yet
+                    if (!state.sent_nws_alerts[alertId]) {
+                        const event = props.event || "Weather Alert";
+                        const headline = props.headline || `${event} issued by NWS`;
+                        const expires = props.expires ? new Date(props.expires).getTime() : (now + 3600 * 1000); // 1 hour default
+
+                        const title = `Weather Alert: ${event}`;
+                        const message = headline;
+                        const success = await trySendBroadcast(title, message);
+                        if (success) {
+                            state.sent_nws_alerts[alertId] = expires;
+                        }
+                    }
+                }
+
+                // Clean up expired alerts from state
+                for (const id of Object.keys(state.sent_nws_alerts)) {
+                    if (state.sent_nws_alerts[id] < now) {
+                        delete state.sent_nws_alerts[id];
+                    }
+                }
+            }
+        } catch (nwsErr) {
+            console.error("Error evaluating NWS alerts:", nwsErr.message);
         }
 
         // Write state back to JSON file
