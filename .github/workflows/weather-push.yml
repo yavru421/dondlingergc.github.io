@@ -1,6 +1,10 @@
 name: Weather Push Notifications Cron
 
 on:
+  push:
+    branches:
+      - main
+      - production
   schedule:
     # Run every 15 minutes
     - cron: '*/15 * * * *'
