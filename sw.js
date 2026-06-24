@@ -3,7 +3,7 @@
 self.addEventListener('push', event => {
     event.waitUntil(
         (async () => {
-            let payload = { title: 'Wazeecha Telemetry', body: 'New weather/river level alert!', data: {} };
+            let payload = { title: 'Wazeecha Weather', body: 'New storm alert for Lake Wazeecha.', data: {} };
             
             try {
                 const textData = event.data ? event.data.text() : "";
@@ -27,8 +27,8 @@ self.addEventListener('push', event => {
 
             const options = {
                 body: payload.body,
-                icon: 'dondlinger_logo.png',
-                badge: 'dondlinger_logo.png',
+                icon: 'wazeecha_icon.png',
+                badge: 'wazeecha_icon.png',
                 vibrate: [200, 100, 200],
                 data: payload.data || {}
             };

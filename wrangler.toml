@@ -2,3 +2,17 @@ name = "dondlingergc-pages"
 compatibility_date = "2024-09-23"
 compatibility_flags = [ "nodejs_compat" ]
 
+[triggers]
+crons = ["*/15 * * * *"]
+
+[[kv_namespaces]]
+binding = "CRON_STATE"
+id = "91fc44c4ffc04333bc16c119862059a7"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "wazeecha-telemetry-db"
+database_id = "ce7e1166-fcf4-4926-aa8b-b05222d6715d"
+
+[ai]
+binding = "AI"
