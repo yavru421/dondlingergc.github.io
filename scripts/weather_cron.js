@@ -276,24 +276,27 @@ async function main() {
             }
         }
 
-        // 6. THUNDERSTORM / SEVERE WEATHER (Fallback cooldown-based alert)
+        // 6. THUNDERSTORM / SEVERE WEATHER (Fallback state-transition and cooldown alert)
         const code = current.weather_code || 0;
-        if (code >= 95) {
-            const alertType = 'thunderstorm';
-            if (!state.last_alert_time) {
-                state.last_alert_time = {};
+        const isThunderstorm = code >= 95;
+        const now = Date.now();
+        
+        if (isThunderstorm && !state.is_thunderstorm) {
+            const title = "DANGER: Thunderstorm";
+            const message = "Severe thunderstorms detected at Lake Wazeecha. Secure the site.";
+            const success = await trySendBroadcast(title, message);
+            if (success) {
+                state.is_thunderstorm = true;
+                state.last_thunderstorm_alert = now;
             }
-            const lastAlertTime = state.last_alert_time[alertType] || 0;
-            const now = Date.now();
-            
-            // 4 hour cooldown for severe weather thunderstorm warnings
-            if (now - lastAlertTime > (4 * 60 * 60 * 1000)) {
-                const title = "DANGER: Thunderstorm";
-                const message = "Severe thunderstorms detected at Lake Wazeecha. Secure the site.";
-                const success = await trySendBroadcast(title, message);
-                if (success) {
-                    state.last_alert_time[alertType] = now;
-                }
+        } else if (!isThunderstorm && state.is_thunderstorm) {
+            state.is_thunderstorm = false;
+        } else if (isThunderstorm && state.is_thunderstorm && (now - (state.last_thunderstorm_alert || 0)) > (30 * 60 * 1000)) {
+            const title = "Thunderstorm Update";
+            const message = `Thunderstorms continue at Lake Wazeecha. Wind gusts are ${current.wind_gusts_10m} mph.`;
+            const success = await trySendBroadcast(title, message);
+            if (success) {
+                state.last_thunderstorm_alert = now;
             }
         }
 

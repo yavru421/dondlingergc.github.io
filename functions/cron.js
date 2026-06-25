@@ -9,16 +9,16 @@ const VAPID_PUBLIC_KEY = "BMb36GOhjyJJzODjpDxXhmv7PZxyR-e2miXbuOakZESk83z-Tgtgob
 // NWS event severity map → cooldown in ms (0 = always fire)
 const NWS_COOLDOWNS = {
   'Tornado Warning':              0,
-  'Tornado Watch':                30 * 60 * 1000,
+  'Tornado Watch':                15 * 60 * 1000,
   'Severe Thunderstorm Warning':  0,
-  'Severe Thunderstorm Watch':    60 * 60 * 1000,
+  'Severe Thunderstorm Watch':    15 * 60 * 1000,
   'Flash Flood Warning':          0,
-  'Flash Flood Watch':            60 * 60 * 1000,
-  'Winter Storm Warning':         2 * 60 * 60 * 1000,
-  'Winter Storm Watch':           3 * 60 * 60 * 1000,
-  'Special Weather Statement':    2 * 60 * 60 * 1000,
+  'Flash Flood Watch':            15 * 60 * 1000,
+  'Winter Storm Warning':         30 * 60 * 1000,
+  'Winter Storm Watch':           60 * 60 * 1000,
+  'Special Weather Statement':    15 * 60 * 1000,
 };
-const DEFAULT_NWS_COOLDOWN = 2 * 60 * 60 * 1000;
+const DEFAULT_NWS_COOLDOWN = 30 * 60 * 1000;
 
 // ---- VAPID helpers ----
 function base64UrlEncode(buffer) {
@@ -179,25 +179,44 @@ async function runChecks(env) {
       state.daily_forecast_sent_date = todayDate;
     }
 
-    // ---- 3. RAIN START/STOP (1-hour cooldown + escalation-aware) ----
+    // ---- 3. RAIN START/STOP (15-min cooldown + escalation-aware) ----
     const isRaining = current.precipitation > 0;
     if (!state.rain_history) state.rain_history = [];
     state.rain_history = pushHistory(state.rain_history, current.precipitation);
 
-    if (isRaining && !state.is_raining && (now - (state.last_rain_start || 0)) > ONE_HOUR) {
+    const RAIN_COOLDOWN = 15 * 60 * 1000;
+    if (isRaining && !state.is_raining && (now - (state.last_rain_start || 0)) > RAIN_COOLDOWN) {
       const raw = `Rain just started at Lake Wazeecha. Current: ${current.precipitation} inches in last 15 min.`;
       const body = await generateAlert(env, raw);
       await pushToAll(env, '🌧️ Rain Started', body);
       state.is_raining = true;
       state.last_rain_start = now;
-    } else if (!isRaining && state.is_raining && (now - (state.last_rain_stop || 0)) > ONE_HOUR) {
+    } else if (!isRaining && state.is_raining && (now - (state.last_rain_stop || 0)) > RAIN_COOLDOWN) {
       const body = await generateAlert(env, 'Rain has stopped at Lake Wazeecha. Radar looks clear for now.');
       await pushToAll(env, '🌤️ Rain Stopped', body);
       state.is_raining = false;
       state.last_rain_stop = now;
     }
 
-    // ---- 4. WIND GUSTS (milestone + escalation-aware) ----
+    // ---- 4. THUNDERSTORM / SEVERE WEATHER (weather code >= 95) ----
+    const isThunderstorm = current.weather_code >= 95;
+    const THUNDERSTORM_COOLDOWN = 30 * 60 * 1000;
+    if (isThunderstorm && !state.is_thunderstorm) {
+      const raw = `Severe thunderstorms detected at Lake Wazeecha. Secure the site.`;
+      const body = await generateAlert(env, raw);
+      await pushToAll(env, '⚡ Thunderstorm Alert', body);
+      state.is_thunderstorm = true;
+      state.last_thunderstorm_alert = now;
+    } else if (!isThunderstorm && state.is_thunderstorm) {
+      state.is_thunderstorm = false;
+    } else if (isThunderstorm && state.is_thunderstorm && (now - (state.last_thunderstorm_alert || 0)) > THUNDERSTORM_COOLDOWN) {
+      const raw = `Thunderstorms continue at Lake Wazeecha. Wind gusts are ${current.wind_gusts_10m} mph.`;
+      const body = await generateAlert(env, raw);
+      await pushToAll(env, '⚡ Thunderstorm Update', body);
+      state.last_thunderstorm_alert = now;
+    }
+
+    // ---- 5. WIND GUSTS (milestone + escalation-aware) ----
     const wind = current.wind_gusts_10m;
     if (state.wind_date !== todayDate) { state.wind_date = todayDate; state.highest_wind_gust_seen_today = 0; state.wind_history = []; }
     if (!state.wind_history) state.wind_history = [];
