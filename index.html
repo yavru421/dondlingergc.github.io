@@ -34,6 +34,8 @@
       --accent-shot:      #00bfff;
       --accent-tap:       #39ff14;
       --accent-ampli:     #bf5fff;
+      --accent-aac:       #ff007f;
+      --accent-intake:    #ffd700;
       --vector-green: #39ff14;
       --lightning-core: #ffffff;
       --lightning-glow: rgba(57, 255, 20, 0.6);
@@ -361,6 +363,10 @@
     [data-app="ampliloop"] .card-cta { color: var(--accent-ampli); }
     [data-app="sentinel"] .card-name { color: var(--accent-info); }
     [data-app="sentinel"] .card-cta { color: var(--accent-info); }
+    [data-app="aac"] .card-name { color: var(--accent-aac); }
+    [data-app="aac"] .card-cta { color: var(--accent-aac); }
+    [data-app="intake"] .card-name { color: var(--accent-intake); }
+    [data-app="intake"] .card-cta { color: var(--accent-intake); }
 
     /* Live Dashboard Telemetry card styling */
     .dashboard-panel {
@@ -1410,6 +1416,12 @@
           </div>
         </div>
 
+        <!-- CATEGORY: CORE CATALOG -->
+        <div style="grid-column: 1 / -1; margin-top: 24px; margin-bottom: 8px; font-family: var(--font-sans); display: flex; align-items: center; gap: 12px; opacity: 0.85;">
+          <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent-info); font-family: 'SF Mono', ui-monospace, monospace;">// Engineering PWAs</span>
+          <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1);"></div>
+        </div>
+
         <!-- 01 · POURREADY -->
         <div class="glow-card" data-app="pourready" data-index="1">
           <div class="card-top">
@@ -1495,6 +1507,61 @@
             <p>Premium Algorithmic Rap Beat Studio, Metronome, and Instrument Tuner PWA engineered with Blazor WebAssembly performance.</p>
             <div class="card-preview">
               <img src="img/blazorcore.png" alt="AmpliLoop preview" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- CATEGORY: CLIENT PROJECTS -->
+        <div style="grid-column: 1 / -1; margin-top: 36px; margin-bottom: 8px; font-family: var(--font-sans); display: flex; align-items: center; gap: 12px; opacity: 0.85;">
+          <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent-aac); font-family: 'SF Mono', ui-monospace, monospace;">// Client Projects</span>
+          <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1);"></div>
+        </div>
+
+        <!-- 05 · ANYTIME ANIMAL CONTROL -->
+        <div class="glow-card" data-app="aac" data-index="5">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// LIVE PORTAL 01</span>
+              <span class="card-name">Anytime Animal Control</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-aac)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Live wildlife removal service portal. Features animal control diagnostics, coverage maps, dispatch information, and call management.</p>
+            <div class="card-preview">
+              <img src="img/aac_preview.png" alt="Anytime Animal Control preview" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 06 · DONDLINGER INTAKE APP -->
+        <div class="glow-card" data-app="intake" data-index="6">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// LIVE PORTAL 02</span>
+              <span class="card-name">Dondlinger Intake App</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-intake)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Live client onboarding and project intake utility. Captures property dimensions, budget estimations, and custom layouts directly from users.</p>
+            <div class="card-preview">
+              <img src="img/intake_preview.png" alt="Dondlinger Intake preview" />
             </div>
             <span class="card-cta">View Details ⟶</span>
           </div>
@@ -1615,6 +1682,24 @@
         who: ['Artists', 'Audio Engineers', 'Producers'],
         link: 'https://blazorpwa.dondlingergc.com',
         btnLabel: 'Launch AmpliLoop Studio'
+      },
+      aac: {
+        title: 'Anytime Animal Control // 05',
+        accent: 'var(--accent-aac)',
+        screenshot: 'img/aac_preview.png',
+        desc: 'Live wildlife removal and control service website. Provides field diagnostics, coverage maps, dispatch contacts, and pest management information.',
+        who: ['Property Owners', 'Dispatchers', 'Field Technicians'],
+        link: 'https://aac.dondlingergc.com',
+        btnLabel: 'Launch AAC Portal'
+      },
+      intake: {
+        title: 'Dondlinger Intake App // 06',
+        accent: 'var(--accent-intake)',
+        screenshot: 'img/intake_preview.png',
+        desc: 'Live client onboarding and project intake utility. Captures property dimensions, budget estimations, and custom project scopes directly from prospective clients.',
+        who: ['Prospective Clients', 'Estimators', 'Project Leads'],
+        link: 'https://intakeapp.dondlingergc.com',
+        btnLabel: 'Open Intake App'
       },
       dashboard: {
         title: 'Field Operations HUD // 05',
