@@ -2464,7 +2464,7 @@
       trackBtn.addEventListener('click', () => {
         const appKey = trackBtn.dataset.appKey;
         if (appKey && appKey !== 'dashboard' && appKey !== '#') {
-          fetch('/telemetry?app=' + encodeURIComponent(appKey) + '&track=1', { method: 'POST' }).catch(e => console.error(e));
+          fetch('/telemetry?app=' + encodeURIComponent(appKey) + '&track=1', { method: 'POST', keepalive: true }).catch(e => console.error(e));
         }
       });
     }
