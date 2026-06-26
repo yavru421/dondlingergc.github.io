@@ -5,9 +5,9 @@ on:
     branches:
       - main
       - production
-  schedule:
-    # Run every 15 minutes
-    - cron: '*/15 * * * *'
+  # schedule:
+  #   # Run every 15 minutes
+  #   - cron: '*/15 * * * *'
   workflow_dispatch: # Allow manual trigger for testing
 
 jobs:
