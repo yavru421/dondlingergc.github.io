@@ -27,7 +27,7 @@
       --card-border:  rgba(57, 255, 20, 0.4);
       --text-white:   #F9FAFB;
       --text-gray:    #EBEBF5;
-      --text-dim:     #6B7280;
+      --text-dim:     #9ca3af;
       
       --accent-info: #39FF14;
       --accent-pour:      #ff6b35;
@@ -836,36 +836,37 @@
      <!-- LIVE TELEMETRY HUD -->
      <section id="wazeecha-telemetry" class="telemetry-section content-section" style="position: fixed; inset: 0; z-index: 9999; background: #000; margin: 0; padding: 0; overflow-y: auto; scroll-snap-type: y mandatory; overflow-x: hidden; -webkit-overflow-scrolling: touch; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
  
-     <!-- VERTICAL DOTS NAVIGATION HUD -->
-     <div id="waz-nav-hud" style="position:fixed; right:20px; top:50%; transform:translateY(-50%); z-index:10005; display:flex; flex-direction:column; gap:16px; pointer-events:auto; background:rgba(0,0,0,0.4); backdrop-filter:blur(8px); padding:16px 8px; border-radius:30px; border:1px solid rgba(255,255,255,0.08); display:flex;">
+     <!-- TACTICAL BOTTOM BAR -->
+     <div id="waz-nav-hud" style="position:fixed; bottom:24px; left:50%; transform:translateX(-50%); z-index:10005; display:flex; gap:16px; pointer-events:auto; background:rgba(0,0,0,0.65); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); padding:12px 20px; border-radius:100px; border:1px solid rgba(255,255,255,0.15); width:90%; max-width:600px; justify-content:space-between; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none;">
          <style>
+             #waz-nav-hud::-webkit-scrollbar { display: none; }
              .hud-dot {
-                 width: 10px;
-                 height: 10px;
-                 background: rgba(255,255,255,0.2);
-                 border-radius: 50%;
-                 cursor: pointer;
-                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                 display: flex; flex-direction: column; align-items: center; gap: 6px;
+                 background: transparent; border: none; color: #9ca3af;
+                 font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+                 cursor: pointer; transition: all 0.2s; padding: 4px;
+                 flex-shrink: 0; min-width: 50px;
              }
-             .hud-dot:hover {
-                 background: rgba(255,255,255,0.6);
-                 transform: scale(1.2);
-             }
-             .hud-dot.active {
-                 background: #39ff14;
-                 box-shadow: 0 0 8px #39ff14;
-                 transform: scale(1.4);
+             .hud-dot:hover { color: white; transform: translateY(-2px); }
+             .hud-dot.active { color: #39ff14; }
+             .hud-dot.active .nav-icon { background: rgba(57, 255, 20, 0.15); border-color: rgba(57, 255, 20, 0.4); box-shadow: 0 0 12px rgba(57,255,20,0.2); }
+             .nav-icon {
+                 width: 32px; height: 32px; border-radius: 50%;
+                 display: flex; align-items: center; justify-content: center;
+                 background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+                 font-size: 1.1rem; transition: all 0.2s;
              }
          </style>
-         <div class="hud-dot active" onclick="scrollToWazCard(0)" title="Select Mode"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(1)" title="Conditions"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(2)" title="Radar"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(3)" title="Forecast"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(4)" title="Timeline"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(5)" title="Hydrology"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(6)" title="Air Quality"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(7)" title="Alerts"></div>
+         <button class="hud-dot active" onclick="scrollToWazCard('waz-mode-portal')" title="Select Mode"><div class="nav-icon">🎯</div><span>Mode</span></button>
+         <button class="hud-dot" onclick="scrollToWazCard('card-now')" title="Conditions"><div class="nav-icon">🌡️</div><span>Now</span></button>
+         <button class="hud-dot" onclick="scrollToWazCard('card-radar')" title="Radar"><div class="nav-icon">📡</div><span>Radar</span></button>
+         <button class="hud-dot" onclick="scrollToWazCard('card-forecast')" title="Forecast"><div class="nav-icon">📅</div><span>Fcast</span></button>
+         <button class="hud-dot" onclick="scrollToWazCard('card-timeline')" title="Timeline"><div class="nav-icon">⏳</div><span>Time</span></button>
+         <button class="hud-dot" onclick="scrollToWazCard('card-hydro')" title="Hydrology"><div class="nav-icon">🌊</div><span>Hydro</span></button>
+         <button class="hud-dot" onclick="scrollToWazCard('card-aqi')" title="Air Quality"><div class="nav-icon">💨</div><span>AQI</span></button>
+         <button class="hud-dot" onclick="scrollToWazCard('card-push')" title="Alerts"><div class="nav-icon">⚠️</div><span>Alert</span></button>
      </div>
+
 
     <!-- FLOATING UI: Top Header -->
     <div style="position:fixed; top:0; left:0; right:0; padding:20px 24px; z-index:10000; display:flex; justify-content:space-between; align-items:flex-start; background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%); pointer-events:none;">
@@ -883,7 +884,7 @@
     </div>
     
     <!-- Scroll Indicator Button -->
-    <button id="scroll-indicator" onclick="document.getElementById('wazeecha-telemetry').scrollBy({top: window.innerHeight, behavior: 'smooth'})" style="position:fixed; bottom:40px; left:50%; transform:translateX(-50%); z-index:10000; background:rgba(0,0,0,0.6); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.3); color:white; padding:12px 24px; border-radius:30px; display:flex; flex-direction:column; align-items:center; animation: swipeBounce 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; cursor:pointer; pointer-events:auto; box-shadow:0 4px 12px rgba(0,0,0,0.5);">
+    <button id="scroll-indicator" onclick="document.getElementById('wazeecha-telemetry').scrollBy({top: window.innerHeight, behavior: 'smooth'})" style="position:fixed; bottom:110px; left:50%; transform:translateX(-50%); z-index:10000; background:rgba(0,0,0,0.6); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.3); color:white; padding:12px 24px; border-radius:30px; display:flex; flex-direction:column; align-items:center; animation: swipeBounce 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; cursor:pointer; pointer-events:auto; box-shadow:0 4px 12px rgba(0,0,0,0.5);">
         <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:3px; font-weight:700; margin-bottom:4px;">Tap to Scroll</span>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </button>
@@ -959,7 +960,7 @@
     </div>
 
     <!-- CARD 1: RIGHT NOW AT THE LAKE -->
-    <div class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at 40% 30%, #052e16 0%, #000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative; overflow:hidden;">
+    <div id="card-now" class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at 40% 30%, #052e16 0%, #000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative; overflow:hidden;">
         <!-- ambient glow orb -->
         <div id="lake-glow-orb" style="position:absolute; top:-60px; right:-60px; width:280px; height:280px; border-radius:50%; opacity:0.18; filter:blur(60px); transition:background 2s ease; background:#39ff14; pointer-events:none;"></div>
 
@@ -967,10 +968,10 @@
             <!-- Header -->
             <div style="display:flex; align-items:center; justify-content:space-between;">
                 <div>
-                    <div style="color:#6b7280; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:2px;">Right Now at the Lake</div>
+                    <div style="color:#9ca3af; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:2px;">Right Now at the Lake</div>
                     <div style="color:#9ca3af; font-size:0.75rem; margin-top:2px;">Live from KISW · Wisconsin Rapids</div>
                 </div>
-                <div id="lake-updated-stamp" style="font-size:0.7rem; color:#4b5563;">Loading…</div>
+                <div id="lake-updated-stamp" style="font-size:0.7rem; color:#9ca3af;">Loading…</div>
             </div>
 
             <!-- Persona Selector (Hidden) -->
@@ -979,8 +980,8 @@
                     #waz-persona-container::-webkit-scrollbar { display: none; }
                     .persona-btn {
                         flex: 1 0 auto;
-                        background: transparent;
-                        border: none;
+                        background: rgba(255, 255, 255, 0.05);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
                         color: #9ca3af;
                         padding: 8px 14px;
                         border-radius: 12px;
@@ -1021,16 +1022,16 @@
             <!-- Stats Row -->
             <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
                 <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:4px;">
-                    <div id="label-feels" style="color:#6b7280; font-size:0.7rem; text-transform:uppercase; font-weight:700;">Feels Like</div>
+                    <div id="label-feels" style="color:#9ca3af; font-size:0.7rem; text-transform:uppercase; font-weight:700;">Feels Like</div>
                     <div id="lake-feels" style="color:white; font-size:1.4rem; font-weight:800;">--°</div>
                 </div>
                 <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:4px;">
-                    <div id="label-wind" style="color:#6b7280; font-size:0.7rem; text-transform:uppercase; font-weight:700;">Wind</div>
+                    <div id="label-wind" style="color:#9ca3af; font-size:0.7rem; text-transform:uppercase; font-weight:700;">Wind</div>
                     <div id="lake-wind" style="color:white; font-size:1.4rem; font-weight:800;">-- mph</div>
                     <div id="lake-wind-dir" style="color:#9ca3af; font-size:0.75rem;">--</div>
                 </div>
                 <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:4px;">
-                    <div id="label-uv" style="color:#6b7280; font-size:0.7rem; text-transform:uppercase; font-weight:700;">UV Max</div>
+                    <div id="label-uv" style="color:#9ca3af; font-size:0.7rem; text-transform:uppercase; font-weight:700;">UV Max</div>
                     <div id="lake-uv" style="color:#fbbf24; font-size:1.4rem; font-weight:800;">--</div>
                 </div>
             </div>
@@ -1040,14 +1041,14 @@
                 <div style="display:flex; align-items:center; gap:8px;">
                     <span style="font-size:1.2rem;">&#x1F305;</span>
                     <div>
-                        <div style="color:#6b7280; font-size:0.65rem; text-transform:uppercase; font-weight:700;">Sunrise</div>
+                        <div style="color:#9ca3af; font-size:0.65rem; text-transform:uppercase; font-weight:700;">Sunrise</div>
                         <div id="lake-sunrise" style="color:white; font-size:0.95rem; font-weight:700;">--:--</div>
                     </div>
                 </div>
                 <div style="height:1px; flex:1; background:rgba(255,255,255,0.06); margin:0 16px;"></div>
                 <div style="display:flex; align-items:center; gap:8px;">
                     <div style="text-align:right;">
-                        <div style="color:#6b7280; font-size:0.65rem; text-transform:uppercase; font-weight:700;">Sunset</div>
+                        <div style="color:#9ca3af; font-size:0.65rem; text-transform:uppercase; font-weight:700;">Sunset</div>
                         <div id="lake-sunset" style="color:white; font-size:0.95rem; font-weight:700;">--:--</div>
                     </div>
                     <span style="font-size:1.2rem;">&#x1F307;</span>
@@ -1056,13 +1057,13 @@
 
              <!-- Visibility row -->
              <div style="display:flex; align-items:center; justify-content:space-between; padding:0 4px; margin-bottom:4px;">
-                 <div style="color:#4b5563; font-size:0.8rem;">Visibility</div>
+                 <div style="color:#9ca3af; font-size:0.8rem;">Visibility</div>
                  <div id="lake-visibility" style="color:#9ca3af; font-size:0.8rem; font-weight:600;">--</div>
              </div>
 
              <!-- Action Advice Card Widget -->
              <div id="waz-advice-widget" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:18px; padding:12px 16px; display:flex; flex-direction:column; gap:6px;">
-                 <div style="color:#6b7280; font-size:0.65rem; text-transform:uppercase; font-weight:700; display:flex; align-items:center; gap:6px;">
+                 <div style="color:#9ca3af; font-size:0.65rem; text-transform:uppercase; font-weight:700; display:flex; align-items:center; gap:6px;">
                      <span style="font-size:0.8rem;">💡</span> Recommendation
                  </div>
                  <div id="waz-advice-content" style="color:white; font-size:0.8rem; line-height:1.4; font-weight:500;">
@@ -1078,7 +1079,7 @@
     </div>
 
     <!-- CARD 1: THE RADAR HERO -->
-    <div class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; position: relative;">
+    <div id="card-radar" class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; position: relative;">
         <!-- Full Bleed Map Background -->
         <iframe id="windy-iframe" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=in&metricTemp=°F&metricWind=mph&zoom=9&overlay=radar&product=radar&level=surface&lat=44.31&lon=-89.83" style="width:100%; height:100%; border:none; pointer-events:auto; position:absolute; inset:0;"></iframe>
         
@@ -1340,14 +1341,14 @@
             <div id="nws-alerts-list" style="display:flex; flex-direction:column; gap:12px;"></div>
 
             <div style="display:flex; align-items:center; justify-content:space-between; padding-top:8px; border-top:1px solid rgba(255,255,255,0.05);">
-                <div style="color:#4b5563; font-size:0.75rem;">Source: NWS Green Bay</div>
-                <div id="nws-alerts-stamp" style="color:#4b5563; font-size:0.75rem;"></div>
+                <div style="color:#9ca3af; font-size:0.75rem;">Source: NWS Green Bay</div>
+                <div id="nws-alerts-stamp" style="color:#9ca3af; font-size:0.75rem;"></div>
             </div>
         </div>
     </div>
 
     <!-- CARD 1.5: FORECAST -->
-    <div class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top, #0f172a 0%, #000000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
+    <div id="card-forecast" class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top, #0f172a 0%, #000000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
         <div style="max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:24px;">
             <div style="display:flex; align-items:center; gap:16px;">
                 <div style="width:56px; height:56px; background:linear-gradient(135deg, #0284c7, #2563eb); border-radius:16px; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 16px rgba(2,132,199,0.3);">
@@ -1364,7 +1365,7 @@
     </div>
 
     <!-- CARD-HOURLY: 24-HR PRECIP TIMELINE -->
-    <div class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top, #0c1a2e 0%, #000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
+    <div id="card-timeline" class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top, #0c1a2e 0%, #000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
         <div style="max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
             <div style="display:flex; align-items:center; gap:16px;">
                 <div style="width:48px; height:48px; background:linear-gradient(135deg, #1d4ed8, #3b82f6); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 16px rgba(59,130,246,0.25);">
@@ -1384,14 +1385,14 @@
 
             <!-- Summary line -->
             <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
-                <div style="color:#6b7280; font-size:0.8rem;">Total rain next 24h</div>
+                <div style="color:#9ca3af; font-size:0.8rem;">Total rain next 24h</div>
                 <div id="hourly-total" style="color:#38bdf8; font-weight:700; font-size:0.9rem;">--"</div>
             </div>
         </div>
     </div>
 
     <!-- CARD 2: HYDROLOGY -->
-    <div class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top right, #1e3a8a 0%, #0f172a 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
+    <div id="card-hydro" class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top right, #1e3a8a 0%, #0f172a 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
         <div style="max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:24px;">
             <div style="display:flex; align-items:center; gap:16px;">
                 <div style="width:56px; height:56px; background:linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius:16px; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 16px rgba(59,130,246,0.3);">
@@ -1408,18 +1409,18 @@
                     <div style="color:#94a3b8; font-size:1.1rem; font-weight:600; margin-bottom:8px;">Current Flow Rate</div>
                     <div style="display:flex; align-items:baseline; gap:12px;">
                         <div id="metric-cfs" style="color:#60a5fa; font-size:4rem; font-weight:900; line-height:1; letter-spacing:-2px;">-- CFS</div>
-                        <div id="metric-trend" style="font-size:1.2rem; font-weight:800; color:#6b7280;"></div>
+                        <div id="metric-trend" style="font-size:1.2rem; font-weight:800; color:#9ca3af;"></div>
                     </div>
                     <!-- Flood Stage Proximity Bar -->
                     <div id="flood-stage-bar" style="margin-top:12px; display:none;">
-                        <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#6b7280; margin-bottom:4px;">
+                        <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#9ca3af; margin-bottom:4px;">
                             <span>Stage</span>
                             <span id="flood-stage-label" style="color:#9ca3af;"></span>
                         </div>
                         <div style="height:6px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden;">
                             <div id="flood-stage-fill" style="height:100%; border-radius:999px; transition:width 1s ease;"></div>
                         </div>
-                        <div id="river-stage-forecast" style="margin-top:8px; font-size:0.75rem; color:#6b7280;"></div>
+                        <div id="river-stage-forecast" style="margin-top:8px; font-size:0.75rem; color:#9ca3af;"></div>
                     </div>
                 </div>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
@@ -1441,7 +1442,7 @@
     </div>
 
     <!-- CARD 3: ATMOSPHERICS -->
-    <div class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top left, #312e81 0%, #020617 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
+    <div id="card-aqi" class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top left, #312e81 0%, #020617 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
         <div style="max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:24px;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <div style="display:flex; align-items:center; gap:16px;">
@@ -1483,7 +1484,7 @@
     </div>
 
     <!-- CARD 4: PUSH TERMINAL -->
-    <div class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at bottom, #064e3b 0%, #000000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
+    <div id="card-push" class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at bottom, #064e3b 0%, #000000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
         <div style="max-width:500px; width:100%; margin:0 auto;">
             <div style="text-align:center; margin-bottom:48px;">
                 <div style="display:inline-flex; width:80px; height:80px; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.3); border-radius:40px; align-items:center; justify-content:center; margin-bottom:24px; box-shadow:0 0 30px rgba(52,211,153,0.2);">
@@ -1706,7 +1707,7 @@
   </main>
 
   <!-- FOOTER -->
-  <footer>Dondlinger Digital &nbsp;·&nbsp; <span id="footer-year"></span>&nbsp;·&nbsp;<span style="font-size:0.7rem; color:#4b5563;">Weather: <a href="https://open-meteo.com" target="_blank" rel="noopener" style="color:#39ff14; text-decoration:none;">Open-Meteo</a> (CC BY 4.0)</span></footer>
+  <footer>Dondlinger Digital &nbsp;·&nbsp; <span id="footer-year"></span>&nbsp;·&nbsp;<span style="font-size:0.7rem; color:#9ca3af;">Weather: <a href="https://open-meteo.com" target="_blank" rel="noopener" style="color:#39ff14; text-decoration:none;">Open-Meteo</a> (CC BY 4.0)</span></footer>
 
   <!-- DETAIL MODAL / DIALOG -->
   <div class="dialog-overlay" id="dialog-overlay" role="dialog" aria-modal="true" aria-labelledby="dialog-title-text">
@@ -2221,7 +2222,7 @@
           return `
           <div style="scroll-snap-align: center; min-width: 160px; flex: 0 0 auto; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:24px; padding:20px; display:flex; flex-direction:column; backdrop-filter:blur(20px);">
               <div style="font-size:1rem; font-weight:800; color:#38bdf8; margin-bottom:8px;">${escapeHtml(dayKey)}</div>
-              <div style="font-size:0.75rem; color:#6b7280; margin-bottom:8px;">${moon}</div>
+              <div style="font-size:0.75rem; color:#9ca3af; margin-bottom:8px;">${moon}</div>
               
               <div style="background:${statusColor}22; border:1px solid ${statusColor}44; border-radius:12px; padding:6px 12px; display:inline-block; margin-bottom:16px; align-self:flex-start;">
                   <span style="font-size:0.78rem; font-weight:800; color:${statusColor};">${escapeHtml(statusText)}</span>
@@ -2285,7 +2286,7 @@ Check live hydrology & weather flow: ${shareUrl}`;
 
     // Render NWS Alerts card
     async function renderAlertsCard() {
-      const severityColor = { Extreme:'#ef4444', Severe:'#f97316', Moderate:'#eab308', Minor:'#6b7280' };
+      const severityColor = { Extreme:'#ef4444', Severe:'#f97316', Moderate:'#eab308', Minor:'#9ca3af' };
       try {
         const { features, ts } = await fetchNWSAlerts();
         const card = document.getElementById('nws-alerts-card');
@@ -2307,14 +2308,14 @@ Check live hydrology & weather flow: ${shareUrl}`;
 
         list.innerHTML = features.slice(0, 3).map(f => {
           const p = f.properties;
-          const color = severityColor[p.severity] || '#6b7280';
+          const color = severityColor[p.severity] || '#9ca3af';
           const expires = p.expires ? new Date(p.expires) : null;
           const expiresStr = expires ? `Expires ${expires.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}` : '';
           return `
             <div style="background:rgba(255,255,255,0.02); border:1px solid ${color}33; border-left:3px solid ${color}; border-radius:12px; padding:16px;">
               <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
                 <span style="background:${color}22; color:${color}; font-size:0.7rem; font-weight:700; text-transform:uppercase; padding:3px 10px; border-radius:100px; border:1px solid ${color}44;">${escapeHtml(p.severity)} · ${escapeHtml(p.urgency)}</span>
-                <span style="color:#4b5563; font-size:0.7rem;">${escapeHtml(expiresStr)}</span>
+                <span style="color:#9ca3af; font-size:0.7rem;">${escapeHtml(expiresStr)}</span>
               </div>
               <div style="color:white; font-weight:700; font-size:1rem; line-height:1.3; margin-bottom:4px;">${escapeHtml(p.event)}</div>
               <div style="color:#9ca3af; font-size:0.8rem; line-height:1.4;">${escapeHtml((p.headline || '').substring(0, 120))}</div>
@@ -2363,7 +2364,7 @@ Check live hydrology & weather flow: ${shareUrl}`;
           if (offset >= times.length) return '';
           const hr = new Date(times[offset]).getHours();
           const label = hr === 0 ? 'Midnight' : hr < 12 ? hr + 'am' : hr === 12 ? 'Noon' : (hr - 12) + 'pm';
-          return `<span style="color:#4b5563; font-size:0.65rem; font-weight:600;">${label}</span>`;
+          return `<span style="color:#9ca3af; font-size:0.65rem; font-weight:600;">${label}</span>`;
         }).join('');
       } catch(err) {
         console.warn('Hourly precip render error:', err);
@@ -2451,7 +2452,7 @@ Check live hydrology & weather flow: ${shareUrl}`;
             if (trendEl) {
               const delta = cfsCurrent - cfsPrev;
               trendEl.textContent = delta > 50 ? '↑ Rising' : delta < -50 ? '↓ Falling' : '→ Steady';
-              trendEl.style.color  = delta > 50 ? '#ef4444' : delta < -50 ? '#34d399' : '#6b7280';
+              trendEl.style.color  = delta > 50 ? '#ef4444' : delta < -50 ? '#34d399' : '#9ca3af';
             }
             const step = Math.max(1, Math.floor(valuesList.length / 40));
             for(let i=0; i<valuesList.length; i+=step) {
@@ -2486,7 +2487,7 @@ Check live hydrology & weather flow: ${shareUrl}`;
             responsive: true, maintainAspectRatio: false,
             interaction: { mode: 'index', intersect: false },
             scales: {
-              x: { grid: { display: false }, ticks: { color: '#6B7280', maxTicksLimit: 7 } },
+              x: { grid: { display: false }, ticks: { color: '#9ca3af', maxTicksLimit: 7 } },
               y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#00e5ff' } },
               y1: { type: 'linear', display: true, position: 'right', grid: { display: false }, ticks: { color: '#a78bfa' } }
             },
@@ -2525,7 +2526,7 @@ Check live hydrology & weather flow: ${shareUrl}`;
             responsive: true, maintainAspectRatio: false,
             interaction: { mode: 'index', intersect: false },
             scales: {
-              x: { grid: { display: false }, ticks: { color: '#6B7280', maxTicksLimit: 7 } },
+              x: { grid: { display: false }, ticks: { color: '#9ca3af', maxTicksLimit: 7 } },
               y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#00e5ff' } },
               y1: { type: 'linear', display: true, position: 'right', grid: { display: false }, ticks: { color: '#a78bfa' } }
             },
@@ -2788,11 +2789,10 @@ Check live hydrology & weather flow: ${shareUrl}`;
     fetchTelemetry();
 
     // Smooth scroll navigation to specific WaZWeather snap cards
-    function scrollToWazCard(index) {
-      const container = document.getElementById('wazeecha-telemetry');
-      const cards = container.querySelectorAll('.swipe-card');
-      if (cards[index]) {
-        cards[index].scrollIntoView({ behavior: 'smooth' });
+    function scrollToWazCard(targetId) {
+      const targetCard = document.getElementById(targetId);
+      if (targetCard) {
+        targetCard.scrollIntoView({ behavior: 'smooth' });
       }
     }
 
