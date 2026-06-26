@@ -1,3 +1,11 @@
+// ============================================================
+// ⚠️  LOCAL DEVELOPMENT BRIDGE — NEVER DEPLOY TO PRODUCTION ⚠️
+// This server has no authentication and accepts any origin.
+// It is a WebRTC signaling / desktop command bridge for local
+// dev and testing only. It must never be port-forwarded,
+// deployed to any public server, or exposed to the internet.
+// ============================================================
+
 const express = require('express');
 const cors = require('cors');
 

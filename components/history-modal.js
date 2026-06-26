@@ -116,21 +116,36 @@ class HistoryModal extends HTMLElement {
   loadHistory() {
     const history = JSON.parse(localStorage.getItem('quantum_journey_history') || '[]');
     const historyList = this.shadowRoot.getElementById('history-list');
-    
+
+    // Clear existing content safely
+    while (historyList.firstChild) historyList.removeChild(historyList.firstChild);
+
     if (history.length === 0) {
-      historyList.innerHTML = '<div class="empty-state">No journey history yet</div>';
+      const empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.textContent = 'No journey history yet';
+      historyList.appendChild(empty);
       return;
     }
-    
-    historyList.innerHTML = history.map((item, index) => `
-      <div class="history-item" data-index="${index}">
-        <h4 class="history-title">${item.title}</h4>
-        <div class="history-date">${new Date(item.timestamp).toLocaleString()}</div>
-      </div>
-    `).join('');
-    
-    historyList.querySelectorAll('.history-item').forEach(item => {
-      item.addEventListener('click', () => this.loadArticle(history[item.dataset.index]));
+
+    // Build DOM nodes instead of innerHTML to prevent XSS from malicious localStorage data
+    history.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = 'history-item';
+      div.dataset.index = index;
+
+      const h4 = document.createElement('h4');
+      h4.className = 'history-title';
+      h4.textContent = item.title; // textContent is XSS-safe
+
+      const dateDiv = document.createElement('div');
+      dateDiv.className = 'history-date';
+      dateDiv.textContent = new Date(item.timestamp).toLocaleString();
+
+      div.appendChild(h4);
+      div.appendChild(dateDiv);
+      div.addEventListener('click', () => this.loadArticle(history[index]));
+      historyList.appendChild(div);
     });
   }
 

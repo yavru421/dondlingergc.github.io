@@ -116,6 +116,18 @@ export default {
   async scheduled(event, env, ctx) { ctx.waitUntil(runChecks(env)); },
   async fetch(request, env, ctx) {
     if (new URL(request.url).pathname === '/check-weather') {
+      // Security: require a shared secret to prevent anonymous triggering of
+      // the full cron pipeline (AI quota burn + push notification flood).
+      // Set CRON_SECRET as a Cloudflare Worker Secret via:
+      //   wrangler secret put CRON_SECRET
+      // Then pass it in your trigger: -H "X-Cron-Secret: <value>"
+      const providedSecret = request.headers.get('X-Cron-Secret');
+      if (!env.CRON_SECRET || providedSecret !== env.CRON_SECRET) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
       ctx.waitUntil(runChecks(env));
       return new Response(JSON.stringify({ ok: true, triggered: new Date().toISOString() }), {
         headers: { 'Content-Type': 'application/json' },
@@ -260,6 +272,11 @@ async function runChecks(env) {
     }
 
     await writeState(env, state);
+
+    // Prune notifications older than 30 days to keep table bounded
+    const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
+    await env.DB.prepare('DELETE FROM notifications WHERE timestamp < ?').bind(thirtyDaysAgo).run();
+
     console.log('[cron] Done.');
   } catch (err) {
     console.error('[cron] Fatal:', err);

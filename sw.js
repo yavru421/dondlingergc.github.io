@@ -1,5 +1,3 @@
-
-
 self.addEventListener('push', event => {
     event.waitUntil(
         (async () => {
@@ -40,8 +38,26 @@ self.addEventListener('push', event => {
 
 self.addEventListener('notificationclick', event => {
     event.notification.close();
-    const targetUrl = (event.notification.data && event.notification.data.url) ? event.notification.data.url : '/#wazeecha-telemetry';
-    
+
+    // Security: validate the notification URL is same-origin before navigating.
+    // A compromised VAPID key cannot redirect subscribers to external phishing pages.
+    const rawUrl = event.notification.data && event.notification.data.url
+        ? event.notification.data.url
+        : '/#wazeecha-telemetry';
+
+    let targetUrl;
+    try {
+        const parsed = new URL(rawUrl, self.location.origin);
+        if (parsed.origin !== self.location.origin) {
+            console.warn('[sw] Blocked off-origin notification URL:', rawUrl);
+            targetUrl = self.location.origin + '/#wazeecha-telemetry';
+        } else {
+            targetUrl = parsed.href;
+        }
+    } catch (e) {
+        targetUrl = self.location.origin + '/#wazeecha-telemetry';
+    }
+
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
             for (const client of clientList) {

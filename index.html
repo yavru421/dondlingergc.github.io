@@ -1364,27 +1364,6 @@
             <div id="weather-push-status" style="font-size:0.95rem; color:#34d399; text-align:center; font-family:'SF Mono', ui-monospace, monospace; text-transform:uppercase; font-weight:700; letter-spacing:1px;"></div>
         </div>
         
-        <!-- 3x Click Admin Broadcast Trigger hidden at bottom -->
-        <script>
-        (function() {
-            let clickCount = 0; let clickTimer = null;
-            const attachTrigger = () => {
-                const clockEl = document.getElementById('live-clock');
-                if (clockEl) {
-                    clockEl.addEventListener('click', () => {
-                        clickCount++;
-                        if (clickCount === 1) clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
-                        if (clickCount >= 3) {
-                            clearTimeout(clickTimer); clickCount = 0;
-                            if (typeof sendAdminBroadcast === 'function') sendAdminBroadcast();
-                        }
-                    });
-                } else setTimeout(attachTrigger, 500);
-            };
-            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', attachTrigger);
-            else attachTrigger();
-        })();
-        </script>
     </div>
 </section>
 <!-- App Grid Section -->
@@ -2617,38 +2596,6 @@
       }
     }
 
-    async function sendAdminBroadcast() {
-      const password = prompt("Enter API_SECRET for Admin Access:");
-      if (!password) return;
-      const title = prompt("Enter Broadcast Title:", "System Alert");
-      if (!title) return;
-      const message = prompt("Enter Broadcast Message:");
-      if (!message) return;
-      
-      try {
-        const res = await fetch(`${BACKEND_URL}/broadcast`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${password}` },
-          body: JSON.stringify({ title, message })
-        });
-        
-        let data;
-        try {
-          data = await res.json();
-        } catch(e) {
-          const text = await res.text();
-          throw new Error(`Server returned non-JSON (${res.status}): ${text.substring(0, 100)}`);
-        }
-
-        if (data.success) {
-          alert(`Broadcast sent to ${data.count} devices!`);
-        } else {
-          alert(`Failed: ${data.error}`);
-        }
-      } catch (err) {
-        alert("Error sending broadcast: " + err.message);
-      }
-    }
 
     async function toggleWeatherPush() {
       const btn = document.getElementById('btn-weather-push');

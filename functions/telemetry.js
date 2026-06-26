@@ -1,41 +1,101 @@
+// Valid app names that may be tracked. Add new entries here as apps launch.
+const ALLOWED_APPS = new Set([
+  'wazeecha',
+  'jobsite-calculator',
+  'digital-fortress',
+  'dgc-chat',
+  'sidesnipe-visionary',
+  'quantum-rabbithole',
+]);
+
+// Restrict CORS to the production origin only
+const CORS_ORIGIN = 'https://dondlingergc.com';
+
 export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   const appName = url.searchParams.get('app');
 
-  if (!appName) {
-    return new Response(JSON.stringify({ error: 'Missing app parameter' }), { 
-      status: 400,
-      headers: { 'Content-Type': 'application/json' }
+  // CORS preflight
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': CORS_ORIGIN,
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Vary': 'Origin',
+      },
     });
   }
 
-  // If the request includes ?track=1, we increment the counter
+  const corsHeaders = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': CORS_ORIGIN,
+    'Vary': 'Origin',
+  };
+
+  if (!appName) {
+    return new Response(JSON.stringify({ error: 'Missing app parameter' }), {
+      status: 400,
+      headers: corsHeaders,
+    });
+  }
+
+  // Validate app name against allowlist (prevents open DB append)
+  if (!ALLOWED_APPS.has(appName)) {
+    return new Response(JSON.stringify({ error: 'Unknown app' }), {
+      status: 400,
+      headers: corsHeaders,
+    });
+  }
+
+  // ?track=1 — increment launch counter (write operation)
   if (url.searchParams.has('track')) {
     const now = Date.now();
     try {
-      const existing = await env.DB.prepare('SELECT id FROM app_telemetry WHERE app_name = ?').bind(appName).first();
-      
+      const existing = await env.DB
+        .prepare('SELECT id FROM app_telemetry WHERE app_name = ?')
+        .bind(appName)
+        .first();
+
       if (existing) {
-        await env.DB.prepare('UPDATE app_telemetry SET launch_count = launch_count + 1, last_launched = ? WHERE app_name = ?').bind(now, appName).run();
+        await env.DB
+          .prepare('UPDATE app_telemetry SET launch_count = launch_count + 1, last_launched = ? WHERE app_name = ?')
+          .bind(now, appName)
+          .run();
       } else {
-        await env.DB.prepare('INSERT INTO app_telemetry (app_name, launch_count, last_launched) VALUES (?, 1, ?)').bind(appName, now).run();
+        await env.DB
+          .prepare('INSERT INTO app_telemetry (app_name, launch_count, last_launched) VALUES (?, 1, ?)')
+          .bind(appName, now)
+          .run();
       }
-      return new Response(JSON.stringify({ success: true, tracked: appName }), { 
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } 
+      return new Response(JSON.stringify({ success: true, tracked: appName }), {
+        headers: corsHeaders,
       });
     } catch (err) {
-      return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: { 'Content-Type': 'application/json' }});
+      console.error('[telemetry] track error:', err);
+      return new Response(JSON.stringify({ error: 'Internal server error' }), {
+        status: 500,
+        headers: corsHeaders,
+      });
     }
-  } 
-  
-  // Otherwise, just return the current stats for the Public HUD
+  }
+
+  // GET — return public stats for HUD display
   try {
-    const stats = await env.DB.prepare('SELECT launch_count, last_launched FROM app_telemetry WHERE app_name = ?').bind(appName).first();
-    return new Response(JSON.stringify(stats || { launch_count: 0 }), { 
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } 
+    const stats = await env.DB
+      .prepare('SELECT launch_count, last_launched FROM app_telemetry WHERE app_name = ?')
+      .bind(appName)
+      .first();
+    return new Response(JSON.stringify(stats || { launch_count: 0 }), {
+      headers: corsHeaders,
     });
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: { 'Content-Type': 'application/json' }});
+    console.error('[telemetry] read error:', err);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+      status: 500,
+      headers: corsHeaders,
+    });
   }
 }

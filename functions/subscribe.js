@@ -1,3 +1,15 @@
+export async function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': 'https://dondlingergc.com',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Vary': 'Origin',
+    },
+  });
+}
+
 export async function onRequestPost(context) {
   const { request, env } = context;
 
@@ -71,7 +83,8 @@ export async function onRequestPost(context) {
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    console.error('[subscribe] Error:', err);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });

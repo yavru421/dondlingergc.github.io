@@ -51,3 +51,12 @@
 /calc/css/*
   Cache-Control: public, max-age=31536000, immutable
   X-Content-Type-Options: nosniff
+
+/fortress.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; frame-src https://john2121-dondlingergc-digital-fortress-builder.static.hf.space; upgrade-insecure-requests
+
+/chat.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; frame-src https://john2121-dgcchat.static.hf.space; upgrade-insecure-requests
+
+/store.html
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: https://via.placeholder.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://cloudflareinsights.com; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; upgrade-insecure-requests
