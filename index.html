@@ -1622,11 +1622,33 @@
           </div>
         </div>
 
-        <!-- 05 · DONDLINGER INTAKE APP -->
-        <div class="glow-card" data-app="intake" data-index="6">
+        <!-- 05 · OMW APP -->
+        <div class="glow-card" data-app="omw" data-index="5">
           <div class="card-top">
             <div class="card-meta">
               <span class="card-number">// PWA 05</span>
+              <span class="card-name">On My Way (OMW)</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Live GPS and ETA broadcasting tool. Allows field technicians and contractors to securely share live travel status and exact arrival times with project managers and clients.</p>
+            <div class="card-preview">
+              <img src="img/omw_preview.png" alt="OMW preview" onerror="this.src='img/blazorcore.png'" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 06 · DONDLINGER INTAKE APP -->
+        <div class="glow-card" data-app="intake" data-index="6">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 06</span>
               <span class="card-name">Dondlinger Intake App</span>
             </div>
             <div class="card-icon-wrap">
@@ -1803,6 +1825,15 @@
         who: ['Prospective Clients', 'Estimators', 'Project Leads'],
         link: 'https://intakeapp.dondlingergc.com',
         btnLabel: 'Open Intake App'
+      },
+      omw: {
+        title: 'On My Way (OMW) // 05',
+        accent: '#f43f5e',
+        screenshot: 'img/omw_preview.png',
+        desc: 'Live GPS and ETA broadcasting tool. Allows field technicians and contractors to securely share live travel status and exact arrival times with project managers and clients.',
+        who: ['Field Technicians', 'Project Managers', 'Clients'],
+        link: 'https://omw.dondlingergc.com',
+        btnLabel: 'Launch OMW Tracker'
       },
       dashboard: {
         title: 'Field Operations HUD // 05',

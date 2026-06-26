@@ -1,5 +1,12 @@
 // Valid app names that may be tracked. Add new entries here as apps launch.
 const ALLOWED_APPS = new Set([
+  'pourready',
+  'shotstack',
+  'tap',
+  'ampliloop',
+  'aac',
+  'intake',
+  'omw',
   'wazeecha',
   'jobsite-calculator',
   'digital-fortress',
