@@ -1,6 +1,6 @@
 {
-  "name": "Wazeecha Weather",
-  "short_name": "Wazeecha",
+  "name": "WaZWeather",
+  "short_name": "WaZWeather",
   "id": "/",
   "start_url": "/#wazeecha-telemetry",
   "scope": "/",
