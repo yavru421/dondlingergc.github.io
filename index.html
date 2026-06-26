@@ -857,13 +857,14 @@
                  transform: scale(1.4);
              }
          </style>
-         <div class="hud-dot active" onclick="scrollToWazCard(0)" title="Now"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(1)" title="Radar"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(2)" title="Forecast"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(3)" title="Timeline"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(4)" title="Hydrology"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(5)" title="Air Quality"></div>
-         <div class="hud-dot" onclick="scrollToWazCard(6)" title="Alerts"></div>
+         <div class="hud-dot active" onclick="scrollToWazCard(0)" title="Select Mode"></div>
+         <div class="hud-dot" onclick="scrollToWazCard(1)" title="Conditions"></div>
+         <div class="hud-dot" onclick="scrollToWazCard(2)" title="Radar"></div>
+         <div class="hud-dot" onclick="scrollToWazCard(3)" title="Forecast"></div>
+         <div class="hud-dot" onclick="scrollToWazCard(4)" title="Timeline"></div>
+         <div class="hud-dot" onclick="scrollToWazCard(5)" title="Hydrology"></div>
+         <div class="hud-dot" onclick="scrollToWazCard(6)" title="Air Quality"></div>
+         <div class="hud-dot" onclick="scrollToWazCard(7)" title="Alerts"></div>
      </div>
 
     <!-- FLOATING UI: Top Header -->
@@ -888,7 +889,76 @@
     </button>
     <style>@keyframes swipeBounce { 0%, 100% {transform: translateY(0) translateX(-50%);} 50% {transform: translateY(-8px) translateX(-50%);} }</style>
 
-    <!-- CARD 0: RIGHT NOW AT THE LAKE -->
+    <!-- CARD 0: MODE SELECTION PORTAL -->
+    <div class="swipe-card" id="waz-mode-portal" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at center, #071224 0%, #000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative; overflow:hidden;">
+        <!-- ambient glow orb -->
+        <div style="position:absolute; top:-100px; left:-100px; width:350px; height:350px; border-radius:50%; opacity:0.15; filter:blur(80px); background:#39ff14; pointer-events:none;"></div>
+        
+        <div style="max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:20px; z-index:2; position:relative;">
+            <div style="text-align:center; margin-bottom:10px;">
+                <h1 style="font-size:2.6rem; font-weight:900; color:white; margin:0 0 6px 0; letter-spacing:-1.5px; text-shadow:0 0 20px rgba(57,255,20,0.15);">WaZWeather</h1>
+                <p style="color:#94a3b8; font-size:0.95rem; line-height:1.4; margin:0;">Select a forecast tailored for your circumstance:</p>
+            </div>
+
+            <!-- Portal Grid Selection -->
+            <div style="display:flex; flex-direction:column; gap:12px; pointer-events:auto;">
+                <style>
+                    .portal-choice-card {
+                        background: rgba(255,255,255,0.03);
+                        border: 1px solid rgba(255,255,255,0.06);
+                        border-radius: 20px;
+                        padding: 14px 18px;
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+                        cursor: pointer;
+                        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                        text-align: left;
+                        width: 100%;
+                    }
+                    .portal-choice-card:hover {
+                        background: rgba(255,255,255,0.06);
+                        border-color: #39ff14;
+                        transform: translateY(-2px);
+                        box-shadow: 0 8px 24px rgba(57,255,20,0.15);
+                    }
+                    .portal-choice-card:active {
+                        transform: scale(0.98);
+                    }
+                </style>
+                <button class="portal-choice-card" onclick="selectPortalMode('fishing')">
+                    <span style="font-size:1.8rem; background:rgba(56,189,248,0.1); width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;">🎣</span>
+                    <div>
+                        <div style="color:white; font-weight:800; font-size:1rem; margin-bottom:2px;">Fishing Forecaster</div>
+                        <div style="color:#64748b; font-size:0.75rem;">Optimized for flow rate, moon phase, and wind trends.</div>
+                    </div>
+                </button>
+                <button class="portal-choice-card" onclick="selectPortalMode('lake')">
+                    <span style="font-size:1.8rem; background:rgba(57,255,20,0.1); width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;">⛵</span>
+                    <div>
+                        <div style="color:white; font-weight:800; font-size:1rem; margin-bottom:2px;">Weekend at the Lake</div>
+                        <div style="color:#64748b; font-size:0.75rem;">Boating weather, gusts, and surface conditions.</div>
+                    </div>
+                </button>
+                <button class="portal-choice-card" onclick="selectPortalMode('construction')">
+                    <span style="font-size:1.8rem; background:rgba(234,179,8,0.1); width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;">🏗️</span>
+                    <div>
+                        <div style="color:white; font-weight:800; font-size:1rem; margin-bottom:2px;">Construction Forecaster</div>
+                        <div style="color:#64748b; font-size:0.75rem;">OSHA wind limits, dust levels, and concrete pours.</div>
+                    </div>
+                </button>
+                <button class="portal-choice-card" onclick="selectPortalMode('family')">
+                    <span style="font-size:1.8rem; background:rgba(167,139,250,0.1); width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;">🏖️</span>
+                    <div>
+                        <div style="color:white; font-weight:800; font-size:1rem; margin-bottom:2px;">Fairweather Family</div>
+                        <div style="color:#64748b; font-size:0.75rem;">UV safety alerts, sunset times, and beach forecasts.</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD 1: RIGHT NOW AT THE LAKE -->
     <div class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at 40% 30%, #052e16 0%, #000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative; overflow:hidden;">
         <!-- ambient glow orb -->
         <div id="lake-glow-orb" style="position:absolute; top:-60px; right:-60px; width:280px; height:280px; border-radius:50%; opacity:0.18; filter:blur(60px); transition:background 2s ease; background:#39ff14; pointer-events:none;"></div>
@@ -903,8 +973,8 @@
                 <div id="lake-updated-stamp" style="font-size:0.7rem; color:#4b5563;">Loading…</div>
             </div>
 
-            <!-- Persona Selector -->
-            <div id="waz-persona-container" style="display:flex; gap:6px; overflow-x:auto; padding:4px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:16px; scrollbar-width:none; -ms-overflow-style:none; pointer-events:auto;">
+            <!-- Persona Selector (Hidden) -->
+            <div id="waz-persona-container" style="display:none; gap:6px; overflow-x:auto; padding:4px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:16px; scrollbar-width:none; -ms-overflow-style:none; pointer-events:auto;">
                 <style>
                     #waz-persona-container::-webkit-scrollbar { display: none; }
                     .persona-btn {
@@ -1805,6 +1875,12 @@
         renderLakeCard(globalWxData);
         renderForecastTrack(globalWxData);
       }
+    }
+
+    // Handle circumstances portal selection click
+    function selectPortalMode(mode) {
+      setWeatherMode(mode);
+      scrollToWazCard(1); // Scroll to Current Conditions card (CARD 1)
     }
 
     // Rules engine for mode-based verdicts
