@@ -2432,6 +2432,7 @@
       }
 
       launchBtn.href = info.link;
+      launchBtn.dataset.appKey = key;
       overlay.classList.add('open');
     }
 
@@ -2456,6 +2457,18 @@
 
     const closeBtn = document.getElementById('dialog-close');
     if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+    
+    // Telemetry tracking on launch
+    const trackBtn = document.getElementById('dialog-launch-btn');
+    if(trackBtn) {
+      trackBtn.addEventListener('click', () => {
+        const appKey = trackBtn.dataset.appKey;
+        if (appKey && appKey !== 'dashboard' && appKey !== '#') {
+          fetch('/telemetry?app=' + encodeURIComponent(appKey) + '&track=1', { method: 'POST' }).catch(e => console.error(e));
+        }
+      });
+    }
+
     overlay.addEventListener('click', e => { if (e.target === overlay) closeDialog(); });
     
     // Init Page Details

@@ -13,3 +13,10 @@ CREATE TABLE IF NOT EXISTS notifications (
     message TEXT NOT NULL,
     timestamp INTEGER NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS app_telemetry (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    app_name TEXT NOT NULL,
+    launch_count INTEGER DEFAULT 1,
+    last_launched INTEGER NOT NULL
+);
