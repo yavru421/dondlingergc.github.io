@@ -1395,26 +1395,6 @@
       </button>
       <div class="grid-container">
         
-        <!-- 00 · DONDLINGER DIGITAL INTRO -->
-        <div class="glow-card" data-app="greeting" data-index="0">
-          <div class="card-top">
-            <div class="card-meta">
-              <span class="card-number">// CATALOG INFO</span>
-              <span class="card-name">Dondlinger Digital</span>
-            </div>
-            <div class="card-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 38 38" fill="none">
-                <rect width="38" height="38" rx="8" fill="rgba(57, 255, 20,0.08)"/>
-                <path d="M10 19h18M19 10v18" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round"/>
-                <circle cx="19" cy="19" r="6" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3"/>
-              </svg>
-            </div>
-          </div>
-          <div class="card-body">
-            <p>A curated engineering catalog of field-tested progressive web applications. Each tool is purpose-built, ruthlessly scoped, and deployed for performance at the edge. No bloat. No guesswork. Just precision engineering.</p>
-            <span class="card-cta">Active Catalog ⟶</span>
-          </div>
-        </div>
 
         <!-- CATEGORY: CORE CATALOG -->
         <div style="grid-column: 1 / -1; margin-top: 24px; margin-bottom: 8px; font-family: var(--font-sans); display: flex; align-items: center; gap: 12px; opacity: 0.85;">
@@ -1512,6 +1492,32 @@
           </div>
         </div>
 
+        <!-- 05 · DONDLINGER INTAKE APP -->
+        <div class="glow-card" data-app="intake" data-index="6">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 05</span>
+              <span class="card-name">Dondlinger Intake App</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-intake)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Live client onboarding and project intake utility. Captures property dimensions, budget estimations, and custom project scopes directly from prospective clients.</p>
+            <div class="card-preview">
+              <img src="img/intake_preview.png" alt="Dondlinger Intake preview" />
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
         <!-- CATEGORY: CLIENT PROJECTS -->
         <div style="grid-column: 1 / -1; margin-top: 36px; margin-bottom: 8px; font-family: var(--font-sans); display: flex; align-items: center; gap: 12px; opacity: 0.85;">
           <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent-aac); font-family: 'SF Mono', ui-monospace, monospace;">// Client Projects</span>
@@ -1541,31 +1547,7 @@
           </div>
         </div>
 
-        <!-- 06 · DONDLINGER INTAKE APP -->
-        <div class="glow-card" data-app="intake" data-index="6">
-          <div class="card-top">
-            <div class="card-meta">
-              <span class="card-number">// LIVE PORTAL 02</span>
-              <span class="card-name">Dondlinger Intake App</span>
-            </div>
-            <div class="card-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-intake)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-                <line x1="16" y1="13" x2="8" y2="13"/>
-                <line x1="16" y1="17" x2="8" y2="17"/>
-                <polyline points="10 9 9 9 8 9"/>
-              </svg>
-            </div>
-          </div>
-          <div class="card-body">
-            <p>Live client onboarding and project intake utility. Captures property dimensions, budget estimations, and custom layouts directly from users.</p>
-            <div class="card-preview">
-              <img src="img/intake_preview.png" alt="Dondlinger Intake preview" />
-            </div>
-            <span class="card-cta">View Details ⟶</span>
-          </div>
-        </div>
+
 
       </div>
     </section>
@@ -1638,15 +1620,6 @@
 
     /* App details database */
     const APP_DATA = {
-      greeting: {
-        title: 'Dondlinger Digital // 00',
-        accent: 'var(--accent-info)',
-        screenshot: '',
-        desc: 'A curated engineering catalog of field-tested progressive web applications. Each tool is purpose-built, ruthlessly scoped, and deployed for performance at the edge. No bloat. No guesswork. Just precision engineering.',
-        who: ['Engineers', 'Developers', 'Product Designers'],
-        link: '#',
-        btnLabel: 'Catalog Info Active'
-      },
       pourready: {
         title: 'PourReady // 01',
         accent: 'var(--accent-pour)',
