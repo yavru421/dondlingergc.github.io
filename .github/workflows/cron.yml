@@ -1,22 +1,22 @@
-name: Wazeecha Telemetry Cron
+#name: Wazeecha Telemetry Cron
 
-on:
-  schedule:
-    - cron: '0 * * * *' # Runs every hour at minute 0
-  workflow_dispatch: # Allows manual triggering from GitHub Actions UI
+#on:
+  #schedule:
+  #  - cron: '0 * * * *' # Runs every hour at minute 0
+#  workflow_dispatch: # Allows manual triggering from GitHub Actions UI
 
-jobs:
-  run-cron:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
+#jobs:
+ # run-cron:
+  #  runs-on: ubuntu-latest
+   # steps:
+    #  - name: Checkout repository
+     #   uses: actions/checkout@v4
+#
+ #     - name: Setup Node.js
+  #      uses: actions/setup-node@v4
+   #     with:
+    #      node-version: '20'
+#
       - name: Run Weather & River Cron Script
         env:
           SITE_URL: ${{ secrets.SITE_URL }}
