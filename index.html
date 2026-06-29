@@ -36,6 +36,8 @@
       --accent-ampli:     #bf5fff;
       --accent-aac:       #ff007f;
       --accent-intake:    #ffd700;
+      --accent-zla:       #a855f7;
+      --accent-heckler:   #f97316;
       --vector-green: #39ff14;
       --lightning-core: #ffffff;
       --lightning-glow: rgba(57, 255, 20, 0.6);
@@ -367,6 +369,10 @@
     [data-app="aac"] .card-cta { color: var(--accent-aac); }
     [data-app="intake"] .card-name { color: var(--accent-intake); }
     [data-app="intake"] .card-cta { color: var(--accent-intake); }
+    [data-app="zla"] .card-name { color: var(--accent-zla); }
+    [data-app="zla"] .card-cta { color: var(--accent-zla); }
+    [data-app="heckler"] .card-name { color: var(--accent-heckler); }
+    [data-app="heckler"] .card-cta { color: var(--accent-heckler); }
 
     /* Live Dashboard Telemetry card styling */
     .dashboard-panel {
@@ -1728,6 +1734,48 @@
           </div>
         </div>
 
+        <!-- 02 · ZLA -->
+        <div class="glow-card" data-app="zla" data-index="8">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// LIVE PORTAL 02</span>
+              <span class="card-name">ZLA</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-zla)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>ZLA Web Application.</p>
+            <div class="card-preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 03 · HECKLER -->
+        <div class="glow-card" data-app="heckler" data-index="9">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// LIVE PORTAL 03</span>
+              <span class="card-name">Heckler</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-heckler)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Heckler Web Application.</p>
+            <div class="card-preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
       </div>
     </section>
   </main>
@@ -1861,6 +1909,24 @@
         who: ['Field Technicians', 'Project Managers', 'Clients'],
         link: 'https://omw.dondlingergc.com',
         btnLabel: 'Launch OMW Tracker'
+      },
+      zla: {
+        title: 'ZLA // 08',
+        accent: 'var(--accent-zla)',
+        screenshot: '',
+        desc: 'ZLA Web Application.',
+        who: ['Clients', 'Users'],
+        link: 'https://zla.dondlingergc.com',
+        btnLabel: 'Launch ZLA'
+      },
+      heckler: {
+        title: 'Heckler // 09',
+        accent: 'var(--accent-heckler)',
+        screenshot: '',
+        desc: 'Heckler Web Application.',
+        who: ['Clients', 'Users'],
+        link: 'https://heckler.dondlingergc.com',
+        btnLabel: 'Launch Heckler'
       },
       installguide: {
         title: 'Installation Guide // 07',
