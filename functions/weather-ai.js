@@ -65,8 +65,7 @@ export async function onRequest(context) {
     const bucketFlow = typeof river_flow === 'number' ? Math.round(river_flow / 500) * 500 : 'N';
     const bucketStage = typeof river_stage === 'number' ? Math.round(river_stage * 2) / 2 : 'N';
 
-    const currentDateString = new Date().toISOString().split('T')[0];
-    const cacheKey = `waz_ai_v2_${mode}_${currentDateString}`;
+    const cacheKey = `waz_ai_v2_${mode}_${bucketTemp}_${bucketWind}_${bucketGust}_${weather_code}`;
 
     // Try KV first
     let cachedVerdict = null;
@@ -122,8 +121,8 @@ Forecast Summary: ${forecast_summary}`;
     // Save back to KV for future requests
     if (env.CRON_STATE) {
       try {
-        // Cache for 12 hours (43200 seconds)
-        await env.CRON_STATE.put(cacheKey, cleanedText, { expirationTtl: 43200 });
+        // Cache for 15 minutes (900 seconds) to prevent quota burn on rapid refreshes while keeping advice fresh
+        await env.CRON_STATE.put(cacheKey, cleanedText, { expirationTtl: 900 });
       } catch (kvErr) {
         console.error('[weather-ai] KV write error:', kvErr);
       }

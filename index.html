@@ -2248,6 +2248,12 @@
           console.warn("Failed to parse USGS cache in renderLakeCard:", e);
         }
 
+        let forecastSummary = '';
+        for(let i=0; i<3; i++) {
+          if(!d.time[i]) continue;
+          forecastSummary += `Day ${i+1}: High ${d.temperature_2m_max[i]}F, Low ${d.temperature_2m_min[i]}F, Precip ${d.precipitation_sum[i]}in. `;
+        }
+
         const payload = {
           mode: currentMode,
           temperature: h.temperature_2m ? Math.round(h.temperature_2m[curHr]) : null,
@@ -2257,7 +2263,8 @@
           weather_code: wCode,
           uv_index: uvMax,
           river_flow: riverFlow,
-          river_stage: riverStage
+          river_stage: riverStage,
+          forecast_summary: forecastSummary
         };
 
         const el = id => document.getElementById(id);

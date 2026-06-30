@@ -191,55 +191,6 @@ async function runChecks(env) {
       state.daily_forecast_sent_date = todayDate;
     }
 
-    // ---- 2b. DAILY PERSONA FORECAST GENERATION (WaZWeather AI) ----
-    if (localHour >= 6 && state.ai_persona_forecast_date !== todayDate && env.AI) {
-      const modes = ['fishing', 'construction', 'family', 'lake'];
-      let forecastSummary = '';
-      for(let i=0; i<3; i++) {
-        if(!daily.time[i]) continue;
-        forecastSummary += `Day ${i+1}: High ${daily.temperature_2m_max[i]}F, Low ${daily.temperature_2m_min[i]}F, Precip ${daily.precipitation_sum[i]}in. `;
-      }
-
-      for (const mode of modes) {
-        const systemPrompt = `You are the Dondlinger Digital weather intelligence engine. You translate raw weather telemetry into direct, high-utility field verdicts for four specific personas: fishing (focusing on flow rate, moon, wind trends), lake (boating, wind gusts, safety), construction (OSHA wind limits, temperature limits for concrete pouring/safety), and family (outdoor play, UV safety, sunsets). 
-Your output MUST be a valid JSON object matching this schema exactly:
-{
-  "emoji": "single emoji matching current condition",
-  "label": "Short verdict label, e.g. Perfect Weather, High Wind Alert, Concrete Warning",
-  "sub": "Under 12 words summary of current condition details",
-  "color": "hex color code corresponding to hazard level (green #39ff14, info #38bdf8, warn #fbbf24, danger #ef4444)",
-  "advice": "One sentence of direct, casual, field-oriented advice. Contractions OK. Zero corporate speak. Maximum utility.",
-  "ai_forecast_narrative": "1-2 paragraphs of tactical, highly persona-specific forecasting for the next 3 days. Focus entirely on utility and actionable advice based on the provided forecast summary."
-}
-Keep answers concise, direct, and functional.`;
-
-        const userPrompt = `Persona Mode: ${mode}
-Telemetry: Temp ${current.temperature_2m}F, Wind Gusts ${current.wind_gusts_10m}mph, Weather Code ${current.weather_code}.
-Forecast Summary: ${forecastSummary}`;
-
-        try {
-          const aiResponse = await env.AI.run('@cf/meta/llama-3-8b-instruct', {
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: userPrompt }
-            ],
-            response_format: { type: 'json_object' },
-            session_affinity: `waz-weather-${mode}`
-          });
-          
-          let rawText = aiResponse?.response;
-          if (!rawText && aiResponse?.result) rawText = aiResponse.result;
-          if (rawText) {
-             const cleanedText = JSON.stringify(JSON.parse(rawText));
-             const cacheKey = `waz_ai_v2_${mode}_${todayDate}`;
-             await env.CRON_STATE.put(cacheKey, cleanedText, { expirationTtl: 86400 });
-          }
-        } catch (err) {
-          console.error(`[cron] AI persona generation failed for ${mode}`, err);
-        }
-      }
-      state.ai_persona_forecast_date = todayDate;
-    }
 
     // ---- 3. RAIN START/STOP (15-min cooldown + escalation-aware) ----
     const isRaining = current.precipitation > 0;
