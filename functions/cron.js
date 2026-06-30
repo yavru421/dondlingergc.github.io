@@ -272,6 +272,50 @@ async function runChecks(env) {
       }
     }
 
+    // ---- 6. CACHE WARMUP FOR WAZWEATHER AI ----
+    try {
+      let discharge = null, gauge = null;
+      if (usgs?.value?.timeSeries) {
+        for (const ts of usgs.value.timeSeries) {
+          const code = ts.variable.variableCode[0].value;
+          const vals = ts.values[0].value;
+          if (vals?.length) {
+            const v = parseFloat(vals[vals.length - 1].value);
+            if (code === '00060') discharge = v;
+            if (code === '00065') gauge = v;
+          }
+        }
+      }
+
+      const forecastSummary = daily.time.slice(0,3).map((t, i) => 
+        `Day ${i+1}: High ${daily.temperature_2m_max[i]}F, Low ${daily.temperature_2m_min[i]}F, Precip ${daily.precipitation_sum[i]}in.`
+      ).join(' ');
+
+      const payload = {
+        temperature: current.temperature_2m,
+        apparent_temperature: current.temperature_2m,
+        wind_speed: current.wind_gusts_10m || 0, // Fallback to gust since speed isn't fetched in cron
+        wind_gusts: current.wind_gusts_10m || 0,
+        weather_code: current.weather_code || 0,
+        uv_index: 5,
+        river_flow: discharge || 'unknown',
+        river_stage: gauge || 'unknown',
+        forecast_summary: forecastSummary
+      };
+
+      const personasToWarm = ['fishing', 'construction', 'lake'];
+      for (const mode of personasToWarm) {
+        payload.mode = mode;
+        await fetch('https://dondlingergc.com/functions/weather-ai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(e => console.error('[cron] Warmup failed for', mode, e.message));
+      }
+    } catch (e) {
+      console.error('[cron] Cache warmup error:', e.message);
+    }
+
     await writeState(env, state);
 
     // Prune notifications older than 30 days to keep table bounded

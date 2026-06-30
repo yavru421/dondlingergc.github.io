@@ -77,6 +77,12 @@ export async function onRequest(context) {
           .bind(appName, now)
           .run();
       }
+      
+      // Invalidate KV cache immediately to ensure freshness
+      if (env.CRON_STATE) {
+        await env.CRON_STATE.delete(`telemetry_stats_${appName}`);
+      }
+
       return new Response(JSON.stringify({ success: true, tracked: appName }), {
         headers: corsHeaders,
       });
@@ -91,12 +97,32 @@ export async function onRequest(context) {
 
   // GET — return public stats for HUD display
   try {
+    const cacheKey = `telemetry_stats_${appName}`;
+    
+    // Check KV Layer first
+    if (env.CRON_STATE) {
+      const cached = await env.CRON_STATE.get(cacheKey);
+      if (cached) {
+        return new Response(cached, {
+          headers: { ...corsHeaders, 'X-Cache': 'HIT' },
+        });
+      }
+    }
+
     const stats = await env.DB
       .prepare('SELECT launch_count, last_launched FROM app_telemetry WHERE app_name = ?')
       .bind(appName)
       .first();
-    return new Response(JSON.stringify(stats || { launch_count: 0 }), {
-      headers: corsHeaders,
+      
+    const finalStats = JSON.stringify(stats || { launch_count: 0 });
+
+    // Save to KV Layer for 60 seconds
+    if (env.CRON_STATE) {
+      await env.CRON_STATE.put(cacheKey, finalStats, { expirationTtl: 60 });
+    }
+
+    return new Response(finalStats, {
+      headers: { ...corsHeaders, 'X-Cache': 'MISS' },
     });
   } catch (err) {
     console.error('[telemetry] read error:', err);
