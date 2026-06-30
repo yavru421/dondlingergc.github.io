@@ -1,8 +1,16 @@
+const CORS_ORIGIN = 'https://dondlingergc.com';
+
+const CORS_HEADERS = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': CORS_ORIGIN,
+  'Vary': 'Origin',
+};
+
 export async function onRequestOptions() {
   return new Response(null, {
     status: 204,
     headers: {
-      'Access-Control-Allow-Origin': 'https://dondlingergc.com',
+      'Access-Control-Allow-Origin': CORS_ORIGIN,
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
       'Vary': 'Origin',
@@ -16,26 +24,26 @@ export async function onRequestPost(context) {
   try {
     const contentLength = request.headers.get('Content-Length');
     if (contentLength && parseInt(contentLength, 10) > 2048) {
-      return new Response(JSON.stringify({ error: 'Payload too large' }), { status: 413, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ error: 'Payload too large' }), { status: 413, headers: CORS_HEADERS });
     }
 
     const text = await request.text();
     if (new TextEncoder().encode(text).length > 2048) {
-      return new Response(JSON.stringify({ error: 'Payload too large' }), { status: 413, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ error: 'Payload too large' }), { status: 413, headers: CORS_HEADERS });
     }
 
     let body;
     try {
       body = JSON.parse(text);
     } catch (e) {
-      return new Response(JSON.stringify({ error: 'Invalid JSON payload' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ error: 'Invalid JSON payload' }), { status: 400, headers: CORS_HEADERS });
     }
 
     const { endpoint, keys, preferences } = body;
     if (!endpoint || !keys || !keys.p256dh || !keys.auth || !preferences) {
       return new Response(JSON.stringify({ error: 'Invalid subscription object' }), { 
         status: 400,
-        headers: { 'Content-Type': 'application/json' }
+        headers: CORS_HEADERS
       });
     }
 
@@ -43,7 +51,7 @@ export async function onRequestPost(context) {
     try {
       endpointUrl = new URL(endpoint);
     } catch (e) {
-      return new Response(JSON.stringify({ error: 'Invalid endpoint URL' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ error: 'Invalid endpoint URL' }), { status: 400, headers: CORS_HEADERS });
     }
 
     const allowedHosts = [
@@ -59,7 +67,7 @@ export async function onRequestPost(context) {
     });
 
     if (!isValidHost) {
-      return new Response(JSON.stringify({ error: 'Unsupported push service provider' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ error: 'Unsupported push service provider' }), { status: 400, headers: CORS_HEADERS });
     }
 
     const preferences_river = preferences.river ? 1 : 0;
@@ -80,13 +88,13 @@ export async function onRequestPost(context) {
     .run();
 
     return new Response(JSON.stringify({ success: true, message: 'Subscribed successfully' }), { 
-      headers: { 'Content-Type': 'application/json' }
+      headers: CORS_HEADERS
     });
   } catch (err) {
     console.error('[subscribe] Error:', err);
     return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      headers: CORS_HEADERS
     });
   }
 }

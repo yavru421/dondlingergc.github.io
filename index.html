@@ -1078,6 +1078,16 @@
                  </div>
              </div>
 
+             <!-- AI Forecast Narrative Widget -->
+             <div id="waz-forecast-widget" style="background:rgba(255,255,255,0.03); border:1px solid rgba(57, 255, 20, 0.2); border-radius:18px; padding:12px 16px; display:flex; flex-direction:column; gap:6px; margin-top:8px;">
+                 <div style="color:var(--accent-info); font-size:0.65rem; text-transform:uppercase; font-weight:800; display:flex; align-items:center; gap:6px; letter-spacing:1px;">
+                     <span style="font-size:0.8rem;">🤖</span> Edge AI Briefing
+                 </div>
+                 <div id="waz-forecast-content" style="color:var(--text-gray); font-size:0.8rem; line-height:1.5; font-weight:400;">
+                     Generating tactical multi-day forecast...
+                 </div>
+             </div>
+
              <!-- Share forecast button -->
              <button onclick="shareForecast()" style="display:flex; align-items:center; justify-content:center; gap:8px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:10px; color:white; font-weight:800; font-size:0.8rem; cursor:pointer; pointer-events:auto; transition:all 0.2s; width:100%;">
                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg> Share Forecast
@@ -2210,16 +2220,55 @@
         const sunrise    = d.sunrise ? new Date(d.sunrise[todayIdx]).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}) : '--';
         const sunset     = d.sunset ? new Date(d.sunset[todayIdx]).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}) : '--';
 
-        const verdict = getModeVerdict(currentMode, gustMax, precipProb, wCode, uvMax);
+        // Populate telemetry payload & local storage cache logic
+        let riverFlow = null;
+        let riverStage = null;
+        try {
+          const cachedHydro = localStorage.getItem('usgs_hydro_cache_v2');
+          if (cachedHydro) {
+            const parsed = JSON.parse(cachedHydro);
+            if (parsed && parsed.data && parsed.data.value && parsed.data.value.timeSeries) {
+              parsed.data.value.timeSeries.forEach(series => {
+                const code = series.variable.variableCode[0].value;
+                const vals = series.values[0].value;
+                if (vals && vals.length > 0) {
+                  const currentVal = parseFloat(vals[vals.length - 1].value);
+                  if (code === '00060') riverFlow = currentVal;
+                  else if (code === '00065') riverStage = currentVal;
+                }
+              });
+            }
+          }
+        } catch (e) {
+          console.warn("Failed to parse USGS cache in renderLakeCard:", e);
+        }
 
-        // Populate DOM
+        const payload = {
+          mode: currentMode,
+          temperature: h.temperature_2m ? Math.round(h.temperature_2m[curHr]) : null,
+          apparent_temperature: feelsLike,
+          wind_speed: windSpd,
+          wind_gusts: gustMax,
+          weather_code: wCode,
+          uv_index: uvMax,
+          river_flow: riverFlow,
+          river_stage: riverStage
+        };
+
         const el = id => document.getElementById(id);
-        el('lake-verdict-emoji').textContent = verdict.emoji;
-        el('lake-verdict-label').textContent = verdict.label;
-        el('lake-verdict-label').style.color = verdict.color;
-        el('lake-verdict-sub').textContent = verdict.sub;
-        el('lake-glow-orb').style.background = verdict.color;
-        
+
+        function applyLocalVerdict() {
+          const localVerdict = getModeVerdict(currentMode, gustMax, precipProb, wCode, uvMax);
+          const adviceText = getActionAdvice(currentMode, windSpd, gustMax, precipProb, wCode, uvMax, feelsLike || 70);
+          
+          el('lake-verdict-emoji').textContent = localVerdict.emoji;
+          el('lake-verdict-label').textContent = localVerdict.label;
+          el('lake-verdict-label').style.color = localVerdict.color;
+          el('lake-verdict-sub').textContent = localVerdict.sub;
+          el('lake-glow-orb').style.background = localVerdict.color;
+          el('waz-advice-content').textContent = adviceText;
+        }
+
         // Reset label defaults
         el('label-feels').textContent = 'Feels Like';
         el('label-wind').textContent = 'Wind';
@@ -2250,9 +2299,67 @@
         el('lake-sunset').textContent = sunset;
         el('lake-updated-stamp').textContent = relativeTime(Date.now());
 
-        // Update Advice widget content
-        const adviceText = getActionAdvice(currentMode, windSpd, gustMax, precipProb, wCode, uvMax, feelsLike || 70);
-        el('waz-advice-content').textContent = adviceText;
+        // Fetch Edge AI verdict with caching & local fallback
+        let aiSuccess = false;
+        try {
+          const cacheKey = `last_verdict_${currentMode}`;
+          const localCache = localStorage.getItem(cacheKey);
+          const payloadHash = `${payload.mode}_${payload.temperature}_${payload.wind_speed}_${payload.wind_gusts}_${payload.weather_code}_${payload.uv_index}_${payload.river_flow}`;
+          
+          if (localCache) {
+            const cachedObj = JSON.parse(localCache);
+            if (cachedObj.hash === payloadHash && (Date.now() - cachedObj.timestamp < 15 * 60 * 1000)) {
+              const v = cachedObj.verdict;
+              el('lake-verdict-emoji').textContent = v.emoji;
+              el('lake-verdict-label').textContent = v.label;
+              el('lake-verdict-label').style.color = v.color;
+              el('lake-verdict-sub').textContent = `${v.sub} (cached)`;
+              el('lake-glow-orb').style.background = v.color;
+              el('waz-advice-content').textContent = v.advice;
+              if (v.ai_forecast_narrative) el('waz-forecast-content').textContent = v.ai_forecast_narrative;
+              aiSuccess = true;
+            }
+          }
+
+          if (!aiSuccess) {
+            el('lake-verdict-sub').textContent = "Consulting Edge AI...";
+            el('waz-advice-content').textContent = "Edge AI is analyzing current conditions...";
+
+            const res = await fetch('/functions/weather-ai', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+              const verdict = await res.json();
+              el('lake-verdict-emoji').textContent = verdict.emoji || '🌤️';
+              el('lake-verdict-label').textContent = verdict.label || 'Fair';
+              el('lake-verdict-label').style.color = verdict.color || '#39ff14';
+              el('lake-verdict-sub').textContent = verdict.sub || 'No alerts active';
+              el('lake-glow-orb').style.background = verdict.color || '#39ff14';
+              el('waz-advice-content').textContent = verdict.advice || '';
+              if (verdict.ai_forecast_narrative) el('waz-forecast-content').textContent = verdict.ai_forecast_narrative;
+
+              localStorage.setItem(cacheKey, JSON.stringify({
+                timestamp: Date.now(),
+                hash: payloadHash,
+                verdict: verdict
+              }));
+              aiSuccess = true;
+            } else {
+              console.warn("AI endpoint returned error status:", res.status);
+            }
+          }
+        } catch (e) {
+          console.error("AI verdict query failed:", e);
+        }
+
+        if (!aiSuccess) {
+          applyLocalVerdict();
+          const currentSub = el('lake-verdict-sub').textContent;
+          el('lake-verdict-sub').textContent = `${currentSub} (Offline Fallback)`;
+        }
 
         // Fetch KISW for visibility
         try {
@@ -3060,7 +3167,7 @@ Check live hydrology & weather flow: ${shareUrl}`;
       }
 
       try {
-        swReg = await navigator.serviceWorker.register('sw.js');
+        swReg = await navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' });
         const subscription = await swReg.pushManager.getSubscription();
         isSubscribed = !!subscription;
         updateWeatherPushUI(subscription);
