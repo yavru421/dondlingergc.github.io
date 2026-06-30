@@ -1167,10 +1167,14 @@
                 }
             }
 
+            // Canonical site coordinates — used by all weather fetches
+            const WAZ_LAT = 44.3936;
+            const WAZ_LON = -89.8173;
+
             async function fetchRainCast() {
                 try {
-                    const lat = 44.31;
-                    const lon = -89.83;
+                    const lat = WAZ_LAT;
+                    const lon = WAZ_LON;
                     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,cloud_cover&minutely_15=precipitation&precipitation_unit=inch&temperature_unit=fahrenheit&timezone=auto&forecast_days=1`;
                     
                     const response = await fetch(url);
@@ -1199,8 +1203,9 @@
                     const baseCardStyle = "background:rgba(255,255,255,0.95); color:#111; padding:12px 24px; border-radius:30px; font-weight:800; font-size:1rem; box-shadow:0 12px 24px rgba(0,0,0,0.4); display:flex; align-items:center; gap:10px; opacity:0; cursor:pointer;";
 
                     let willRain = current.precipitation > 0;
-                    for(let i=0; i<4 && i<precip.length; i++){
-                        if(precip[i] > 0) willRain = true;
+                    // FIX 6: scan all 12 intervals (3 hrs), not just first 4 (1 hr)
+                    for(let i = 0; i < precip.length; i++){
+                        if(precip[i] > 0){ willRain = true; break; }
                     }
 
                     if (willRain) {
@@ -2283,7 +2288,8 @@
             workPrecips: [],
             workWinds: [],
             workCodes: [],
-            rawTime: t
+            rawTime: t,
+            startIndex: index  // FIX 4: track global start index for this day
           };
         }
         days[dateStr].temps.push(h.temperature_2m[index]);
@@ -2300,7 +2306,7 @@
 
       const weatherTrack = document.getElementById('weather-forecast-track');
       if (weatherTrack) {
-        weatherTrack.innerHTML = Object.keys(days).slice(0, 5).map(dayKey => {
+        weatherTrack.innerHTML = Object.keys(days).slice(0, 5).map((dayKey, dayIdx) => {
           const dayData = days[dayKey];
           const maxTemp = Math.max(...dayData.temps);
           const minTemp = Math.min(...dayData.temps);
@@ -2311,19 +2317,34 @@
           const maxWorkWind = dayData.workWinds.length > 0 ? Math.max(...dayData.workWinds) : 0;
           const validWorkCodes = dayData.workCodes.filter(c => c !== null);
           const worstWorkCode = validWorkCodes.length > 0 ? Math.max(...validWorkCodes) : 0;
-          
-          const lv = getModeVerdict(currentMode, maxWorkWind, Math.round((workPrecipTotal > 0.05 ? 80 : 10)), worstWorkCode, 5);
+
+          // FIX 3: use real daily precipitation_probability_max and uv_index_max
+          const precipProb = wxData.daily && wxData.daily.precipitation_probability_max
+            ? (wxData.daily.precipitation_probability_max[dayIdx] ?? 0)
+            : Math.round(workPrecipTotal > 0.05 ? 80 : 10); // fallback only
+          const uvMax = wxData.daily && wxData.daily.uv_index_max
+            ? (wxData.daily.uv_index_max[dayIdx] ?? 0)
+            : 5; // fallback only
+
+          const lv = getModeVerdict(currentMode, maxWorkWind, precipProb, worstWorkCode, uvMax);
           const statusText  = lv.label;
           const statusColor = lv.color;
 
+          // FIX 4: use stored startIndex instead of O(n) indexOf + correct dead-code rainHours
           let rainHours = [];
           dayData.precips.forEach((p, idx) => {
             if (p > 0.01) {
-              const idxTime = new Date(h.time[h.time.indexOf(dayData.rawTime) + idx]);
-              const hourFormatted = idxTime.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
-              rainHours.push(hourFormatted);
+              const globalIdx = dayData.startIndex + idx;
+              if (globalIdx < h.time.length) {
+                const idxTime = new Date(h.time[globalIdx]);
+                const hourFormatted = idxTime.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
+                rainHours.push(hourFormatted);
+              }
             }
           });
+          const rainHoursHtml = rainHours.length > 0
+            ? `<div style="color:#94a3b8; font-size:0.75rem; text-transform:uppercase; font-weight:700;">Rain at</div><div style="color:#bae6fd; font-size:0.8rem; font-weight:600;">${rainHours.join(', ')}</div>`
+            : '';
           
           const moon = getMoonPhase(new Date(dayData.rawTime));
           return `
@@ -2345,9 +2366,14 @@
                       <div style="color:#bae6fd; font-size:1.1rem; font-weight:600;">${totalPrecip.toFixed(2)}"</div>
                   </div>
                   <div>
+                      <div style="color:#94a3b8; font-size:0.75rem; text-transform:uppercase; font-weight:700;">Chance</div>
+                      <div style="color:#93c5fd; font-size:1.1rem; font-weight:600;">${precipProb}%</div>
+                  </div>
+                  <div>
                       <div style="color:#94a3b8; font-size:0.75rem; text-transform:uppercase; font-weight:700;">Gusts</div>
                       <div style="color:#e2e8f0; font-size:1.1rem; font-weight:600;">${Math.round(maxWind)} mph</div>
                   </div>
+                  ${rainHoursHtml ? `<div>${rainHoursHtml}</div>` : ''}
               </div>
           </div>`;
         }).join('');
@@ -2445,8 +2471,9 @@ Check live hydrology & weather flow: ${shareUrl}`;
           if (new Date(h.time[i]) <= now) curHr = i;
           else break;
         }
-        const precips = h.precipitation.slice(curHr, curHr + 24);
-        const times   = h.time.slice(curHr, curHr + 24);
+        // FIX 7: guard against truncation near end of 7-day window
+        const precips = h.precipitation.slice(curHr, Math.min(curHr + 24, h.time.length));
+        const times   = h.time.slice(curHr, Math.min(curHr + 24, h.time.length));
         const maxP    = Math.max(...precips, 0.01);
         const total   = precips.reduce((a, b) => a + b, 0);
 
@@ -2530,7 +2557,7 @@ Check live hydrology & weather flow: ${shareUrl}`;
           const parsed = JSON.parse(cached);
           if (now - parsed.timestamp < CACHE_DURATION) {
             hydroData = parsed.data;
-            console.log("Loaded USGS data from 4-hour browser cache.");
+            console.log("Loaded USGS data from 15-min browser cache.");
           }
         }
         
@@ -2755,7 +2782,8 @@ Check live hydrology & weather flow: ${shareUrl}`;
         }
         
         if (!wxData) {
-          const wxRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=44.3936&longitude=-89.8173&hourly=temperature_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation,precipitation_probability,weather_code,uv_index&daily=sunrise,sunset,daylight_duration,uv_index_max,precipitation_probability_max,wind_gusts_10m_max,weather_code&forecast_days=7&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch');
+          // FIX 2: added precipitation_sum to daily params so real daily totals are available
+          const wxRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${WAZ_LAT}&longitude=${WAZ_LON}&hourly=temperature_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation,precipitation_probability,weather_code,uv_index&daily=sunrise,sunset,daylight_duration,uv_index_max,precipitation_probability_max,wind_gusts_10m_max,weather_code,precipitation_sum&forecast_days=7&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch`);
           wxData = await wxRes.json();
           localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: wxData }));
           console.log("Fetched fresh Weather data and updated cache.");
