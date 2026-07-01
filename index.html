@@ -38,6 +38,7 @@
       --accent-intake:    #ffd700;
       --accent-zla:       #a855f7;
       --accent-heckler:   #f97316;
+      --accent-timeline:  #2ea043;
       --vector-green: #39ff14;
       --lightning-core: #ffffff;
       --lightning-glow: rgba(57, 255, 20, 0.6);
@@ -373,6 +374,8 @@
     [data-app="zla"] .card-cta { color: var(--accent-zla); }
     [data-app="heckler"] .card-name { color: var(--accent-heckler); }
     [data-app="heckler"] .card-cta { color: var(--accent-heckler); }
+    [data-app="timeline"] .card-name { color: var(--accent-timeline); }
+    [data-app="timeline"] .card-cta { color: var(--accent-timeline); }
 
     /* Live Dashboard Telemetry card styling */
     .dashboard-panel {
@@ -867,8 +870,7 @@
          <button class="hud-dot active" onclick="scrollToWazCard('waz-mode-portal')" title="Select Mode"><div class="nav-icon">🎯</div><span>Mode</span></button>
          <button class="hud-dot" onclick="scrollToWazCard('card-now')" title="Conditions"><div class="nav-icon">🌡️</div><span>Now</span></button>
          <button class="hud-dot" onclick="scrollToWazCard('card-radar')" title="Radar"><div class="nav-icon">📡</div><span>Radar</span></button>
-         <button class="hud-dot" onclick="scrollToWazCard('card-forecast')" title="Forecast"><div class="nav-icon">📅</div><span>Fcast</span></button>
-         <button class="hud-dot" onclick="scrollToWazCard('card-timeline')" title="Timeline"><div class="nav-icon">⏳</div><span>Time</span></button>
+         <button class="hud-dot" onclick="scrollToWazCard('card-forecast')" title="Forecast"><div class="nav-icon">📅</div><span>Rain</span></button>
          <button class="hud-dot" onclick="scrollToWazCard('card-hydro')" title="Hydrology"><div class="nav-icon">🌊</div><span>Hydro</span></button>
          <button class="hud-dot" onclick="scrollToWazCard('card-aqi')" title="Air Quality"><div class="nav-icon">💨</div><span>AQI</span></button>
          <button class="hud-dot" onclick="scrollToWazCard('card-push')" title="Alerts"><div class="nav-icon">⚠️</div><span>Alert</span></button>
@@ -1364,57 +1366,67 @@
         </div>
     </div>
 
-    <!-- CARD 1.5: FORECAST -->
-    <div id="card-forecast" class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top, #0f172a 0%, #000000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
-        <div style="max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:24px;">
+    <!-- CARD 1.5: RAIN & AI FORECAST MASTER DASHBOARD -->
+    <div id="card-forecast" class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top right, #050b14 0%, #000000 100%); display:flex; flex-direction:column; justify-content:flex-start; padding:32px 24px; position:relative; overflow-y:auto; overflow-x:hidden;">
+        
+        <!-- Glowing Rain Drops Background Element -->
+        <style>
+            @keyframes pulseRain {
+                0% { opacity: 0.1; }
+                100% { opacity: 0.3; }
+            }
+        </style>
+        <div style="position:absolute; top:-100px; right:-100px; width:400px; height:400px; border-radius:50%; filter:blur(90px); transition:background 2s ease; background:#0284c7; pointer-events:none; animation: pulseRain 5s infinite alternate;"></div>
+
+        <div style="max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:28px; z-index:2; position:relative;">
+            
+            <!-- Hero Header -->
             <div style="display:flex; align-items:center; gap:16px;">
-                <div style="width:56px; height:56px; background:linear-gradient(135deg, #0284c7, #2563eb); border-radius:16px; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 16px rgba(2,132,199,0.3);">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"></path></svg>
+                <div style="width:64px; height:64px; background:linear-gradient(135deg, rgba(2,132,199,0.8), rgba(37,99,235,0.8)); border-radius:20px; display:flex; align-items:center; justify-content:center; box-shadow:0 12px 24px rgba(2,132,199,0.4), inset 0 2px 10px rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.2); backdrop-filter:blur(10px);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><line x1="8" y1="19" x2="8" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line><line x1="16" y1="19" x2="16" y2="21"></line></svg>
                 </div>
                 <div>
-                    <h2 style="font-size:2.2rem; font-weight:900; color:white; margin:0; letter-spacing:-0.5px;">Forecast</h2>
-                    <div style="color:#94a3b8; font-size:0.9rem; font-weight:600; text-transform:uppercase; letter-spacing:1px;">5-Day Outlook</div>
+                    <h2 style="font-size:2.4rem; font-weight:900; color:white; margin:0; letter-spacing:-1px; text-shadow:0 2px 10px rgba(0,0,0,0.5);">Rain & AI</h2>
+                    <div style="color:#38bdf8; font-size:0.9rem; font-weight:800; text-transform:uppercase; letter-spacing:2px;">Tactical Forecast</div>
                 </div>
             </div>
             
-            <!-- Tactical Edge AI Readout Module -->
-            <div style="background:#050a06; border-left:4px solid var(--accent-info); border-top:1px solid rgba(255,255,255,0.05); border-right:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:20px; display:flex; flex-direction:column; gap:12px; box-shadow:0 12px 32px rgba(0,0,0,0.4);">
-                <div style="color:var(--accent-info); font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size:0.75rem; text-transform:uppercase; font-weight:700; letter-spacing:2px; display:flex; align-items:center; gap:8px;">
-                    <div class="status-dot"></div> AI TACTICAL BRIEFING
+            <!-- Massive Glassmorphic AI Tactical Briefing -->
+            <div style="background:linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%); border:1px solid rgba(255,255,255,0.15); border-left:6px solid #39ff14; border-radius:24px; padding:28px 24px; display:flex; flex-direction:column; gap:16px; box-shadow:0 16px 40px rgba(0,0,0,0.5), inset 0 2px 10px rgba(255,255,255,0.05); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);">
+                <div style="color:#39ff14; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size:0.8rem; text-transform:uppercase; font-weight:800; letter-spacing:3px; display:flex; align-items:center; gap:10px;">
+                    <div style="width:10px; height:10px; border-radius:50%; background:#39ff14; box-shadow:0 0 12px #39ff14; animation:pulse-dot 2s infinite;"></div> AI EDGE COMPUTE
                 </div>
-                <div id="waz-ai-readout" style="color:#F9FAFB; font-size:1.05rem; line-height:1.6; font-weight:400;">
-                    Consulting Cloudflare Edge AI...
-                </div>
-            </div>
-
-            <div id="weather-forecast-track" style="display:flex; gap:16px; overflow-x:auto; padding-bottom:16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling:touch; width: 100vw; margin-left: -24px; padding-left: 24px; padding-right: 24px; box-sizing: border-box;"></div>
-        </div>
-    </div>
-
-    <!-- CARD-HOURLY: 24-HR PRECIP TIMELINE -->
-    <div id="card-timeline" class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top, #0c1a2e 0%, #000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative;">
-        <div style="max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
-            <div style="display:flex; align-items:center; gap:16px;">
-                <div style="width:48px; height:48px; background:linear-gradient(135deg, #1d4ed8, #3b82f6); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 16px rgba(59,130,246,0.25);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><line x1="8" y1="19" x2="8" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line><line x1="16" y1="19" x2="16" y2="21"></line></svg>
-                </div>
-                <div>
-                    <h2 style="font-size:2rem; font-weight:900; color:white; margin:0; letter-spacing:-0.5px;">Next 24 Hours</h2>
-                    <div style="color:#94a3b8; font-size:0.85rem; font-weight:600; text-transform:uppercase; letter-spacing:1px;">Precip Timeline</div>
+                <div id="waz-ai-readout" style="color:#F9FAFB; font-size:1.15rem; line-height:1.7; font-weight:500; text-shadow:0 2px 4px rgba(0,0,0,0.3);">
+                    Consulting Cloudflare Edge AI for tactical rain briefing...
                 </div>
             </div>
 
-            <!-- Bar chart -->
-            <div id="hourly-precip-bars" style="display:flex; align-items:flex-end; gap:3px; height:100px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:16px; padding:12px 10px; overflow:hidden;"></div>
+            <!-- 24-Hour Precip Timeline (Integrated) -->
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; padding:0 4px;">
+                    <div style="color:#94a3b8; font-size:0.85rem; font-weight:800; text-transform:uppercase; letter-spacing:1.5px;">Next 24 Hours</div>
+                    <div style="display:flex; align-items:baseline; gap:6px;">
+                        <span style="color:#9ca3af; font-size:0.8rem; font-weight:600;">Total Rain:</span>
+                        <span id="hourly-total" style="color:#38bdf8; font-weight:900; font-size:1.1rem; text-shadow:0 0 10px rgba(56,189,248,0.4);">--"</span>
+                    </div>
+                </div>
 
-            <!-- Hour labels -->
-            <div id="hourly-precip-labels" style="display:flex; justify-content:space-between; padding:0 4px;"></div>
-
-            <!-- Summary line -->
-            <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
-                <div style="color:#9ca3af; font-size:0.8rem;">Total rain next 24h</div>
-                <div id="hourly-total" style="color:#38bdf8; font-weight:700; font-size:0.9rem;">--"</div>
+                <!-- Sleek Bar Chart -->
+                <div style="background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:16px; box-shadow:inset 0 4px 12px rgba(0,0,0,0.4);">
+                    <div id="hourly-precip-bars" style="display:flex; align-items:flex-end; gap:4px; height:120px; width:100%; overflow:hidden;"></div>
+                    <div id="hourly-precip-labels" style="display:flex; justify-content:space-between; margin-top:12px; color:#64748b; font-size:0.75rem; font-weight:700;"></div>
+                </div>
             </div>
+
+            <!-- 5-Day Outlook Track (Upgraded Styling) -->
+            <div style="display:flex; flex-direction:column; gap:12px; margin-top:8px;">
+                <div style="color:#94a3b8; font-size:0.85rem; font-weight:800; text-transform:uppercase; letter-spacing:1.5px; padding:0 4px;">5-Day Outlook</div>
+                <div id="weather-forecast-track" style="display:flex; gap:16px; overflow-x:auto; padding-bottom:16px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling:touch; width: calc(100vw - 48px); margin:0; scrollbar-width:none; -ms-overflow-style:none;"></div>
+                <style>#weather-forecast-track::-webkit-scrollbar { display: none; }</style>
+            </div>
+            
+            <!-- Spacer for overscroll -->
+            <div style="height:60px;"></div>
         </div>
     </div>
 
@@ -1746,6 +1758,28 @@
           </div>
         </div>
 
+        <!-- 06 · TIMELINE ZLA -->
+        <div class="glow-card" data-app="timeline" data-index="10">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 06</span>
+              <span class="card-name">TimelineZLA</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-timeline)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Secure peer-to-peer daily log and project timeline tracker. Collaboratively construct, sync, and export site progress logs locally with zero server storage.</p>
+            <div class="card-preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
         <!-- CATEGORY: CLIENT PROJECTS -->
         <div style="grid-column: 1 / -1; margin-top: 36px; margin-bottom: 8px; font-family: var(--font-sans); display: flex; align-items: center; gap: 12px; opacity: 0.85;">
           <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent-aac); font-family: 'SF Mono', ui-monospace, monospace;">// Client Projects</span>
@@ -1953,6 +1987,15 @@
         who: ['Clients', 'Users'],
         link: 'https://heckler.dondlingergc.com',
         btnLabel: 'Launch Heckler'
+      },
+      timeline: {
+        title: 'TimelineZLA // 10',
+        accent: 'var(--accent-timeline)',
+        screenshot: '',
+        desc: 'A secure, local-first daily log and project timeline builder. Running entirely on Zero-Liability Architecture (ZLA), it enables teams to construct, update, and peer-to-peer sync site timelines via secure 6-digit codes with absolute data privacy and instant PDF export.',
+        who: ['Field Superintendents', 'Project Managers', 'Field Crews'],
+        link: 'https://timelinezla.dondlingergc.com',
+        btnLabel: 'Launch TimelineZLA'
       },
       installguide: {
         title: 'Installation Guide // 07',
