@@ -929,9 +929,7 @@
 .ri-sun-lbl{color:#9ca3af;font-size:.58rem;text-transform:uppercase;font-weight:700;}
 .ri-sun-val{color:#fff;font-size:.85rem;font-weight:700;}
 .ri-sun-sep{flex:1;height:1px;background:rgba(255,255,255,.05);margin:0 10px;}
-.ri-persona-row{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;}
-.ri-persona-btn{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:4px 10px;color:#6b7280;font-size:.6rem;font-weight:700;cursor:pointer;transition:all .2s;}
-.ri-persona-btn.active{background:rgba(57,255,20,.08);border-color:rgba(57,255,20,.25);color:#39FF14;}
+
 .ri-advice{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:8px 12px;}
 .ri-advice-lbl{display:none;}
 #waz-advice{color:#9ca3af;font-size:.72rem;line-height:1.4;font-weight:500;}
@@ -1106,13 +1104,7 @@
       <div id="waz-rain-next">Checking…</div>
     </div>
 
-    <!-- Persona buttons -->
-    <div class="ri-persona-row">
-      <button class="ri-persona-btn active" data-persona="lake" onclick="wazSetPersona('lake')">🏖 Lake</button>
-      <button class="ri-persona-btn" data-persona="fishing" onclick="wazSetPersona('fishing')">🎣 Fishing</button>
-      <button class="ri-persona-btn" data-persona="work" onclick="wazSetPersona('work')">🏗 Work</button>
-      <button class="ri-persona-btn" data-persona="family" onclick="wazSetPersona('family')">👨‍👩‍👧 Family</button>
-    </div>
+
 
     <!-- Compact stat strip -->
     <div class="ri-stat-strip">
@@ -1281,7 +1273,7 @@
   var NWS_URL  = 'https://api.weather.gov/alerts/active?zone=WIZ030';
   var AQI_URL  = 'https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+LAT+'&longitude='+LON+'&current=us_aqi,uv_index';
 
-  var persona = 'lake';
+
   var wxCache = null;
   var countdownInterval = null;
   var rainArrivalTime = null;
@@ -1322,12 +1314,7 @@
     return new Date(dateStr+'T12:00:00').toLocaleDateString([],{weekday:'short'});
   }
 
-  /* Persona */
-  window.wazSetPersona = function(p){
-    persona = p;
-    document.querySelectorAll('.ri-persona-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.persona===p); });
-    if(wxCache) renderRainIntel(wxCache);
-  };
+
 
   /* Countdown timer */
   function startCountdown(targetMs){
