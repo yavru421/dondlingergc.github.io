@@ -487,7 +487,27 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
       el('waz-tomorrow-rain') && (el('waz-tomorrow-rain').style.color = tomorrowPct>=60?'#ef4444':tomorrowPct>=30?'#f97316':'#a78bfa');
 
       /* 12-hour bar chart + countdown */
-      var maxProb=0, firstRainHr=-1, barHTML='';
+      var maxProb=0;
+      var isRainingNow = false;
+      var kiswRaw = localStorage.getItem('kisw_obs_v1');
+      if(kiswRaw){
+        try {
+          var props = JSON.parse(kiswRaw).data || {};
+          var desc = (props.textDescription || '').toLowerCase();
+          if (desc.indexOf('rain') !== -1 || desc.indexOf('drizzle') !== -1 || desc.indexOf('shower') !== -1 || desc.indexOf('thunderstorm') !== -1 || desc.indexOf('precipitation') !== -1) {
+            isRainingNow = true;
+          }
+          var pw = props.presentWeather || [];
+          for (var i = 0; i < pw.length; i++) {
+            var w = (pw[i].weather || '').toLowerCase();
+            if (w.indexOf('rain') !== -1 || w.indexOf('drizzle') !== -1 || w.indexOf('shower') !== -1 || w.indexOf('thunderstorm') !== -1) {
+              isRainingNow = true;
+            }
+          }
+        } catch(e){}
+      }
+      var firstRainHr = isRainingNow ? 0 : -1;
+      var barHTML='';
       for(var ri=0;ri<12;ri++){
         var hi=curHr+ri;
         if(hi>=rainProb.length) break;
@@ -636,6 +656,23 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
 
   /* Fetch all */
   function fetchAll(){
+    // Live KISW Observation (radar proxy)
+    var kiswRaw=localStorage.getItem('kisw_obs_v1'); var kiswP=kiswRaw?JSON.parse(kiswRaw):null;
+    if(!kiswP || (Date.now()-kiswP.ts > 5*60*1000)){
+      fetch('https://api.weather.gov/stations/KISW/observations/latest', {
+        headers: { 'User-Agent': '(dondlingergc.com, john@dondlingergc.com)' }
+      }).then(function(r){return r.json();}).then(function(json){
+        if(json.properties) {
+          localStorage.setItem('kisw_obs_v1', JSON.stringify({ts:Date.now(), data:json.properties}));
+          var wxRaw=localStorage.getItem('wazv5_wx');
+          if(wxRaw){
+            var wxP=JSON.parse(wxRaw);
+            renderRainIntel(wxP.data);
+          }
+        }
+      }).catch(function(e){ console.warn('[WaZv5] Live KISW fetch error:', e); });
+    }
+
     /* Weather */
     var wxRaw=localStorage.getItem('wazv5_wx'); var wxP=wxRaw?JSON.parse(wxRaw):null;
     var aqiRaw=localStorage.getItem('wazv5_aqi'); var aqiP=aqiRaw?JSON.parse(aqiRaw):null;
