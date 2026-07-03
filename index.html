@@ -862,41 +862,65 @@
 .waz-scroll{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;height:100%;}
 .waz-scroll::-webkit-scrollbar{display:none;}
 
+/* ═══ ANIMATIONS ═══ */
+@keyframes rainPulse{0%,100%{border-color:rgba(59,130,246,.3);box-shadow:0 0 20px rgba(59,130,246,.08)}50%{border-color:rgba(59,130,246,.6);box-shadow:0 0 30px rgba(59,130,246,.2)}}
+@keyframes urgentPulse{0%,100%{border-color:rgba(239,68,68,.4);box-shadow:0 0 20px rgba(239,68,68,.1)}50%{border-color:rgba(239,68,68,.8);box-shadow:0 0 40px rgba(239,68,68,.25)}}
+@keyframes scanLine{0%{left:-100%}100%{left:100%}}
+@keyframes clearGlow{0%,100%{border-color:rgba(57,255,20,.2);box-shadow:0 0 12px rgba(57,255,20,.06)}50%{border-color:rgba(57,255,20,.4);box-shadow:0 0 20px rgba(57,255,20,.12)}}
+
 /* ═══ Card 1: RAIN INTEL ═══ */
 #waz-rain-intel{background:radial-gradient(ellipse at 30% 0%,#0c2340 0%,#050a06 65%);}
 .ri-body{padding:72px 18px 36px;max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
 .ri-source{display:flex;justify-content:space-between;align-items:center;}
-.ri-source-lbl{color:#60a5fa;font-size:.63rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;}
+.ri-source-lbl{color:#60a5fa;font-size:.63rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:6px;}
 #waz-updated{color:#9ca3af;font-size:.63rem;}
 
-/* Countdown hero */
-.ri-countdown-hero{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(59,130,246,.04));border:1px solid rgba(59,130,246,.25);border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:6px;}
-.ri-countdown-label{color:#60a5fa;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;}
-#waz-countdown-main{font-size:2.4rem;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1;}
-#waz-countdown-sub{font-size:.78rem;color:#94a3b8;margin-top:2px;}
-.ri-today-strip{display:flex;gap:10px;}
-.ri-today-cell{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:3px;}
-.ri-today-lbl{color:#9ca3af;font-size:.58rem;text-transform:uppercase;font-weight:700;letter-spacing:.5px;}
-#waz-today-total{color:#60a5fa;font-size:1.4rem;font-weight:900;}
-#waz-today-max-pct{color:#f97316;font-size:1.4rem;font-weight:900;}
-#waz-tomorrow-rain{color:#a78bfa;font-size:1.4rem;font-weight:900;}
+/* Countdown hero — PREMIUM */
+.ri-countdown-hero{background:linear-gradient(145deg,rgba(59,130,246,.15) 0%,rgba(59,130,246,.03) 100%);border:1.5px solid rgba(59,130,246,.3);border-radius:22px;padding:22px 22px 18px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;transition:border-color .6s ease,box-shadow .6s ease;}
+.ri-countdown-hero.rain-soon{animation:rainPulse 3s ease-in-out infinite;}
+.ri-countdown-hero.rain-now{animation:urgentPulse 1.5s ease-in-out infinite;background:linear-gradient(145deg,rgba(239,68,68,.12) 0%,rgba(239,68,68,.03) 100%);}
+.ri-countdown-hero.all-clear{animation:clearGlow 4s ease-in-out infinite;background:linear-gradient(145deg,rgba(57,255,20,.08) 0%,rgba(57,255,20,.02) 100%);}
+.ri-countdown-label{color:#60a5fa;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:6px;}
+.ri-countdown-hero.rain-now .ri-countdown-label{color:#fca5a5;}
+.ri-countdown-hero.all-clear .ri-countdown-label{color:#39FF14;}
+#waz-countdown-main{font-size:3.2rem;font-weight:900;color:#fff;letter-spacing:-2px;line-height:1;text-shadow:0 2px 20px rgba(59,130,246,.25);}
+.ri-countdown-hero.rain-now #waz-countdown-main{text-shadow:0 2px 20px rgba(239,68,68,.3);}
+.ri-countdown-hero.all-clear #waz-countdown-main{font-size:2.4rem;letter-spacing:-1px;text-shadow:0 2px 20px rgba(57,255,20,.2);}
+#waz-countdown-sub{font-size:.8rem;color:#94a3b8;margin-top:4px;font-weight:500;}
 
-/* 12-hr rain bar chart */
-.ri-bars-block{background:rgba(59,130,246,.04);border:1px solid rgba(59,130,246,.18);border-radius:16px;padding:12px 12px 10px;}
-.ri-bars-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.ri-bars-title{color:#60a5fa;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;}
-#waz-rain-summary{font-size:.72rem;font-weight:700;color:#fff;}
-.ri-bars{display:flex;align-items:flex-end;gap:3px;height:50px;}
-.ri-bar-col{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:0;}
-.ri-bar-pct{color:#60a5fa;font-size:.46rem;font-weight:700;line-height:1;}
-.ri-bar-fill{width:100%;border-radius:3px 3px 0 0;min-height:2px;}
-.ri-bar-lbl{color:#9ca3af;font-size:.46rem;text-align:center;white-space:nowrap;overflow:hidden;line-height:1.2;}
-#waz-rain-next{color:#9ca3af;font-size:.7rem;margin-top:8px;padding-top:7px;border-top:1px solid rgba(255,255,255,.05);}
+/* Today/Tomorrow strip — 4 cells */
+.ri-today-strip{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;}
+.ri-today-cell{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:10px 8px;display:flex;flex-direction:column;gap:3px;position:relative;overflow:hidden;}
+.ri-today-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0;}
+.ri-today-cell[data-severity="low"]::before{background:#60a5fa;}
+.ri-today-cell[data-severity="mid"]::before{background:#f97316;}
+.ri-today-cell[data-severity="high"]::before{background:#ef4444;}
+.ri-today-cell[data-severity="none"]::before{background:rgba(57,255,20,.3);}
+.ri-today-lbl{color:#9ca3af;font-size:.52rem;text-transform:uppercase;font-weight:700;letter-spacing:.5px;}
+.ri-today-val{font-size:1.3rem;font-weight:900;line-height:1.1;}
+#waz-today-total{color:#60a5fa;font-size:1.3rem;font-weight:900;}
+#waz-today-max-pct{color:#f97316;font-size:1.3rem;font-weight:900;}
+#waz-tomorrow-rain{color:#a78bfa;font-size:1.3rem;font-weight:900;}
+#waz-week-total{color:#34d399;font-size:1.3rem;font-weight:900;}
+
+/* 12-hr rain bar chart — PREMIUM */
+.ri-bars-block{background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.2);border-radius:18px;padding:14px 14px 12px;position:relative;overflow:hidden;}
+.ri-bars-block::after{content:'';position:absolute;top:0;bottom:0;width:60%;background:linear-gradient(90deg,transparent,rgba(59,130,246,.06),transparent);animation:scanLine 4s linear infinite;pointer-events:none;}
+.ri-bars-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.ri-bars-title{color:#60a5fa;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;}
+#waz-rain-summary{font-size:.75rem;font-weight:800;color:#fff;}
+.ri-bars{display:flex;align-items:flex-end;gap:3px;height:66px;position:relative;z-index:1;}
+.ri-bar-col{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;min-width:0;position:relative;}
+.ri-bar-col.is-now::after{content:'';position:absolute;top:-6px;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(255,255,255,.6);}
+.ri-bar-pct{color:#60a5fa;font-size:.5rem;font-weight:700;line-height:1;}
+.ri-bar-fill{width:100%;border-radius:4px 4px 0 0;min-height:2px;transition:height .4s ease;}
+.ri-bar-lbl{color:#9ca3af;font-size:.5rem;text-align:center;white-space:nowrap;overflow:hidden;line-height:1.2;}
+#waz-rain-next{color:#9ca3af;font-size:.72rem;margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);position:relative;z-index:1;}
 #waz-rain-next span{color:#fff;font-weight:700;}
 
 /* Compact stat strip */
 .ri-stat-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
-.ri-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:11px 10px;display:flex;flex-direction:column;gap:2px;}
+.ri-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:11px 10px;display:flex;flex-direction:column;gap:2px;}
 .ri-stat-lbl{color:#9ca3af;font-size:.58rem;text-transform:uppercase;font-weight:700;}
 .ri-stat-val{color:#fff;font-size:1.15rem;font-weight:800;line-height:1.1;}
 .ri-stat-sub{color:#9ca3af;font-size:.62rem;}
@@ -905,12 +929,12 @@
 .ri-sun-lbl{color:#9ca3af;font-size:.58rem;text-transform:uppercase;font-weight:700;}
 .ri-sun-val{color:#fff;font-size:.85rem;font-weight:700;}
 .ri-sun-sep{flex:1;height:1px;background:rgba(255,255,255,.05);margin:0 10px;}
-.ri-persona-row{display:flex;gap:7px;flex-wrap:wrap;}
-.ri-persona-btn{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:6px 12px;color:#9ca3af;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .2s;}
-.ri-persona-btn.active{background:rgba(57,255,20,.1);border-color:rgba(57,255,20,.35);color:#39FF14;}
-.ri-advice{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:13px;padding:10px 12px;}
-.ri-advice-lbl{color:#9ca3af;font-size:.58rem;text-transform:uppercase;font-weight:700;margin-bottom:4px;}
-#waz-advice{color:#fff;font-size:.78rem;line-height:1.45;font-weight:500;}
+.ri-persona-row{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;}
+.ri-persona-btn{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:4px 10px;color:#6b7280;font-size:.6rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.ri-persona-btn.active{background:rgba(57,255,20,.08);border-color:rgba(57,255,20,.25);color:#39FF14;}
+.ri-advice{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:8px 12px;}
+.ri-advice-lbl{display:none;}
+#waz-advice{color:#9ca3af;font-size:.72rem;line-height:1.4;font-weight:500;}
 
 /* ═══ Card 2: RADAR (Split 70/30) ═══ */
 #waz-radar{display:flex;flex-direction:column;padding:0;}
@@ -969,26 +993,48 @@
 .alerts-src{color:#9ca3af;font-size:.65rem;}
 #waz-alerts-stamp{color:#9ca3af;font-size:.65rem;}
 
-/* ═══ Card 5: FORECAST ═══ */
-#waz-forecast{background:radial-gradient(ellipse at 60% 0%,#1a0d2e,#050a06 65%);}
-.fc-body{padding:72px 18px 36px;max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:14px;}
-.fc-hdr{display:flex;justify-content:space-between;align-items:flex-end;}
-.fc-title{font-size:1.7rem;font-weight:900;color:#fff;letter-spacing:-.5px;}
+/* ═══ Card 5: FORECAST — RAIN FOCUSED ═══ */
+#waz-forecast{background:radial-gradient(ellipse at 60% 0%,#0a1628 0%,#050a06 65%);}
+.fc-body{padding:72px 18px 36px;max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
+.fc-hdr{display:flex;justify-content:space-between;align-items:flex-start;}
+.fc-hdr-left{display:flex;flex-direction:column;gap:2px;}
+.fc-title{font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:-.5px;display:flex;align-items:center;gap:8px;}
 .fc-sub{color:#9ca3af;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;}
-.aqi-badge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:6px 12px;}
-.aqi-badge-lbl{color:#9ca3af;font-size:.62rem;font-weight:700;text-transform:uppercase;}
-#waz-aqi-val{font-size:1.1rem;font-weight:900;color:#39FF14;}
-#waz-aqi-status{font-size:.62rem;font-weight:700;color:#9ca3af;}
-.fc-days{display:flex;flex-direction:column;gap:8px;}
-.fc-day{display:flex;align-items:center;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055);border-radius:14px;padding:12px 14px;gap:10px;}
-.fc-day-name{color:#fff;font-size:.82rem;font-weight:700;width:34px;flex-shrink:0;}
+.aqi-badge{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:5px 10px;}
+.aqi-badge-lbl{color:#6b7280;font-size:.55rem;font-weight:700;text-transform:uppercase;}
+#waz-aqi-val{font-size:.9rem;font-weight:900;color:#39FF14;}
+#waz-aqi-status{font-size:.55rem;font-weight:700;color:#6b7280;}
+
+/* Rain totals banner */
+.fc-rain-banner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.fc-rain-stat{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.18);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:3px;position:relative;}
+.fc-rain-stat-lbl{color:#60a5fa;font-size:.55rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;}
+.fc-rain-stat-val{color:#fff;font-size:1.2rem;font-weight:900;}
+.fc-rain-stat.wettest{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.06);}
+.fc-rain-stat.wettest .fc-rain-stat-lbl{color:#fca5a5;}
+.fc-rain-stat.wettest .fc-rain-stat-val{color:#fca5a5;}
+
+/* Week rain fill bar */
+.fc-week-bar-wrap{margin-top:4px;}
+.fc-week-bar-bg{height:3px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;}
+.fc-week-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#3b82f6,#60a5fa);transition:width .8s ease;}
+
+/* 7-day rows */
+.fc-days{display:flex;flex-direction:column;gap:6px;}
+.fc-day{display:flex;align-items:center;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:14px;padding:11px 12px;gap:8px;transition:all .3s ease;border-left:3px solid transparent;}
+.fc-day.rain-day{background:rgba(59,130,246,.06);border-color:rgba(59,130,246,.12);border-left-color:#3b82f6;}
+.fc-day.heavy-rain-day{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.1);border-left-color:#ef4444;}
+.fc-day.is-today{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);}
+.fc-day-name{color:#fff;font-size:.8rem;font-weight:700;width:36px;flex-shrink:0;}
+.fc-today-badge{display:inline-block;font-size:.5rem;font-weight:800;color:#39FF14;background:rgba(57,255,20,.1);border:1px solid rgba(57,255,20,.25);border-radius:6px;padding:1px 5px;letter-spacing:1px;margin-left:2px;vertical-align:middle;}
 .fc-day-icon{font-size:1.3rem;flex-shrink:0;}
-.fc-day-desc{color:#9ca3af;font-size:.72rem;flex:1;}
-.fc-day-temp{color:#fff;font-size:.8rem;font-weight:800;white-space:nowrap;flex-shrink:0;text-align:right;}
-.fc-day-rain-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0;width:48px;}
-.fc-day-rain-bar-bg{width:100%;height:4px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;}
-.fc-day-rain-bar-fill{height:100%;border-radius:999px;background:#3b82f6;transition:width .5s ease;}
-.fc-day-rain-pct{color:#60a5fa;font-size:.6rem;font-weight:700;}
+.fc-day-desc{color:#9ca3af;font-size:.7rem;flex:1;min-width:0;}
+.fc-day-temp{color:#fff;font-size:.78rem;font-weight:800;white-space:nowrap;flex-shrink:0;text-align:right;}
+.fc-day-rain-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0;width:60px;}
+.fc-day-rain-bar-bg{width:100%;height:5px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;}
+.fc-day-rain-bar-fill{height:100%;border-radius:999px;transition:width .5s ease;}
+.fc-day-rain-pct{color:#60a5fa;font-size:.62rem;font-weight:800;}
+.fc-day-rain-amt{color:#94a3b8;font-size:.52rem;font-weight:600;}
 .fc-precip-today{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.18);border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;}
 .fc-precip-lbl{color:#60a5fa;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
 #waz-precip-today{color:#fff;font-size:1.1rem;font-weight:900;}
@@ -1030,19 +1076,23 @@
       <div id="waz-countdown-sub">Loading forecast data</div>
     </div>
 
-    <!-- Today / Tomorrow strip -->
+    <!-- Today / Tomorrow / 7-Day strip -->
     <div class="ri-today-strip">
-      <div class="ri-today-cell">
-        <div class="ri-today-lbl">Today Total</div>
+      <div class="ri-today-cell" id="waz-cell-today" data-severity="none">
+        <div class="ri-today-lbl">Today Rain</div>
         <div id="waz-today-total">--"</div>
       </div>
-      <div class="ri-today-cell">
-        <div class="ri-today-lbl">Max Chance</div>
+      <div class="ri-today-cell" id="waz-cell-chance" data-severity="none">
+        <div class="ri-today-lbl">Max %</div>
         <div id="waz-today-max-pct">--%</div>
       </div>
-      <div class="ri-today-cell">
+      <div class="ri-today-cell" id="waz-cell-tmrw" data-severity="none">
         <div class="ri-today-lbl">Tomorrow</div>
         <div id="waz-tomorrow-rain">--%</div>
+      </div>
+      <div class="ri-today-cell" id="waz-cell-week" data-severity="none">
+        <div class="ri-today-lbl">7-Day</div>
+        <div id="waz-week-total">--"</div>
       </div>
     </div>
 
@@ -1152,11 +1202,14 @@
   </div>
 </div>
 
-<!-- ════ CARD 4: FORECAST ════ -->
+<!-- ════ CARD 4: FORECAST — RAIN AT A GLANCE ════ -->
 <div id="waz-forecast" class="waz-card waz-scroll">
   <div class="fc-body">
     <div class="fc-hdr">
-      <div><div class="fc-title">7-Day Forecast</div><div class="fc-sub">Wazeecha · Wood County</div></div>
+      <div class="fc-hdr-left">
+        <div class="fc-title">🌧 7-Day Forecast</div>
+        <div class="fc-sub">Wazeecha · Wood County</div>
+      </div>
       <div class="aqi-badge">
         <div class="aqi-badge-lbl">AQI</div>
         <div id="waz-aqi-val">--</div>
@@ -1164,10 +1217,21 @@
       </div>
     </div>
 
-    <!-- Precip summary row -->
-    <div class="fc-precip-today">
-      <div><div class="fc-precip-lbl">Today's Rain</div><div id="waz-precip-today">--"</div></div>
-      <div style="text-align:right;"><div class="fc-precip-lbl">7-Day Total</div><div id="waz-precip-week">--"</div></div>
+    <!-- Rain totals banner -->
+    <div class="fc-rain-banner">
+      <div class="fc-rain-stat">
+        <div class="fc-rain-stat-lbl">Today</div>
+        <div class="fc-rain-stat-val" id="waz-precip-today">--"</div>
+      </div>
+      <div class="fc-rain-stat">
+        <div class="fc-rain-stat-lbl">7-Day Total</div>
+        <div class="fc-rain-stat-val" id="waz-precip-week">--"</div>
+        <div class="fc-week-bar-wrap"><div class="fc-week-bar-bg"><div class="fc-week-bar-fill" id="waz-week-bar" style="width:0%"></div></div></div>
+      </div>
+      <div class="fc-rain-stat" id="waz-wettest-stat">
+        <div class="fc-rain-stat-lbl">Wettest Day</div>
+        <div class="fc-rain-stat-val" id="waz-wettest-day">--</div>
+      </div>
     </div>
 
     <div class="fc-days" id="waz-fc-days">
@@ -1317,15 +1381,27 @@
       setText('waz-sunrise', sunrise); setText('waz-sunset', sunset);
       setText('waz-updated', relTime(Date.now()));
 
-      /* Today / tomorrow rain summary */
+      /* Today / tomorrow / 7-day rain summary */
       var todayTotal = (d.precipitation_sum && d.precipitation_sum[0]!=null) ? d.precipitation_sum[0].toFixed(2) : '--';
       var todayMaxPct = (d.precipitation_probability_max && d.precipitation_probability_max[0]!=null) ? d.precipitation_probability_max[0] : '--';
       var tomorrowPct = (d.precipitation_probability_max && d.precipitation_probability_max[1]!=null) ? d.precipitation_probability_max[1] : '--';
+      var weekRainTotal = 0;
+      if(d.precipitation_sum){ for(var wi=0;wi<Math.min(7,d.precipitation_sum.length);wi++) weekRainTotal+=(d.precipitation_sum[wi]||0); }
+
       setText('waz-today-total', todayTotal !== '--' ? todayTotal+'"' : '--"');
       setText('waz-today-max-pct', todayMaxPct !== '--' ? todayMaxPct+'%' : '--%');
       el('waz-today-max-pct') && (el('waz-today-max-pct').style.color = todayMaxPct>=60?'#ef4444':todayMaxPct>=30?'#f97316':'#60a5fa');
       setText('waz-tomorrow-rain', tomorrowPct !== '--' ? tomorrowPct+'%' : '--%');
       el('waz-tomorrow-rain') && (el('waz-tomorrow-rain').style.color = tomorrowPct>=60?'#ef4444':tomorrowPct>=30?'#f97316':'#a78bfa');
+      setText('waz-week-total', weekRainTotal.toFixed(2)+'"');
+
+      /* Data-severity attributes for colored top borders */
+      function setSev(id,pct){ var c=el(id); if(c) c.setAttribute('data-severity', pct>=50?'high':pct>=25?'mid':pct>0?'low':'none'); }
+      setSev('waz-cell-today', todayMaxPct!=='--'?todayMaxPct:0);
+      setSev('waz-cell-chance', todayMaxPct!=='--'?todayMaxPct:0);
+      setSev('waz-cell-tmrw', tomorrowPct!=='--'?tomorrowPct:0);
+      var weekSev = weekRainTotal>1?'high':weekRainTotal>0.25?'mid':weekRainTotal>0?'low':'none';
+      var weekCell=el('waz-cell-week'); if(weekCell) weekCell.setAttribute('data-severity', weekSev);
 
       /* 12-hour bar chart + countdown */
       var maxProb=0, firstRainHr=-1, barHTML='';
@@ -1335,11 +1411,12 @@
         var prob=rainProb[hi]||0;
         if(prob>=40 && firstRainHr===-1) firstRainHr=ri;
         if(prob>maxProb) maxProb=prob;
-        var barH=Math.max(2,Math.round((prob/100)*44));
-        var col=prob>=70?'#ef4444':prob>=40?'#f97316':prob>=20?'#3b82f6':'rgba(255,255,255,0.1)';
+        var barH=Math.max(2,Math.round((prob/100)*60));
+        var col=prob>=70?'linear-gradient(to top,#dc2626,#ef4444)':prob>=40?'linear-gradient(to top,#ea580c,#f97316)':prob>=20?'linear-gradient(to top,#2563eb,#60a5fa)':'rgba(255,255,255,0.08)';
         var t=new Date(h.time[hi]);
         var tLbl=t.toLocaleTimeString([],{hour:'numeric'}).replace(' ','').toLowerCase();
-        barHTML+='<div class="ri-bar-col">'+
+        var isNow=ri===0?' is-now':'';
+        barHTML+='<div class="ri-bar-col'+isNow+'">'+
           '<div class="ri-bar-pct">'+(prob>0?prob+'%':'')+'</div>'+
           '<div class="ri-bar-fill" style="height:'+barH+'px;background:'+col+';"></div>'+
           '<div class="ri-bar-lbl">'+tLbl+'</div></div>';
@@ -1347,69 +1424,110 @@
       var barsEl=el('waz-rain-bars'); if(barsEl) barsEl.innerHTML=barHTML;
       var totalAmt=rainAmt.slice(curHr,curHr+12).reduce(function(a,v){return a+(v||0);},0);
       var summaryEl=el('waz-rain-summary');
-      if(summaryEl){ summaryEl.textContent=maxProb>0?'Max '+maxProb+'% · '+totalAmt.toFixed(2)+'"':'No rain expected'; summaryEl.style.color=maxProb>=70?'#ef4444':maxProb>=40?'#f97316':maxProb>0?'#60a5fa':'#39FF14'; }
+      if(summaryEl){ summaryEl.textContent=maxProb>0?'Peak '+maxProb+'% · '+totalAmt.toFixed(2)+'"':'All clear'; summaryEl.style.color=maxProb>=70?'#ef4444':maxProb>=40?'#f97316':maxProb>0?'#60a5fa':'#39FF14'; }
 
-      /* Countdown */
+      /* Countdown + hero state */
+      var heroEl=el('waz-rain-intel');
+      var countdownHero=heroEl?heroEl.querySelector('.ri-countdown-hero'):null;
       var nextEl=el('waz-rain-next');
+      if(countdownHero){ countdownHero.classList.remove('rain-soon','rain-now','all-clear'); }
       if(firstRainHr===-1){
         setText('waz-countdown-main','☀️ No Rain Soon');
         setText('waz-countdown-sub','No significant rain in the next 12 hours');
         if(nextEl) nextEl.innerHTML='✅ <span>No significant rain</span> in the next 12 hours';
+        if(countdownHero) countdownHero.classList.add('all-clear');
         if(countdownInterval){ clearInterval(countdownInterval); countdownInterval=null; }
       } else if(firstRainHr===0){
         setText('waz-countdown-main','🌧 Rain Now');
         setText('waz-countdown-sub','Check the radar for current coverage');
         if(nextEl) nextEl.innerHTML='⚠️ <span>Rain possible right now</span> — swipe to radar';
+        if(countdownHero) countdownHero.classList.add('rain-now');
       } else {
         var arrivalTime = new Date(h.time[curHr+firstRainHr]);
         var arrStr = arrivalTime.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
         setText('waz-countdown-sub','Expected around '+arrStr+' · '+maxProb+'% chance');
         if(nextEl) nextEl.innerHTML='🌧 Rain may arrive around <span>'+arrStr+'</span>';
+        if(countdownHero) countdownHero.classList.add('rain-soon');
         startCountdown(arrivalTime.getTime());
       }
 
-      /* Advice */
+      /* Advice — single line */
       var advice=[];
-      if(maxProb>=60) advice.push('Rain is likely — bring a jacket.');
-      else if(maxProb>=30) advice.push('Some rain possible. Keep an eye on the radar.');
-      if(uvMax!==null && uvMax>=6) advice.push('UV is high — wear sunscreen.');
-      if(windSpd!==null && windSpd>=20) advice.push('Strong winds at '+windSpd+' mph.');
+      if(maxProb>=60) advice.push('Rain likely — bring a jacket.');
+      else if(maxProb>=30) advice.push('Some rain possible — check radar.');
+      if(uvMax!==null && uvMax>=6) advice.push('High UV — wear sunscreen.');
+      if(windSpd!==null && windSpd>=20) advice.push('Strong winds '+windSpd+' mph.');
       if(!advice.length) advice.push('Conditions look good. Enjoy your day.');
       setText('waz-advice', advice.join(' '));
     } catch(err){ console.warn('[WaZv5] renderRainIntel:', err); }
   }
 
-  /* Render Forecast card */
+  /* Render Forecast card — RAIN AT A GLANCE */
   function renderForecast(wx, aqiData){
     try {
       var d = wx.daily || {};
       var daysEl = el('waz-fc-days');
       if(!daysEl || !d.time) return;
-      var weekTotal=0;
+      var weekTotal=0, wettestAmt=0, wettestIdx=0;
+      /* Pre-scan for wettest day */
+      d.time.slice(0,7).forEach(function(t,i){
+        var sum = d.precipitation_sum && d.precipitation_sum[i]!=null ? d.precipitation_sum[i] : 0;
+        weekTotal += sum;
+        if(sum > wettestAmt){ wettestAmt=sum; wettestIdx=i; }
+      });
+      weekTotal = weekTotal; /* keep in scope */
+      var weekTotal2 = 0; /* re-accumulate for display */
       daysEl.innerHTML = d.time.slice(0,7).map(function(t,i){
         var wc   = d.weather_code      && d.weather_code[i]!=null                ? d.weather_code[i] : 0;
         var tmax = d.temperature_2m_max && d.temperature_2m_max[i]!=null          ? Math.round(d.temperature_2m_max[i]) : '--';
         var tmin = d.temperature_2m_min && d.temperature_2m_min[i]!=null          ? Math.round(d.temperature_2m_min[i]) : '--';
         var pct  = d.precipitation_probability_max && d.precipitation_probability_max[i]!=null ? d.precipitation_probability_max[i] : 0;
         var sum  = d.precipitation_sum && d.precipitation_sum[i]!=null            ? d.precipitation_sum[i] : 0;
-        weekTotal += sum;
+        weekTotal2 += sum;
         var info = wCode(wc);
         var barPct = Math.min(100, pct);
-        var rainColor = pct>=70?'#ef4444':pct>=40?'#f97316':'#3b82f6';
-        return '<div class="fc-day">'+
-          '<div class="fc-day-name">'+dayName(t,i)+'</div>'+
+        var rainColor = pct>=70?'linear-gradient(90deg,#dc2626,#ef4444)':pct>=40?'linear-gradient(90deg,#ea580c,#f97316)':'linear-gradient(90deg,#2563eb,#3b82f6)';
+        /* Row classes */
+        var rowClass = 'fc-day';
+        if(i===0) rowClass += ' is-today';
+        if(pct>=60) rowClass += ' heavy-rain-day';
+        else if(pct>=30) rowClass += ' rain-day';
+        /* Name with TODAY badge */
+        var nameHTML = dayName(t,i);
+        if(i===0) nameHTML += ' <span class="fc-today-badge">NOW</span>';
+        /* Rain amount line */
+        var amtHTML = sum > 0 ? '<div class="fc-day-rain-amt">'+sum.toFixed(2)+'"</div>' : '';
+        return '<div class="'+rowClass+'">'+
+          '<div class="fc-day-name">'+nameHTML+'</div>'+
           '<div class="fc-day-icon">'+info.emoji+'</div>'+
           '<div class="fc-day-desc">'+info.label+'</div>'+
           '<div class="fc-day-temp">'+tmax+'° / '+tmin+'°</div>'+
           '<div class="fc-day-rain-wrap">'+
             '<div class="fc-day-rain-pct">'+pct+'%</div>'+
             '<div class="fc-day-rain-bar-bg"><div class="fc-day-rain-bar-fill" style="width:'+barPct+'%;background:'+rainColor+';"></div></div>'+
+            amtHTML+
           '</div>'+
         '</div>';
       }).join('');
+      /* Rain totals banner */
       var todaySum = d.precipitation_sum && d.precipitation_sum[0]!=null ? d.precipitation_sum[0].toFixed(2) : '--';
       setText('waz-precip-today', todaySum !== '--' ? todaySum+'"' : '--"');
       setText('waz-precip-week', weekTotal.toFixed(2)+'"');
+      /* Week rain fill bar — scale: 2" = 100% */
+      var weekBarEl = el('waz-week-bar');
+      if(weekBarEl) weekBarEl.style.width = Math.min(100, (weekTotal/2)*100).toFixed(0)+'%';
+      /* Wettest day */
+      var wettestDayEl = el('waz-wettest-day');
+      var wettestStatEl = el('waz-wettest-stat');
+      if(wettestDayEl){
+        if(wettestAmt > 0){
+          wettestDayEl.textContent = dayName(d.time[wettestIdx], wettestIdx) + ' ' + wettestAmt.toFixed(2)+'"';
+          if(wettestStatEl) wettestStatEl.classList.add('wettest');
+        } else {
+          wettestDayEl.textContent = 'None';
+          if(wettestStatEl) wettestStatEl.classList.remove('wettest');
+        }
+      }
     } catch(err){ console.warn('[WaZv5] renderForecast:', err); }
     /* AQI */
     try {
