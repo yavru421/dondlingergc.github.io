@@ -1589,13 +1589,22 @@
     if(wxP&&(Date.now()-wxP.ts<30*60*1000)){
       doRender(wxP.data, aqiP&&(Date.now()-aqiP.ts<4*60*60*1000)?aqiP.data:null);
     } else {
-      fetch(WX_URL).then(function(r){return r.json();}).then(function(data){
+      /* 10s timeout — Open-Meteo can be slow */
+      var ac; try{ac=new AbortController();}catch(e){ac=null;}
+      var tid=ac?setTimeout(function(){ac.abort();},10000):null;
+      fetch(WX_URL,ac?{signal:ac.signal}:{}).then(function(r){return r.json();}).then(function(data){
+        if(tid) clearTimeout(tid);
         localStorage.setItem('wazv5_wx',JSON.stringify({ts:Date.now(),data:data}));
         fetch(AQI_URL).then(function(r){return r.json();}).then(function(aqi){
           localStorage.setItem('wazv5_aqi',JSON.stringify({ts:Date.now(),data:aqi}));
           doRender(data,aqi);
         }).catch(function(){ doRender(data,null); });
-      }).catch(function(e){console.warn('[WaZv5] wx fetch:',e);});
+      }).catch(function(e){
+        if(tid) clearTimeout(tid);
+        console.warn('[WaZv5] wx fetch failed, using stale cache:',e);
+        /* Fall back to stale cache if available */
+        if(wxP) doRender(wxP.data, aqiP?aqiP.data:null);
+      });
     }
     /* USGS */
     var usgsRaw=localStorage.getItem('wazv5_usgs'); var usgsP=usgsRaw?JSON.parse(usgsRaw):null;
