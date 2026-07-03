@@ -888,6 +888,19 @@
 .advice-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:5px;}
 .advice-hdr{color:#9ca3af;font-size:.6rem;text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:5px;}
 #waz-advice{color:#fff;font-size:.8rem;line-height:1.5;font-weight:500;}
+
+/* ── Rain Timeline ── */
+.rain-block{background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.2);border-radius:16px;padding:14px 14px 10px;}
+.rain-block-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.rain-block-title{color:#60a5fa;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;}
+#waz-rain-summary{color:#fff;font-size:.78rem;font-weight:700;}
+.rain-bars{display:flex;align-items:flex-end;gap:3px;height:48px;}
+.rain-bar-col{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;}
+.rain-bar-fill{width:100%;border-radius:4px 4px 0 0;min-height:2px;transition:height .4s ease;}
+.rain-bar-lbl{color:#9ca3af;font-size:.5rem;text-align:center;white-space:nowrap;}
+.rain-bar-pct{color:#60a5fa;font-size:.5rem;font-weight:700;}
+.rain-next-line{color:#9ca3af;font-size:.72rem;margin-top:8px;border-top:1px solid rgba(255,255,255,.05);padding-top:7px;}
+.rain-next-line span{color:#fff;font-weight:700;}
 .persona-row{display:flex;gap:8px;flex-wrap:wrap;}
 .persona-btn{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:7px 14px;color:#9ca3af;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
 .persona-btn.active{background:rgba(57,255,20,.12);border-color:rgba(57,255,20,.4);color:#39FF14;}
@@ -973,6 +986,15 @@
         <div id="waz-verdict-sub">Fetching conditions</div>
       </div>
     </div>
+    <!-- Rain Timeline -->
+    <div class="rain-block">
+      <div class="rain-block-hdr">
+        <span class="rain-block-title">🌧 Next 12 Hours</span>
+        <span id="waz-rain-summary">Loading…</span>
+      </div>
+      <div class="rain-bars" id="waz-rain-bars"></div>
+      <div class="rain-next-line" id="waz-rain-next">Checking forecast…</div>
+    </div>
     <div class="persona-row">
       <button class="persona-btn active" data-persona="lake" onclick="wazSetPersona('lake')">🏖️ Lake</button>
       <button class="persona-btn" data-persona="fishing" onclick="wazSetPersona('fishing')">🎣 Fishing</button>
@@ -1057,7 +1079,7 @@
   var LAT = 44.3936, LON = -89.8173;
   var USGS_URL = 'https://waterservices.usgs.gov/nwis/iv/?sites=05395000&parameterCd=00060,00065&format=json&period=P7D';
   var WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON +
-    '&hourly=temperature_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,precipitation_probability,weather_code,uv_index' +
+    '&hourly=temperature_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,precipitation_probability,precipitation,weather_code,uv_index' +
     '&daily=sunrise,sunset,uv_index_max,precipitation_probability_max,wind_gusts_10m_max,weather_code,precipitation_sum,temperature_2m_max,temperature_2m_min' +
     '&forecast_days=7&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch';
   var NWS_URL = 'https://api.weather.gov/alerts/active?zone=WIZ030';
@@ -1146,6 +1168,52 @@
       setText('waz-verdict-label', info.label + (precipMax > 30 ? ' · ' + precipMax + '% rain' : ''));
       el('waz-verdict-label') && (el('waz-verdict-label').style.color = info.color);
       setText('waz-verdict-sub', precipMax > 0 ? precipMax + '% chance of rain today' : 'No rain expected today');
+
+      // ── Rain Timeline (next 12 hours) ──
+      try {
+        var nowHr = curHr;
+        var barsEl = el('waz-rain-bars');
+        var nextEl = el('waz-rain-next');
+        var summaryEl = el('waz-rain-summary');
+        var rainProb = h.precipitation_probability || [];
+        var rainAmt  = h.precipitation || [];
+        var maxRain  = 0, firstRainHr = -1, totalRainHrs = 0;
+        var barHTML = '';
+        for (var ri = 0; ri < 12; ri++) {
+          var hi = nowHr + ri;
+          if (hi >= rainProb.length) break;
+          var prob = rainProb[hi] || 0;
+          var amt  = rainAmt[hi] || 0;
+          if (prob > 0) totalRainHrs++;
+          if (prob >= 40 && firstRainHr === -1) firstRainHr = ri;
+          if (prob > maxRain) maxRain = prob;
+          var barH = Math.max(2, Math.round((prob / 100) * 44));
+          var barColor = prob >= 70 ? '#ef4444' : prob >= 40 ? '#f97316' : prob >= 20 ? '#3b82f6' : 'rgba(255,255,255,0.12)';
+          var t = new Date(h.time[hi]);
+          var tLbl = t.toLocaleTimeString([], {hour:'numeric'}).replace(' ','').toLowerCase();
+          barHTML += '<div class="rain-bar-col">' +
+            '<div class="rain-bar-pct">' + (prob > 0 ? prob + '%' : '') + '</div>' +
+            '<div class="rain-bar-fill" style="height:' + barH + 'px;background:' + barColor + ';"></div>' +
+            '<div class="rain-bar-lbl">' + tLbl + '</div></div>';
+        }
+        if (barsEl) barsEl.innerHTML = barHTML;
+        var totalAmt = rainAmt.slice(nowHr, nowHr + 12).reduce(function(a, v) { return a + (v || 0); }, 0);
+        if (summaryEl) summaryEl.textContent = maxRain > 0 ? 'Max ' + maxRain + '% · ' + totalAmt.toFixed(2) + '"' : 'No rain expected';
+        if (summaryEl) summaryEl.style.color = maxRain >= 70 ? '#ef4444' : maxRain >= 40 ? '#f97316' : maxRain > 0 ? '#60a5fa' : '#39FF14';
+        if (nextEl) {
+          if (firstRainHr === -1) {
+            nextEl.innerHTML = '✅ <span>No significant rain</span> in the next 12 hours';
+          } else if (firstRainHr === 0) {
+            nextEl.innerHTML = '⚠️ <span>Rain possible right now</span> — check the radar';
+          } else {
+            var arrTime = new Date(h.time[nowHr + firstRainHr]);
+            var arrStr = arrTime.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+            nextEl.innerHTML = '🌧 Rain may arrive around <span>' + arrStr + '</span>';
+          }
+        }
+      } catch(rainErr) {
+        console.warn('[WaZv4] rain timeline error:', rainErr);
+      }
 
       // persona-specific labels
       setText('waz-lbl-feels', persona === 'work' ? 'AQI' : 'Feels Like');
