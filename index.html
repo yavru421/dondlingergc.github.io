@@ -1074,6 +1074,13 @@
       <div id="waz-countdown-sub">Loading forecast data</div>
     </div>
 
+    <!-- ZLA Rain-Wall Intercept HUD -->
+    <div id="rain-countdown-hud" class="ri-countdown-hero" style="display:none; margin-top: 10px; background: rgba(255, 255, 255, 0.05); border: 1px dashed rgba(255, 255, 255, 0.15); padding: 12px; border-radius: 16px; box-shadow: none;">
+      <div class="ri-countdown-label" style="opacity: 0.85;">🎯 Radar Rain Intercept</div>
+      <div id="zla-radar-hud-main" style="font-family:ui-monospace,monospace; font-size:1.15rem; font-weight:700; color:#39FF14;">Scanning...</div>
+      <div id="zla-radar-hud-sub" style="font-size:0.7rem; color:#9ca3af; margin-top:2px;">ZLA Minute-by-Minute Kinematic Tracking</div>
+    </div>
+
     <!-- Today / Tomorrow / 7-Day strip -->
     <div class="ri-today-strip">
       <div class="ri-today-cell" id="waz-cell-today" data-severity="none">
@@ -1274,6 +1281,7 @@
   var wxCache = null;
   var countdownInterval = null;
   var rainArrivalTime = null;
+  var radarWorker = null;
 
   function el(id){ return document.getElementById(id); }
   function setText(id, v){ var e=el(id); if(e) e.textContent=v; }
@@ -1597,8 +1605,67 @@
     if(ts) setText('waz-alerts-stamp','Updated '+relTime(ts));
   }
 
+  // ZLA Radar Worker Helper Functions
+  function initRadarWorker() {
+    if (typeof Worker !== 'undefined' && !radarWorker) {
+      radarWorker = new Worker('radar-worker.js');
+      radarWorker.onmessage = function(e) {
+        var data = e.data;
+        var hud = el('rain-countdown-hud');
+        if (!hud) return;
+        
+        if (data.success && data.result) {
+          hud.style.display = 'block';
+          var res = data.result;
+          var mainEl = el('zla-radar-hud-main');
+          var subEl = el('zla-radar-hud-sub');
+          
+          if (res.rainImminent) {
+            if (res.etaMinutes === 0) {
+              mainEl.textContent = '🌧 Rain Intercept Now';
+              mainEl.style.color = res.intensity === 2 ? '#ef4444' : '#f97316';
+              subEl.textContent = 'Precipitation detected overhead. Check the live radar map below.';
+            } else {
+              mainEl.textContent = '🌧 Rain in ' + res.etaMinutes + ' min';
+              mainEl.style.color = '#f97316';
+              subEl.textContent = 'Kinematic vector estimates intercept in ' + res.etaMinutes + ' minutes.';
+            }
+          } else {
+            mainEl.textContent = '☀️ No Rain Intercept';
+            mainEl.style.color = '#39FF14';
+            subEl.textContent = 'Radar clear within 50 miles along trajectory.';
+          }
+        } else {
+          console.warn('[ZLA] Radar worker error or status:', data.error);
+        }
+      };
+    }
+  }
+
+  function triggerRadarWorker() {
+    initRadarWorker();
+    if (radarWorker) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(pos) {
+            radarWorker.postMessage({ action: 'track', lat: pos.coords.latitude, lon: pos.coords.longitude });
+          },
+          function() {
+            radarWorker.postMessage({ action: 'track', lat: LAT, lon: LON });
+          },
+          { timeout: 5000 }
+        );
+      } else {
+        radarWorker.postMessage({ action: 'track', lat: LAT, lon: LON });
+      }
+    }
+  }
+
   /* Fetch all */
   function fetchAll(){
+    // Trigger our ZLA Radar Web Worker for minute-by-minute forecasting
+    triggerRadarWorker();
+
     // Live KISW Observation (radar proxy)
     var kiswRaw=localStorage.getItem('kisw_obs_v1'); var kiswP=kiswRaw?JSON.parse(kiswRaw):null;
     if(!kiswP || (Date.now()-kiswP.ts > 5*60*1000)){
