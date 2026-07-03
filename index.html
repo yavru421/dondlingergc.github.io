@@ -849,6 +849,9 @@
      <!-- TACTICAL BOTTOM BAR -->
      <div id="waz-nav-hud" style="position:fixed; bottom:calc(env(safe-area-inset-bottom) + 90px); left:50%; transform:translateX(-50%); z-index:10005; display:flex; gap:16px; pointer-events:auto; background:rgba(0,0,0,0.65); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); padding:12px 20px; border-radius:100px; border:1px solid rgba(255,255,255,0.15); width:90%; max-width:600px; justify-content:space-between; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none;">
          <style>
+             #waz-nav-hud { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+             #waz-nav-hud.collapsed { transform: translateX(-50%) translateY(150px) scale(0.9); opacity: 0; pointer-events: none; }
+             
              #waz-nav-hud::-webkit-scrollbar { display: none; }
              .hud-dot {
                  display: flex; flex-direction: column; align-items: center; gap: 6px;
@@ -866,6 +869,16 @@
                  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
                  font-size: 1.1rem; transition: all 0.2s;
              }
+             
+             #hud-restore-btn {
+                 position: fixed; bottom: calc(env(safe-area-inset-bottom) + 20px); left: 50%; transform: translateX(-50%) translateY(100px);
+                 z-index: 10006; background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.2); color: white;
+                 padding: 8px 16px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; letter-spacing: 1px;
+                 cursor: pointer; backdrop-filter: blur(10px); transition: all 0.4s; opacity: 0; pointer-events: none;
+                 display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+             }
+             #hud-restore-btn.visible { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+             #hud-restore-btn:hover { background: rgba(255,255,255,0.1); }
          </style>
          <button class="hud-dot active" onclick="scrollToWazCard('waz-mode-portal')" title="Select Mode"><div class="nav-icon">🎯</div><span>Mode</span></button>
          <button class="hud-dot" onclick="scrollToWazCard('card-now')" title="Conditions"><div class="nav-icon">🌡️</div><span>Now</span></button>
@@ -874,7 +887,12 @@
          <button class="hud-dot" onclick="scrollToWazCard('card-hydro')" title="Hydrology"><div class="nav-icon">🌊</div><span>Hydro</span></button>
          <button class="hud-dot" onclick="scrollToWazCard('card-aqi')" title="Air Quality"><div class="nav-icon">💨</div><span>AQI</span></button>
          <button class="hud-dot" onclick="scrollToWazCard('card-push')" title="Alerts"><div class="nav-icon">⚠️</div><span>Alert</span></button>
+         <button class="hud-dot" onclick="collapseHud()" title="Hide UI"><div class="nav-icon">👁️‍🗨️</div><span>Hide</span></button>
      </div>
+     
+     <button id="hud-restore-btn" onclick="restoreHud()">
+         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg> MENU
+     </button>
 
 
     <!-- FLOATING UI: Top Header -->
@@ -3095,6 +3113,16 @@ Check live hydrology & weather flow: ${shareUrl}`;
 
     // Scroll snap handler (haptics + HUD dot active state tracking)
     const telemetrySection = document.getElementById('wazeecha-telemetry');
+    function syncHudDots() {
+        const index = Math.round(telemetrySection.scrollTop / window.innerHeight);
+        const dots = document.querySelectorAll('#waz-nav-hud .hud-dot');
+        dots.forEach(d => d.classList.remove('active'));
+        const targetDot = dots[index];
+        if (targetDot && !targetDot.innerText.includes('HIDE')) {
+            targetDot.classList.add('active');
+        }
+    }
+
     if (telemetrySection) {
       let lastSnap = -1;
       telemetrySection.addEventListener('scroll', () => {
@@ -3102,13 +3130,7 @@ Check live hydrology & weather flow: ${shareUrl}`;
         if (snap !== lastSnap) {
           lastSnap = snap;
           if (navigator.vibrate) navigator.vibrate(10);
-          
-          // Sync nav HUD dots
-          const dots = document.querySelectorAll('#waz-nav-hud .hud-dot');
-          dots.forEach((dot, idx) => {
-            if (idx === snap) dot.classList.add('active');
-            else dot.classList.remove('active');
-          });
+          syncHudDots();
         }
       }, { passive: true });
     }
@@ -3171,6 +3193,38 @@ Check live hydrology & weather flow: ${shareUrl}`;
     function playMechanicalClick() {
       // Audio removed per user request
     }
+
+    // AUTO-COLLAPSE LOGIC
+    let hudCollapseTimeout;
+    function collapseHud() {
+        document.getElementById('waz-nav-hud').classList.add('collapsed');
+        document.getElementById('hud-restore-btn').classList.add('visible');
+    }
+    function restoreHud() {
+        document.getElementById('waz-nav-hud').classList.remove('collapsed');
+        document.getElementById('hud-restore-btn').classList.remove('visible');
+        resetHudCollapseTimeout();
+    }
+    function resetHudCollapseTimeout() {
+        if (document.getElementById('waz-nav-hud').classList.contains('collapsed')) return;
+        clearTimeout(hudCollapseTimeout);
+        hudCollapseTimeout = setTimeout(() => {
+            collapseHud();
+        }, 4000);
+    }
+    
+    // Monitor interaction to reset HUD timeout
+    const wazContainer = document.getElementById('wazeecha-telemetry');
+    if (wazContainer) {
+        wazContainer.addEventListener('scroll', () => {
+            syncHudDots();
+            resetHudCollapseTimeout();
+        }, { passive: true });
+    }
+    
+    document.addEventListener('touchstart', resetHudCollapseTimeout, { passive: true });
+    document.addEventListener('mousemove', resetHudCollapseTimeout, { passive: true });
+    resetHudCollapseTimeout();
   
     const mainContainer = document.querySelector('main');
     const scrollTrack = document.querySelector('.dashboard-grid');
@@ -3370,4 +3424,3 @@ Check live hydrology & weather flow: ${shareUrl}`;
 
 </body>
 </html>
-
