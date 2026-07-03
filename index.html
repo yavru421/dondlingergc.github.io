@@ -1603,7 +1603,19 @@
         if(tid) clearTimeout(tid);
         console.warn('[WaZv5] wx fetch failed, using stale cache:',e);
         /* Fall back to stale cache if available */
-        if(wxP) doRender(wxP.data, aqiP?aqiP.data:null);
+        if(wxP) {
+          doRender(wxP.data, aqiP?aqiP.data:null);
+        } else {
+          /* No cache exists — show error state instead of hanging forever on Checking... */
+          var errHero = document.getElementById('waz-countdown-main');
+          if(errHero) errHero.textContent = 'API Offline';
+          var errSub = document.getElementById('waz-countdown-sub');
+          if(errSub) errSub.textContent = 'Open-Meteo is temporarily unreachable';
+          var errNext = document.getElementById('waz-rain-next');
+          if(errNext) errNext.textContent = 'Offline';
+          var errBars = document.getElementById('waz-rain-bars');
+          if(errBars) errBars.innerHTML = '<div style="width:100%;text-align:center;color:#ef4444;font-size:0.8rem;margin-top:20px;">Weather API Timeout</div>';
+        }
       });
     }
     /* USGS */
