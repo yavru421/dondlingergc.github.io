@@ -506,31 +506,31 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
       var barsEl=el('waz-rain-bars'); if(barsEl) barsEl.innerHTML=barHTML;
       var totalAmt=rainAmt.slice(curHr,curHr+12).reduce(function(a,v){return a+(v||0);},0);
       var summaryEl=el('waz-rain-summary');
-      if(summaryEl){ summaryEl.textContent=maxProb>0?'Max '+maxProb+'% · '+totalAmt.toFixed(2)+'"':'No rain expected'; summaryEl.style.color=maxProb>=70?'#ef4444':maxProb>=40?'#f97316':maxProb>0?'#60a5fa':'#39FF14'; }
+      if(summaryEl){ summaryEl.textContent=maxProb>0?'Max '+maxProb+'% · '+totalAmt.toFixed(2)+'"':'No rain'; summaryEl.style.color=maxProb>=70?'#ef4444':maxProb>=40?'#f97316':maxProb>0?'#60a5fa':'#39FF14'; }
 
       /* Countdown */
       var nextEl=el('waz-rain-next');
       if(firstRainHr===-1){
-        setText('waz-countdown-main','☀️ No Rain Soon');
-        setText('waz-countdown-sub','No rain expected in the next 12 hours');
-        if(nextEl) nextEl.innerHTML='✅ <span>No rain expected</span> in the next 12 hours';
+        setText('waz-countdown-main','☀️ No Rain');
+        setText('waz-countdown-sub','No rain in the next 12 hours');
+        if(nextEl) nextEl.innerHTML='✅ <span>No rain</span> in the next 12 hours';
         if(countdownInterval){ clearInterval(countdownInterval); countdownInterval=null; }
       } else if(firstRainHr===0){
         setText('waz-countdown-main','🌧 Rain Now');
         setText('waz-countdown-sub','Check the radar for current coverage');
-        if(nextEl) nextEl.innerHTML='⚠️ <span>Rain possible right now</span> — swipe to radar';
+        if(nextEl) nextEl.innerHTML='⚠️ <span>Rain right now</span> — swipe to radar';
       } else {
         var arrivalTime = new Date(h.time[curHr+firstRainHr]);
         var arrStr = arrivalTime.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
-        setText('waz-countdown-sub','Expected around '+arrStr+' · '+maxProb+'% chance');
-        if(nextEl) nextEl.innerHTML='🌧 Rain may arrive around <span>'+arrStr+'</span>';
+        setText('waz-countdown-sub','Arriving around '+arrStr+' · '+maxProb+'% chance');
+        if(nextEl) nextEl.innerHTML='🌧 Rain arriving around <span>'+arrStr+'</span>';
         startCountdown(arrivalTime.getTime());
       }
 
       /* Advice */
       var advice=[];
-      if(maxProb>=60) advice.push('Rain is likely — bring a jacket.');
-      else if(maxProb>=30) advice.push('Some rain possible. Keep an eye on the radar.');
+      if(maxProb>=60) advice.push('Rain — bring a jacket.');
+      else if(maxProb>0) advice.push('Rain threat — watch the radar.');
       if(uvMax!==null && uvMax>=6) advice.push('UV is high — wear sunscreen.');
       if(windSpd!==null && windSpd>=20) advice.push('Strong winds at '+windSpd+' mph.');
       if(!advice.length) advice.push('Conditions look good. Enjoy your day.');

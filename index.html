@@ -1416,29 +1416,29 @@
       var nextEl=el('waz-rain-next');
       if(countdownHero){ countdownHero.classList.remove('rain-soon','rain-now','all-clear'); }
       if(firstRainHr===-1){
-        setText('waz-countdown-main','☀️ No Rain Soon');
-        setText('waz-countdown-sub','No rain expected in the next 12 hours');
-        if(nextEl) nextEl.innerHTML='✅ <span>No rain expected</span> in the next 12 hours';
+        setText('waz-countdown-main','☀️ No Rain');
+        setText('waz-countdown-sub','No rain in the next 12 hours');
+        if(nextEl) nextEl.innerHTML='✅ <span>No rain</span> in the next 12 hours';
         if(countdownHero) countdownHero.classList.add('all-clear');
         if(countdownInterval){ clearInterval(countdownInterval); countdownInterval=null; }
       } else if(firstRainHr===0){
         setText('waz-countdown-main','🌧 Rain Now');
         setText('waz-countdown-sub','Check the radar for current coverage');
-        if(nextEl) nextEl.innerHTML='⚠️ <span>Rain possible right now</span> — swipe to radar';
+        if(nextEl) nextEl.innerHTML='⚠️ <span>Rain right now</span> — swipe to radar';
         if(countdownHero) countdownHero.classList.add('rain-now');
       } else {
         var arrivalTime = new Date(h.time[curHr+firstRainHr]);
         var arrStr = arrivalTime.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
-        setText('waz-countdown-sub','Expected around '+arrStr+' · '+maxProb+'% chance');
-        if(nextEl) nextEl.innerHTML='🌧 Rain may arrive around <span>'+arrStr+'</span>';
+        setText('waz-countdown-sub','Arriving around '+arrStr+' · '+maxProb+'% chance');
+        if(nextEl) nextEl.innerHTML='🌧 Rain arriving around <span>'+arrStr+'</span>';
         if(countdownHero) countdownHero.classList.add('rain-soon');
         startCountdown(arrivalTime.getTime());
       }
 
       /* Advice — single line */
       var advice=[];
-      if(maxProb>=60) advice.push('Rain likely — bring a jacket.');
-      else if(maxProb>=30) advice.push('Some rain possible — check radar.');
+      if(maxProb>=60) advice.push('Rain — bring a jacket.');
+      else if(maxProb>0) advice.push('Rain threat — check radar.');
       if(uvMax!==null && uvMax>=6) advice.push('High UV — wear sunscreen.');
       if(windSpd!==null && windSpd>=20) advice.push('Strong winds '+windSpd+' mph.');
       if(!advice.length) advice.push('Conditions look good. Enjoy your day.');
