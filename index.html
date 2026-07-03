@@ -1393,7 +1393,7 @@
         var hi=curHr+ri;
         if(hi>=rainProb.length) break;
         var prob=rainProb[hi]||0;
-        if(prob>=40 && firstRainHr===-1) firstRainHr=ri;
+        if((prob>0 || (rainAmt[hi]||0)>0) && firstRainHr===-1) firstRainHr=ri;
         if(prob>maxProb) maxProb=prob;
         var barH=Math.max(2,Math.round((prob/100)*60));
         var col=prob>=70?'linear-gradient(to top,#dc2626,#ef4444)':prob>=40?'linear-gradient(to top,#ea580c,#f97316)':prob>=20?'linear-gradient(to top,#2563eb,#60a5fa)':'rgba(255,255,255,0.08)';
@@ -1417,8 +1417,8 @@
       if(countdownHero){ countdownHero.classList.remove('rain-soon','rain-now','all-clear'); }
       if(firstRainHr===-1){
         setText('waz-countdown-main','☀️ No Rain Soon');
-        setText('waz-countdown-sub','No significant rain in the next 12 hours');
-        if(nextEl) nextEl.innerHTML='✅ <span>No significant rain</span> in the next 12 hours';
+        setText('waz-countdown-sub','No rain expected in the next 12 hours');
+        if(nextEl) nextEl.innerHTML='✅ <span>No rain expected</span> in the next 12 hours';
         if(countdownHero) countdownHero.classList.add('all-clear');
         if(countdownInterval){ clearInterval(countdownInterval); countdownInterval=null; }
       } else if(firstRainHr===0){

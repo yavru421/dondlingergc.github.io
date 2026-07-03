@@ -492,7 +492,7 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
         var hi=curHr+ri;
         if(hi>=rainProb.length) break;
         var prob=rainProb[hi]||0;
-        if(prob>=40 && firstRainHr===-1) firstRainHr=ri;
+        if((prob>0 || (rainAmt[hi]||0)>0) && firstRainHr===-1) firstRainHr=ri;
         if(prob>maxProb) maxProb=prob;
         var barH=Math.max(2,Math.round((prob/100)*44));
         var col=prob>=70?'#ef4444':prob>=40?'#f97316':prob>=20?'#3b82f6':'rgba(255,255,255,0.1)';
@@ -512,8 +512,8 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
       var nextEl=el('waz-rain-next');
       if(firstRainHr===-1){
         setText('waz-countdown-main','☀️ No Rain Soon');
-        setText('waz-countdown-sub','No significant rain in the next 12 hours');
-        if(nextEl) nextEl.innerHTML='✅ <span>No significant rain</span> in the next 12 hours';
+        setText('waz-countdown-sub','No rain expected in the next 12 hours');
+        if(nextEl) nextEl.innerHTML='✅ <span>No rain expected</span> in the next 12 hours';
         if(countdownInterval){ clearInterval(countdownInterval); countdownInterval=null; }
       } else if(firstRainHr===0){
         setText('waz-countdown-main','🌧 Rain Now');
