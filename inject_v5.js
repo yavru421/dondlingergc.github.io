@@ -199,7 +199,7 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
     <!-- Today / Tomorrow strip -->
     <div class="ri-today-strip">
       <div class="ri-today-cell">
-        <div class="ri-today-lbl">Today Total</div>
+        <div class="ri-today-lbl">Today Rain</div>
         <div id="waz-today-total">--"</div>
       </div>
       <div class="ri-today-cell">
@@ -545,7 +545,11 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
         if(countdownInterval){ clearInterval(countdownInterval); countdownInterval=null; }
       } else if(firstRainHr===0){
         setText('waz-countdown-main','🌧 Rain Now');
-        setText('waz-countdown-sub','Check the radar for current coverage');
+        var subText = 'Active precipitation detected. Swipe to radar.';
+        if (maxProb < 50) {
+          subText = 'Active precipitation detected locally (API forecast lag)';
+        }
+        setText('waz-countdown-sub', subText);
         if(nextEl) nextEl.innerHTML='⚠️ <span>Rain right now</span> — swipe to radar';
       } else {
         var arrivalTime = new Date(h.time[curHr+firstRainHr]);

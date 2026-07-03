@@ -1087,17 +1087,17 @@
         <div class="ri-today-lbl">Today Rain</div>
         <div id="waz-today-total">--"</div>
       </div>
+      <div class="ri-today-cell" id="waz-cell-week" data-severity="none">
+        <div class="ri-today-lbl">7-Day Rain</div>
+        <div id="waz-week-total">--"</div>
+      </div>
       <div class="ri-today-cell" id="waz-cell-chance" data-severity="none">
-        <div class="ri-today-lbl">Max %</div>
+        <div class="ri-today-lbl">Max Chance</div>
         <div id="waz-today-max-pct">--%</div>
       </div>
       <div class="ri-today-cell" id="waz-cell-tmrw" data-severity="none">
         <div class="ri-today-lbl">Tomorrow</div>
         <div id="waz-tomorrow-rain">--%</div>
-      </div>
-      <div class="ri-today-cell" id="waz-cell-week" data-severity="none">
-        <div class="ri-today-lbl">7-Day</div>
-        <div id="waz-week-total">--"</div>
       </div>
     </div>
 
@@ -1451,7 +1451,11 @@
         if(countdownInterval){ clearInterval(countdownInterval); countdownInterval=null; }
       } else if(firstRainHr===0){
         setText('waz-countdown-main','🌧 Rain Now');
-        setText('waz-countdown-sub','Check the radar for current coverage');
+        var subText = 'Active precipitation detected. Swipe to radar.';
+        if (maxProb < 50) {
+          subText = 'Active precipitation detected locally (API forecast lag)';
+        }
+        setText('waz-countdown-sub', subText);
         if(nextEl) nextEl.innerHTML='⚠️ <span>Rain right now</span> — swipe to radar';
         if(countdownHero) countdownHero.classList.add('rain-now');
       } else {
