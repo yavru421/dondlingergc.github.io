@@ -6,3 +6,5 @@
 - **Navigation:** The site utilizes a horizontal glassmorphic "Tactical Bottom Bar" with large hit targets (icons) instead of standard hamburger menus or vertical dots. 
 - **WaZWeather HUD:** Telemetry cards are swipeable (`scroll-snap-type`) and mapped to specific IDs (e.g. `card-now`, `card-forecast`). Auto-jumping from Persona mode selection directs to the `card-now` section. 
 - **Data specifics:** Hydrology metrics strictly refer to the "Wisconsin River", not Lake Wazeecha.
+- **Deployment Branch:** The production deployment branch is `production` (not `main`). When deploying fixes, ensure you merge to the `production` branch and push to `origin/production`.
+
