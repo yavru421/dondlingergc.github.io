@@ -1095,10 +1095,10 @@
     <!-- CARD 1: THE RADAR HERO -->
     <div id="card-radar" class="swipe-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; position: relative;">
         <!-- Full Bleed Map Background -->
-        <iframe id="windy-iframe" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=in&metricTemp=°F&metricWind=mph&zoom=9&overlay=radar&product=radar&level=surface&lat=44.3936&lon=-89.8173&play=true&message=true&marker=true&detailLat=44.3936&detailLon=-89.8173" style="width:100%; height:100%; border:none; pointer-events:auto; position:absolute; inset:0;"></iframe>
+        <iframe id="windy-iframe" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=in&metricTemp=°F&metricWind=mph&zoom=9&overlay=radar&product=radar&level=surface&lat=44.3936&lon=-89.8173&play=true&message=true&marker=true&detailLat=44.3936&detailLon=-89.8173" style="width:100%; border:none; pointer-events:auto; position:absolute; top:0; left:0; right:0; bottom:120px;"></iframe>
         
         <!-- Gradient Overlay for Readability -->
-        <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 50%, transparent 100%); pointer-events:none;"></div>
+        <div style="position:absolute; top:0; left:0; right:0; bottom:120px; background:linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 50%, transparent 100%); pointer-events:none;"></div>
 
         <!-- Quick Action Lifestyle Cards (Dynamic Island) -->
         <div id="quick-action-cards" style="position:absolute; top:80px; left:50%; transform:translateX(-50%); z-index:15; display:flex; justify-content:center; pointer-events:auto; white-space:nowrap;">
