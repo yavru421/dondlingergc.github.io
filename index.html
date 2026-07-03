@@ -1265,13 +1265,10 @@
 (function() {
   'use strict';
   var LAT = 44.3936, LON = -89.8173;
-  var WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+
-    '&hourly=temperature_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,precipitation_probability,precipitation,weather_code,uv_index'+
-    '&daily=sunrise,sunset,uv_index_max,precipitation_probability_max,wind_gusts_10m_max,weather_code,precipitation_sum,temperature_2m_max,temperature_2m_min'+
-    '&forecast_days=7&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch';
+  var WX_URL = '/api/weather?lat='+LAT+'&lon='+LON;
   var USGS_URL = 'https://waterservices.usgs.gov/nwis/iv/?sites=05395000&parameterCd=00060,00065&format=json&period=P7D';
   var NWS_URL  = 'https://api.weather.gov/alerts/active?zone=WIZ030';
-  var AQI_URL  = 'https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+LAT+'&longitude='+LON+'&current=us_aqi,uv_index';
+  var AQI_URL  = '/api/aqi?lat='+LAT+'&lon='+LON;
 
 
   var wxCache = null;
@@ -1589,32 +1586,26 @@
     if(wxP&&(Date.now()-wxP.ts<30*60*1000)){
       doRender(wxP.data, aqiP&&(Date.now()-aqiP.ts<4*60*60*1000)?aqiP.data:null);
     } else {
-      /* 10s timeout — Open-Meteo can be slow */
-      var ac; try{ac=new AbortController();}catch(e){ac=null;}
-      var tid=ac?setTimeout(function(){ac.abort();},10000):null;
-      fetch(WX_URL,ac?{signal:ac.signal}:{}).then(function(r){return r.json();}).then(function(data){
-        if(tid) clearTimeout(tid);
+      fetch(WX_URL).then(function(r){return r.json();}).then(function(data){
+        if(data.error) throw new Error(data.error);
         localStorage.setItem('wazv5_wx',JSON.stringify({ts:Date.now(),data:data}));
         fetch(AQI_URL).then(function(r){return r.json();}).then(function(aqi){
-          localStorage.setItem('wazv5_aqi',JSON.stringify({ts:Date.now(),data:aqi}));
-          doRender(data,aqi);
+          if(!aqi.error) localStorage.setItem('wazv5_aqi',JSON.stringify({ts:Date.now(),data:aqi}));
+          doRender(data, aqi.error?null:aqi);
         }).catch(function(){ doRender(data,null); });
       }).catch(function(e){
-        if(tid) clearTimeout(tid);
-        console.warn('[WaZv5] wx fetch failed, using stale cache:',e);
-        /* Fall back to stale cache if available */
+        console.warn('[WaZv5] Edge proxy fetch failed:',e);
         if(wxP) {
           doRender(wxP.data, aqiP?aqiP.data:null);
         } else {
-          /* No cache exists — show error state instead of hanging forever on Checking... */
           var errHero = document.getElementById('waz-countdown-main');
           if(errHero) errHero.textContent = 'API Offline';
           var errSub = document.getElementById('waz-countdown-sub');
-          if(errSub) errSub.textContent = 'Open-Meteo is temporarily unreachable';
+          if(errSub) errSub.textContent = 'Weather telemetry temporarily unreachable';
           var errNext = document.getElementById('waz-rain-next');
           if(errNext) errNext.textContent = 'Offline';
           var errBars = document.getElementById('waz-rain-bars');
-          if(errBars) errBars.innerHTML = '<div style="width:100%;text-align:center;color:#ef4444;font-size:0.8rem;margin-top:20px;">Weather API Timeout</div>';
+          if(errBars) errBars.innerHTML = '<div style="width:100%;text-align:center;color:#ef4444;font-size:0.8rem;margin-top:20px;">Telemetry Timeout</div>';
         }
       });
     }
