@@ -520,7 +520,16 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
         var hi=curHr+ri;
         if(hi>=rainProb.length) break;
         var prob=rainProb[hi]||0;
-        if((prob>0 || (rainAmt[hi]||0)>0) && firstRainHr===-1) firstRainHr=ri;
+        var amt=rainAmt[hi]||0;
+        
+        var hasRain = false;
+        if (ri === 0) {
+          hasRain = isRainingNow || (prob >= 25 && amt > 0);
+        } else {
+          hasRain = (prob >= 20 || amt > 0.01);
+        }
+        
+        if(hasRain && firstRainHr===-1) firstRainHr=ri;
         if(prob>maxProb) maxProb=prob;
         var barH=Math.max(2,Math.round((prob/100)*44));
         var col=prob>=70?'#ef4444':prob>=40?'#f97316':prob>=20?'#3b82f6':'rgba(255,255,255,0.1)';

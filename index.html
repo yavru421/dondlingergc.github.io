@@ -1421,7 +1421,16 @@
         var hi=curHr+ri;
         if(hi>=rainProb.length) break;
         var prob=rainProb[hi]||0;
-        if((prob>0 || (rainAmt[hi]||0)>0) && firstRainHr===-1) firstRainHr=ri;
+        var amt=rainAmt[hi]||0;
+        
+        var hasRain = false;
+        if (ri === 0) {
+          hasRain = isRainingNow || (prob >= 25 && amt > 0);
+        } else {
+          hasRain = (prob >= 20 || amt > 0.01);
+        }
+        
+        if(hasRain && firstRainHr===-1) firstRainHr=ri;
         if(prob>maxProb) maxProb=prob;
         var barH=Math.max(2,Math.round((prob/100)*60));
         var col=prob>=70?'linear-gradient(to top,#dc2626,#ef4444)':prob>=40?'linear-gradient(to top,#ea580c,#f97316)':prob>=20?'linear-gradient(to top,#2563eb,#60a5fa)':'rgba(255,255,255,0.08)';
