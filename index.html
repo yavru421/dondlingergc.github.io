@@ -1308,34 +1308,26 @@
                 L.marker([WAZ_LAT, WAZ_LON], { icon: wazIcon }).addTo(radarMap)
                     .bindPopup('<div style="font-family:inherit; font-weight:800; color:#111; padding:2px;">Lake Wazeecha (DGC Telemetry Base)</div>');
 
-                // Load RainViewer tiles and NWS alerts
-                fetchRainViewerData();
+                // Load IEM NEXRAD WMS and NWS alerts
+                initIEMRadar();
                 fetchAndDrawNWSWarnings();
                 
                 // Refresh warnings every 2 minutes
                 setInterval(fetchAndDrawNWSWarnings, 120000);
             }
 
-            async function fetchRainViewerData() {
+            function initIEMRadar() {
                 try {
-                    const res = await fetch('https://api.rainviewer.com/public/weather-maps.json');
-                    const data = await res.json();
-                    
-                    const host = data.host;
                     const frames = [];
+                    // Generate 12 past frames (60 minutes) at 5-minute intervals
+                    const now = new Date();
+                    // Round down to nearest 5 minutes
+                    const coeff = 1000 * 60 * 5;
+                    const roundedNow = new Date(Math.floor(now.getTime() / coeff) * coeff);
                     
-                    // Add past frames (typically last 2 hours)
-                    if (data.radar && data.radar.past) {
-                        data.radar.past.forEach(f => {
-                            frames.push({ time: f.time, path: f.path, type: 'past' });
-                        });
-                    }
-                    
-                    // Add nowcast (future forecast) frames
-                    if (data.radar && data.radar.nowcast) {
-                        data.radar.nowcast.forEach(f => {
-                            frames.push({ time: f.time, path: f.path, type: 'nowcast' });
-                        });
+                    for (let i = 12; i >= 0; i--) {
+                        const frameTime = new Date(roundedNow.getTime() - (i * coeff));
+                        frames.push({ time: frameTime, isNow: i === 0 });
                     }
                     
                     // Cleanup existing layers
@@ -1343,30 +1335,23 @@
                     radarTileLayers = [];
                     radarTimestamps = [];
                     
-                    // Instantiate tile layers for each frame
-                    // Size 256, color scheme 2, options 1_1 (smoothed)
                     frames.forEach((frame, idx) => {
-                        const tileUrl = `${host}${frame.path}/256/{z}/{x}/{y}/2/1_1.png`;
-                        const layer = L.tileLayer(tileUrl, {
+                        const wmsTime = frame.time.toISOString();
+                        
+                        const layer = L.tileLayer.wms("https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?", {
+                            layers: 'nexrad-n0q-wmst',
+                            format: 'image/png',
+                            transparent: true,
+                            time: wmsTime,
                             opacity: 0,
-                            zIndex: 10 + idx,
-                            maxNativeZoom: 7
+                            zIndex: 10 + idx
                         });
                         layer.addTo(radarMap);
                         radarTileLayers.push(layer);
                         
-                        // Parse time label
-                        const date = new Date(frame.time * 1000);
-                        const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                        
-                        let relativeStr = '';
-                        if (frame.type === 'nowcast') {
-                            relativeStr = `+${(idx - data.radar.past.length + 1) * 10}m`;
-                        } else {
-                            relativeStr = `-${(data.radar.past.length - idx - 1) * 10}m`;
-                        }
-                        
-                        const finalLabel = idx === data.radar.past.length - 1 ? 'NOW' : `${timeStr} (${relativeStr})`;
+                        const timeStr = frame.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        const relativeMins = -((frames.length - 1 - idx) * 5);
+                        const finalLabel = frame.isNow ? 'NOW' : `${timeStr} (${relativeMins}m)`;
                         radarTimestamps.push(finalLabel);
                     });
                     
@@ -1374,14 +1359,14 @@
                     const slider = document.getElementById('radar-slider');
                     if (slider) {
                         slider.max = radarTileLayers.length - 1;
-                        slider.value = data.radar.past.length - 1;
+                        slider.value = radarTileLayers.length - 1;
                     }
                     
-                    currentRadarIndex = data.radar.past.length - 1;
+                    currentRadarIndex = radarTileLayers.length - 1;
                     showRadarFrame(currentRadarIndex);
                     
                 } catch (e) {
-                    console.error('Error loading RainViewer data:', e);
+                    console.error('Error loading IEM radar data:', e);
                 }
             }
 
