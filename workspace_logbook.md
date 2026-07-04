@@ -6,3 +6,4 @@
 - Added selector styling `[data-app="skydrop"]` for custom color rendering.
 - Configured metadata details in `APP_DATA` database mapping to `https://skydrop.dondlingergc.com`.
 - Committed to keeping client-side styling fully aligned with Zero-Liability Architecture (ZLA) branding rules.
+- Harvested card creation steps and committed the accent styling requirements to `.context/ui_patterns.md`.
