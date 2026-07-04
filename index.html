@@ -37,6 +37,7 @@
       --accent-zla:       #a855f7;
       --accent-heckler:   #f97316;
       --accent-timeline:  #2ea043;
+      --accent-skydrop:   #0ea5e9;
       --vector-green: #39ff14;
       --lightning-core: #ffffff;
       --lightning-glow: rgba(57, 255, 20, 0.6);
@@ -374,6 +375,8 @@
     [data-app="heckler"] .card-cta { color: var(--accent-heckler); }
     [data-app="timeline"] .card-name { color: var(--accent-timeline); }
     [data-app="timeline"] .card-cta { color: var(--accent-timeline); }
+    [data-app="skydrop"] .card-name { color: var(--accent-skydrop); }
+    [data-app="skydrop"] .card-cta { color: var(--accent-skydrop); }
 
     /* Live Dashboard Telemetry card styling */
     .dashboard-panel {
@@ -2499,6 +2502,27 @@
           </div>
         </div>
 
+        <!-- 07 · SKYDROP -->
+        <div class="glow-card" data-app="skydrop" data-index="11">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 07</span>
+              <span class="card-name">SkyDrop</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-skydrop)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22V8M5 12l7-7 7 7"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Secure peer-to-peer file transfer utility running on Zero-Liability Architecture (ZLA). Move large assets and construction documents directly between local devices without cloud storage.</p>
+            <div class="card-preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
         <!-- CATEGORY: CLIENT PROJECTS -->
         <div style="grid-column: 1 / -1; margin-top: 36px; margin-bottom: 8px; font-family: var(--font-sans); display: flex; align-items: center; gap: 12px; opacity: 0.85;">
           <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent-aac); font-family: 'SF Mono', ui-monospace, monospace;">// Client Projects</span>
@@ -2715,6 +2739,15 @@
         who: ['Field Superintendents', 'Project Managers', 'Field Crews'],
         link: 'https://timelinezla.dondlingergc.com',
         btnLabel: 'Launch TimelineZLA'
+      },
+      skydrop: {
+        title: 'SkyDrop // 07',
+        accent: 'var(--accent-skydrop)',
+        screenshot: '',
+        desc: 'A secure, zero-liability peer-to-peer file sharing utility. Running entirely in-browser, it allows instantaneous, direct WebRTC transfers between devices with no cloud storage, no accounts, and absolute data compliance.',
+        who: ['Field Superintendents', 'Project Managers', 'Contractors'],
+        link: 'https://skydrop.dondlingergc.com',
+        btnLabel: 'Launch SkyDrop'
       },
       installguide: {
         title: 'Installation Guide // 07',
