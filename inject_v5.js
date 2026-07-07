@@ -450,9 +450,6 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
         <div id="waz-aqi-val">--</div>
         <div id="waz-aqi-status">--</div>
       </div>
-    </div>
-
-    <!-- Precip summary row -->
     <div class="fc-precip-today">
       <div><div class="fc-precip-lbl">Today's Rain</div><div id="waz-precip-today">--"</div></div>
       <div style="text-align:right;"><div class="fc-precip-lbl">7-Day Total</div><div id="waz-precip-week">--"</div></div>
@@ -470,7 +467,7 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
   'use strict';
   var LAT = 44.3936, LON = -89.8173;
   var WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+
-    '&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,precipitation_probability,precipitation,weather_code,uv_index,pressure_msl'+
+    '&hourly=temperature_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,precipitation_probability,precipitation,weather_code,uv_index,relative_humidity_2m,pressure_msl'+
     '&daily=sunrise,sunset,uv_index_max,precipitation_probability_max,wind_gusts_10m_max,weather_code,precipitation_sum,temperature_2m_max,temperature_2m_min'+
     '&forecast_days=7&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch';
   var USGS_URL = 'https://waterservices.usgs.gov/nwis/iv/?sites=05395000&parameterCd=00060,00065&format=json&period=P7D';
