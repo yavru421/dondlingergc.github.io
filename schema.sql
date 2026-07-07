@@ -20,3 +20,15 @@ CREATE TABLE IF NOT EXISTS app_telemetry (
     launch_count INTEGER DEFAULT 1,
     last_launched INTEGER NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS kinematic_forecasts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp INTEGER NOT NULL,
+    tracking_vector_x REAL NOT NULL,
+    tracking_vector_y REAL NOT NULL,
+    computed_eta_minutes INTEGER,
+    grid_ref_lat REAL NOT NULL,
+    grid_ref_lon REAL NOT NULL,
+    intensity INTEGER NOT NULL,
+    overhead INTEGER NOT NULL
+);

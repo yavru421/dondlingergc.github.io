@@ -230,6 +230,24 @@ async function processRadarForecast(lat, lon) {
   grids[2] = null;
   ctx.clearRect(0, 0, dsWidth, dsHeight);
 
+  // Send kinematic forecast data telemetry to the edge database
+  const payload = {
+    timestamp: Date.now(),
+    tracking_vector_x: vx,
+    tracking_vector_y: vy,
+    computed_eta_minutes: etaMinutes,
+    grid_ref_lat: lat,
+    grid_ref_lon: lon,
+    intensity: intensity,
+    overhead: currentOverhead > 0 ? 1 : 0
+  };
+
+  fetch('/telemetry?app=wazeecha', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(err => console.error('[radar-worker] telemetry POST failed:', err));
+
   return {
     rainImminent,
     etaMinutes,

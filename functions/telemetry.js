@@ -29,7 +29,7 @@ export async function onRequest(context) {
       status: 204,
       headers: {
         'Access-Control-Allow-Origin': CORS_ORIGIN,
-        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
         'Vary': 'Origin',
       },
@@ -55,6 +55,41 @@ export async function onRequest(context) {
       status: 400,
       headers: corsHeaders,
     });
+  }
+
+  // Handle incoming POST payloads (radar-worker telemetry writes)
+  if (request.method === 'POST') {
+    try {
+      const payload = await request.json();
+      
+      const timestamp = payload.timestamp || Date.now();
+      const trackingVectorX = payload.tracking_vector_x ?? 0;
+      const trackingVectorY = payload.tracking_vector_y ?? 0;
+      const computedEtaMinutes = payload.computed_eta_minutes ?? null;
+      const gridRefLat = payload.grid_ref_lat ?? 0.0;
+      const gridRefLon = payload.grid_ref_lon ?? 0.0;
+      const intensity = payload.intensity ?? 0;
+      const overhead = payload.overhead ?? 0;
+
+      await env.DB
+        .prepare(`
+          INSERT INTO kinematic_forecasts 
+          (timestamp, tracking_vector_x, tracking_vector_y, computed_eta_minutes, grid_ref_lat, grid_ref_lon, intensity, overhead) 
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `)
+        .bind(timestamp, trackingVectorX, trackingVectorY, computedEtaMinutes, gridRefLat, gridRefLon, intensity, overhead)
+        .run();
+
+      return new Response(JSON.stringify({ success: true, logged: true }), {
+        headers: corsHeaders,
+      });
+    } catch (err) {
+      console.error('[telemetry] POST error:', err);
+      return new Response(JSON.stringify({ error: 'Failed to process payload' }), {
+        status: 400,
+        headers: corsHeaders,
+      });
+    }
   }
 
   // ?track=1 — increment launch counter (write operation)
@@ -114,7 +149,17 @@ export async function onRequest(context) {
       .bind(appName)
       .first();
       
-    const finalStats = JSON.stringify(stats || { launch_count: 0 });
+    let latestForecast = null;
+    if (appName === 'wazeecha') {
+      latestForecast = await env.DB
+        .prepare('SELECT * FROM kinematic_forecasts ORDER BY timestamp DESC LIMIT 1')
+        .first();
+    }
+      
+    const finalStats = JSON.stringify({
+      ...(stats || { launch_count: 0 }),
+      latest_forecast: latestForecast
+    });
 
     // Save to KV Layer for 60 seconds
     if (env.CRON_STATE) {

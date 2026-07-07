@@ -152,6 +152,45 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
 .fc-precip-lbl{color:#60a5fa;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
 #waz-precip-today{color:#fff;font-size:1.1rem;font-weight:900;}
 #waz-precip-week{color:#fff;font-size:1.1rem;font-weight:900;}
+
+/* ═══ STORM TARGET COUNTDOWN Alert Bar ═══ */
+#waz-storm-alert-bar {
+  background: linear-gradient(90deg, #7f1d1d 0%, #b91c1c 100%);
+  border: 2px solid #ef4444;
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: #fff;
+  font-family: ui-monospace, monospace;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+.sab-title {
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #fca5a5;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.sab-eta {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+.sab-meta {
+  font-size: 0.62rem;
+  color: #fca5a5;
+  margin-top: 4px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 4px;
+}
+
+/* ═══ Persona HUD Toggle ═══ */
+.ri-mode-toggle-wrap button.active {
+  background: rgba(57, 255, 20, 0.15) !important;
+  border: 1px solid rgba(57, 255, 20, 0.4) !important;
+  color: #39FF14 !important;
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.2);
+}
 </style>
 
 <!-- 5 Progress Dots -->
@@ -181,6 +220,9 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
       <div><div class="ri-source-lbl">☔ Rain Intel · Wazeecha</div></div>
       <div id="waz-updated">—</div>
     </div>
+
+    <!-- STORM TARGET COUNTDOWN Alert Bar -->
+    <div id="waz-storm-alert-bar" style="display:none; margin-bottom: 12px;"></div>
 
     <!-- Live countdown hero -->
     <div class="ri-countdown-hero">
@@ -228,6 +270,58 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
       <button class="ri-persona-btn" data-persona="fishing" onclick="wazSetPersona('fishing')">🎣 Fishing</button>
       <button class="ri-persona-btn" data-persona="work" onclick="wazSetPersona('work')">🏗 Work</button>
       <button class="ri-persona-btn" data-persona="family" onclick="wazSetPersona('family')">👨‍👩‍👧 Family</button>
+    </div>
+
+    <!-- HUD Mode Toggle -->
+    <div class="ri-mode-toggle-wrap" style="display: flex; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 4px;">
+      <button id="mode-btn-foreman" onclick="setWazMode('foreman')" style="flex: 1; background: none; border: none; color: #9ca3af; padding: 8px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; border-radius: 8px; cursor: pointer; transition: all 0.2s;">🏗️ Foreman</button>
+      <button id="mode-btn-outdoorsman" onclick="setWazMode('outdoorsman')" style="flex: 1; background: none; border: none; color: #9ca3af; padding: 8px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; border-radius: 8px; cursor: pointer; transition: all 0.2s;">🌲 Outdoorsman</button>
+    </div>
+
+    <!-- Foreman HUD Card -->
+    <div id="hud-foreman-card" class="ri-countdown-hero" style="display: none; background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(255,255,255,0.02) 100%); border: 1px solid rgba(249, 115, 22, 0.25); border-radius: 16px; padding: 14px; box-shadow: none;">
+      <div class="ri-countdown-label" style="color: #f97316;">🏗️ Jobsite Foreman HUD</div>
+      
+      <!-- Pour Ready Index -->
+      <div style="margin-top: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.7rem; color: #9ca3af; font-weight: 700; text-transform: uppercase;">Pour Ready Index</span>
+          <span id="foreman-pour-status" style="font-size: 0.75rem; font-weight: 800; color: #39FF14;">SAFE</span>
+        </div>
+        <div id="foreman-pour-details" style="font-size: 0.65rem; color: #d1d5db; margin-top: 2px;">Temp: --°F | RH: --% (No risks detected)</div>
+      </div>
+      
+      <!-- Roofing/Siding Safety -->
+      <div style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.7rem; color: #9ca3af; font-weight: 700; text-transform: uppercase;">Roofing & Siding Safety</span>
+          <span id="foreman-roofing-status" style="font-size: 0.75rem; font-weight: 800; color: #39FF14;">SAFE</span>
+        </div>
+        <div id="foreman-roofing-details" style="font-size: 0.65rem; color: #d1d5db; margin-top: 2px;">Wind: -- mph | Temp: --°F</div>
+      </div>
+    </div>
+
+    <!-- Outdoorsman HUD Card -->
+    <div id="hud-outdoorsman-card" class="ri-countdown-hero" style="display: none; background: linear-gradient(135deg, rgba(57, 255, 20, 0.08) 0%, rgba(255,255,255,0.02) 100%); border: 1px solid rgba(57, 255, 20, 0.2); border-radius: 16px; padding: 14px; box-shadow: none;">
+      <div class="ri-countdown-label" style="color: #39FF14;">🌲 Outdoorsman HUD</div>
+      
+      <!-- Lake Wazeecha Stability -->
+      <div style="margin-top: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.7rem; color: #9ca3af; font-weight: 700; text-transform: uppercase;">Wazeecha Flow Stability</span>
+          <span id="outdoors-stability-status" style="font-size: 0.75rem; font-weight: 800; color: #39FF14;">STABLE</span>
+        </div>
+        <div id="outdoors-stability-details" style="font-size: 0.65rem; color: #d1d5db; margin-top: 2px;">Flow Rate: -- CFS (USGS 05395000)</div>
+      </div>
+      
+      <!-- Barometric Strike Window -->
+      <div style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.7rem; color: #9ca3af; font-weight: 700; text-transform: uppercase;">Barometric Strike Window</span>
+          <span id="outdoors-strike-status" style="font-size: 0.75rem; font-weight: 800; color: #9ca3af;">NO TREND</span>
+        </div>
+        <div id="outdoors-strike-details" style="font-size: 0.65rem; color: #d1d5db; margin-top: 2px;">3hr Delta: -- hPa (No target pressure drop)</div>
+      </div>
     </div>
 
     <!-- Compact stat strip -->
@@ -376,7 +470,7 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
   'use strict';
   var LAT = 44.3936, LON = -89.8173;
   var WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+
-    '&hourly=temperature_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,precipitation_probability,precipitation,weather_code,uv_index'+
+    '&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,precipitation_probability,precipitation,weather_code,uv_index,pressure_msl'+
     '&daily=sunrise,sunset,uv_index_max,precipitation_probability_max,wind_gusts_10m_max,weather_code,precipitation_sum,temperature_2m_max,temperature_2m_min'+
     '&forecast_days=7&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch';
   var USGS_URL = 'https://waterservices.usgs.gov/nwis/iv/?sites=05395000&parameterCd=00060,00065&format=json&period=P7D';
@@ -385,6 +479,8 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
 
   var persona = 'lake';
   var wxCache = null;
+  var usgsCache = null;
+  var hudMode = 'foreman';
   var countdownInterval = null;
   var rainArrivalTime = null;
   var radarWorker = null;
@@ -431,6 +527,144 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
     document.querySelectorAll('.ri-persona-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.persona===p); });
     if(wxCache) renderRainIntel(wxCache);
   };
+
+  window.setWazMode = function(m){
+    hudMode = m;
+    localStorage.setItem('waz_hud_mode', m);
+    var btnForeman = el('mode-btn-foreman');
+    var btnOutdoorsman = el('mode-btn-outdoorsman');
+    if(btnForeman) btnForeman.classList.toggle('active', m === 'foreman');
+    if(btnOutdoorsman) btnOutdoorsman.classList.toggle('active', m === 'outdoorsman');
+    var cardForeman = el('hud-foreman-card');
+    var cardOutdoorsman = el('hud-outdoorsman-card');
+    if(cardForeman) cardForeman.style.display = m === 'foreman' ? 'block' : 'none';
+    if(cardOutdoorsman) cardOutdoorsman.style.display = m === 'outdoorsman' ? 'block' : 'none';
+    updateHudStats();
+  };
+
+  function updateHudStats(){
+    if(!wxCache) return;
+    try {
+      var h = wxCache.hourly || {};
+      var now = new Date();
+      var times = h.time || [];
+      var curHr = 0;
+      for(var i=0; i<times.length; i++){
+        if(new Date(times[i]) <= now) curHr = i;
+        else break;
+      }
+      
+      var t = (h.temperature_2m && h.temperature_2m[curHr]!=null) ? h.temperature_2m[curHr] : null;
+      var rh = (h.relative_humidity_2m && h.relative_humidity_2m[curHr]!=null) ? h.relative_humidity_2m[curHr] : null;
+      var wind = (h.wind_speed_10m && h.wind_speed_10m[curHr]!=null) ? h.wind_speed_10m[curHr] : null;
+
+      // Foreman Calculations
+      if(t !== null && rh !== null){
+        var pourStatus = "OPTIMAL";
+        var pourColor = "#39FF14";
+        var pourReason = "No risks detected";
+        if(t < 40){
+          pourStatus = "CRITICAL (FREEZING)";
+          pourColor = "#ef4444";
+          pourReason = "Temp too low (< 40°F)";
+        } else if(t > 90){
+          pourStatus = "WARNING (FLASH SET)";
+          pourColor = "#ef4444";
+          pourReason = "Temp too high (> 90°F)";
+        } else if(rh > 85){
+          pourStatus = "CAUTION (SLOW CURE)";
+          pourColor = "#f97316";
+          pourReason = "High humidity (> 85% RH)";
+        } else if(rh < 30){
+          pourStatus = "CAUTION (DRY CURING)";
+          pourColor = "#fbbf24";
+          pourReason = "Low humidity (< 30% RH)";
+        }
+        var pourStatusEl = el('foreman-pour-status');
+        if(pourStatusEl){ pourStatusEl.textContent = pourStatus; pourStatusEl.style.color = pourColor; }
+        var pourDetailsEl = el('foreman-pour-details');
+        if(pourDetailsEl){ pourDetailsEl.textContent = "Temp: " + Math.round(t) + "°F | RH: " + Math.round(rh) + "% (" + pourReason + ")"; }
+      }
+
+      if(wind !== null && t !== null){
+        var roofStatus = "SAFE";
+        var roofColor = "#39FF14";
+        var roofReason = "Conditions clear";
+        if(wind > 20){
+          roofStatus = "DANGER (HIGH WIND)";
+          roofColor = "#ef4444";
+          roofReason = "Wind speed exceeds 20 mph";
+        } else if(t < 35 || t > 95){
+          roofStatus = "UNSAFE TEMP";
+          roofColor = "#ef4444";
+          roofReason = "Extreme temperature limit (" + Math.round(t) + "°F)";
+        } else if(wind > 15){
+          roofStatus = "CAUTION";
+          roofColor = "#f97316";
+          roofReason = "Gusty winds: " + Math.round(wind) + " mph";
+        }
+        var roofStatusEl = el('foreman-roofing-status');
+        if(roofStatusEl){ roofStatusEl.textContent = roofStatus; roofStatusEl.style.color = roofColor; }
+        var roofDetailsEl = el('foreman-roofing-details');
+        if(roofDetailsEl){ roofDetailsEl.textContent = "Wind: " + Math.round(wind) + " mph | Temp: " + Math.round(t) + "°F (" + roofReason + ")"; }
+      }
+
+      // Outdoorsman Calculations
+      var cfs = null;
+      if (usgsCache) {
+        try {
+          var series = (usgsCache.value && usgsCache.value.timeSeries) || [];
+          series.forEach(function(s) {
+            var code = (s.variable && s.variable.variableCode && s.variable.variableCode[0]) ? s.variable.variableCode[0].value : '';
+            var vals = (s.values && s.values[0] && s.values[0].value) ? s.values[0].value : [];
+            if (code === '00060' && vals.length) {
+              cfs = parseFloat(vals[vals.length - 1].value);
+            }
+          });
+        } catch(e) {}
+      }
+      if(cfs === null) cfs = 15700; // Fallback
+
+      var stabilityStatus = "STABLE";
+      var stabilityColor = "#39FF14";
+      var stabilityReason = "Normal seasonal flow";
+      if(cfs > 12000){
+        stabilityStatus = "TURBULENT (HIGH FLOW)";
+        stabilityColor = "#ef4444";
+        stabilityReason = "USGS river flow exceeds 12,000 CFS";
+      } else if(cfs > 8000){
+        stabilityStatus = "ELEVATED FLOW";
+        stabilityColor = "#f97316";
+        stabilityReason = "Strong currents: 8,000 - 12,000 CFS";
+      }
+      var stabStatusEl = el('outdoors-stability-status');
+      if(stabStatusEl){ stabStatusEl.textContent = stabilityStatus; stabStatusEl.style.color = stabilityColor; }
+      var stabDetailsEl = el('outdoors-stability-details');
+      if(stabDetailsEl){ stabDetailsEl.textContent = "Flow Rate: " + cfs.toLocaleString() + " CFS (" + stabilityReason + ")"; }
+
+      if(h.pressure_msl){
+        var pCur = h.pressure_msl[curHr];
+        var p3HrAgo = curHr >= 3 ? h.pressure_msl[curHr - 3] : pCur;
+        var pDelta = pCur - p3HrAgo;
+        var strikeStatus = "MODERATE";
+        var strikeColor = "#60a5fa";
+        var strikeReason = "Stable barometric pressure";
+        if(pDelta < -1.5){
+          strikeStatus = "PRIME STRIKE";
+          strikeColor = "#39FF14";
+          strikeReason = "Pressure drop of " + Math.abs(pDelta).toFixed(1) + " hPa triggers feeding";
+        } else if(pDelta > 1.5){
+          strikeStatus = "SLOW BITE";
+          strikeColor = "#9ca3af";
+          strikeReason = "Rising pressure: " + pDelta.toFixed(1) + " hPa";
+        }
+        var strikeStatusEl = el('outdoors-strike-status');
+        if(strikeStatusEl){ strikeStatusEl.textContent = strikeStatus; strikeStatusEl.style.color = strikeColor; }
+        var strikeDetailsEl = el('outdoors-strike-details');
+        if(strikeDetailsEl){ strikeDetailsEl.textContent = "3hr Delta: " + pDelta.toFixed(1) + " hPa (" + strikeReason + ")"; }
+      }
+    } catch(err){ console.warn('[ZLA HUD] updateHudStats:', err); }
+  }
 
   /* Countdown timer */
   function startCountdown(targetMs){
@@ -576,6 +810,7 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
       if(windSpd!==null && windSpd>=20) advice.push('Strong winds at '+windSpd+' mph.');
       if(!advice.length) advice.push('Conditions look good. Enjoy your day.');
       setText('waz-advice', advice.join(' '));
+      updateHudStats();
     } catch(err){ console.warn('[WaZv5] renderRainIntel:', err); }
   }
 
@@ -626,6 +861,7 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
 
   /* Render River */
   function renderRiver(data){
+    usgsCache = data;
     try {
       var series=(data.value&&data.value.timeSeries)||[];
       var cfsVals=[],ftVals=[],chartLabels=[],chartData=[];
@@ -656,6 +892,7 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
         var ex=Chart.getChart(canvas); if(ex) ex.destroy();
         new Chart(canvas,{type:'line',data:{labels:chartLabels,datasets:[{data:chartData,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.1)',borderWidth:2,pointRadius:0,tension:0.4,fill:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{ticks:{color:'#9ca3af',font:{size:10}},grid:{color:'rgba(255,255,255,.05)'}}}}});
       }
+      updateHudStats();
     } catch(err){ console.warn('[WaZv5] renderRiver:',err); }
   }
 
@@ -731,10 +968,67 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
     }
   }
 
+  function fetchTelemetryD1() {
+    fetch('/telemetry?app=wazeecha')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var alertBar = el('waz-storm-alert-bar');
+        if (!alertBar) return;
+        
+        var f = data.latest_forecast;
+        if (f) {
+          var isImminent = f.computed_eta_minutes !== null && f.computed_eta_minutes <= 60;
+          var isOverhead = f.overhead === 1;
+          
+          if (isImminent || isOverhead || f.intensity > 0) {
+            alertBar.style.display = 'block';
+            var title = "⚡ STORM TARGET COUNTDOWN";
+            var etaText = "";
+            var severityColor = "#ef4444";
+            var borderGlow = "0 0 15px rgba(239, 68, 68, 0.6)";
+            
+            if (isOverhead) {
+              etaText = "STORM OVERHEAD - TAKE COVER NOW";
+              alertBar.style.background = "linear-gradient(90deg, #7f1d1d 0%, #ef4444 100%)";
+            } else if (f.computed_eta_minutes !== null) {
+              etaText = "INTERCEPT IN " + f.computed_eta_minutes + " MINUTES";
+              alertBar.style.background = "linear-gradient(90deg, #7c2d12 0%, #ea580c 100%)";
+              severityColor = "#f97316";
+              borderGlow = "0 0 15px rgba(234, 88, 12, 0.6)";
+            } else {
+              etaText = "ACTIVE STORM THREAT IN TRAJECTORY";
+              alertBar.style.background = "linear-gradient(90deg, #111827 0%, #374151 100%)";
+              severityColor = "#9ca3af";
+              borderGlow = "none";
+            }
+            
+            alertBar.style.boxShadow = borderGlow;
+            alertBar.innerHTML = 
+              '<div class="sab-title" style="font-size: 0.65rem; font-weight: 900; letter-spacing: 1.5px; color: #fca5a5; text-transform: uppercase; margin-bottom: 2px;">' + title + '</div>' +
+              '<div class="sab-eta" style="color: #fff; font-size: 1.15rem; font-weight: 900;">' + etaText + '</div>' +
+              '<div class="sab-meta" style="font-size: 0.62rem; color: rgba(255,255,255,0.7); margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 5px;">' +
+                'Vector: [' + f.tracking_vector_x.toFixed(2) + ', ' + f.tracking_vector_y.toFixed(2) + '] | ' +
+                'Intensity: Lvl ' + f.intensity + ' | Grid: ' + f.grid_ref_lat.toFixed(3) + ', ' + f.grid_ref_lon.toFixed(3) +
+              '</div>';
+          } else {
+            alertBar.style.display = 'none';
+          }
+        } else {
+          alertBar.style.display = 'none';
+        }
+      })
+      .catch(function(e) {
+        console.warn('[ZLA] D1 Telemetry Fetch failed:', e);
+      });
+  }
+
   /* Fetch all */
   function fetchAll(){
     // Trigger our ZLA Radar Web Worker for minute-by-minute forecasting
     triggerRadarWorker();
+
+    // Pull D1 telemetry for STORM TARGET COUNTDOWN
+    fetchTelemetryD1();
 
     // Live KISW Observation (radar proxy)
     var kiswRaw=localStorage.getItem('kisw_obs_v1'); var kiswP=kiswRaw?JSON.parse(kiswRaw):null;
@@ -777,7 +1071,11 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
   }
 
   /* Init */
-  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',fetchAll); } else { fetchAll(); }
+  function initWazv5(){
+    setWazMode(localStorage.getItem('waz_hud_mode') || 'foreman');
+    fetchAll();
+  }
+  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',initWazv5); } else { initWazv5(); }
   var sec=el('wazeecha-telemetry');
   if(sec){ new MutationObserver(function(m){ m.forEach(function(mut){ if(mut.attributeName==='class'&&sec.classList.contains('active')) fetchAll(); }); }).observe(sec,{attributes:true}); }
 })();
