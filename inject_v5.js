@@ -299,6 +299,11 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
         </div>
         <div id="foreman-roofing-details" style="font-size: 0.65rem; color: #d1d5db; margin-top: 2px;">Wind: -- mph | Temp: --°F</div>
       </div>
+
+      <!-- Share Action -->
+      <div style="margin-top: 12px; display: flex; justify-content: flex-end;">
+        <button onclick="shareForemanDiagnostics()" style="background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.35); color: #fff; padding: 6px 12px; font-size: 0.65rem; font-weight: 800; border-radius: 6px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s;">📤 Share Diagnostics</button>
+      </div>
     </div>
 
     <!-- Outdoorsman HUD Card -->
@@ -466,13 +471,27 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
 (function() {
   'use strict';
   var LAT = 44.3936, LON = -89.8173;
-  var WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+
-    '&hourly=temperature_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,precipitation_probability,precipitation,weather_code,uv_index,relative_humidity_2m,pressure_msl'+
-    '&daily=sunrise,sunset,uv_index_max,precipitation_probability_max,wind_gusts_10m_max,weather_code,precipitation_sum,temperature_2m_max,temperature_2m_min'+
-    '&forecast_days=7&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch';
-  var USGS_URL = 'https://waterservices.usgs.gov/nwis/iv/?sites=05395000&parameterCd=00060,00065&format=json&period=P7D';
-  var NWS_URL  = 'https://api.weather.gov/alerts/active?zone=WIZ030';
-  var AQI_URL  = 'https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+LAT+'&longitude='+LON+'&current=us_aqi,uv_index';
+  // Parse URL parameters if present
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('lat') && urlParams.has('lon')) {
+    LAT = parseFloat(urlParams.get('lat'));
+    LON = parseFloat(urlParams.get('lon'));
+  }
+
+  var WX_URL, USGS_URL, NWS_URL, AQI_URL;
+
+  function updateUrls(lat, lon) {
+    LAT = lat;
+    LON = lon;
+    WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+
+      '&hourly=temperature_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,precipitation_probability,precipitation,weather_code,uv_index,relative_humidity_2m,pressure_msl'+
+      '&daily=sunrise,sunset,uv_index_max,precipitation_probability_max,wind_gusts_10m_max,weather_code,precipitation_sum,temperature_2m_max,temperature_2m_min'+
+      '&forecast_days=7&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch';
+    USGS_URL = 'https://waterservices.usgs.gov/nwis/iv/?sites=05395000&parameterCd=00060,00065&format=json&period=P7D';
+    NWS_URL  = 'https://api.weather.gov/alerts/active?point='+LAT+','+LON;
+    AQI_URL  = 'https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+LAT+'&longitude='+LON+'&current=us_aqi,uv_index';
+  }
+  updateUrls(LAT, LON);
 
   var persona = 'lake';
   var wxCache = null;
@@ -523,6 +542,87 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
     persona = p;
     document.querySelectorAll('.ri-persona-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.persona===p); });
     if(wxCache) renderRainIntel(wxCache);
+  };
+
+  window.shareForemanDiagnostics = function() {
+    var pStatus = el('foreman-pour-status') ? el('foreman-pour-status').textContent : '--';
+    var pDetails = el('foreman-pour-details') ? el('foreman-pour-details').textContent : '--';
+    var rStatus = el('foreman-roofing-status') ? el('foreman-roofing-status').textContent : '--';
+    var rDetails = el('foreman-roofing-details') ? el('foreman-roofing-details').textContent : '--';
+
+    var canvas = document.createElement('canvas');
+    canvas.width = 600;
+    canvas.height = 400;
+    var ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = '#f97316';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
+
+    ctx.fillStyle = '#f97316';
+    ctx.font = 'bold 24px monospace';
+    ctx.fillText('🏗️ JOBSITE FOREMAN DIAGNOSTICS', 30, 50);
+
+    ctx.fillStyle = '#9ca3af';
+    ctx.font = '14px monospace';
+    ctx.fillText('Time: ' + new Date().toLocaleString(), 30, 80);
+    ctx.fillText('Location: ' + LAT.toFixed(4) + ', ' + LON.toFixed(4), 30, 100);
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(30, 120); ctx.lineTo(570, 120); ctx.stroke();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 18px monospace';
+    ctx.fillText('POUR READY INDEX:', 30, 160);
+
+    ctx.fillStyle = pStatus.includes('SAFE') || pStatus === 'OPTIMAL' ? '#39FF14' : '#ef4444';
+    ctx.font = 'bold 18px monospace';
+    ctx.fillText(pStatus, 450, 160);
+
+    ctx.fillStyle = '#d1d5db';
+    ctx.font = '14px monospace';
+    ctx.fillText(pDetails, 30, 190);
+
+    ctx.beginPath(); ctx.moveTo(30, 220); ctx.lineTo(570, 220); ctx.stroke();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 18px monospace';
+    ctx.fillText('ROOFING & SIDING SAFETY:', 30, 260);
+
+    ctx.fillStyle = rStatus.includes('SAFE') ? '#39FF14' : '#ef4444';
+    ctx.font = 'bold 18px monospace';
+    ctx.fillText(rStatus, 450, 260);
+
+    ctx.fillStyle = '#d1d5db';
+    ctx.font = '14px monospace';
+    ctx.fillText(rDetails, 30, 290);
+
+    ctx.fillStyle = '#6b7280';
+    ctx.font = '12px monospace';
+    ctx.fillText('WaZWeather ZLA Kinematic Forecasting Engine', 30, 360);
+
+    canvas.toBlob(function(blob) {
+      if (!blob) return;
+      var file = new File([blob], 'foreman-diagnostics.png', { type: 'image/png' });
+      var shareData = {
+        title: 'WaZWeather Jobsite Diagnostics',
+        text: 'Live weather diagnostic report for coordinates ' + LAT.toFixed(4) + ', ' + LON.toFixed(4),
+        url: window.location.origin + window.location.pathname + '?lat=' + LAT + '&lon=' + LON,
+        files: [file]
+      };
+      if (navigator.canShare && navigator.canShare(shareData)) {
+        navigator.share(shareData).catch(function(err) {
+          console.warn('[ZLA] Web Share failed:', err);
+        });
+      } else {
+        navigator.clipboard.writeText(shareData.url);
+        alert('Web Share not supported. Location URL copied to clipboard!');
+      }
+    }, 'image/png');
   };
 
   window.setWazMode = function(m){
@@ -1070,7 +1170,24 @@ const NEW_SECTION = `     <!-- WaZWeather v5 — Rain Intel + Split Radar + 7-Da
   /* Init */
   function initWazv5(){
     setWazMode(localStorage.getItem('waz_hud_mode') || 'foreman');
-    fetchAll();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        var newLat = pos.coords.latitude;
+        var newLon = pos.coords.longitude;
+        if (Math.abs(LAT - newLat) > 0.01 || Math.abs(LON - newLon) > 0.01) {
+          updateUrls(newLat, newLon);
+          console.log('[WaZv5] Geolocation shifted target:', LAT, LON);
+          localStorage.removeItem('wazv5_wx');
+          localStorage.removeItem('wazv5_aqi');
+          localStorage.removeItem('wazv5_usgs');
+        }
+        fetchAll();
+      }, function() {
+        fetchAll();
+      }, { timeout: 4000 });
+    } else {
+      fetchAll();
+    }
   }
   if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',initWazv5); } else { initWazv5(); }
   var sec=el('wazeecha-telemetry');
