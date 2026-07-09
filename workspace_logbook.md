@@ -47,3 +47,6 @@
 - Designed `touchscreen.html` standalone multi-touch dead-zone diagnostic PWA and added catalog card.
 - Committed and pushed changes to `origin/production` for live deployment.
 - Created implementation plan for 3-way tectonic split portal gateway layout.
+- Restructured `index.html` split-screen gateway into a 3-way tectonic split layout, adding the Touchscreen Tester plate.
+- Configured expand transition animation and redirect logic for the touchscreen plate.
+- Committed and pushed changes to `origin/production` for live deployment.
