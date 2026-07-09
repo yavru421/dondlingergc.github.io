@@ -397,7 +397,7 @@
     }
 
     function draw() {
-      if (!ctx) return;
+      if (!ctx || grid.length === 0 || !grid[0]) return;
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
       // 1. Draw Grid Cells
