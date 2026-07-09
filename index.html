@@ -4084,25 +4084,29 @@ Check live hydrology & weather flow: ${shareUrl}`;
       const wrap = document.getElementById('split-wrapper');
       if (path === 'database') {
         wrap.className = 'theme-split split-triggered-left';
-      } else {
+        
+        // Fade in the transition view after a short delay
+        setTimeout(() => {
+          const portal = document.getElementById('portal-split');
+          portal.classList.add('hidden-gateway');
+          
+          const viewId = 'pwa-catalog';
+          document.getElementById(viewId).classList.add('active');
+          
+          // Ensure scroll brings the new section into view
+          document.getElementById(viewId).scrollIntoView({ behavior: 'smooth' });
+        }, 600);
+        
+        playMechanicalClick();
+      } else if (path === 'telemetry') {
         wrap.className = 'theme-split split-triggered-right';
+        playMechanicalClick();
+        
+        setTimeout(() => {
+          // Redirect to the new live subdomain with parameters preserved
+          window.location.href = 'https://wazweather.dondlingergc.com/' + window.location.search + window.location.hash;
+        }, 600);
       }
-      
-      // waz-dots visibility is handled by the section display itself (fixed pos)
-
-      // Fade in the transition view after a short delay
-      setTimeout(() => {
-        const portal = document.getElementById('portal-split');
-        portal.classList.add('hidden-gateway');
-        
-        const viewId = path === 'database' ? 'pwa-catalog' : 'wazeecha-telemetry';
-        document.getElementById(viewId).classList.add('active');
-        
-        // Ensure scroll brings the new section into view
-        document.getElementById(viewId).scrollIntoView({ behavior: 'smooth' });
-      }, 600);
-      
-      playMechanicalClick();
     }
     
     function resetActiveGateway() {
@@ -4292,7 +4296,9 @@ Check live hydrology & weather flow: ${shareUrl}`;
       }
 
       if (urlParams.get('view') === 'telemetry' || hash === '#wazeecha-telemetry') {
-        revealPath('telemetry');
+        // Immediate redirect to new live subdomain for deep links
+        window.location.replace('https://wazweather.dondlingergc.com/' + window.location.search + window.location.hash);
+        return;
       }
 
       // Sync selector active button highlights

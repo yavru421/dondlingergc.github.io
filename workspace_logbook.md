@@ -23,4 +23,20 @@
 - Committed and pushed relative_humidity_2m fix to origin/production branch.
 - Proposed implementation plan for nationwide geolocation and Web Share API crew-link diagnostics. Awaiting user feedback.
 - Executed nationwide geolocation integration and Web Share API crew-link diagnostics card generator in inject_v5.js, and compiled changes into index.html. Staged and pushed to GitHub.
+- Committed and pushed nationwide geolocation and Web Share API crew-link diagnostics updates to origin/production branch.
 
+## 2026-07-09
+- Queried D1 database `waz-analytics` using wrangler CLI.
+- Analyzed traffic patterns from last night (2026-07-08T18:00:00 to 2026-07-09T08:00:00).
+- Identified 38 `page_load` events and 637 `background_poll` events (weather updates).
+- Top geolocations for page loads: Wisconsin Rapids, WI (23), Milwaukee, WI (11), Baraboo, WI (1), Chicago, IL (1), New Berlin, WI (1), Stevens Point, WI (1).
+- Calculated user counts: 12 unique UUIDs and 11 unique IP addresses.
+- Inspected user agents and traffic profiles: Legitimate human traffic confirmed via standard desktop/mobile browsers (Firefox Windows, Safari iOS, Chrome Android) and social in-app browsers (Instagram, Facebook).
+- Audited remaining Cloudflare D1 databases: `intake_db` (4 submissions), `aac-analytics` (7 pdf_stats, 1 global_stats), and `wazeecha-telemetry-db` (4 subscriptions, 6 app_telemetry) contain minimal static/operational rows. Confirmed that `waz-analytics` is the only database collecting active, high-volume user behavior telemetry.
+- Redesigned `intakeapp` to act as a system compiler HUD wizard. Reordered steps (putting project description on step 1 and contact information at the end).
+- Implemented real-time description parser mapping keywords (offline, gps, media, payment) to running console logs, three CSS/SVG HUD gauges (Dev Velocity, Cost Liability locked at $0, Offline Resilience), and an interactive ZLA SVG diagram lighting up components dynamically.
+- Configured client-side PDF blueprint compilation on submit and a success triage receipt ticket with barcode and counting triage queue timer.
+- Ran local build and IL publish checks successfully (0 errors, 0 warnings). Staged, committed, and pushed changes to Yavru421/intakeapp master branch.
+- Fixed a Blazor binding conflict in `Pages/Index.razor` where using `@bind` and `@oninput` together on the project description textarea prevented real-time value changes. Replaced with `value="@clientComment"` and `@oninput="OnDescriptionInput"` to enable smooth dynamic UI updates, and pushed the fix to master.
+- Verified that submission ID `fa38c0e6-c630-4bf9-b85b-9a6b7e607619` was successfully written and stored in the remote `intake_db` D1 database on Cloudflare with full client coordinates and answers.
+- Created implementation plan for redirecting dondlingergc.com portal selection to wazweather.dondlingergc.com.
