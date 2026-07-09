@@ -43,3 +43,6 @@
 - Implemented split door portal redirection and immediate deep-link redirection in `index.html`.
 - Committed and pushed updates to `origin/production` to trigger Cloudflare CI deployment.
 - Created implementation plan for Touchscreen Dead-Zone & Ghost-Touch Tester PWA and weather code purging.
+- Purged weather telemetry markup/scripts from `index.html` and deleted `inject_v5.js` / `radar-worker.js`.
+- Designed `touchscreen.html` standalone multi-touch dead-zone diagnostic PWA and added catalog card.
+- Committed and pushed changes to `origin/production` for live deployment.
