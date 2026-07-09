@@ -722,20 +722,22 @@
     }
     
     .split-side {
-      width: 50%; height: 100%; position: relative;
+      width: 33.333%; height: 100%; position: relative;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       cursor: pointer; transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
       overflow: hidden;
     }
     
     .split-left { background: linear-gradient(135deg, #1f2937 0%, #111827 100%); border-right: 1px solid rgba(255,255,255,0.05); }
-    .split-right { background: linear-gradient(135deg, #111827 0%, #030712 100%); }
+    .split-middle { background: linear-gradient(135deg, #111827 0%, #08160a 100%); border-right: 1px solid rgba(255,255,255,0.05); }
+    .split-right { background: linear-gradient(135deg, #0b1a0e 0%, #030712 100%); }
     
     .split-side::after {
       content: ''; position: absolute; inset: 0; opacity: 0;
       transition: opacity 0.8s ease; pointer-events: none;
     }
     .split-left::after { background: radial-gradient(circle at center, rgba(255, 184, 48, 0.1) 0%, transparent 70%); }
+    .split-middle::after { background: radial-gradient(circle at center, rgba(57, 255, 20, 0.1) 0%, transparent 70%); }
     .split-right::after { background: radial-gradient(circle at center, rgba(56, 189, 248, 0.1) 0%, transparent 70%); }
     
     .split-side:hover::after { opacity: 1; }
@@ -762,20 +764,24 @@
     }
     
     /* Hover and trigger states */
-    .split-side:hover { width: 58%; }
-    .split-side:hover ~ .split-side { width: 42%; }
+    .split-side:hover { width: 44%; }
+    .theme-split:has(.split-side:hover) .split-side:not(:hover) { width: 28%; }
     
     .split-left:hover .split-title { color: #fff; transform: translateY(-5px); text-shadow: 0 10px 30px rgba(255, 184, 48, 0.2); }
+    .split-middle:hover .split-title { color: #fff; transform: translateY(-5px); text-shadow: 0 10px 30px rgba(57, 255, 20, 0.25); }
     .split-right:hover .split-title { color: #fff; transform: translateY(-5px); text-shadow: 0 10px 30px rgba(56, 189, 248, 0.2); }
     
     .split-side:hover .split-desc { opacity: 1; transform: translateY(0); }
     
     /* Active transition triggers */
     .split-triggered-left .split-left { width: 100% !important; }
-    .split-triggered-left .split-right { width: 0% !important; }
+    .split-triggered-left .split-middle, .split-triggered-left .split-right { width: 0% !important; border: none; }
     
-    .split-triggered-right .split-left { width: 0% !important; }
+    .split-triggered-middle .split-middle { width: 100% !important; }
+    .split-triggered-middle .split-left, .split-triggered-middle .split-right { width: 0% !important; border: none; }
+    
     .split-triggered-right .split-right { width: 100% !important; }
+    .split-triggered-right .split-left, .split-triggered-right .split-middle { width: 0% !important; border: none; }
 /* Hidden Sections for transition */
     .content-section {
       transition: opacity 0.8s ease;
@@ -830,6 +836,13 @@
           <div class="split-tag">PWA Catalog</div>
           <div class="split-title">Dondlinger Digital Database</div>
           <div class="split-desc">Access the curated engineering catalog of purpose-built progressive web applications.</div>
+        </div>
+      </div>
+      <div class="split-side split-middle" onclick="revealPath('touchscreen')">
+        <div class="split-label-container">
+          <div class="split-tag">Diagnostics</div>
+          <div class="split-title">Touchscreen Tester</div>
+          <div class="split-desc">Verify touch screen accuracy, responsiveness, and identify sensor dead zones or ghost touches.</div>
         </div>
       </div>
       <div class="split-side split-right" onclick="revealPath('telemetry')">
@@ -2936,6 +2949,14 @@ Check live hydrology & weather flow: ${shareUrl}`;
         }, 600);
         
         playMechanicalClick();
+      } else if (path === 'touchscreen') {
+        wrap.className = 'theme-split split-triggered-middle';
+        playMechanicalClick();
+        
+        setTimeout(() => {
+          // Redirect to the Touchscreen Tester PWA page
+          window.location.href = './touchscreen.html' + window.location.search + window.location.hash;
+        }, 600);
       } else if (path === 'telemetry') {
         wrap.className = 'theme-split split-triggered-right';
         playMechanicalClick();
@@ -3131,6 +3152,12 @@ Check live hydrology & weather flow: ${shareUrl}`;
       if (queryMode && ['fishing', 'lake', 'construction', 'family'].includes(queryMode)) {
         currentMode = queryMode;
         localStorage.setItem('waz_weather_mode', queryMode);
+      }
+
+      if (urlParams.get('view') === 'touchscreen' || hash === '#touchscreen') {
+        // Immediate redirect to Touchscreen Tester page
+        window.location.replace('./touchscreen.html' + window.location.search + window.location.hash);
+        return;
       }
 
       if (urlParams.get('view') === 'telemetry' || hash === '#wazeecha-telemetry') {
