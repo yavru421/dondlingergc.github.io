@@ -32,3 +32,16 @@ CREATE TABLE IF NOT EXISTS kinematic_forecasts (
     intensity INTEGER NOT NULL,
     overhead INTEGER NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS touchscreen_diagnostics (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp INTEGER NOT NULL,
+    device_width INTEGER NOT NULL,
+    device_height INTEGER NOT NULL,
+    pixel_ratio REAL NOT NULL,
+    grid_cols INTEGER NOT NULL,
+    grid_rows INTEGER NOT NULL,
+    max_touchpoints INTEGER NOT NULL,
+    ghost_touches INTEGER DEFAULT 0,
+    paint_percentage INTEGER NOT NULL
+);
