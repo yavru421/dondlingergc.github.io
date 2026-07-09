@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Touchscreen Hardware Diagnostic PWA</title>
+  
+  <style>
+    :root {
+      --accent: #39ff14;
+      --bg: #030704;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(57, 255, 20, 0.15);
+      --text: #e2e8f0;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    #test-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg);
+    }
+
+    /* Glassmorphic Control HUD */
+    .hud-container {
+      position: fixed;
+      top: max(env(safe-area-inset-top, 0px), 16px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 500px;
+      z-index: 100;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .hud-bar {
+      pointer-events: auto;
+      background: rgba(10, 20, 12, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .hud-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hud-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+    }
+
+    .hud-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-weight: 600;
+    }
+
+    .hud-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-accent {
+      border-color: rgba(57, 255, 20, 0.3);
+      color: var(--accent);
+    }
+
+    .btn-accent:hover {
+      background: rgba(57, 255, 20, 0.08);
+      border-color: var(--accent);
+    }
+
+    /* Diagnosis Success Banner */
+    .success-banner {
+      pointer-events: auto;
+      background: rgba(57, 255, 20, 0.12);
+      border: 1px solid rgba(57, 255, 20, 0.3);
+      border-radius: 12px;
+      padding: 10px 16px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      animation: bannerPulse 2s infinite alternate;
+      box-shadow: 0 4px 20px rgba(57, 255, 20, 0.15);
+    }
+
+    .success-text {
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @keyframes bannerPulse {
+      0% { border-color: rgba(57, 255, 20, 0.3); box-shadow: 0 4px 15px rgba(57, 255, 20, 0.1); }
+      100% { border-color: rgba(57, 255, 20, 0.6); box-shadow: 0 4px 25px rgba(57, 255, 20, 0.25); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hud-container">
+    <div class="hud-bar">
+      <div class="hud-info">
+        <div class="hud-title">Touchscreen Diagnostic</div>
+        <div class="hud-status" id="hud-status">Loading Grid...</div>
+      </div>
+      
+      <div class="hud-controls">
+        <button class="btn" id="density-btn">Grid: 10x15</button>
+        <button class="btn" id="reset-btn">Reset</button>
+        <button class="btn btn-accent" id="exit-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          Exit
+        </button>
+      </div>
+    </div>
+
+    <div class="success-banner" id="success-banner">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <span class="success-text">Hardware Grid 100% Responsive</span>
+    </div>
+  </div>
+
+  <canvas id="test-canvas"></canvas>
+
+  <script>
+    'use strict';
+
+    const canvas = document.getElementById('test-canvas');
+    const ctx = canvas.getContext('2d');
+    const statusEl = document.getElementById('hud-status');
+    const densityBtn = document.getElementById('density-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const exitBtn = document.getElementById('exit-btn');
+    const successBanner = document.getElementById('success-banner');
+
+    // Grid Configuration Profiles
+    const densities = [
+      { cols: 5, rows: 8 },
+      { cols: 10, rows: 16 },
+      { cols: 20, rows: 32 }
+    ];
+    let currentDensityIdx = 1; // Default 10x16
+
+    let grid = [];
+    let cols = 0;
+    let rows = 0;
+    let cellWidth = 0;
+    let cellHeight = 0;
+    let totalCells = 0;
+    let paintedCellsCount = 0;
+
+    // Pointer Tracking
+    let activePointers = new Map();
+
+    function initGrid() {
+      const profile = densities[currentDensityIdx];
+      cols = profile.cols;
+      rows = profile.rows;
+      totalCells = cols * rows;
+      paintedCellsCount = 0;
+      successBanner.style.display = 'none';
+
+      densityBtn.textContent = `Grid: ${cols}x${rows}`;
+
+      resizeCanvas();
+      resetGridState();
+    }
+
+    function resetGridState() {
+      grid = [];
+      paintedCellsCount = 0;
+      successBanner.style.display = 'none';
+
+      for (let c = 0; c < cols; c++) {
+        grid[c] = [];
+        for (let r = 0; r < rows; r++) {
+          grid[c][r] = {
+            painted: false,
+            opacity: 0
+          };
+        }
+      }
+      updateStatusHUD();
+      draw();
+    }
+
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.scale(dpr, dpr);
+
+      cellWidth = window.innerWidth / cols;
+      cellHeight = window.innerHeight / rows;
+      draw();
+    }
+
+    function updateStatusHUD() {
+      const pct = totalCells > 0 ? Math.round((paintedCellsCount / totalCells) * 100) : 0;
+      statusEl.textContent = `Pnt: ${pct}% | Touchpoints: ${activePointers.size}`;
+
+      if (paintedCellsCount === totalCells) {
+        successBanner.style.display = 'flex';
+      }
+    }
+
+    function paintCell(x, y) {
+      const c = Math.floor(x / cellWidth);
+      const r = Math.floor(y / cellHeight);
+
+      if (c >= 0 && c < cols && r >= 0 && r < rows) {
+        if (!grid[c][r].painted) {
+          grid[c][r].painted = true;
+          grid[c][r].opacity = 1;
+          paintedCellsCount++;
+          updateStatusHUD();
+        }
+      }
+    }
+
+    function draw() {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      // 1. Draw Grid Cells
+      for (let c = 0; c < cols; c++) {
+        for (let r = 0; r < rows; r++) {
+          const x = c * cellWidth;
+          const y = r * cellHeight;
+          const cell = grid[c][r];
+
+          if (cell.painted) {
+            // Neon Green filled cell
+            ctx.fillStyle = `rgba(57, 255, 20, ${0.15 + cell.opacity * 0.45})`;
+            ctx.fillRect(x, y, cellWidth, cellHeight);
+
+            // Glowing border
+            ctx.strokeStyle = `rgba(57, 255, 20, ${0.3 + cell.opacity * 0.7})`;
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x, y, cellWidth, cellHeight);
+          } else {
+            // Unpainted card border
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.lineWidth = 0.5;
+            ctx.strokeRect(x, y, cellWidth, cellHeight);
+          }
+        }
+      }
+
+      // 2. Draw active multi-touch pointers
+      activePointers.forEach((point, id) => {
+        // Outer pulsing ring
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 45, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(57, 255, 20, 0.4)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Inner tracking circle
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 25, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(57, 255, 20, 0.85)';
+        ctx.lineWidth = 2.5;
+        ctx.fillStyle = 'rgba(57, 255, 20, 0.08)';
+        ctx.fill();
+        ctx.stroke();
+
+        // Central crosshair point
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#39ff14';
+        ctx.fill();
+
+        // Coordinate text
+        ctx.font = 'bold 11px ui-monospace, SFMono-Regular, Menlo, Monaco, monospace';
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = '#000000';
+        ctx.shadowBlur = 4;
+        
+        const label = `ID:${id} X:${Math.round(point.x)} Y:${Math.round(point.y)}`;
+        ctx.fillText(label, point.x + 55, point.y + 4);
+        
+        ctx.shadowBlur = 0; // reset
+      });
+    }
+
+    // Pointer Event Listeners (Unified Touch/Mouse)
+    canvas.addEventListener('pointerdown', (e) => {
+      canvas.setPointerCapture(e.pointerId);
+      activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      paintCell(e.clientX, e.clientY);
+      updateStatusHUD();
+      draw();
+    });
+
+    canvas.addEventListener('pointermove', (e) => {
+      if (activePointers.has(e.pointerId)) {
+        activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        paintCell(e.clientX, e.clientY);
+        draw();
+      }
+    });
+
+    canvas.addEventListener('pointerup', (e) => {
+      activePointers.delete(e.pointerId);
+      canvas.releasePointerCapture(e.pointerId);
+      updateStatusHUD();
+      draw();
+    });
+
+    canvas.addEventListener('pointercancel', (e) => {
+      activePointers.delete(e.pointerId);
+      updateStatusHUD();
+      draw();
+    });
+
+    // Control HUD Listeners
+    densityBtn.addEventListener('click', () => {
+      currentDensityIdx = (currentDensityIdx + 1) % densities.length;
+      initGrid();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      resetGridState();
+    });
+
+    exitBtn.addEventListener('click', () => {
+      window.location.href = './index.html';
+    });
+
+    // Window Listeners
+    window.addEventListener('resize', resizeCanvas);
+
+    // Initialize Grid
+    initGrid();
+
+  </script>
+</body>
+</html>

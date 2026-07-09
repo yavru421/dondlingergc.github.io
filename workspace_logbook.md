@@ -42,3 +42,4 @@
 - Created implementation plan for redirecting dondlingergc.com portal selection to wazweather.dondlingergc.com.
 - Implemented split door portal redirection and immediate deep-link redirection in `index.html`.
 - Committed and pushed updates to `origin/production` to trigger Cloudflare CI deployment.
+- Created implementation plan for Touchscreen Dead-Zone & Ghost-Touch Tester PWA and weather code purging.
