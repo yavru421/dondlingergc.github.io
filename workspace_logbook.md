@@ -55,3 +55,6 @@
 - Added `functions/api/touchscreen.js` serverless endpoint to capture telemetry.
 - Updated `touchscreen.html` with jsPDF compiler and dynamic D1 database telemetry post.
 - Staged, committed, and pushed modifications to `origin/production` branch for live deployment.
+- Fixed touchscreen tester layout calculation bug by delaying initial grid compile until window load event.
+- Configured `resetGridState` to call `resizeCanvas` to guarantee size synchronization.
+- Committed and pushed fixes to `origin/production` branch.
