@@ -40,3 +40,5 @@
 - Fixed a Blazor binding conflict in `Pages/Index.razor` where using `@bind` and `@oninput` together on the project description textarea prevented real-time value changes. Replaced with `value="@clientComment"` and `@oninput="OnDescriptionInput"` to enable smooth dynamic UI updates, and pushed the fix to master.
 - Verified that submission ID `fa38c0e6-c630-4bf9-b85b-9a6b7e607619` was successfully written and stored in the remote `intake_db` D1 database on Cloudflare with full client coordinates and answers.
 - Created implementation plan for redirecting dondlingergc.com portal selection to wazweather.dondlingergc.com.
+- Implemented split door portal redirection and immediate deep-link redirection in `index.html`.
+- Committed and pushed updates to `origin/production` to trigger Cloudflare CI deployment.
