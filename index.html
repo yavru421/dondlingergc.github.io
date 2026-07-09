@@ -1892,7 +1892,7 @@
         screenshot: '',
         desc: 'An interactive client-side diagnostic utility. Verify touchscreen hardware responsiveness, paint touch grids to identify sensor dead zones, and monitor ghost touch coordinates in real-time with zero-latency HTML5 performance.',
         who: ['Everyday Users', 'Technicians', 'Mobile Device Owners'],
-        link: './touchscreen.html',
+        link: './touchscreen-tester.html',
         btnLabel: 'Launch Tester PWA'
       },
       installguide: {
@@ -2955,7 +2955,7 @@ Check live hydrology & weather flow: ${shareUrl}`;
         
         setTimeout(() => {
           // Redirect to the Touchscreen Tester PWA page
-          window.location.href = './touchscreen.html' + window.location.search + window.location.hash;
+          window.location.href = './touchscreen-tester.html' + window.location.search + window.location.hash;
         }, 600);
       } else if (path === 'telemetry') {
         wrap.className = 'theme-split split-triggered-right';
@@ -3156,7 +3156,7 @@ Check live hydrology & weather flow: ${shareUrl}`;
 
       if (urlParams.get('view') === 'touchscreen' || hash === '#touchscreen') {
         // Immediate redirect to Touchscreen Tester page
-        window.location.replace('./touchscreen.html' + window.location.search + window.location.hash);
+        window.location.replace('./touchscreen-tester.html' + window.location.search + window.location.hash);
         return;
       }
 
