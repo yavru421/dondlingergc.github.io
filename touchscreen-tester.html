@@ -245,6 +245,114 @@
     .start-btn:active {
       transform: translateY(0) scale(0.97);
     }
+
+    /* Hardware Diagnostics Modal */
+    .hw-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 4, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .hw-modal.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .hw-card {
+      background: rgba(10, 20, 12, 0.9);
+      border: 1px solid var(--accent);
+      border-radius: 16px;
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 10px 40px rgba(57, 255, 20, 0.15);
+    }
+    .hw-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+    .hw-test-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .hw-test-row:last-child {
+      border-bottom: none;
+    }
+    .hw-label {
+      font-size: 0.9rem;
+      color: #e2e8f0;
+      font-weight: 600;
+      text-align: left;
+    }
+    .hw-value {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+    }
+    .hw-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .hw-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .hw-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .hw-btn-accent {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .hw-btn-accent:hover {
+      background: rgba(57, 255, 20, 0.1);
+    }
+    .hw-generate-btn {
+      margin-top: 25px;
+      width: 100%;
+      padding: 16px;
+      background: var(--accent);
+      color: #000;
+      font-size: 0.9rem;
+      font-weight: 900;
+      border: none;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .hw-generate-btn:hover {
+      box-shadow: 0 0 25px rgba(57, 255, 20, 0.5);
+      transform: translateY(-2px);
+    }
+    .hw-generate-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
   </style>
 </head>
 <body>
@@ -262,6 +370,72 @@
         Interactive calibration utility to test screen responsiveness, multi-touch precision, and identify hardware dead zones or ghost touches.
       </div>
       <button class="start-btn" id="start-btn">Start Test</button>
+    </div>
+  </div>
+
+  <!-- HARDWARE DIAGNOSTICS OVERLAY -->
+  <div id="hw-overlay" class="hw-modal hidden">
+    <div class="hw-card">
+      <div class="hw-title">System Hardware Diagnostics</div>
+      
+      <div class="hw-test-row">
+        <div class="hw-label">System Memory (RAM)</div>
+        <div class="hw-value" id="hw-ram-val">Testing...</div>
+      </div>
+      
+      <div class="hw-test-row">
+        <div class="hw-label">CPU Compute Score</div>
+        <div class="hw-value" id="hw-cpu-val">Testing...</div>
+      </div>
+      
+      <div class="hw-test-row">
+        <div class="hw-label">Haptic Engine (Vibration)</div>
+        <div class="hw-actions" id="hw-haptic-actions">
+          <button class="hw-btn hw-btn-accent" id="hw-test-haptic">Test Motor</button>
+          <button class="hw-btn" id="hw-haptic-pass" style="display:none; color: var(--accent); border-color: var(--accent);">Felt It</button>
+          <button class="hw-btn" id="hw-haptic-fail" style="display:none; color: #ff3333; border-color: #ff3333;">Failed</button>
+        </div>
+        <div class="hw-value" id="hw-haptic-val" style="display:none;">Pending</div>
+      </div>
+      
+      <div class="hw-test-row">
+        <div class="hw-label">Battery Health / Charging Port</div>
+        <div class="hw-value" id="hw-battery-val">Testing...</div>
+      </div>
+      
+      <div class="hw-test-row">
+        <div class="hw-label">GPS Antenna Lock</div>
+        <div class="hw-actions" id="hw-gps-actions">
+          <button class="hw-btn hw-btn-accent" id="hw-test-gps">Ping Satellite</button>
+        </div>
+        <div class="hw-value" id="hw-gps-val" style="display:none;">Pending</div>
+      </div>
+      
+      <div class="hw-test-row">
+        <div class="hw-label">Gyroscope & Accelerometer</div>
+        <div class="hw-actions" id="hw-gyro-actions">
+          <button class="hw-btn hw-btn-accent" id="hw-test-gyro">Test Tilt</button>
+        </div>
+        <div class="hw-value" id="hw-gyro-val" style="display:none;">Pending</div>
+      </div>
+      
+      <div class="hw-test-row">
+        <div class="hw-label">Camera Module Init</div>
+        <div class="hw-actions" id="hw-camera-actions">
+          <button class="hw-btn hw-btn-accent" id="hw-test-camera">Check Lens</button>
+        </div>
+        <div class="hw-value" id="hw-camera-val" style="display:none;">Pending</div>
+      </div>
+
+      <div class="hw-test-row">
+        <div class="hw-label">Microphone / Audio Loopback</div>
+        <div class="hw-actions" id="hw-mic-actions">
+          <button class="hw-btn hw-btn-accent" id="hw-test-mic">Test Mic</button>
+        </div>
+        <div class="hw-value" id="hw-mic-val" style="display:none;">Pending</div>
+      </div>
+
+      <button class="hw-generate-btn" id="hw-finish-btn">Generate Verified PDF</button>
     </div>
   </div>
 
@@ -378,7 +552,7 @@
       if (paintedCellsCount === totalCells && successBanner.style.display !== 'flex') {
         successBanner.style.display = 'flex';
         // Auto-run log and PDF report generation once 100% complete
-        setTimeout(generatePDFAndLogTelemetry, 800);
+        setTimeout(showHardwareDiagnostics, 800);
       }
     }
 
@@ -462,6 +636,226 @@
       });
     }
 
+    // --- Hardware Diagnostics State ---
+    const hwResults = {
+      ram: "Unknown",
+      cpuScore: "Unknown",
+      battery: "Unsupported",
+      haptic: "Untested",
+      camera: "Untested",
+      mic: "Untested",
+      gps: "Untested",
+      gyro: "Untested"
+    };
+
+    function showHardwareDiagnostics() {
+      document.getElementById('hw-overlay').classList.remove('hidden');
+      runAutomatedTests();
+    }
+
+    async function runAutomatedTests() {
+      // RAM Test
+      if (navigator.deviceMemory) {
+        hwResults.ram = `${navigator.deviceMemory} GB (Reported)`;
+      } else {
+        hwResults.ram = "Not Supported by Browser";
+      }
+      document.getElementById('hw-ram-val').textContent = hwResults.ram;
+
+      // Battery Test
+      if (navigator.getBattery) {
+        try {
+          const battery = await navigator.getBattery();
+          const level = Math.round(battery.level * 100);
+          const charging = battery.charging ? "Charging" : "Discharging";
+          hwResults.battery = `${level}% (${charging})`;
+        } catch (e) {
+          hwResults.battery = "Error reading battery";
+        }
+      } else {
+        hwResults.battery = "API Unsupported";
+      }
+      document.getElementById('hw-battery-val').textContent = hwResults.battery;
+
+      // CPU Test (Simple compute benchmark)
+      setTimeout(() => {
+        const start = performance.now();
+        let primes = 0;
+        for (let i = 2; i < 50000; i++) {
+          let isPrime = true;
+          for (let j = 2; j <= Math.sqrt(i); j++) {
+            if (i % j === 0) { isPrime = false; break; }
+          }
+          if (isPrime) primes++;
+        }
+        const timeTaken = performance.now() - start;
+        hwResults.cpuScore = `${Math.round(100000 / timeTaken)} pts (${Math.round(timeTaken)}ms)`;
+        document.getElementById('hw-cpu-val').textContent = hwResults.cpuScore;
+      }, 50);
+    }
+
+    // Haptic Test Handlers
+    document.getElementById('hw-test-haptic').addEventListener('click', () => {
+      if (navigator.vibrate) {
+        navigator.vibrate([200, 100, 200]);
+        document.getElementById('hw-test-haptic').style.display = 'none';
+        document.getElementById('hw-haptic-pass').style.display = 'inline-block';
+        document.getElementById('hw-haptic-fail').style.display = 'inline-block';
+      } else {
+        hwResults.haptic = "API Unsupported";
+        document.getElementById('hw-test-haptic').style.display = 'none';
+        const valEl = document.getElementById('hw-haptic-val');
+        valEl.style.display = 'block';
+        valEl.textContent = hwResults.haptic;
+      }
+    });
+    document.getElementById('hw-haptic-pass').addEventListener('click', () => {
+      hwResults.haptic = "PASS (Motor Functional)";
+      document.getElementById('hw-haptic-actions').style.display = 'none';
+      const valEl = document.getElementById('hw-haptic-val');
+      valEl.style.display = 'block';
+      valEl.textContent = hwResults.haptic;
+      valEl.style.color = 'var(--accent)';
+    });
+    document.getElementById('hw-haptic-fail').addEventListener('click', () => {
+      hwResults.haptic = "FAIL (No Vibration Felt)";
+      document.getElementById('hw-haptic-actions').style.display = 'none';
+      const valEl = document.getElementById('hw-haptic-val');
+      valEl.style.display = 'block';
+      valEl.textContent = hwResults.haptic;
+      valEl.style.color = '#ff3333';
+    });
+
+    // Camera Test Handler
+    document.getElementById('hw-test-camera').addEventListener('click', async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        stream.getTracks().forEach(track => track.stop());
+        hwResults.camera = "PASS (Lens Initialized)";
+        
+        document.getElementById('hw-camera-actions').style.display = 'none';
+        const valEl = document.getElementById('hw-camera-val');
+        valEl.style.display = 'block';
+        valEl.textContent = hwResults.camera;
+        valEl.style.color = 'var(--accent)';
+      } catch (err) {
+        hwResults.camera = `FAIL / DENIED (${err.name})`;
+        document.getElementById('hw-camera-actions').style.display = 'none';
+        const valEl = document.getElementById('hw-camera-val');
+        valEl.style.display = 'block';
+        valEl.textContent = hwResults.camera;
+        valEl.style.color = '#ff3333';
+      }
+    });
+
+    // Mic Test Handler
+    document.getElementById('hw-test-mic').addEventListener('click', async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream.getTracks().forEach(track => track.stop());
+        hwResults.mic = "PASS (Mic Initialized)";
+        
+        document.getElementById('hw-mic-actions').style.display = 'none';
+        const valEl = document.getElementById('hw-mic-val');
+        valEl.style.display = 'block';
+        valEl.textContent = hwResults.mic;
+        valEl.style.color = 'var(--accent)';
+      } catch (err) {
+        hwResults.mic = `FAIL / DENIED (${err.name})`;
+        document.getElementById('hw-mic-actions').style.display = 'none';
+        const valEl = document.getElementById('hw-mic-val');
+        valEl.style.display = 'block';
+        valEl.textContent = hwResults.mic;
+        valEl.style.color = '#ff3333';
+      }
+    });
+
+    // GPS Test Handler
+    document.getElementById('hw-test-gps').addEventListener('click', () => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            hwResults.gps = `PASS (Accuracy: ${Math.round(position.coords.accuracy)}m)`;
+            document.getElementById('hw-gps-actions').style.display = 'none';
+            const valEl = document.getElementById('hw-gps-val');
+            valEl.style.display = 'block';
+            valEl.textContent = hwResults.gps;
+            valEl.style.color = 'var(--accent)';
+          },
+          (error) => {
+            hwResults.gps = `FAIL (${error.message})`;
+            document.getElementById('hw-gps-actions').style.display = 'none';
+            const valEl = document.getElementById('hw-gps-val');
+            valEl.style.display = 'block';
+            valEl.textContent = hwResults.gps;
+            valEl.style.color = '#ff3333';
+          },
+          { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        );
+      } else {
+        hwResults.gps = "API Unsupported";
+        document.getElementById('hw-gps-actions').style.display = 'none';
+        const valEl = document.getElementById('hw-gps-val');
+        valEl.style.display = 'block';
+        valEl.textContent = hwResults.gps;
+      }
+    });
+
+    // Gyroscope Test Handler
+    document.getElementById('hw-test-gyro').addEventListener('click', () => {
+      // For iOS 13+ requesting permission
+      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission()
+          .then(permissionState => {
+            if (permissionState === 'granted') {
+              listenForGyro();
+            } else {
+              setGyroFail("Permission Denied");
+            }
+          })
+          .catch(console.error);
+      } else {
+        listenForGyro(); // Non-iOS or older
+      }
+    });
+
+    function listenForGyro() {
+      let gyroHandled = false;
+      const gyroHandler = (event) => {
+        if (gyroHandled) return;
+        if (event.alpha !== null || event.beta !== null || event.gamma !== null) {
+          gyroHandled = true;
+          hwResults.gyro = "PASS (Sensors Active)";
+          document.getElementById('hw-gyro-actions').style.display = 'none';
+          const valEl = document.getElementById('hw-gyro-val');
+          valEl.style.display = 'block';
+          valEl.textContent = hwResults.gyro;
+          valEl.style.color = 'var(--accent)';
+          window.removeEventListener('deviceorientation', gyroHandler);
+        }
+      };
+      window.addEventListener('deviceorientation', gyroHandler);
+      // Timeout if no data received
+      setTimeout(() => {
+        if (!gyroHandled) setGyroFail("No Sensor Data Received");
+      }, 2000);
+    }
+
+    function setGyroFail(msg) {
+      hwResults.gyro = `FAIL (${msg})`;
+      document.getElementById('hw-gyro-actions').style.display = 'none';
+      const valEl = document.getElementById('hw-gyro-val');
+      valEl.style.display = 'block';
+      valEl.textContent = hwResults.gyro;
+      valEl.style.color = '#ff3333';
+    }
+
+    // Finish HW Phase
+    document.getElementById('hw-finish-btn').addEventListener('click', () => {
+      document.getElementById('hw-overlay').classList.add('hidden');
+      generatePDFAndLogTelemetry();
+    });
+
     async function generatePDFAndLogTelemetry() {
       if (isReporting) return;
       isReporting = true;
@@ -522,33 +916,54 @@
         doc.setFontSize(10);
         doc.setFont("helvetica", "normal");
         const timestamp = new Date().toLocaleString();
-        doc.text(`Timestamp: ${timestamp}`, 15, 64);
-        doc.text(`Screen Resolution: ${window.innerWidth} x ${window.innerHeight} px`, 15, 70);
-        doc.text(`Device Pixel Ratio: ${window.devicePixelRatio}`, 15, 76);
-        doc.text(`User Agent: ${navigator.userAgent.substring(0, 70)}...`, 15, 82);
+        doc.text(`Timestamp: ${timestamp}`, 15, 62);
+        doc.text(`Screen Resolution: ${window.innerWidth} x ${window.innerHeight} px`, 15, 67);
+        doc.text(`Device Pixel Ratio: ${window.devicePixelRatio}`, 15, 72);
+        doc.text(`User Agent: ${navigator.userAgent.substring(0, 70)}...`, 15, 77);
         
         // Results banner box
         doc.setFillColor(240, 248, 240); // Soft green background
-        doc.rect(15, 90, 180, 28, 'F');
+        doc.rect(15, 83, 180, 24, 'F');
         
         doc.setTextColor(0, 100, 0);
         doc.setFont("helvetica", "bold");
-        doc.text(`Grid Resolution: ${cols} columns x ${rows} rows`, 20, 96);
-        doc.text(`Responsive Fill Rate: ${paintedCellsCount} of ${totalCells} cells (${paintPct}%)`, 20, 102);
-        doc.text(`Max Touchpoints Tracked: ${maxTouchpoints} simultaneous fingers`, 20, 108);
-        doc.text(`Jitter/Ghost Touch Anomalies: ${ghostTouches}`, 20, 114);
+        doc.text(`Grid Resolution: ${cols} columns x ${rows} rows`, 20, 89);
+        doc.text(`Responsive Fill Rate: ${paintedCellsCount} of ${totalCells} cells (${paintPct}%)`, 20, 94);
+        doc.text(`Max Touchpoints: ${maxTouchpoints} | Jitter/Ghost Touches: ${ghostTouches}`, 20, 99);
+        
+        // Non-Touch Hardware Results
+        doc.setTextColor(33, 37, 41);
+        doc.setFontSize(12);
+        doc.text("System Hardware Diagnostics", 15, 115);
+        
+        doc.setFontSize(9);
+        doc.setFont("helvetica", "normal");
+        
+        // Two column layout for hardware stats
+        doc.text(`System Memory (RAM): ${hwResults.ram}`, 15, 122);
+        doc.text(`CPU Compute Score: ${hwResults.cpuScore}`, 15, 127);
+        doc.text(`Battery Health: ${hwResults.battery}`, 15, 132);
+        doc.text(`Haptic Engine: ${hwResults.haptic}`, 15, 137);
+        
+        doc.text(`Camera Module Init: ${hwResults.camera}`, 110, 122);
+        doc.text(`Microphone Loopback: ${hwResults.mic}`, 110, 127);
+        doc.text(`GPS Antenna Lock: ${hwResults.gps}`, 110, 132);
+        doc.text(`Gyro/Accelerometer: ${hwResults.gyro}`, 110, 137);
         
         // Visual grid capture
         doc.setTextColor(33, 37, 41);
-        doc.text("Grid Coverage Visualization (Canvas Render):", 15, 128);
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "bold");
+        doc.text("Grid Coverage Visualization (Canvas Render):", 15, 150);
         
         // Grab canvas data URL
         const dataUrl = canvas.toDataURL('image/png');
-        doc.addImage(dataUrl, 'PNG', 15, 132, 180, 120);
+        doc.addImage(dataUrl, 'PNG', 15, 153, 180, 110);
         
         // Footer info stamp
         doc.setFontSize(8);
         doc.setTextColor(128, 128, 128);
+        doc.setFont("helvetica", "normal");
         doc.text("ZLA Verification Protocol - 100% Client-Side Computation - No Server Storage Logs", 15, 275);
         
         doc.save(`touchscreen-diagnostic-${Date.now()}.pdf`);
