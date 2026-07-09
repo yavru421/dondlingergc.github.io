@@ -3154,7 +3154,7 @@ Check live hydrology & weather flow: ${shareUrl}`;
         localStorage.setItem('waz_weather_mode', queryMode);
       }
 
-      if (urlParams.get('view') === 'touchscreen' || hash === '#touchscreen') {
+      if (urlParams.get('view') === 'touchscreen' || hash === '#touchscreen' || window.location.pathname === '/touchscreen') {
         // Immediate redirect to Touchscreen Tester page
         window.location.replace('./touchscreen.html' + window.location.search + window.location.hash);
         return;
