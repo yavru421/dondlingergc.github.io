@@ -231,20 +231,14 @@
       cols = profile.cols;
       rows = profile.rows;
       totalCells = cols * rows;
-      paintedCellsCount = 0;
-      maxTouchpoints = 0;
-      ghostTouches = 0;
-      activePointers.clear();
-      lastX.clear();
-      successBanner.style.display = 'none';
 
       densityBtn.textContent = `Grid: ${cols}x${rows}`;
 
-      resizeCanvas();
       resetGridState();
     }
 
     function resetGridState() {
+      resizeCanvas();
       grid = [];
       paintedCellsCount = 0;
       maxTouchpoints = 0;
@@ -538,8 +532,8 @@
     // Window Listeners
     window.addEventListener('resize', resizeCanvas);
 
-    // Initialize Grid
-    initGrid();
+    // Initialize Grid on window load to ensure viewport dimensions are resolved
+    window.addEventListener('load', initGrid);
 
   </script>
 </body>
