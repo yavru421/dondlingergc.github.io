@@ -1,0 +1,30 @@
+@using JobsiteCalculatorPwa.Models
+
+<div class="genui-card genui-truncated-card">
+    @if (!string.IsNullOrEmpty(Component.Header))
+    {
+        <h4 class="genui-card-header">@Component.Header</h4>
+    }
+    <p class="genui-card-text">@Component.EssentialText</p>
+    
+    @if (isExpanded)
+    {
+        <p class="genui-card-text genui-expanded-text">@Component.TapToExpandText</p>
+        <button class="btn-flat btn-read-more" @onclick="ToggleExpand">Read Less</button>
+    }
+    else if (!string.IsNullOrEmpty(Component.TapToExpandText))
+    {
+        <button class="btn-flat btn-read-more" @onclick="ToggleExpand">Read More</button>
+    }
+</div>
+
+@code {
+    [Parameter] public TruncatedCardDto Component { get; set; } = default!;
+
+    private bool isExpanded = false;
+
+    private void ToggleExpand()
+    {
+        isExpanded = !isExpanded;
+    }
+}

@@ -1,0 +1,29 @@
+@using JobsiteCalculatorPwa.Models
+
+<div class="genui-button-select">
+    @if (!string.IsNullOrEmpty(Component.Title))
+    {
+        <h4 class="genui-button-select-title">@Component.Title</h4>
+    }
+    <div class="genui-button-grid">
+        @foreach (var option in Component.Options)
+        {
+            <button type="button" class="btn-genui-option" @onclick="() => OnOptionClick(option)">
+                @option
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public ButtonSelectDto Component { get; set; } = default!;
+    [Parameter] public EventCallback<string> OnOptionTapped { get; set; }
+
+    private async Task OnOptionClick(string option)
+    {
+        if (OnOptionTapped.HasDelegate)
+        {
+            await OnOptionTapped.InvokeAsync(option);
+        }
+    }
+}

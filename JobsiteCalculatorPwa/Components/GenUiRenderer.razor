@@ -1,0 +1,20 @@
+@namespace JobsiteCalculatorPwa.Components
+@using JobsiteCalculatorPwa.Models
+
+<div class="genui-renderer-container">
+    @foreach (var component in Components)
+    {
+        @switch (component)
+        {
+            case TruncatedCardDto card:
+                <TruncatedCard @key="card.Id" Component="card" />
+                break;
+            case ButtonSelectDto buttonSelect:
+                <ButtonSelect @key="buttonSelect.Id" Component="buttonSelect" OnOptionTapped="HandleOptionTapped" />
+                break;
+            case ContextChipBarDto chipBar:
+                <ContextChipBar @key="chipBar.Id" Component="chipBar" OnChipRemoved="HandleChipRemoved" />
+                break;
+        }
+    }
+</div>

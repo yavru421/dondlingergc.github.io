@@ -1,0 +1,28 @@
+@using JobsiteCalculatorPwa.Models
+
+<div class="genui-context-chipbar">
+    @foreach (var chip in Component.ActiveChips)
+    {
+        <div class="genui-chip">
+            <span class="genui-chip-text">@chip</span>
+            <button type="button" class="btn-genui-chip-remove" @onclick="() => RemoveChip(chip)">×</button>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public ContextChipBarDto Component { get; set; } = default!;
+    [Parameter] public EventCallback<string> OnChipRemoved { get; set; }
+
+    private async Task RemoveChip(string chip)
+    {
+        if (Component.ActiveChips.Contains(chip))
+        {
+            Component.ActiveChips.Remove(chip);
+            if (OnChipRemoved.HasDelegate)
+            {
+                await OnChipRemoved.InvokeAsync(chip);
+            }
+        }
+    }
+}
