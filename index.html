@@ -13,7 +13,7 @@
     <meta property="og:title" content="PourReady — Concrete Estimator" />
     <meta property="og:description" content="Free concrete volume estimator built for the field. Slabs, footings, walls, columns." />
     <meta property="og:type" content="website" />
-    <link href="_framework/dotnet.u6qm2ywp6a.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-6oc+wu0i5leQUkd2qggYqhXDCTLjw5L7v309LD9a3gM=" />
+    <link href="_framework/dotnet.8rar51u0cn.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-zOc1RY8Er9elVQtiZFdMX2R7TWBh2/fjI3gKH8eFTwE=" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -25,20 +25,20 @@
     <script type="importmap">{
   "imports": {
     "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.66stpp682q.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.8rar51u0cn.js",
     "./_framework/dotnet.native.js": "./_framework/dotnet.native.j9yxww2air.js",
-    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.r2kbxkuujc.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.u6qm2ywp6a.js"
+    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.r2kbxkuujc.js"
   },
   "scopes": {},
   "integrity": {
     "./_framework/blazor.webassembly.66stpp682q.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
     "./_framework/blazor.webassembly.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
-    "./_framework/dotnet.js": "sha256-6oc+wu0i5leQUkd2qggYqhXDCTLjw5L7v309LD9a3gM=",
+    "./_framework/dotnet.8rar51u0cn.js": "sha256-zOc1RY8Er9elVQtiZFdMX2R7TWBh2/fjI3gKH8eFTwE=",
+    "./_framework/dotnet.js": "sha256-zOc1RY8Er9elVQtiZFdMX2R7TWBh2/fjI3gKH8eFTwE=",
     "./_framework/dotnet.native.j9yxww2air.js": "sha256-t2sLHIeFuKgbEH+wz5jXGlVRt+hMNlyCkCwLtVZUwws=",
     "./_framework/dotnet.native.js": "sha256-t2sLHIeFuKgbEH+wz5jXGlVRt+hMNlyCkCwLtVZUwws=",
     "./_framework/dotnet.runtime.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU=",
-    "./_framework/dotnet.runtime.r2kbxkuujc.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU=",
-    "./_framework/dotnet.u6qm2ywp6a.js": "sha256-6oc+wu0i5leQUkd2qggYqhXDCTLjw5L7v309LD9a3gM="
+    "./_framework/dotnet.runtime.r2kbxkuujc.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU="
   }
 }</script>
 </head>
@@ -57,7 +57,14 @@
         <a href="." class="reload">Reload</a>
         <span class="dismiss">🗙</span>
     </div>
-    <script src="_framework/blazor.webassembly.66stpp682q.js"></script>
+    <script src="_framework/blazor.webassembly.66stpp682q.js" autostart="false"></script>
+    <script>
+        Blazor.start({
+            loadBootResource: function (type, name, defaultUri, integrity) {
+                return defaultUri;
+            }
+        });
+    </script>
     <script>
         // Global auth fetch bridge for Blazor JSInterop.
         // Uses credentials:'include' so the HttpOnly refresh cookie
