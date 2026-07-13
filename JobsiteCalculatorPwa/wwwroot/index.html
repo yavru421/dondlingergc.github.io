@@ -70,27 +70,36 @@
     </script>
     <script src="js/clipboard.js"></script>
     <script>
-        navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' })
-            .then(reg => {
-                console.log('ServiceWorker registered with scope:', reg.scope);
-                
-                // Detect iOS device and standalone mode
-                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                const isStandalone = window.navigator.standalone === true;
-                
-                if (isIOS && !isStandalone) {
-                    // Poll until DotNet interop is available
-                    function notifyPwaInstallable() {
-                        if (window.DotNet && window.DotNet.invokeMethodAsync) {
-                            window.DotNet.invokeMethodAsync('JobsiteCalculatorPwa', 'PWAInstallable')
-                                .catch(err => console.error('Failed to notify Blazor PWAInstallable:', err));
-                        } else {
-                            setTimeout(notifyPwaInstallable, 200);
+        if (!window.location.hostname.endsWith('pages.dev')) {
+            navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' })
+                .then(reg => {
+                    console.log('ServiceWorker registered with scope:', reg.scope);
+                    
+                    // Detect iOS device and standalone mode
+                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                    const isStandalone = window.navigator.standalone === true;
+                    
+                    if (isIOS && !isStandalone) {
+                        // Poll until DotNet interop is available
+                        function notifyPwaInstallable() {
+                            if (window.DotNet && window.DotNet.invokeMethodAsync) {
+                                window.DotNet.invokeMethodAsync('JobsiteCalculatorPwa', 'PWAInstallable')
+                                    .catch(err => console.error('Failed to notify Blazor PWAInstallable:', err));
+                            } else {
+                                setTimeout(notifyPwaInstallable, 200);
+                            }
                         }
+                        notifyPwaInstallable();
                     }
-                    notifyPwaInstallable();
+                });
+        } else {
+            console.log('Pages preview domain detected. Unregistering service workers to prevent Access SSO caching conflicts.');
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (let registration of registrations) {
+                    registration.unregister();
                 }
             });
+        }
     </script>
     <script>
         // PWA install prompt capture
