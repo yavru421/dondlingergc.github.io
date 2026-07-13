@@ -330,3 +330,155 @@ code {
     background: rgba(255, 184, 43, 0.1);
 }
 
+/* GenUI Layout Engine Styling */
+:root {
+    --genui-spacing-step: 28px;
+    --genui-accent: #ff9f1c;
+}
+
+.genui-renderer-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--genui-spacing-step);
+    padding: var(--genui-spacing-step);
+    padding-left: calc(var(--genui-spacing-step) + env(safe-area-inset-left, 0px));
+    padding-right: calc(var(--genui-spacing-step) + env(safe-area-inset-right, 0px));
+    padding-bottom: calc(var(--genui-spacing-step) + env(safe-area-inset-bottom, 0px));
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: "Aptos", "Trebuchet MS", sans-serif;
+}
+
+.genui-card {
+    background: rgba(26, 35, 45, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(122, 209, 255, 0.15);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    color: var(--text);
+}
+
+.genui-card-header {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--safety);
+}
+
+.genui-card-text {
+    margin: 0 0 12px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text);
+}
+
+.genui-card-text:last-of-type {
+    margin-bottom: 0;
+}
+
+.btn-flat {
+    background: transparent;
+    border: none;
+    color: var(--genui-accent);
+    font-weight: 700;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: opacity 0.2s ease;
+}
+
+.btn-flat:hover {
+    opacity: 0.8;
+}
+
+.genui-button-select {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.genui-button-select-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.genui-button-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+}
+
+.btn-genui-option {
+    background: rgba(18, 24, 31, 0.8);
+    border: 1.5px solid rgba(122, 209, 255, 0.2);
+    color: var(--text);
+    padding: 14px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 48px; /* High accessibility touch target */
+}
+
+.btn-genui-option:hover {
+    border-color: var(--genui-accent);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(255, 159, 28, 0.25);
+}
+
+.btn-genui-option:active {
+    transform: scale(0.98);
+}
+
+.genui-context-chipbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
+    background: rgba(12, 17, 23, 0.5);
+    border-radius: 12px;
+    border: 1px dashed rgba(122, 209, 255, 0.15);
+}
+
+.genui-chip {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 159, 28, 0.12);
+    border: 1px solid rgba(255, 159, 28, 0.35);
+    border-radius: 20px;
+    padding: 4px 10px;
+    gap: 6px;
+}
+
+.genui-chip-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.btn-genui-chip-remove {
+    background: transparent;
+    border: none;
+    color: var(--danger);
+    font-size: 1.1rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-genui-chip-remove:hover {
+    color: #fff;
+}
+

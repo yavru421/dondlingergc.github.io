@@ -85,3 +85,12 @@
   - Replaced inline `TryTokenRefresh()` with the centralized `AuthService.TrySilentRefreshAsync()` for expired-token refresh as well.
   - Added `AuthService?` property for lazy injection to break circular DI dependency.
 - NOTE: A JS `authFetch` function must be registered in `index.html` or a Blazor-loaded script to handle the cross-origin fetch with `credentials: 'include'` and `Content-Type: application/json`.
+- Implemented strongly-typed, declarative Generative UI (GenUI) layout engine:
+  - Created `GenUiDto.cs` defining `GenUiComponent` base class and polymorphic sub-types (`TruncatedCardDto`, `ButtonSelectDto`, `ContextChipBarDto`).
+  - Implemented `TruncatedCard.razor` supporting the Truncated-Pyramid UI pattern.
+  - Implemented `ButtonSelect.razor` for responsive, tap-centric choice grid.
+  - Implemented `ContextChipBar.razor` to present selected query/search parameters.
+  - Created `GenUiRenderer.razor` / `GenUiRenderer.razor.cs` to intercept choice taps, insert chipbar at index 0, and render items dynamically.
+  - Appended high-contrast responsive CSS styling rules to `wwwroot/css/app.css` using custom `--genui-spacing-step: 28px`.
+  - Verified local C# compilation of all files.
+- Staged, committed, and pushed the new features to `origin/main` to trigger the preview environment build.
