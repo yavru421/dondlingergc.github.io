@@ -61,3 +61,27 @@
 - Created implementation plan for Start Test overlay screen in `touchscreen.html`.
 - Implemented fullscreen glassmorphic `start-overlay` panel and wired trigger listener to run `initGrid()` on user click.
 - Staged, committed, and pushed changes to `origin/production` branch for live deployment.
+
+## 2026-07-10
+- Queried and audited all remote Cloudflare D1 databases via wrangler CLI.
+- Obtained the following counts: waz-analytics (55 telemetry rows, 18 unique user UUIDs/IPs), wazeecha-telemetry-db (4 push notifications subscriptions, 6 app launch counters, 171 notifications sent, 7 touchscreen tester records), intake_db (4 submissions, including project specs and location coordinates from John Daniel Dondlinger), heckler-ledger (108 joke records, 85 ratings, 6 reviews), and aac-analytics (7 pdf_stats records generating 9 PDFs total).
+- Performed detailed audit of `waz-analytics` to map web metrics:
+  - Geographical: Concentrated in Wisconsin (Wisconsin Rapids: 32, Milwaukee: 15, New Berlin: 4, Stevens Point: 1, Baraboo: 1) and Chicago, IL (1).
+  - Time-series distribution: 2026-07-08 (34 hits), 2026-07-09 (19 hits), 2026-07-10 (2 hits).
+  - User Agent/Device profile: Firefox 152 Windows (26 hits), Safari iOS iPhone OS 18_7 (20 hits), Chrome Android (2 hits).
+  - Network provider profiles: Cloudflare London (27 hits - testing), T-Mobile USA (13 hits - mobile), Solarus (6 hits - local broadband), Verizon Business (4 hits), AT&T Enterprises (2 hits).
+  - PWA engagement: 11 launches from installed PWA state; 43 standard browser visits.
+  - Performance (ZLA metrics): Excellent averages of 170.96ms TTFB and 806.89ms FCP.
+
+## 2026-07-13
+- Rewired `AuthService.cs` for subdomain-wide identity layer:
+  - All auth endpoints now use absolute URLs targeting `https://dondlingergc.com/api/auth/*`.
+  - Replaced `HttpClient.PostAsJsonAsync` with JSInterop `authFetch()` wrapper to enable `credentials: 'include'` on cross-origin cookie-bearing requests.
+  - Added `RegisterAsync(email, password)` method → POST `/api/auth/register`.
+  - Added `TrySilentRefreshAsync()` method → POST `/api/auth/refresh` (cookie-based, returns JWT or null).
+  - Updated `Logout()` to POST `/api/auth/logout` with credentials to revoke server-side session before clearing localStorage.
+- Updated `CustomAuthStateProvider.cs`:
+  - `GetAuthenticationStateAsync()` now calls `AuthService.TrySilentRefreshAsync()` when localStorage has no token, enabling cross-subdomain session continuity via the HttpOnly cookie.
+  - Replaced inline `TryTokenRefresh()` with the centralized `AuthService.TrySilentRefreshAsync()` for expired-token refresh as well.
+  - Added `AuthService?` property for lazy injection to break circular DI dependency.
+- NOTE: A JS `authFetch` function must be registered in `index.html` or a Blazor-loaded script to handle the cross-origin fetch with `credentials: 'include'` and `Content-Type: application/json`.

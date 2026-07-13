@@ -40,6 +40,27 @@
         <span class="dismiss">🗙</span>
     </div>
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+    <script>
+        // Global auth fetch bridge for Blazor JSInterop.
+        // Uses credentials:'include' so the HttpOnly refresh cookie
+        // scoped to Domain=.dondlingergc.com is sent cross-origin.
+        window.authFetch = async function (url, method, body) {
+            try {
+                const opts = {
+                    method: method || 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' }
+                };
+                if (body) opts.body = body;
+                const resp = await fetch(url, opts);
+                if (!resp.ok) return '';
+                return await resp.text();
+            } catch (e) {
+                console.error('authFetch error:', e);
+                return '';
+            }
+        };
+    </script>
     <script src="js/clipboard.js"></script>
     <script>
         navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' })

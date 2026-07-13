@@ -1,0 +1,26 @@
+@page "/"
+
+<div id="portal-split" class="portal-stage" style="height: 100vh; width: 100vw; display: flex; flex-direction: column;">
+    <div class="theme-split" id="split-wrapper" style="display: flex; flex: 1; width: 100%;">
+        
+        <div class="split-side split-left" style="flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 2rem; border-right: 1px solid rgba(255,255,255,0.1); transition: background 0.3s ease;">
+            <div class="split-label-container">
+                <div class="split-tag" style="background-color: #333; color: #fff; display: inline-block; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">PWA Catalog</div>
+                <div class="split-title" style="font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 2px;">Dondlinger Digital Database</div>
+                <div class="split-desc" style="color: #9ca3af; font-size: 0.9rem; line-height: 1.5;">Access the curated engineering catalog of purpose-built progressive web applications.</div>
+                
+                <a href="/estimator" style="display: inline-block; margin-top: 1.5rem; padding: 0.75rem 1.5rem; background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Launch Estimator</a>
+            </div>
+        </div>
+
+        <UserGateway />
+
+        <div class="split-side split-right" style="flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 2rem; border-left: 1px solid rgba(255,255,255,0.1); transition: background 0.3s ease;">
+            <div class="split-label-container">
+                <div class="split-tag" style="background-color: #333; color: #fff; display: inline-block; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Live Telemetry</div>
+                <div class="split-title" style="font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 2px;">WaZWeather</div>
+                <div class="split-desc" style="color: #9ca3af; font-size: 0.9rem; line-height: 1.5;">Real-time local forecasting, hydrology flow, and atmospheric metrics for Wazeecha.</div>
+            </div>
+        </div>
+    </div>
+</div>

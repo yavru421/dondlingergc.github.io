@@ -14,5 +14,24 @@ binding = "DB"
 database_name = "wazeecha-telemetry-db"
 database_id = "ce7e1166-fcf4-4926-aa8b-b05222d6715d"
 
+[[d1_databases]]
+binding = "IDENTITY_DB"
+database_name = "dondlingergc-identity-db"
+database_id = "1128e99a-70e1-458c-b0b7-d548a10a5533"
+
 [ai]
 binding = "AI"
+
+# ── Staging Environment ──────────────────────────
+[env.staging]
+name = "dondlingergc-pages-staging"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "wazeecha-telemetry-db"
+database_id = "ce7e1166-fcf4-4926-aa8b-b05222d6715d"
+
+[[env.staging.d1_databases]]
+binding = "IDENTITY_DB"
+database_name = "waz-analytics-staging"
+database_id = "7f4b4970-b407-4df0-99e0-478a4c4b67c6"
