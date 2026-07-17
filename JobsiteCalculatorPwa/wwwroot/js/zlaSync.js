@@ -1,23 +1,34 @@
-// zlaSync.js
 class ZlaSync {
     constructor() {
-        this.pc = null;
-        this.dc = null;
-        this.receivedMessages = [];
-        this.receiveResolvers = [];
+        this.pc = new RTCPeerConnection();
+        this.dc = this.pc.createDataChannel("zlaSync");
+        this.bufferQueue = [];
+        this.isConnected = false;
     }
 
     init() {
-        this.pc = new RTCPeerConnection();
-        this.dc = this.pc.createDataChannel("zlaSync");
-        
-        this.dc.onmessage = (event) => {
-            if (this.receiveResolvers.length > 0) {
-                const resolve = this.receiveResolvers.shift();
-                resolve(event.data);
-            } else {
-                this.receivedMessages.push(event.data);
+        this.pc.onicecandidate = (event) => {
+            if (event.candidate) {
+                // Send ICE candidate to remote peer
+                fetch("/api/webrtc/icecandidate", {
+                    method: "POST",
+                    body: JSON.stringify(event.candidate),
+                    headers: { "Content-Type": "application/json" }
+                });
             }
+        };
+
+        this.dc.onopen = () => {
+            this.isConnected = true;
+            this.flushBufferQueue();
+        };
+
+        this.dc.onclose = () => {
+            this.isConnected = false;
+        };
+
+        this.dc.onerror = (event) => {
+            console.error("Data channel error:", event);
         };
 
         this.pc.createOffer().then((offer) => {
@@ -28,25 +39,23 @@ class ZlaSync {
                 method: "POST",
                 body: JSON.stringify(this.pc.localDescription),
                 headers: { "Content-Type": "application/json" }
-            }).catch(err => console.error("Failed to send WebRTC offer:", err));
+            });
         });
     }
 
-    send(message) {
-        if (this.dc && this.dc.readyState === "open") {
-            this.dc.send(message);
+    send(data) {
+        if (this.isConnected) {
+            this.dc.send(data);
         } else {
-            console.warn("WebRTC data channel is not open. Unable to send message:", message);
+            this.bufferQueue.push(data);
         }
     }
 
-    receive() {
-        if (this.receivedMessages.length > 0) {
-            return Promise.resolve(this.receivedMessages.shift());
+    flushBufferQueue() {
+        while (this.bufferQueue.length > 0) {
+            var data = this.bufferQueue.shift();
+            this.dc.send(data);
         }
-        return new Promise((resolve) => {
-            this.receiveResolvers.push(resolve);
-        });
     }
 }
 

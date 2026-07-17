@@ -1,34 +1,41 @@
 using System;
+using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.JSInterop;
 
-namespace JobsiteCalculatorPwa.Services
+public class WebRtcSyncService
 {
-    public class WebRtcSyncService
+    private readonly IJSRuntime _jsRuntime;
+    private readonly ConcurrentQueue<SyncEvent> _syncEventQueue;
+
+    public WebRtcSyncService(IJSRuntime jsRuntime)
     {
-        private readonly IJSRuntime _jsRuntime;
+        _jsRuntime = jsRuntime;
+        _syncEventQueue = new ConcurrentQueue<SyncEvent>();
+    }
 
-        public WebRtcSyncService(IJSRuntime jsRuntime)
-        {
-            _jsRuntime = jsRuntime;
-        }
+    public async Task EnqueueSyncEventAsync(SyncEvent syncEvent)
+    {
+        _syncEventQueue.Enqueue(syncEvent);
+        await TriggerJsSendAsync();
+    }
 
-        public async Task InitializeAsync()
+    private async Task TriggerJsSendAsync()
+    {
+        if (_syncEventQueue.TryDequeue(out var syncEvent))
         {
-            // Initialize WebRTC data channels
-            await _jsRuntime.InvokeVoidAsync("zlaSync.init");
-        }
-
-        public async Task SendAsync(string message)
-        {
-            // Send message through WebRTC data channels
-            await _jsRuntime.InvokeVoidAsync("zlaSync.send", message);
-        }
-
-        public async Task<string> ReceiveAsync()
-        {
-            // Receive message through WebRTC data channels
-            return await _jsRuntime.InvokeAsync<string>("zlaSync.receive");
+            await _jsRuntime.InvokeVoidAsync("zlaSync.send", syncEvent.Data);
         }
     }
+
+    public async Task InitializeAsync()
+    {
+        await _jsRuntime.InvokeVoidAsync("zlaSync.init");
+    }
+}
+
+public class SyncEvent
+{
+    public string Data { get; set; }
 }
