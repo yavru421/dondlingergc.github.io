@@ -1,0 +1,385 @@
+@using JobsiteCalculatorPwa.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthService AuthService
+@inject AuthenticationStateProvider AuthStateProvider
+
+@if (IsOpen)
+{
+    <div class="auth-drawer-overlay" @onclick="CloseDrawer">
+        <div class="auth-drawer-panel" @onclick:stopPropagation>
+            <div class="auth-drawer-header">
+                <span class="auth-drawer-title">Personalization Console</span>
+                <button class="auth-drawer-close" @onclick="CloseDrawer">✕</button>
+            </div>
+
+            <AuthorizeView Context="authContext">
+                <Authorized>
+                    <div class="auth-drawer-body">
+                        <div class="user-badge-card">
+                            <div class="user-avatar-dot">🟢</div>
+                            <div class="user-info">
+                                <strong class="user-email">@authContext.User.Identity?.Name</strong>
+
+                                <span class="user-role-tag">Dondlinger Verified Client</span>
+                            </div>
+                        </div>
+
+                        <div class="user-stats-grid">
+                            <div class="stat-card">
+                                <span class="stat-label">AI Metering Credit</span>
+                                <div class="stat-value">@((AuthService.CurrentBalanceCents / 100.0).ToString("C2"))</div>
+                            </div>
+                        </div>
+
+                        <div class="user-section">
+                            <h4 class="section-title">Saved Intake Quotes</h4>
+                            <div class="saved-quotes-list">
+                                <div class="quote-item">
+                                    <span class="quote-title">Residential Foundation Pour</span>
+                                    <span class="quote-status status-draft">Draft</span>
+                                </div>
+                                <div class="quote-item">
+                                    <span class="quote-title">Wisconsin River Wall Retaining</span>
+                                    <span class="quote-status status-submitted">Submitted</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="user-section">
+                            <h4 class="section-title">WaZWeather Field Thresholds</h4>
+                            <div class="weather-alert-card">
+                                <span class="alert-label">Concrete Freeze Watch (&lt; 32°F)</span>
+                                <span class="alert-state alert-active">Monitoring</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-drawer-logout" @onclick="HandleLogout">Sign Out</button>
+                    </div>
+                </Authorized>
+                <NotAuthorized>
+                    <div class="auth-drawer-body">
+                        <div class="auth-tabs">
+                            <button class="tab-btn @(activeTab == "login" ? "active" : "")" @onclick='() => activeTab = "login"'>Log In</button>
+                            <button class="tab-btn @(activeTab == "register" ? "active" : "")" @onclick='() => activeTab = "register"'>Sign Up</button>
+                        </div>
+
+                        @if (activeTab == "login")
+                        {
+                            <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <InputText @bind-Value="loginModel.Email" class="form-control" placeholder="client@dondlingergc.com" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Passphrase</label>
+                                    <InputText @bind-Value="loginModel.Password" type="password" class="form-control" placeholder="••••••••••••" />
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(errorMessage))
+                                {
+                                    <div class="auth-error">@errorMessage</div>
+                                }
+
+                                <button type="submit" class="btn-drawer-submit" disabled="@isSubmitting">
+                                    @(isSubmitting ? "Authenticating..." : "Sign In")
+                                </button>
+                            </EditForm>
+                        }
+                        else
+                        {
+                            <EditForm Model="@registerModel" OnValidSubmit="HandleRegister">
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <InputText @bind-Value="registerModel.Email" class="form-control" placeholder="client@dondlingergc.com" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Passphrase</label>
+                                    <InputText @bind-Value="registerModel.Password" type="password" class="form-control" placeholder="••••••••••••" />
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(errorMessage))
+                                {
+                                    <div class="auth-error">@errorMessage</div>
+                                }
+
+                                <button type="submit" class="btn-drawer-submit" disabled="@isSubmitting">
+                                    @(isSubmitting ? "Registering..." : "Create Account")
+                                </button>
+                            </EditForm>
+                        }
+                    </div>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+    </div>
+}
+
+<style>
+    .auth-drawer-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(8px);
+        z-index: 2000;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .auth-drawer-panel {
+        width: 380px;
+        max-width: 90vw;
+        height: 100%;
+        background: #0f172a;
+        border-left: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        box-shadow: -4px 0 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .auth-drawer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 1.5rem;
+    }
+
+    .auth-drawer-title {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #f8fafc;
+        font-size: 0.95rem;
+    }
+
+    .auth-drawer-close {
+        background: none;
+        border: none;
+        color: #94a3b8;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    .auth-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .tab-btn {
+        flex: 1;
+        padding: 0.6rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #94a3b8;
+        font-weight: 600;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .tab-btn.active {
+        background: #1e293b;
+        color: #f8fafc;
+        border-color: #3b82f6;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #94a3b8;
+        margin-bottom: 0.4rem;
+        letter-spacing: 0.5px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #fff;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .btn-drawer-submit {
+        width: 100%;
+        padding: 0.85rem;
+        background: #3b82f6;
+        color: #fff;
+        border: none;
+        font-weight: 700;
+        border-radius: 4px;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 1rem;
+    }
+
+    .user-badge-card {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        margin-bottom: 1.5rem;
+    }
+
+    .user-email {
+        display: block;
+        color: #f8fafc;
+        font-size: 0.9rem;
+    }
+
+    .user-role-tag {
+        font-size: 0.75rem;
+        color: #10b981;
+    }
+
+    .stat-card {
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 4px;
+        margin-bottom: 1.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        color: #94a3b8;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #f8fafc;
+        margin-top: 0.2rem;
+    }
+
+    .section-title {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #94a3b8;
+        margin-bottom: 0.75rem;
+    }
+
+    .saved-quotes-list, .weather-alert-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .quote-item, .weather-alert-card {
+        padding: 0.75rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+    }
+
+    .status-draft { color: #f59e0b; }
+    .status-submitted { color: #10b981; }
+
+    .btn-drawer-logout {
+        margin-top: auto;
+        width: 100%;
+        padding: 0.75rem;
+        background: rgba(239, 68, 68, 0.15);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .auth-error {
+        color: #ef4444;
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+    }
+</style>
+
+@code {
+    [Parameter] public bool IsOpen { get; set; }
+    [Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
+
+    private string activeTab = "login";
+    private bool isSubmitting = false;
+    private string? errorMessage;
+
+    private AuthFormModel loginModel = new();
+    private AuthFormModel registerModel = new();
+
+    private async Task CloseDrawer()
+    {
+        IsOpen = false;
+        await IsOpenChanged.InvokeAsync(false);
+    }
+
+    private async Task HandleLogin()
+    {
+        isSubmitting = true;
+        errorMessage = null;
+
+        var success = await AuthService.LoginAsync(loginModel.Email, loginModel.Password);
+        if (!success)
+        {
+            errorMessage = "Invalid credentials or unauthorized.";
+        }
+        else
+        {
+            await CloseDrawer();
+        }
+
+        isSubmitting = false;
+    }
+
+    private async Task HandleRegister()
+    {
+        isSubmitting = true;
+        errorMessage = null;
+
+        var success = await AuthService.RegisterAsync(registerModel.Email, registerModel.Password);
+        if (!success)
+        {
+            errorMessage = "Registration failed. Please check details.";
+        }
+        else
+        {
+            await CloseDrawer();
+        }
+
+        isSubmitting = false;
+    }
+
+    private async Task HandleLogout()
+    {
+        await AuthService.Logout();
+        await CloseDrawer();
+    }
+
+    public class AuthFormModel
+    {
+        public string Email { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
+}

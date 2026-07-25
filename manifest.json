@@ -1,19 +1,25 @@
 {
-  "name": "WaZWeather",
-  "short_name": "WaZWeather",
+  "name": "Dondlinger Digital",
+  "short_name": "Dondlinger",
   "id": "/",
-  "start_url": "/#wazeecha-telemetry",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#0a0f1e",
-  "theme_color": "#1a3a6e",
+  "background_color": "#11161d",
+  "theme_color": "#11161d",
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "wazeecha_icon.png",
+      "src": "icon-512.png",
       "type": "image/png",
       "sizes": "512x512",
-      "purpose": "any maskable"
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
     }
   ],
-  "description": "Live weather, river, and storm alerts for Lake Wazeecha and the Wisconsin River."
+  "description": "Dondlinger Digital — Curated engineering catalog of progressive web applications."
 }

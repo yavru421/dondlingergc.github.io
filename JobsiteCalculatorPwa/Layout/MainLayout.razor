@@ -1,5 +1,72 @@
 @inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime
+@using JobsiteCalculatorPwa.Components
+@using Microsoft.AspNetCore.Components.Authorization
+
+
+<div class="top-identity-badge-container">
+    <AuthorizeView>
+        <Authorized>
+            <button class="user-identity-badge logged-in" @onclick="OpenDrawer">
+                <span class="badge-dot">🟢</span>
+                <span class="badge-name">@context.User.Identity?.Name</span>
+                <span class="badge-caret">▾</span>
+            </button>
+        </Authorized>
+        <NotAuthorized>
+            <button class="user-identity-badge logged-out" @onclick="OpenDrawer">
+                <span class="badge-icon">👤</span>
+                <span class="badge-text">Login</span>
+            </button>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+<AuthDrawer @bind-IsOpen="isDrawerOpen" />
+
+<style>
+    .top-identity-badge-container {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1000;
+    }
+
+    .user-identity-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        color: #f8fafc;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .user-identity-badge:hover {
+        border-color: #3b82f6;
+        background: rgba(30, 41, 59, 0.95);
+    }
+
+    .user-identity-badge.logged-in {
+        border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .badge-dot {
+        font-size: 0.6rem;
+    }
+
+    .badge-caret {
+        font-size: 0.7rem;
+        color: #94a3b8;
+    }
+</style>
 
 <div class="app-shell">
     @if (Installable)
@@ -34,9 +101,17 @@
     @Body
 </div>
 
+
 @code {
+    private bool isDrawerOpen { get; set; } = false;
     private bool Installable { get; set; } = false;
     private bool showInstructions { get; set; } = false;
+
+    private void OpenDrawer()
+    {
+        isDrawerOpen = true;
+    }
+
 
     // Delegate matching OnInstallable
     private static Action? OnInstallable;

@@ -43,19 +43,19 @@ self.addEventListener('notificationclick', event => {
     // A compromised VAPID key cannot redirect subscribers to external phishing pages.
     const rawUrl = event.notification.data && event.notification.data.url
         ? event.notification.data.url
-        : '/#wazeecha-telemetry';
+        : '/';
 
     let targetUrl;
     try {
         const parsed = new URL(rawUrl, self.location.origin);
         if (parsed.origin !== self.location.origin) {
             console.warn('[sw] Blocked off-origin notification URL:', rawUrl);
-            targetUrl = self.location.origin + '/#wazeecha-telemetry';
+            targetUrl = self.location.origin + '/';
         } else {
             targetUrl = parsed.href;
         }
     } catch (e) {
-        targetUrl = self.location.origin + '/#wazeecha-telemetry';
+        targetUrl = self.location.origin + '/';
     }
 
     event.waitUntil(
