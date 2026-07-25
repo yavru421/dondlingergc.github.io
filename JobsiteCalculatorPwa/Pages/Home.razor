@@ -3,17 +3,18 @@
 @inject JobsiteCalculatorPwa.Services.ConcreteMathEngine MathEngine
 @inject IJSRuntime JSRuntime
 
-<PageTitle>Concrete Estimator</PageTitle>
+<PageTitle>Dondlinger Digital Database — Concrete Estimator</PageTitle>
 
 <div class="estimator-container">
     <header class="app-header">
         <div class="app-header-brand">
-            <img src="pourready-icon.png" alt="PourReady" class="app-logo-icon" />
+            <img src="dondlinger_logo.png" alt="Dondlinger Digital Database" class="app-logo-icon" />
             <div class="app-logo-text">
-                <span class="app-logo-pour">Pour</span><span class="app-logo-ready">Ready</span>
-                <span class="app-logo-sub">Concrete Volume Estimation</span>
+                <span class="app-logo-pour" style="color: #fff; font-weight: 800;">Dondlinger</span> <span class="app-logo-ready" style="color: #ff9800; font-weight: 800;">Estimator</span>
+                <span class="app-logo-sub">Concrete & Jobsite Volume Engine</span>
             </div>
         </div>
+
         <div class="app-header-actions">
             @if (IsInstallable)
             {

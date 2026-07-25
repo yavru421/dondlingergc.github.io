@@ -13,7 +13,7 @@
     <meta property="og:title" content="PourReady — Concrete Estimator" />
     <meta property="og:description" content="Free concrete volume estimator built for the field. Slabs, footings, walls, columns." />
     <meta property="og:type" content="website" />
-    <link href="_framework/dotnet.ihydaza61d.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-1sWvCq1HxlRj1Un6zLuqKTHvh9vHtJWnpUMCzjkia04=" />
+    <link href="_framework/dotnet.8rar51u0cn.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-zOc1RY8Er9elVQtiZFdMX2R7TWBh2/fjI3gKH8eFTwE=" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -25,7 +25,7 @@
     <script type="importmap">{
   "imports": {
     "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.66stpp682q.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.ihydaza61d.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.8rar51u0cn.js",
     "./_framework/dotnet.native.js": "./_framework/dotnet.native.j9yxww2air.js",
     "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.r2kbxkuujc.js"
   },
@@ -33,8 +33,8 @@
   "integrity": {
     "./_framework/blazor.webassembly.66stpp682q.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
     "./_framework/blazor.webassembly.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
-    "./_framework/dotnet.ihydaza61d.js": "sha256-1sWvCq1HxlRj1Un6zLuqKTHvh9vHtJWnpUMCzjkia04=",
-    "./_framework/dotnet.js": "sha256-1sWvCq1HxlRj1Un6zLuqKTHvh9vHtJWnpUMCzjkia04=",
+    "./_framework/dotnet.8rar51u0cn.js": "sha256-zOc1RY8Er9elVQtiZFdMX2R7TWBh2/fjI3gKH8eFTwE=",
+    "./_framework/dotnet.js": "sha256-zOc1RY8Er9elVQtiZFdMX2R7TWBh2/fjI3gKH8eFTwE=",
     "./_framework/dotnet.native.j9yxww2air.js": "sha256-t2sLHIeFuKgbEH+wz5jXGlVRt+hMNlyCkCwLtVZUwws=",
     "./_framework/dotnet.native.js": "sha256-t2sLHIeFuKgbEH+wz5jXGlVRt+hMNlyCkCwLtVZUwws=",
     "./_framework/dotnet.runtime.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU=",
@@ -87,38 +87,28 @@
         };
     </script>
     <script src="js/clipboard.js"></script>
-    <script src="js/zlaSync.js"></script>
     <script>
-        if (!window.location.hostname.endsWith('pages.dev')) {
-            navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' })
-                .then(reg => {
-                    console.log('ServiceWorker registered with scope:', reg.scope);
-                    
-                    // Detect iOS device and standalone mode
-                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                    const isStandalone = window.navigator.standalone === true;
-                    
-                    if (isIOS && !isStandalone) {
-                        // Poll until DotNet interop is available
-                        function notifyPwaInstallable() {
-                            if (window.DotNet && window.DotNet.invokeMethodAsync) {
-                                window.DotNet.invokeMethodAsync('JobsiteCalculatorPwa', 'PWAInstallable')
-                                    .catch(err => console.error('Failed to notify Blazor PWAInstallable:', err));
-                            } else {
-                                setTimeout(notifyPwaInstallable, 200);
-                            }
+        navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' })
+            .then(reg => {
+                console.log('ServiceWorker registered with scope:', reg.scope);
+                
+                // Detect iOS device and standalone mode
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                const isStandalone = window.navigator.standalone === true;
+                
+                if (isIOS && !isStandalone) {
+                    // Poll until DotNet interop is available
+                    function notifyPwaInstallable() {
+                        if (window.DotNet && window.DotNet.invokeMethodAsync) {
+                            window.DotNet.invokeMethodAsync('JobsiteCalculatorPwa', 'PWAInstallable')
+                                .catch(err => console.error('Failed to notify Blazor PWAInstallable:', err));
+                        } else {
+                            setTimeout(notifyPwaInstallable, 200);
                         }
-                        notifyPwaInstallable();
                     }
-                });
-        } else {
-            console.log('Pages preview domain detected. Unregistering service workers to prevent Access SSO caching conflicts.');
-            navigator.serviceWorker.getRegistrations().then(registrations => {
-                for (let registration of registrations) {
-                    registration.unregister();
+                    notifyPwaInstallable();
                 }
             });
-        }
     </script>
     <script>
         // PWA install prompt capture
