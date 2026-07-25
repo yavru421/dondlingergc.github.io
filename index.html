@@ -1,177 +1,3197 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="description" content="Dondlinger Digital — Engineering Division. A curated catalog of premium progressive web applications.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="dondlinger_logo.png">
+  <title>Dondlinger Digital — Premium Catalog Preview</title>
+  
+  <!-- Modern Geometric Sans-Serif Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js"></script>
+  
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <title>PourReady — Concrete Estimator</title>
-    <base href="/" />
-    <meta name="theme-color" content="#11161d" />
-    <meta name="description" content="PourReady — concrete estimator built in the field for the field. Free to use." />
-    <meta property="og:title" content="PourReady — Concrete Estimator" />
-    <meta property="og:description" content="Free concrete volume estimator built for the field. Slabs, footings, walls, columns." />
-    <meta property="og:type" content="website" />
-    <link href="_framework/dotnet.8rar51u0cn.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-zOc1RY8Er9elVQtiZFdMX2R7TWBh2/fjI3gKH8eFTwE=" />
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/app.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <link href="JobsiteCalculatorPwa.styles.css" rel="stylesheet" />
-    <link href="manifest.webmanifest" rel="manifest" />
-    <link rel="apple-touch-icon" href="icon-512.png" />
-    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
-    <script type="importmap">{
-  "imports": {
-    "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.66stpp682q.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.8rar51u0cn.js",
-    "./_framework/dotnet.native.js": "./_framework/dotnet.native.j9yxww2air.js",
-    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.r2kbxkuujc.js"
-  },
-  "scopes": {},
-  "integrity": {
-    "./_framework/blazor.webassembly.66stpp682q.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
-    "./_framework/blazor.webassembly.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
-    "./_framework/dotnet.8rar51u0cn.js": "sha256-zOc1RY8Er9elVQtiZFdMX2R7TWBh2/fjI3gKH8eFTwE=",
-    "./_framework/dotnet.js": "sha256-zOc1RY8Er9elVQtiZFdMX2R7TWBh2/fjI3gKH8eFTwE=",
-    "./_framework/dotnet.native.j9yxww2air.js": "sha256-t2sLHIeFuKgbEH+wz5jXGlVRt+hMNlyCkCwLtVZUwws=",
-    "./_framework/dotnet.native.js": "sha256-t2sLHIeFuKgbEH+wz5jXGlVRt+hMNlyCkCwLtVZUwws=",
-    "./_framework/dotnet.runtime.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU=",
-    "./_framework/dotnet.runtime.r2kbxkuujc.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU="
-  }
-}</script>
+    :root {
+      --bg-slate:     #050a06;
+      --bg-obsidian:  #020503;
+      --card-bg:      rgba(10, 25, 15, 0.75);
+      --card-border:  rgba(57, 255, 20, 0.4);
+      --text-white:   #F9FAFB;
+      --text-gray:    #EBEBF5;
+      --text-dim:     #9ca3af;
+      
+      --accent-info: #39FF14;
+      --accent-pour:      #ff6b35;
+      --accent-shot:      #00bfff;
+      --accent-tap:       #39ff14;
+      --accent-ampli:     #bf5fff;
+      --accent-aac:       #ff007f;
+      --accent-intake:    #ffd700;
+      --accent-zla:       #a855f7;
+      --accent-heckler:   #f97316;
+      --accent-timeline:  #2ea043;
+      --accent-skydrop:   #0ea5e9;
+      --vector-green: #39ff14;
+      --lightning-core: #ffffff;
+      --lightning-glow: rgba(57, 255, 20, 0.6);
+      --border-energy: rgba(57, 255, 20, 0.4);
+
+      --font-sans: system-ui, -apple-system, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      -moz-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-slate);
+      background-image: 
+        radial-gradient(at 10% 20%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(6, 182, 212, 0.08) 0px, transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+      min-height: 100vh;
+      color: var(--text-white);
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient glow elements & Grid Fade */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: radial-gradient(circle at 50% 50%, transparent 20%, var(--bg-slate) 100%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    
+    
+
+    /* Keyframes for life */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.05); }
+    }
+
+    @keyframes lightning-flash {
+      0%, 100% { box-shadow: inset 0 0 20px rgba(57, 255, 20,0.05), 0 10px 30px rgba(0,0,0,0.5); border-color: rgba(57, 255, 20, 0.3); }
+      50% { box-shadow: inset 0 0 40px rgba(57, 255, 20,0.3), 0 10px 40px rgba(57, 255, 20, 0.2); border-color: rgba(57, 255, 20, 0.8); }
+    }
+
+    @keyframes bounceChevron {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+    
+    .animate-in {
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+    .delay-4 { animation-delay: 1.2s; }
+
+    /* Header styling */
+    header {
+      width: 100%; max-width: 1200px; margin: 0 auto;
+      height: 80px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 10; position: relative;
+    }
+
+    .brand {
+      font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--text-white) 30%, #a5b4fc 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .brand span { font-weight: 300; opacity: 0.6; }
+
+    .status-badge {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.15);
+      border-radius: 9999px; padding: 6px 14px;
+      font-size: 0.75rem; font-weight: 600; color: var(--accent-tap);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background-color: var(--accent-tap);
+      box-shadow: 0 0 8px var(--accent-tap);
+      animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+    /* Main Area Grid Layout */
+    main { flex: 1; width: 100%; max-width: 1200px; margin: 0 auto; overflow: visible;
+      padding: 24px 24px; display: flex; flex-direction: column; gap: 20px;
+      z-index: 10; position: relative;
+    }
+
+    .hero-section {
+      max-width: 800px;
+    }
+    .hero-section h1 {
+      font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .hero-section p {
+      color: var(--text-gray); font-size: 1.05rem; line-height: 1.6;
+    }
+
+    /* Hero Navigation Container */
+    .hero-nav-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+      width: 100%;
+    }
+    @media (max-width: 640px) {
+      .hero-nav-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-nav-card {
+      background: rgba(17, 24, 39, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: block;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .hero-nav-card:hover {
+      transform: translateY(-2px);
+      background: rgba(17, 24, 39, 0.6);
+    }
+
+    .nav-card-telemetry:hover {
+      border-color: rgba(57, 255, 20, 0.3);
+      box-shadow: 0 8px 24px rgba(57, 255, 20, 0.1);
+    }
+
+    .nav-card-pwa:hover {
+      border-color: rgba(57, 255, 20, 0.3);
+      box-shadow: 0 8px 24px rgba(57, 255, 20, 0.1);
+    }
+
+    .nav-card-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .nav-card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .hero-nav-card:hover .nav-card-icon {
+      background: rgba(255, 255, 255, 0.05);
+      transform: scale(1.05);
+    }
+
+    .nav-card-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-white);
+      transition: color 0.3s ease;
+    }
+
+    .nav-card-telemetry:hover .nav-card-title {
+      color: var(--accent-info);
+    }
+
+    .nav-card-pwa:hover .nav-card-title {
+      color: var(--accent-tap);
+    }
+
+    .nav-card-desc {
+      font-size: 0.8rem;
+      color: var(--text-gray);
+    }
+
+    .nav-card-arrow {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      transition: all 0.3s ease;
+    }
+
+    .nav-card-telemetry:hover .nav-card-arrow {
+      color: var(--accent-info);
+      transform: translateY(2px);
+    }
+
+    .nav-card-pwa:hover .nav-card-arrow {
+      color: var(--accent-tap);
+      transform: translateY(2px);
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    /* Sleek Glassmorphic Spotlight Card */
+    .glow-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px; padding: 28px;
+      position: relative; overflow: hidden;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      
+      cursor: pointer;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glow-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Spotlight mouse tracking element */
+    .glow-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255, 255, 255, 0.05), transparent 40%);
+      pointer-events: none; z-index: 1;
+    }
+
+    .card-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      z-index: 2;
+    }
+    .card-meta { display: flex; flex-direction: column; gap: 2px; }
+    .card-number { font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; color: var(--text-dim); }
+    .card-name { font-size: 1.4rem; font-weight: 700; color: var(--text-white); }
+    
+    .card-icon-wrap {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex; align-items: center; justify-content: center;
+      transition: background-color 0.3s ease;
+      overflow: hidden;
+    }
+    .card-icon-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .glow-card:hover .card-icon-wrap { background: rgba(255, 255, 255, 0.06); }
+
+    .card-body {
+      font-size: 0.9rem; color: var(--text-gray); line-height: 1.6;
+      flex: 1; display: flex; flex-direction: column; gap: 16px; z-index: 2;
+    }
+
+    .card-preview {
+      width: 100%; height: 160px; border-radius: 10px;
+      background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+      position: relative; margin-top: 4px;
+    }
+    .card-preview img {
+      width: 100%; height: 100%; object-fit: cover; opacity: 0.85;
+      transition: opacity 0.3s ease, transform 0.4s ease;
+    }
+    .glow-card:hover .card-preview img { opacity: 1; transform: scale(1.03); }
+
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.5px; transition: color 0.2s ease, transform 0.2s ease;
+      margin-top: auto; align-self: flex-start;
+    }
+    .glow-card:hover .card-cta { transform: translateX(4px); }
+
+    /* Custom Accents */
+    [data-app="greeting"] .card-name { color: var(--accent-info); }
+    [data-app="greeting"] .card-cta { color: var(--accent-info); }
+    [data-app="pourready"] .card-name { color: var(--accent-pour); }
+    [data-app="pourready"] .card-cta { color: var(--accent-pour); }
+    [data-app="shotstack"] .card-name { color: var(--accent-shot); }
+    [data-app="shotstack"] .card-cta { color: var(--accent-shot); }
+    [data-app="tap"] .card-name { color: var(--accent-tap); }
+    [data-app="tap"] .card-cta { color: var(--accent-tap); }
+    [data-app="ampliloop"] .card-name { color: var(--accent-ampli); }
+    [data-app="ampliloop"] .card-cta { color: var(--accent-ampli); }
+    [data-app="sentinel"] .card-name { color: var(--accent-info); }
+    [data-app="sentinel"] .card-cta { color: var(--accent-info); }
+    [data-app="aac"] .card-name { color: var(--accent-aac); }
+    [data-app="aac"] .card-cta { color: var(--accent-aac); }
+    [data-app="intake"] .card-name { color: var(--accent-intake); }
+    [data-app="intake"] .card-cta { color: var(--accent-intake); }
+    [data-app="zla"] .card-name { color: var(--accent-zla); }
+    [data-app="zla"] .card-cta { color: var(--accent-zla); }
+    [data-app="heckler"] .card-name { color: var(--accent-heckler); }
+    [data-app="heckler"] .card-cta { color: var(--accent-heckler); }
+    [data-app="timeline"] .card-name { color: var(--accent-timeline); }
+    [data-app="timeline"] .card-cta { color: var(--accent-timeline); }
+    [data-app="skydrop"] .card-name { color: var(--accent-skydrop); }
+    [data-app="skydrop"] .card-cta { color: var(--accent-skydrop); }
+    [data-app="touchscreen"] .card-name { color: #39ff14; }
+    [data-app="touchscreen"] .card-cta { color: #39ff14; }
+
+    /* Live Dashboard Telemetry card styling */
+    .dashboard-panel {
+      background: rgba(57, 255, 20, 0.03);
+      border: 1px solid rgba(57, 255, 20, 0.15);
+     width: 400px; flex-shrink: 0;}
+    .telemetry-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .telemetry-row:last-child { border-bottom: none; }
+    .telemetry-label { font-size: 0.8rem; color: var(--text-gray); }
+    .telemetry-value { font-size: 0.95rem; font-weight: 700; color: var(--text-white); }
+    
+    .aqi-container {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .aqi-indicator {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent-tap);
+      box-shadow: 0 0 8px var(--accent-tap);
+    }
+
+    /* Modern Detail Dialog Overlay */
+    .dialog-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(4, 5, 8, 0.8);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    }
+    .dialog-overlay.open { opacity: 1; pointer-events: auto; }
+    
+    .dialog-window {
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px; width: 95%; max-width: 1400px; height: 95vh;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+      overflow: hidden; transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; flex-direction: column;
+    }
+    .dialog-overlay.open .dialog-window { transform: scale(1); }
+
+    .dialog-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .dialog-title { font-size: 1.25rem; font-weight: 700; }
+    .dialog-close {
+      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06);
+      width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--text-white); transition: background 0.2s ease;
+    }
+    .dialog-close:hover { background: rgba(255, 255, 255, 0.08); }
+
+    .dialog-screenshot-wrap {
+      width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: #000; overflow: hidden; height: 280px; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .dialog-screenshot {
+      width: 100%; height: 100%; object-fit: contain;
+    }
+
+    .dialog-body {
+      padding: 24px; display: flex; flex-direction: column; gap: 20px;
+    }
+    .dialog-section { display: flex; flex-direction: column; gap: 8px; }
+    .dialog-section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-dim); }
+    .dialog-text { font-size: 0.95rem; color: var(--text-gray); line-height: 1.6; }
+    
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px; padding: 4px 12px; font-size: 0.8rem; color: var(--text-gray);
+    }
+
+    .dialog-footer {
+      padding: 24px; border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .launch-btn {
+      display: block; width: 100%; padding: 14px; border-radius: 12px;
+      border: none; text-align: center; text-decoration: none; font-weight: 600;
+      color: var(--text-white); cursor: pointer; transition: filter 0.2s ease, transform 0.1s ease;
+    }
+    .launch-btn:hover { filter: brightness(1.1); }
+    .launch-btn:active { transform: scale(0.99); }
+
+    /* Custom high-fidelity telemetry styles for popups */
+    .telemetry-detail-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    @media (max-width: 580px) {
+      .telemetry-detail-grid { grid-template-columns: 1fr; }
+    }
+    .telemetry-detail-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px; padding: 20px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .telemetry-detail-header {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-dim);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 8px;
+    }
+    .telemetry-detail-val {
+      font-size: 1.5rem; font-weight: 800; color: var(--accent-info);
+    }
+    .telemetry-subval {
+      font-size: 0.8rem; color: var(--text-gray); margin-top: -8px;
+    }
+    .pollen-bar-row {
+      display: flex; flex-direction: column; gap: 4px; margin-top: 6px;
+    }
+    .pollen-bar-header {
+      display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-gray);
+    }
+    .pollen-bar-bg {
+      height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;
+    }
+    .pollen-bar-fill {
+      height: 100%; background: var(--accent-info); width: 0%; border-radius: 999px;
+      transition: width 1s cubic-bezier(0.1, 0.8, 0.25, 1);
+    }
+
+    /* Live Dashboard Animations */
+    .live-dot-wrap {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: #ef4444; font-weight: 700; font-size: 0.75rem; letter-spacing: 1px;
+    }
+    
+    
+      50% { opacity: 0.3; box-shadow: 0 0 2px #ef4444; }
+    }
+    .digital-clock {
+       font-size: 1rem; color: var(--accent-info);
+      background: rgba(57, 255, 20, 0.05); padding: 4px 10px; border-radius: 6px;
+      border: 1px solid rgba(57, 255, 20, 0.1); margin-top: 8px;
+      display: inline-block; 
+    }
+    
+    
+      to { border-color: rgba(57, 255, 20, 0.5);  }
+    }
+
+    /* Footer */
+    footer {
+      width: 100%; max-width: 1200px; margin: 0 auto;
+      padding: 32px 24px; border-top: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center; font-size: 0.8rem; color: var(--text-dim);
+      z-index: 10; position: relative;
+    }
+
+    .dashboard-grid { 
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px; 
+      width: 100%; 
+      height: 100%;
+      overflow-y: auto;
+      padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(40px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); 
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .dashboard-grid::-webkit-scrollbar { display: none; }
+    
+    .dashboard-panel { 
+      background: rgba(10, 20, 30, 0.6); 
+      border: 1px solid rgba(255, 255, 255, 0.1); 
+      border-radius: 20px; 
+      padding: 24px; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 16px; 
+      backdrop-filter: blur(24px); 
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .stat-card {
+      background: rgba(255, 255, 255, 0.03); 
+      padding: 16px; 
+      border-radius: 16px; 
+      border: 1px solid rgba(255, 255, 255, 0.05); 
+      text-align: center; 
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.1); 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center;
+    }
+
+    /* Custom sleek toggles */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255,255,255,0.1); transition: .3s; border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .toggle-slider:before {
+      position: absolute; content: ""; height: 18px; width: 18px; left: 2px; bottom: 2px;
+      background-color: #fff; transition: .3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    input:checked + .toggle-slider { background-color: var(--accent-info); border-color: var(--accent-info); }
+    input:checked + .toggle-slider:before { transform: translateX(20px); }
+
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+        gap: 20px;
+      }
+      .stat-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 380px) {
+         .stat-grid { grid-template-columns: 1fr; }
+      }
+      .dashboard-panel {
+        padding: 20px;
+      }
+    }
+    .chart-box { position: relative; width: 100%; height: 250px; }
+    .radar-box { position: relative; width: 100%; height: 300px; display: flex; justify-content: center; }
+
+    /* Pollutant progress bars */
+    .pollutant-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .pollutant-bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .pollutant-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-gray);
+    }
+    .pollutant-bar-label span:last-child {
+      font-weight: 600;
+      color: var(--text-white);
+    }
+    .pollutant-bar-bg {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .pollutant-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease-in-out;
+    }
+
+    /* Construction Weather Planner */
+    .weather-planner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .weather-day-card {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .weather-day-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-info);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .weather-day-status {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .status-ok { background: rgba(57, 255, 20, 0.1); color: var(--accent-tap); border: 1px solid rgba(57, 255, 20, 0.2); }
+    .status-warn { background: rgba(255, 107, 53, 0.1); color: var(--accent-pour); border: 1px solid rgba(255, 107, 53, 0.2); }
+    .status-stop { background: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+    
+    .weather-metrics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+    .weather-metric-item {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-gray);
+    }
+    .weather-metric-item span:last-child {
+      color: var(--text-white);
+      font-weight: 500;
+    }
+
+    /* ==================================================== */
+    /* PORTAL 1: THE HYDRAULIC TECTONIC SPLIT               */
+    /* ==================================================== */
+                    .portal-stage {
+      position: fixed; inset: 0; width: 100vw; height: 100vh;
+      z-index: 9999;
+      background: var(--bg-slate);
+      transition: opacity 0.8s ease, visibility 0.8s;
+      visibility: visible; opacity: 1;
+    }
+    
+    .portal-stage.hidden-gateway { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .theme-split {
+      display: flex; width: 100%; height: 100%; position: relative;
+    }
+    
+    .split-side {
+      width: 33.333%; height: 100%; position: relative;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+      overflow: hidden;
+    }
+    
+    .split-left { background: linear-gradient(135deg, #1f2937 0%, #111827 100%); border-right: 1px solid rgba(255,255,255,0.05); }
+    .split-middle { background: linear-gradient(135deg, #111827 0%, #08160a 100%); border-right: 1px solid rgba(255,255,255,0.05); }
+    .split-right { background: linear-gradient(135deg, #0b1a0e 0%, #030712 100%); }
+    
+    .split-side::after {
+      content: ''; position: absolute; inset: 0; opacity: 0;
+      transition: opacity 0.8s ease; pointer-events: none;
+    }
+    .split-left::after { background: radial-gradient(circle at center, rgba(255, 184, 48, 0.1) 0%, transparent 70%); }
+    .split-middle::after { background: radial-gradient(circle at center, rgba(57, 255, 20, 0.1) 0%, transparent 70%); }
+    .split-right::after { background: radial-gradient(circle at center, rgba(56, 189, 248, 0.1) 0%, transparent 70%); }
+    
+    .split-side:hover::after { opacity: 1; }
+    
+    .split-label-container {
+      text-align: center; z-index: 10; pointer-events: none; padding: 0 40px; display: flex; flex-direction: column; align-items: center;
+    }
+    
+    .split-tag {
+      font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 500;
+      letter-spacing: 4px; color: rgba(255,255,255,0.4); margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    
+    .split-title {
+      font-family: 'Outfit', sans-serif; font-weight: 300; font-size: 2.8rem;
+      line-height: 1.1; color: #f3f4f6; transition: all 0.5s ease;
+    }
+
+    .split-desc {
+      font-family: 'Outfit', sans-serif; font-weight: 300; font-size: 1.1rem;
+      color: rgba(255,255,255,0.5); margin-top: 16px; opacity: 0;
+      transform: translateY(10px); transition: all 0.5s ease; max-width: 450px; line-height: 1.5;
+    }
+    
+    /* Hover and trigger states */
+    .split-side:hover { width: 44%; }
+    .theme-split:has(.split-side:hover) .split-side:not(:hover) { width: 28%; }
+    
+    .split-left:hover .split-title { color: #fff; transform: translateY(-5px); text-shadow: 0 10px 30px rgba(255, 184, 48, 0.2); }
+    .split-middle:hover .split-title { color: #fff; transform: translateY(-5px); text-shadow: 0 10px 30px rgba(57, 255, 20, 0.25); }
+    .split-right:hover .split-title { color: #fff; transform: translateY(-5px); text-shadow: 0 10px 30px rgba(56, 189, 248, 0.2); }
+    
+    .split-side:hover .split-desc { opacity: 1; transform: translateY(0); }
+    
+    /* Active transition triggers */
+    .split-triggered-left .split-left { width: 100% !important; }
+    .split-triggered-left .split-middle, .split-triggered-left .split-right { width: 0% !important; border: none; }
+    
+    .split-triggered-middle .split-middle { width: 100% !important; }
+    .split-triggered-middle .split-left, .split-triggered-middle .split-right { width: 0% !important; border: none; }
+    
+    .split-triggered-right .split-right { width: 100% !important; }
+    .split-triggered-right .split-left, .split-triggered-right .split-middle { width: 0% !important; border: none; }
+/* Hidden Sections for transition */
+    .content-section {
+      transition: opacity 0.8s ease;
+      opacity: 0;
+      visibility: hidden;
+      display: none;
+    }
+    
+    .content-section.active {
+      opacity: 1;
+      visibility: visible;
+      display: block;
+    }
+
+    /* Return Button */
+    .return-portal-btn {
+      margin-top: 40px;
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: var(--text-gray);
+      padding: 10px 24px;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .return-portal-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #fff;
+      color: #fff;
+    }
+
+  </style>
 </head>
-
 <body>
-    <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
+
+  
+
+  <!-- GATEWAY HERO / SPLIT SCREEN -->
+  <div id="portal-split" class="portal-stage">
+    <div class="theme-split" id="split-wrapper">
+      <div class="split-side split-left" onclick="revealPath('database')">
+        <div class="split-label-container">
+          <div class="split-tag">PWA Catalog</div>
+          <div class="split-title">Dondlinger Digital Database</div>
+          <div class="split-desc">Access the curated engineering catalog of purpose-built progressive web applications.</div>
+        </div>
+      </div>
+      <div class="split-side split-middle" onclick="revealPath('touchscreen')">
+        <div class="split-label-container">
+          <div class="split-tag">Diagnostics</div>
+          <div class="split-title">Touchscreen Tester</div>
+          <div class="split-desc">Verify touch screen accuracy, responsiveness, and identify sensor dead zones or ghost touches.</div>
+        </div>
+      </div>
+      <div class="split-side split-right" onclick="revealPath('telemetry')">
+        <div class="split-label-container">
+          <div class="split-tag">Live Telemetry</div>
+          <div class="split-title">WaZWeather</div>
+          <div class="split-desc">Real-time local forecasting, hydrology flow, and atmospheric metrics for Wazeecha.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MAIN -->
+  <main>
+      <!-- Weather Telemetry section removed -->
+<style>
+    /* Snapchat style dot indicators */
+    #tinder-dots {
+        position: fixed;
+        top: env(safe-area-inset-top, 16px);
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        z-index: 10000;
+        pointer-events: none;
+        padding-top: 16px;
+    }
+    .tinder-dot {
+        width: 12%;
+        max-width: 40px;
+        height: 4px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 4px;
+        transition: background 0.3s;
+    }
+    .tinder-dot.active {
+        background: rgba(255,255,255,0.9);
+        box-shadow: 0 0 8px rgba(255,255,255,0.5);
+    }
+</style>
+<div id="tinder-dots">
+    <div class="tinder-dot active"></div>
+    <div class="tinder-dot"></div>
+    <div class="tinder-dot"></div>
+    <div class="tinder-dot"></div>
+</div>
+
+ 
+     <!-- TACTICAL BOTTOM BAR -->
+     
+     
+     
+
+
+    <!-- FLOATING UI: Top Header -->
+    <div style="position:fixed; top:0; left:0; right:0; padding:40px 24px 20px 24px; z-index:10000; display:flex; justify-content:space-between; align-items:flex-start; background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%); pointer-events:none;">
+        <div style="display:flex; flex-direction:column; gap:4px; pointer-events:auto;">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div style="width:8px; height:8px; background:#10b981; border-radius:50%; box-shadow: 0 0 10px #10b981;"></div>
+                <span style="color:#10b981; font-weight:800; text-transform:uppercase; letter-spacing:2px; font-size:0.75rem;">Live Feed</span>
+            </div>
+            <div id="live-clock" style="color:white; font-family: 'SF Mono', ui-monospace, monospace; font-size:1.1rem; font-weight:700; text-shadow:0 2px 4px rgba(0,0,0,0.5);">00:00:00</div>
+        </div>
+        
+        <button onclick="resetActiveGateway()" style="pointer-events:auto; background:rgba(255,255,255,0.1); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.2); color:white; width:44px; height:44px; border-radius:22px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background 0.2s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+    </div>
+    
+    <!-- Scroll Indicator Button -->
+    
+    <style>@keyframes swipeBounce { 0%, 100% {transform: translateY(0) translateX(-50%);} 50% {transform: translateY(-8px) translateX(-50%);} }</style>
+
+    <!-- CARD 0: MODE SELECTION PORTAL -->
+    
+
+    <!-- CARD 1: RIGHT NOW AT THE LAKE -->
+    <div id="card-now" class="swipe-card tinder-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at 40% 30%, #052e16 0%, #000 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative; overflow:hidden; width: 100vw; height: 100vh; flex-shrink: 0; scroll-snap-align: start; scroll-snap-stop: always; overflow-y: auto; padding: 24px; box-sizing: border-box;">
+        <!-- ambient glow orb -->
+        <div id="lake-glow-orb" style="position:absolute; top:-60px; right:-60px; width:280px; height:280px; border-radius:50%; opacity:0.18; filter:blur(60px); transition:background 2s ease; background:#39ff14; pointer-events:none;"></div>
+
+        <div style="max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:20px; z-index:2; position:relative;">
+            <!-- Header -->
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+                <div>
+                    <div style="color:#9ca3af; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:2px;">Right Now at the Lake</div>
+                    <div style="color:#9ca3af; font-size:0.75rem; margin-top:2px;">Live from KISW · Wisconsin Rapids</div>
+                </div>
+                <div id="lake-updated-stamp" style="font-size:0.7rem; color:#9ca3af;">Loading…</div>
+            </div>
+
+            <!-- Persona Selector (Hidden) -->
+            <div id="waz-persona-container" style="display:none; gap:6px; overflow-x:auto; padding:4px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:16px; scrollbar-width:none; -ms-overflow-style:none; pointer-events:auto;">
+                <style>
+                    #waz-persona-container::-webkit-scrollbar { display: none; }
+                    .persona-btn {
+                        flex: 1 0 auto;
+                        background: rgba(255, 255, 255, 0.05);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        color: #9ca3af;
+                        padding: 8px 14px;
+                        border-radius: 12px;
+                        font-size: 0.8rem;
+                        font-weight: 700;
+                        cursor: pointer;
+                        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        white-space: nowrap;
+                    }
+                    .persona-btn:hover {
+                        color: white;
+                        background: rgba(255,255,255,0.04);
+                    }
+                    .persona-btn.active {
+                        color: #000;
+                        background: #39ff14;
+                        box-shadow: 0 0 12px rgba(57, 255, 20, 0.4);
+                    }
+                </style>
+                <button class="persona-btn active" onclick="setWeatherMode('fishing')" id="btn-mode-fishing">🎣 Fishing</button>
+                <button class="persona-btn" onclick="setWeatherMode('lake')" id="btn-mode-lake">⛵ Lake</button>
+                <button class="persona-btn" onclick="setWeatherMode('construction')" id="btn-mode-construction">🏗️ Work</button>
+                <button class="persona-btn" onclick="setWeatherMode('family')" id="btn-mode-family">🏖️ Family</button>
+            </div>
+
+            <!-- Verdict Pill -->
+            <div id="lake-verdict" style="display:inline-flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:100px; padding:14px 24px; align-self:flex-start; backdrop-filter:blur(12px);">
+                <span id="lake-verdict-emoji" style="font-size:2rem;">🌀</span>
+                <div>
+                    <div id="lake-verdict-label" style="font-size:1.5rem; font-weight:900; color:white; letter-spacing:-0.5px;">Checking…</div>
+                    <div id="lake-verdict-sub" style="font-size:0.8rem; color:#9ca3af; margin-top:2px;">Fetching conditions</div>
+                </div>
+            </div>
+
+            <!-- Stats Row -->
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:4px;">
+                    <div id="label-feels" style="color:#9ca3af; font-size:0.7rem; text-transform:uppercase; font-weight:700;">Feels Like</div>
+                    <div id="lake-feels" style="color:white; font-size:1.4rem; font-weight:800;">--°</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:4px;">
+                    <div id="label-wind" style="color:#9ca3af; font-size:0.7rem; text-transform:uppercase; font-weight:700;">Wind</div>
+                    <div id="lake-wind" style="color:white; font-size:1.4rem; font-weight:800;">-- mph</div>
+                    <div id="lake-wind-dir" style="color:#9ca3af; font-size:0.75rem;">--</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:4px;">
+                    <div id="label-uv" style="color:#9ca3af; font-size:0.7rem; text-transform:uppercase; font-weight:700;">UV Max</div>
+                    <div id="lake-uv" style="color:#fbbf24; font-size:1.4rem; font-weight:800;">--</div>
+                </div>
+            </div>
+
+            <!-- Sunrise / Sunset strip -->
+            <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:16px; padding:14px 20px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:1.2rem;">🌅</span>
+                    <div>
+                        <div style="color:#9ca3af; font-size:0.65rem; text-transform:uppercase; font-weight:700;">Sunrise</div>
+                        <div id="lake-sunrise" style="color:white; font-size:0.95rem; font-weight:700;">--:--</div>
+                    </div>
+                </div>
+                <div style="height:1px; flex:1; background:rgba(255,255,255,0.06); margin:0 16px;"></div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <div style="text-align:right;">
+                        <div style="color:#9ca3af; font-size:0.65rem; text-transform:uppercase; font-weight:700;">Sunset</div>
+                        <div id="lake-sunset" style="color:white; font-size:0.95rem; font-weight:700;">--:--</div>
+                    </div>
+                    <span style="font-size:1.2rem;">🌇</span>
+                </div>
+            </div>
+
+             <!-- Visibility row -->
+             <div style="display:flex; align-items:center; justify-content:space-between; padding:0 4px; margin-bottom:4px;">
+                 <div style="color:#9ca3af; font-size:0.8rem;">Visibility</div>
+                 <div id="lake-visibility" style="color:#9ca3af; font-size:0.8rem; font-weight:600;">--</div>
+             </div>
+
+             <!-- Action Advice Card Widget -->
+             <div id="waz-advice-widget" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:18px; padding:12px 16px; display:flex; flex-direction:column; gap:6px;">
+                 <div style="color:#9ca3af; font-size:0.65rem; text-transform:uppercase; font-weight:700; display:flex; align-items:center; gap:6px;">
+                     <span style="font-size:0.8rem;">💡</span> Recommendation
+                 </div>
+                 <div id="waz-advice-content" style="color:white; font-size:0.8rem; line-height:1.4; font-weight:500;">
+                     Loading custom advice...
+                 </div>
+             </div>
+
+             <!-- Jump to Forecast Button -->
+             <button onclick="scrollToWazCard('card-forecast')" style="display:flex; align-items:center; justify-content:center; gap:8px; background:rgba(57, 255, 20, 0.05); border:1px solid rgba(57, 255, 20, 0.3); border-radius:14px; padding:12px 10px; margin-top:8px; color:var(--accent-info); font-weight:800; font-size:0.85rem; cursor:pointer; pointer-events:auto; transition:all 0.2s; width:100%; text-transform:uppercase; letter-spacing:1px;">
+                 Read AI Forecast Briefing ⟶
+             </button>
+
+             <!-- Share forecast button -->
+             <button onclick="shareForecast()" style="display:flex; align-items:center; justify-content:center; gap:8px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:10px; color:white; font-weight:800; font-size:0.8rem; cursor:pointer; pointer-events:auto; transition:all 0.2s; width:100%;">
+                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg> Share Forecast
+             </button>
+        </div>
     </div>
 
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="." class="reload">Reload</a>
-        <span class="dismiss">🗙</span>
-    </div>
-    <script src="_framework/blazor.webassembly.66stpp682q.js" autostart="false"></script>
-    <script>
-        Blazor.start({
-            loadBootResource: function (type, name, defaultUri, integrity) {
-                return defaultUri;
+    <!-- CARD 1: THE RADAR HERO -->
+    <div id="card-radar" class="swipe-card tinder-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; position: relative; width: 100vw; height: 100vh; flex-shrink: 0; scroll-snap-align: start; scroll-snap-stop: always; overflow-y: auto; padding: 24px; box-sizing: border-box; padding: 0 !important; margin: 0; border-radius: 0;">
+        <!-- Full Bleed Map Background -->
+        <iframe id="windy-iframe" src="https://embed.windy.com/embed.html?type=map&amp;location=coordinates&amp;metricRain=in&amp;metricTemp=°F&amp;metricWind=mph&amp;zoom=9&amp;overlay=radar&amp;product=radar&amp;level=surface&amp;lat=44.3936&amp;lon=-89.8173&amp;play=true&amp;message=true&amp;marker=true&amp;detailLat=44.3936&amp;detailLon=-89.8173" style="width: 100%; height: 100%; border: none; position: absolute; inset: 0;"></iframe>
+        
+        <!-- Gradient Overlay for Readability -->
+        <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 50%, transparent 100%); pointer-events:none;"></div>
+
+        <!-- Quick Action Lifestyle Cards (Dynamic Island) -->
+        <div id="quick-action-cards" style="position:absolute; top:80px; left:50%; transform:translateX(-50%); z-index:15; display:flex; justify-content:center; pointer-events:auto; white-space:nowrap;">
+            <style>
+                @keyframes popBouncy {
+                    0% { opacity: 0; transform: scale(0.8) translateY(10px); }
+                    100% { opacity: 1; transform: scale(1) translateY(0); }
+                }
+            </style>
+        </div>
+
+        <!-- Radar Layer Controls -->
+        <!-- Radar Layer Controls -->
+        <div id="radar-fab-container" style="position:absolute; bottom:calc(env(safe-area-inset-bottom) + 160px); right:24px; z-index:20; display:flex; flex-direction:column; align-items:flex-end; gap:12px; pointer-events:none;">
+            <div id="radar-layer-menu" style="display:none; flex-direction:column; gap:8px; pointer-events:auto; background:rgba(0,0,0,0.7); backdrop-filter:blur(10px); padding:8px; border-radius:24px; border:1px solid rgba(255,255,255,0.2);">
+                <style>
+                    .radar-btn {
+                        background: transparent;
+                        border: none;
+                        color: white;
+                        padding: 8px 16px;
+                        border-radius: 16px;
+                        font-size: 0.85rem;
+                        font-family: inherit;
+                        font-weight: 700;
+                        white-space: nowrap;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
+                    .radar-btn:hover { background: rgba(255,255,255,0.1); }
+                    .radar-btn.active {
+                        background: rgba(56,189,248,0.2);
+                        color: #38bdf8;
+                    }
+                </style>
+                <button id="btn-layer-radar" class="radar-btn active" onclick="changeRadarLayer('radar')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M2 12h20 M12 12m-8 0a8 8 0 1 0 16 0 8 8 0 1 0 -16 0"></path></svg> Radar</button>
+                <button id="btn-layer-wind" class="radar-btn" onclick="changeRadarLayer('wind')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg> Wind</button>
+                <button id="btn-layer-temp" class="radar-btn" onclick="changeRadarLayer('temp')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path></svg> Temp</button>
+                <button id="btn-layer-rain" class="radar-btn" onclick="changeRadarLayer('rain')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25 M16 20l-4-4-4 4 M12 16v8"></path></svg> Rain</button>
+                <button id="btn-layer-clouds" class="radar-btn" onclick="changeRadarLayer('clouds')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg> Clouds</button>
+                <button id="btn-layer-cape" class="radar-btn" onclick="changeRadarLayer('cape')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> Storms</button>
+            </div>
+            <button id="radar-fab" onclick="toggleRadarMenu()" style="pointer-events:auto; width:56px; height:56px; border-radius:28px; background:rgba(0,0,0,0.8); color:white; border:1px solid rgba(255,255,255,0.2); backdrop-filter:blur(10px); box-shadow:0 8px 16px rgba(0,0,0,0.4); cursor:pointer; display:flex; justify-content:center; align-items:center; transition:background 0.2s;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            </button>
+        </div>
+
+        <script>
+            function toggleRadarMenu() {
+                const menu = document.getElementById('radar-layer-menu');
+                menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
             }
-        });
-    </script>
-    <script>
-        // Global auth fetch bridge for Blazor JSInterop.
-        // Uses credentials:'include' so the HttpOnly refresh cookie
-        // scoped to Domain=.dondlingergc.com is sent cross-origin.
-        window.authFetch = async function (url, method, body) {
-            try {
-                const opts = {
-                    method: method || 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' }
-                };
-                if (body) opts.body = body;
-                const resp = await fetch(url, opts);
-                if (!resp.ok) return '';
-                return await resp.text();
-            } catch (e) {
-                console.error('authFetch error:', e);
-                return '';
+            function changeRadarLayer(layer) {
+                const iframe = document.getElementById('windy-iframe');
+                const baseSrc = "https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=in&metricTemp=°F&metricWind=mph&zoom=9&level=surface&lat=44.3936&lon=-89.8173&play=true&message=true&marker=true&detailLat=44.3936&detailLon=-89.8173";
+                
+                let newSrc = baseSrc + "&overlay=" + layer;
+                if (layer === 'radar') {
+                    newSrc += "&product=radar";
+                }
+                iframe.src = newSrc;
+
+                // Update active button state
+                document.querySelectorAll('.radar-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                const activeBtn = document.getElementById('btn-layer-' + layer);
+                if (activeBtn) {
+                    activeBtn.classList.add('active');
+                }
             }
-        };
-    </script>
-    <script src="js/clipboard.js"></script>
-    <script>
-        navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' })
-            .then(reg => {
-                console.log('ServiceWorker registered with scope:', reg.scope);
-                
-                // Detect iOS device and standalone mode
-                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                const isStandalone = window.navigator.standalone === true;
-                
-                if (isIOS && !isStandalone) {
-                    // Poll until DotNet interop is available
-                    function notifyPwaInstallable() {
-                        if (window.DotNet && window.DotNet.invokeMethodAsync) {
-                            window.DotNet.invokeMethodAsync('JobsiteCalculatorPwa', 'PWAInstallable')
-                                .catch(err => console.error('Failed to notify Blazor PWAInstallable:', err));
-                        } else {
-                            setTimeout(notifyPwaInstallable, 200);
+
+            // Canonical site coordinates — used by all weather fetches
+            const WAZ_LAT = 44.3936;
+            const WAZ_LON = -89.8173;
+
+            async function fetchRainCast() {
+                try {
+                    const lat = WAZ_LAT;
+                    const lon = WAZ_LON;
+                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,cloud_cover&minutely_15=precipitation&precipitation_unit=inch&temperature_unit=fahrenheit&timezone=auto&forecast_days=1`;
+                    
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    if (!data.minutely_15 || !data.minutely_15.precipitation) return;
+                    
+                    // Find current time index
+                    const now = new Date();
+                    let startIndex = 0;
+                    for (let i=0; i<data.minutely_15.time.length; i++) {
+                        if (new Date(data.minutely_15.time[i]) > now) {
+                            startIndex = Math.max(0, i - 1);
+                            break;
                         }
                     }
-                    notifyPwaInstallable();
+                    
+                    // Take next 12 intervals (3 hours)
+                    const times = data.minutely_15.time.slice(startIndex, Math.min(startIndex + 12, data.minutely_15.time.length));
+                    let precip = data.minutely_15.precipitation.slice(startIndex, Math.min(startIndex + 12, data.minutely_15.time.length));
+                    
+                    // Evaluate current weather for Quick Action Cards
+                    const current = data.current;
+                    let cardsHtml = '';
+                    const animStyle = "animation: popBouncy 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;";
+                    const baseCardStyle = "background:rgba(255,255,255,0.95); color:#111; padding:12px 24px; border-radius:30px; font-weight:800; font-size:1rem; box-shadow:0 12px 24px rgba(0,0,0,0.4); display:flex; align-items:center; gap:10px; opacity:0; cursor:pointer;";
+
+                    let willRain = current.precipitation > 0;
+                    // FIX 6: scan all 12 intervals (3 hrs), not just first 4 (1 hr)
+                    for(let i = 0; i < precip.length; i++){
+                        if(precip[i] > 0){ willRain = true; break; }
+                    }
+
+                    if (willRain) {
+                        cardsHtml += `<div style="${baseCardStyle} ${animStyle} border:2px solid #3b82f6;"><span style="font-size:1.4rem;">☔</span> Take an Umbrella!</div>`;
+                    } else if (current.temperature_2m < 60) {
+                        cardsHtml += `<div style="${baseCardStyle} ${animStyle} border:2px solid #8b5cf6;"><span style="font-size:1.4rem;">🧥</span> Grab a Jacket</div>`;
+                    } else if (current.cloud_cover < 30) {
+                        cardsHtml += `<div style="${baseCardStyle} ${animStyle} border:2px solid #f59e0b;"><span style="font-size:1.4rem;">😎</span> Sunglasses On!</div>`;
+                    } else {
+                        cardsHtml += `<div style="${baseCardStyle} ${animStyle} border:2px solid #10b981;"><span style="font-size:1.4rem;">🌤️</span> Perfect Weather</div>`;
+                    }
+
+                    document.getElementById('quick-action-cards').innerHTML = cardsHtml;
+                    
+                    const labels = times.map(t => {
+                        const d = new Date(t);
+                        return d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                    });
+
+                    // Clear previous chart instance if it exists
+                    if (window.rainCastInst) window.rainCastInst.destroy();
+                    const ctx = document.getElementById('rainCastChart').getContext('2d');
+                    
+                    // Create gradient
+                    let gradient = ctx.createLinearGradient(0, 0, 0, 100);
+                    gradient.addColorStop(0, 'rgba(57, 255, 20, 0.5)');
+                    gradient.addColorStop(1, 'rgba(57, 255, 20, 0.0)');
+
+                    window.rainCastInst = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Precipitation (in)',
+                                data: precip,
+                                borderColor: '#39ff14',
+                                backgroundColor: gradient,
+                                borderWidth: 2,
+                                pointBackgroundColor: '#000',
+                                pointBorderColor: '#39ff14',
+                                pointBorderWidth: 2,
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0,0,0,0.8)',
+                                    titleColor: '#39ff14',
+                                    bodyColor: '#fff',
+                                    borderColor: 'rgba(57, 255, 20, 0.4)',
+                                    borderWidth: 1,
+                                    displayColors: false
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    grid: { display: false, drawBorder: false },
+                                    ticks: { color: 'rgba(255,255,255,0.5)', maxTicksLimit: 6, font: {size: 10, family: 'Outfit'} }
+                                },
+                                y: {
+                                    display: false,
+                                    min: 0,
+                                    suggestedMax: 0.1
+                                }
+                            },
+                            interaction: {
+                                intersect: false,
+                                mode: 'index',
+                            },
+                        }
+                    });
+                } catch (e) {
+                    console.error('Error fetching RainCast:', e);
                 }
+            }
+            
+            // Init RainCast when DOM loads
+            window.addEventListener('DOMContentLoaded', () => {
+                setTimeout(fetchRainCast, 200);
             });
-    </script>
-    <script>
-        // PWA install prompt capture
-        window._deferredInstallPrompt = null;
-        window.addEventListener('beforeinstallprompt', function (e) {
-            e.preventDefault();
-            window._deferredInstallPrompt = e;
-        });
-        window.pwaInstall = {
-            isAvailable: function () { return !!window._deferredInstallPrompt; },
-            prompt: async function () {
-                if (!window._deferredInstallPrompt) return false;
-                window._deferredInstallPrompt.prompt();
-                var choice = await window._deferredInstallPrompt.userChoice;
-                window._deferredInstallPrompt = null;
-                return choice.outcome === 'accepted';
-            },
-            showiOSInstructions: function () {
-                console.log("iOS PWA installation instructions requested.");
-            }
-        };
-    </script>
-    <script>
-        // Self-healing for PWA cache traps and integrity mismatch errors
-        async function healPwaAndReload() {
-            console.warn('Self-healing PWA caches...');
-            try {
-                if ('serviceWorker' in navigator) {
-                    const regs = await navigator.serviceWorker.getRegistrations();
-                    for (const reg of regs) {
-                        await reg.unregister();
-                    }
+        </script>
+        
+        <!-- Collapsible Bottom Sheet for RainCast -->
+        <div id="raincast-drawer" style="position:absolute; bottom:0; left:0; right:0; z-index:30; background:rgba(10,15,25,0.85); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-top:1px solid rgba(255,255,255,0.1); border-top-left-radius:32px; border-top-right-radius:32px; padding:24px; padding-bottom:48px; pointer-events:auto; transition:transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1); transform:translateY(calc(100% - 76px)); display:flex; flex-direction:column; box-shadow:0 -10px 40px rgba(0,0,0,0.5);">
+            
+            <!-- Handle -->
+            <div onclick="toggleDrawer()" style="width:100%; height:40px; position:absolute; top:0; left:0; cursor:pointer; display:flex; justify-content:center; align-items:flex-start; padding-top:12px;">
+                <div style="width:40px; height:5px; background:rgba(255,255,255,0.3); border-radius:3px;"></div>
+            </div>
+            
+            <!-- Collapsed Summary -->
+            <div onclick="toggleDrawer()" style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; margin-bottom:24px; cursor:pointer;">
+                <div style="font-size:1.2rem; font-weight:800; color:white; letter-spacing:-0.5px;">WaZWeather Radar</div>
+                <div style="color:#39ff14; font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:6px; background:rgba(57,255,20,0.1); padding:6px 12px; border-radius:20px; border:1px solid rgba(57,255,20,0.3);">RainCast <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg></div>
+            </div>
+            
+            <!-- Expanded Content -->
+            <div id="drawer-content" style="opacity:0; transition:opacity 0.3s; pointer-events:none;">
+                <div style="width:100%; height:140px; position:relative; margin-top:16px;">
+                    <canvas id="rainCastChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            let drawerExpanded = false;
+            function toggleDrawer() {
+                drawerExpanded = !drawerExpanded;
+                const drawer = document.getElementById('raincast-drawer');
+                const content = document.getElementById('drawer-content');
+                if (drawerExpanded) {
+                    drawer.style.transform = 'translateY(0)';
+                    content.style.opacity = '1';
+                    content.style.pointerEvents = 'auto';
+                } else {
+                    drawer.style.transform = 'translateY(calc(100% - 76px))';
+                    content.style.opacity = '0';
+                    content.style.pointerEvents = 'none';
                 }
-                if ('caches' in window) {
-                    const keys = await caches.keys();
-                    for (const key of keys) {
-                        await caches.delete(key);
-                    }
-                }
-                console.log('Cache cleared successfully. Reloading...');
-                window.location.reload(true);
-            } catch (err) {
-                console.error('Failed to self-heal:', err);
-                window.location.reload();
             }
+        </script>
+    </div>
+
+    
+    <!-- CARD-ALERTS: NWS ACTIVE ALERTS (hidden by default, shown when alerts exist) -->
+    <div id="nws-alerts-card" class="swipe-card tinder-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top, #1a0505 0%, #000 100%); display:none; flex-direction:column; justify-content:center; padding:24px; position:relative; width: 100vw; height: 100vh; flex-shrink: 0; scroll-snap-align: start; scroll-snap-stop: always; overflow-y: auto; padding: 24px; box-sizing: border-box;">
+        <div style="max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:48px; height:48px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.4); border-radius:14px; display:flex; align-items:center; justify-content:center;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </div>
+                <div>
+                    <h2 style="font-size:1.8rem; font-weight:900; color:white; margin:0; letter-spacing:-0.5px;">Active Alert</h2>
+                    <div style="color:#9ca3af; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:1px;">Wood County, WI · WIZ030</div>
+                </div>
+            </div>
+
+            <div id="nws-alerts-list" style="display:flex; flex-direction:column; gap:12px;"></div>
+
+            <div style="display:flex; align-items:center; justify-content:space-between; padding-top:8px; border-top:1px solid rgba(255,255,255,0.05);">
+                <div style="color:#9ca3af; font-size:0.75rem;">Source: NWS Green Bay</div>
+                <div id="nws-alerts-stamp" style="color:#9ca3af; font-size:0.75rem;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD 1.5: RAIN & AI FORECAST MASTER DASHBOARD -->
+    
+
+    <!-- CARD 2: HYDROLOGY -->
+    <div id="card-hydro" class="swipe-card tinder-card" style="height:100%; width:100%; scroll-snap-align: start; scroll-snap-stop: always; background:radial-gradient(circle at top right, #1e3a8a 0%, #0f172a 100%); display:flex; flex-direction:column; justify-content:center; padding:24px; position:relative; width: 100vw; height: 100vh; flex-shrink: 0; scroll-snap-align: start; scroll-snap-stop: always; overflow-y: auto; padding: 24px; box-sizing: border-box;">
+        <div style="max-width:500px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:24px;">
+            <div style="display:flex; align-items:center; gap:16px;">
+                <div style="width:56px; height:56px; background:linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius:16px; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 16px rgba(59,130,246,0.3);">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                </div>
+                <div>
+                    <h2 style="font-size:2.2rem; font-weight:900; color:white; margin:0; letter-spacing:-0.5px;">Hydrology</h2>
+                    <div style="color:#94a3b8; font-size:0.9rem; font-weight:600; text-transform:uppercase; letter-spacing:1px;">Wisconsin River Metrics</div>
+                </div>
+            </div>
+            
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:32px; padding:32px; backdrop-filter:blur(20px);">
+                <div style="margin-bottom:32px;">
+                    <div style="color:#94a3b8; font-size:1.1rem; font-weight:600; margin-bottom:8px;">Current Flow Rate</div>
+                    <div style="display:flex; align-items:baseline; gap:12px;">
+                        <div id="metric-cfs" style="color:#60a5fa; font-size:4rem; font-weight:900; line-height:1; letter-spacing:-2px;">-- CFS</div>
+                        <div id="metric-trend" style="font-size:1.2rem; font-weight:800; color:#9ca3af;"></div>
+                    </div>
+                    <!-- Flood Stage Proximity Bar -->
+                    <div id="flood-stage-bar" style="margin-top:12px; display:none;">
+                        <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#9ca3af; margin-bottom:4px;">
+                            <span>Stage</span>
+                            <span id="flood-stage-label" style="color:#9ca3af;"></span>
+                        </div>
+                        <div style="height:6px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden;">
+                            <div id="flood-stage-fill" style="height:100%; border-radius:999px; transition:width 1s ease;"></div>
+                        </div>
+                        <div id="river-stage-forecast" style="margin-top:8px; font-size:0.75rem; color:#9ca3af;"></div>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+                    <div style="background:rgba(0,0,0,0.2); padding:16px; border-radius:16px;">
+                        <div style="color:#94a3b8; font-size:0.9rem; font-weight:600; margin-bottom:8px;">River Depth</div>
+                        <div id="metric-gauge" style="color:#a78bfa; font-size:2rem; font-weight:800; line-height:1;">-- ft</div>
+                    </div>
+                    <div style="background:rgba(0,0,0,0.2); padding:16px; border-radius:16px;">
+                        <div style="color:#94a3b8; font-size:0.9rem; font-weight:600; margin-bottom:8px;">Velocity</div>
+                        <div id="metric-vel" style="color:#34d399; font-size:2rem; font-weight:800; line-height:1;">-- ft/s</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="height:220px; width:100%; background:rgba(0,0,0,0.2); border-radius:24px; padding:16px;">
+                <canvas id="hydroChart" style="width:100%; height:100%;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD 3: ATMOSPHERICS -->
+    
+
+    <!-- CARD 4: PUSH TERMINAL -->
+    
+
+<script>
+    const tinderContainer = document.getElementById('wazeecha-telemetry');
+    const tinderDots = document.querySelectorAll('.tinder-dot');
+    
+    if (tinderContainer) {
+        tinderContainer.addEventListener('scroll', () => {
+            const index = Math.round(tinderContainer.scrollLeft / window.innerWidth);
+            tinderDots.forEach(d => d.classList.remove('active'));
+            if (tinderDots[index]) {
+                tinderDots[index].classList.add('active');
+            }
+        }, { passive: true });
+    }
+</script>
+</section>
+<!-- App Grid Section -->
+    <section id="pwa-catalog" class="content-section" style="scroll-margin-top: 100px; width: 100%;">
+      <button class="return-portal-btn" onclick="resetActiveGateway()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Return to Portal
+      </button>
+      <div class="grid-container">
+        
+        <!-- CATEGORY: GUIDES & SUPPORT -->
+        <div style="grid-column: 1 / -1; margin-top: 24px; margin-bottom: 8px; font-family: var(--font-sans); display: flex; align-items: center; gap: 12px; opacity: 0.85;">
+          <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2.5px; color: #38bdf8; font-family: 'SF Mono', ui-monospace, monospace;">// Guides &amp; Support</span>
+          <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1);"></div>
+        </div>
+
+        <!-- 02 · ZLA -->
+        <div class="glow-card" data-app="zla" data-index="8">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// GUIDE 02</span>
+              <span class="card-name">Zero Liability Architecture, by DondlingerDigital</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-zla)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A software architecture that runs high-impact business utilities entirely within your browser. Because no data is ever uploaded to a server, there are no accounts, no logins, and zero risk of a data breach. Process your data lightning-fast, and the moment you close the tab, it dissolves completely.</p>
+            <div class="card-preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 06 · DONDLINGER INTAKE APP -->
+        <div class="glow-card" data-app="intake" data-index="6">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 06</span>
+              <span class="card-name">Dondlinger Intake App</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-intake)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Live client onboarding and project intake utility. Captures property dimensions, budget estimations, and custom project scopes directly from prospective clients.</p>
+            <div class="card-preview">
+              <img src="img/intake_preview.png" alt="Dondlinger Intake preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 01 · INSTALLATION GUIDE -->
+        <div class="glow-card" data-app="installguide" data-index="7">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// VIDEO GUIDE 01</span>
+              <span class="card-name">Installation Guide</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Video tutorial: How to install a Dondlinger Digital App.</p>
+            <div class="card-preview">
+              <video src="videos/0001-0861.mp4" controls="" style="width: 100%; border-radius: 6px;" onclick="event.stopPropagation()"></video>
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- CATEGORY: CORE CATALOG -->
+        <div style="grid-column: 1 / -1; margin-top: 36px; margin-bottom: 8px; font-family: var(--font-sans); display: flex; align-items: center; gap: 12px; opacity: 0.85;">
+          <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent-info); font-family: 'SF Mono', ui-monospace, monospace;">// Engineering PWAs</span>
+          <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1);"></div>
+        </div>
+
+        <!-- 01 · POURREADY -->
+        <div class="glow-card" data-app="pourready" data-index="1">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 01</span>
+              <span class="card-name">PourReady</span>
+            </div>
+            <div class="card-icon-wrap">
+              <img src="calc/pourready-logo.png" alt="PourReady logo">
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A field-tested concrete volume estimator built directly for jobsites. Precise calculations for slabs, footings, walls, and columns.</p>
+            <div class="card-preview">
+              <img src="img/pourready.png" alt="PourReady preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 02 · SHOTSTACK -->
+        <div class="glow-card" data-app="shotstack" data-index="2">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 02</span>
+              <span class="card-name">ShotStack</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-shot)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A standalone storyboard tool to organize and compile multiple screenshots and layouts into a single scrollable PDF storyboard.</p>
+            <div class="card-preview">
+              <img src="img/shotstackstudio_screenshot.PNG" alt="ShotStack preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 03 · TAP -->
+        <div class="glow-card" data-app="tap" data-index="3">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 03</span>
+              <span class="card-name">TAP Protocol</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-tap)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>A minimalist field utility providing instant, authenticated location and timestamp verification directly from the field.</p>
+            <div class="card-preview">
+              <img src="img/TAP_screenshot.PNG" alt="TAP Protocol preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 04 · AMPLILOOP -->
+        <div class="glow-card" data-app="ampliloop" data-index="4">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 04</span>
+              <span class="card-name">AmpliLoop</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ampli)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18V5l12-2v13"></path>
+                <circle cx="6" cy="18" r="3"></circle>
+                <circle cx="18" cy="16" r="3"></circle>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Premium Algorithmic Rap Beat Studio, Metronome, and Instrument Tuner PWA engineered with Blazor WebAssembly performance.</p>
+            <div class="card-preview">
+              <img src="img/blazorcore.png" alt="AmpliLoop preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 05 · OMW APP -->
+        <div class="glow-card" data-app="omw" data-index="5">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 05</span>
+              <span class="card-name">On My Way (OMW)</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Live GPS and ETA broadcasting tool. Allows field technicians and contractors to securely share live travel status and exact arrival times with project managers and clients.</p>
+            <div class="card-preview">
+              <img src="img/omw_preview.png" alt="OMW preview" onerror="this.src='img/blazorcore.png'">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 06 · TIMELINE ZLA -->
+        <div class="glow-card" data-app="timeline" data-index="10">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 06</span>
+              <span class="card-name">TimelineZLA</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-timeline)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Secure peer-to-peer daily log and project timeline tracker. Collaboratively construct, sync, and export site progress logs locally with zero server storage.</p>
+            <div class="card-preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 07 · SKYDROP -->
+        <div class="glow-card" data-app="skydrop" data-index="11">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 07</span>
+              <span class="card-name">SkyDrop</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-skydrop)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22V8M5 12l7-7 7 7"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Secure peer-to-peer file transfer utility running on Zero-Liability Architecture (ZLA). Move large assets and construction documents directly between local devices without cloud storage.</p>
+            <div class="card-preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- 08 · TOUCHSCREEN TESTER -->
+        <div class="glow-card" data-app="touchscreen" data-index="12">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// PWA 08</span>
+              <span class="card-name">Touchscreen Tester</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#39ff14" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Interactive client-side diagnostic utility. Verify touchscreen hardware responsiveness, paint touch grids to identify sensor dead zones, and monitor ghost touch coordinates in real-time.</p>
+            <div class="card-preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- CATEGORY: CLIENT PROJECTS -->
+        <div style="grid-column: 1 / -1; margin-top: 36px; margin-bottom: 8px; font-family: var(--font-sans); display: flex; align-items: center; gap: 12px; opacity: 0.85;">
+          <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent-aac); font-family: 'SF Mono', ui-monospace, monospace;">// Client Projects</span>
+          <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1);"></div>
+        </div>
+
+        <!-- 05 · ANYTIME ANIMAL CONTROL -->
+        <div class="glow-card" data-app="aac" data-index="5">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// LIVE PORTAL 01</span>
+              <span class="card-name">Anytime Animal Control</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-aac)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Live wildlife removal service portal. Features animal control diagnostics, coverage maps, dispatch information, and call management.</p>
+            <div class="card-preview">
+              <img src="img/aac_preview.png" alt="Anytime Animal Control preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+        <!-- CATEGORY: ENTERTAINMENT -->
+        <div style="grid-column: 1 / -1; margin-top: 36px; margin-bottom: 8px; font-family: var(--font-sans); display: flex; align-items: center; gap: 12px; opacity: 0.85;">
+          <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent-heckler); font-family: 'SF Mono', ui-monospace, monospace;">// Entertainment</span>
+          <div style="flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1);"></div>
+        </div>
+
+        <!-- 03 · HECKLER -->
+        <div class="glow-card" data-app="heckler" data-index="9">
+          <div class="card-top">
+            <div class="card-meta">
+              <span class="card-number">// APP 01</span>
+              <span class="card-name">Heckler</span>
+            </div>
+            <div class="card-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-heckler)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Heckler Web Application.</p>
+            <div class="card-preview">
+            </div>
+            <span class="card-cta">View Details ⟶</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>Dondlinger Digital &nbsp;·&nbsp; <span id="footer-year"></span>&nbsp;·&nbsp;<span style="font-size:0.7rem; color:#9ca3af;">Weather: <a href="https://open-meteo.com" target="_blank" rel="noopener" style="color:#39ff14; text-decoration:none;">Open-Meteo</a> (CC BY 4.0)</span></footer>
+
+  <!-- DETAIL MODAL / DIALOG -->
+  <div class="dialog-overlay" id="dialog-overlay" role="dialog" aria-modal="true" aria-labelledby="dialog-title-text">
+    <div class="dialog-window" id="dialog-window">
+      <div class="dialog-header">
+        <div class="dialog-title" id="dialog-title-text">App Details</div>
+        <button class="dialog-close" id="dialog-close" aria-label="Close dialog">✕</button>
+      </div>
+      
+      <!-- Screen preview for standard apps inside dialog -->
+      <div class="dialog-screenshot-wrap" id="dialog-screenshot-container">
+        <img class="dialog-screenshot" id="dialog-screenshot" src="" alt="App screenshot">
+      </div>
+
+      <div class="dialog-body">
+        
+        <!-- STANDARD APP VIEW -->
+        <div id="standard-dialog-view">
+          <div class="dialog-section" style="margin-bottom: 20px;">
+            <span class="dialog-section-label">Description</span>
+            <p class="dialog-text" id="dialog-desc"></p>
+          </div>
+          <div class="dialog-section">
+            <span class="dialog-section-label">Built For</span>
+            <div class="tag-list" id="dialog-audience"></div>
+          </div>
+        </div>
+
+        <!-- SPECIAL TELEMETRY HUD VIEW -->
+        <div id="telemetry-dialog-view" style="display: none; width: 100%;">
+        </div>
+      </div>
+      
+      <div class="dialog-footer">
+        <a id="dialog-launch-btn" class="launch-btn" href="#">Launch App</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    'use strict';
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Declare DOM variables to prevent strict mode ReferenceErrors
+    const overlay = document.getElementById('dialog-overlay');
+    const titleEl = document.getElementById('dialog-title-text');
+    const screenshotContainer = document.getElementById('dialog-screenshot-container');
+    const screenshotEl = document.getElementById('dialog-screenshot');
+    const standardView = document.getElementById('standard-dialog-view');
+    const telemetryView = document.getElementById('telemetry-dialog-view');
+    const launchBtn = document.getElementById('dialog-launch-btn');
+    const descEl = document.getElementById('dialog-desc');
+    const audienceEl = document.getElementById('dialog-audience');
+
+    /* App details database */
+    const APP_DATA = {
+      pourready: {
+        title: 'PourReady // 01',
+        accent: 'var(--accent-pour)',
+        screenshot: 'img/pourready.png',
+        desc: 'A field-tested concrete volume estimator built directly for jobsites. Precise calculations for slabs, footings, walls, and columns with custom waste safety margins.',
+        who: ['Concrete Foremen', 'Contractors', 'Field Estimators'],
+        link: './calc/index.html',
+        btnLabel: 'Open PourReady'
+      },
+      shotstack: {
+        title: 'ShotStack // 02',
+        accent: 'var(--accent-shot)',
+        screenshot: 'img/shotstackstudio_screenshot.PNG',
+        desc: 'A storyboard compiler allowing video editors, film directors, and design teams to compile images, screenshots, and annotation notes into an exportable PDF layout.',
+        who: ['Directors', 'Video Editors', 'Production Crew'],
+        link: 'https://shotstackstudio.dondlingergc.com',
+        btnLabel: 'Launch ShotStack'
+      },
+      tap: {
+        title: 'TAP: Time & Place // 03',
+        accent: 'var(--accent-tap)',
+        screenshot: 'img/TAP_screenshot.PNG',
+        desc: 'An authenticated, minimal field tracking protocol providing cryptographic proofs of location, activity, and duration directly from active project sites.',
+        who: ['Field Supervisors', 'Auditors', 'Project Managers'],
+        link: 'https://tap.dondlingergc.com',
+        btnLabel: 'Launch TAP Protocol'
+      },
+      ampliloop: {
+        title: 'AmpliLoop Studio // 04',
+        accent: 'var(--accent-ampli)',
+        screenshot: 'img/blazorcore.png',
+        desc: 'A high-performance algorithmic rap beat generator, precise metronome, and software instrument tuner running locally via fast Blazor WebAssembly compiles.',
+        who: ['Artists', 'Audio Engineers', 'Producers'],
+        link: 'https://blazorpwa.dondlingergc.com',
+        btnLabel: 'Launch AmpliLoop Studio'
+      },
+      aac: {
+        title: 'Anytime Animal Control // 05',
+        accent: 'var(--accent-aac)',
+        screenshot: 'img/aac_preview.png',
+        desc: 'Live wildlife removal and control service website. Provides field diagnostics, coverage maps, dispatch contacts, and pest management information.',
+        who: ['Property Owners', 'Dispatchers', 'Field Technicians'],
+        link: 'https://aac.dondlingergc.com',
+        btnLabel: 'Launch AAC Portal'
+      },
+      intake: {
+        title: 'Dondlinger Intake App // 06',
+        accent: 'var(--accent-intake)',
+        screenshot: 'img/intake_preview.png',
+        desc: 'Live client onboarding and project intake utility. Captures property dimensions, budget estimations, and custom project scopes directly from prospective clients.',
+        who: ['Prospective Clients', 'Estimators', 'Project Leads'],
+        link: 'https://intakeapp.dondlingergc.com',
+        btnLabel: 'Open Intake App'
+      },
+      omw: {
+        title: 'On My Way (OMW) // 05',
+        accent: '#f43f5e',
+        screenshot: 'img/omw_preview.png',
+        desc: 'Live GPS and ETA broadcasting tool. Allows field technicians and contractors to securely share live travel status and exact arrival times with project managers and clients.',
+        who: ['Field Technicians', 'Project Managers', 'Clients'],
+        link: 'https://omw.dondlingergc.com',
+        btnLabel: 'Launch OMW Tracker'
+      },
+      zla: {
+        title: 'Zero Liability Architecture, by DondlingerDigital // 08',
+        accent: 'var(--accent-zla)',
+        screenshot: '',
+        desc: 'A software architecture that runs high-impact business utilities entirely within your browser. Because no data is ever uploaded to a server, there are no accounts, no logins, and zero risk of a data breach. Process your data lightning-fast, and the moment you close the tab, it dissolves completely.',
+        who: ['Clients', 'Users'],
+        link: 'https://zla.dondlingergc.com',
+        btnLabel: 'Launch ZLA'
+      },
+      heckler: {
+        title: 'Heckler // 09',
+        accent: 'var(--accent-heckler)',
+        screenshot: '',
+        desc: 'Heckler Web Application.',
+        who: ['Clients', 'Users'],
+        link: 'https://heckler.dondlingergc.com',
+        btnLabel: 'Launch Heckler'
+      },
+      timeline: {
+        title: 'TimelineZLA // 10',
+        accent: 'var(--accent-timeline)',
+        screenshot: '',
+        desc: 'A secure, local-first daily log and project timeline builder. Running entirely on Zero-Liability Architecture (ZLA), it enables teams to construct, update, and peer-to-peer sync site timelines via secure 6-digit codes with absolute data privacy and instant PDF export.',
+        who: ['Field Superintendents', 'Project Managers', 'Field Crews'],
+        link: 'https://timelinezla.dondlingergc.com',
+        btnLabel: 'Launch TimelineZLA'
+      },
+      skydrop: {
+        title: 'SkyDrop // 07',
+        accent: 'var(--accent-skydrop)',
+        screenshot: '',
+        desc: 'A secure, zero-liability peer-to-peer file sharing utility. Running entirely in-browser, it allows instantaneous, direct WebRTC transfers between devices with no cloud storage, no accounts, and absolute data compliance.',
+        who: ['Field Superintendents', 'Project Managers', 'Contractors'],
+        link: 'https://skydrop.dondlingergc.com',
+        btnLabel: 'Launch SkyDrop'
+      },
+      touchscreen: {
+        title: 'Touchscreen Tester // 08',
+        accent: '#39ff14',
+        screenshot: '',
+        desc: 'An interactive client-side diagnostic utility. Verify touchscreen hardware responsiveness, paint touch grids to identify sensor dead zones, and monitor ghost touch coordinates in real-time with zero-latency HTML5 performance.',
+        who: ['Everyday Users', 'Technicians', 'Mobile Device Owners'],
+        link: './touchscreen.html',
+        btnLabel: 'Launch Tester PWA'
+      },
+      installguide: {
+        title: 'Installation Guide // 07',
+        accent: '#38bdf8',
+        screenshot: '',
+        desc: 'Video tutorial: How to install a Dondlinger Digital App.',
+        who: ['All Users', 'Field Crews', 'Clients'],
+        link: 'videos/0001-0861.mp4',
+        btnLabel: 'Play Video'
+      },
+      dashboard: {
+        title: 'Field Operations HUD // 05',
+        accent: 'var(--accent-info)',
+        screenshot: '',
+        desc: 'A live dashboard pulling environmental telemetry and USGS streamflow diagnostics for regional project management and outdoor logistics coordinates.',
+        who: ['Field Superintendents', 'Surveyors', 'Logistics Managers'],
+        link: '#',
+        btnLabel: 'Close HUD Details'
+      }
+    };
+
+    /* Cache for live variables */
+    let telemetryCache = {
+      cfs: 15700,
+      gauge: 10.42,
+      aqi: 20,
+      pm10: 0,
+      pm25: 0,
+      uv: 0
+    };
+
+    /* Mouse Spotlight Shine Effect */
+    const cards = document.querySelectorAll('.glow-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    /* Inline Dashboard Toggle */
+    const sentinelCard = document.querySelector('[data-app="sentinel"]');
+    const sentinelContainer = document.getElementById('sentinel-dashboard-container');
+    if (sentinelCard && sentinelContainer) {
+      sentinelCard.addEventListener('click', () => {
+        if (sentinelContainer.style.display === 'none') {
+          sentinelContainer.style.display = 'block';
+          document.querySelector('[data-app="sentinel"] .card-cta').textContent = 'Collapse Telemetry ⟵';
+        } else {
+          sentinelContainer.style.display = 'none';
+          document.querySelector('[data-app="sentinel"] .card-cta').textContent = 'More Telemetry ⟶';
+        }
+      });
+    }
+
+    /* ============================================================ */
+    /* WAZEECHA WEATHER (WaZWeather) PERSONA & VERDICT SYSTEM        */
+    /* ============================================================ */
+
+    let currentMode = localStorage.getItem('waz_weather_mode') || 'fishing';
+    let globalWxData = null;
+
+    function setWeatherMode(mode) {
+      currentMode = mode;
+      localStorage.setItem('waz_weather_mode', mode);
+
+      // Update button active UI states
+      document.querySelectorAll('.persona-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      const activeBtn = document.getElementById('btn-mode-' + mode);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Re-trigger visual cards render
+      if (globalWxData) {
+        renderLakeCard(globalWxData);
+        renderForecastTrack(globalWxData);
+      }
+    }
+
+    // Handle circumstances portal selection click
+    function selectPortalMode(mode) {
+      setWeatherMode(mode);
+      scrollToWazCard('card-now'); // Scroll to Current Conditions card
+    }
+
+    // Rules engine for mode-based verdicts
+    function getModeVerdict(mode, windGusts, precipProb, weatherCode, uvMax) {
+      if (weatherCode >= 95) return { emoji: '⚡', label: 'Storm Warning', sub: 'Lightning risk & heavy storms', color: '#ef4444' };
+      if (weatherCode >= 71 && weatherCode <= 77) return { emoji: '❄️', label: 'Snow Advisory', sub: 'Snow/freezing precip active', color: '#38bdf8' };
+
+      if (mode === 'fishing') {
+        if (windGusts > 22) return { emoji: '🌊', label: 'Rough Waves', sub: 'Strong wind - fish near shore lines', color: '#f97316' };
+        if (precipProb > 65) return { emoji: '🌧️', label: 'Wet Casts', sub: 'Heavy rain - fish might go deep', color: '#6366f1' };
+        if (windGusts < 12 && precipProb < 20) return { emoji: '🎣', label: 'Prime Casting', sub: 'Calm waters, high bite chance', color: '#39ff14' };
+        return { emoji: '🐟', label: 'Fishing Day', sub: 'Manageable breeze & conditions', color: '#38bdf8' };
+      }
+      
+      if (mode === 'construction') {
+        if (windGusts > 20) return { emoji: '🏗️', label: 'High Wind Limit', sub: 'Wind > 20 mph - crane & roof limits', color: '#ef4444' };
+        if (precipProb > 60) return { emoji: '🌧️', label: 'No Pour Day', sub: 'Rain expected - avoid concrete/paint', color: '#f97316' };
+        if (weatherCode >= 51 && weatherCode <= 57) return { emoji: '🌫️', label: 'Drizzle Risk', sub: 'Wet surfaces - watch traction', color: '#eab308' };
+        return { emoji: '🔨', label: 'Build Approved', sub: 'Dry conditions - safe for outdoor work', color: '#39ff14' };
+      }
+
+      if (mode === 'family') {
+        if (uvMax >= 7) return { emoji: '☀️', label: 'Extreme UV', sub: 'Sunscreen required - seek afternoon shade', color: '#f97316' };
+        if (precipProb > 40) return { emoji: '🏖️', label: 'Indoor Play', sub: 'Showers expected - plan indoors', color: '#6366f1' };
+        if (uvMax < 3 && weatherCode >= 1 && weatherCode <= 3) return { emoji: '🌥️', label: 'Overcast Play', sub: 'Good for playground/walks', color: '#38bdf8' };
+        return { emoji: '🧺', label: 'Picnic Perfect', sub: 'Beautiful sky - head to Red Sands!', color: '#39ff14' };
+      }
+
+      // Default/Lake Weekend Mode
+      if (windGusts > 25) return { emoji: '🌊', label: 'Rough Water', sub: `Gusts to ${Math.round(windGusts)} mph - whitecaps`, color: '#f97316' };
+      if (precipProb > 70) return { emoji: '🌧️', label: 'Cabin Day', sub: 'Heavy rain expected', color: '#6366f1' };
+      if (windGusts < 10 && precipProb < 20) return { emoji: '⛵', label: 'Perfect Boating', sub: 'Mirror lake, perfect launch', color: '#39ff14' };
+      return { emoji: '⛵', label: 'Lake Day', sub: 'Decent water, moderate wind', color: '#38bdf8' };
+    }
+
+    // Forward legacy call to getModeVerdict
+    function getLakeVerdict(windGusts, precipProb, weatherCode, uvMax) {
+      return getModeVerdict(currentMode, windGusts, precipProb, weatherCode, uvMax);
+    }
+
+    // Action recommendations generator based on meteorological parameters
+    function getActionAdvice(mode, windSpd, windGusts, precipProb, weatherCode, uvMax, feelsLike) {
+      const isWet = precipProb > 40 || (weatherCode >= 51 && weatherCode <= 67) || weatherCode >= 95;
+      const isCold = feelsLike < 55;
+      const isHot = feelsLike > 85;
+
+      if (mode === 'fishing') {
+        if (weatherCode >= 95) return "⛈️ Heavy storms & lightning risk. STOPOVER IMMEDIATELY. Stay off the water.";
+        if (windGusts > 22) return "💨 Wind gusts hitting over 20mph. Target sheltered coves on the leeward sides of the pine lines.";
+        if (isWet) return "🌧️ Steady rain. Bass and walleye will likely dive deeper or hold tighter to structure. Use slow jigs.";
+        if (windSpd < 8) return "🎣 Perfect calm. Topwater lures, frogs, and spinnerbaits should produce excellent results today.";
+        return "🐟 Decent fishing conditions. Focus weedlines and depth drops off the points.";
+      }
+
+      if (mode === 'construction') {
+        if (weatherCode >= 95) return "⚡ Critical Lightning Threat. Evacuate steel structures, scaffolding, and cranes immediately.";
+        if (windGusts > 20) return "⚠️ High wind advisory. Crane lifting, roofing, and siding work should be suspended (exceeds 20mph).";
+        if (isWet) return "🌧️ Wet conditions. Avoid exterior painting, staining, or pouring concrete. Watch for muddy traction limits.";
+        if (isCold) return "🥶 Cold temperatures. Ensure proper cure times for adhesives and mortar. Keep crews rotated.";
+        return "🔨 Green Light. Dry conditions and manageable winds are ideal for all framing, roofing, and grading operations.";
+      }
+
+      if (mode === 'family') {
+        if (weatherCode >= 95) return "⛈️ Severe weather in area. Cancel outdoor plans. Head to indoor shelters.";
+        if (isWet) return "🌧️ Rain is highly likely. Great day to check out local indoor recreation or museum exhibits.";
+        if (uvMax >= 7) return "☀️ Extreme Sun Intensity. Sunscreen (SPF 30+) is mandatory. Plan swim times early or seek pine shade after noon.";
+        if (isCold) return "🧥 Brisk temperatures. Bring windbreakers and sweaters if walking the trails or beaches.";
+        return "🧺 Phenomenal day for a picnic or trail hike! Head out to Red Sands beach and enjoy the lake views.";
+      }
+
+      // Lake / Recreation Mode
+      if (weatherCode >= 95) return "⛈️ Storms approaching. Get off the open water. Secure watercraft lines.";
+      if (windGusts > 25) return "🌊 Whitecap waves warning. Boat rentals and small watercraft should remain docked.";
+      if (isWet) return "🌧️ Unsettled weather. Pack towels and wind protection; watch radar for sudden squalls.";
+      if (isHot) return "🥵 High heat index. Keep hydrated. Excellent day for tubing, skiing, or floating in the water.";
+      return "⛵ Safe boating and recreation conditions. Perfect day to enjoy the Wisconsin River valley.";
+    }
+
+    // Moon phase (Julian date formula, accurate ±1 day)
+    function getMoonPhase(date) {
+      const jd = (date.getTime() / 86400000) + 2440587.5;
+      const phase = ((jd - 2451550.1) % 29.530588853 + 29.530588853) % 29.530588853;
+      const idx = Math.round((phase / 29.530588853) * 8) % 8;
+      return ['🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘'][idx];
+    }
+
+    // Relative time formatter
+    function relativeTime(tsMs) {
+      const diff = Math.round((Date.now() - tsMs) / 60000);
+      if (diff < 1) return 'Just now';
+      const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+      return rtf.format(-diff, 'minute');
+    }
+
+    // Cardinal wind direction
+    function degToCardinal(deg) {
+      const dirs = ['N','NE','E','SE','S','SW','W','NW'];
+      return dirs[Math.round(deg / 45) % 8];
+    }
+
+    /* ============================================================ */
+    /* NEW DATA FETCHES                                              */
+    /* ============================================================ */
+
+    // Fetch KISW (Alexander Field) live surface observation
+    async function fetchKISW() {
+      const CACHE_KEY = 'kisw_obs_v1';
+      const KISW_TTL  = 55 * 60 * 1000;
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Date.now() - parsed.ts < KISW_TTL) return parsed.data;
+      }
+      const res = await fetch('https://api.weather.gov/stations/KISW/observations/latest', {
+        headers: { 'User-Agent': '(dondlingergc.com, dondlinger@example.com)' }
+      });
+      const json = await res.json();
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: json.properties }));
+      return json.properties;
+    }
+
+    // Fetch NWS active alerts for Wood County, WI (WIZ030)
+    async function fetchNWSAlerts() {
+      const CACHE_KEY = 'nws_alerts_v1';
+      const ALERTS_TTL = 5 * 60 * 1000;
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Date.now() - parsed.ts < ALERTS_TTL) return { features: parsed.data, ts: parsed.ts };
+      }
+      const res = await fetch('https://api.weather.gov/alerts/active?zone=WIZ030', {
+        headers: { 'User-Agent': '(dondlingergc.com, dondlinger@example.com)' }
+      });
+      const json = await res.json();
+      const features = json.features || [];
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: features }));
+      return { features, ts: Date.now() };
+    }
+
+    // Fetch NWS AHPS river stage forecast for WRRW3
+    async function fetchRiverStage() {
+      const CACHE_KEY = 'ahps_stage_v1';
+      const AHPS_TTL  = 60 * 60 * 1000;
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Date.now() - parsed.ts < AHPS_TTL) return parsed.data;
+      }
+      try {
+        const res = await fetch('https://api.water.noaa.gov/nwps/v1/gauges/WRRW3/stageflow');
+        const json = await res.json();
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data: json }));
+        return json;
+      } catch(e) {
+        console.warn('AHPS stage fetch failed:', e);
+        return null;
+      }
+    }
+
+    // Render the lake conditions card with dynamic persona configurations
+    async function renderLakeCard(wxData) {
+      try {
+        globalWxData = wxData;
+        const now = new Date();
+        const todayIdx = 0; // first daily entry = today
+        const h = wxData.hourly;
+        const d = wxData.daily;
+
+        // Find current hour index
+        let curHr = 0;
+        for (let i = 0; i < h.time.length; i++) {
+          if (new Date(h.time[i]) <= now) curHr = i;
+          else break;
         }
 
-        window.addEventListener('unhandledrejection', function (event) {
-            const msg = event.reason && event.reason.message ? event.reason.message : '';
-            if (msg.includes('Failed to start platform') || msg.includes('integrity') || msg.includes('dynamically imported module')) {
-                event.preventDefault();
-                healPwaAndReload();
+        const feelsLike  = h.apparent_temperature ? Math.round(h.apparent_temperature[curHr]) : null;
+        const windSpd    = h.wind_speed_10m ? Math.round(h.wind_speed_10m[curHr]) : null;
+        const windDir    = h.wind_direction_10m ? degToCardinal(h.wind_direction_10m[curHr]) : '--';
+        const uvMax      = d.uv_index_max ? d.uv_index_max[todayIdx] : null;
+        const precipProb = d.precipitation_probability_max ? d.precipitation_probability_max[todayIdx] : 0;
+        const gustMax    = d.wind_gusts_10m_max ? d.wind_gusts_10m_max[todayIdx] : 0;
+        const wCode      = d.weather_code ? d.weather_code[todayIdx] : 0;
+        const sunrise    = d.sunrise ? new Date(d.sunrise[todayIdx]).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}) : '--';
+        const sunset     = d.sunset ? new Date(d.sunset[todayIdx]).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}) : '--';
+
+        // Populate telemetry payload & local storage cache logic
+        let riverFlow = null;
+        let riverStage = null;
+        try {
+          const cachedHydro = localStorage.getItem('usgs_hydro_cache_v2');
+          if (cachedHydro) {
+            const parsed = JSON.parse(cachedHydro);
+            if (parsed && parsed.data && parsed.data.value && parsed.data.value.timeSeries) {
+              parsed.data.value.timeSeries.forEach(series => {
+                const code = series.variable.variableCode[0].value;
+                const vals = series.values[0].value;
+                if (vals && vals.length > 0) {
+                  const currentVal = parseFloat(vals[vals.length - 1].value);
+                  if (code === '00060') riverFlow = currentVal;
+                  else if (code === '00065') riverStage = currentVal;
+                }
+              });
             }
+          }
+        } catch (e) {
+          console.warn("Failed to parse USGS cache in renderLakeCard:", e);
+        }
+
+        let forecastSummary = '';
+        for(let i=0; i<3; i++) {
+          if(!d.time[i]) continue;
+          forecastSummary += `Day ${i+1}: High ${d.temperature_2m_max[i]}F, Low ${d.temperature_2m_min[i]}F, Precip ${d.precipitation_sum[i]}in. `;
+        }
+
+        const payload = {
+          mode: currentMode,
+          temperature: h.temperature_2m ? Math.round(h.temperature_2m[curHr]) : null,
+          apparent_temperature: feelsLike,
+          wind_speed: windSpd,
+          wind_gusts: gustMax,
+          weather_code: wCode,
+          uv_index: uvMax,
+          river_flow: riverFlow,
+          river_stage: riverStage,
+          forecast_summary: forecastSummary
+        };
+
+        const el = id => document.getElementById(id);
+
+        function applyLocalVerdict() {
+          const localVerdict = getModeVerdict(currentMode, gustMax, precipProb, wCode, uvMax);
+          const adviceText = getActionAdvice(currentMode, windSpd, gustMax, precipProb, wCode, uvMax, feelsLike || 70);
+          
+          el('lake-verdict-emoji').textContent = localVerdict.emoji;
+          el('lake-verdict-label').textContent = localVerdict.label;
+          el('lake-verdict-label').style.color = localVerdict.color;
+          el('lake-verdict-sub').textContent = localVerdict.sub;
+          el('lake-glow-orb').style.background = localVerdict.color;
+          el('waz-advice-content').textContent = adviceText;
+        }
+
+        // Reset label defaults
+        el('label-feels').textContent = 'Feels Like';
+        el('label-wind').textContent = 'Wind';
+        el('label-uv').textContent = 'UV Max';
+
+        // Apply Persona dynamic swaps
+        if (currentMode === 'fishing') {
+          el('label-uv').textContent = 'Moon Phase';
+          el('lake-uv').textContent = getMoonPhase(now);
+          el('lake-uv').style.color = '#38bdf8';
+          if (feelsLike !== null) el('lake-feels').textContent = feelsLike + '°';
+        } else if (currentMode === 'construction') {
+          el('label-feels').textContent = 'AQI Index';
+          const aqiVal = el('metric-aqi') ? el('metric-aqi').textContent : '26';
+          el('lake-feels').textContent = aqiVal;
+          if (uvMax !== null) el('lake-uv').textContent = uvMax.toFixed(1);
+          el('lake-uv').style.color = '#fbbf24';
+        } else {
+          // Lake & Family defaults
+          if (feelsLike !== null) el('lake-feels').textContent = feelsLike + '°';
+          if (uvMax !== null) el('lake-uv').textContent = uvMax.toFixed(1);
+          el('lake-uv').style.color = '#fbbf24';
+        }
+
+        if (windSpd !== null) el('lake-wind').textContent = windSpd + ' mph';
+        el('lake-wind-dir').textContent = windDir;
+        el('lake-sunrise').textContent = sunrise;
+        el('lake-sunset').textContent = sunset;
+        el('lake-updated-stamp').textContent = relativeTime(Date.now());
+
+        // Fetch Edge AI verdict with caching & local fallback
+        let aiSuccess = false;
+        try {
+          const cacheKey = `last_verdict_${currentMode}`;
+          const localCache = localStorage.getItem(cacheKey);
+          const payloadHash = `${payload.mode}_${payload.temperature}_${payload.wind_speed}_${payload.wind_gusts}_${payload.weather_code}_${payload.uv_index}_${payload.river_flow}`;
+          
+          if (localCache) {
+            const cachedObj = JSON.parse(localCache);
+            if (cachedObj.hash === payloadHash && (Date.now() - cachedObj.timestamp < 15 * 60 * 1000)) {
+              const v = cachedObj.verdict;
+              el('lake-verdict-emoji').textContent = v.emoji;
+              el('lake-verdict-label').textContent = v.label;
+              el('lake-verdict-label').style.color = v.color;
+              el('lake-verdict-sub').textContent = `${v.sub} (cached)`;
+              el('lake-glow-orb').style.background = v.color;
+              el('waz-advice-content').textContent = v.advice;
+              // waz-ai-readout removed in v3
+              aiSuccess = true;
+            }
+          }
+
+          if (!aiSuccess) {
+            el('lake-verdict-sub').textContent = "Consulting Edge AI...";
+            el('waz-advice-content').textContent = "Edge AI is analyzing current conditions...";
+
+            const res = await fetch('/functions/weather-ai', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+              const verdict = await res.json();
+              el('lake-verdict-emoji').textContent = verdict.emoji || '🌤️';
+              el('lake-verdict-label').textContent = verdict.label || 'Fair';
+              el('lake-verdict-label').style.color = verdict.color || '#39ff14';
+              el('lake-verdict-sub').textContent = verdict.sub || 'No alerts active';
+              el('lake-glow-orb').style.background = verdict.color || '#39ff14';
+              el('waz-advice-content').textContent = verdict.advice || '';
+              // waz-ai-readout removed in v3
+
+              localStorage.setItem(cacheKey, JSON.stringify({
+                timestamp: Date.now(),
+                hash: payloadHash,
+                verdict: verdict
+              }));
+              aiSuccess = true;
+            } else {
+              console.warn("AI endpoint returned error status:", res.status);
+            }
+          }
+        } catch (e) {
+          console.error("AI verdict query failed:", e);
+        }
+
+        if (!aiSuccess) {
+          applyLocalVerdict();
+          const currentSub = el('lake-verdict-sub').textContent;
+          el('lake-verdict-sub').textContent = `${currentSub} (Offline Fallback)`;
+        }
+
+        // Fetch KISW for visibility
+        try {
+          const kisw = await fetchKISW();
+          const visM  = kisw.visibility && kisw.visibility.value;
+          const visMi = visM ? (visM / 1609.34).toFixed(1) + ' mi' : '--';
+          el('lake-visibility').textContent = 'Visibility: ' + visMi + ' (KISW)';
+          // Feels-like from KISW if available (only if feels-like is the active display)
+          if (kisw.heatIndex && kisw.heatIndex.value && feelsLike === null && currentMode !== 'construction') {
+            el('lake-feels').textContent = Math.round((kisw.heatIndex.value * 9/5) + 32) + '°';
+          }
+        } catch(e) { /* KISW optional */ }
+
+      } catch(err) {
+        console.warn('Lake card render error:', err);
+      }
+    }
+
+    // Render 5-day forecast cards dynamically based on selected mode
+    function renderForecastTrack(wxData) {
+      if (!wxData) return;
+      const h = wxData.hourly;
+      const days = {};
+      h.time.forEach((t, index) => {
+        const dateObj = new Date(t);
+        const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+        if (!days[dateStr]) {
+          days[dateStr] = {
+            temps: [],
+            precips: [],
+            winds: [],
+            codes: [],
+            workPrecips: [],
+            workWinds: [],
+            workCodes: [],
+            rawTime: t,
+            startIndex: index  // FIX 4: track global start index for this day
+          };
+        }
+        days[dateStr].temps.push(h.temperature_2m[index]);
+        days[dateStr].precips.push(h.precipitation[index]);
+        days[dateStr].winds.push(h.wind_gusts_10m[index]);
+        days[dateStr].codes.push(h.weather_code[index]);
+        
+        if (dateObj.getHours() <= 18) {
+          days[dateStr].workPrecips.push(h.precipitation[index]);
+          days[dateStr].workWinds.push(h.wind_gusts_10m[index]);
+          days[dateStr].workCodes.push(h.weather_code[index]);
+        }
+      });
+
+      const weatherTrack = document.getElementById('weather-forecast-track');
+      if (weatherTrack) {
+        weatherTrack.innerHTML = Object.keys(days).slice(0, 5).map((dayKey, dayIdx) => {
+          const dayData = days[dayKey];
+          const maxTemp = Math.max(...dayData.temps);
+          const minTemp = Math.min(...dayData.temps);
+          const totalPrecip = dayData.precips.reduce((sum, val) => sum + val, 0);
+          const maxWind = Math.max(...dayData.winds);
+          
+          const workPrecipTotal = dayData.workPrecips.reduce((sum, val) => sum + val, 0);
+          const maxWorkWind = dayData.workWinds.length > 0 ? Math.max(...dayData.workWinds) : 0;
+          const validWorkCodes = dayData.workCodes.filter(c => c !== null);
+          const worstWorkCode = validWorkCodes.length > 0 ? Math.max(...validWorkCodes) : 0;
+
+          // FIX 3: use real daily precipitation_probability_max and uv_index_max
+          const precipProb = wxData.daily && wxData.daily.precipitation_probability_max
+            ? (wxData.daily.precipitation_probability_max[dayIdx] ?? 0)
+            : Math.round(workPrecipTotal > 0.05 ? 80 : 10); // fallback only
+          const uvMax = wxData.daily && wxData.daily.uv_index_max
+            ? (wxData.daily.uv_index_max[dayIdx] ?? 0)
+            : 5; // fallback only
+
+          const lv = getModeVerdict(currentMode, maxWorkWind, precipProb, worstWorkCode, uvMax);
+          const statusText  = lv.label;
+          const statusColor = lv.color;
+
+          // FIX 4: use stored startIndex instead of O(n) indexOf + correct dead-code rainHours
+          let rainHours = [];
+          dayData.precips.forEach((p, idx) => {
+            if (p > 0.01) {
+              const globalIdx = dayData.startIndex + idx;
+              if (globalIdx < h.time.length) {
+                const idxTime = new Date(h.time[globalIdx]);
+                const hourFormatted = idxTime.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
+                rainHours.push(hourFormatted);
+              }
+            }
+          });
+          const rainHoursHtml = rainHours.length > 0
+            ? `<div style="color:#94a3b8; font-size:0.75rem; text-transform:uppercase; font-weight:700;">Rain at</div><div style="color:#bae6fd; font-size:0.8rem; font-weight:600;">${rainHours.join(', ')}</div>`
+            : '';
+          
+          const moon = getMoonPhase(new Date(dayData.rawTime));
+          return `
+          <div style="scroll-snap-align: center; min-width: 160px; flex: 0 0 auto; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:24px; padding:20px; display:flex; flex-direction:column; backdrop-filter:blur(20px);">
+              <div style="font-size:1rem; font-weight:800; color:#38bdf8; margin-bottom:8px;">${escapeHtml(dayKey)}</div>
+              <div style="font-size:0.75rem; color:#9ca3af; margin-bottom:8px;">${moon}</div>
+              
+              <div style="background:${statusColor}22; border:1px solid ${statusColor}44; border-radius:12px; padding:6px 12px; display:inline-block; margin-bottom:16px; align-self:flex-start;">
+                  <span style="font-size:0.78rem; font-weight:800; color:${statusColor};">${escapeHtml(statusText)}</span>
+              </div>
+              
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                  <div>
+                      <div style="color:#94a3b8; font-size:0.75rem; text-transform:uppercase; font-weight:700;">Temp</div>
+                      <div style="color:white; font-size:1.1rem; font-weight:600;">${Math.round(maxTemp)}° <span style="color:#64748b; font-size:0.9rem;">${Math.round(minTemp)}°</span></div>
+                  </div>
+                  <div>
+                      <div style="color:#94a3b8; font-size:0.75rem; text-transform:uppercase; font-weight:700;">Rain</div>
+                      <div style="color:#bae6fd; font-size:1.1rem; font-weight:600;">${totalPrecip.toFixed(2)}"</div>
+                  </div>
+                  <div>
+                      <div style="color:#94a3b8; font-size:0.75rem; text-transform:uppercase; font-weight:700;">Chance</div>
+                      <div style="color:#93c5fd; font-size:1.1rem; font-weight:600;">${precipProb}%</div>
+                  </div>
+                  <div>
+                      <div style="color:#94a3b8; font-size:0.75rem; text-transform:uppercase; font-weight:700;">Gusts</div>
+                      <div style="color:#e2e8f0; font-size:1.1rem; font-weight:600;">${Math.round(maxWind)} mph</div>
+                  </div>
+                  ${rainHoursHtml ? `<div>${rainHoursHtml}</div>` : ''}
+              </div>
+          </div>`;
+        }).join('');
+      }
+    }
+
+    // Share forecast card report deep-link and text template
+    async function shareForecast() {
+      if (!globalWxData) return;
+      const el = id => document.getElementById(id);
+      const verdict = el('lake-verdict-label').textContent;
+      const sub = el('lake-verdict-sub').textContent;
+      const feels = el('lake-feels').textContent;
+      const wind = el('lake-wind').textContent;
+      const windDir = el('lake-wind-dir').textContent;
+      
+      const shareUrl = `${window.location.origin}${window.location.pathname}?view=telemetry&mode=${currentMode}`;
+      const text = `🌊 WaZWeather Report (${currentMode.toUpperCase()} mode):
+Verdict: ${verdict} - ${sub}
+Feels: ${feels} | Wind: ${wind} ${windDir}
+Check live hydrology & weather flow: ${shareUrl}`;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'WaZWeather Live Report',
+            text: text,
+            url: shareUrl
+          });
+        } catch (err) {
+          console.warn('Navigator share cancelled/failed:', err);
+        }
+      } else {
+        try {
+          await navigator.clipboard.writeText(`${text}\n${shareUrl}`);
+          alert('WaZWeather forecast report copied to clipboard! Share it with your friends.');
+        } catch (err) {
+          console.error('Clipboard copy failed:', err);
+          alert('Could not copy forecast. Copy link manually: ' + shareUrl);
+        }
+      }
+    }
+
+    // Render NWS Alerts card
+    async function renderAlertsCard() {
+      const severityColor = { Extreme:'#ef4444', Severe:'#f97316', Moderate:'#eab308', Minor:'#9ca3af' };
+      try {
+        const { features, ts } = await fetchNWSAlerts();
+        const card = document.getElementById('card-alerts');
+        const list = document.getElementById('nws-alerts-list');
+        const stamp = document.getElementById('nws-alerts-stamp');
+
+        if (!features || features.length === 0) {
+          // no alerts — show the All Clear placeholder (already in HTML)
+          const list2 = document.getElementById('nws-alerts-list');
+          if (list2) list2.innerHTML = '<div class="no-alerts-msg"><div class="no-alerts-icon">✅</div><div class="no-alerts-title">All Clear</div><div class="no-alerts-sub">No active NWS alerts for Wood County</div></div>';
+          if (navigator.clearAppBadge) navigator.clearAppBadge();
+          return;
+        }
+
+        // card-alerts is always displayed (it's a swipe card now)
+        if (stamp) stamp.textContent = relativeTime(ts);
+
+        // PWA OS badge
+        const severeCount = features.filter(f => ['Extreme','Severe'].includes(f.properties.severity)).length;
+        if (navigator.setAppBadge && severeCount > 0) navigator.setAppBadge(severeCount);
+
+        list.innerHTML = features.slice(0, 3).map(f => {
+          const p = f.properties;
+          const color = severityColor[p.severity] || '#9ca3af';
+          const expires = p.expires ? new Date(p.expires) : null;
+          const expiresStr = expires ? `Expires ${expires.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}` : '';
+          return `
+            <div style="background:rgba(255,255,255,0.02); border:1px solid ${color}33; border-left:3px solid ${color}; border-radius:12px; padding:16px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                <span style="background:${color}22; color:${color}; font-size:0.7rem; font-weight:700; text-transform:uppercase; padding:3px 10px; border-radius:100px; border:1px solid ${color}44;">${escapeHtml(p.severity)} · ${escapeHtml(p.urgency)}</span>
+                <span style="color:#9ca3af; font-size:0.7rem;">${escapeHtml(expiresStr)}</span>
+              </div>
+              <div style="color:white; font-weight:700; font-size:1rem; line-height:1.3; margin-bottom:4px;">${escapeHtml(p.event)}</div>
+              <div style="color:#9ca3af; font-size:0.8rem; line-height:1.4;">${escapeHtml((p.headline || '').substring(0, 120))}</div>
+            </div>`;
+        }).join('');
+      } catch(err) {
+        console.warn('NWS alerts render error:', err);
+        // nws-alerts-card → card-alerts; always visible in v3
+      }
+    }
+
+    // Render 24-hr precip timeline bars
+    function renderHourlyPrecip(wxData) {
+      try {
+        const h = wxData.hourly;
+        if (!h || !h.precipitation) return;
+        const now = new Date();
+        let curHr = 0;
+        for (let i = 0; i < h.time.length; i++) {
+          if (new Date(h.time[i]) <= now) curHr = i;
+          else break;
+        }
+        // FIX 7: guard against truncation near end of 7-day window
+        const precips = h.precipitation.slice(curHr, Math.min(curHr + 24, h.time.length));
+        const times   = h.time.slice(curHr, Math.min(curHr + 24, h.time.length));
+        const maxP    = Math.max(...precips, 0.01);
+        const total   = precips.reduce((a, b) => a + b, 0);
+
+        const barsEl   = document.getElementById('hourly-precip-bars');
+        const labelsEl = document.getElementById('hourly-precip-labels');
+        const totalEl  = document.getElementById('hourly-total');
+
+        if (!barsEl) return;
+        totalEl.textContent = total.toFixed(2) + '"';
+
+        barsEl.innerHTML = precips.map((val, i) => {
+          const pct  = Math.max(4, Math.round((val / maxP) * 100));
+          const hr   = new Date(times[i]).getHours();
+          const isNow = i === 0;
+          const color = val > 0 ? '#38bdf8' : 'rgba(255,255,255,0.08)';
+          return `<div title="${hr}:00 — ${val.toFixed(3)}\"" style="flex:1; height:${pct}%; background:${color}; border-radius:3px 3px 0 0; min-height:4px; position:relative; ${isNow ? 'box-shadow:0 0 6px #38bdf8;' : ''}">${isNow ? '<div style="position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:6px;height:6px;background:#39ff14;border-radius:50%;"></div>' : ''}</div>`;
+        }).join('');
+
+        // Show labels at 0h, 6h, 12h, 18h, 24h
+        const labelTimes = [0, 6, 12, 18, 23];
+        labelsEl.innerHTML = labelTimes.map(offset => {
+          if (offset >= times.length) return '';
+          const hr = new Date(times[offset]).getHours();
+          const label = hr === 0 ? 'Midnight' : hr < 12 ? hr + 'am' : hr === 12 ? 'Noon' : (hr - 12) + 'pm';
+          return `<span style="color:#9ca3af; font-size:0.65rem; font-weight:600;">${label}</span>`;
+        }).join('');
+      } catch(err) {
+        console.warn('Hourly precip render error:', err);
+      }
+    }
+
+    // Render river stage + trend on hydrology card
+    async function renderRiverStage(gaugeFt) {
+      // Flood stages for WRRW3 (Wisconsin River at Wisconsin Rapids) — NWS AHPS hardcoded thresholds
+      const FLOOD_STAGES = { action: 8, flood: 12, major: 20 };
+      const bar = document.getElementById('flood-stage-bar');
+      const fill = document.getElementById('flood-stage-fill');
+      const label = document.getElementById('flood-stage-label');
+      const forecast = document.getElementById('river-stage-forecast');
+      if (!bar || gaugeFt === null || isNaN(gaugeFt)) return;
+
+      bar.style.display = 'block';
+      const pct = Math.min(100, Math.round((gaugeFt / FLOOD_STAGES.major) * 100));
+      let stageColor = '#39ff14'; // normal
+      let stageText = `${gaugeFt.toFixed(2)} ft — Normal`;
+      if (gaugeFt >= FLOOD_STAGES.major) { stageColor = '#ef4444'; stageText = `${gaugeFt.toFixed(2)} ft — Major Flood`; }
+      else if (gaugeFt >= FLOOD_STAGES.flood) { stageColor = '#f97316'; stageText = `${gaugeFt.toFixed(2)} ft — Flood Stage`; }
+      else if (gaugeFt >= FLOOD_STAGES.action) { stageColor = '#eab308'; stageText = `${gaugeFt.toFixed(2)} ft — Action Stage`; }
+
+      fill.style.width = pct + '%';
+      fill.style.background = stageColor;
+      label.textContent = stageText;
+
+      // AHPS 24h predicted stage
+      try {
+        const ahps = await fetchRiverStage();
+        if (ahps && ahps.data && ahps.data.length > 0) {
+          const future = ahps.data.find(d => {
+            const t = new Date(d.validTime);
+            return t > new Date() && t <= new Date(Date.now() + 25*3600*1000);
+          });
+          if (future) {
+            forecast.textContent = `NWS forecast: ${parseFloat(future.primary).toFixed(2)} ft in ~24h`;
+          }
+        }
+      } catch(e) { /* AHPS optional */ }
+    }
+
+    /* Live Telemetry Data Fetch */
+    const CACHE_DURATION      = 15 * 60 * 1000;          // 15 min — USGS (updates every 15 min)
+    const CACHE_DURATION_SLOW = 4  * 60 * 60 * 1000;    // 4 hr  — AQI + weather forecast
+    async function fetchTelemetry() {
+      // 1. Fetch USGS Hydrology (Flow, Gauge, Current Speed for 7 Days)
+      try {
+        const CACHE_KEY = 'usgs_hydro_cache_v2';
+        const now = Date.now();
+        const cached = localStorage.getItem(CACHE_KEY);
+        let hydroData;
+        
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (now - parsed.timestamp < CACHE_DURATION) {
+            hydroData = parsed.data;
+            console.log("Loaded USGS data from 15-min browser cache.");
+          }
+        }
+        
+        if (!hydroData) {
+          const hydroRes = await fetch('https://waterservices.usgs.gov/nwis/iv/?sites=05395000&parameterCd=00060,00065&format=json&period=P7D');
+          hydroData = await hydroRes.json();
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: hydroData }));
+          console.log("Fetched fresh USGS data and updated cache.");
+        }
+        
+        let cfsData=[], gaugeData=[], labels=[];
+        hydroData.value.timeSeries.forEach(series => {
+          const code = series.variable.variableCode[0].value;
+          const valuesList = series.values[0].value;
+          if (!valuesList || valuesList.length === 0) return;
+          
+          const currentVal = valuesList[valuesList.length - 1].value;
+          
+          if (code === '00060') {
+            const cfsCurrent = parseFloat(currentVal);
+            const cfsPrev    = valuesList.length > 2 ? parseFloat(valuesList[valuesList.length - 2].value) : cfsCurrent;
+            document.getElementById('metric-cfs').textContent = `${cfsCurrent.toLocaleString()} CFS`;
+            // telemetry-flow element removed in v3
+            // Trend arrow
+            const trendEl = document.getElementById('metric-trend');
+            if (trendEl) {
+              const delta = cfsCurrent - cfsPrev;
+              trendEl.textContent = delta > 50 ? '↑ Rising' : delta < -50 ? '↓ Falling' : '→ Steady';
+              trendEl.style.color  = delta > 50 ? '#ef4444' : delta < -50 ? '#34d399' : '#9ca3af';
+            }
+            const step = Math.max(1, Math.floor(valuesList.length / 40));
+            for(let i=0; i<valuesList.length; i+=step) {
+              cfsData.push(parseFloat(valuesList[i].value));
+              const d = new Date(valuesList[i].dateTime);
+              labels.push(d.toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric' }));
+            }
+          } else if (code === '00065') {
+            const gaugeFt = parseFloat(currentVal);
+            document.getElementById('metric-gauge').textContent = `${gaugeFt.toFixed(2)} ft`;
+            const step = Math.max(1, Math.floor(valuesList.length / 40));
+            for(let i=0; i<valuesList.length; i+=step) gaugeData.push(parseFloat(valuesList[i].value));
+            // Trigger flood stage bar (async, non-blocking)
+            renderRiverStage(gaugeFt);
+          } else if (code === '72254') {
+            document.getElementById('metric-vel').textContent = `${parseFloat(currentVal).toFixed(2)} ft/s`;
+          }
         });
 
-        window.addEventListener('error', function (event) {
-            const msg = event.message || '';
-            if (msg.includes('integrity') || msg.includes('Failed to load') || msg.includes('module script') || msg.includes('Unexpected error')) {
-                event.preventDefault();
-                healPwaAndReload();
-            }
-        }, true); // Use capture phase to catch script loading errors
-    </script>
-</body>
+        // Hydrology Chart
+        if (window.hydroChartInst) window.hydroChartInst.destroy();
+        window.hydroChartInst = new Chart(document.getElementById('hydroChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Flow (CFS)', data: cfsData, borderColor: '#39ff14', backgroundColor: 'rgba(57, 255, 20, 0.1)', yAxisID: 'y', fill: true, tension: 0.6, pointRadius: 0 },
+              { label: 'Gauge (ft)', data: gaugeData, borderColor: '#ffffff', yAxisID: 'y1', borderDash: [5, 5], tension: 0.6, pointRadius: 0 }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#9ca3af', maxTicksLimit: 7 } },
+              y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#00e5ff' } },
+              y1: { type: 'linear', display: true, position: 'right', grid: { display: false }, ticks: { color: '#a78bfa' } }
+            },
+            plugins: { legend: { labels: { color: '#9CA3AF' } } }
+          }
+        });
+      } catch (err) {
+        console.error("USGS Fetch error (using fallback):", err);
+        // Fallback
+        document.getElementById('metric-cfs').textContent = `15,700 CFS`;
+        document.getElementById('metric-gauge').textContent = `10.42 ft`;
+        document.getElementById('metric-vel').textContent = `1.48 ft/s`;
 
-</html>
+        const labels = [];
+        const cfsData = [];
+        const gaugeData = [];
+        const baseDate = new Date();
+        for (let i = 0; i < 40; i++) {
+          const d = new Date(baseDate.getTime() - (40 - i) * 60 * 60 * 1000);
+          labels.push(d.toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric' }));
+          cfsData.push(14500 + Math.random() * 2000);
+          gaugeData.push(9.8 + Math.random() * 1.2);
+        }
+        if (window.hydroChartInst) window.hydroChartInst.destroy();
+        window.hydroChartInst = new Chart(document.getElementById('hydroChart').getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              { label: 'Flow (CFS)', data: cfsData, borderColor: '#39ff14', backgroundColor: 'rgba(57, 255, 20, 0.1)', yAxisID: 'y', fill: true, tension: 0.6, pointRadius: 0 },
+              { label: 'Gauge (ft)', data: gaugeData, borderColor: '#ffffff', yAxisID: 'y1', borderDash: [5, 5], tension: 0.6, pointRadius: 0 }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#9ca3af', maxTicksLimit: 7 } },
+              y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#00e5ff' } },
+              y1: { type: 'linear', display: true, position: 'right', grid: { display: false }, ticks: { color: '#a78bfa' } }
+            },
+            plugins: { legend: { labels: { color: '#9CA3AF' } } }
+          }
+        });
+      }
+
+      // 2. Fetch Open-Meteo AQI
+      try {
+        const CACHE_KEY = 'aqi_cache_v3';
+        const now = Date.now();
+        const cached = localStorage.getItem(CACHE_KEY);
+        let aqiData;
+        
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (now - parsed.timestamp < CACHE_DURATION_SLOW) {
+            aqiData = parsed.data;
+            console.log("Loaded AQI data from 4-hour browser cache.");
+          }
+        }
+        
+        if (!aqiData) {
+          const aqiRes = await fetch('https://air-quality-api.open-meteo.com/v1/air-quality?latitude=44.3936&longitude=-89.8173&current=us_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,dust,uv_index');
+          aqiData = await aqiRes.json();
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: aqiData }));
+          console.log("Fetched fresh AQI data and updated cache.");
+        }
+        const c = aqiData.current;
+        
+        // AQI panel removed in WaZWeather v3 — log only
+        let _aqi = c.us_aqi || 20;
+        let _status = _aqi > 100 ? 'Unhealthy' : _aqi > 50 ? 'Moderate' : 'Excellent';
+        console.log('[WaZ] AQI:', _aqi, _status);
+      } catch (err) {
+        // AQI fallback — panel removed in v3
+        console.warn('[WaZ] AQI fallback active:', err);
+      }
+
+      // 3. Fetch Open-Meteo Weather Forecast
+      try {
+        const CACHE_KEY = 'weather_cache_v5';
+        const now = Date.now();
+        const cached = localStorage.getItem(CACHE_KEY);
+        let wxData;
+        
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (now - parsed.timestamp < CACHE_DURATION_SLOW) {
+            wxData = parsed.data;
+            console.log("Loaded Weather data from 4-hour browser cache.");
+          }
+        }
+        
+        if (!wxData) {
+          // FIX 2: added precipitation_sum to daily params so real daily totals are available
+          const wxRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${WAZ_LAT}&longitude=${WAZ_LON}&hourly=temperature_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation,precipitation_probability,weather_code,uv_index&daily=sunrise,sunset,daylight_duration,uv_index_max,precipitation_probability_max,wind_gusts_10m_max,weather_code,precipitation_sum&forecast_days=7&timezone=America%2FChicago&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch`);
+          wxData = await wxRes.json();
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: wxData }));
+          console.log("Fetched fresh Weather data and updated cache.");
+        }
+
+        // Wire up new render functions with the fresh wx data
+        renderLakeCard(wxData);
+        renderAlertsCard();
+
+      } catch(err) {
+        console.error("Weather Fetch Error (using fallback):", err);
+        const plannerContainer = document.getElementById('weather-planner');
+        if (plannerContainer) {
+          plannerContainer.innerHTML = `
+            <div class="weather-day-card">
+              <div class="weather-day-title">
+                <span>Wednesday, Jun 17</span>
+                <span class="weather-day-status status-warn">Caution: Light Rain</span>
+              </div>
+              <div class="weather-metrics-list">
+                <div class="weather-metric-item"><span>Temp Range</span><span>62°F - 78°F</span></div>
+                <div class="weather-metric-item"><span>Total Rain</span><span>0.12 in</span></div>
+                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>14 mph</span></div>
+                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
+                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
+                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">Rain risk at: 2:00 PM, 3:00 PM</span>
+                </div>
+              </div>
+            </div>
+            <div class="weather-day-card">
+              <div class="weather-day-title">
+                <span>Thursday, Jun 18</span>
+                <span class="weather-day-status status-ok">Good to Go</span>
+              </div>
+              <div class="weather-metrics-list">
+                <div class="weather-metric-item"><span>Temp Range</span><span>58°F - 82°F</span></div>
+                <div class="weather-metric-item"><span>Total Rain</span><span>0.00 in</span></div>
+                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>10 mph</span></div>
+                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
+                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
+                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">No Rain Expected</span>
+                </div>
+              </div>
+            </div>
+            <div class="weather-day-card">
+              <div class="weather-day-title">
+                <span>Friday, Jun 19</span>
+                <span class="weather-day-status status-stop">No Work: Heavy Rain</span>
+              </div>
+              <div class="weather-metrics-list">
+                <div class="weather-metric-item"><span>Temp Range</span><span>60°F - 72°F</span></div>
+                <div class="weather-metric-item"><span>Total Rain</span><span>0.85 in</span></div>
+                <div class="weather-metric-item"><span>Max Wind Gusts</span><span>22 mph</span></div>
+                <div class="weather-metric-item" style="flex-direction: column; gap: 4px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 6px;">
+                  <span style="font-size: 0.75rem; color: var(--text-dim);">Rain Outlook</span>
+                  <span style="color: var(--accent-info); font-size: 0.8rem; font-weight: normal; text-align: left;">Steady Rain throughout day</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      }
+    }
+
+    function openDialog(key) {
+      const info = APP_DATA[key];
+      if (!info) return;
+
+      titleEl.textContent = info.title;
+      titleEl.style.color = info.accent;
+
+      if (key === 'dashboard') {
+        screenshotContainer.style.display = 'none';
+        standardView.style.display = 'none';
+        telemetryView.style.display = 'block';
+        launchBtn.textContent = 'Close HUD';
+        launchBtn.style.backgroundColor = 'var(--accent-info)';
+      } else {
+        if (info.screenshot) {
+          screenshotEl.src = info.screenshot;
+          screenshotContainer.style.display = 'flex';
+        } else {
+          screenshotContainer.style.display = 'none';
+        }
+        
+        standardView.style.display = 'block';
+        telemetryView.style.display = 'none';
+        descEl.textContent = info.desc;
+        audienceEl.innerHTML = info.who.map(w => `<span class="tag">${w}</span>`).join('');
+        launchBtn.textContent = info.btnLabel;
+        launchBtn.style.backgroundColor = info.accent;
+      }
+
+      launchBtn.href = info.link;
+      launchBtn.dataset.appKey = key;
+      overlay.classList.add('open');
+    }
+
+    function closeDialog() {
+      overlay.classList.remove('open');
+      // Reset animations safely
+      const fillPm10 = document.getElementById('fill-pm10');
+      if (fillPm10) fillPm10.style.width = '0%';
+      const fillPm25 = document.getElementById('fill-pm25');
+      if (fillPm25) fillPm25.style.width = '0%';
+      const fillUv = document.getElementById('fill-uv');
+      if (fillUv) fillUv.style.width = '0%';
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const appKey = card.dataset.app;
+        if(appKey === 'sentinel') return;
+        openDialog(appKey);
+      });
+    });
+
+    const closeBtn = document.getElementById('dialog-close');
+    if(closeBtn) closeBtn.addEventListener('click', closeDialog);
+    
+    // Telemetry tracking on launch
+    const trackBtn = document.getElementById('dialog-launch-btn');
+    if(trackBtn) {
+      trackBtn.addEventListener('click', () => {
+        const appKey = trackBtn.dataset.appKey;
+        if (appKey && appKey !== 'dashboard' && appKey !== '#') {
+          fetch('/telemetry?app=' + encodeURIComponent(appKey) + '&track=1', { method: 'POST', keepalive: true }).catch(e => console.error(e));
+        }
+      });
+    }
+
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeDialog(); });
+    
+    // Init Page Details
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    // fetchTelemetry() disabled — WaZWeather v4 self-contained IIFE handles all data fetching
+
+    // Smooth scroll navigation to specific WaZWeather snap cards
+    function scrollToWazCard(targetId) {
+      const targetCard = document.getElementById(targetId);
+      if (targetCard) {
+        targetCard.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Scroll snap handler removed
+
+    // Live clock is now driven by the IIFE inside #wazeecha-telemetry (waz-clock)
+    // --- GATEWAY PORTAL MANAGEMENT ---
+    let activePortalId = 'split';
+    
+    function revealPath(path) {
+      const wrap = document.getElementById('split-wrapper');
+      if (path === 'database') {
+        wrap.className = 'theme-split split-triggered-left';
+        
+        // Fade in the transition view after a short delay
+        setTimeout(() => {
+          const portal = document.getElementById('portal-split');
+          portal.classList.add('hidden-gateway');
+          
+          const viewId = 'pwa-catalog';
+          document.getElementById(viewId).classList.add('active');
+          
+          // Ensure scroll brings the new section into view
+          document.getElementById(viewId).scrollIntoView({ behavior: 'smooth' });
+        }, 600);
+        
+        playMechanicalClick();
+      } else if (path === 'touchscreen') {
+        wrap.className = 'theme-split split-triggered-middle';
+        playMechanicalClick();
+        
+        setTimeout(() => {
+          // Redirect to the Touchscreen Tester PWA page
+          window.location.href = './touchscreen.html' + window.location.search + window.location.hash;
+        }, 600);
+      } else if (path === 'telemetry') {
+        wrap.className = 'theme-split split-triggered-right';
+        playMechanicalClick();
+        
+        setTimeout(() => {
+          // Redirect to the new live subdomain with parameters preserved
+          window.location.href = 'https://wazweather.dondlingergc.com/' + window.location.search + window.location.hash;
+        }, 600);
+      }
+    }
+    
+    function resetActiveGateway() {
+      // Hide content views
+      document.querySelectorAll('.content-section').forEach(v => v.classList.remove('active'));
+      
+      // waz-dots hidden automatically when section is hidden
+
+      // Reset gateway
+      const portal = document.getElementById('portal-split');
+      portal.classList.remove('hidden-gateway');
+      
+      const wrap = document.getElementById('split-wrapper');
+      if (wrap) wrap.className = 'theme-split';
+    }
+    
+    function playMechanicalClick() {
+      // Audio removed per user request
+    }
+
+
+  
+    const mainContainer = document.querySelector('main');
+    const scrollTrack = document.querySelector('.dashboard-grid');
+    const walkBg = document.getElementById('walkthrough-bg');
+
+    window.addEventListener('wheel', (e) => {
+      const portal = document.getElementById('portal-split');
+      const telemetry = document.getElementById('wazeecha-telemetry');
+      if (portal.classList.contains('hidden-gateway') && telemetry.classList.contains('active')) {
+          e.preventDefault();
+          scrollTrack.scrollLeft += e.deltaY;
+          if (walkBg) {
+              walkBg.style.transform = `translateX(${-scrollTrack.scrollLeft * 0.2}px)`;
+          }
+      }
+    }, { passive: false });
+
+    // --- WAZEECHA WEATHER PUSH NOTIFICATION SYSTEM ---
+    const BACKEND_URL = ""; // Empty string forces relative paths natively
+    const vapidPublicKey = "BMb36GOhjyJJzODjpDxXhmv7PZxyR-e2miXbuOakZESk83z-TgtgobvOXYIWGkgaDTREY9A5XcaXDTBfWQToHOM";
+    let swReg = null;
+    let isSubscribed = false;
+
+    function urlBase64ToUint8Array(base64String) {
+      const padding = '='.repeat((4 - base64String.length % 4) % 4);
+      const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+      const rawData = window.atob(base64);
+      const outputArray = new Uint8Array(rawData.length);
+      for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+      }
+      return outputArray;
+    }
+
+    async function initWeatherPush() {
+      const btn = document.getElementById('btn-weather-push');
+      const status = document.getElementById('weather-push-status');
+      
+      if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Notifications Unsupported";
+          btn.style.borderColor = "var(--accent-pour)";
+        }
+        if (status) {
+          status.innerHTML = "💡 iOS setup: Add to Home Screen (Share -> Add to Home Screen) and open as standalone PWA.";
+        }
+        return;
+      }
+
+      try {
+        swReg = await navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' });
+        const subscription = await swReg.pushManager.getSubscription();
+        isSubscribed = !!subscription;
+        updateWeatherPushUI(subscription);
+      } catch (err) {
+        console.error("Failed to init weather push SW:", err);
+        if (btn) btn.textContent = "Error Loading Service Worker";
+      }
+    }
+
+    function updateWeatherPushUI(subscription) {
+      const btn = document.getElementById('btn-weather-push');
+      const status = document.getElementById('weather-push-status');
+      
+      if (!btn) return;
+
+      if (subscription) {
+        isSubscribed = true;
+        btn.textContent = "Disable Alerts";
+        btn.style.background = "var(--accent-info)";
+        btn.style.color = "var(--bg-obsidian)";
+        if (status) {
+          status.innerHTML = `<span style="color: var(--accent-tap); font-size:1rem;">✓ Alerts armed for Lake Wazeecha.</span><br><span style="font-size:0.75rem; color:#888;">Notifications active · Powered by Cloudflare Edge</span>`;
+        }
+      } else {
+        isSubscribed = false;
+        btn.textContent = "Enable Weather Alerts";
+        btn.style.background = "transparent";
+        btn.style.color = "var(--text-white)";
+        if (status) status.textContent = "Not subscribed";
+      }
+    }
+
+
+    async function toggleWeatherPush() {
+      const btn = document.getElementById('btn-weather-push');
+      const status = document.getElementById('weather-push-status');
+      if (!swReg) return;
+
+      if (isSubscribed) {
+        const subscription = await swReg.pushManager.getSubscription();
+        if (subscription) {
+          if (status) status.textContent = "Unsubscribing from server...";
+          try {
+            await fetch(`${BACKEND_URL}/unsubscribe`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(subscription)
+            });
+          } catch (e) {
+            console.warn("Failed to notify backend of unsubscription:", e);
+          }
+          await subscription.unsubscribe();
+          updateWeatherPushUI(null);
+        }
+      } else {
+        if (btn) btn.textContent = "Requesting permission...";
+        
+        try {
+          const permission = await Notification.requestPermission();
+          if (permission !== 'granted') {
+            if (status) status.textContent = "Permission denied.";
+            if (btn) btn.textContent = "Enable Weather Alerts";
+            return;
+          }
+
+          const convertedKey = urlBase64ToUint8Array(vapidPublicKey);
+          const subscription = await swReg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: convertedKey
+          });
+          
+          if (status) status.textContent = "Registering with alert server...";
+          try {
+            const subJson = subscription.toJSON();
+            const payload = {
+              ...subJson,
+              preferences: {
+                river: document.getElementById('pref-river-alerts').checked,
+                aqi: document.getElementById('pref-aqi-alerts').checked,
+                weather: document.getElementById('pref-weather-alerts').checked
+              }
+            };
+            const res = await fetch(`${BACKEND_URL}/subscribe`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (!res.ok) {
+              const text = await res.text();
+              throw new Error(`Server rejected subscription: ${res.status} ${text}`);
+            }
+          } catch (e) {
+            console.warn("Failed to register subscription with backend:", e);
+            throw e; // re-throw so we catch it below and reset UI
+          }
+
+          updateWeatherPushUI(subscription);
+        } catch (err) {
+          console.error("Subscription failed:", err);
+          if (status) status.textContent = "Subscription failed: " + err.message;
+          if (btn) btn.textContent = "Enable Weather Alerts";
+        }
+      }
+    }
+
+    function checkDeepLink() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const hash = window.location.hash;
+      
+      const queryMode = urlParams.get('mode');
+      if (queryMode && ['fishing', 'lake', 'construction', 'family'].includes(queryMode)) {
+        currentMode = queryMode;
+        localStorage.setItem('waz_weather_mode', queryMode);
+      }
+
+      if (urlParams.get('view') === 'touchscreen' || hash === '#touchscreen') {
+        // Immediate redirect to Touchscreen Tester page
+        window.location.replace('./touchscreen.html' + window.location.search + window.location.hash);
+        return;
+      }
+
+      if (urlParams.get('view') === 'telemetry' || hash === '#wazeecha-telemetry') {
+        // Immediate redirect to new live subdomain for deep links
+        window.location.replace('https://wazweather.dondlingergc.com/' + window.location.search + window.location.hash);
+        return;
+      }
+
+      // Sync selector active button highlights
+      document.querySelectorAll('.persona-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      const activeBtn = document.getElementById('btn-mode-' + currentMode);
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    // Initialize check on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initWeatherPush();
+      checkDeepLink();
+
+      // BUG-05: Auto-hide scroll indicator when last card is visible
+      const scrollBtn = document.getElementById('scroll-indicator');
+      const swipeCards = document.querySelectorAll('#wazeecha-telemetry .swipe-card');
+      const lastCard = swipeCards[swipeCards.length - 1];
+      if (scrollBtn && lastCard) {
+        new IntersectionObserver(entries => {
+          scrollBtn.style.display = entries[0].isIntersecting ? 'none' : 'flex';
+        }, { threshold: 0.5 }).observe(lastCard);
+      }
+    });
+    window.addEventListener('hashchange', checkDeepLink);
+  </script>
+
+
+
+</body></html>
