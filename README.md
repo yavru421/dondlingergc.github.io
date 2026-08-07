@@ -2,7 +2,7 @@
 ### Systems Architect | Cloud-Native C# & Edge Engineer | Creator of Metropolis & ZLA
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=512BD4&center=true&vCenter=true&width=600&lines=C%23+%2F+.NET+9+Systems+Architect;Cloudflare+Durable+Objects+%26+Edge+Workers;Blazor+WASM+%26+Zero-Liability+Architecture;Metropolis+GPU+Hardware+Compute+%26+DuckDB" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=512BD4&center=true&vCenter=true&width=600&lines=C%23+%2F+.NET+9+Systems+Architect;Metropolis-Prime+Host+%26+Boroughs+MCP+Mesh;Cloudflare+Durable+Objects+%26+Watchtowers;Blazor+WASM+%26+Zero-Liability+Architecture" alt="Typing SVG" />
 </p>
 
 <p align="center">
@@ -16,20 +16,52 @@
 
 ---
 
-## ⚡ System Execution Architecture
+## ⚡ Metropolis Infrastructure Topology Map (Bottom-to-Top)
 
 ```mermaid
-flowchart LR
-    A["📱 Blazor WASM PWA (Client)"] -->|"WebRTC / PeerJS P2P (ZLA)"| B["⚡ Watchtowers (Cloudflare Edge DO)"]
-    B -->|"Sidecar MCP Protocol Mesh"| C["🖥️ MetroNode (Primary Host PC)"]
-    C -->|"Hardware NVENC H.264/HEVC"| D["🎥 GPU Media Pipeline"]
-    C -->|"In-Memory Analytical Queries"| E["🦆 DuckDB Telemetry Lake (mind.duckdb)"]
+flowchart TD
+    subgraph L1["🏛️ Layer 1: Memory & Telemetry Foundation"]
+        Archives["📚 The Archives (mind.duckdb / agent_memory / st_codex)"]
+    end
 
-    style A fill:#512BD4,color:#fff,stroke:#333,stroke-width:2px
-    style B fill:#F38020,color:#fff,stroke:#333,stroke-width:2px
-    style C fill:#000000,color:#fff,stroke:#333,stroke-width:2px
-    style D fill:#76B900,color:#fff,stroke:#333,stroke-width:2px
-    style E fill:#FFF000,color:#000,stroke:#333,stroke-width:2px
+    subgraph L2["💻 Layer 2: Bare-Metal Host & Acceleration"]
+        MetroNode["🖥️ Metropolis-Prime (MetroNode Host PC)"]
+        GPU["🎥 NVENC / CUDA Hardware Acceleration"]
+        MetroNode --- GPU
+    end
+
+    subgraph L3["⚙️ Layer 3: Tethered Boroughs (MCP Sidecar Mesh)"]
+        Boroughs["🔌 Boroughs Sidecar Mesh (workspace-execution, duckdb-supercharger, agy-mcp, wrangler-mcp)"]
+    end
+
+    subgraph L4["📡 Layer 4: Field & Network Fabric"]
+        Villages["🔋 Villages (Rogue Field SBCs / Battery Pis)"]
+        Megalopolis["🌐 Megalopolis Multi-Host Network"]
+    end
+
+    subgraph L5["☁️ Layer 5: Edge Routing & Intelligence"]
+        Watchtowers["⚡ Watchtowers (Cloudflare Workers AI & Durable Objects)"]
+    end
+
+    subgraph L6["📱 Layer 6: Zero-Liability Client Ecosystem"]
+        ZLA["🛡️ ZLA Client Stack (Blazor WASM PWAs, WebRTC / PeerJS P2P)"]
+    end
+
+    Archives --> MetroNode
+    MetroNode --> Boroughs
+    Boroughs --> Villages
+    Boroughs --> Megalopolis
+    Megalopolis --> Watchtowers
+    Watchtowers --> ZLA
+
+    style Archives fill:#FFF000,color:#000,stroke:#333,stroke-width:2px
+    style MetroNode fill:#000000,color:#fff,stroke:#333,stroke-width:2px
+    style GPU fill:#76B900,color:#fff,stroke:#333,stroke-width:2px
+    style Boroughs fill:#512BD4,color:#fff,stroke:#333,stroke-width:2px
+    style Villages fill:#333333,color:#fff,stroke:#333,stroke-width:2px
+    style Megalopolis fill:#222222,color:#fff,stroke:#333,stroke-width:2px
+    style Watchtowers fill:#F38020,color:#fff,stroke:#333,stroke-width:2px
+    style ZLA fill:#512BD4,color:#fff,stroke:#333,stroke-width:2px
 ```
 
 ---
@@ -42,9 +74,11 @@ flowchart LR
 <br />
 
 *A hybrid local-to-edge agent execution framework and real-time telemetry lake.*
-- **Primary Host PC (`MetroNode`)**: Coordinates high-throughput local compute, hardware NVENC video processing (1080p60 H.264/HEVC), and local DuckDB memory stores (`mind.duckdb`).
-- **Cloudflare Edge (`Watchtowers`)**: Smart edge routing layer powered by Cloudflare Workers, **Durable Objects (DO)**, and Workers AI for low-latency state synchronization (<35ms) and token-efficient cognitive offloading.
-- **Sidecar MCP Mesh**: Dedicated protocol adapters for real-time telemetry, filesystem mutation, and DuckDB analytical queries.
+- **Primary Host PC (`Metropolis-Prime` / `MetroNode`)**: Coordinates high-throughput local compute, hardware NVENC video processing (1080p60 H.264/HEVC), and local DuckDB memory stores (`mind.duckdb`).
+- **Tethered Sidecars (`Boroughs`)**: Local sidecar MCP protocol mesh (`workspace-execution-mcp-server`, `duckdb-supercharger`, `agy-mcp-server`, `orchestrator-do-mcp-server`, `cloudflare-inference-mcp-server`).
+- **Rogue Field Devices (`Villages`)**: Battery-powered field SBCs and Raspberry Pi nodes connected over `Megalopolis` multi-host network fabric.
+- **Cloudflare Edge (`Watchtowers`)**: Smart edge routing layer powered by Cloudflare Workers, **Durable Objects (DO)**, and Workers AI for low-latency state synchronization (<35ms).
+- **Telemetry Lake (`The Archives`)**: Persistent DuckDB analytical data lake (`mind.duckdb`, `agent_memory.duckdb`, `st_codex.duckdb`).
 
 </details>
 
@@ -89,39 +123,6 @@ flowchart LR
 │ ZLA Peer-to-Peer Data Transfer (WebRTC│ Client-side WASM PWA   │ Zero Server Storage  │
 └───────────────────────────────────────┴────────────────────────┴──────────────────────┘
 ```
-
----
-
-## 🔬 Edge-Cellular Execution Visualizer (Mitosis & Meiosis)
-
-<details>
-<summary><b>🧬 Edge-Cellular Subagent Mesh Spec (Click to Expand)</b></summary>
-
-<br />
-
-```
-                       ┌──────────────────────────────────────────────┐
-                       │   [Root Prompt / Architecture Input]         │
-                       └──────────────────────┬───────────────────────┘
-                                              │
-                                   (Tier 1: Edge Mitosis)
-            ┌─────────────────────────────────┼─────────────────────────────────┐
-            ▼                                 ▼                                 ▼
-   [Micro-Cell 1: ZLA Specs]         [Micro-Cell 2: MetroNode]        [Micro-Cell 3: Cloudflare DO]
-   (@cf/meta/llama-3.2-3b)           (@cf/meta/llama-3.2-3b)          (@cf/meta/llama-3.2-3b)
-            │                                 │                                 │
-            └─────────────────────────────────┼─────────────────────────────────┘
-                                              │
-                                   (Tier 2: Meiosis Synthesis)
-                                              ▼
-                                 [Cloudflare Edge Router]
-                             (@cf/meta/llama-3.3-70b-instruct)
-                                              │
-                                              ▼
-                             [Verified Telemetry & Production]
-```
-
-</details>
 
 ---
 
