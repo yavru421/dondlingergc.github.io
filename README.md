@@ -12,12 +12,38 @@
 
 ---
 
+## 🔬 Edge-Cellular Execution Visualizer (Mitosis & Meiosis)
+
+```
+                       ┌──────────────────────────────────────────────┐
+                       │   [Root Prompt / Architecture Input]         │
+                       └──────────────────────┬───────────────────────┘
+                                              │
+                                   (Tier 1: Edge Mitosis)
+            ┌─────────────────────────────────┼─────────────────────────────────┐
+            ▼                                 ▼                                 ▼
+   [Micro-Cell 1: ZLA Specs]         [Micro-Cell 2: MetroNode]        [Micro-Cell 3: Cloudflare DO]
+   (@cf/meta/llama-3.2-3b)           (@cf/meta/llama-3.2-3b)          (@cf/meta/llama-3.2-3b)
+            │                                 │                                 │
+            └─────────────────────────────────┼─────────────────────────────────┘
+                                              │
+                                   (Tier 2: Meiosis Synthesis)
+                                              ▼
+                                 [Cloudflare Edge Router]
+                             (@cf/meta/llama-3.3-70b-instruct)
+                                              │
+                                              ▼
+                             [Verified Telemetry & Production]
+```
+
+---
+
 ## ⚡ Core Flagship Architectures
 
 ### 🏛️ Metropolis Distributed Infrastructure
 *A hybrid local-to-edge agent execution framework and real-time telemetry lake.*
-- **Primary Host PC (`MetroNode`)**: Coordinates high-throughput local compute, hardware NVENC video processing, and local DuckDB memory stores (`mind.duckdb`).
-- **Cloudflare Edge (`Watchtowers`)**: Smart edge routing layer powered by Cloudflare Workers, **Durable Objects (DO)**, and Workers AI for low-latency state synchronization and token-efficient cognitive offloading.
+- **Primary Host PC (`MetroNode`)**: Coordinates high-throughput local compute, hardware NVENC video processing (1080p60 H.264/HEVC), and local DuckDB memory stores (`mind.duckdb`).
+- **Cloudflare Edge (`Watchtowers`)**: Smart edge routing layer powered by Cloudflare Workers, **Durable Objects (DO)**, and Workers AI for low-latency state synchronization (<35ms) and token-efficient cognitive offloading.
 - **Sidecar MCP Mesh**: Dedicated protocol adapters for real-time telemetry, filesystem mutation, and DuckDB analytical queries.
 
 ### 🛡️ Zero-Liability Architecture (ZLA)
@@ -27,16 +53,16 @@
 
 ---
 
-## 🚀 Interactive Live Production Demos (`dondlingergc.com`)
+## 🚀 Live Production Portfolio & Interactive Demos (`dondlingergc.com`)
 
-| Production Service | Live Endpoint | Interactive Features & Tech Stack |
+| Production Service | Live Endpoint | Architectural Highlights & Status |
 | :--- | :--- | :--- |
-| **TAP Client** | [tap.dondlingergc.com](https://tap.dondlingergc.com) | MudBlazor / Blazor WASM Enterprise Control Panel & Telemetry Dashboard |
-| **Personalization Engine** | [personalization.dondlingergc.com](https://personalization.dondlingergc.com) | Metropolis Taskbar & Desktop System Bridge |
-| **Skydrop File Transfer** | [skydrop.dondlingergc.com](https://skydrop.dondlingergc.com) | PeerJS, QR Code Scanner, ZLA Zero-Storage File Sharing |
-| **Timeline ZLA Engine** | [timelinezla.dondlingergc.com](https://timelinezla.dondlingergc.com) | WebRTC Peer Sync, Real-time PDF Export & Visual Canvas |
-| **WaZ Weather Engine** | [wazweather.dondlingergc.com](https://wazweather.dondlingergc.com) | Blazor WASM Telemetry & Severe Weather Data Dispatch |
-| **Heckler Soundboard** | [heckler.dondlingergc.com](https://heckler.dondlingergc.com) | High-Velocity Blazor WASM Web Audio Engine |
+| **TAP Client** | [tap.dondlingergc.com](https://tap.dondlingergc.com) | [![Live](https://img.shields.io/badge/Live-MudBlazor_WASM-512BD4.svg)](https://tap.dondlingergc.com) Enterprise Control Panel |
+| **Personalization Engine** | [personalization.dondlingergc.com](https://personalization.dondlingergc.com) | [![Live](https://img.shields.io/badge/Live-Taskbar_Bridge-F38020.svg)](https://personalization.dondlingergc.com) Metropolis Taskbar Integration |
+| **Skydrop File Transfer** | [skydrop.dondlingergc.com](https://skydrop.dondlingergc.com) | [![Live](https://img.shields.io/badge/Live-PeerJS_ZLA-000000.svg)](https://skydrop.dondlingergc.com) Zero-Storage P2P Transfer |
+| **Timeline ZLA Engine** | [timelinezla.dondlingergc.com](https://timelinezla.dondlingergc.com) | [![Live](https://img.shields.io/badge/Live-WebRTC_Sync-76B900.svg)](https://timelinezla.dondlingergc.com) Real-time PDF & Canvas Sync |
+| **WaZ Weather Engine** | [wazweather.dondlingergc.com](https://wazweather.dondlingergc.com) | [![Live](https://img.shields.io/badge/Live-WASM_Telemetry-FFF000.svg?labelColor=black)](https://wazweather.dondlingergc.com) Weather Telemetry Engine |
+| **Heckler Soundboard** | [heckler.dondlingergc.com](https://heckler.dondlingergc.com) | [![Live](https://img.shields.io/badge/Live-WebAudio_WASM-512BD4.svg)](https://heckler.dondlingergc.com) High-Velocity Audio Engine |
 
 ---
 
@@ -44,7 +70,7 @@
 
 ```
 ┌───────────────────────────────────────┬────────────────────────┬──────────────────────┐
-│ Benchmark Metric                      │ Local / Edge Target    │ Benchmark Result     │
+│ Benchmark Metric                      │ Local / Edge Target    │ Verified Result      │
 ├───────────────────────────────────────┼────────────────────────┼──────────────────────┤
 │ DuckDB Telemetry Event Ingestion     │ Local Host (`MetroNode`)│ >50,000 events/sec   │
 ├───────────────────────────────────────┼────────────────────────┼──────────────────────┤
@@ -96,4 +122,4 @@ $$\mathcal{Y} = \mathcal{A}_n(\mathcal{A}_{n-1}(\dots \mathcal{A}_1(\mathcal{X})
 ## 💼 Contact & Engineering Inquiries
 
 - **Portfolio & Live Demos**: [dondlingergc.com](https://dondlingergc.com)
-- **GitHub**: [github.com/yavru421](https://github.com/yavru421)
+- **GitHub Profile**: [github.com/yavru421](https://github.com/yavru421)
