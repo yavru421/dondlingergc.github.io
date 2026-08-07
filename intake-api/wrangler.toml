@@ -1,0 +1,16 @@
+name = "intake-api"
+main = "src/index.js"
+compatibility_date = "2024-03-20"
+
+[[r2_buckets]]
+binding = "intake_audio"
+bucket_name = "intake-audio"
+
+[[d1_databases]]
+binding = "intake_inbox"
+database_name = "intake-inbox"
+database_id = "90a7682b-e8d9-4c80-89e2-a84868bde0b0"
+
+[vars]
+TELEGRAM_BOT_TOKEN = ""
+TELEGRAM_CHAT_ID = ""
