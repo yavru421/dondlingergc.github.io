@@ -1,38 +1,74 @@
-# dondlingergc.com
+# John Dondlinger
+### Systems Architect | Cloud-Native C# & Edge Engineer | Creator of Metropolis & ZLA
 
-This repo is now centered on one thing: the **Jobsite Calculator** PWA.
+> **"Systems craftsman building high-performance C# / Blazor WASM applications, distributed Cloudflare edge workers, and zero-liability architectures."**
 
-## Product
+[![Dotnet](https://img.shields.io/badge/C%23_.NET_9-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
+[![Blazor](https://img.shields.io/badge/Blazor_WASM-512BD4?style=for-the-badge&logo=blazor&logoColor=white)](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
+[![Cloudflare](https://img.shields.io/badge/Cloudflare_Workers_&_DO-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://workers.cloudflare.com/)
+[![DuckDB](https://img.shields.io/badge/DuckDB_Telemetry-FFF000?style=for-the-badge&logo=duckdb&logoColor=black)](https://duckdb.org/)
+[![Rust](https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/)
+[![FFmpeg/CUDA](https://img.shields.io/badge/NVENC_/_CUDA-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-zone)
 
-- Primary app route: `/calc/`
-- Goal: installable on **iPhone Safari** and usable offline
-- Stack: static site + published Blazor WebAssembly assets
+---
 
-## Current structure
+## ⚡ Core Flagship Architectures
 
-- [index.html](C:/Users/John/Desktop/dondlingergc.com/index.html): minimal landing page that points people to `/calc/`
-- [calc/index.html](C:/Users/John/Desktop/dondlingergc.com/calc/index.html): real calculator entrypoint
-- [calc/service-worker.js](C:/Users/John/Desktop/dondlingergc.com/calc/service-worker.js): PWA offline worker scoped to `/calc/`
-- [calc/manifest.webmanifest](C:/Users/John/Desktop/dondlingergc.com/calc/manifest.webmanifest): install metadata for phone/home-screen install
-- [calc/_framework](C:/Users/John/Desktop/dondlingergc.com/calc/_framework): Blazor WebAssembly runtime assets
+### 🏛️ Metropolis Distributed Infrastructure
+*A hybrid local-to-edge agent execution framework and real-time telemetry lake.*
+- **Primary Host PC (`MetroNode`)**: Coordinates high-throughput local compute, hardware NVENC video processing, and local DuckDB memory stores (`mind.duckdb`).
+- **Cloudflare Edge (`Watchtowers`)**: Smart edge routing layer powered by Cloudflare Workers, **Durable Objects (DO)**, and Workers AI for low-latency state synchronization and token-efficient cognitive offloading.
+- **Sidecar MCP Mesh**: Dedicated protocol adapters for real-time telemetry, filesystem mutation, and DuckDB analytical queries.
 
-## iPhone install flow
+### 🛡️ Zero-Liability Architecture (ZLA)
+*Client-side execution and peer-to-peer data transport with zero central server storage exposure.*
+- **WebRTC & PeerJS Transport**: Direct peer-to-peer data channels for real-time state sync without server-side database footprint.
+- **Local-First PWA Stack**: Installable Blazor WebAssembly PWAs backed by IndexedDB storage, WebSockets, and Windows DPAPI client secrets vaults.
 
-1. Open `https://dondlingergc.com/calc/` in Safari.
-2. Tap `Share`.
-3. Tap `Add to Home Screen`.
-4. Launch the installed app from the home screen.
+---
 
-## Deployment notes
+## 🌐 Live Production Ecosystem (`dondlingergc.com`)
 
-- Deploy the `calc/` directory exactly as published.
-- Do not rewrite `/calc/*` requests to the main site.
-- Keep `service-worker.js`, `service-worker-assets.js`, `manifest.webmanifest`, and `index.html` fresh after deploy.
-- Purge Cloudflare cache after changing calculator assets.
+| Production Service | Live Endpoint | Architectural Highlights |
+| :--- | :--- | :--- |
+| **TAP Client** | [tap.dondlingergc.com](https://tap.dondlingergc.com) | MudBlazor / Blazor WASM Enterprise Control Panel & Telemetry Dashboard |
+| **Personalization Engine** | [personalization.dondlingergc.com](https://personalization.dondlingergc.com) | Metropolis Taskbar & Desktop System Bridge |
+| **Skydrop File Transfer** | [skydrop.dondlingergc.com](https://skydrop.dondlingergc.com) | PeerJS, QR Code Scanner, ZLA Zero-Storage File Sharing |
+| **Timeline ZLA Engine** | [timelinezla.dondlingergc.com](https://timelinezla.dondlingergc.com) | WebRTC Peer Sync, Real-time PDF Export & Visual Canvas |
+| **WaZ Weather Engine** | [wazweather.dondlingergc.com](https://wazweather.dondlingergc.com) | Blazor WASM Telemetry & Severe Weather Data Dispatch |
+| **Heckler Soundboard** | [heckler.dondlingergc.com](https://heckler.dondlingergc.com) | High-Velocity Blazor WASM Web Audio Engine |
 
-## Cloudflare requirements
+---
 
-- Exclude `/calc/*` from challenge/bot features while stabilizing the PWA.
-- Disable Rocket Loader and similar HTML/script rewriting on `/calc/*`.
-- Ensure missing files under `/calc/*` do not fall back to HTML.
-- If a static asset under `/calc/*` returns `text/html`, the deployment is still wrong.
+## 📐 Algebraic Pipeline Theory (APT)
+
+$$\mathcal{Y} = \mathcal{A}_n(\mathcal{A}_{n-1}(\dots \mathcal{A}_1(\mathcal{X})\dots))$$
+
+**Algebraic Pipeline Theory (APT)** formalizes workflows as deterministic, composable sequence pipelines. Every system—from hardware-accelerated NVENC video processing to multi-node LLM sidecar orchestration—is engineered as pure, measurable transform functions.
+
+---
+
+## 🛠️ Technology Belt
+
+```
+┌─────────────────┬─────────────────────────────────────────────────────────────────┐
+│ Core Stack      │ C# (.NET 8/9), Rust, TypeScript, Python, SQL (DuckDB/SQLite)    │
+├─────────────────┼─────────────────────────────────────────────────────────────────┤
+│ Edge Computing  │ Cloudflare Workers, Durable Objects (DO), D1, KV, Vectorize, R2 │
+├─────────────────┼─────────────────────────────────────────────────────────────────┤
+│ Frontend & PWA  │ Blazor WebAssembly (WASM), MudBlazor, ASP.NET Core, HTML5/CSS3  │
+├─────────────────┼─────────────────────────────────────────────────────────────────┤
+│ AI & Telemetry  │ Agentic MCP Sidecars, DuckDB Analytics, PyTorch CUDA, OpenCV    │
+├─────────────────┼─────────────────────────────────────────────────────────────────┤
+│ Acceleration    │ FFmpeg, NVENC, NPP, OpenCL, Parametric OpenSCAD                 │
+└─────────────────┴─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📊 Core Principles & Mindset
+
+> *"Measure twice, formalize once."*
+
+- **Mechanical Realism**: Hardware capabilities, OS boundaries, and memory limitations dictate architecture—no theoretical software loops.
+- **Zero Fluff Delivery**: Production-ready code, explicit schema contracts, and verifiable telemetry.
