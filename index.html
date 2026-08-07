@@ -1,187 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <title>PourReady — Concrete Estimator</title>
-    <base href="/" />
-    <meta name="theme-color" content="#11161d" />
-    <meta name="description" content="PourReady — concrete estimator built in the field for the field. Free to use." />
-    <meta property="og:title" content="PourReady — Concrete Estimator" />
-    <meta property="og:description" content="Free concrete volume estimator built for the field. Slabs, footings, walls, columns." />
-    <meta property="og:type" content="website" />
-    <link href="_framework/dotnet.ihydaza61d.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-1sWvCq1HxlRj1Un6zLuqKTHvh9vHtJWnpUMCzjkia04=" />
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/app.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <link href="JobsiteCalculatorPwa.styles.css" rel="stylesheet" />
-    <link href="manifest.webmanifest" rel="manifest" />
-    <link rel="apple-touch-icon" href="icon-512.png" />
-    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
-    <script type="importmap">{
-  "imports": {
-    "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.66stpp682q.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.ihydaza61d.js",
-    "./_framework/dotnet.native.js": "./_framework/dotnet.native.j9yxww2air.js",
-    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.r2kbxkuujc.js"
-  },
-  "scopes": {},
-  "integrity": {
-    "./_framework/blazor.webassembly.66stpp682q.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
-    "./_framework/blazor.webassembly.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
-    "./_framework/dotnet.ihydaza61d.js": "sha256-1sWvCq1HxlRj1Un6zLuqKTHvh9vHtJWnpUMCzjkia04=",
-    "./_framework/dotnet.js": "sha256-1sWvCq1HxlRj1Un6zLuqKTHvh9vHtJWnpUMCzjkia04=",
-    "./_framework/dotnet.native.j9yxww2air.js": "sha256-t2sLHIeFuKgbEH+wz5jXGlVRt+hMNlyCkCwLtVZUwws=",
-    "./_framework/dotnet.native.js": "sha256-t2sLHIeFuKgbEH+wz5jXGlVRt+hMNlyCkCwLtVZUwws=",
-    "./_framework/dotnet.runtime.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU=",
-    "./_framework/dotnet.runtime.r2kbxkuujc.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU="
-  }
-}</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dondlinger Tech | Metropolis Intake</title>
+    <style>
+        :root {
+            --bg: #0a0a0c;
+            --surface: #13141a;
+            --primary: #00ffaa;
+            --text-main: #f0f0f0;
+            --text-muted: #8a8d98;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .hero {
+            max-width: 800px;
+            width: 100%;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .covenant {
+            background-color: rgba(255, 60, 60, 0.1);
+            border-left: 4px solid #ff3c3c;
+            padding: 1rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            text-align: left;
+            border-radius: 4px;
+        }
+        .covenant strong {
+            color: #ff3c3c;
+            display: block;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid #2a2b36;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .chat-messages {
+            flex-grow: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .message {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            line-height: 1.4;
+        }
+        .message.bot {
+            background: #1e1f29;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+        .message.user {
+            background: var(--primary);
+            color: #000;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            background: #0f1014;
+            border-top: 1px solid #2a2b36;
+        }
+        .chat-input input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+        .chat-input button {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .chat-input button:hover {
+            opacity: 0.8;
+        }
+
+        /* Portfolio Grid Styles */
+        .portfolio {
+            max-width: 800px;
+            width: 100%;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #2a2b36;
+        }
+        .portfolio h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            text-align: center;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid #2a2b36;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+        .card h3 {
+            font-size: 1.1rem;
+            color: #fff;
+        }
+        .card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+    </style>
 </head>
-
 <body>
-    <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
+
+<div class="hero">
+    <h1>Metropolis Intake</h1>
+    <p>Custom Construction Tech, Drone VFX, and Zero-Liability Edge AI Apps.</p>
+    
+    <div class="covenant">
+        <strong>ZLA Security Covenant</strong>
+        No Sales Calls. One Bid. Your Data is Yours. We do not use traditional sales funnels. Answer the prompt below to generate a transparent project spec.
     </div>
 
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="." class="reload">Reload</a>
-        <span class="dismiss">🗙</span>
+    <div class="chat-container">
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot">
+                System Online. What daily workflow headache do you need software to solve?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type your workflow headache here..." autocomplete="off">
+            <button id="send-btn">Send</button>
+        </div>
     </div>
-    <script src="_framework/blazor.webassembly.66stpp682q.js" autostart="false"></script>
-    <script>
-        Blazor.start({
-            loadBootResource: function (type, name, defaultUri, integrity) {
-                return defaultUri;
-            }
-        });
-    </script>
-    <script>
-        // Global auth fetch bridge for Blazor JSInterop.
-        // Uses credentials:'include' so the HttpOnly refresh cookie
-        // scoped to Domain=.dondlingergc.com is sent cross-origin.
-        window.authFetch = async function (url, method, body) {
-            try {
-                const opts = {
-                    method: method || 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' }
-                };
-                if (body) opts.body = body;
-                const resp = await fetch(url, opts);
-                if (!resp.ok) return '';
-                return await resp.text();
-            } catch (e) {
-                console.error('authFetch error:', e);
-                return '';
-            }
-        };
-    </script>
-    <script src="js/clipboard.js"></script>
-    <script src="js/zlaSync.js"></script>
-    <script>
-        if (!window.location.hostname.endsWith('pages.dev')) {
-            navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' })
-                .then(reg => {
-                    console.log('ServiceWorker registered with scope:', reg.scope);
-                    
-                    // Detect iOS device and standalone mode
-                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                    const isStandalone = window.navigator.standalone === true;
-                    
-                    if (isIOS && !isStandalone) {
-                        // Poll until DotNet interop is available
-                        function notifyPwaInstallable() {
-                            if (window.DotNet && window.DotNet.invokeMethodAsync) {
-                                window.DotNet.invokeMethodAsync('JobsiteCalculatorPwa', 'PWAInstallable')
-                                    .catch(err => console.error('Failed to notify Blazor PWAInstallable:', err));
-                            } else {
-                                setTimeout(notifyPwaInstallable, 200);
-                            }
-                        }
-                        notifyPwaInstallable();
-                    }
-                });
-        } else {
-            console.log('Pages preview domain detected. Unregistering service workers to prevent Access SSO caching conflicts.');
-            navigator.serviceWorker.getRegistrations().then(registrations => {
-                for (let registration of registrations) {
-                    registration.unregister();
-                }
+</div>
+
+<div class="portfolio">
+    <h2>Active ZLA Deployments</h2>
+    <div class="grid">
+        <a href="https://wazweather.dondlingergc.com" class="card" target="_blank">
+            <h3>WaZWeather</h3>
+            <p>Edge AI forecast dashboard & live telemetry.</p>
+        </a>
+        <a href="https://skydrop.dondlingergc.com" class="card" target="_blank">
+            <h3>SkyDrop</h3>
+            <p>Peer-to-peer WebRTC secure file transfer.</p>
+        </a>
+        <a href="https://heckler.dondlingergc.com" class="card" target="_blank">
+            <h3>Heckler</h3>
+            <p>Blazor WASM high-performance audio engine.</p>
+        </a>
+        <a href="https://timelinezla.dondlingergc.com" class="card" target="_blank">
+            <h3>TimelineZLA</h3>
+            <p>Real-time PDF storyboard sync and sharing.</p>
+        </a>
+        <a href="/calc/" class="card" target="_blank">
+            <h3>PourReady</h3>
+            <p>Concrete volume estimator built for the field.</p>
+        </a>
+        <a href="https://tap.dondlingergc.com" class="card" target="_blank">
+            <h3>TAP (Time & Place)</h3>
+            <p>Authenticated location and timestamp verifier.</p>
+        </a>
+    </div>
+</div>
+
+<script>
+    const API_URL = "/api/chat"; 
+    const messagesEl = document.getElementById('chat-messages');
+    const inputEl = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    let sessionId = crypto.randomUUID();
+
+    function addMessage(text, sender) {
+        const div = document.createElement('div');
+        div.className = `message ${sender}`;
+        div.textContent = text;
+        messagesEl.appendChild(div);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const text = inputEl.value.trim();
+        if (!text) return;
+        
+        addMessage(text, 'user');
+        inputEl.value = '';
+        inputEl.disabled = true;
+        sendBtn.disabled = true;
+        
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId, message: text })
             });
+            const data = await response.json();
+            addMessage(data.reply, 'bot');
+        } catch (e) {
+            addMessage("Connection error. The Metropolis Agent is currently deploying.", 'bot');
         }
-    </script>
-    <script>
-        // PWA install prompt capture
-        window._deferredInstallPrompt = null;
-        window.addEventListener('beforeinstallprompt', function (e) {
-            e.preventDefault();
-            window._deferredInstallPrompt = e;
-        });
-        window.pwaInstall = {
-            isAvailable: function () { return !!window._deferredInstallPrompt; },
-            prompt: async function () {
-                if (!window._deferredInstallPrompt) return false;
-                window._deferredInstallPrompt.prompt();
-                var choice = await window._deferredInstallPrompt.userChoice;
-                window._deferredInstallPrompt = null;
-                return choice.outcome === 'accepted';
-            },
-            showiOSInstructions: function () {
-                console.log("iOS PWA installation instructions requested.");
-            }
-        };
-    </script>
-    <script>
-        // Self-healing for PWA cache traps and integrity mismatch errors
-        async function healPwaAndReload() {
-            console.warn('Self-healing PWA caches...');
-            try {
-                if ('serviceWorker' in navigator) {
-                    const regs = await navigator.serviceWorker.getRegistrations();
-                    for (const reg of regs) {
-                        await reg.unregister();
-                    }
-                }
-                if ('caches' in window) {
-                    const keys = await caches.keys();
-                    for (const key of keys) {
-                        await caches.delete(key);
-                    }
-                }
-                console.log('Cache cleared successfully. Reloading...');
-                window.location.reload(true);
-            } catch (err) {
-                console.error('Failed to self-heal:', err);
-                window.location.reload();
-            }
-        }
+        
+        inputEl.disabled = false;
+        sendBtn.disabled = false;
+        inputEl.focus();
+    }
 
-        window.addEventListener('unhandledrejection', function (event) {
-            const msg = event.reason && event.reason.message ? event.reason.message : '';
-            if (msg.includes('Failed to start platform') || msg.includes('integrity') || msg.includes('dynamically imported module')) {
-                event.preventDefault();
-                healPwaAndReload();
-            }
-        });
+    sendBtn.addEventListener('click', sendMessage);
+    inputEl.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+</script>
 
-        window.addEventListener('error', function (event) {
-            const msg = event.message || '';
-            if (msg.includes('integrity') || msg.includes('Failed to load') || msg.includes('module script') || msg.includes('Unexpected error')) {
-                event.preventDefault();
-                healPwaAndReload();
-            }
-        }, true); // Use capture phase to catch script loading errors
-    </script>
 </body>
-
 </html>
