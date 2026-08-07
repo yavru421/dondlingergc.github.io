@@ -2,7 +2,7 @@
 ### Systems Architect | Cloud-Native C# & Edge Engineer | Creator of Metropolis & ZLA
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=512BD4&center=true&vCenter=true&width=600&lines=C%23+%2F+.NET+9+Systems+Architect;Metropolis-Prime+Host+%26+Boroughs+MCP+Mesh;Cloudflare+Durable+Objects+%26+Watchtowers;Blazor+WASM+%26+Zero-Liability+Architecture" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=512BD4&center=true&vCenter=true&width=600&lines=Metropolis-Prime+%2F+MetroNode+Architect;The+Archives+DuckDB+Telemetry+Lake;Watchtowers+Cloudflare+Workers+AI+%26+DO;ZLA+Zero-Liability+Blazor+WASM+PWAs" alt="Typing SVG" />
 </p>
 
 <p align="center">
@@ -20,31 +20,31 @@
 
 ```mermaid
 flowchart TD
-    subgraph L1["🏛️ Layer 1: Memory & Telemetry Foundation"]
-        Archives["📚 The Archives (mind.duckdb / agent_memory / st_codex)"]
+    subgraph L1["📚 Layer 1: Memory & Telemetry Lake"]
+        Archives["The Archives (mind.duckdb / agent_memory.duckdb / st_codex.duckdb)"]
     end
 
-    subgraph L2["💻 Layer 2: Bare-Metal Host & Acceleration"]
-        MetroNode["🖥️ Metropolis-Prime (MetroNode Host PC)"]
-        GPU["🎥 NVENC / CUDA Hardware Acceleration"]
+    subgraph L2["🖥️ Layer 2: Primary Bare-Metal Host"]
+        MetroNode["Metropolis-Prime (MetroNode Host PC)"]
+        GPU["NVIDIA NVENC / CUDA Hardware Accelerator"]
         MetroNode --- GPU
     end
 
-    subgraph L3["⚙️ Layer 3: Tethered Boroughs (MCP Sidecar Mesh)"]
-        Boroughs["🔌 Boroughs Sidecar Mesh (workspace-execution, duckdb-supercharger, agy-mcp, wrangler-mcp)"]
+    subgraph L3["🔌 Layer 3: Tethered Sidecars & MCP Mesh"]
+        Boroughs["Boroughs (PCIe / USB Accelerators & MCP Protocol Sidecars)"]
     end
 
-    subgraph L4["📡 Layer 4: Field & Network Fabric"]
-        Villages["🔋 Villages (Rogue Field SBCs / Battery Pis)"]
-        Megalopolis["🌐 Megalopolis Multi-Host Network"]
+    subgraph L4["📡 Layer 4: Field Devices & Network Fabric"]
+        Villages["Villages (Rogue Field SBCs / Battery Pis)"]
+        Megalopolis["Megalopolis (Multi-Host Network Fabric)"]
     end
 
-    subgraph L5["☁️ Layer 5: Edge Routing & Intelligence"]
-        Watchtowers["⚡ Watchtowers (Cloudflare Workers AI & Durable Objects)"]
+    subgraph L5["⚡ Layer 5: Edge Cloud Router"]
+        Watchtowers["Watchtowers (Cloudflare Workers AI & Durable Objects Router)"]
     end
 
-    subgraph L6["📱 Layer 6: Zero-Liability Client Ecosystem"]
-        ZLA["🛡️ ZLA Client Stack (Blazor WASM PWAs, WebRTC / PeerJS P2P)"]
+    subgraph L6["🛡️ Layer 6: Zero-Liability Client Ecosystem"]
+        ZLA["Zero-Liability Architecture (Blazor WASM PWAs / WebRTC & PeerJS)"]
     end
 
     Archives --> MetroNode
@@ -66,19 +66,21 @@ flowchart TD
 
 ---
 
-## 🏛️ Core Flagship Architectures
+## 🏛️ Metropolis Canonical Infrastructure Breakdown
 
 <details open>
-<summary><b>🏛️ Metropolis Distributed Infrastructure (Click to Collapse)</b></summary>
+<summary><b>🏛️ Metropolis Infrastructure Entities (Click to Collapse)</b></summary>
 
 <br />
 
-*A hybrid local-to-edge agent execution framework and real-time telemetry lake.*
-- **Primary Host PC (`Metropolis-Prime` / `MetroNode`)**: Coordinates high-throughput local compute, hardware NVENC video processing (1080p60 H.264/HEVC), and local DuckDB memory stores (`mind.duckdb`).
-- **Tethered Sidecars (`Boroughs`)**: Local sidecar MCP protocol mesh (`workspace-execution-mcp-server`, `duckdb-supercharger`, `agy-mcp-server`, `orchestrator-do-mcp-server`, `cloudflare-inference-mcp-server`).
-- **Rogue Field Devices (`Villages`)**: Battery-powered field SBCs and Raspberry Pi nodes connected over `Megalopolis` multi-host network fabric.
-- **Cloudflare Edge (`Watchtowers`)**: Smart edge routing layer powered by Cloudflare Workers, **Durable Objects (DO)**, and Workers AI for low-latency state synchronization (<35ms).
-- **Telemetry Lake (`The Archives`)**: Persistent DuckDB analytical data lake (`mind.duckdb`, `agent_memory.duckdb`, `st_codex.duckdb`).
+| Canonical Metropolis Entity | Classification | System Role & Hardware/Software Bounds |
+| :--- | :--- | :--- |
+| **`Metropolis-Prime` / `MetroNode`** | Primary Host PC | High-throughput local compute host, NVENC video encoding (1080p60), and orchestrator kernel. |
+| **`Boroughs`** | Tethered Sidecars | Attached PCIe cards, USB accelerators, and local MCP sidecars (`workspace-execution`, `duckdb-supercharger`, `agy-mcp`, `orchestrator-do`, `cloudflare-inference`). |
+| **`Villages`** | Field SBC Devices | Standalone, battery-powered Raspberry Pi and field SBC nodes executing edge telemetry. |
+| **`Megalopolis`** | Multi-Host Fabric | Inter-node networking fabric linking `MetroNode`, `Boroughs`, `Villages`, and edge services. |
+| **`Watchtowers`** | Cloudflare Edge Router | Edge routing layer using Cloudflare Workers, **Durable Objects (DO)**, and Workers AI (<35ms latency). |
+| **`The Archives`** | Memory & Telemetry Lake | Single-source-of-truth DuckDB telemetry lake (`mind.duckdb`, `agent_memory.duckdb`, `st_codex.duckdb`). |
 
 </details>
 
