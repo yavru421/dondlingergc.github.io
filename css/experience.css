@@ -1091,6 +1091,370 @@
   color: var(--text-muted);
 }
 
+/* -------------------------------------------------------------------------- */
+/* LIVE METROPOLIS CONTROL ROOM HUD                                           */
+/* -------------------------------------------------------------------------- */
+.metropolis-control-hud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  background: rgba(5, 10, 18, 0.75);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 243, 255, 0.25);
+  border-radius: 12px;
+  padding: 18px 24px;
+  margin-bottom: 28px;
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.hud-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hud-value {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--neon-green);
+  margin-top: 4px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* INTERACTIVE GLASSMORPHISM APP DEMO SHOWCASES                               */
+/* -------------------------------------------------------------------------- */
+.interactive-demos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+  gap: 28px;
+}
+
+@media (max-width: 600px) {
+  .interactive-demos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.interactive-demo-card {
+  background: rgba(13, 18, 28, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 243, 255, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.interactive-demo-card:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 12px 32px rgba(0, 243, 255, 0.15);
+}
+
+.demo-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.demo-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.demo-preview-stage {
+  background: rgba(3, 7, 13, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sound-pad-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.sound-pad {
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.4);
+  color: var(--neon-green);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 14px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.sound-pad:hover {
+  background: var(--neon-green);
+  color: #000000;
+  box-shadow: 0 0 12px var(--neon-green);
+}
+
+.sound-pad:active, .sound-pad.playing {
+  transform: scale(0.95);
+  background: #ffffff;
+  color: #000000;
+}
+
+.dropzone-demo {
+  border: 2px dashed rgba(0, 243, 255, 0.4);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(0, 243, 255, 0.03);
+}
+
+.dropzone-demo:hover, .dropzone-demo.dragover {
+  border-color: var(--neon-green);
+  background: rgba(57, 255, 20, 0.08);
+}
+
+/* -------------------------------------------------------------------------- */
+/* COMMERCIAL CLIENT ROI & SCOPE CALCULATOR                                   */
+/* -------------------------------------------------------------------------- */
+.roi-calculator-card {
+  background: linear-gradient(145deg, rgba(13, 20, 32, 0.9) 0%, rgba(5, 9, 16, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  border-radius: 20px;
+  padding: 36px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 36px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 900px) {
+  .roi-calculator-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.roi-controls-side {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.calc-section-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 8px;
+}
+
+.chips-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.calc-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.calc-chip:hover {
+  border-color: var(--neon-green);
+  color: var(--text-primary);
+}
+
+.calc-chip.selected {
+  background: rgba(57, 255, 20, 0.15);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.2);
+}
+
+.roi-results-side {
+  background: rgba(3, 7, 13, 0.8);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  border-radius: 14px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.metric-big-box {
+  margin-bottom: 20px;
+}
+
+.metric-big-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.metric-big-val {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--neon-green);
+}
+
+.btn-lock-scope {
+  width: 100%;
+  padding: 14px 20px;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #000000;
+  background: linear-gradient(135deg, var(--neon-green) 0%, var(--neon-cyan) 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+}
+
+.btn-lock-scope:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(57, 255, 20, 0.7);
+}
+
+/* -------------------------------------------------------------------------- */
+/* GLOBAL COMMAND PALETTE SEARCH MODAL (CMD+K / /)                             */
+/* -------------------------------------------------------------------------- */
+#cmd-k-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(3, 5, 8, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 100px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+#cmd-k-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cmd-k-box {
+  width: 90%;
+  max-width: 640px;
+  background: #090e17;
+  border: 1px solid rgba(0, 243, 255, 0.35);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 243, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.cmd-k-input-row {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 12px;
+}
+
+.cmd-k-icon {
+  font-family: var(--font-mono);
+  color: var(--neon-cyan);
+  font-size: 1.1rem;
+}
+
+.cmd-k-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: var(--text-primary);
+}
+
+.cmd-k-kbd {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: var(--text-muted);
+}
+
+.cmd-k-results {
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.cmd-k-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.cmd-k-item:hover, .cmd-k-item.active {
+  background: rgba(0, 243, 255, 0.12);
+}
+
+.cmd-k-item-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.cmd-k-item-sub {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--neon-green);
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .experience-nav-bar {
@@ -1116,3 +1480,4 @@
     padding: 24px 16px;
   }
 }
+

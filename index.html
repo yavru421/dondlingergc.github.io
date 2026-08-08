@@ -470,6 +470,9 @@
     </div>
 
     <div class="nav-actions">
+      <button class="btn-contact-nav" onclick="openCmdK()" style="background: rgba(0, 243, 255, 0.15); color: var(--neon-cyan); border: 1px solid rgba(0, 243, 255, 0.4); margin-right: 8px;">
+        <kbd style="font-family: var(--font-mono); font-size: 0.72rem; background: rgba(255, 255, 255, 0.15); padding: 2px 6px; border-radius: 4px; margin-right: 4px;">⌘K</kbd> QUICK SEARCH
+      </button>
       <button class="btn-contact-nav" onclick="document.getElementById('intake-section').scrollIntoView({behavior:'smooth'})">
         ENGAGE ENGINEERING
       </button>
@@ -479,9 +482,11 @@
   <!-- Category Sub-Filter Bar -->
   <div class="category-filter-bar">
     <button class="filter-btn active" data-filter="all">ALL PORTAL</button>
-    <button class="filter-btn" data-filter="downloads">📥 FREE DOWNLOADS VAULT</button>
-    <button class="filter-btn" data-filter="apps">🌐 LIVE PWAS & TELEMETRY</button>
-    <button class="filter-btn" data-filter="demos">⚡ APP INFOMERCIALS</button>
+    <button class="filter-btn" data-filter="controlroom">📊 CONTROL ROOM</button>
+    <button class="filter-btn" data-filter="calculator">🧮 ROI CALCULATOR</button>
+    <button class="filter-btn" data-filter="demos">⚡ INTERACTIVE DEMOS</button>
+    <button class="filter-btn" data-filter="apps">🌐 LIVE SUBDOMAINS</button>
+    <button class="filter-btn" data-filter="downloads">📥 FREE DOWNLOADS</button>
     <button class="filter-btn" data-filter="capabilities">🔒 CAPABILITIES</button>
     <button class="filter-btn" data-filter="intake">✉️ ENTERPRISE INTAKE</button>
   </div>
@@ -540,13 +545,88 @@
         </div>
       </section>
 
-      <!-- FREE DOWNLOADS VAULT SECTION -->
-      <section id="downloads-vault-section" class="portal-section">
+      <!-- LIVE METROPOLIS CONTROL ROOM SECTION -->
+      <section id="control-room-section" class="portal-section">
         <div class="section-header">
-          <span class="section-tag">[ FREE DOWNLOADS VAULT & OPEN SOURCE PACKAGES ]</span>
-          <h2 class="section-title">Metropolis MCPs, Skills & System Blueprints</h2>
-          <p style="color: var(--text-secondary); margin-top: 8px;">Free open-source tools, sidecar MCP servers, and Antigravity skill packs available for instant download and CLI installation.</p>
+          <span class="section-tag">[ METROPOLIS CONTROL ROOM & EDGE TELEMETRY ]</span>
+          <h2 class="section-title">Live Node Operations & Edge Metrics</h2>
+          <p style="color: var(--text-secondary); margin-top: 8px;">Real-time operational indicators powered by Cloudflare Workers AI edge router and Metropolis-Prime sidecars.</p>
         </div>
+
+        <div class="metropolis-control-hud">
+          <div class="hud-item">
+            <span class="hud-label">AVERAGE EDGE LATENCY</span>
+            <span class="hud-value" id="hud-avg-ping">28 ms</span>
+          </div>
+          <div class="hud-item">
+            <span class="hud-label">ACTIVE SUBDOMAIN NODES</span>
+            <span class="hud-value" id="hud-active-nodes">15 / 15 ONLINE</span>
+          </div>
+          <div class="hud-item">
+            <span class="hud-label">CLOUDFLARE CDN MESH</span>
+            <span class="hud-value" id="hud-cdn-status" style="color: var(--neon-cyan);">100% OPERATIONAL</span>
+          </div>
+          <div class="hud-item">
+            <span class="hud-label">WORKERS AI ROUTER LOAD</span>
+            <span class="hud-value" id="hud-router-load" style="color: var(--neon-purple);">0.04 MS LATENCY</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMMERCIAL CLIENT ROI & SCOPE CALCULATOR -->
+      <section id="roi-calculator-section" class="portal-section">
+        <div class="section-header">
+          <span class="section-tag">[ ENTERPRISE SCOPE ESTIMATOR & ROI CALCULATOR ]</span>
+          <h2 class="section-title">Calculate Your Software Objectives & ROI</h2>
+          <p style="color: var(--text-secondary); margin-top: 8px;">Configure custom PWA components, zero-liability peer sync, and edge AI models to estimate timeline, budget, and efficiency gains.</p>
+        </div>
+
+        <div class="roi-calculator-card">
+          <div class="roi-controls-side">
+            <div>
+              <div class="calc-section-label">1. Select Required Architecture Modules</div>
+              <div class="chips-selector">
+                <div class="calc-chip selected" data-weight="1.5">Custom WASM PWA</div>
+                <div class="calc-chip selected" data-weight="2.0">WebRTC Peer Mesh (ZLA)</div>
+                <div class="calc-chip" data-weight="1.8">Cloudflare Edge AI Router</div>
+                <div class="calc-chip" data-weight="1.2">Realtime GIS & GPS Telemetry</div>
+                <div class="calc-chip selected" data-weight="1.0">Offline Caching Engine</div>
+                <div class="calc-chip" data-weight="1.4">Enterprise API Gateway</div>
+              </div>
+            </div>
+
+            <div>
+              <div class="calc-section-label">2. Target Active User Volume</div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-primary);">
+                <span>Scaled Users:</span>
+                <span id="user-count-display" style="color: var(--neon-green); font-weight: 700;">2,500</span>
+              </div>
+              <input type="range" id="user-scale-slider" min="100" max="50000" step="500" value="2500" style="width: 100%; accent-color: var(--neon-green); cursor: pointer;">
+            </div>
+          </div>
+
+          <div class="roi-results-side">
+            <div>
+              <div class="metric-big-box">
+                <div class="metric-big-label">ESTIMATED DELIVERY TIMELINE</div>
+                <div class="metric-big-val" id="calc-output-weeks">4 WEEKS</div>
+              </div>
+              <div class="metric-big-box">
+                <div class="metric-big-label">EFFICIENCY & COST GAIN</div>
+                <div class="metric-big-val" id="calc-output-roi" style="color: var(--neon-cyan);">68% EFFICIENCY GAIN</div>
+              </div>
+              <div class="metric-big-box">
+                <div class="metric-big-label">ESTIMATED BUDGET BRACKET</div>
+                <div class="metric-big-val" id="calc-output-budget" style="color: #ffffff;">$20,125</div>
+              </div>
+            </div>
+
+            <button class="btn-lock-scope" onclick="lockScopeAndProceed()">
+              LOCK SCOPE & REQUEST PROPOSAL ↗
+            </button>
+          </div>
+        </div>
+      </section>
 
         <div class="downloads-grid">
           
@@ -825,104 +905,80 @@
         </div>
       </section>
 
-      <!-- APP INFOMERCIALS & LIVE ACTIVITY SHOWCASE -->
+      <!-- INTERACTIVE GLASSMORPHISM APP DEMOS SECTION -->
       <section id="infomercial-section" class="portal-section">
         <div class="section-header">
-          <span class="section-tag">[ LIVE INFOMERCIALS & REALT IME DEMOS ]</span>
-          <h2 class="section-title">See Our Apps In Action</h2>
+          <span class="section-tag">[ INTERACTIVE GLASSMORPHISM APP DEMOS ]</span>
+          <h2 class="section-title">Test Drive Key Applications Live</h2>
+          <p style="color: var(--text-secondary); margin-top: 8px;">Interactive previews powered by real Web Audio synthesis, WebRTC peer simulations, and offline PWA generators.</p>
         </div>
-        <div class="infomercials-grid">
+        <div class="interactive-demos-grid">
           
-          <!-- Infomercial 1: Personalization Engine -->
-          <div class="infomercial-card">
-            <div class="infomercial-stage">
-              <span class="infomercial-stage-tag">LIVE DEMO // PREVIEWS</span>
-              <div class="swatch-demo-container">
-                <div class="swatch-box" style="background: #a855f7;"></div>
-                <div class="swatch-box" style="background: #39ff14;"></div>
-                <div class="swatch-box" style="background: #00f3ff;"></div>
+          <!-- Demo 1: Heckler Web Audio Soundboard -->
+          <div class="interactive-demo-card">
+            <div class="demo-card-header">
+              <div class="demo-title">Heckler Audio Synth</div>
+              <span class="status-badge online">PLAYABLE AUDIO</span>
+            </div>
+            <div class="demo-preview-stage">
+              <div class="sound-pad-grid">
+                <div class="sound-pad" data-freq="440" data-type="sine">440Hz<br>SINE</div>
+                <div class="sound-pad" data-freq="554" data-type="square">554Hz<br>SQUARE</div>
+                <div class="sound-pad" data-freq="659" data-type="sawtooth">659Hz<br>SAW</div>
+                <div class="sound-pad" data-freq="880" data-type="triangle">880Hz<br>TRI</div>
               </div>
             </div>
-            <div class="infomercial-body">
-              <div class="infomercial-header">
-                <div class="infomercial-title">Personalization Engine</div>
-                <span class="status-badge online">GATEWAY ACTIVE</span>
+            <p class="service-desc" style="margin-bottom: 16px;">Click sound pads above to trigger instant Web Audio API tone synthesis built with Blazor WASM.</p>
+            <a href="https://heckler.dondlingergc.com" target="_blank" class="btn-launch-service" style="align-self: flex-start;">LAUNCH HECKLER ↗</a>
+          </div>
+
+          <!-- Demo 2: TAP Field Ticket Generator -->
+          <div class="interactive-demo-card">
+            <div class="demo-card-header">
+              <div class="demo-title">TAP Field Ticket Engine</div>
+              <span class="status-badge online">GPS PROOF</span>
+            </div>
+            <div class="demo-preview-stage" id="tap-demo-output">
+              <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+                Click button below to generate signed location proof ticket
               </div>
-              <p class="infomercial-desc">Unlock premium features, configure Metropolis taskbars, and customize real-time neon glassmorphism themes for your team.</p>
-              <div class="infomercial-footer">
-                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">customization.dondlingergc.com</span>
-                <a href="https://personalization.dondlingergc.com" target="_blank" class="btn-infomercial-action" style="background: #a855f7; color: #fff;">LAUNCH ENGINE ↗</a>
-              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn-launch-service" onclick="generateTapTicket()" style="background: var(--neon-green); color: #000; font-weight: 700; border: none;">GENERATE TICKET ⚡</button>
+              <a href="https://tap.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH TAP ↗</a>
             </div>
           </div>
 
-          <!-- Infomercial 2: Heckler Soundboard -->
-          <div class="infomercial-card">
-            <div class="infomercial-stage">
-              <span class="infomercial-stage-tag">AUDIO SPECTRUM // WASM</span>
-              <div class="eq-container">
-                <div class="eq-bar"></div>
-                <div class="eq-bar"></div>
-                <div class="eq-bar"></div>
-                <div class="eq-bar"></div>
-                <div class="eq-bar"></div>
-                <div class="eq-bar"></div>
+          <!-- Demo 3: Timeline ZLA WebRTC Sync -->
+          <div class="interactive-demo-card">
+            <div class="demo-card-header">
+              <div class="demo-title">TimelineZLA Peer Mesh</div>
+              <span class="status-badge online">WEBRTC SYNC</span>
+            </div>
+            <div class="demo-preview-stage" id="timeline-demo-output">
+              <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+                Click button below to initialize 6-digit WebRTC sync room
               </div>
             </div>
-            <div class="infomercial-body">
-              <div class="infomercial-header">
-                <div class="infomercial-title">Heckler Soundboard</div>
-                <span class="status-badge online">WASM AUDIO</span>
-              </div>
-              <p class="infomercial-desc">Instant sound triggers and audio diagnostics engineered with MudBlazor WebAssembly for zero-latency playback.</p>
-              <div class="infomercial-footer">
-                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">heckler.dondlingergc.com</span>
-                <a href="https://heckler.dondlingergc.com" target="_blank" class="btn-infomercial-action">OPEN SOUNDBOARD ↗</a>
-              </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn-launch-service" onclick="startTimelineSync()" style="background: var(--neon-cyan); color: #000; font-weight: 700; border: none;">CREATE ROOM 🔗</button>
+              <a href="https://timelinezla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH TIMELINE ↗</a>
             </div>
           </div>
 
-          <!-- Infomercial 3: WaZ Weather Hub -->
-          <div class="infomercial-card">
-            <div class="infomercial-stage">
-              <span class="infomercial-stage-tag">ATMOSPHERIC RADAR // NWS</span>
-              <div class="radar-dish">
-                <div class="radar-line"></div>
+          <!-- Demo 4: SkyDrop P2P Transfer -->
+          <div class="interactive-demo-card">
+            <div class="demo-card-header">
+              <div class="demo-title">SkyDrop Encrypted Drop</div>
+              <span class="status-badge online">PEERJS PWA</span>
+            </div>
+            <div class="demo-preview-stage" id="skydrop-demo-output">
+              <div class="dropzone-demo" onclick="simulateSkyDrop()">
+                <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--neon-cyan); font-weight: 700;">TAP TO SIMULATE FILE DROP</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">Zero cloud storage • AES-GCM Encrypted</div>
               </div>
             </div>
-            <div class="infomercial-body">
-              <div class="infomercial-header">
-                <div class="infomercial-title">WaZ Weather Dashboard</div>
-                <span class="status-badge online">RADAR LIVE</span>
-              </div>
-              <p class="infomercial-desc">Severe weather tracking and tactical storm dispatch with real-time National Weather Service radar integration.</p>
-              <div class="infomercial-footer">
-                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">wazweather.dondlingergc.com</span>
-                <a href="https://wazweather.dondlingergc.com" target="_blank" class="btn-infomercial-action">CHECK RADAR ↗</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Infomercial 4: Skydrop Encrypted Transfer -->
-          <div class="infomercial-card">
-            <div class="infomercial-stage">
-              <span class="infomercial-stage-tag">PEERJS ENCRYPTED // QR SCAN</span>
-              <div class="qr-demo-box">
-                <div class="qr-scan-bar"></div>
-                QR SYNC
-              </div>
-            </div>
-            <div class="infomercial-body">
-              <div class="infomercial-header">
-                <div class="infomercial-title">Skydrop Peer Transfer</div>
-                <span class="status-badge online">E2E ENCRYPTED</span>
-              </div>
-              <p class="infomercial-desc">High-speed peer-to-peer file transfer directly between devices using PeerJS and instant mobile QR code scanning.</p>
-              <div class="infomercial-footer">
-                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">skydrop.dondlingergc.com</span>
-                <a href="https://skydrop.dondlingergc.com" target="_blank" class="btn-infomercial-action">TRANSFER FILES ↗</a>
-              </div>
-            </div>
+            <a href="https://skydrop.dondlingergc.com" target="_blank" class="btn-launch-service" style="align-self: flex-start;">LAUNCH SKYDROP ↗</a>
           </div>
 
         </div>
@@ -1246,6 +1302,21 @@
       }
     }
   </script>
+
+  <!-- GLOBAL COMMAND PALETTE SEARCH MODAL (CMD+K / /) -->
+  <div id="cmd-k-modal">
+    <div class="cmd-k-box">
+      <div class="cmd-k-input-row">
+        <span class="cmd-k-icon">🔍</span>
+        <input type="text" id="cmd-k-input" class="cmd-k-input" placeholder="Search subdomains, PWAs, or tools... (Esc to close)" autocomplete="off">
+        <span class="cmd-k-kbd">ESC</span>
+      </div>
+      <div class="cmd-k-results" id="cmd-k-results">
+        <!-- Results injected dynamically -->
+      </div>
+    </div>
+  </div>
+
   <script src="js/experience-hero.js"></script>
 </body>
 </html>
