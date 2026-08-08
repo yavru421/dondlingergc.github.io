@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="description" content="Dondlinger Digital Database — Engineering Division. Premium progressive web applications.">
+  <meta name="description" content="Dondlinger Digital Database — Engineering Division. Premium progressive web applications, ZLA peer mesh engines, and edge computing telemetry.">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="dondlinger_logo.png">
-  <title>Dondlinger Digital Database</title>
+  <title>Dondlinger Digital Database — Engineering Division</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +36,7 @@
       overflow: hidden;
     }
 
-    /* Side Nav */
+    /* Side Nav for Directory */
     #sidebar {
       width: 280px;
       background-color: var(--bg-panel);
@@ -483,9 +483,9 @@
   <div class="category-filter-bar">
     <button class="filter-btn active" data-filter="all">ALL PORTAL</button>
     <button class="filter-btn" data-filter="controlroom">📊 CONTROL ROOM</button>
+    <button class="filter-btn" data-filter="apps">🌐 LIVE SUBDOMAINS</button>
     <button class="filter-btn" data-filter="calculator">🧮 ROI CALCULATOR</button>
     <button class="filter-btn" data-filter="demos">⚡ INTERACTIVE DEMOS</button>
-    <button class="filter-btn" data-filter="apps">🌐 LIVE SUBDOMAINS</button>
     <button class="filter-btn" data-filter="downloads">📥 FREE DOWNLOADS</button>
     <button class="filter-btn" data-filter="capabilities">🔒 CAPABILITIES</button>
     <button class="filter-btn" data-filter="intake">✉️ ENTERPRISE INTAKE</button>
@@ -513,11 +513,11 @@
               Dondlinger Digital Database engineers high-performance progressive web applications, zero-liability sync engines, and real-time operational tools built for enterprise scalability and raw speed.
             </p>
             <div class="hero-cta-buttons">
-              <button class="btn-hero-primary" onclick="document.getElementById('downloads-vault-section').scrollIntoView({behavior:'smooth'})">
-                📥 OPEN FREE DOWNLOADS VAULT
+              <button class="btn-hero-primary" onclick="document.getElementById('telemetry-section').scrollIntoView({behavior:'smooth'})">
+                🌐 EXPLORE LIVE SUBDOMAINS
               </button>
-              <button class="btn-hero-secondary" onclick="document.getElementById('telemetry-section').scrollIntoView({behavior:'smooth'})">
-                EXPLORE LIVE TELEMETRY
+              <button class="btn-hero-secondary" onclick="document.getElementById('roi-calculator-section').scrollIntoView({behavior:'smooth'})">
+                🧮 CALCULATE SCOPE & ROI
               </button>
             </div>
 
@@ -528,8 +528,8 @@
                 <span class="stat-lbl">Live Deployed PWAs</span>
               </div>
               <div class="stat-item">
-                <span class="stat-num">4</span>
-                <span class="stat-lbl">Open Source Packs</span>
+                <span class="stat-num">13</span>
+                <span class="stat-lbl">Active Subdomains</span>
               </div>
               <div class="stat-item">
                 <span class="stat-num">99.9%</span>
@@ -570,6 +570,231 @@
             <span class="hud-label">WORKERS AI ROUTER LOAD</span>
             <span class="hud-value" id="hud-router-load" style="color: var(--neon-purple);">0.04 MS LATENCY</span>
           </div>
+        </div>
+      </section>
+
+      <!-- Subdomain Telemetry Section -->
+      <section id="telemetry-section" class="portal-section">
+        <div class="section-header">
+          <span class="section-tag">[ ACTIVE SUBDOMAIN MATRIX ]</span>
+          <h2 class="section-title">Live Edge Services & Subdomain Directory</h2>
+          <p style="color: var(--text-secondary); margin-top: 8px;">Direct access to all 13 production subdomains and 3 relative progressive web applications.</p>
+        </div>
+        <div class="telemetry-grid">
+          
+          <!-- WaZ Weather Dashboard -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name" style="font-size: 1.15rem; color: #ffffff;">WaZ Weather Dashboard</div>
+              <div class="status-badge checking" id="status-badge-wazweather"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://wazweather.dondlingergc.com" target="_blank" class="service-subdomain">wazweather.dondlingergc.com</a>
+            <p class="service-desc">Live atmospheric radar telemetry, river hydrology flow rates, and severe storm dispatch alerts.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-wazweather">--</strong></span>
+              <a href="https://wazweather.dondlingergc.com" target="_blank" class="btn-launch-service" style="background: var(--neon-green); color: #000; font-weight: 700;">LAUNCH WEATHER ↗</a>
+            </div>
+          </div>
+
+          <!-- PourReady Estimator -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name" style="font-size: 1.15rem; color: #ffffff;">PourReady Estimator</div>
+              <span class="status-badge online"><span class="status-dot">●</span> PWA LOCAL</span>
+            </div>
+            <a href="./calc/index.html" class="service-subdomain">dondlingergc.com/calc/</a>
+            <p class="service-desc">Field-tested concrete volume calculator for slabs, footings, and walls with safety margins.</p>
+            <div class="telemetry-meta">
+              <span>TYPE: <strong class="latency-val" style="color: var(--neon-green);">LOCAL PWA</strong></span>
+              <a href="./calc/index.html" class="btn-launch-service" style="background: #ff6b35; color: #fff; font-weight: 700; border-color: #ff6b35;">LAUNCH POURREADY ↗</a>
+            </div>
+          </div>
+
+          <!-- Personalization Engine -->
+          <div class="telemetry-card featured-card">
+            <div class="telemetry-card-top">
+              <div>
+                <div class="service-name" style="font-size: 1.25rem; color: #ffffff;">Personalization Engine</div>
+                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #d8b4fe; margin-top: 4px;">SYSTEM CUSTOMIZATION & METROPOLIS TASKBAR</div>
+              </div>
+              <div class="featured-badge">★ GATEWAY</div>
+            </div>
+            <a href="https://personalization.dondlingergc.com" target="_blank" class="service-subdomain" style="font-size: 0.95rem; font-weight: 700;">personalization.dondlingergc.com</a>
+            <p class="service-desc" style="color: #cbd5e1; font-size: 0.9rem;">Metropolis Taskbar state manager, dynamic glassmorphism theme customizer, and gateway to premium features.</p>
+            <div class="telemetry-meta">
+              <span>STATUS: <strong class="latency-val" id="latency-personalization" style="color: var(--neon-purple);">ONLINE</strong></span>
+              <a href="https://personalization.dondlingergc.com" target="_blank" class="btn-launch-service" style="background: var(--neon-purple); color: #ffffff; font-weight: 700; border-color: var(--neon-purple);">LAUNCH ENGINE ↗</a>
+            </div>
+          </div>
+
+          <!-- TAP: Time & Place -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">TAP: Time & Place</div>
+              <div class="status-badge checking" id="status-badge-tap"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://tap.dondlingergc.com" target="_blank" class="service-subdomain">tap.dondlingergc.com</a>
+            <p class="service-desc">MudBlazor WASM authenticated field tracking protocol with location and duration proofs.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-tap">--</strong></span>
+              <a href="https://tap.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <!-- TimelineZLA Sync -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">TimelineZLA Sync</div>
+              <div class="status-badge checking" id="status-badge-timelinezla"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://timelinezla.dondlingergc.com" target="_blank" class="service-subdomain">timelinezla.dondlingergc.com</a>
+            <p class="service-desc">Local-first project timeline builder with 6-digit code WebRTC peer sync and PDF exports.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-timelinezla">--</strong></span>
+              <a href="https://timelinezla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <!-- Heckler Soundboard -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">Heckler Soundboard</div>
+              <div class="status-badge checking" id="status-badge-heckler"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://heckler.dondlingergc.com" target="_blank" class="service-subdomain">heckler.dondlingergc.com</a>
+            <p class="service-desc">Blazor WASM audio trigger engine for soundboard diagnostics and high-velocity alerts.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-heckler">--</strong></span>
+              <a href="https://heckler.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <!-- SkyDrop Peer Transfer -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">SkyDrop Peer Transfer</div>
+              <div class="status-badge checking" id="status-badge-skydrop"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://skydrop.dondlingergc.com" target="_blank" class="service-subdomain">skydrop.dondlingergc.com</a>
+            <p class="service-desc">PeerJS encrypted file transfer utility with mobile QR code scanning and zero cloud storage.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-skydrop">--</strong></span>
+              <a href="https://skydrop.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <!-- ShotStack Studio -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">ShotStack Studio</div>
+              <div class="status-badge checking" id="status-badge-shotstack"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://shotstackstudio.dondlingergc.com" target="_blank" class="service-subdomain">shotstackstudio.dondlingergc.com</a>
+            <p class="service-desc">Storyboard compiler for video directors to compile images and notes into exportable PDFs.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-shotstack">--</strong></span>
+              <a href="https://shotstackstudio.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <!-- On My Way (OMW) -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">On My Way (OMW)</div>
+              <div class="status-badge checking" id="status-badge-omw"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://omw.dondlingergc.com" target="_blank" class="service-subdomain">omw.dondlingergc.com</a>
+            <p class="service-desc">Live GPS and ETA broadcasting tool for field technicians to share live arrival status.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-omw">--</strong></span>
+              <a href="https://omw.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <!-- AmpliLoop Studio -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">AmpliLoop Studio</div>
+              <div class="status-badge checking" id="status-badge-blazorpwa"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://blazorpwa.dondlingergc.com" target="_blank" class="service-subdomain">blazorpwa.dondlingergc.com</a>
+            <p class="service-desc">Blazor WASM rap beat generator, metronome, and instrument tuner running local compiles.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-blazorpwa">--</strong></span>
+              <a href="https://blazorpwa.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <!-- Anytime Animal Control -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">Anytime Animal Control</div>
+              <div class="status-badge checking" id="status-badge-aac"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://aac.dondlingergc.com" target="_blank" class="service-subdomain">aac.dondlingergc.com</a>
+            <p class="service-desc">Live wildlife removal service portal with coverage maps and dispatch contacts.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-aac">--</strong></span>
+              <a href="https://aac.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <!-- Touchscreen Tester -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">Touchscreen Tester</div>
+              <span class="status-badge online"><span class="status-dot">●</span> DIAGNOSTIC</span>
+            </div>
+            <a href="./touchscreen.html" class="service-subdomain">dondlingergc.com/touchscreen.html</a>
+            <p class="service-desc">Client-side hardware diagnostic PWA to test touchscreen deadzones and ghost touch coordinates.</p>
+            <div class="telemetry-meta">
+              <span>TYPE: <strong class="latency-val" style="color: var(--neon-green);">LOCAL PWA</strong></span>
+              <a href="./touchscreen.html" class="btn-launch-service">TEST PWA ↗</a>
+            </div>
+          </div>
+
+          <!-- Zero Liability Architecture Showcase -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">Zero Liability Architecture</div>
+              <div class="status-badge checking" id="status-badge-zla"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://zla.dondlingergc.com" target="_blank" class="service-subdomain">zla.dondlingergc.com</a>
+            <p class="service-desc">Architectural showcase for browser-first zero data liability applications.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-zla">--</strong></span>
+              <a href="https://zla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <!-- Dondlinger Voice Intake -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">Dondlinger Voice Intake</div>
+              <span class="status-badge online"><span class="status-dot">●</span> VOICE PWA</span>
+            </div>
+            <a href="./intake.html" class="service-subdomain">dondlingergc.com/intake.html</a>
+            <p class="service-desc">Voice-first client onboarding. Tap microphone to record project vision securely.</p>
+            <div class="telemetry-meta">
+              <span>TYPE: <strong class="latency-val" style="color: var(--neon-green);">LOCAL PWA</strong></span>
+              <a href="./intake.html" class="btn-launch-service">RECORD ↗</a>
+            </div>
+          </div>
+
+          <!-- Intake Gateway API -->
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">Intake Gateway API</div>
+              <div class="status-badge checking" id="status-badge-intake"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://intake.dondlingergc.com" target="_blank" class="service-subdomain">intake.dondlingergc.com</a>
+            <p class="service-desc">Secure JSON intake API and lead ingestion pipeline for enterprise client projects.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-intake">--</strong></span>
+              <a href="https://intake.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -627,6 +852,94 @@
           </div>
         </div>
       </section>
+
+      <!-- INTERACTIVE GLASSMORPHISM APP DEMOS SECTION -->
+      <section id="infomercial-section" class="portal-section">
+        <div class="section-header">
+          <span class="section-tag">[ INTERACTIVE GLASSMORPHISM APP DEMOS ]</span>
+          <h2 class="section-title">Test Drive Key Applications Live</h2>
+          <p style="color: var(--text-secondary); margin-top: 8px;">Interactive previews powered by real Web Audio synthesis, WebRTC peer simulations, and offline PWA generators.</p>
+        </div>
+        <div class="interactive-demos-grid">
+          
+          <!-- Demo 1: WaZ Weather Telemetry -->
+          <div class="interactive-demo-card">
+            <div class="demo-card-header">
+              <div class="demo-title">WaZ Weather Radar</div>
+              <span class="status-badge online">LIVE RADAR</span>
+            </div>
+            <div class="demo-preview-stage">
+              <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--neon-green);">
+                📡 WISCONSIN RAPIDS ATMOSPHERIC TELEMETRY<br>
+                RIVER FLOW: 4,820 CFS | BAROMETER: 30.12 inHg<br>
+                <span style="color: var(--neon-cyan);">RADAR MESH: 0 ALERTS IN ACTIVE DISPATCH ZONE</span>
+              </div>
+            </div>
+            <a href="https://wazweather.dondlingergc.com" target="_blank" class="btn-launch-service" style="align-self: flex-start; background: var(--neon-green); color: #000; font-weight: 700;">LAUNCH WAZ WEATHER ↗</a>
+          </div>
+
+          <!-- Demo 2: Heckler Web Audio Soundboard -->
+          <div class="interactive-demo-card">
+            <div class="demo-card-header">
+              <div class="demo-title">Heckler Audio Synth</div>
+              <span class="status-badge online">PLAYABLE AUDIO</span>
+            </div>
+            <div class="demo-preview-stage">
+              <div class="sound-pad-grid">
+                <div class="sound-pad" data-freq="440" data-type="sine">440Hz<br>SINE</div>
+                <div class="sound-pad" data-freq="554" data-type="square">554Hz<br>SQUARE</div>
+                <div class="sound-pad" data-freq="659" data-type="sawtooth">659Hz<br>SAW</div>
+                <div class="sound-pad" data-freq="880" data-type="triangle">880Hz<br>TRI</div>
+              </div>
+            </div>
+            <p class="service-desc" style="margin-bottom: 16px;">Click sound pads above to trigger instant Web Audio API tone synthesis built with Blazor WASM.</p>
+            <a href="https://heckler.dondlingergc.com" target="_blank" class="btn-launch-service" style="align-self: flex-start;">LAUNCH HECKLER ↗</a>
+          </div>
+
+          <!-- Demo 3: TAP Field Ticket Generator -->
+          <div class="interactive-demo-card">
+            <div class="demo-card-header">
+              <div class="demo-title">TAP Field Ticket Engine</div>
+              <span class="status-badge online">GPS PROOF</span>
+            </div>
+            <div class="demo-preview-stage" id="tap-demo-output">
+              <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+                Click button below to generate signed location proof ticket
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn-launch-service" onclick="generateTapTicket()" style="background: var(--neon-green); color: #000; font-weight: 700; border: none;">GENERATE TICKET ⚡</button>
+              <a href="https://tap.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH TAP ↗</a>
+            </div>
+          </div>
+
+          <!-- Demo 4: Timeline ZLA WebRTC Sync -->
+          <div class="interactive-demo-card">
+            <div class="demo-card-header">
+              <div class="demo-title">TimelineZLA Peer Mesh</div>
+              <span class="status-badge online">WEBRTC SYNC</span>
+            </div>
+            <div class="demo-preview-stage" id="timeline-demo-output">
+              <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+                Click button below to initialize 6-digit WebRTC sync room
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn-launch-service" onclick="startTimelineSync()" style="background: var(--neon-cyan); color: #000; font-weight: 700; border: none;">CREATE ROOM 🔗</button>
+              <a href="https://timelinezla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH TIMELINE ↗</a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- FREE DOWNLOADS VAULT SECTION -->
+      <section id="downloads-vault-section" class="portal-section">
+        <div class="section-header">
+          <span class="section-tag">[ FREE DOWNLOADS VAULT & OPEN SOURCE PACKAGES ]</span>
+          <h2 class="section-title">Metropolis MCPs, Skills & System Blueprints</h2>
+          <p style="color: var(--text-secondary); margin-top: 8px;">Free open-source tools, sidecar MCP servers, and Antigravity skill packs available for instant download and CLI installation.</p>
+        </div>
 
         <div class="downloads-grid">
           
@@ -700,285 +1013,6 @@
               <a href="./downloads/google-antigravity-sdk.json" download class="btn-download-primary">DOWNLOAD SDK MANIFEST 📥</a>
               <a href="./downloads/google-antigravity-sdk.json" target="_blank" class="btn-download-secondary">VIEW JSON ↗</a>
             </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- Subdomain Telemetry Section -->
-      <section id="telemetry-section" class="portal-section">
-        <div class="section-header">
-          <span class="section-tag">[ TELEMETRY LAKE ]</span>
-          <h2 class="section-title">Live Edge Services & Subdomain Health</h2>
-        </div>
-        <div class="telemetry-grid">
-          
-          <!-- FEATURED: Personalization Engine & Premium Gate -->
-          <div class="telemetry-card featured-card">
-            <div class="telemetry-card-top">
-              <div>
-                <div class="service-name" style="font-size: 1.35rem; color: #ffffff;">Personalization Engine & Metropolis Taskbar</div>
-                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #d8b4fe; margin-top: 4px;">GATEWAY TO PREMIUM FEATURES & SYSTEM CUSTOMIZATION</div>
-              </div>
-              <div class="featured-badge">★ PREMIUM GATEWAY</div>
-            </div>
-            <a href="https://personalization.dondlingergc.com" target="_blank" class="service-subdomain" style="font-size: 0.95rem; font-weight: 700;">personalization.dondlingergc.com</a>
-            <p class="service-desc" style="color: #cbd5e1; font-size: 0.95rem;">Metropolis Taskbar state manager, dynamic glassmorphism theme customizer, and gateway to premium features across the Dondlinger ecosystem.</p>
-            <div class="telemetry-meta">
-              <span>STATUS: <strong class="latency-val" id="latency-personalization" style="color: var(--neon-purple);">ONLINE (GATEWAY ACTIVE)</strong></span>
-              <a href="https://personalization.dondlingergc.com" target="_blank" class="btn-launch-service" style="background: var(--neon-purple); color: #ffffff; font-weight: 700; border-color: var(--neon-purple); padding: 8px 16px;">LAUNCH CUSTOMIZER ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">TAP: Time & Place</div>
-              <div class="status-badge checking" id="status-badge-tap"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://tap.dondlingergc.com" target="_blank" class="service-subdomain">tap.dondlingergc.com</a>
-            <p class="service-desc">MudBlazor WASM authenticated field tracking protocol with location and duration proofs.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-tap">--</strong></span>
-              <a href="https://tap.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">TimelineZLA Sync</div>
-              <div class="status-badge checking" id="status-badge-timelinezla"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://timelinezla.dondlingergc.com" target="_blank" class="service-subdomain">timelinezla.dondlingergc.com</a>
-            <p class="service-desc">Local-first project timeline builder with 6-digit code WebRTC peer sync and PDF exports.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-timelinezla">--</strong></span>
-              <a href="https://timelinezla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">Heckler Soundboard</div>
-              <div class="status-badge checking" id="status-badge-heckler"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://heckler.dondlingergc.com" target="_blank" class="service-subdomain">heckler.dondlingergc.com</a>
-            <p class="service-desc">Blazor WASM audio trigger engine for soundboard diagnostics and high-velocity alerts.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-heckler">--</strong></span>
-              <a href="https://heckler.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">WaZ Weather Dashboard</div>
-              <div class="status-badge checking" id="status-badge-wazweather"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://wazweather.dondlingergc.com" target="_blank" class="service-subdomain">wazweather.dondlingergc.com</a>
-            <p class="service-desc">Live atmospheric radar telemetry, river hydrology flow rates, and storm dispatch alerts.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-wazweather">--</strong></span>
-              <a href="https://wazweather.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">SkyDrop Peer Transfer</div>
-              <div class="status-badge checking" id="status-badge-skydrop"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://skydrop.dondlingergc.com" target="_blank" class="service-subdomain">skydrop.dondlingergc.com</a>
-            <p class="service-desc">PeerJS encrypted file transfer utility with mobile QR code scanning and zero cloud storage.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-skydrop">--</strong></span>
-              <a href="https://skydrop.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">ShotStack Studio</div>
-              <div class="status-badge checking" id="status-badge-shotstack"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://shotstackstudio.dondlingergc.com" target="_blank" class="service-subdomain">shotstackstudio.dondlingergc.com</a>
-            <p class="service-desc">Storyboard compiler for video directors to compile images and notes into exportable PDFs.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-shotstack">--</strong></span>
-              <a href="https://shotstackstudio.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">On My Way (OMW)</div>
-              <div class="status-badge checking" id="status-badge-omw"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://omw.dondlingergc.com" target="_blank" class="service-subdomain">omw.dondlingergc.com</a>
-            <p class="service-desc">Live GPS and ETA broadcasting tool for field technicians to share live arrival status.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-omw">--</strong></span>
-              <a href="https://omw.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">AmpliLoop Studio</div>
-              <div class="status-badge checking" id="status-badge-blazorpwa"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://blazorpwa.dondlingergc.com" target="_blank" class="service-subdomain">blazorpwa.dondlingergc.com</a>
-            <p class="service-desc">Blazor WASM rap beat generator, metronome, and instrument tuner running local compiles.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-blazorpwa">--</strong></span>
-              <a href="https://blazorpwa.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">Anytime Animal Control</div>
-              <div class="status-badge checking" id="status-badge-aac"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://aac.dondlingergc.com" target="_blank" class="service-subdomain">aac.dondlingergc.com</a>
-            <p class="service-desc">Live wildlife removal service portal with coverage maps and dispatch contacts.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-aac">--</strong></span>
-              <a href="https://aac.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">PourReady Estimator</div>
-              <span class="status-badge online"><span class="status-dot">●</span> PWA LOCAL</span>
-            </div>
-            <a href="./calc/index.html" class="service-subdomain">dondlingergc.com/calc/</a>
-            <p class="service-desc">Field-tested concrete volume calculator for slabs, footings, and walls with safety margins.</p>
-            <div class="telemetry-meta">
-              <span>TYPE: <strong class="latency-val" style="color: var(--neon-green);">LOCAL PWA</strong></span>
-              <a href="./calc/index.html" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">Dondlinger Intake App</div>
-              <span class="status-badge online"><span class="status-dot">●</span> VOICE PWA</span>
-            </div>
-            <a href="./intake.html" class="service-subdomain">dondlingergc.com/intake.html</a>
-            <p class="service-desc">Voice-first client onboarding. Tap microphone to record project vision securely.</p>
-            <div class="telemetry-meta">
-              <span>TYPE: <strong class="latency-val" style="color: var(--neon-green);">LOCAL PWA</strong></span>
-              <a href="./intake.html" class="btn-launch-service">RECORD ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">Touchscreen Tester</div>
-              <span class="status-badge online"><span class="status-dot">●</span> DIAGNOSTIC</span>
-            </div>
-            <a href="./touchscreen.html" class="service-subdomain">dondlingergc.com/touchscreen.html</a>
-            <p class="service-desc">Client-side hardware diagnostic PWA to test touchscreen deadzones and ghost touch coordinates.</p>
-            <div class="telemetry-meta">
-              <span>TYPE: <strong class="latency-val" style="color: var(--neon-green);">LOCAL PWA</strong></span>
-              <a href="./touchscreen.html" class="btn-launch-service">TEST PWA ↗</a>
-            </div>
-          </div>
-
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">Intake Gateway API</div>
-              <div class="status-badge checking" id="status-badge-intake"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://intake.dondlingergc.com" target="_blank" class="service-subdomain">intake.dondlingergc.com</a>
-            <p class="service-desc">Secure JSON intake API and lead ingestion pipeline for enterprise client projects.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-intake">--</strong></span>
-              <a href="https://intake.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-        </div>
-      </section>
-
-      <!-- INTERACTIVE GLASSMORPHISM APP DEMOS SECTION -->
-      <section id="infomercial-section" class="portal-section">
-        <div class="section-header">
-          <span class="section-tag">[ INTERACTIVE GLASSMORPHISM APP DEMOS ]</span>
-          <h2 class="section-title">Test Drive Key Applications Live</h2>
-          <p style="color: var(--text-secondary); margin-top: 8px;">Interactive previews powered by real Web Audio synthesis, WebRTC peer simulations, and offline PWA generators.</p>
-        </div>
-        <div class="interactive-demos-grid">
-          
-          <!-- Demo 1: Heckler Web Audio Soundboard -->
-          <div class="interactive-demo-card">
-            <div class="demo-card-header">
-              <div class="demo-title">Heckler Audio Synth</div>
-              <span class="status-badge online">PLAYABLE AUDIO</span>
-            </div>
-            <div class="demo-preview-stage">
-              <div class="sound-pad-grid">
-                <div class="sound-pad" data-freq="440" data-type="sine">440Hz<br>SINE</div>
-                <div class="sound-pad" data-freq="554" data-type="square">554Hz<br>SQUARE</div>
-                <div class="sound-pad" data-freq="659" data-type="sawtooth">659Hz<br>SAW</div>
-                <div class="sound-pad" data-freq="880" data-type="triangle">880Hz<br>TRI</div>
-              </div>
-            </div>
-            <p class="service-desc" style="margin-bottom: 16px;">Click sound pads above to trigger instant Web Audio API tone synthesis built with Blazor WASM.</p>
-            <a href="https://heckler.dondlingergc.com" target="_blank" class="btn-launch-service" style="align-self: flex-start;">LAUNCH HECKLER ↗</a>
-          </div>
-
-          <!-- Demo 2: TAP Field Ticket Generator -->
-          <div class="interactive-demo-card">
-            <div class="demo-card-header">
-              <div class="demo-title">TAP Field Ticket Engine</div>
-              <span class="status-badge online">GPS PROOF</span>
-            </div>
-            <div class="demo-preview-stage" id="tap-demo-output">
-              <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); text-align: center;">
-                Click button below to generate signed location proof ticket
-              </div>
-            </div>
-            <div style="display: flex; gap: 10px;">
-              <button class="btn-launch-service" onclick="generateTapTicket()" style="background: var(--neon-green); color: #000; font-weight: 700; border: none;">GENERATE TICKET ⚡</button>
-              <a href="https://tap.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH TAP ↗</a>
-            </div>
-          </div>
-
-          <!-- Demo 3: Timeline ZLA WebRTC Sync -->
-          <div class="interactive-demo-card">
-            <div class="demo-card-header">
-              <div class="demo-title">TimelineZLA Peer Mesh</div>
-              <span class="status-badge online">WEBRTC SYNC</span>
-            </div>
-            <div class="demo-preview-stage" id="timeline-demo-output">
-              <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); text-align: center;">
-                Click button below to initialize 6-digit WebRTC sync room
-              </div>
-            </div>
-            <div style="display: flex; gap: 10px;">
-              <button class="btn-launch-service" onclick="startTimelineSync()" style="background: var(--neon-cyan); color: #000; font-weight: 700; border: none;">CREATE ROOM 🔗</button>
-              <a href="https://timelinezla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH TIMELINE ↗</a>
-            </div>
-          </div>
-
-          <!-- Demo 4: SkyDrop P2P Transfer -->
-          <div class="interactive-demo-card">
-            <div class="demo-card-header">
-              <div class="demo-title">SkyDrop Encrypted Drop</div>
-              <span class="status-badge online">PEERJS PWA</span>
-            </div>
-            <div class="demo-preview-stage" id="skydrop-demo-output">
-              <div class="dropzone-demo" onclick="simulateSkyDrop()">
-                <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--neon-cyan); font-weight: 700;">TAP TO SIMULATE FILE DROP</div>
-                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">Zero cloud storage • AES-GCM Encrypted</div>
-              </div>
-            </div>
-            <a href="https://skydrop.dondlingergc.com" target="_blank" class="btn-launch-service" style="align-self: flex-start;">LAUNCH SKYDROP ↗</a>
           </div>
 
         </div>
@@ -1156,7 +1190,6 @@
     let appsData = {};
     let currentCategory = 'All';
 
-    // Fetch static JSON
     fetch('data/apps.json')
       .then(res => res.json())
       .then(data => {
@@ -1173,24 +1206,20 @@
       const q = searchQuery.toLowerCase();
 
       for (const [key, app] of Object.entries(appsData)) {
-        // Filter by category
         if (currentCategory !== 'All' && app.category !== currentCategory) continue;
 
-        // Filter by search query
         const matchStr = `${app.title} ${app.desc} ${app.who ? app.who.join(' ') : ''} ${app.category}`.toLowerCase();
         if (q && !matchStr.includes(q)) continue;
 
         count++;
 
-        // Render card
         const card = document.createElement('a');
         card.className = 'app-card';
         card.href = app.link;
-        if(app.link.startsWith('http')) card.target = '_blank';
+        if (app.link.startsWith('http')) card.target = '_blank';
         
         let whoHtml = '';
         if (app.who && app.who.length > 0) {
-           // just show the first 2 who pills to keep it clean
            app.who.slice(0,2).forEach(w => {
              whoHtml += `<span class="who-pill">${w}</span>`;
            });
@@ -1216,7 +1245,6 @@
       currentCategory = cat;
       document.getElementById('current-category').innerText = cat === 'All' ? 'All Applications' : cat;
       
-      // Update active state
       document.querySelectorAll('.nav-link').forEach(el => {
         if (el.dataset.category === cat) el.classList.add('active');
         else el.classList.remove('active');
@@ -1229,7 +1257,6 @@
       renderGrid(document.getElementById('searchBar').value);
     }
 
-    // AI Chat Widget Logic
     const chatToggle = document.getElementById('chat-toggle');
     const chatPanel = document.getElementById('chat-panel');
     const closeChat = document.getElementById('close-chat');
