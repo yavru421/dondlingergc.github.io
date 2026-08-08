@@ -1,0 +1,25 @@
+{
+  "name": "Google Antigravity SDK & Agent Dispatcher Blueprint",
+  "system_host": "Metropolis-Prime",
+  "version": "1.4.0",
+  "description": "Autonomous AI agent dispatcher, system prompt pipeline, and subagent orchestration boilerplate.",
+  "components": [
+    {
+      "name": "antigravity-agent-dispatcher",
+      "path": "C:\\dev\\antigravity-agent-dispatcher",
+      "description": "Multi-agent dispatch controller for routing parallel subagent tasks."
+    },
+    {
+      "name": "antigravity-bridge-server",
+      "path": "C:\\dev\\antigravity-bridge-server",
+      "description": "Peer bridge gateway for local and edge LLM orchestration."
+    },
+    {
+      "name": "antigravity-inference-router",
+      "path": "C:\\dev\\antigravity-inference-router",
+      "description": "Token preservation router offloading cognitive synthesis to Workers AI."
+    }
+  ],
+  "license": "Apache 2.0",
+  "author": "Google DeepMind / John Dondlinger"
+}

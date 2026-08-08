@@ -1,0 +1,28 @@
+{
+  "name": "Antigravity Core Skills Collection",
+  "system_host": "Metropolis-Prime",
+  "location": "C:\\Users\\John\\.gemini\\config\\skills",
+  "total_skills": 37,
+  "skills": [
+    { "name": "zla", "category": "Architecture", "description": "Canonical blueprint for Zero-Liability Architecture (ZLA) & WebRTC peer sync." },
+    { "name": "apt-prompter", "category": "Prompt Engineering", "description": "Algebraic Pipeline Theory (APT) framework for multi-stage prompt composition." },
+    { "name": "app-purger", "category": "System Maintenance", "description": "Multi-stage Windows application purge engine with credential harvesting." },
+    { "name": "dondlingergc-domains", "category": "Telemetry", "description": "Ground-truth live subdomain matrix for dondlingergc.com verified via Katana." },
+    { "name": "mind", "category": "Memory Lake", "description": "DuckDB telemetry lake query engine for mind.duckdb and transcript logs." },
+    { "name": "offload-edge", "category": "Edge Compute", "description": "Aggressive cognitive synthesis offloading to Cloudflare Workers AI edge models." },
+    { "name": "operator-advisor", "category": "Personal Mentor", "description": "Operator advisor agent evaluating telemetry for John Dondlinger." },
+    { "name": "tactical-storm-dispatch", "category": "Field Operations", "description": "SPC and NWS live atmospheric radar telemetry dispatch." },
+    { "name": "secrets-vault", "category": "Security", "description": "Local DPAPI encrypted secrets vault for credentials and tokens." },
+    { "name": "search-everything", "category": "System Search", "description": "Native local file search via Everything HTTP server (port 7999)." },
+    { "name": "mcp-server-builder", "category": "Developer Tools", "description": "Blueprint for wrapping CLI tools into Model Context Protocol servers." },
+    { "name": "init-perimeter", "category": "Workspace Security", "description": "Workspace baseline capability perimeter setup and .agentsignore generation." },
+    { "name": "fireup", "category": "Peer Bridge", "description": "Antigravity 2.0 × Gemini Spark Tri-Node Peer Bridge server." },
+    { "name": "get-it", "category": "Alignment", "description": "Interactive grill-me questionnaire skill for friction diagnosis." },
+    { "name": "harvest", "category": "Telemetry Verification", "description": "2-hour conversational claim verification against DuckDB telemetry signals." },
+    { "name": "remember_recent", "category": "State Baseline", "description": "Telemetry baseline fetch and outside review offloading." },
+    { "name": "jointer", "category": "Interface Alignment", "description": "Friction removal and interface standardizer for Metropolis." },
+    { "name": "its_all_fucked_up", "category": "Emergency Course-Correction", "description": "Emergency self-reflection and transcript autopsy button." }
+  ],
+  "license": "MIT",
+  "author": "John Dondlinger (snaptempo)"
+}

@@ -1,0 +1,71 @@
+{
+  "name": "Metropolis MCP Sidecar Server Suite",
+  "system_host": "Metropolis-Prime",
+  "version": "3.2.0",
+  "description": "Audited local Model Context Protocol (MCP) sidecar servers running on Metropolis-Prime.",
+  "mcp_servers": [
+    {
+      "name": "workspace-execution-mcp-server",
+      "path": "C:\\dev\\workspace-execution-mcp-server",
+      "type": "Local Sidecar / Stdio Transport",
+      "tools": ["workspace_fs_mutate", "workspace_verify_state", "workspace_duckdb_query"],
+      "description": "Execution kernel for file mutations, state checks, and DuckDB queries."
+    },
+    {
+      "name": "wrangler-mcp-server",
+      "path": "C:\\dev\\wrangler-mcp-server",
+      "type": "Cloudflare Management Sidecar",
+      "tools": ["wrangler_pages_deployment_list", "wrangler_d1_execute", "wrangler_kv_key_put"],
+      "description": "Deploy and manage Cloudflare Workers, Pages, D1 SQL, and KV namespaces."
+    },
+    {
+      "name": "cloudflare-inference-mcp-server",
+      "path": "C:\\dev\\cloudflare-inference-mcp-server",
+      "type": "Edge Inference Sidecar",
+      "tools": ["run_edge_inference"],
+      "description": "Stateless inference execution on Cloudflare Workers AI edge router."
+    },
+    {
+      "name": "orchestrator-do-mcp-server",
+      "path": "C:\\dev\\orchestrator-do-mcp-server",
+      "type": "Durable Objects AI Router",
+      "tools": ["orchestrator_chat"],
+      "description": "Persistent Workers AI conversation memory and credit router."
+    },
+    {
+      "name": "duckdb-supercharger",
+      "path": "C:\\dev\\duckdb-supercharger",
+      "type": "Telemetry Lake Introspection",
+      "tools": ["get_user_corrections", "match_error_solution"],
+      "description": "DuckDB telemetry lake analytics for agent memory and transcript logs."
+    },
+    {
+      "name": "metropolis-config-mcp-server",
+      "path": "C:\\dev\\metropolis-config-mcp-server",
+      "type": "System Configuration Manager",
+      "description": "Hardware topology & sidecar configuration state manager."
+    },
+    {
+      "name": "jointer-mcp-server",
+      "path": "C:\\dev\\jointer-mcp-server",
+      "type": "Project Interface Standardizer",
+      "description": "Exclusively removes friction and standardizes software interfaces for Metropolis."
+    },
+    {
+      "name": "telegram-app-mcp-server",
+      "path": "C:\\dev\\telegram-app-mcp-server",
+      "type": "Field Notification Relay",
+      "tools": ["telegram_send_message", "telegram_broadcast_hud"],
+      "description": "Telegram bot relay for field dispatch notifications."
+    },
+    {
+      "name": "agy-mcp-server",
+      "path": "C:\\Users\\John\\.gemini\\antigravity\\mcp\\agy-mcp-server",
+      "type": "Native Command Executor",
+      "tools": ["exec_cmd"],
+      "description": "Native shell execution sidecar over Stdio transport."
+    }
+  ],
+  "license": "MIT",
+  "author": "John Dondlinger (snaptempo) — Dondlinger Digital Database"
+}

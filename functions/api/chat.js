@@ -1,49 +1,34 @@
 export async function onRequestPost(context) {
-    try {
-        const { request, env } = context;
-        const body = await request.json();
-        const userMessage = body.message;
-        const sessionId = body.session_id;
+  try {
+    const { request, env } = context;
+    const body = await request.json();
+    const userMessage = body.message;
 
-        if (!userMessage) {
-            return new Response(JSON.stringify({ error: "Missing message" }), { 
-                status: 400,
-                headers: { "Content-Type": "application/json" } 
-            });
-        }
-
-        const systemPrompt = `You are the Metropolis Neural Oracle 20Q, a high-end, blunt B2B Intake Engine for DondlingerGC.
-Your goal is to qualify the user's workflow headache and propose a Zero-Liability Architecture (ZLA) software solution.
-Keep your responses short, professional, and brutally pragmatic. Ask 1 qualifying question at a time.
-Do not use generic AI fluff or apologize. You are a principal systems architect.`;
-
-        const messages = [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: userMessage }
-        ];
-
-        // Call the Cloudflare Workers AI binding using Llama 3.2
-        const aiResponse = await env.AI.run("@cf/meta/llama-3.2-3b-instruct", {
-            messages: messages
-        });
-
-        return new Response(JSON.stringify({ 
-            reply: aiResponse.response,
-            session_id: sessionId
-        }), {
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
-        });
-
-    } catch (e) {
-        return new Response(JSON.stringify({ 
-            error: "Neural Oracle Offline. MetroNode routing failed.", 
-            details: e.message 
-        }), { 
-            status: 500, 
-            headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } 
-        });
+    if (!userMessage) {
+      return new Response(JSON.stringify({ error: "Message is required" }), { status: 400 });
     }
+
+    const systemPrompt = `You are the Dondlinger Digital Assistant, an AI embedded in the dondlingergc.com landing page.
+Your job is to help users discover and understand our suite of premium applications and protocols:
+- WaZ Weather: Blazor WASM real-time atmospheric telemetry dashboard.
+- TAP Protocol: Targeted Acquisition Protocol, premium MudBlazor WASM client for secure enterprise interactions.
+- Skydrop: Ultra-secure file transfer service using PeerJS and WebRTC for ZLA (Zero-Liability Architecture) direct client-to-client sharing with QR Code scanning.
+- OMW (On My Way): App for rapid location and status updates.
+- TimelineZLA: Core ZLA engine for state management.
+- ZLA (Zero-Liability Architecture): Our core engineering philosophy where encryption keys stay on the client device, ensuring privacy and zero data liability.
+Keep responses concise, modern, and highly relevant to the Dondlinger ecosystem. Use markdown for bolding key terms.`;
+
+    const response = await env.AI.run('@cf/meta/llama-3.1-8b-instruct-fp8', {
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userMessage }
+      ]
+    });
+
+    return new Response(JSON.stringify({ reply: response.response }), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+  }
 }
