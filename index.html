@@ -3,33 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Dondlinger General Contracting — Digital Hub</title>
-  <meta name="description" content="Dondlinger General Contracting — Premium progressive web applications, zero-liability peer mesh engines, and field engineering tools.">
+  <title>DONDLINGER</title>
+  <meta name="description" content="Dondlinger General Contracting — Precision WebAssembly Applications & Field Systems.">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="dondlinger_logo.png">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #07090c;
-      --surface: rgba(18, 22, 31, 0.65);
-      --surface-hover: rgba(28, 35, 48, 0.85);
-      --border: rgba(255, 255, 255, 0.08);
-      --border-accent: rgba(255, 152, 0, 0.4);
-      --text: #f8fafc;
-      --text-dim: #94a3b8;
+      --bg: #000000;
+      --card-bg: #0a0a0c;
+      --border: #1f1f24;
+      --border-accent: #ff9800;
+      --text: #ffffff;
+      --text-muted: #71717a;
       --accent: #ff9800;
-      --accent-glow: rgba(255, 152, 0, 0.15);
       --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    html { scroll-behavior: smooth; }
 
     body {
       background-color: var(--bg);
@@ -39,423 +35,300 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 2rem 1rem 4rem;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
     }
 
-    /* Ambient Background Glow */
-    .ambient-bg {
-      position: fixed;
-      top: -20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1000px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, rgba(7, 9, 12, 0) 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Header / Hero */
-    header {
+    .container {
       width: 100%;
-      max-width: 1100px;
-      padding: 3.5rem 1.5rem 1.5rem;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      transition: background 0.3s ease;
+      max-width: 680px;
     }
 
-    .brand-badge {
-      display: inline-flex;
+    /* Minimal Top Navigation / Brand */
+    nav {
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 1rem;
-      background: rgba(255, 152, 0, 0.1);
-      border: 1px solid var(--border-accent);
-      border-radius: 20px;
+      justify-content: space-between;
+      margin-bottom: 3.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-title {
+      font-weight: 900;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .brand-status {
+      font-family: var(--font-mono);
       font-size: 0.75rem;
-      font-weight: 700;
       color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 1.25rem;
-      box-shadow: 0 0 15px rgba(255, 152, 0, 0.15);
+      letter-spacing: 1px;
+    }
+
+    /* Hero Headline */
+    .hero {
+      margin-bottom: 3rem;
     }
 
     h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 800;
-      letter-spacing: -1px;
-      line-height: 1.1;
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    /* Ultra-Clean Featured Video Component */
+    .featured-section {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
       margin-bottom: 0.75rem;
-      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
-    .hero-sub {
-      color: var(--text-dim);
-      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    /* Main Container */
-    main {
-      width: 100%;
-      max-width: 1100px;
-      padding: 1.5rem;
-      position: relative;
-      z-index: 1;
-      flex: 1;
-    }
-
-    /* Featured Infomercial Card */
-    .featured-hero-card {
-      background: var(--surface);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+    .video-box {
       border: 1px solid var(--border-accent);
-      border-radius: 16px;
-      padding: 1.75rem;
-      margin-bottom: 2.5rem;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      align-items: center;
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    @media (max-width: 850px) {
-      .featured-hero-card {
-        grid-template-columns: 1fr;
-        gap: 1.25rem;
-        padding: 1.25rem;
-      }
-    }
-
-    .video-wrapper {
-      position: relative;
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(255, 152, 0, 0.3);
       background: #000;
       aspect-ratio: 16/9;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      margin-bottom: 1rem;
+      box-shadow: 0 10px 30px rgba(255, 152, 0, 0.15);
     }
 
-    .video-wrapper video {
+    .video-box video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    .featured-details h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: #fff;
+    .featured-meta h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
     }
 
-    .featured-details p {
-      color: var(--text-dim);
+    .featured-meta p {
+      color: var(--text-muted);
       font-size: 0.9rem;
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
     }
 
-    .btn-action {
+    .btn-launch {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      padding: 0.85rem 1.6rem;
+      width: 100%;
+      padding: 0.9rem;
       background: var(--accent);
       color: #000;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 1px;
       border-radius: 8px;
       text-decoration: none;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: opacity 0.2s ease;
     }
 
-    .btn-action:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 25px rgba(255, 152, 0, 0.4);
-      background: #ffa726;
+    .btn-launch:hover {
+      opacity: 0.9;
     }
 
-    /* Section Title */
-    .section-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--text-dim);
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* Grid Layout & Card Animations */
-    .app-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .app-card {
-      background: var(--surface);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-decoration: none;
-      color: var(--text);
+    /* Clean Single-Column App List */
+    .app-list {
       display: flex;
       flex-direction: column;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease;
+      gap: 1rem;
+      margin-bottom: 4rem;
     }
 
-    .app-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .app-card:hover {
-      background: var(--surface-hover);
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-    }
-
-    .card-top {
+    .app-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      text-decoration: none;
+      color: inherit;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 0.75rem;
+      transition: border-color 0.2s ease;
     }
 
-    .card-title {
+    .app-item:hover {
+      border-color: #3f3f46;
+    }
+
+    .app-info h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .app-info p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .app-arrow {
+      font-family: var(--font-mono);
       font-size: 1.2rem;
-      font-weight: 700;
-      color: #fff;
+      color: var(--text-muted);
+      transition: color 0.2s ease, transform 0.2s ease;
     }
 
-    .card-badge {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .card-desc {
-      color: var(--text-dim);
-      font-size: 0.875rem;
-      line-height: 1.5;
-      flex: 1;
-      margin-bottom: 1.25rem;
-    }
-
-    .card-link {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
+    .app-item:hover .app-arrow {
       color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-weight: 700;
-      transition: gap 0.2s ease;
-    }
-
-    .app-card:hover .card-link {
-      gap: 0.6rem;
+      transform: translateX(3px);
     }
 
     /* Footer */
     footer {
-      width: 100%;
-      max-width: 1100px;
-      padding: 2.5rem 1.5rem;
+      padding-top: 2rem;
       border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--text-dim);
-      font-size: 0.85rem;
-      position: relative;
-      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.8rem;
     }
 
     footer a {
-      color: var(--text-dim);
+      color: var(--text-muted);
       text-decoration: none;
-      margin: 0 0.5rem;
-      transition: color 0.2s;
     }
 
-    footer a:hover { color: #fff; }
+    footer a:hover {
+      color: #fff;
+    }
   </style>
 </head>
 <body>
 
-  <div class="ambient-bg"></div>
-
-  <!-- Header -->
-  <header>
-    <div class="brand-badge">
-      <span>●</span> DONDLINGER GENERAL CONTRACTING
-    </div>
-    <h1>Digital Application Suite</h1>
-    <p class="hero-sub">Streamlined progressive web applications, zero-liability field tracking, and real-time telemetry built for precision.</p>
-  </header>
-
-  <!-- Main Content -->
-  <main>
+  <div class="container">
     
-    <!-- Featured TAP Infomercial Card -->
-    <div class="featured-hero-card">
-      <div class="video-wrapper">
+    <!-- Nav -->
+    <nav>
+      <div class="brand-title">DONDLINGER</div>
+      <div class="brand-status">● SYSTEM ONLINE</div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>FIELD APPS & TELEMETRY.</h1>
+      <p>Purpose-built WebAssembly tools, zero-liability field tracking, and real-time environmental metrics.</p>
+    </div>
+
+    <!-- Featured Infomercial Video -->
+    <div class="featured-section">
+      <div class="section-label">FEATURED INFOMERCIAL DEMO</div>
+      <div class="video-box">
         <video controls playsinline poster="dondlinger_logo.png">
           <source src="https://pub-dondlingergc.r2.dev/videos/make_an_infomercial_for_using.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
       </div>
-      <div class="featured-details">
-        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem;">
-          FEATURED INFOMERCIAL • DEMO
-        </div>
+      <div class="featured-meta">
         <h2>TAP: Time & Place Protocol</h2>
-        <p>Authenticated field tracking protocol built with MudBlazor WebAssembly. Cryptographic proofs of location, site activity, and timestamp verification.</p>
-        <a href="https://tap.dondlingergc.com" target="_blank" class="btn-action">
-          Launch TAP Protocol (tap.dondlingergc.com) ↗
+        <p>MudBlazor WASM authenticated field tracking protocol with location and duration proofs.</p>
+        <a href="https://tap.dondlingergc.com" target="_blank" class="btn-launch">
+          LAUNCH TAP PROTOCOL (tap.dondlingergc.com) ↗
         </a>
       </div>
     </div>
 
-    <!-- Active Applications Section -->
-    <div class="section-title">Active Applications</div>
-
-    <div class="app-grid">
+    <!-- Clean Application Stack -->
+    <div class="section-label" style="color: var(--text-muted); margin-bottom: 1rem;">ACTIVE APPLICATIONS</div>
+    
+    <div class="app-list">
       
       <!-- WaZWeather -->
-      <a href="https://wazweather.dondlingergc.com" target="_blank" class="app-card">
-        <div class="card-top">
-          <div class="card-title">WaZWeather</div>
-          <span class="card-badge" style="color: #00bcd4;">TELEMETRY</span>
+      <a href="https://wazweather.dondlingergc.com" target="_blank" class="app-item">
+        <div class="app-info">
+          <h3>WaZWeather</h3>
+          <p>Atmospheric radar, forecasting & hydrology telemetry.</p>
         </div>
-        <p class="card-desc">Real-time local forecasting, Lake Wazeecha hydrology flow rates, and severe weather atmospheric radar metrics.</p>
-        <div class="card-link" style="color: #00bcd4;">wazweather.dondlingergc.com ↗</div>
+        <div class="app-arrow">↗</div>
       </a>
 
       <!-- PourReady -->
-      <a href="/calc/index.html" target="_blank" class="app-card">
-        <div class="card-top">
-          <div class="card-title">PourReady</div>
-          <span class="card-badge" style="color: #ff9800;">ESTIMATOR</span>
+      <a href="/calc/index.html" target="_blank" class="app-item">
+        <div class="app-info">
+          <h3>PourReady</h3>
+          <p>Field concrete volume calculator & triangle geometry.</p>
         </div>
-        <p class="card-desc">Field-tested concrete volume calculator for slabs, footings, poured walls, sonotubes, and Myles of Triangles geometry.</p>
-        <div class="card-link">dondlingergc.com/calc/ ↗</div>
+        <div class="app-arrow">↗</div>
       </a>
 
       <!-- Personalization Engine -->
-      <a href="https://personalization.dondlingergc.com" target="_blank" class="app-card">
-        <div class="card-top">
-          <div class="card-title">Personalization</div>
-          <span class="card-badge" style="color: #c084fc;">IDENTITY & SSO</span>
+      <a href="https://personalization.dondlingergc.com" target="_blank" class="app-item">
+        <div class="app-info">
+          <h3>Personalization Engine</h3>
+          <p>Global SSO identity gateway & theme manager.</p>
         </div>
-        <p class="card-desc">Metropolis Taskbar customization, central identity profile management, global SSO authentication, and theme preferences.</p>
-        <div class="card-link" style="color: #c084fc;">personalization.dondlingergc.com ↗</div>
+        <div class="app-arrow">↗</div>
       </a>
 
       <!-- SkyDrop -->
-      <a href="https://skydrop.dondlingergc.com" target="_blank" class="app-card">
-        <div class="card-top">
-          <div class="card-title">SkyDrop</div>
-          <span class="card-badge" style="color: #38bdf8;">P2P WEBRTC</span>
+      <a href="https://skydrop.dondlingergc.com" target="_blank" class="app-item">
+        <div class="app-info">
+          <h3>SkyDrop</h3>
+          <p>Peer-to-peer WebRTC encrypted file transfer.</p>
         </div>
-        <p class="card-desc">Peer-to-peer WebRTC encrypted file transfer utility with mobile QR code scanning and zero cloud storage.</p>
-        <div class="card-link" style="color: #38bdf8;">skydrop.dondlingergc.com ↗</div>
+        <div class="app-arrow">↗</div>
       </a>
 
       <!-- Heckler -->
-      <a href="https://heckler.dondlingergc.com" target="_blank" class="app-card">
-        <div class="card-top">
-          <div class="card-title">Heckler</div>
-          <span class="card-badge" style="color: #4ade80;">AUDIO WASM</span>
+      <a href="https://heckler.dondlingergc.com" target="_blank" class="app-item">
+        <div class="app-info">
+          <h3>Heckler Soundboard</h3>
+          <p>Blazor WASM high-performance audio trigger engine.</p>
         </div>
-        <p class="card-desc">Blazor WASM high-performance audio trigger engine for soundboard diagnostics and audio alerts.</p>
-        <div class="card-link" style="color: #4ade80;">heckler.dondlingergc.com ↗</div>
+        <div class="app-arrow">↗</div>
       </a>
 
       <!-- TimelineZLA -->
-      <a href="https://timelinezla.dondlingergc.com" target="_blank" class="app-card">
-        <div class="card-top">
-          <div class="card-title">TimelineZLA</div>
-          <span class="card-badge" style="color: #f43f5e;">ZLA SYNC</span>
+      <a href="https://timelinezla.dondlingergc.com" target="_blank" class="app-item">
+        <div class="app-info">
+          <h3>TimelineZLA</h3>
+          <p>Project timeline builder with WebRTC mesh sync.</p>
         </div>
-        <p class="card-desc">Local-first project timeline builder with 6-digit code WebRTC peer sync and PDF exports.</p>
-        <div class="card-link" style="color: #f43f5e;">timelinezla.dondlingergc.com ↗</div>
+        <div class="app-arrow">↗</div>
       </a>
 
     </div>
-  </main>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2026 Dondlinger General Contracting • Powered by Zero-Liability Architecture & Blazor WebAssembly</p>
-    <div style="margin-top: 0.75rem;">
-      <a href="/terms-of-service.html">Terms</a> • 
-      <a href="/privacy-policy.html">Privacy</a> • 
-      <a href="mailto:dondlingergeneralcontracting@gmail.com">Contact</a>
-    </div>
-  </footer>
+    <!-- Footer -->
+    <footer>
+      <div>&copy; 2026 Dondlinger General Contracting</div>
+      <div>
+        <a href="/terms-of-service.html">Terms</a> | 
+        <a href="/privacy-policy.html">Privacy</a>
+      </div>
+    </footer>
 
-  <!-- Micro-Interactions & Intersection Observer -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, idx) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              entry.target.classList.add('visible');
-            }, idx * 80);
-            observer.unobserve(entry.target);
-          }
-        });
-      }, observerOptions);
-
-      document.querySelectorAll('.app-card').forEach(card => {
-        observer.observe(card);
-      });
-    });
-  </script>
+  </div>
 
 </body>
 </html>
