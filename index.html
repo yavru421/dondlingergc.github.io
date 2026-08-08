@@ -482,10 +482,9 @@
   <!-- Category Sub-Filter Bar -->
   <div class="category-filter-bar">
     <button class="filter-btn active" data-filter="all">ALL PORTAL</button>
-    <button class="filter-btn" data-filter="controlroom">📊 CONTROL ROOM</button>
-    <button class="filter-btn" data-filter="apps">🌐 LIVE SUBDOMAINS</button>
-    <button class="filter-btn" data-filter="calculator">🧮 ROI CALCULATOR</button>
-    <button class="filter-btn" data-filter="demos">⚡ INTERACTIVE DEMOS</button>
+    <button class="filter-btn" data-filter="apps">🌐 PRODUCTION APPS</button>
+    <button class="filter-btn" data-filter="calculator">🧮 SCOPE CALCULATOR</button>
+    <button class="filter-btn" data-filter="demos">⚡ APP INFOMERCIALS & DEMOS</button>
     <button class="filter-btn" data-filter="downloads">📥 FREE DOWNLOADS</button>
     <button class="filter-btn" data-filter="capabilities">🔒 CAPABILITIES</button>
     <button class="filter-btn" data-filter="intake">✉️ ENTERPRISE INTAKE</button>
@@ -545,40 +544,12 @@
         </div>
       </section>
 
-      <!-- LIVE METROPOLIS CONTROL ROOM SECTION -->
-      <section id="control-room-section" class="portal-section">
-        <div class="section-header">
-          <span class="section-tag">[ METROPOLIS CONTROL ROOM & EDGE TELEMETRY ]</span>
-          <h2 class="section-title">Live Node Operations & Edge Metrics</h2>
-          <p style="color: var(--text-secondary); margin-top: 8px;">Real-time operational indicators powered by Cloudflare Workers AI edge router and Metropolis-Prime sidecars.</p>
-        </div>
-
-        <div class="metropolis-control-hud">
-          <div class="hud-item">
-            <span class="hud-label">AVERAGE EDGE LATENCY</span>
-            <span class="hud-value" id="hud-avg-ping">28 ms</span>
-          </div>
-          <div class="hud-item">
-            <span class="hud-label">ACTIVE SUBDOMAIN NODES</span>
-            <span class="hud-value" id="hud-active-nodes">15 / 15 ONLINE</span>
-          </div>
-          <div class="hud-item">
-            <span class="hud-label">CLOUDFLARE CDN MESH</span>
-            <span class="hud-value" id="hud-cdn-status" style="color: var(--neon-cyan);">100% OPERATIONAL</span>
-          </div>
-          <div class="hud-item">
-            <span class="hud-label">WORKERS AI ROUTER LOAD</span>
-            <span class="hud-value" id="hud-router-load" style="color: var(--neon-purple);">0.04 MS LATENCY</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Subdomain Telemetry Section -->
+      <!-- Subdomain Application Matrix Section -->
       <section id="telemetry-section" class="portal-section">
         <div class="section-header">
-          <span class="section-tag">[ ACTIVE SUBDOMAIN MATRIX ]</span>
-          <h2 class="section-title">Live Edge Services & Subdomain Directory</h2>
-          <p style="color: var(--text-secondary); margin-top: 8px;">Direct access to all 13 production subdomains and 3 relative progressive web applications.</p>
+          <span class="section-tag">[ PRODUCTION APPLICATION CATALOG ]</span>
+          <h2 class="section-title">High-Performance Enterprise Applications</h2>
+          <p style="color: var(--text-secondary); margin-top: 8px;">Explore our battle-tested suite of Progressive Web Applications, Zero-Liability engines, and operational tools.</p>
         </div>
         <div class="telemetry-grid">
           
@@ -586,12 +557,12 @@
           <div class="telemetry-card">
             <div class="telemetry-card-top">
               <div class="service-name" style="font-size: 1.15rem; color: #ffffff;">WaZ Weather Dashboard</div>
-              <div class="status-badge checking" id="status-badge-wazweather"><span class="status-dot">●</span> PINGING</div>
+              <span class="status-badge online"><span class="status-dot">●</span> LIVE RADAR</span>
             </div>
             <a href="https://wazweather.dondlingergc.com" target="_blank" class="service-subdomain">wazweather.dondlingergc.com</a>
             <p class="service-desc">Live atmospheric radar telemetry, river hydrology flow rates, and severe storm dispatch alerts.</p>
             <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-wazweather">--</strong></span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-green);">ATMOSPHERIC PWA</span>
               <a href="https://wazweather.dondlingergc.com" target="_blank" class="btn-launch-service" style="background: var(--neon-green); color: #000; font-weight: 700;">LAUNCH WEATHER ↗</a>
             </div>
           </div>
@@ -600,12 +571,12 @@
           <div class="telemetry-card">
             <div class="telemetry-card-top">
               <div class="service-name" style="font-size: 1.15rem; color: #ffffff;">PourReady Estimator</div>
-              <span class="status-badge online"><span class="status-dot">●</span> PWA LOCAL</span>
+              <span class="status-badge online" style="background: rgba(255, 107, 53, 0.15); color: #ff6b35; border-color: rgba(255, 107, 53, 0.4);"><span class="status-dot" style="background: #ff6b35; box-shadow: 0 0 8px #ff6b35;">●</span> CONCRETE PWA</span>
             </div>
             <a href="./calc/index.html" class="service-subdomain">dondlingergc.com/calc/</a>
             <p class="service-desc">Field-tested concrete volume calculator for slabs, footings, and walls with safety margins.</p>
             <div class="telemetry-meta">
-              <span>TYPE: <strong class="latency-val" style="color: var(--neon-green);">LOCAL PWA</strong></span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #ff6b35;">FIELD ESTIMATOR</span>
               <a href="./calc/index.html" class="btn-launch-service" style="background: #ff6b35; color: #fff; font-weight: 700; border-color: #ff6b35;">LAUNCH POURREADY ↗</a>
             </div>
           </div>
@@ -622,7 +593,7 @@
             <a href="https://personalization.dondlingergc.com" target="_blank" class="service-subdomain" style="font-size: 0.95rem; font-weight: 700;">personalization.dondlingergc.com</a>
             <p class="service-desc" style="color: #cbd5e1; font-size: 0.9rem;">Metropolis Taskbar state manager, dynamic glassmorphism theme customizer, and gateway to premium features.</p>
             <div class="telemetry-meta">
-              <span>STATUS: <strong class="latency-val" id="latency-personalization" style="color: var(--neon-purple);">ONLINE</strong></span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-purple);">THEME CUSTOMIZER</span>
               <a href="https://personalization.dondlingergc.com" target="_blank" class="btn-launch-service" style="background: var(--neon-purple); color: #ffffff; font-weight: 700; border-color: var(--neon-purple);">LAUNCH ENGINE ↗</a>
             </div>
           </div>
@@ -631,13 +602,13 @@
           <div class="telemetry-card">
             <div class="telemetry-card-top">
               <div class="service-name">TAP: Time & Place</div>
-              <div class="status-badge checking" id="status-badge-tap"><span class="status-dot">●</span> PINGING</div>
+              <span class="status-badge online"><span class="status-dot">●</span> GPS PROOF</span>
             </div>
             <a href="https://tap.dondlingergc.com" target="_blank" class="service-subdomain">tap.dondlingergc.com</a>
             <p class="service-desc">MudBlazor WASM authenticated field tracking protocol with location and duration proofs.</p>
             <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-tap">--</strong></span>
-              <a href="https://tap.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-green);">WASM TRACKER</span>
+              <a href="https://tap.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH TAP ↗</a>
             </div>
           </div>
 
@@ -645,13 +616,13 @@
           <div class="telemetry-card">
             <div class="telemetry-card-top">
               <div class="service-name">TimelineZLA Sync</div>
-              <div class="status-badge checking" id="status-badge-timelinezla"><span class="status-dot">●</span> PINGING</div>
+              <span class="status-badge online"><span class="status-dot">●</span> WEBRTC MESH</span>
             </div>
             <a href="https://timelinezla.dondlingergc.com" target="_blank" class="service-subdomain">timelinezla.dondlingergc.com</a>
             <p class="service-desc">Local-first project timeline builder with 6-digit code WebRTC peer sync and PDF exports.</p>
             <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-timelinezla">--</strong></span>
-              <a href="https://timelinezla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan);">ZLA TIMELINE</span>
+              <a href="https://timelinezla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH TIMELINE ↗</a>
             </div>
           </div>
 
@@ -659,13 +630,13 @@
           <div class="telemetry-card">
             <div class="telemetry-card-top">
               <div class="service-name">Heckler Soundboard</div>
-              <div class="status-badge checking" id="status-badge-heckler"><span class="status-dot">●</span> PINGING</div>
+              <span class="status-badge online"><span class="status-dot">●</span> WASM AUDIO</span>
             </div>
             <a href="https://heckler.dondlingergc.com" target="_blank" class="service-subdomain">heckler.dondlingergc.com</a>
             <p class="service-desc">Blazor WASM audio trigger engine for soundboard diagnostics and high-velocity alerts.</p>
             <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-heckler">--</strong></span>
-              <a href="https://heckler.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-green);">AUDIO SYNTH</span>
+              <a href="https://heckler.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH HECKLER ↗</a>
             </div>
           </div>
 
@@ -673,13 +644,13 @@
           <div class="telemetry-card">
             <div class="telemetry-card-top">
               <div class="service-name">SkyDrop Peer Transfer</div>
-              <div class="status-badge checking" id="status-badge-skydrop"><span class="status-dot">●</span> PINGING</div>
+              <span class="status-badge online"><span class="status-dot">●</span> E2E ENCRYPTED</span>
             </div>
             <a href="https://skydrop.dondlingergc.com" target="_blank" class="service-subdomain">skydrop.dondlingergc.com</a>
             <p class="service-desc">PeerJS encrypted file transfer utility with mobile QR code scanning and zero cloud storage.</p>
             <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-skydrop">--</strong></span>
-              <a href="https://skydrop.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan);">P2P TRANSFER</span>
+              <a href="https://skydrop.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH SKYDROP ↗</a>
             </div>
           </div>
 
@@ -687,13 +658,13 @@
           <div class="telemetry-card">
             <div class="telemetry-card-top">
               <div class="service-name">ShotStack Studio</div>
-              <div class="status-badge checking" id="status-badge-shotstack"><span class="status-dot">●</span> PINGING</div>
+              <span class="status-badge online"><span class="status-dot">●</span> STORYBOARD</span>
             </div>
             <a href="https://shotstackstudio.dondlingergc.com" target="_blank" class="service-subdomain">shotstackstudio.dondlingergc.com</a>
             <p class="service-desc">Storyboard compiler for video directors to compile images and notes into exportable PDFs.</p>
             <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-shotstack">--</strong></span>
-              <a href="https://shotstackstudio.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary);">PDF COMPILER</span>
+              <a href="https://shotstackstudio.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH SHOTSTACK ↗</a>
             </div>
           </div>
 
@@ -701,13 +672,13 @@
           <div class="telemetry-card">
             <div class="telemetry-card-top">
               <div class="service-name">On My Way (OMW)</div>
-              <div class="status-badge checking" id="status-badge-omw"><span class="status-dot">●</span> PINGING</div>
+              <span class="status-badge online"><span class="status-dot">●</span> LIVE GPS</span>
             </div>
             <a href="https://omw.dondlingergc.com" target="_blank" class="service-subdomain">omw.dondlingergc.com</a>
             <p class="service-desc">Live GPS and ETA broadcasting tool for field technicians to share live arrival status.</p>
             <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-omw">--</strong></span>
-              <a href="https://omw.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-green);">ETA BROADCAST</span>
+              <a href="https://omw.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH OMW ↗</a>
             </div>
           </div>
 
@@ -715,13 +686,13 @@
           <div class="telemetry-card">
             <div class="telemetry-card-top">
               <div class="service-name">AmpliLoop Studio</div>
-              <div class="status-badge checking" id="status-badge-blazorpwa"><span class="status-dot">●</span> PINGING</div>
+              <span class="status-badge online"><span class="status-dot">●</span> MUSIC WASM</span>
             </div>
             <a href="https://blazorpwa.dondlingergc.com" target="_blank" class="service-subdomain">blazorpwa.dondlingergc.com</a>
             <p class="service-desc">Blazor WASM rap beat generator, metronome, and instrument tuner running local compiles.</p>
             <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-blazorpwa">--</strong></span>
-              <a href="https://blazorpwa.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-purple);">BEAT GENERATOR</span>
+              <a href="https://blazorpwa.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH AMPLILOOP ↗</a>
             </div>
           </div>
 
@@ -729,13 +700,13 @@
           <div class="telemetry-card">
             <div class="telemetry-card-top">
               <div class="service-name">Anytime Animal Control</div>
-              <div class="status-badge checking" id="status-badge-aac"><span class="status-dot">●</span> PINGING</div>
+              <span class="status-badge online"><span class="status-dot">●</span> DISPATCH PORTAL</span>
             </div>
             <a href="https://aac.dondlingergc.com" target="_blank" class="service-subdomain">aac.dondlingergc.com</a>
             <p class="service-desc">Live wildlife removal service portal with coverage maps and dispatch contacts.</p>
             <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-aac">--</strong></span>
-              <a href="https://aac.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary);">WILDLIFE PORTAL</span>
+              <a href="https://aac.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH AAC ↗</a>
             </div>
           </div>
 
@@ -748,7 +719,7 @@
             <a href="./touchscreen.html" class="service-subdomain">dondlingergc.com/touchscreen.html</a>
             <p class="service-desc">Client-side hardware diagnostic PWA to test touchscreen deadzones and ghost touch coordinates.</p>
             <div class="telemetry-meta">
-              <span>TYPE: <strong class="latency-val" style="color: var(--neon-green);">LOCAL PWA</strong></span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-green);">HARDWARE TEST</span>
               <a href="./touchscreen.html" class="btn-launch-service">TEST PWA ↗</a>
             </div>
           </div>
