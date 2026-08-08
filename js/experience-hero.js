@@ -225,11 +225,16 @@ function initParticleHero() {
 /* -------------------------------------------------------------------------- */
 
 const SUBDOMAINS = [
+  { id: 'personalization', url: 'https://personalization.dondlingergc.com', label: 'Personalization Engine & Taskbar' },
   { id: 'tap', url: 'https://tap.dondlingergc.com', label: 'TAP MudBlazor Client' },
   { id: 'heckler', url: 'https://heckler.dondlingergc.com', label: 'Heckler Soundboard' },
   { id: 'timelinezla', url: 'https://timelinezla.dondlingergc.com', label: 'Timeline ZLA Sync Engine' },
   { id: 'wazweather', url: 'https://wazweather.dondlingergc.com', label: 'WaZ Weather Dashboard' },
   { id: 'skydrop', url: 'https://skydrop.dondlingergc.com', label: 'Skydrop PeerJS Transfer' },
+  { id: 'shotstack', url: 'https://shotstackstudio.dondlingergc.com', label: 'ShotStack Studio' },
+  { id: 'omw', url: 'https://omw.dondlingergc.com', label: 'On My Way (OMW) Tracker' },
+  { id: 'blazorpwa', url: 'https://blazorpwa.dondlingergc.com', label: 'AmpliLoop Studio' },
+  { id: 'aac', url: 'https://aac.dondlingergc.com', label: 'Anytime Animal Control' },
   { id: 'intake', url: 'https://intake.dondlingergc.com', label: 'Enterprise Intake API' }
 ];
 
