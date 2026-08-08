@@ -3,1354 +3,412 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="description" content="Dondlinger Digital Database — Engineering Division. Premium progressive web applications, ZLA peer mesh engines, and edge computing telemetry.">
+  <title>Dondlinger General Contracting — Digital Hub</title>
+  <meta name="description" content="Dondlinger General Contracting — Premium progressive web applications, zero-liability peer mesh engines, and field engineering tools.">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="dondlinger_logo.png">
-  <title>Dondlinger Digital Database — Engineering Division</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/experience.css?v=3.0.0">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg-base: #000000;
-      --bg-panel: #0a0a0a;
-      --border: #333333;
-      --text-main: #ffffff;
-      --text-dim: #888888;
-      --accent: #39ff14;
-      --font-sans: 'Outfit', sans-serif;
+      --bg: #090b0e;
+      --surface: rgba(18, 22, 31, 0.65);
+      --surface-hover: rgba(28, 35, 48, 0.85);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(255, 152, 0, 0.4);
+      --text: #f8fafc;
+      --text-dim: #94a3b8;
+      --accent: #ff9800;
+      --accent-glow: rgba(255, 152, 0, 0.15);
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
+    
     body {
+      background-color: var(--bg);
+      color: var(--text);
       font-family: var(--font-sans);
-      background-color: var(--bg-base);
-      color: var(--text-main);
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* Side Nav for Directory */
-    #sidebar {
-      width: 280px;
-      background-color: var(--bg-panel);
-      border-right: 1px solid var(--border);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding: 24px;
-      flex-shrink: 0;
+      align-items: center;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    .brand {
-      font-weight: 800;
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-      letter-spacing: -0.5px;
+    /* Ambient Background Glow */
+    .ambient-bg {
+      position: fixed;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255, 152, 0, 0.08) 0%, rgba(9, 11, 14, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .brand-sub {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      margin-bottom: 40px;
-      text-transform: uppercase;
-    }
-
-    .nav-label {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .nav-link {
-      color: var(--text-dim);
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 4px;
-      margin-bottom: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      border-left: 2px solid transparent;
-    }
-
-    .nav-link:hover, .nav-link.active {
-      color: var(--text-main);
-      background-color: rgba(255,255,255,0.05);
-      border-left: 2px solid var(--accent);
-    }
-
-    .special-link {
-      margin-top: auto;
-      background: rgba(57, 255, 20, 0.1);
-      color: var(--accent);
-      border: 1px solid var(--accent);
+    /* Header / Hero */
+    header {
+      width: 100%;
+      max-width: 1100px;
+      padding: 3rem 1.5rem 1.5rem;
       text-align: center;
-      padding: 12px;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      border-radius: 4px;
-      text-decoration: none;
-      transition: all 0.2s;
+      position: relative;
+      z-index: 1;
     }
 
-    .special-link:hover {
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: rgba(255, 152, 0, 0.1);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      color: var(--text-dim);
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Main Container */
+    main {
+      width: 100%;
+      max-width: 1100px;
+      padding: 1.5rem;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+    /* Featured Infomercial Card */
+    .featured-hero-card {
+      background: var(--surface);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      padding: 1.75rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    @media (max-width: 850px) {
+      .featured-hero-card {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        padding: 1.25rem;
+      }
+    }
+
+    .video-wrapper {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 152, 0, 0.3);
+      background: #000;
+      aspect-ratio: 16/9;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .featured-details h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .featured-details p {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
       background: var(--accent);
       color: #000;
-    }
-
-    /* Main Area */
-    #main-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    }
-
-    /* Header & Search */
-    header {
-      padding: 24px 40px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      background: var(--bg-base);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .search-wrap {
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-    }
-
-    .search-input {
-      width: 100%;
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      padding: 16px 24px;
-      font-size: 1.1rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       border-radius: 8px;
-      font-family: var(--font-mono);
-      outline: none;
-      transition: border-color 0.2s;
+      text-decoration: none;
+      transition: all 0.2s ease;
     }
 
-    .search-input:focus {
-      border-color: var(--accent);
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 152, 0, 0.3);
     }
 
-    /* Grid */
-    .catalog-container {
-      padding: 40px;
-    }
-
+    /* Section Title */
     .section-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-bottom: 24px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-bottom: 1.25rem;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 0.75rem;
     }
 
-    .section-count {
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
       background: var(--border);
-      padding: 4px 8px;
-      border-radius: 4px;
-      color: var(--text-dim);
     }
 
+    /* Grid Layout */
     .app-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
     }
 
     .app-card {
-      background: var(--bg-panel);
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 24px;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: var(--text);
       display: flex;
       flex-direction: column;
-      transition: transform 0.2s, border-color 0.2s;
-      text-decoration: none;
-      color: inherit;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .app-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent);
+      background: var(--surface-hover);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
     }
 
-    .card-header {
+    .card-top {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 16px;
+      margin-bottom: 0.75rem;
     }
 
     .card-title {
       font-size: 1.2rem;
       font-weight: 700;
+      color: #fff;
     }
 
-    .card-tag {
+    .card-badge {
       font-family: var(--font-mono);
       font-size: 0.7rem;
-      padding: 4px 8px;
+      padding: 0.2rem 0.5rem;
       border-radius: 4px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.06);
       color: var(--text-dim);
+      text-transform: uppercase;
     }
 
     .card-desc {
       color: var(--text-dim);
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       line-height: 1.5;
-      margin-bottom: 24px;
-      flex-grow: 1;
+      flex: 1;
+      margin-bottom: 1.25rem;
     }
 
-    .card-footer {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-top: 1px solid var(--border);
-      padding-top: 16px;
-    }
-
-    .who-pill {
+    .card-link {
+      font-family: var(--font-mono);
       font-size: 0.75rem;
-      background: var(--bg-base);
-      border: 1px solid var(--border);
-      padding: 4px 8px;
-      border-radius: 12px;
-      color: var(--text-dim);
-    }
-
-    @media (max-width: 768px) {
-      body { flex-direction: column; }
-      #sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 16px; }
-      .special-link { margin-top: 24px; }
-      header { padding: 16px; }
-      .catalog-container { padding: 16px; }
-    }
-
-    /* Floating AI Chat Widget */
-    #ai-chat-widget {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-    }
-
-    #chat-toggle {
-      width: 60px;
-      height: 60px;
-      border-radius: 30px;
-      background: var(--accent);
-      color: #000;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(57, 255, 20, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    #chat-toggle:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 24px rgba(57, 255, 20, 0.6);
-    }
-
-    #chat-toggle svg {
-      width: 28px;
-      height: 28px;
-      fill: currentColor;
-    }
-
-    #chat-panel {
-      width: 380px;
-      max-width: calc(100vw - 48px);
-      height: 500px;
-      max-height: calc(100vh - 100px);
-      background: rgba(10, 10, 10, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 16px;
-      display: flex;
-      flex-direction: column;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(20px);
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    }
-
-    #chat-panel.open {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    .chat-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255,255,255,0.02);
-      border-radius: 12px 12px 0 0;
-    }
-
-    .chat-title {
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .chat-title span {
-      width: 8px;
-      height: 8px;
-      background: var(--accent);
-      border-radius: 50%;
-      display: inline-block;
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    .close-chat {
-      background: transparent;
-      border: none;
-      color: var(--text-dim);
-      cursor: pointer;
-      padding: 4px;
-    }
-    
-    .close-chat:hover {
-      color: var(--text-main);
-    }
-
-    .chat-messages {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .msg {
-      max-width: 85%;
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-
-    .msg.bot {
-      align-self: flex-start;
-      background: rgba(255,255,255,0.05);
-      border-bottom-left-radius: 4px;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .msg.user {
-      align-self: flex-end;
-      background: rgba(57, 255, 20, 0.15);
-      color: var(--text-main);
-      border-bottom-right-radius: 4px;
-      border: 1px solid rgba(57, 255, 20, 0.3);
-    }
-    
-    .msg-suggest {
-      display: inline-block;
-      background: var(--bg-base);
-      border: 1px solid var(--border);
-      padding: 6px 12px;
-      border-radius: 16px;
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      cursor: pointer;
-      margin-top: 8px;
-      margin-right: 8px;
-      transition: all 0.2s;
-    }
-    
-    .msg-suggest:hover {
-      border-color: var(--accent);
       color: var(--accent);
-    }
-
-    .chat-input-area {
-      padding: 16px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      gap: 8px;
-    }
-
-    .chat-input {
-      flex: 1;
-      background: var(--bg-base);
-      border: 1px solid var(--border);
-      padding: 12px 16px;
-      border-radius: 8px;
-      color: var(--text-main);
-      font-family: var(--font-sans);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .chat-input:focus {
-      border-color: var(--accent);
-    }
-
-    .chat-send {
-      background: var(--accent);
-      border: none;
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      color: #000;
-      cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
-      transition: opacity 0.2s;
+      gap: 0.4rem;
+      font-weight: 700;
     }
-    
-    .chat-send:hover {
-      opacity: 0.8;
+
+    /* Footer */
+    footer {
+      width: 100%;
+      max-width: 1100px;
+      padding: 2.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
     }
+
+    footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+      margin: 0 0.5rem;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: #fff; }
   </style>
 </head>
 <body>
 
-<div id="app-root">
-  <!-- Top Navigation Bar & Mode Switcher -->
-  <header class="experience-nav-bar">
-    <div class="nav-brand-group">
-      <img src="dondlinger_logo.png" alt="Dondlinger Digital" class="brand-logo-img">
-      <div class="brand-titles">
-        <div class="brand-name">DONDLINGER DIGITAL</div>
-        <div class="brand-subline">ENGINEERING PORTAL & EDGE INFRASTRUCTURE</div>
-      </div>
-    </div>
+  <div class="ambient-bg"></div>
 
-    <div class="mode-tabs">
-      <button class="mode-tab-btn active" data-target="experience-portal-view">
-        <span class="tab-badge">01</span> EXPERIENCE PORTAL
-      </button>
-      <button class="mode-tab-btn" data-target="legacy-directory-view">
-        <span class="tab-badge">02</span> APP DIRECTORY
-      </button>
+  <!-- Header -->
+  <header>
+    <div class="brand-badge">
+      <span>●</span> DONDLINGER GENERAL CONTRACTING
     </div>
-
-    <div class="nav-actions">
-      <button class="btn-contact-nav" onclick="openCmdK()" style="background: rgba(0, 243, 255, 0.15); color: var(--neon-cyan); border: 1px solid rgba(0, 243, 255, 0.4); margin-right: 8px;">
-        <kbd style="font-family: var(--font-mono); font-size: 0.72rem; background: rgba(255, 255, 255, 0.15); padding: 2px 6px; border-radius: 4px; margin-right: 4px;">⌘K</kbd> QUICK SEARCH
-      </button>
-      <button class="btn-contact-nav" onclick="document.getElementById('intake-section').scrollIntoView({behavior:'smooth'})">
-        ENGAGE ENGINEERING
-      </button>
-    </div>
+    <h1>Digital Application Suite</h1>
+    <p class="hero-sub">Streamlined progressive web applications, zero-liability field tracking, and real-time telemetry built for precision.</p>
   </header>
 
-  <!-- Category Sub-Filter Bar -->
-  <div class="category-filter-bar">
-    <button class="filter-btn active" data-filter="all">ALL PORTAL</button>
-    <button class="filter-btn" data-filter="apps">🌐 PRODUCTION APPS</button>
-    <button class="filter-btn" data-filter="calculator">🧮 SCOPE CALCULATOR</button>
-    <button class="filter-btn" data-filter="demos">⚡ APP INFOMERCIALS & DEMOS</button>
-    <button class="filter-btn" data-filter="downloads">📥 FREE DOWNLOADS</button>
-    <button class="filter-btn" data-filter="capabilities">🔒 CAPABILITIES</button>
-    <button class="filter-btn" data-filter="intake">✉️ ENTERPRISE INTAKE</button>
-  </div>
-
-  <!-- View Container -->
-  <div class="view-container">
+  <!-- Main Content -->
+  <main>
     
-    <!-- TAB 1: EXPERIENCE PORTAL -->
-    <div id="experience-portal-view" class="view-panel active">
-      
-      <!-- Canvas Hero Section -->
-      <section class="hero-canvas-section">
-        <canvas id="hero-particle-canvas"></canvas>
-        <div class="hero-content-wrapper">
-          <div class="hero-interactive-elements">
-            <div class="hero-pill-tag" style="background: rgba(37, 99, 235, 0.15); border-color: rgba(37, 99, 235, 0.35); color: #38bdf8;">
-              <span class="pill-dot" style="background: #38bdf8; box-shadow: 0 0 8px #38bdf8;"></span>
-              🔒 ZERO-LIABILITY ARCHITECTURE & ENTERPRISE PWAS
-            </div>
-            <h1 class="hero-main-title">
-              Next-Generation Enterprise Applications & <span style="background: linear-gradient(135deg, #38bdf8 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Edge Intelligence</span>
-            </h1>
-            <p class="hero-lead-text">
-              Dondlinger Digital Database engineers high-performance Progressive Web Applications, zero-liability peer sync engines, and custom operational tools built for enterprise scalability and 99.99% reliability.
-            </p>
-            <div class="hero-cta-buttons">
-              <button class="btn-hero-primary" onclick="document.getElementById('infomercial-section').scrollIntoView({behavior:'smooth'})">
-                ▶ WATCH APP INFOMERCIALS
-              </button>
-              <button class="btn-hero-secondary" onclick="document.getElementById('roi-calculator-section').scrollIntoView({behavior:'smooth'})">
-                🧮 CALCULATE PROJECT SCOPE
-              </button>
-            </div>
-
-            <!-- Hero Stats Row -->
-            <div class="hero-stats-row">
-              <div class="stat-item">
-                <span class="stat-num">14</span>
-                <span class="stat-lbl">Live Deployed PWAs</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-num">13</span>
-                <span class="stat-lbl">Active Subdomains</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-num">99.9%</span>
-                <span class="stat-lbl">Edge Uptime</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-num">ZLA</span>
-                <span class="stat-lbl">Peer Mesh Active</span>
-              </div>
-            </div>
-
-          </div>
+    <!-- Featured TAP Infomercial Card -->
+    <div class="featured-hero-card">
+      <div class="video-wrapper">
+        <video controls playsinline poster="dondlinger_logo.png">
+          <source src="https://pub-dondlingergc.r2.dev/videos/make_an_infomercial_for_using.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="featured-details">
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem;">
+          FEATURED INFOMERCIAL • DEMO
         </div>
-      </section>
-
-      <!-- Subdomain Application Matrix Section -->
-      <section id="telemetry-section" class="portal-section">
-        <div class="section-header">
-          <span class="section-tag">[ PRODUCTION APPLICATION CATALOG ]</span>
-          <h2 class="section-title">High-Performance Enterprise Applications</h2>
-          <p style="color: var(--text-secondary); margin-top: 8px;">Explore our battle-tested suite of Progressive Web Applications, Zero-Liability engines, and operational tools.</p>
-        </div>
-        <div class="telemetry-grid">
-          
-          <!-- WaZ Weather Dashboard -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name" style="font-size: 1.15rem; color: #ffffff;">WaZ Weather Dashboard</div>
-              <span class="status-badge online"><span class="status-dot">●</span> LIVE RADAR</span>
-            </div>
-            <a href="https://wazweather.dondlingergc.com" target="_blank" class="service-subdomain">wazweather.dondlingergc.com</a>
-            <p class="service-desc">Live atmospheric radar telemetry, river hydrology flow rates, and severe storm dispatch alerts.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-green);">ATMOSPHERIC PWA</span>
-              <a href="https://wazweather.dondlingergc.com" target="_blank" class="btn-launch-service" style="background: var(--neon-green); color: #000; font-weight: 700;">LAUNCH WEATHER ↗</a>
-            </div>
-          </div>
-
-          <!-- PourReady Estimator -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name" style="font-size: 1.15rem; color: #ffffff;">PourReady Estimator</div>
-              <span class="status-badge online" style="background: rgba(255, 107, 53, 0.15); color: #ff6b35; border-color: rgba(255, 107, 53, 0.4);"><span class="status-dot" style="background: #ff6b35; box-shadow: 0 0 8px #ff6b35;">●</span> CONCRETE PWA</span>
-            </div>
-            <a href="./calc/index.html" class="service-subdomain">dondlingergc.com/calc/</a>
-            <p class="service-desc">Field-tested concrete volume calculator for slabs, footings, and walls with safety margins.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #ff6b35;">FIELD ESTIMATOR</span>
-              <a href="./calc/index.html" class="btn-launch-service" style="background: #ff6b35; color: #fff; font-weight: 700; border-color: #ff6b35;">LAUNCH POURREADY ↗</a>
-            </div>
-          </div>
-
-          <!-- Personalization Engine -->
-          <div class="telemetry-card featured-card">
-            <div class="telemetry-card-top">
-              <div>
-                <div class="service-name" style="font-size: 1.25rem; color: #ffffff;">Personalization Engine</div>
-                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #d8b4fe; margin-top: 4px;">SYSTEM CUSTOMIZATION & METROPOLIS TASKBAR</div>
-              </div>
-              <div class="featured-badge">★ GATEWAY</div>
-            </div>
-            <a href="https://personalization.dondlingergc.com" target="_blank" class="service-subdomain" style="font-size: 0.95rem; font-weight: 700;">personalization.dondlingergc.com</a>
-            <p class="service-desc" style="color: #cbd5e1; font-size: 0.9rem;">Metropolis Taskbar state manager, dynamic glassmorphism theme customizer, and gateway to premium features.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-purple);">THEME CUSTOMIZER</span>
-              <a href="https://personalization.dondlingergc.com" target="_blank" class="btn-launch-service" style="background: var(--neon-purple); color: #ffffff; font-weight: 700; border-color: var(--neon-purple);">LAUNCH ENGINE ↗</a>
-            </div>
-          </div>
-
-          <!-- TAP: Time & Place -->
-          <div class="telemetry-card featured-card" style="border-color: #ff9800;">
-            <div class="telemetry-card-top">
-              <div>
-                <div class="service-name" style="font-size: 1.25rem; color: #ffffff;">TAP: Time & Place Protocol</div>
-                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #ff9800; margin-top: 4px;">AUTHENTICATED LOCATION & TIMESTAMP VERIFIER</div>
-              </div>
-              <span class="status-badge online" style="background: rgba(255, 152, 0, 0.2); color: #ff9800; border-color: rgba(255, 152, 0, 0.4);"><span class="status-dot" style="background: #ff9800;">●</span> INFOMERCIAL DEMO</span>
-            </div>
-            <a href="https://tap.dondlingergc.com" target="_blank" class="service-subdomain" style="font-size: 0.95rem; font-weight: 700; color: #ff9800;">tap.dondlingergc.com</a>
-            
-            <div style="margin: 12px 0; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255, 152, 0, 0.3); background: #000;">
-              <video controls playsinline style="width: 100%; display: block;" poster="dondlinger_logo.png">
-                <source src="https://pub-dondlingergc.r2.dev/videos/make_an_infomercial_for_using.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-            </div>
-
-            <p class="service-desc" style="color: #cbd5e1; font-size: 0.9rem;">MudBlazor WASM authenticated field tracking protocol providing cryptographic proofs of location, activity, and duration directly from active project sites.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #ff9800;">CRYPTOGRAPHIC TELEMETRY</span>
-              <a href="https://tap.dondlingergc.com" target="_blank" class="btn-launch-service" style="background: #ff9800; color: #000000; font-weight: 700; border-color: #ff9800;">LAUNCH TAP PROTOCOL ↗</a>
-            </div>
-          </div>
-
-          <!-- TimelineZLA Sync -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">TimelineZLA Sync</div>
-              <span class="status-badge online"><span class="status-dot">●</span> WEBRTC MESH</span>
-            </div>
-            <a href="https://timelinezla.dondlingergc.com" target="_blank" class="service-subdomain">timelinezla.dondlingergc.com</a>
-            <p class="service-desc">Local-first project timeline builder with 6-digit code WebRTC peer sync and PDF exports.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan);">ZLA TIMELINE</span>
-              <a href="https://timelinezla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH TIMELINE ↗</a>
-            </div>
-          </div>
-
-          <!-- Heckler Soundboard -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">Heckler Soundboard</div>
-              <span class="status-badge online"><span class="status-dot">●</span> WASM AUDIO</span>
-            </div>
-            <a href="https://heckler.dondlingergc.com" target="_blank" class="service-subdomain">heckler.dondlingergc.com</a>
-            <p class="service-desc">Blazor WASM audio trigger engine for soundboard diagnostics and high-velocity alerts.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-green);">AUDIO SYNTH</span>
-              <a href="https://heckler.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH HECKLER ↗</a>
-            </div>
-          </div>
-
-          <!-- SkyDrop Peer Transfer -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">SkyDrop Peer Transfer</div>
-              <span class="status-badge online"><span class="status-dot">●</span> E2E ENCRYPTED</span>
-            </div>
-            <a href="https://skydrop.dondlingergc.com" target="_blank" class="service-subdomain">skydrop.dondlingergc.com</a>
-            <p class="service-desc">PeerJS encrypted file transfer utility with mobile QR code scanning and zero cloud storage.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-cyan);">P2P TRANSFER</span>
-              <a href="https://skydrop.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH SKYDROP ↗</a>
-            </div>
-          </div>
-
-          <!-- ShotStack Studio -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">ShotStack Studio</div>
-              <span class="status-badge online"><span class="status-dot">●</span> STORYBOARD</span>
-            </div>
-            <a href="https://shotstackstudio.dondlingergc.com" target="_blank" class="service-subdomain">shotstackstudio.dondlingergc.com</a>
-            <p class="service-desc">Storyboard compiler for video directors to compile images and notes into exportable PDFs.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary);">PDF COMPILER</span>
-              <a href="https://shotstackstudio.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH SHOTSTACK ↗</a>
-            </div>
-          </div>
-
-          <!-- On My Way (OMW) -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">On My Way (OMW)</div>
-              <span class="status-badge online"><span class="status-dot">●</span> LIVE GPS</span>
-            </div>
-            <a href="https://omw.dondlingergc.com" target="_blank" class="service-subdomain">omw.dondlingergc.com</a>
-            <p class="service-desc">Live GPS and ETA broadcasting tool for field technicians to share live arrival status.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-green);">ETA BROADCAST</span>
-              <a href="https://omw.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH OMW ↗</a>
-            </div>
-          </div>
-
-          <!-- AmpliLoop Studio -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">AmpliLoop Studio</div>
-              <span class="status-badge online"><span class="status-dot">●</span> MUSIC WASM</span>
-            </div>
-            <a href="https://blazorpwa.dondlingergc.com" target="_blank" class="service-subdomain">blazorpwa.dondlingergc.com</a>
-            <p class="service-desc">Blazor WASM rap beat generator, metronome, and instrument tuner running local compiles.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-purple);">BEAT GENERATOR</span>
-              <a href="https://blazorpwa.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH AMPLILOOP ↗</a>
-            </div>
-          </div>
-
-          <!-- Anytime Animal Control -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">Anytime Animal Control</div>
-              <span class="status-badge online"><span class="status-dot">●</span> DISPATCH PORTAL</span>
-            </div>
-            <a href="https://aac.dondlingergc.com" target="_blank" class="service-subdomain">aac.dondlingergc.com</a>
-            <p class="service-desc">Live wildlife removal service portal with coverage maps and dispatch contacts.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary);">WILDLIFE PORTAL</span>
-              <a href="https://aac.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH AAC ↗</a>
-            </div>
-          </div>
-
-          <!-- Touchscreen Tester -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">Touchscreen Tester</div>
-              <span class="status-badge online"><span class="status-dot">●</span> DIAGNOSTIC</span>
-            </div>
-            <a href="./touchscreen.html" class="service-subdomain">dondlingergc.com/touchscreen.html</a>
-            <p class="service-desc">Client-side hardware diagnostic PWA to test touchscreen deadzones and ghost touch coordinates.</p>
-            <div class="telemetry-meta">
-              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-green);">HARDWARE TEST</span>
-              <a href="./touchscreen.html" class="btn-launch-service">TEST PWA ↗</a>
-            </div>
-          </div>
-
-          <!-- Zero Liability Architecture Showcase -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">Zero Liability Architecture</div>
-              <div class="status-badge checking" id="status-badge-zla"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://zla.dondlingergc.com" target="_blank" class="service-subdomain">zla.dondlingergc.com</a>
-            <p class="service-desc">Architectural showcase for browser-first zero data liability applications.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-zla">--</strong></span>
-              <a href="https://zla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-          <!-- Dondlinger Voice Intake -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">Dondlinger Voice Intake</div>
-              <span class="status-badge online"><span class="status-dot">●</span> VOICE PWA</span>
-            </div>
-            <a href="./intake.html" class="service-subdomain">dondlingergc.com/intake.html</a>
-            <p class="service-desc">Voice-first client onboarding. Tap microphone to record project vision securely.</p>
-            <div class="telemetry-meta">
-              <span>TYPE: <strong class="latency-val" style="color: var(--neon-green);">LOCAL PWA</strong></span>
-              <a href="./intake.html" class="btn-launch-service">RECORD ↗</a>
-            </div>
-          </div>
-
-          <!-- Intake Gateway API -->
-          <div class="telemetry-card">
-            <div class="telemetry-card-top">
-              <div class="service-name">Intake Gateway API</div>
-              <div class="status-badge checking" id="status-badge-intake"><span class="status-dot">●</span> PINGING</div>
-            </div>
-            <a href="https://intake.dondlingergc.com" target="_blank" class="service-subdomain">intake.dondlingergc.com</a>
-            <p class="service-desc">Secure JSON intake API and lead ingestion pipeline for enterprise client projects.</p>
-            <div class="telemetry-meta">
-              <span>LATENCY: <strong class="latency-val" id="latency-intake">--</strong></span>
-              <a href="https://intake.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- COMMERCIAL CLIENT ROI & SCOPE CALCULATOR -->
-      <section id="roi-calculator-section" class="portal-section">
-        <div class="section-header">
-          <span class="section-tag">[ ENTERPRISE SCOPE ESTIMATOR & ROI CALCULATOR ]</span>
-          <h2 class="section-title">Calculate Your Software Objectives & ROI</h2>
-          <p style="color: var(--text-secondary); margin-top: 8px;">Configure custom PWA components, zero-liability peer sync, and edge AI models to estimate timeline, budget, and efficiency gains.</p>
-        </div>
-
-        <div class="roi-calculator-card">
-          <div class="roi-controls-side">
-            <div>
-              <div class="calc-section-label">1. Select Required Architecture Modules</div>
-              <div class="chips-selector">
-                <div class="calc-chip selected" data-weight="1.5">Custom WASM PWA</div>
-                <div class="calc-chip selected" data-weight="2.0">WebRTC Peer Mesh (ZLA)</div>
-                <div class="calc-chip" data-weight="1.8">Cloudflare Edge AI Router</div>
-                <div class="calc-chip" data-weight="1.2">Realtime GIS & GPS Telemetry</div>
-                <div class="calc-chip selected" data-weight="1.0">Offline Caching Engine</div>
-                <div class="calc-chip" data-weight="1.4">Enterprise API Gateway</div>
-              </div>
-            </div>
-
-            <div>
-              <div class="calc-section-label">2. Target Active User Volume</div>
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-primary);">
-                <span>Scaled Users:</span>
-                <span id="user-count-display" style="color: var(--neon-green); font-weight: 700;">2,500</span>
-              </div>
-              <input type="range" id="user-scale-slider" min="100" max="50000" step="500" value="2500" style="width: 100%; accent-color: var(--neon-green); cursor: pointer;">
-            </div>
-          </div>
-
-          <div class="roi-results-side">
-            <div>
-              <div class="metric-big-box">
-                <div class="metric-big-label">ESTIMATED DELIVERY TIMELINE</div>
-                <div class="metric-big-val" id="calc-output-weeks">4 WEEKS</div>
-              </div>
-              <div class="metric-big-box">
-                <div class="metric-big-label">EFFICIENCY & COST GAIN</div>
-                <div class="metric-big-val" id="calc-output-roi" style="color: var(--neon-cyan);">68% EFFICIENCY GAIN</div>
-              </div>
-              <div class="metric-big-box">
-                <div class="metric-big-label">ESTIMATED BUDGET BRACKET</div>
-                <div class="metric-big-val" id="calc-output-budget" style="color: #ffffff;">$20,125</div>
-              </div>
-            </div>
-
-            <button class="btn-lock-scope" onclick="lockScopeAndProceed()">
-              LOCK SCOPE & REQUEST PROPOSAL ↗
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- INTERACTIVE GLASSMORPHISM APP DEMOS SECTION -->
-      <section id="infomercial-section" class="portal-section">
-        <div class="section-header">
-          <span class="section-tag">[ INTERACTIVE GLASSMORPHISM APP DEMOS ]</span>
-          <h2 class="section-title">Test Drive Key Applications Live</h2>
-          <p style="color: var(--text-secondary); margin-top: 8px;">Interactive previews powered by real Web Audio synthesis, WebRTC peer simulations, and offline PWA generators.</p>
-        </div>
-        <div class="interactive-demos-grid">
-          
-          <!-- FEATURED INFOMERCIAL VIDEO: PourReady Estimator -->
-          <div class="interactive-demo-card" style="grid-column: 1 / -1; background: linear-gradient(145deg, rgba(20, 28, 45, 0.9) 0%, rgba(8, 12, 20, 0.95) 100%); border: 1px solid rgba(255, 107, 53, 0.5); box-shadow: 0 12px 40px rgba(255, 107, 53, 0.15);">
-            <div class="demo-card-header">
-              <div>
-                <div class="demo-title" style="font-size: 1.4rem; color: #ffffff;">PourReady Estimator — Official App Infomercial</div>
-                <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #ff6b35; margin-top: 4px;">FEATURED PRODUCTION SHOWCASE</div>
-              </div>
-              <span class="status-badge online" style="background: rgba(255, 107, 53, 0.15); color: #ff6b35; border-color: rgba(255, 107, 53, 0.4);">★ HD INFOMERCIAL</span>
-            </div>
-            <div style="width: 100%; border-radius: 12px; overflow: hidden; background: #000000; margin-bottom: 16px; border: 1px solid rgba(255, 255, 255, 0.15);">
-              <video controls autoplay loop muted playsinline style="width: 100%; max-height: 480px; display: block; object-fit: contain;">
-                <source src="videos/pour_ready_infomercial.mp4" type="video/mp4">
-                Your browser does not support HTML5 video playback.
-              </video>
-            </div>
-            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-              <p class="service-desc" style="color: #cbd5e1; margin-bottom: 0;">Field-tested concrete volume calculator for slabs, footings, and walls with jobsite waste safety margins.</p>
-              <a href="./calc/index.html" class="btn-launch-service" style="background: #ff6b35; color: #ffffff; font-weight: 700; border-color: #ff6b35; padding: 10px 20px;">LAUNCH POURREADY ↗</a>
-            </div>
-          </div>
-
-          <!-- Demo 1: WaZ Weather Telemetry -->
-          <div class="interactive-demo-card">
-            <div class="demo-card-header">
-              <div class="demo-title">WaZ Weather Radar</div>
-              <span class="status-badge online">LIVE RADAR</span>
-            </div>
-            <div class="demo-preview-stage">
-              <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--neon-green);">
-                📡 WISCONSIN RAPIDS ATMOSPHERIC TELEMETRY<br>
-                RIVER FLOW: 4,820 CFS | BAROMETER: 30.12 inHg<br>
-                <span style="color: var(--neon-cyan);">RADAR MESH: 0 ALERTS IN ACTIVE DISPATCH ZONE</span>
-              </div>
-            </div>
-            <a href="https://wazweather.dondlingergc.com" target="_blank" class="btn-launch-service" style="align-self: flex-start; background: var(--neon-green); color: #000; font-weight: 700;">LAUNCH WAZ WEATHER ↗</a>
-          </div>
-
-          <!-- Demo 2: Heckler Web Audio Soundboard -->
-          <div class="interactive-demo-card">
-            <div class="demo-card-header">
-              <div class="demo-title">Heckler Audio Synth</div>
-              <span class="status-badge online">PLAYABLE AUDIO</span>
-            </div>
-            <div class="demo-preview-stage">
-              <div class="sound-pad-grid">
-                <div class="sound-pad" data-freq="440" data-type="sine">440Hz<br>SINE</div>
-                <div class="sound-pad" data-freq="554" data-type="square">554Hz<br>SQUARE</div>
-                <div class="sound-pad" data-freq="659" data-type="sawtooth">659Hz<br>SAW</div>
-                <div class="sound-pad" data-freq="880" data-type="triangle">880Hz<br>TRI</div>
-              </div>
-            </div>
-            <p class="service-desc" style="margin-bottom: 16px;">Click sound pads above to trigger instant Web Audio API tone synthesis built with Blazor WASM.</p>
-            <a href="https://heckler.dondlingergc.com" target="_blank" class="btn-launch-service" style="align-self: flex-start;">LAUNCH HECKLER ↗</a>
-          </div>
-
-          <!-- Demo 3: TAP Field Ticket Generator -->
-          <div class="interactive-demo-card">
-            <div class="demo-card-header">
-              <div class="demo-title">TAP Field Ticket Engine</div>
-              <span class="status-badge online">GPS PROOF</span>
-            </div>
-            <div class="demo-preview-stage" id="tap-demo-output">
-              <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); text-align: center;">
-                Click button below to generate signed location proof ticket
-              </div>
-            </div>
-            <div style="display: flex; gap: 10px;">
-              <button class="btn-launch-service" onclick="generateTapTicket()" style="background: var(--neon-green); color: #000; font-weight: 700; border: none;">GENERATE TICKET ⚡</button>
-              <a href="https://tap.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH TAP ↗</a>
-            </div>
-          </div>
-
-          <!-- Demo 4: Timeline ZLA WebRTC Sync -->
-          <div class="interactive-demo-card">
-            <div class="demo-card-header">
-              <div class="demo-title">TimelineZLA Peer Mesh</div>
-              <span class="status-badge online">WEBRTC SYNC</span>
-            </div>
-            <div class="demo-preview-stage" id="timeline-demo-output">
-              <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); text-align: center;">
-                Click button below to initialize 6-digit WebRTC sync room
-              </div>
-            </div>
-            <div style="display: flex; gap: 10px;">
-              <button class="btn-launch-service" onclick="startTimelineSync()" style="background: var(--neon-cyan); color: #000; font-weight: 700; border: none;">CREATE ROOM 🔗</button>
-              <a href="https://timelinezla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH TIMELINE ↗</a>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- FREE DOWNLOADS VAULT SECTION -->
-      <section id="downloads-vault-section" class="portal-section">
-        <div class="section-header">
-          <span class="section-tag">[ FREE DOWNLOADS VAULT & OPEN SOURCE PACKAGES ]</span>
-          <h2 class="section-title">Metropolis MCPs, Skills & System Blueprints</h2>
-          <p style="color: var(--text-secondary); margin-top: 8px;">Free open-source tools, sidecar MCP servers, and Antigravity skill packs available for instant download and CLI installation.</p>
-        </div>
-
-        <div class="downloads-grid">
-          
-          <!-- Download 1: Metropolis MCP Sidecar Server Suite -->
-          <div class="download-card">
-            <div class="download-card-top">
-              <div class="download-title">Metropolis MCP Server Suite</div>
-              <span class="tier-badge free">FREE OPEN SOURCE</span>
-            </div>
-            <div class="download-version-tag">VERSION 3.2.0 • 10 LOCAL SIDECAR SERVERS AUDITED</div>
-            <p class="download-desc">Model Context Protocol sidecar servers running on Metropolis-Prime: workspace-execution-mcp, wrangler-mcp, cloudflare-inference-mcp, orchestrator-do-mcp, duckdb-supercharger, and telegram-app-mcp.</p>
-            <div class="terminal-install-box">
-              <code>git clone https://github.com/yavru421/dondlingergc.github.io.git</code>
-              <button class="btn-copy-code" onclick="copyInstallSnippet(this, 'git clone https://github.com/yavru421/dondlingergc.github.io.git')">COPY</button>
-            </div>
-            <div class="download-actions-row">
-              <a href="./downloads/metropolis-mcp-bundle.json" download class="btn-download-primary">DOWNLOAD MCP MANIFEST 📥</a>
-              <a href="./downloads/metropolis-mcp-bundle.json" target="_blank" class="btn-download-secondary">VIEW JSON ↗</a>
-            </div>
-          </div>
-
-          <!-- Download 2: Antigravity 37-Skills Pack -->
-          <div class="download-card">
-            <div class="download-card-top">
-              <div class="download-title">Antigravity Core Skills (37)</div>
-              <span class="tier-badge free">FREE OPEN SOURCE</span>
-            </div>
-            <div class="download-version-tag">VERSION 1.8.0 • ZLA, APT PROMPTER, MIND, APP PURGER</div>
-            <p class="download-desc">Collection of 37 audited local skills: Zero-Liability Architecture (ZLA), APT multi-stage prompter, App Purger, Mind DuckDB telemetry lake, and Katana domain matrix.</p>
-            <div class="terminal-install-box">
-              <code>curl -sSL https://dondlingergc.com/downloads/antigravity-skills-pack.json</code>
-              <button class="btn-copy-code" onclick="copyInstallSnippet(this, 'curl -sSL https://dondlingergc.com/downloads/antigravity-skills-pack.json')">COPY</button>
-            </div>
-            <div class="download-actions-row">
-              <a href="./downloads/antigravity-skills-pack.json" download class="btn-download-primary">DOWNLOAD SKILLS PACK 📥</a>
-              <a href="./downloads/antigravity-skills-pack.json" target="_blank" class="btn-download-secondary">VIEW JSON ↗</a>
-            </div>
-          </div>
-
-          <!-- Download 3: Metropolis Node Topology Map -->
-          <div class="download-card">
-            <div class="download-card-top">
-              <div class="download-title">Metropolis Node Topology</div>
-              <span class="tier-badge community">COMMUNITY TIER</span>
-            </div>
-            <div class="download-version-tag">VERSION 3.0.0 • METRONODE, BOROUGHS, VILLAGES, WATCHTOWERS</div>
-            <p class="download-desc">Ground-truth infrastructure topology map: Metropolis-Prime, PCIe sidecars, battery-powered SBC field villages, Watchtowers edge routing, and The Archives telemetry lake.</p>
-            <div class="terminal-install-box">
-              <code>curl -sSL https://dondlingergc.com/downloads/metropolis-node-topology.json</code>
-              <button class="btn-copy-code" onclick="copyInstallSnippet(this, 'curl -sSL https://dondlingergc.com/downloads/metropolis-node-topology.json')">COPY</button>
-            </div>
-            <div class="download-actions-row">
-              <a href="./downloads/metropolis-node-topology.json" download class="btn-download-primary">DOWNLOAD TOPOLOGY 📥</a>
-              <a href="./downloads/metropolis-node-topology.json" target="_blank" class="btn-download-secondary">VIEW JSON ↗</a>
-            </div>
-          </div>
-
-          <!-- Download 4: Google Antigravity SDK & Agent Dispatcher -->
-          <div class="download-card">
-            <div class="download-card-top">
-              <div class="download-title">Google AGY SDK & Dispatcher</div>
-              <span class="tier-badge free">FREE STARTER</span>
-            </div>
-            <div class="download-version-tag">VERSION 1.4.0 • AGENT DISPATCHER & BRIDGE SERVER</div>
-            <p class="download-desc">Boilerplate templates and Python/TypeScript dispatch controller for creating, configuring, and orchestrating autonomous AI agents with Google Antigravity SDK.</p>
-            <div class="terminal-install-box">
-              <code>curl -sSL https://dondlingergc.com/downloads/google-antigravity-sdk.json</code>
-              <button class="btn-copy-code" onclick="copyInstallSnippet(this, 'curl -sSL https://dondlingergc.com/downloads/google-antigravity-sdk.json')">COPY</button>
-            </div>
-            <div class="download-actions-row">
-              <a href="./downloads/google-antigravity-sdk.json" download class="btn-download-primary">DOWNLOAD SDK MANIFEST 📥</a>
-              <a href="./downloads/google-antigravity-sdk.json" target="_blank" class="btn-download-secondary">VIEW JSON ↗</a>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- Engineering Capabilities Section -->
-      <section id="capabilities-section" class="portal-section">
-        <div class="section-header">
-          <span class="section-tag">[ CORE CAPABILITIES ]</span>
-          <h2 class="section-title">Built For High-Velocity Enterprise Software</h2>
-        </div>
-        <div class="capabilities-grid">
-          
-          <div class="capability-card">
-            <div class="cap-icon-box">⚡</div>
-            <h3 class="cap-title">Progressive Web Apps (PWAs)</h3>
-            <p class="cap-body">Offline-first web applications engineered with service workers, native device APIs, and zero-latency local caching.</p>
-            <div class="cap-tags">
-              <span class="cap-tag">Service Workers</span>
-              <span class="cap-tag">IndexedDB</span>
-              <span class="cap-tag">Offline-First</span>
-            </div>
-          </div>
-
-          <div class="capability-card">
-            <div class="cap-icon-box">🔒</div>
-            <h3 class="cap-title">Zero-Liability Architecture (ZLA)</h3>
-            <p class="cap-body">Decentralized WebRTC and PeerJS mesh routing that eliminates central data liability, ensuring raw privacy and instantaneous node sync.</p>
-            <div class="cap-tags">
-              <span class="cap-tag">WebRTC</span>
-              <span class="cap-tag">E2E Peer Mesh</span>
-              <span class="cap-tag">Zero-Log</span>
-            </div>
-          </div>
-
-          <div class="capability-card">
-            <div class="cap-icon-box">🌐</div>
-            <h3 class="cap-title">Cloudflare Workers Edge AI</h3>
-            <p class="cap-body">Global edge routing powered by Cloudflare Workers, D1 distributed SQL databases, KV storage, and low-latency Workers AI inference.</p>
-            <div class="cap-tags">
-              <span class="cap-tag">Cloudflare Workers</span>
-              <span class="cap-tag">D1 SQL</span>
-              <span class="cap-tag">Vectorize</span>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- Client Intake Form Section -->
-      <section id="intake-section" class="portal-section">
-        <div class="intake-box">
-          <div class="section-header" style="margin-bottom: 12px;">
-            <span class="section-tag">[ ENGAGE DONDLINGER DIGITAL ]</span>
-            <h2 class="section-title">Request Enterprise Engineering Services</h2>
-            <p style="color: var(--text-secondary); margin-top: 8px;">Let us design and deploy your custom WebGL experience, PWA architecture, or Edge computing network.</p>
-          </div>
-          <form id="client-intake-form">
-            <div class="intake-form-grid">
-              <div class="form-group">
-                <label class="form-label">Client Name</label>
-                <input type="text" class="form-input" placeholder="e.g. Sarah Jenkins" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Corporate Email</label>
-                <input type="email" class="form-input" placeholder="sarah@organization.com" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Organization / Industry</label>
-                <input type="text" class="form-input" placeholder="e.g. Apex Construction Tech">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Target Service</label>
-                <select class="form-select">
-                  <option value="pwa">Custom PWA & Web App Development</option>
-                  <option value="zla">Zero-Liability / WebRTC Architecture</option>
-                  <option value="edge">Cloudflare Workers & Edge AI Integration</option>
-                  <option value="consulting">System Architecture Consulting</option>
-                </select>
-              </div>
-              <div class="form-group full-width">
-                <label class="form-label">Project Scope & Objectives</label>
-                <textarea class="form-textarea" placeholder="Describe your software objectives, performance targets, and key deliverables..." required></textarea>
-              </div>
-              <div class="form-group full-width">
-                <button type="submit" class="btn-submit-intake">DISPATCH PROJECT INQUIRY ↗</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <!-- Footer -->
-      <footer class="experience-footer">
-        <p>© 2026 DONDLINGER DIGITAL DATABASE — ALL RIGHTS RESERVED | METROPOLIS PRIME INFRASTRUCTURE</p>
-      </footer>
-
-    </div>
-
-    <!-- TAB 2: LEGACY APP DIRECTORY VIEW -->
-    <div id="legacy-directory-view" class="view-panel">
-      <div style="display: flex; width: 100%; height: 100%; overflow: hidden;">
-        <!-- Sidebar Nav -->
-        <nav id="sidebar">
-          <div class="brand">Dondlinger Digital</div>
-          <div class="brand-sub">ZLA Architecture Hub</div>
-
-          <div class="nav-label">Enterprise Categories</div>
-          <div class="nav-link active" data-category="All" onclick="filterCategory('All')">All Applications</div>
-          <div class="nav-link" data-category="Field Operations" onclick="filterCategory('Field Operations')">🚜 Field Operations</div>
-          <div class="nav-link" data-category="Weather & Environment" onclick="filterCategory('Weather & Environment')">📡 Weather & Environment</div>
-          <div class="nav-link" data-category="Collaboration & Peer Mesh" onclick="filterCategory('Collaboration & Peer Mesh')">🔗 Collaboration & Peer Mesh</div>
-          <div class="nav-link" data-category="Media & Creative Studios" onclick="filterCategory('Media & Creative Studios')">🎬 Media & Creative Studios</div>
-          <div class="nav-link" data-category="Platform & Architecture" onclick="filterCategory('Platform & Architecture')">🔒 Platform & Architecture</div>
-          
-          <a href="./dondlingerdigitaldatabase/index.html#oracle-game" class="special-link">
-            > Launch Neural Oracle 20Q
-          </a>
-        </nav>
-
-        <!-- Main Content -->
-        <main id="main-content">
-          <header>
-            <div class="search-wrap">
-              <input type="text" id="searchBar" class="search-input" placeholder="Search applications, tags, or features..." oninput="handleSearch()">
-            </div>
-          </header>
-
-          <div class="catalog-container">
-            <div class="section-title">
-              <span id="current-category">All Applications</span>
-              <span class="section-count" id="app-count">0</span>
-            </div>
-            <div class="app-grid" id="appGrid">
-              <!-- Cards injected via JS -->
-            </div>
-          </div>
-        </main>
+        <h2>TAP: Time & Place Protocol</h2>
+        <p>Authenticated field tracking protocol built with MudBlazor WebAssembly. Cryptographic proofs of location, site activity, and timestamp verification.</p>
+        <a href="https://tap.dondlingergc.com" target="_blank" class="btn-action">
+          Launch TAP Protocol (tap.dondlingergc.com) ↗
+        </a>
       </div>
     </div>
 
-  </div>
-</div>
+    <!-- Active Applications Section -->
+    <div class="section-title">Active Applications</div>
 
-  <!-- Floating AI Chat Widget -->
-  <div id="ai-chat-widget">
-    <div id="chat-panel">
-      <div class="chat-header">
-        <div class="chat-title"><span></span> Dondlinger Assistant</div>
-        <button class="close-chat" id="close-chat">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"></path></svg>
-        </button>
-      </div>
-      <div class="chat-messages" id="chat-messages">
-        <div class="msg bot">
-          Welcome to the Dondlinger Digital Database. I'm here to help you navigate our engineering division and discover the right app for your needs.
-          <div>
-            <button class="msg-suggest" onclick="sendSuggested('What apps do you have for weather?')">Weather Apps</button>
-            <button class="msg-suggest" onclick="sendSuggested('Explain the TAP protocol')">TAP Protocol</button>
-            <button class="msg-suggest" onclick="sendSuggested('What is Skydrop?')">Skydrop</button>
-          </div>
+    <div class="app-grid">
+      
+      <!-- WaZWeather -->
+      <a href="https://wazweather.dondlingergc.com" target="_blank" class="app-card">
+        <div class="card-top">
+          <div class="card-title">WaZWeather</div>
+          <span class="card-badge" style="color: #00bcd4;">TELEMETRY</span>
         </div>
-      </div>
-      <form class="chat-input-area" id="chat-form">
-        <input type="text" id="chat-input" class="chat-input" placeholder="Ask about our apps..." autocomplete="off">
-        <button type="submit" class="chat-send">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
-        </button>
-      </form>
+        <p class="card-desc">Real-time local forecasting, Lake Wazeecha hydrology flow rates, and severe weather atmospheric radar metrics.</p>
+        <div class="card-link" style="color: #00bcd4;">wazweather.dondlingergc.com ↗</div>
+      </a>
+
+      <!-- PourReady -->
+      <a href="/calc/index.html" target="_blank" class="app-card">
+        <div class="card-top">
+          <div class="card-title">PourReady</div>
+          <span class="card-badge" style="color: #ff9800;">ESTIMATOR</span>
+        </div>
+        <p class="card-desc">Field-tested concrete volume calculator for slabs, footings, poured walls, sonotubes, and Myles of Triangles geometry.</p>
+        <div class="card-link">dondlingergc.com/calc/ ↗</div>
+      </a>
+
+      <!-- Personalization Engine -->
+      <a href="https://personalization.dondlingergc.com" target="_blank" class="app-card">
+        <div class="card-top">
+          <div class="card-title">Personalization</div>
+          <span class="card-badge" style="color: #c084fc;">IDENTITY & SSO</span>
+        </div>
+        <p class="card-desc">Metropolis Taskbar customization, central identity profile management, global SSO authentication, and theme preferences.</p>
+        <div class="card-link" style="color: #c084fc;">personalization.dondlingergc.com ↗</div>
+      </a>
+
+      <!-- SkyDrop -->
+      <a href="https://skydrop.dondlingergc.com" target="_blank" class="app-card">
+        <div class="card-top">
+          <div class="card-title">SkyDrop</div>
+          <span class="card-badge" style="color: #38bdf8;">P2P WEBRTC</span>
+        </div>
+        <p class="card-desc">Peer-to-peer WebRTC encrypted file transfer utility with mobile QR code scanning and zero cloud storage.</p>
+        <div class="card-link" style="color: #38bdf8;">skydrop.dondlingergc.com ↗</div>
+      </a>
+
+      <!-- Heckler -->
+      <a href="https://heckler.dondlingergc.com" target="_blank" class="app-card">
+        <div class="card-top">
+          <div class="card-title">Heckler</div>
+          <span class="card-badge" style="color: #4ade80;">AUDIO WASM</span>
+        </div>
+        <p class="card-desc">Blazor WASM high-performance audio trigger engine for soundboard diagnostics and audio alerts.</p>
+        <div class="card-link" style="color: #4ade80;">heckler.dondlingergc.com ↗</div>
+      </a>
+
+      <!-- TimelineZLA -->
+      <a href="https://timelinezla.dondlingergc.com" target="_blank" class="app-card">
+        <div class="card-top">
+          <div class="card-title">TimelineZLA</div>
+          <span class="card-badge" style="color: #f43f5e;">ZLA SYNC</span>
+        </div>
+        <p class="card-desc">Local-first project timeline builder with 6-digit code WebRTC peer sync and PDF exports.</p>
+        <div class="card-link" style="color: #f43f5e;">timelinezla.dondlingergc.com ↗</div>
+      </a>
+
     </div>
-    
-    <button id="chat-toggle" aria-label="Open AI Chat">
-      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
-    </button>
-  </div>
+  </main>
 
-  <script>
-    let appsData = {};
-    let currentCategory = 'All';
-
-    fetch('data/apps.json')
-      .then(res => res.json())
-      .then(data => {
-        appsData = data;
-        renderGrid();
-      })
-      .catch(err => console.error("Error loading apps.json:", err));
-
-    function renderGrid(searchQuery = '') {
-      const grid = document.getElementById('appGrid');
-      grid.innerHTML = '';
-      let count = 0;
-
-      const q = searchQuery.toLowerCase();
-
-      for (const [key, app] of Object.entries(appsData)) {
-        if (currentCategory !== 'All' && app.category !== currentCategory) continue;
-
-        const matchStr = `${app.title} ${app.desc} ${app.who ? app.who.join(' ') : ''} ${app.category}`.toLowerCase();
-        if (q && !matchStr.includes(q)) continue;
-
-        count++;
-
-        const card = document.createElement('a');
-        card.className = 'app-card';
-        card.href = app.link;
-        if (app.link.startsWith('http')) card.target = '_blank';
-        
-        let whoHtml = '';
-        if (app.who && app.who.length > 0) {
-           app.who.slice(0,2).forEach(w => {
-             whoHtml += `<span class="who-pill">${w}</span>`;
-           });
-        }
-
-        card.innerHTML = `
-          <div class="card-header">
-            <div class="card-title" style="color: ${app.accent || '#00f3ff'}">${app.title.split('//')[0].trim()}</div>
-            <div class="card-tag">${app.category || 'App'}</div>
-          </div>
-          <div class="card-desc">${app.desc}</div>
-          <div class="card-footer" style="display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; gap: 6px;">${whoHtml}</div>
-            <span class="btn-launch-service" style="padding: 4px 10px; font-size: 0.75rem; background: ${app.accent || 'var(--neon-green)'}; color: #000; font-weight: 700; border: none;">LAUNCH ↗</span>
-          </div>
-        `;
-        grid.appendChild(card);
-      }
-
-      document.getElementById('app-count').innerText = count;
-    }
-
-    function filterCategory(cat) {
-      currentCategory = cat;
-      document.getElementById('current-category').innerText = cat === 'All' ? 'All Applications' : cat;
-      
-      document.querySelectorAll('.nav-link').forEach(el => {
-        if (el.dataset.category === cat) el.classList.add('active');
-        else el.classList.remove('active');
-      });
-
-      renderGrid(document.getElementById('searchBar').value);
-    }
-
-    function handleSearch() {
-      renderGrid(document.getElementById('searchBar').value);
-    }
-
-    const chatToggle = document.getElementById('chat-toggle');
-    const chatPanel = document.getElementById('chat-panel');
-    const closeChat = document.getElementById('close-chat');
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const chatMessages = document.getElementById('chat-messages');
-
-    function toggleChat() {
-      chatPanel.classList.toggle('open');
-      if(chatPanel.classList.contains('open')) {
-        setTimeout(() => chatInput.focus(), 300);
-      }
-    }
-
-    chatToggle.addEventListener('click', toggleChat);
-    closeChat.addEventListener('click', toggleChat);
-
-    function addMessage(text, sender, id = null) {
-      const msgDiv = document.createElement('div');
-      msgDiv.className = `msg ${sender}`;
-      if(id) msgDiv.id = id;
-      msgDiv.innerHTML = text;
-      chatMessages.appendChild(msgDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    function sendSuggested(text) {
-      handleUserMessage(text);
-    }
-
-    function handleUserMessage(text) {
-      if (!text.trim()) return;
-      
-      addMessage(text, 'user');
-      chatInput.value = '';
-      
-      generateBotResponse(text);
-    }
-
-    chatForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      handleUserMessage(chatInput.value);
-    });
-
-    async function generateBotResponse(userInput) {
-      const typingId = 'typing-' + Date.now();
-      addMessage('<span class="typing-dots">...</span>', 'bot', typingId);
-      
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: userInput })
-        });
-        const data = await res.json();
-        
-        const typingEl = document.getElementById(typingId);
-        if(typingEl) typingEl.remove();
-
-        if (data.reply) {
-          let formattedReply = data.reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-          addMessage(formattedReply, 'bot');
-        } else {
-          addMessage("I'm having trouble connecting to the neural net.", 'bot');
-        }
-      } catch(err) {
-        const typingEl = document.getElementById(typingId);
-        if(typingEl) typingEl.remove();
-        addMessage("Connection offline.", 'bot');
-      }
-    }
-  </script>
-
-  <!-- GLOBAL COMMAND PALETTE SEARCH MODAL (CMD+K / /) -->
-  <div id="cmd-k-modal">
-    <div class="cmd-k-box">
-      <div class="cmd-k-input-row">
-        <span class="cmd-k-icon">🔍</span>
-        <input type="text" id="cmd-k-input" class="cmd-k-input" placeholder="Search subdomains, PWAs, or tools... (Esc to close)" autocomplete="off">
-        <span class="cmd-k-kbd">ESC</span>
-      </div>
-      <div class="cmd-k-results" id="cmd-k-results">
-        <!-- Results injected dynamically -->
-      </div>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Dondlinger General Contracting • Powered by Zero-Liability Architecture & Blazor WebAssembly</p>
+    <div style="margin-top: 0.75rem;">
+      <a href="/terms-of-service.html">Terms</a> • 
+      <a href="/privacy-policy.html">Privacy</a> • 
+      <a href="mailto:dondlingergeneralcontracting@gmail.com">Contact</a>
     </div>
-  </div>
+  </footer>
 
-  <script src="js/experience-hero.js?v=3.0.0"></script>
 </body>
 </html>
