@@ -1,26 +1,26 @@
 // Metropolis Neural Oracle 20Q Logic with Neuron Fuel Meter
 document.addEventListener('DOMContentLoaded', () => {
     const oracleQuestions = [
-        "Is your secret item a physical hardware object (rather than software or an abstract concept)?",
-        "Is it directly connected to energy, hydro-power, or electrical grid infrastructure?",
-        "Is it a database engine, query framework, or developer coding tool?",
-        "Is it rooted or physically operating in Wisconsin / Wisconsin Rapids?",
-        "Does it involve Zero-Liability Architecture (ZLA), encryption, or client key sovereignty?",
-        "Is it a mobile web application or browser-based PWA dashboard?",
-        "Is it an audio soundboard, WebAudio sample player, or acoustic tool?",
-        "Does it track atmospheric telemetry, storm radar, or weather forecasts?",
-        "Is it an open-source framework, MudBlazor component, or WASM runtime?",
-        "Does it relate to paper manufacturing mills or Wisconsin River dam infrastructure?",
-        "Is it a peer-to-peer file transfer engine (like PeerJS or Skydrop)?",
-        "Is it an analytical DuckDB telemetry lake or SQL query engine?",
-        "Does it enforce zero server-side data retention or privacy guarantees?",
-        "Is it part of the dondlingergc.com web application suite?",
-        "Does it utilize Cloudflare Workers AI edge models or subagent routing?",
-        "Is it a field inspection tool for jobsite reporting or intake management?",
-        "Is it an interactive UI design system like Metropolis Dark glassmorphism?",
-        "Is it related to Wisconsin River hydro-cooling data center concepts?",
-        "Final Neuron Step: Is your secret concept the Dondlinger Digital Database?",
-        "Final Deduction: Synthesizing final ZLA thought matrix..."
+        "Is your secret concept a physical hardware object (rather than software or a digital utility)?",
+        "Is it a database engine, query framework, or developer productivity tool?",
+        "Does it involve Zero-Liability Architecture (ZLA), encryption, or client data privacy?",
+        "Is it a mobile progressive web app (PWA) or interactive browser dashboard?",
+        "Is it an audio soundboard, WebAudio synth, or sound diagnostic tool?",
+        "Does it track real-time weather telemetry, atmospheric radar, or river hydrology?",
+        "Is it a peer-to-peer file transfer engine (like WebRTC or SkyDrop)?",
+        "Does it perform concrete estimations, field ticket tracking, or construction site calculations?",
+        "Is it built using WebAssembly (WASM) or MudBlazor component frameworks?",
+        "Is it a live GPS or ETA location broadcasting utility (like On My Way)?",
+        "Does it compile video storyboards or generate PDF reports?",
+        "Is it an analytical database lake like DuckDB or SQL query engine?",
+        "Does it enforce zero server-side data storage or login account requirements?",
+        "Is it an interactive touchscreen hardware diagnostic tool?",
+        "Does it run on Cloudflare Workers AI edge models or subagent runtimes?",
+        "Is it a voice recording client onboarding utility?",
+        "Is it a theme customizer or desktop taskbar state manager?",
+        "Is it part of the Dondlinger Digital Database software suite?",
+        "Final Neuron Step: Is your secret concept the PourReady Estimator or WaZ Weather?",
+        "Final Deduction: Synthesizing final AI thought matrix..."
     ];
 
     let neuronsRemaining = 20;

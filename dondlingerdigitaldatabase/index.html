@@ -2,78 +2,203 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dondlinger Digital Database | Metropolis Neural Oracle 20Q & ZLA Showcase</title>
-    <meta name="description" content="Challenge the Metropolis Neural Oracle in the 20-Neuron AI Challenge! Independent tech watchdog & ZLA engineering showcase for Wisconsin Rapids, WI.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Metropolis Neural Oracle 20Q — AI 20 Questions Game</title>
+    <meta name="description" content="Challenge the Metropolis Neural Oracle in the 20-Neuron AI Challenge! Interactive 20 Questions AI game.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+      :root {
+        --dark-bg: #090d16;
+        --card-bg: #111827;
+        --card-border: #1e293b;
+        --accent-blue: #2563eb;
+        --accent-cyan: #38bdf8;
+        --accent-emerald: #22c55e;
+      }
+      body {
+        background-color: var(--dark-bg);
+        color: #f8fafc;
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+      }
+      .oracle-header-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 32px;
+        background: #0f172a;
+        border-bottom: 2px solid var(--accent-blue);
+      }
+      .oracle-brand {
+        font-weight: 800;
+        font-size: 1.2rem;
+        color: #ffffff;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .oracle-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        background: rgba(37, 99, 235, 0.2);
+        color: var(--accent-cyan);
+        padding: 3px 8px;
+        border-radius: 4px;
+        border: 1px solid rgba(37, 99, 235, 0.4);
+      }
+      .btn-back-home {
+        color: #94a3b8;
+        text-decoration: none;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.82rem;
+        padding: 6px 14px;
+        border-radius: 6px;
+        background: #1e293b;
+        transition: all 0.2s ease;
+      }
+      .btn-back-home:hover {
+        color: #ffffff;
+        background: #334155;
+      }
+      .oracle-main-stage {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+      .oracle-console-card {
+        width: 100%;
+        max-width: 720px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      }
+      .oracle-avatar-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--card-border);
+      }
+      .oracle-avatar {
+        font-size: 2.5rem;
+        filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.5));
+      }
+      .oracle-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #ffffff;
+      }
+      .fuel-container {
+        text-align: right;
+        min-width: 160px;
+      }
+      .fuel-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78rem;
+        color: #94a3b8;
+        margin-bottom: 6px;
+      }
+      .fuel-bar-track {
+        height: 8px;
+        background: #1e293b;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .fuel-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan));
+        transition: width 0.3s ease;
+      }
+      .oracle-speech-box {
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 12px;
+        padding: 24px;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #f8fafc;
+        margin-bottom: 24px;
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+      }
+      .choice-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .btn-choice {
+        flex: 1;
+        min-width: 140px;
+        padding: 14px 20px;
+        background: #1e293b;
+        border: 1px solid #334155;
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .btn-choice:hover {
+        background: #2563eb;
+        border-color: #3b82f6;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+      }
+      .btn-primary-start {
+        width: 100%;
+        padding: 16px 28px;
+        background: #2563eb;
+        border: 1px solid #3b82f6;
+        color: #ffffff;
+        font-weight: 800;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+        transition: all 0.2s ease;
+      }
+      .btn-primary-start:hover {
+        background: #1d4ed8;
+        box-shadow: 0 6px 28px rgba(37, 99, 235, 0.6);
+      }
+    </style>
 </head>
 <body>
-    <div class="bg-grid"></div>
 
-    <!-- Header Navbar -->
-    <header class="navbar">
-        <a href="/" class="brand">
-            <span>Dondlinger Digital Database</span>
-            <span class="brand-badge">WI Rapids Watchdog</span>
+    <!-- Header Navigation -->
+    <header class="oracle-header-nav">
+        <a href="/" class="oracle-brand">
+            <span>🔮 Metropolis Neural Oracle</span>
+            <span class="oracle-badge">20-Neuron AI Game</span>
         </a>
-        <nav class="nav-links">
-            <a href="#apps" class="nav-link">App Suite</a>
-            <a href="#oracle-game" class="nav-link" style="color: var(--accent-cyan); font-weight: 700;">🔮 Neural Oracle 20Q</a>
-            <a href="#watchdog" class="nav-link">Rapids Watchdog</a>
-            <a href="#zla" class="nav-link">ZLA Tech</a>
-        </nav>
-        <div style="display: flex; gap: 0.75rem;">
-            <a href="#oracle-game" class="btn-primary">Challenge Oracle</a>
-        </div>
+        <a href="/" class="btn-back-home">← Back to Dondlinger Digital Portal</a>
     </header>
 
-    <!-- App Suite Bar -->
-    <div class="app-suite-bar">
-        <div class="app-suite-container">
-            <span class="app-suite-title">🚀 Complete App Suite:</span>
-            <div class="app-tags">
-                <a href="https://tap.dondlingergc.com" target="_blank" class="app-tag">📱 TAP Client</a>
-                <a href="https://personalization.dondlingergc.com" target="_blank" class="app-tag">🎨 Personalization</a>
-                <a href="https://skydrop.dondlingergc.com" target="_blank" class="app-tag">⚡ Skydrop ZLA</a>
-                <a href="https://heckler.dondlingergc.com" target="_blank" class="app-tag">🔊 Heckler Audio</a>
-                <a href="https://timelinezla.dondlingergc.com" target="_blank" class="app-tag">📜 Timeline ZLA</a>
-                <a href="https://wazweather.dondlingergc.com" target="_blank" class="app-tag">🌧️ WaZ Weather</a>
-                <a href="https://inspectallamado.dondlingergc.com" target="_blank" class="app-tag">🔍 Inspect Allamado</a>
-                <a href="https://intake.dondlingergc.com" target="_blank" class="app-tag">📥 Intake Service</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-pill">
-            <span class="pulse-dot"></span>
-            <span>Independent Local Tech & ZLA Engineering Hub • Wisconsin Rapids, WI</span>
-        </div>
-        <h1 class="hero-title">
-            The Metropolis Neural Oracle.<br>
-            <span>20 Questions. 20 Edge Neurons.</span>
-        </h1>
-        <p class="hero-subtitle">
-            An independent software engineering lab auditing tech & energy developments in Central Wisconsin. Can your secret mind concept outsmart the Neural Oracle before its 20-Neuron fuel gauge burns out?
-        </p>
-        <div class="hero-actions">
-            <a href="#oracle-game" class="btn-primary" style="padding: 0.8rem 2rem; font-size: 1.1rem;">🔮 Challenge the Neural Oracle</a>
-            <a href="#apps" class="btn-secondary" style="padding: 0.8rem 2rem; font-size: 1.1rem;">Explore All Apps</a>
-        </div>
-    </section>
-
-    <!-- Metropolis Neural Oracle 20Q Terminal -->
-    <section id="oracle-game" class="section-container">
-        <div class="oracle-card">
-            <div class="oracle-header">
-                <div class="oracle-avatar" id="oracle-avatar">🔮</div>
-                <div>
-                    <h2 class="glitch-title" style="font-size: 1.6rem; font-weight: 800;">Metropolis Neural Oracle v2.4</h2>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Think of any physical object, tech stack, or local concept. The Oracle has 20 Neurons to guess it.</p>
+    <!-- Main Game Stage -->
+    <main class="oracle-main-stage">
+        <div class="oracle-console-card">
+            
+            <div class="oracle-avatar-row">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div class="oracle-avatar" id="oracle-avatar">🔮</div>
+                    <div>
+                        <div class="oracle-title">Metropolis Neural Oracle v2.4</div>
+                        <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">Think of any software tool, tech concept, or object.</div>
+                    </div>
                 </div>
                 <div class="fuel-container">
                     <div class="fuel-label">NEURON FUEL: <span id="fuel-count" style="color: var(--accent-cyan); font-weight: 800;">20/20</span></div>
@@ -83,146 +208,51 @@
                 </div>
             </div>
 
-            <div class="oracle-game-body" id="game-body">
-                <div class="oracle-speech" id="oracle-speech">
-                    "GREETINGS HUMAN. I am the <b>Metropolis Neural Oracle</b>. Hold a secret item in your mind (e.g. <i>'Wisconsin River Dam'</i>, <i>'DuckDB'</i>, <i>'Paper Mill'</i>, or <i>'WebRTC'</i>). Click below to ignite the 20-Neuron deduction matrix!"
-                </div>
+            <div class="oracle-speech-box" id="oracle-speech">
+                GREETINGS HUMAN. Hold a secret item or software concept in your mind (e.g. <i>'WaZ Weather'</i>, <i>'DuckDB'</i>, <i>'WebRTC'</i>, or <i>'PourReady'</i>). Click below to ignite the 20-Neuron deduction matrix!
+            </div>
 
-                <!-- Confidence Gauge -->
-                <div class="confidence-bar-wrap" id="confidence-wrap" style="display: none;">
-                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 0.25rem;">
-                        <span>ORACLE DEDUCTION CONFIDENCE</span>
-                        <span id="confidence-val" style="color: var(--accent-cyan);">12%</span>
-                    </div>
-                    <div style="height: 6px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
-                        <div id="confidence-fill" style="width: 12%; height: 100%; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-emerald)); transition: width 0.4s ease;"></div>
-                    </div>
+            <!-- Confidence Meter -->
+            <div class="confidence-bar-wrap" id="confidence-wrap" style="display: none; margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: #94a3b8; margin-bottom: 6px;">
+                    <span>ORACLE DEDUCTION CONFIDENCE</span>
+                    <span id="confidence-val" style="color: var(--accent-cyan); font-weight: 700;">12%</span>
                 </div>
-
-                <div id="game-controls" class="game-controls" style="margin-top: 1.5rem;">
-                    <button class="btn-primary" id="btn-start-game" style="font-size: 1.1rem; padding: 0.8rem 2rem;">Ignite 20-Neuron Matrix ⚡</button>
-                </div>
-
-                <div id="choice-buttons" class="choice-buttons" style="display: none; margin-top: 1.5rem;">
-                    <button class="btn-secondary btn-choice" data-answer="yes">YES 👍</button>
-                    <button class="btn-secondary btn-choice" data-answer="no">NO 👎</button>
-                    <button class="btn-secondary btn-choice" data-answer="maybe">MAYBE / UNSURE 🤔</button>
+                <div style="height: 6px; background: #1e293b; border-radius: 4px; overflow: hidden;">
+                    <div id="confidence-fill" style="width: 12%; height: 100%; background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan)); transition: width 0.3s ease;"></div>
                 </div>
             </div>
 
-            <!-- Victory Wish Generator (If Player Defeats Oracle) -->
-            <div id="oracle-wish-box" style="display: none; margin-top: 1.5rem; background: rgba(0, 229, 255, 0.08); border: 1px solid var(--accent-cyan); padding: 1.75rem; border-radius: 14px;">
-                <h3 style="color: var(--accent-cyan); margin-bottom: 0.5rem; font-size: 1.3rem;">🎉 NEURON DEPLETION VICTORY! You Defeated the Oracle!</h3>
-                <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.25rem;">The Oracle burned all 20 Neurons without guessing your secret concept. As your reward, ask the Oracle ANY freeform question:</p>
-                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                    <input type="text" id="wish-input" placeholder="Ask the Oracle any question or request a custom answer..." style="flex-grow: 1; padding: 0.8rem 1rem; background: #06080d; border: 1px solid var(--border-glow); border-radius: 8px; color: #fff; font-family: var(--font-sans); min-width: 280px;">
-                    <button class="btn-primary" id="btn-grant-wish">Extract Oracle Wisdom 🔮</button>
-                </div>
-                <div id="wish-output" style="margin-top: 1.25rem; font-family: var(--font-mono); font-size: 0.95rem; color: var(--accent-emerald); background: #06080d; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-glow); display: none;"></div>
+            <div id="game-controls">
+                <button class="btn-primary-start" id="btn-start-game">Ignite 20-Neuron Matrix ⚡</button>
             </div>
 
-            <!-- Defeat VIP App Tour (If Oracle Wins) -->
-            <div id="oracle-win-box" style="display: none; margin-top: 1.5rem; background: rgba(16, 185, 129, 0.08); border: 1px solid var(--accent-emerald); padding: 1.75rem; border-radius: 14px; text-align: center;">
-                <h3 style="color: var(--accent-emerald); margin-bottom: 0.5rem; font-size: 1.3rem;">🎯 DEDUCTION COMPLETE! The Oracle Guessed It!</h3>
-                <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem;">Your thought pattern was synthesized into the ZLA telemetry grid. Take the guided VIP tour of our complete dondlingergc.com application suite below!</p>
-                <a href="#apps" class="btn-primary" style="display: inline-block; padding: 0.75rem 2rem;">Start VIP Application Tour 🚀</a>
+            <div id="choice-buttons" class="choice-buttons" style="display: none;">
+                <button class="btn-choice" data-answer="yes">YES 👍</button>
+                <button class="btn-choice" data-answer="no">NO 👎</button>
+                <button class="btn-choice" data-answer="maybe">MAYBE / UNSURE 🤔</button>
             </div>
+
+            <!-- Victory Wish Generator -->
+            <div id="oracle-wish-box" style="display: none; margin-top: 24px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent-cyan); padding: 24px; border-radius: 12px;">
+                <h3 style="color: var(--accent-cyan); margin-bottom: 8px; font-size: 1.25rem;">🎉 VICTORY! You Defeated the Neural Oracle!</h3>
+                <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 16px;">The Oracle burned all 20 Neurons without guessing your concept. Ask the Oracle any question below:</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <input type="text" id="wish-input" placeholder="Ask the Oracle any question..." style="flex: 1; min-width: 240px; padding: 12px 16px; background: #090d16; border: 1px solid #334155; border-radius: 8px; color: #ffffff; outline: none;">
+                    <button class="btn-choice" id="btn-grant-wish" style="background: #2563eb; border-color: #3b82f6; flex: 0 0 auto;">Extract Oracle Wisdom 🔮</button>
+                </div>
+                <div id="wish-output" style="margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent-emerald); background: #090d16; padding: 16px; border-radius: 8px; border: 1px solid #334155; display: none;"></div>
+            </div>
+
+            <!-- Defeat VIP App Tour -->
+            <div id="oracle-win-box" style="display: none; margin-top: 24px; background: rgba(34, 197, 94, 0.1); border: 1px solid var(--accent-emerald); padding: 24px; border-radius: 12px; text-align: center;">
+                <h3 style="color: var(--accent-emerald); margin-bottom: 8px; font-size: 1.25rem;">🎯 DEDUCTION COMPLETE! The Oracle Guessed It!</h3>
+                <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px;">Your thought pattern matches the Dondlinger Digital application suite.</p>
+                <a href="/" class="btn-primary-start" style="display: inline-block; width: auto; padding: 12px 28px; text-decoration: none;">Return to Application Portal 🚀</a>
+            </div>
+
         </div>
-    </section>
-
-    <!-- Complete App Suite Showcase -->
-    <section id="apps" class="section-container">
-        <div class="section-header">
-            <h2 class="section-title">The dondlingergc.com Application Suite</h2>
-            <p class="section-desc">Explore live WASM, ZLA, soundboard, and weather telemetry web applications built by John Dondlinger.</p>
-        </div>
-        <div class="features-grid">
-            <a href="https://tap.dondlingergc.com" target="_blank" class="app-card-link">
-                <div class="feature-box">
-                    <div class="feature-icon">📱</div>
-                    <h3 class="feature-title">TAP Client</h3>
-                    <p class="feature-desc">MudBlazor & Blazor WASM high-velocity client interface for field operations.</p>
-                    <span class="app-badge">MudBlazor / WASM</span>
-                </div>
-            </a>
-            <a href="https://personalization.dondlingergc.com" target="_blank" class="app-card-link">
-                <div class="feature-box">
-                    <div class="feature-icon">🎨</div>
-                    <h3 class="feature-title">Personalization Engine</h3>
-                    <p class="feature-desc">Metropolis taskbar & desktop custom styling and theme engine.</p>
-                    <span class="app-badge">Metropolis Core</span>
-                </div>
-            </a>
-            <a href="https://skydrop.dondlingergc.com" target="_blank" class="app-card-link">
-                <div class="feature-box">
-                    <div class="feature-icon">⚡</div>
-                    <h3 class="feature-title">Skydrop File Transfer</h3>
-                    <p class="feature-desc">PeerJS P2P encrypted file sharing with QR Code scanner and ZLA interop.</p>
-                    <span class="app-badge">PeerJS / ZLA</span>
-                </div>
-            </a>
-            <a href="https://heckler.dondlingergc.com" target="_blank" class="app-card-link">
-                <div class="feature-box">
-                    <div class="feature-icon">🔊</div>
-                    <h3 class="feature-title">Heckler Soundboard</h3>
-                    <p class="feature-desc">Blazor WASM low-latency WebAudio soundboard and sample trigger engine.</p>
-                    <span class="app-badge">WebAudio WASM</span>
-                </div>
-            </a>
-            <a href="https://timelinezla.dondlingergc.com" target="_blank" class="app-card-link">
-                <div class="feature-box">
-                    <div class="feature-icon">📜</div>
-                    <h3 class="feature-title">Timeline ZLA Engine</h3>
-                    <p class="feature-desc">WebRTC zero-liability document sync, ZLA file sharing, and PDF exporter.</p>
-                    <span class="app-badge">WebRTC / ZLA</span>
-                </div>
-            </a>
-            <a href="https://wazweather.dondlingergc.com" target="_blank" class="app-card-link">
-                <div class="feature-box">
-                    <div class="feature-icon">🌧️</div>
-                    <h3 class="feature-title">WaZ Weather Dashboard</h3>
-                    <p class="feature-desc">Blazor WASM atmospheric telemetry, live radar mapping, and weather dispatch.</p>
-                    <span class="app-badge">Weather Telemetry</span>
-                </div>
-            </a>
-        </div>
-    </section>
-
-    <!-- Watchdog & ZLA Tech Section -->
-    <section id="watchdog" class="section-container">
-        <div class="split-view">
-            <div class="panel-card">
-                <h3 class="panel-title"><span>🌲</span> Wisconsin Rapids Local Watchdog</h3>
-                <p class="panel-desc">
-                    Monitoring local technology, energy grid impact, and public transparency in Central Wisconsin. Independent of industrial data center operators, providing open telemetry and public awareness.
-                </p>
-                <div style="background: rgba(0, 229, 255, 0.04); border: 1px dashed var(--border-glow); border-radius: 12px; padding: 1.25rem;">
-                    <h4 style="font-size: 0.95rem; color: var(--accent-cyan); margin-bottom: 0.5rem;">Watchdog Focus Areas:</h4>
-                    <ul style="padding-left: 1.25rem; font-size: 0.9rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.5rem;">
-                        <li><strong>Grid Hydro Impact</strong>: Tracking Wisconsin River clean energy usage vs municipal power reserves.</li>
-                        <li><strong>Data Privacy Advocacy</strong>: Promoting Zero-Liability Architecture to protect local businesses from corporate data harvesting.</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="panel-card" id="zla">
-                <h3 class="panel-title"><span>🛡️</span> Zero-Liability Architecture (ZLA)</h3>
-                <p class="panel-desc">
-                    ZLA decouples encryption keys from server storage. Even if databases are audited or breached, servers hold zero plaintext liability—decryption keys remain strictly on the client.
-                </p>
-                <div style="background: #06080d; border: 1px solid var(--border-glow); padding: 1rem; border-radius: 8px; font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-cyan);">
-                    // ZLA Invariant Example<br>
-                    const key = await window.crypto.subtle.generateKey(...);<br>
-                    const ciphertext = await encrypt(payload, key);<br>
-                    // Server receives ONLY ciphertext (Zero Liability)
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>© 2026 Dondlinger Digital Database • Built by John Dondlinger • <a href="https://dondlingergc.com">dondlingergc.com</a> • Wisconsin Rapids, WI</p>
-    </footer>
+    </main>
 
     <script src="app.js"></script>
 </body>
