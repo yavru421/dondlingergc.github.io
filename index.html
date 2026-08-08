@@ -1219,12 +1219,13 @@
 
         card.innerHTML = `
           <div class="card-header">
-            <div class="card-title" style="color: ${app.accent || 'inherit'}">${app.title.split('//')[0].trim()}</div>
+            <div class="card-title" style="color: ${app.accent || '#00f3ff'}">${app.title.split('//')[0].trim()}</div>
             <div class="card-tag">${app.category || 'App'}</div>
           </div>
           <div class="card-desc">${app.desc}</div>
-          <div class="card-footer">
-            ${whoHtml}
+          <div class="card-footer" style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; gap: 6px;">${whoHtml}</div>
+            <span class="btn-launch-service" style="padding: 4px 10px; font-size: 0.75rem; background: ${app.accent || 'var(--neon-green)'}; color: #000; font-weight: 700; border: none;">LAUNCH ↗</span>
           </div>
         `;
         grid.appendChild(card);
