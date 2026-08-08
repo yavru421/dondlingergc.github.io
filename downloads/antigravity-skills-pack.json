@@ -1,0 +1,25 @@
+{
+  "name": "Antigravity Core Skills Collection",
+  "version": "1.8.0",
+  "description": "Reusable skills blueprints for Google Antigravity agents including ZLA architecture, APT prompt pipelines, App Purger, and DuckDB telemetry lakes.",
+  "skills": [
+    {
+      "name": "zla",
+      "description": "Canonical blueprint and architectural guide for Zero-Liability Architecture (ZLA) and WebRTC peer sync."
+    },
+    {
+      "name": "apt-prompter",
+      "description": "Algebraic Pipeline Theory (APT) framework for engineering multi-stage prompt pipelines."
+    },
+    {
+      "name": "app-purger",
+      "description": "Automated system purge engine for Windows applications with DPAPI credential harvesting."
+    },
+    {
+      "name": "telemetry",
+      "description": "DuckDB telemetry lake analytics visualizer for agent_memory, mind, and st_codex."
+    }
+  ],
+  "license": "MIT",
+  "author": "Dondlinger Digital Database"
+}

@@ -300,3 +300,52 @@ function initIntakeForm() {
     }, 1000);
   });
 }
+
+/* -------------------------------------------------------------------------- */
+/* 5. Terminal Snippet Copy & Category Filter Controls                        */
+/* -------------------------------------------------------------------------- */
+function copyInstallSnippet(btn, codeText) {
+  navigator.clipboard.writeText(codeText).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ COPIED';
+    btn.style.color = 'var(--neon-green)';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.color = '';
+    }, 2000);
+  }).catch(() => {
+    alert(`Install command: ${codeText}`);
+  });
+}
+
+function initCategoryFilters() {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const sections = {
+        'downloads': document.getElementById('downloads-vault-section'),
+        'apps': document.getElementById('telemetry-section'),
+        'demos': document.getElementById('infomercial-section'),
+        'capabilities': document.getElementById('capabilities-section'),
+        'intake': document.getElementById('intake-section')
+      };
+
+      if (filter === 'all') {
+        Object.values(sections).forEach(s => { if (s) s.style.display = 'block'; });
+      } else {
+        Object.entries(sections).forEach(([key, s]) => {
+          if (s) s.style.display = (key === filter) ? 'block' : 'none';
+        });
+      }
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initCategoryFilters();
+});
+

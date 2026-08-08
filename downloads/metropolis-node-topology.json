@@ -1,0 +1,19 @@
+{
+  "name": "Metropolis-Prime Node Topology Map",
+  "version": "3.0.0",
+  "topology": {
+    "primary_host": "Metropolis-Prime (MetroNode)",
+    "sidecars": [
+      "workspace-execution-mcp-server",
+      "duckdb-supercharger",
+      "agy-mcp-server",
+      "orchestrator-do-mcp-server",
+      "cloudflare-inference-mcp-server",
+      "wrangler-mcp-server"
+    ],
+    "edge_routers": "Watchtowers (Cloudflare Workers AI)",
+    "archives": "The Archives (mind.duckdb, agent_memory.duckdb)"
+  },
+  "license": "MIT",
+  "author": "Dondlinger Digital Database"
+}

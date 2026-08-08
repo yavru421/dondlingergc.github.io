@@ -1,0 +1,29 @@
+{
+  "name": "Metropolis MCP Server Suite",
+  "version": "2.4.0",
+  "description": "Complete bundle of local Model Context Protocol (MCP) servers for Cloudflare edge routing, workspace filesystem mutations, and DuckDB telemetry lakes.",
+  "servers": [
+    {
+      "name": "wrangler-mcp-server",
+      "command": "npx -y @cloudflare/wrangler-mcp",
+      "description": "Deploy, configure, and manage Cloudflare Workers, Pages, D1 SQL databases, and KV storage."
+    },
+    {
+      "name": "cloudflare-inference-mcp-server",
+      "command": "node ./servers/cloudflare-inference/index.js",
+      "description": "Stateless inference execution on Cloudflare Workers AI edge models (Llama-3.3, DeepSeek-R1)."
+    },
+    {
+      "name": "workspace-execution-mcp-server",
+      "command": "node ./servers/workspace-execution/index.js",
+      "description": "Sidecar tool execution kernel for workspace filesystem mutations, state checks, and DuckDB queries."
+    },
+    {
+      "name": "duckdb-supercharger",
+      "command": "node ./servers/duckdb-supercharger/index.js",
+      "description": "Telemetry and error correction lake introspection engine."
+    }
+  ],
+  "license": "MIT",
+  "author": "Dondlinger Digital Database"
+}
