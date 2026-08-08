@@ -194,7 +194,7 @@ function init3DTopologyHero() {
           ctx.beginPath();
           ctx.moveTo(n1.x, n1.y);
           ctx.lineTo(n2.x, n2.y);
-          ctx.strokeStyle = `rgba(0, 243, 255, ${alpha})`;
+          ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
           ctx.lineWidth = 1 * Math.min(n1.scale, n2.scale);
           ctx.stroke();
 
@@ -205,7 +205,7 @@ function init3DTopologyHero() {
 
           ctx.beginPath();
           ctx.arc(beamX, beamY, 1.8 * n1.scale, 0, Math.PI * 2);
-          ctx.fillStyle = '#39ff14';
+          ctx.fillStyle = '#38bdf8';
           ctx.fill();
         }
       }
@@ -218,9 +218,9 @@ function init3DTopologyHero() {
       ctx.save();
       ctx.beginPath();
       ctx.arc(node.x, node.y, Math.max(radiusPulse, 2), 0, Math.PI * 2);
-      ctx.fillStyle = node.sub.latency < 40 ? '#39ff14' : '#00f3ff';
+      ctx.fillStyle = node.sub.latency < 40 ? '#38bdf8' : '#2563eb';
       ctx.shadowBlur = 14 * node.scale;
-      ctx.shadowColor = node.sub.latency < 40 ? '#39ff14' : '#00f3ff';
+      ctx.shadowColor = node.sub.latency < 40 ? '#38bdf8' : '#2563eb';
       ctx.fill();
 
       // Node label
