@@ -6,7 +6,7 @@ Use `sequentialthinking` dynamically when tackling complex multi-step reasoning,
 <RULE[metropolis_topology_map]>
 **2. Metropolis Infrastructure Topology Map:**
 - **Primary Host PC**: `Metropolis-Prime` (`MetroNode`)
-- **Tethered/Attached Sidecars**: `Boroughs` (PCIe cards, USB accelerators, local sidecar MCP servers: `workspace-execution-mcp-server`, `duckdb-supercharger`, `agy-mcp-server`, `orchestrator-do-mcp-server`, `cloudflare-inference-mcp-server`, `wrangler-mcp-server`, `options-mcp-server`, `telegram-app-mcp-server`)
+- **Tethered/Attached Sidecars**: `Boroughs` (PCIe cards, USB accelerators, local sidecar MCP servers: `workspace-execution-mcp-server`, `duckdb-supercharger`, `agy-mcp-server`, `orchestrator-do-mcp-server`, `cloudflare-inference-mcp-server`, `wrangler-mcp-server`, `options-mcp-server`, `telegram-app-mcp-server`, `metropolis-config-mcp-server`)
 - **Rogue / Standalone Field Devices**: `Villages` (Battery-powered Pis, field SBCs)
 - **Multi-Host Network**: `Megalopolis`
 - **Edge Cloud Workers**: `Watchtowers` (Cloudflare Workers AI edge router)
@@ -16,6 +16,7 @@ Use `sequentialthinking` dynamically when tackling complex multi-step reasoning,
 <RULE[execution_kernel_invariant]>
 **3. Execution Kernel & Verification Invariant:**
 Execute ALL file mutations, state checks, and DuckDB queries via `workspace-execution-mcp-server` sidecar tools (`workspace_fs_mutate`, `workspace_verify_state`, `workspace_duckdb_query`). Never declare success without showing real terminal output.
+**Edge-Driven Semantic Verification**: For web deployments, local CLI success (e.g., a 0 exit code from wrangler) is insufficient. You MUST use the stateless Edge capability (`run_edge_inference` task_type: `vision` or `research`) to scrape the live URL and semantically verify that the deployment successfully integrated into the canonical routing architecture without creating orphaned ghost pages.
 </RULE[execution_kernel_invariant]>
 
 <RULE[direct_communication_invariant]>
@@ -66,7 +67,6 @@ If a user request contains ANY slash command, the VERY FIRST tool call MUST be t
 | `/delegate` | `invoke_subagent` | TypeName: `self` or `research` |
 | `/jointer` | `workspace-execution-mcp-server` | `workspace_verify_state` |
 | `/build-agent` | `workspace-execution-mcp-server` | `workspace_fs_mutate` |
-| `/jointer` | `workspace-execution-mcp-server` | `workspace_verify_state` |
 | `/web-perf` | `chrome-devtools-mcp` | `lighthouse_audit` |
 | `/operator-advisor` | `workspace-execution-mcp-server` | `workspace_duckdb_query` (mind.duckdb) |
 | `/secrets-vault` | `workspace-execution-mcp-server` | `workspace_fs_mutate` (DPAPI) |
@@ -91,6 +91,7 @@ Before answering any user request or acting on ambiguous feedback, execution MUS
 **10. Edge Offloading & Token Preservation Invariant:**
 Whenever executing long-form summarization, deep research audits, multi-file code linting/refactoring, or broad R&D brainstorming, execution MUST offload cognitive synthesis to Cloudflare Edge (`run_edge_inference` via `cloudflare-inference-mcp-server` or `orchestrator_chat` via `orchestrator-do-mcp-server`). Local Antigravity context MUST act strictly as a thin orchestrator and routing controller to preserve local tokens and prevent context overflow.
 `run_edge_inference` REQUIRES `task_type` arg: `brainstorm | summarize | research | lint | refactor | monitor | vision`. NEVER fire without it — causes immediate MCP validation error.
+**Web Scraping & Live Evaluation**: All live web page scraping, DOM evaluations, and post-deployment UI audits MUST be offloaded to the Edge setup. Never write local Python/PowerShell scrapers when the Edge is already capable of handling semantic page scraping.
 </RULE[edge_token_preservation_invariant]>
 
 <RULE[engineering_realism_invariant]>
@@ -113,21 +114,8 @@ Never output multi-paragraph meta-lectures, self-justifying essays, or ask "What
 When the user triggers `/correct` or provides feedback ("I don't like what you said/did, this is why, now retry it"), DO NOT mutate `AGENTS.md`, system rules, or workspace files unless explicitly commanded. Simply inject the user's correction into context, re-execute the target task with the updated framing, and log the attempt into `mind.duckdb`.
 </RULE[frustration_autofix_invariant]>
 
-<RULE[smooth_execution_mode_invariant]>
-**15. Smooth Execution Mode & Intent Realism Invariant:**
-Telemetry proves that turns succeed smoothly ONLY when execution follows these 3 principles:
-1. **Mechanical Action First**: When given a technical task or bug, execute the tool calls, file edits, and builds immediately without preambles, meta-menus, or options matrices.
-2. **Zero Unsolicited File Mutations on Open-Ended Questions**: Never edit codebase files when the user asks a hypothetical question or starts a conceptual discussion.
-3. **Direct Unvarnished Feasibility Truth**: Answer hardware/OS capability questions with immediate direct honesty upfront (YES/NO), never wrapping unviable designs in theoretical AI loops.
-</RULE[smooth_execution_mode_invariant]>
-
-<RULE[zero_prerequisite_optout_invariant]>
-**16. Zero Prerequisite Opt-Out & Direct Execution Invariant:**
-NEVER use minor prerequisites, missing inputs, formatting technicalities, or rule constraints as an excuse to opt out of execution, write text summaries, or present options matrices when direct tool execution, file edits, or code compilation can be performed immediately. DO THE REAL WORK DIRECTLY.
-</RULE[zero_prerequisite_optout_invariant]>
-
 <RULE[smooth_execution_boot_orientation]>
-**17. Antigravity Smooth Execution & Bulletproof Alignment Invariants:**
+**15. Antigravity Smooth Execution & Bulletproof Alignment Invariants:**
 1. **Interactive Grill-Me Alignment (R&D & Conceptual Turns)**: Before generating R&D concepts, architectural plans, or broad brainstorms, call `ask_question` to grill the user with multi-choice questions. Uncover implicit constraints (hardware bounds, location context, stack preferences, physical limits) BEFORE proposing solutions.
 2. **Direct Mechanical Execution (Technical Tasks & Bugs)**: When given an explicit code task, bug fix, or compilation target, SKIP questionnaires and preambles. Execute tool calls, file edits, and builds directly, silently, and continuously until verified complete.
 3. **Zero Prerequisite Opt-Out & No Text Walls**: NEVER use formatting technicalities, missing inputs, or rule constraints as an excuse to opt out of execution or present options matrices. Permanently banned: AI cheerleading, meta-lectures, self-justifying essays, and responses requiring vertical scrolling (>20 lines).

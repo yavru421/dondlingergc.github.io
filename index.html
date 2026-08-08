@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/experience.css">
   
   <style>
     :root {
@@ -251,43 +252,519 @@
       header { padding: 16px; }
       .catalog-container { padding: 16px; }
     }
+
+    /* Floating AI Chat Widget */
+    #ai-chat-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    #chat-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 30px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(57, 255, 20, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    #chat-toggle:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 24px rgba(57, 255, 20, 0.6);
+    }
+
+    #chat-toggle svg {
+      width: 28px;
+      height: 28px;
+      fill: currentColor;
+    }
+
+    #chat-panel {
+      width: 380px;
+      max-width: calc(100vw - 48px);
+      height: 500px;
+      max-height: calc(100vh - 100px);
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+
+    #chat-panel.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .chat-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.02);
+      border-radius: 12px 12px 0 0;
+    }
+
+    .chat-title {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chat-title span {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .close-chat {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 4px;
+    }
+    
+    .close-chat:hover {
+      color: var(--text-main);
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .msg {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+      background: rgba(255,255,255,0.05);
+      border-bottom-left-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: rgba(57, 255, 20, 0.15);
+      color: var(--text-main);
+      border-bottom-right-radius: 4px;
+      border: 1px solid rgba(57, 255, 20, 0.3);
+    }
+    
+    .msg-suggest {
+      display: inline-block;
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      cursor: pointer;
+      margin-top: 8px;
+      margin-right: 8px;
+      transition: all 0.2s;
+    }
+    
+    .msg-suggest:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .chat-input-area {
+      padding: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: 8px;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .chat-input:focus {
+      border-color: var(--accent);
+    }
+
+    .chat-send {
+      background: var(--accent);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      color: #000;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s;
+    }
+    
+    .chat-send:hover {
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Sidebar Nav -->
-  <nav id="sidebar">
-    <div class="brand">Dondlinger Digital</div>
-    <div class="brand-sub">ZLA Architecture Hub</div>
-
-    <div class="nav-label">Directory</div>
-    <div class="nav-link active" data-category="All" onclick="filterCategory('All')">All Applications</div>
-    <div class="nav-link" data-category="Platform" onclick="filterCategory('Platform')">Platform Core</div>
-    <div class="nav-link" data-category="Client Services" onclick="filterCategory('Client Services')">Client Services</div>
-    
-    <a href="./dondlingerdigitaldatabase/index.html#oracle-game" class="special-link">
-      > Launch Neural Oracle 20Q
-    </a>
-  </nav>
-
-  <!-- Main Content -->
-  <main id="main-content">
-    <header>
-      <div class="search-wrap">
-        <input type="text" id="searchBar" class="search-input" placeholder="Search applications, tags, or features..." oninput="handleSearch()">
-      </div>
-    </header>
-
-    <div class="catalog-container">
-      <div class="section-title">
-        <span id="current-category">All Applications</span>
-        <span class="section-count" id="app-count">0</span>
-      </div>
-      <div class="app-grid" id="appGrid">
-        <!-- Cards injected via JS -->
+<div id="app-root">
+  <!-- Top Navigation Bar & Mode Switcher -->
+  <header class="experience-nav-bar">
+    <div class="nav-brand-group">
+      <img src="dondlinger_logo.png" alt="Dondlinger Digital" class="brand-logo-img">
+      <div class="brand-titles">
+        <div class="brand-name">DONDLINGER DIGITAL</div>
+        <div class="brand-subline">ENGINEERING PORTAL & EDGE INFRASTRUCTURE</div>
       </div>
     </div>
-  </main>
+
+    <div class="mode-tabs">
+      <button class="mode-tab-btn active" data-target="experience-portal-view">
+        <span class="tab-badge">01</span> EXPERIENCE PORTAL
+      </button>
+      <button class="mode-tab-btn" data-target="legacy-directory-view">
+        <span class="tab-badge">02</span> APP DIRECTORY
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <button class="btn-contact-nav" onclick="document.getElementById('intake-section').scrollIntoView({behavior:'smooth'})">
+        ENGAGE ENGINEERING
+      </button>
+    </div>
+  </header>
+
+  <!-- View Container -->
+  <div class="view-container">
+    
+    <!-- TAB 1: EXPERIENCE PORTAL -->
+    <div id="experience-portal-view" class="view-panel active">
+      
+      <!-- Canvas Hero Section -->
+      <section class="hero-canvas-section">
+        <canvas id="hero-particle-canvas"></canvas>
+        <div class="hero-content-wrapper">
+          <div class="hero-interactive-elements">
+            <div class="hero-pill-tag">
+              <span class="pill-dot"></span>
+              Metropolis Node Mesh & Edge Network Active
+            </div>
+            <h1 class="hero-main-title">
+              Next-Generation Digital Architecture & <span class="accent-green">Edge Intelligence</span>
+            </h1>
+            <p class="hero-lead-text">
+              Dondlinger Digital Database engineers high-performance progressive web applications, zero-liability sync engines, and real-time operational tools built for enterprise scalability and raw speed.
+            </p>
+            <div class="hero-cta-buttons">
+              <button class="btn-hero-primary" onclick="document.getElementById('telemetry-section').scrollIntoView({behavior:'smooth'})">
+                EXPLORE LIVE TELEMETRY
+              </button>
+              <button class="btn-hero-secondary" onclick="document.querySelector('.mode-tab-btn[data-target=\'legacy-directory-view\']').click()">
+                BROWSE APP DIRECTORY
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Subdomain Telemetry Section -->
+      <section id="telemetry-section" class="portal-section">
+        <div class="section-header">
+          <span class="section-tag">[ TELEMETRY LAKE ]</span>
+          <h2 class="section-title">Live Edge Services & Subdomain Health</h2>
+        </div>
+        <div class="telemetry-grid">
+          
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">TAP Client Engine</div>
+              <div class="status-badge checking" id="status-badge-tap"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://tap.dondlingergc.com" target="_blank" class="service-subdomain">tap.dondlingergc.com</a>
+            <p class="service-desc">MudBlazor WASM client for field telemetry, system diagnostics, and jobsite telemetry processing.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-tap">--</strong></span>
+              <a href="https://tap.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">Heckler Soundboard</div>
+              <div class="status-badge checking" id="status-badge-heckler"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://heckler.dondlingergc.com" target="_blank" class="service-subdomain">heckler.dondlingergc.com</a>
+            <p class="service-desc">Blazor WASM high-velocity audio trigger engine for soundboard diagnostics and field alerts.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-heckler">--</strong></span>
+              <a href="https://heckler.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">Timeline ZLA Sync</div>
+              <div class="status-badge checking" id="status-badge-timelinezla"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://timelinezla.dondlingergc.com" target="_blank" class="service-subdomain">timelinezla.dondlingergc.com</a>
+            <p class="service-desc">Zero-liability WebRTC peer synchronization engine, timeline file distribution, and export portal.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-timelinezla">--</strong></span>
+              <a href="https://timelinezla.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">WaZ Weather Hub</div>
+              <div class="status-badge checking" id="status-badge-wazweather"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://wazweather.dondlingergc.com" target="_blank" class="service-subdomain">wazweather.dondlingergc.com</a>
+            <p class="service-desc">Live atmospheric radar telemetry, severe storm dispatch alerts, and NWS data aggregation.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-wazweather">--</strong></span>
+              <a href="https://wazweather.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">Skydrop Transfer</div>
+              <div class="status-badge checking" id="status-badge-skydrop"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://skydrop.dondlingergc.com" target="_blank" class="service-subdomain">skydrop.dondlingergc.com</a>
+            <p class="service-desc">PeerJS encrypted file transfer platform with instant QR scanner interop and zero server storage.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-skydrop">--</strong></span>
+              <a href="https://skydrop.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+          <div class="telemetry-card">
+            <div class="telemetry-card-top">
+              <div class="service-name">Intake Gateway</div>
+              <div class="status-badge checking" id="status-badge-intake"><span class="status-dot">●</span> PINGING</div>
+            </div>
+            <a href="https://intake.dondlingergc.com" target="_blank" class="service-subdomain">intake.dondlingergc.com</a>
+            <p class="service-desc">Secure JSON intake API and lead ingestion pipeline for enterprise client projects.</p>
+            <div class="telemetry-meta">
+              <span>LATENCY: <strong class="latency-val" id="latency-intake">--</strong></span>
+              <a href="https://intake.dondlingergc.com" target="_blank" class="btn-launch-service">LAUNCH ↗</a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Engineering Capabilities Section -->
+      <section id="capabilities-section" class="portal-section">
+        <div class="section-header">
+          <span class="section-tag">[ CORE CAPABILITIES ]</span>
+          <h2 class="section-title">Built For High-Velocity Enterprise Software</h2>
+        </div>
+        <div class="capabilities-grid">
+          
+          <div class="capability-card">
+            <div class="cap-icon-box">⚡</div>
+            <h3 class="cap-title">Progressive Web Apps (PWAs)</h3>
+            <p class="cap-body">Offline-first web applications engineered with service workers, native device APIs, and zero-latency local caching.</p>
+            <div class="cap-tags">
+              <span class="cap-tag">Service Workers</span>
+              <span class="cap-tag">IndexedDB</span>
+              <span class="cap-tag">Offline-First</span>
+            </div>
+          </div>
+
+          <div class="capability-card">
+            <div class="cap-icon-box">🔒</div>
+            <h3 class="cap-title">Zero-Liability Architecture (ZLA)</h3>
+            <p class="cap-body">Decentralized WebRTC and PeerJS mesh routing that eliminates central data liability, ensuring raw privacy and instantaneous node sync.</p>
+            <div class="cap-tags">
+              <span class="cap-tag">WebRTC</span>
+              <span class="cap-tag">E2E Peer Mesh</span>
+              <span class="cap-tag">Zero-Log</span>
+            </div>
+          </div>
+
+          <div class="capability-card">
+            <div class="cap-icon-box">🌐</div>
+            <h3 class="cap-title">Cloudflare Workers Edge AI</h3>
+            <p class="cap-body">Global edge routing powered by Cloudflare Workers, D1 distributed SQL databases, KV storage, and low-latency Workers AI inference.</p>
+            <div class="cap-tags">
+              <span class="cap-tag">Cloudflare Workers</span>
+              <span class="cap-tag">D1 SQL</span>
+              <span class="cap-tag">Vectorize</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Client Intake Form Section -->
+      <section id="intake-section" class="portal-section">
+        <div class="intake-box">
+          <div class="section-header" style="margin-bottom: 12px;">
+            <span class="section-tag">[ ENGAGE DONDLINGER DIGITAL ]</span>
+            <h2 class="section-title">Request Enterprise Engineering Services</h2>
+            <p style="color: var(--text-secondary); margin-top: 8px;">Let us design and deploy your custom WebGL experience, PWA architecture, or Edge computing network.</p>
+          </div>
+          <form id="client-intake-form">
+            <div class="intake-form-grid">
+              <div class="form-group">
+                <label class="form-label">Client Name</label>
+                <input type="text" class="form-input" placeholder="e.g. Sarah Jenkins" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Corporate Email</label>
+                <input type="email" class="form-input" placeholder="sarah@organization.com" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Organization / Industry</label>
+                <input type="text" class="form-input" placeholder="e.g. Apex Construction Tech">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Target Service</label>
+                <select class="form-select">
+                  <option value="pwa">Custom PWA & Web App Development</option>
+                  <option value="zla">Zero-Liability / WebRTC Architecture</option>
+                  <option value="edge">Cloudflare Workers & Edge AI Integration</option>
+                  <option value="consulting">System Architecture Consulting</option>
+                </select>
+              </div>
+              <div class="form-group full-width">
+                <label class="form-label">Project Scope & Objectives</label>
+                <textarea class="form-textarea" placeholder="Describe your software objectives, performance targets, and key deliverables..." required></textarea>
+              </div>
+              <div class="form-group full-width">
+                <button type="submit" class="btn-submit-intake">DISPATCH PROJECT INQUIRY ↗</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="experience-footer">
+        <p>© 2026 DONDLINGER DIGITAL DATABASE — ALL RIGHTS RESERVED | METROPOLIS PRIME INFRASTRUCTURE</p>
+      </footer>
+
+    </div>
+
+    <!-- TAB 2: LEGACY APP DIRECTORY VIEW -->
+    <div id="legacy-directory-view" class="view-panel">
+      <div style="display: flex; width: 100%; height: 100%; overflow: hidden;">
+        <!-- Sidebar Nav -->
+        <nav id="sidebar">
+          <div class="brand">Dondlinger Digital</div>
+          <div class="brand-sub">ZLA Architecture Hub</div>
+
+          <div class="nav-label">Directory</div>
+          <div class="nav-link active" data-category="All" onclick="filterCategory('All')">All Applications</div>
+          <div class="nav-link" data-category="Platform" onclick="filterCategory('Platform')">Platform Core</div>
+          <div class="nav-link" data-category="Client Services" onclick="filterCategory('Client Services')">Client Services</div>
+          
+          <a href="./dondlingerdigitaldatabase/index.html#oracle-game" class="special-link">
+            > Launch Neural Oracle 20Q
+          </a>
+        </nav>
+
+        <!-- Main Content -->
+        <main id="main-content">
+          <header>
+            <div class="search-wrap">
+              <input type="text" id="searchBar" class="search-input" placeholder="Search applications, tags, or features..." oninput="handleSearch()">
+            </div>
+          </header>
+
+          <div class="catalog-container">
+            <div class="section-title">
+              <span id="current-category">All Applications</span>
+              <span class="section-count" id="app-count">0</span>
+            </div>
+            <div class="app-grid" id="appGrid">
+              <!-- Cards injected via JS -->
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <!-- Floating AI Chat Widget -->
+  <div id="ai-chat-widget">
+    <div id="chat-panel">
+      <div class="chat-header">
+        <div class="chat-title"><span></span> Dondlinger Assistant</div>
+        <button class="close-chat" id="close-chat">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg bot">
+          Welcome to the Dondlinger Digital Database. I'm here to help you navigate our engineering division and discover the right app for your needs.
+          <div>
+            <button class="msg-suggest" onclick="sendSuggested('What apps do you have for weather?')">Weather Apps</button>
+            <button class="msg-suggest" onclick="sendSuggested('Explain the TAP protocol')">TAP Protocol</button>
+            <button class="msg-suggest" onclick="sendSuggested('What is Skydrop?')">Skydrop</button>
+          </div>
+        </div>
+      </div>
+      <form class="chat-input-area" id="chat-form">
+        <input type="text" id="chat-input" class="chat-input" placeholder="Ask about our apps..." autocomplete="off">
+        <button type="submit" class="chat-send">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+        </button>
+      </form>
+    </div>
+    
+    <button id="chat-toggle" aria-label="Open AI Chat">
+      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+    </button>
+  </div>
 
   <script>
     let appsData = {};
@@ -365,6 +842,80 @@
     function handleSearch() {
       renderGrid(document.getElementById('searchBar').value);
     }
+
+    // AI Chat Widget Logic
+    const chatToggle = document.getElementById('chat-toggle');
+    const chatPanel = document.getElementById('chat-panel');
+    const closeChat = document.getElementById('close-chat');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    function toggleChat() {
+      chatPanel.classList.toggle('open');
+      if(chatPanel.classList.contains('open')) {
+        setTimeout(() => chatInput.focus(), 300);
+      }
+    }
+
+    chatToggle.addEventListener('click', toggleChat);
+    closeChat.addEventListener('click', toggleChat);
+
+    function addMessage(text, sender, id = null) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `msg ${sender}`;
+      if(id) msgDiv.id = id;
+      msgDiv.innerHTML = text;
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function sendSuggested(text) {
+      handleUserMessage(text);
+    }
+
+    function handleUserMessage(text) {
+      if (!text.trim()) return;
+      
+      addMessage(text, 'user');
+      chatInput.value = '';
+      
+      generateBotResponse(text);
+    }
+
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      handleUserMessage(chatInput.value);
+    });
+
+    async function generateBotResponse(userInput) {
+      const typingId = 'typing-' + Date.now();
+      addMessage('<span class="typing-dots">...</span>', 'bot', typingId);
+      
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: userInput })
+        });
+        const data = await res.json();
+        
+        const typingEl = document.getElementById(typingId);
+        if(typingEl) typingEl.remove();
+
+        if (data.reply) {
+          let formattedReply = data.reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+          addMessage(formattedReply, 'bot');
+        } else {
+          addMessage("I'm having trouble connecting to the neural net.", 'bot');
+        }
+      } catch(err) {
+        const typingEl = document.getElementById(typingId);
+        if(typingEl) typingEl.remove();
+        addMessage("Connection offline.", 'bot');
+      }
+    }
   </script>
+  <script src="js/experience-hero.js"></script>
 </body>
 </html>
