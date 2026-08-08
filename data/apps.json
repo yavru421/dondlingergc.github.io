@@ -133,20 +133,10 @@
     "title": "Personalization Engine // 15",
     "accent": "#bf5fff",
     "screenshot": "",
-    "desc": "Metropolis desktop customizer, dynamic glassmorphism theme generator, and Metropolis taskbar state manager.",
-    "who": ["Users", "Designers"],
+    "desc": "Metropolis desktop customizer, dynamic glassmorphism theme generator, and Metropolis taskbar state manager. Gate to premium features.",
+    "who": ["Users", "Designers", "Admins"],
     "link": "https://personalization.dondlingergc.com",
-    "btnLabel": "Launch Customizer",
+    "btnLabel": "Launch Premium Customizer",
     "category": "Platform"
-  },
-  "inspectallamado": {
-    "title": "Inspect Allamado // 16",
-    "accent": "#f59e0b",
-    "screenshot": "",
-    "desc": "Field inspection and diagnostic service portal. Real-time property audit tracking and report generation.",
-    "who": ["Inspectors", "Property Managers", "Clients"],
-    "link": "https://inspectallamado.dondlingergc.com",
-    "btnLabel": "Launch Inspect Portal",
-    "category": "Client Services"
   }
 }
