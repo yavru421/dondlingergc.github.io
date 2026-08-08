@@ -7,136 +7,136 @@
     "who": ["Concrete Foremen", "Contractors", "Field Estimators"],
     "link": "./calc/index.html",
     "btnLabel": "Open PourReady",
-    "category": "Client Services"
+    "category": "Field Operations"
   },
   "shotstack": {
-    "title": "ShotStack // 02",
-    "accent": "#00bfff",
+    "title": "ShotStack Studio // 02",
+    "accent": "#38bdf8",
     "screenshot": "img/shotstackstudio_screenshot.PNG",
     "desc": "A storyboard compiler allowing video editors, film directors, and design teams to compile images, screenshots, and annotation notes into an exportable PDF layout.",
     "who": ["Directors", "Video Editors", "Production Crew"],
     "link": "https://shotstackstudio.dondlingergc.com",
     "btnLabel": "Launch ShotStack",
-    "category": "Client Services"
+    "category": "Media & Creative Studios"
   },
   "tap": {
     "title": "TAP: Time & Place // 03",
-    "accent": "#39ff14",
+    "accent": "#22c55e",
     "screenshot": "img/TAP_screenshot.PNG",
     "desc": "An authenticated, minimal field tracking protocol providing cryptographic proofs of location, activity, and duration directly from active project sites.",
     "who": ["Field Supervisors", "Auditors", "Project Managers"],
     "link": "https://tap.dondlingergc.com",
     "btnLabel": "Launch TAP Protocol",
-    "category": "Platform"
+    "category": "Field Operations"
   },
   "ampliloop": {
     "title": "AmpliLoop Studio // 04",
-    "accent": "#bf5fff",
+    "accent": "#818cf8",
     "screenshot": "img/blazorcore.png",
     "desc": "A high-performance algorithmic rap beat generator, precise metronome, and software instrument tuner running locally via fast Blazor WebAssembly compiles.",
     "who": ["Artists", "Audio Engineers", "Producers"],
     "link": "https://blazorpwa.dondlingergc.com",
     "btnLabel": "Launch AmpliLoop Studio",
-    "category": "Client Services"
+    "category": "Media & Creative Studios"
   },
   "aac": {
     "title": "Anytime Animal Control // 05",
-    "accent": "#ff007f",
+    "accent": "#f43f5e",
     "screenshot": "img/aac_preview.png",
     "desc": "Live wildlife removal and control service website. Provides field diagnostics, coverage maps, dispatch contacts, and pest management information.",
     "who": ["Property Owners", "Dispatchers", "Field Technicians"],
     "link": "https://aac.dondlingergc.com",
     "btnLabel": "Launch AAC Portal",
-    "category": "Client Services"
+    "category": "Weather & Environment"
   },
   "intake": {
-    "title": "Dondlinger Intake App // 06",
-    "accent": "#ffd700",
+    "title": "Dondlinger Voice Intake // 06",
+    "accent": "#f59e0b",
     "screenshot": "img/intake_preview.png",
     "desc": "Frictionless voice-first client onboarding. Tap to record your project vision securely via microphone, transmitting directly to the local inbox.",
     "who": ["Prospective Clients", "Estimators", "Project Leads"],
     "link": "./intake.html",
     "btnLabel": "Record Vision",
-    "category": "Client Services"
+    "category": "Collaboration & Peer Mesh"
   },
   "omw": {
-    "title": "On My Way (OMW) // 05",
+    "title": "On My Way (OMW) // 07",
     "accent": "#f43f5e",
     "screenshot": "img/omw_preview.png",
     "desc": "Live GPS and ETA broadcasting tool. Allows field technicians and contractors to securely share live travel status and exact arrival times with project managers and clients.",
     "who": ["Field Technicians", "Project Managers", "Clients"],
     "link": "https://omw.dondlingergc.com",
     "btnLabel": "Launch OMW Tracker",
-    "category": "Platform"
+    "category": "Field Operations"
   },
   "zla": {
-    "title": "Zero Liability Architecture, by DondlingerDigital // 08",
-    "accent": "#a855f7",
+    "title": "Zero Liability Architecture // 08",
+    "accent": "#818cf8",
     "screenshot": "",
-    "desc": "A software architecture that runs high-impact business utilities entirely within your browser. Because no data is ever uploaded to a server, there are no accounts, no logins, and zero risk of a data breach. Process your data lightning-fast, and the moment you close the tab, it dissolves completely.",
-    "who": ["Clients", "Users"],
+    "desc": "A software architecture that runs high-impact business utilities entirely within your browser. Because no data is uploaded to a server, there are no logins and zero risk of data breach.",
+    "who": ["Clients", "Security Leads"],
     "link": "https://zla.dondlingergc.com",
     "btnLabel": "Launch ZLA",
-    "category": "Platform"
+    "category": "Platform & Architecture"
   },
   "heckler": {
-    "title": "Heckler // 09",
+    "title": "Heckler Audio Synth // 09",
     "accent": "#f97316",
     "screenshot": "",
-    "desc": "Heckler Web Application.",
-    "who": ["Clients", "Users"],
+    "desc": "Blazor WASM audio trigger engine for soundboard diagnostics, tone synthesis, and high-velocity alerts.",
+    "who": ["Audio Techs", "Diagnosticians"],
     "link": "https://heckler.dondlingergc.com",
     "btnLabel": "Launch Heckler",
-    "category": "Client Services"
+    "category": "Media & Creative Studios"
   },
   "timeline": {
-    "title": "TimelineZLA // 10",
-    "accent": "#2ea043",
+    "title": "TimelineZLA Sync // 10",
+    "accent": "#22c55e",
     "screenshot": "",
-    "desc": "A secure, local-first daily log and project timeline builder. Running entirely on Zero-Liability Architecture (ZLA), it enables teams to construct, update, and peer-to-peer sync site timelines via secure 6-digit codes with absolute data privacy and instant PDF export.",
+    "desc": "A secure, local-first daily log and project timeline builder. Enables teams to construct site timelines and peer-to-peer sync via 6-digit codes with instant PDF export.",
     "who": ["Field Superintendents", "Project Managers", "Field Crews"],
     "link": "https://timelinezla.dondlingergc.com",
     "btnLabel": "Launch TimelineZLA",
-    "category": "Platform"
+    "category": "Collaboration & Peer Mesh"
   },
   "skydrop": {
-    "title": "SkyDrop // 07",
-    "accent": "#0ea5e9",
+    "title": "SkyDrop Peer Transfer // 11",
+    "accent": "#38bdf8",
     "screenshot": "",
-    "desc": "A secure, zero-liability peer-to-peer file sharing utility. Running entirely in-browser, it allows instantaneous, direct WebRTC transfers between devices with no cloud storage, no accounts, and absolute data compliance.",
+    "desc": "A secure, zero-liability peer-to-peer file sharing utility. Allows instantaneous direct WebRTC transfers between devices with no cloud storage and zero account login.",
     "who": ["Field Superintendents", "Project Managers", "Contractors"],
     "link": "https://skydrop.dondlingergc.com",
     "btnLabel": "Launch SkyDrop",
-    "category": "Platform"
+    "category": "Collaboration & Peer Mesh"
   },
   "touchscreen": {
-    "title": "Touchscreen Tester // 08",
-    "accent": "#39ff14",
+    "title": "Touchscreen Diagnostic // 12",
+    "accent": "#22c55e",
     "screenshot": "",
-    "desc": "An interactive client-side diagnostic utility. Verify touchscreen hardware responsiveness, paint touch grids to identify sensor dead zones, and monitor ghost touch coordinates in real-time with zero-latency HTML5 performance.",
-    "who": ["Everyday Users", "Technicians", "Mobile Device Owners"],
+    "desc": "An interactive client-side hardware diagnostic PWA. Verify touchscreen hardware responsiveness, paint touch grids to identify dead zones, and monitor ghost touches in real-time.",
+    "who": ["Technicians", "Device Inspectors"],
     "link": "./touchscreen.html",
     "btnLabel": "Launch Tester PWA",
-    "category": "Client Services"
+    "category": "Field Operations"
   },
   "wazweather": {
-    "title": "WaZ Weather Dashboard // 14",
-    "accent": "#10b981",
+    "title": "WaZ Weather Dashboard // 13",
+    "accent": "#22c55e",
     "screenshot": "",
     "desc": "Blazor WASM atmospheric telemetry, live radar mapping, river hydrology flow rates, and rain outlook dispatch for Wisconsin Rapids.",
-    "who": ["Boaters", "Anglers", "Field Crews", "Residents"],
+    "who": ["Dispatchers", "Field Crews", "Residents"],
     "link": "https://wazweather.dondlingergc.com",
     "btnLabel": "Launch WaZ Weather",
-    "category": "Platform"
+    "category": "Weather & Environment"
   },
   "personalization": {
-    "title": "Personalization Engine // 15",
-    "accent": "#bf5fff",
+    "title": "Personalization Engine // 14",
+    "accent": "#818cf8",
     "screenshot": "",
-    "desc": "Metropolis desktop customizer, dynamic glassmorphism theme generator, and Metropolis taskbar state manager. Gate to premium features.",
-    "who": ["Users", "Designers", "Admins"],
+    "desc": "Metropolis desktop customizer, dynamic glassmorphism theme generator, and Metropolis taskbar state manager.",
+    "who": ["Designers", "Admins"],
     "link": "https://personalization.dondlingergc.com",
-    "btnLabel": "Launch Premium Customizer",
-    "category": "Platform"
+    "btnLabel": "Launch Customizer",
+    "category": "Platform & Architecture"
   }
 }
