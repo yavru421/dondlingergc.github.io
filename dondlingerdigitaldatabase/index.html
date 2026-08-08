@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Metropolis Neural Oracle 20Q — AI 20 Questions Game</title>
+    <title>Metropolis Neural Oracle 20Q — AI 20 Questions Terminal</title>
     <meta name="description" content="Challenge the Metropolis Neural Oracle in the 20-Neuron AI Challenge! Interactive 20 Questions AI game.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4.0.0">
+    <link rel="stylesheet" href="style.css?v=5.0.0">
     <style>
       :root {
         --dark-bg: #090d16;
@@ -72,31 +72,33 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 40px 20px;
+        padding: 30px 20px;
       }
       .oracle-console-card {
         width: 100%;
-        max-width: 720px;
+        max-width: 760px;
         background: var(--card-bg);
         border: 1px solid var(--card-border);
         border-radius: 16px;
-        padding: 32px;
+        padding: 28px;
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
       }
       .oracle-avatar-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 24px;
-        padding-bottom: 20px;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
         border-bottom: 1px solid var(--card-border);
       }
       .oracle-avatar {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.5));
       }
       .oracle-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         font-weight: 800;
         color: #ffffff;
       }
@@ -121,34 +123,67 @@
         background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan));
         transition: width 0.3s ease;
       }
-      .oracle-speech-box {
+      /* Chat Thread Box */
+      .chat-thread-container {
         background: #0f172a;
         border: 1px solid #334155;
         border-radius: 12px;
-        padding: 24px;
-        font-size: 1.1rem;
-        line-height: 1.7;
+        padding: 20px;
+        height: 340px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        scroll-behavior: smooth;
+      }
+      .chat-thread-container::-webkit-scrollbar {
+        width: 6px;
+      }
+      .chat-thread-container::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 3px;
+      }
+      .chat-bubble {
+        max-width: 85%;
+        padding: 12px 18px;
+        border-radius: 12px;
+        font-size: 0.98rem;
+        line-height: 1.5;
+        animation: fadeIn 0.25s ease;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .chat-bubble.oracle {
+        align-self: flex-start;
+        background: #1e293b;
+        border: 1px solid #334155;
         color: #f8fafc;
-        margin-bottom: 24px;
-        min-height: 90px;
-        display: block;
-        text-align: left;
+        border-top-left-radius: 2px;
+      }
+      .chat-bubble.user {
+        align-self: flex-end;
+        background: #2563eb;
+        color: #ffffff;
+        font-weight: 600;
+        border-top-right-radius: 2px;
       }
       .choice-buttons {
         display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 14px;
       }
       .btn-choice {
         flex: 1;
-        min-width: 140px;
-        padding: 14px 20px;
+        padding: 12px;
         background: #1e293b;
         border: 1px solid #334155;
         color: #ffffff;
         font-family: 'Inter', sans-serif;
         font-weight: 700;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -158,22 +193,38 @@
         border-color: #3b82f6;
         box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
       }
-      .btn-primary-start {
-        width: 100%;
-        padding: 16px 28px;
+      .chat-input-bar {
+        display: flex;
+        gap: 10px;
+      }
+      .chat-input-field {
+        flex: 1;
+        padding: 12px 18px;
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .chat-input-field:focus {
+        border-color: #2563eb;
+      }
+      .btn-send-chat {
+        padding: 12px 24px;
         background: #2563eb;
         border: 1px solid #3b82f6;
         color: #ffffff;
-        font-weight: 800;
-        font-size: 1.1rem;
+        font-weight: 700;
+        font-size: 0.95rem;
         border-radius: 8px;
         cursor: pointer;
-        box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
         transition: all 0.2s ease;
       }
-      .btn-primary-start:hover {
+      .btn-send-chat:hover {
         background: #1d4ed8;
-        box-shadow: 0 6px 28px rgba(37, 99, 235, 0.6);
       }
     </style>
 </head>
@@ -183,9 +234,9 @@
     <header class="oracle-header-nav">
         <a href="/" class="oracle-brand">
             <span>🔮 Metropolis Neural Oracle</span>
-            <span class="oracle-badge">20-Neuron AI Game</span>
+            <span class="oracle-badge">20-Neuron AI Chat</span>
         </a>
-        <a href="/" class="btn-back-home">← Back to Dondlinger Digital Portal</a>
+        <a href="/" class="btn-back-home">← Back to Main Portal</a>
     </header>
 
     <!-- Main Game Stage -->
@@ -193,11 +244,11 @@
         <div class="oracle-console-card">
             
             <div class="oracle-avatar-row">
-                <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
                     <div class="oracle-avatar" id="oracle-avatar">🔮</div>
                     <div>
                         <div class="oracle-title">Metropolis Neural Oracle v2.4</div>
-                        <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">Think of any software tool, tech concept, or object.</div>
+                        <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 2px;">Think of any software tool or concept. I will guess it in 20 questions!</div>
                     </div>
                 </div>
                 <div class="fuel-container">
@@ -208,13 +259,9 @@
                 </div>
             </div>
 
-            <div class="oracle-speech-box" id="oracle-speech">
-                GREETINGS HUMAN. Hold a secret item or software concept in your mind (e.g. <i>'WaZ Weather'</i>, <i>'DuckDB'</i>, <i>'WebRTC'</i>, or <i>'PourReady'</i>). Click below to ignite the 20-Neuron deduction matrix!
-            </div>
-
-            <!-- Confidence Meter -->
-            <div class="confidence-bar-wrap" id="confidence-wrap" style="display: none; margin-bottom: 24px;">
-                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: #94a3b8; margin-bottom: 6px;">
+            <!-- Confidence Bar -->
+            <div class="confidence-bar-wrap" id="confidence-wrap" style="margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: #94a3b8; margin-bottom: 4px;">
                     <span>ORACLE DEDUCTION CONFIDENCE</span>
                     <span id="confidence-val" style="color: var(--accent-cyan); font-weight: 700;">12%</span>
                 </div>
@@ -223,37 +270,49 @@
                 </div>
             </div>
 
-            <div id="game-controls">
-                <button class="btn-primary-start" id="btn-start-game">Ignite 20-Neuron Matrix ⚡</button>
+            <!-- Interactive Chat Thread -->
+            <div class="chat-thread-container" id="chat-thread">
+                <div class="chat-bubble oracle">
+                    <strong>🔮 Oracle:</strong> GREETINGS HUMAN! Think of any software application or concept in your mind (e.g. <i>'WaZ Weather'</i>, <i>'DuckDB'</i>, <i>'WebRTC'</i>, or <i>'PourReady'</i>). Click a button or type your answer below to begin!
+                </div>
             </div>
 
-            <div id="choice-buttons" class="choice-buttons" style="display: none;">
+            <!-- Quick Choice Buttons -->
+            <div id="choice-buttons" class="choice-buttons">
                 <button class="btn-choice" data-answer="yes">YES 👍</button>
                 <button class="btn-choice" data-answer="no">NO 👎</button>
                 <button class="btn-choice" data-answer="maybe">MAYBE / UNSURE 🤔</button>
             </div>
 
-            <!-- Victory Wish Generator -->
-            <div id="oracle-wish-box" style="display: none; margin-top: 24px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent-cyan); padding: 24px; border-radius: 12px;">
-                <h3 style="color: var(--accent-cyan); margin-bottom: 8px; font-size: 1.25rem;">🎉 VICTORY! You Defeated the Neural Oracle!</h3>
-                <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 16px;">The Oracle burned all 20 Neurons without guessing your concept. Ask the Oracle any question below:</p>
+            <!-- Chat Input Form -->
+            <form id="chat-input-form" class="chat-input-bar">
+                <input type="text" id="chat-input-field" class="chat-input-field" placeholder="Type your answer or response to the Oracle..." autocomplete="off">
+                <button type="submit" class="btn-send-chat">SEND ↗</button>
+            </form>
+
+            <!-- Victory / Defeat Overlay Boxes -->
+            <div id="oracle-wish-box" style="display: none; margin-top: 20px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent-cyan); padding: 20px; border-radius: 12px;">
+                <h3 style="color: var(--accent-cyan); margin-bottom: 8px; font-size: 1.2rem;">🎉 YOU VICTORY! You Outsmarted the Oracle!</h3>
+                <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 14px;">The Oracle burned all 20 Neurons without discovering your secret thought. Ask any question below:</p>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <input type="text" id="wish-input" placeholder="Ask the Oracle any question..." style="flex: 1; min-width: 240px; padding: 12px 16px; background: #090d16; border: 1px solid #334155; border-radius: 8px; color: #ffffff; outline: none;">
-                    <button class="btn-choice" id="btn-grant-wish" style="background: #2563eb; border-color: #3b82f6; flex: 0 0 auto;">Extract Oracle Wisdom 🔮</button>
+                    <input type="text" id="wish-input" placeholder="Ask the Oracle any question..." style="flex: 1; min-width: 240px; padding: 10px 14px; background: #090d16; border: 1px solid #334155; border-radius: 8px; color: #ffffff; outline: none;">
+                    <button class="btn-choice" id="btn-grant-wish" style="background: #2563eb; border-color: #3b82f6; flex: 0 0 auto; padding: 10px 20px;">Extract Oracle Wisdom 🔮</button>
                 </div>
-                <div id="wish-output" style="margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent-emerald); background: #090d16; padding: 16px; border-radius: 8px; border: 1px solid #334155; display: none;"></div>
+                <div id="wish-output" style="margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; color: var(--accent-emerald); background: #090d16; padding: 14px; border-radius: 8px; border: 1px solid #334155; display: none;"></div>
             </div>
 
-            <!-- Defeat VIP App Tour -->
-            <div id="oracle-win-box" style="display: none; margin-top: 24px; background: rgba(34, 197, 94, 0.1); border: 1px solid var(--accent-emerald); padding: 24px; border-radius: 12px; text-align: center;">
-                <h3 style="color: var(--accent-emerald); margin-bottom: 8px; font-size: 1.25rem;">🎯 DEDUCTION COMPLETE! The Oracle Guessed It!</h3>
-                <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px;">Your thought pattern matches the Dondlinger Digital application suite.</p>
-                <a href="/" class="btn-primary-start" style="display: inline-block; width: auto; padding: 12px 28px; text-decoration: none;">Return to Application Portal 🚀</a>
+            <div id="oracle-win-box" style="display: none; margin-top: 20px; background: rgba(34, 197, 94, 0.1); border: 1px solid var(--accent-emerald); padding: 20px; border-radius: 12px; text-align: center;">
+                <h3 style="color: var(--accent-emerald); margin-bottom: 8px; font-size: 1.2rem;">🎯 DEDUCTION COMPLETE! The Oracle Guessed It!</h3>
+                <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 16px;">The Oracle successfully synthesized your thought matrix in under 20 Neurons.</p>
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn-send-chat" onclick="location.reload()" style="background: #1e293b; border-color: #334155;">Play Again 🔄</button>
+                    <a href="/" class="btn-send-chat" style="text-decoration: none;">Return to Main Portal ↗</a>
+                </div>
             </div>
 
         </div>
     </main>
 
-    <script src="app.js?v=3.0.0"></script>
+    <script src="app.js?v=5.0.0"></script>
 </body>
 </html>

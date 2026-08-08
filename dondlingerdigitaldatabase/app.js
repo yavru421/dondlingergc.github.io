@@ -1,4 +1,4 @@
-// Metropolis Neural Oracle 20Q Logic with Neuron Fuel Meter
+// Metropolis Neural Oracle 20Q Chat Thread Engine
 document.addEventListener('DOMContentLoaded', () => {
     const oracleQuestions = [
         "Is your secret concept a physical hardware object (rather than software or a digital utility)?",
@@ -26,11 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let neuronsRemaining = 20;
     let stepIndex = 0;
     let confidencePercent = 12;
+    let history = [];
 
-    const startBtn = document.getElementById('btn-start-game');
+    const chatThread = document.getElementById('chat-thread');
     const choiceBox = document.getElementById('choice-buttons');
-    const gameControls = document.getElementById('game-controls');
-    const speechEl = document.getElementById('oracle-speech');
+    const chatForm = document.getElementById('chat-input-form');
+    const chatInputField = document.getElementById('chat-input-field');
     const fuelCountEl = document.getElementById('fuel-count');
     const fuelFillEl = document.getElementById('fuel-fill');
     const confidenceWrap = document.getElementById('confidence-wrap');
@@ -43,86 +44,99 @@ document.addEventListener('DOMContentLoaded', () => {
     const wishInput = document.getElementById('wish-input');
     const wishOutput = document.getElementById('wish-output');
 
-    if (startBtn) {
-        startBtn.addEventListener('click', () => {
-            neuronsRemaining = 20;
-            stepIndex = 0;
-            confidencePercent = 12;
+    // Automatically post first question on load
+    setTimeout(() => {
+        postOracleMessage(`Neuron #1 Question: "${oracleQuestions[0]}"`);
+    }, 600);
 
-            gameControls.style.display = 'none';
-            choiceBox.style.display = 'flex';
-            if (confidenceWrap) confidenceWrap.style.display = 'block';
-            if (oracleWishBox) oracleWishBox.style.display = 'none';
-            if (oracleWinBox) oracleWinBox.style.display = 'none';
-
-            updateFuelGauge();
-            askQuestion();
-        });
+    function appendUserMessage(text) {
+        if (!chatThread) return;
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'chat-bubble user';
+        msgDiv.innerHTML = `<strong>👤 You:</strong> ${text}`;
+        chatThread.appendChild(msgDiv);
+        chatThread.scrollTop = chatThread.scrollHeight;
     }
 
-    let history = [];
+    function postOracleMessage(text) {
+        if (!chatThread) return;
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'chat-bubble oracle';
+        msgDiv.innerHTML = `<strong>🔮 Oracle:</strong> ${text}`;
+        chatThread.appendChild(msgDiv);
+        chatThread.scrollTop = chatThread.scrollHeight;
+    }
 
-    async function fetchNextQuestionFromEdge(answer = null) {
-        if (answer) {
-            history.push({ q: oracleQuestions[(stepIndex - 1) % oracleQuestions.length], a: answer });
+    async function handleUserAnswer(userAnswerText) {
+        if (!userAnswerText) return;
+
+        appendUserMessage(userAnswerText);
+        neuronsRemaining--;
+        stepIndex++;
+        confidencePercent = Math.min(98, confidencePercent + Math.floor(Math.random() * 8 + 4));
+
+        updateFuelGauge();
+
+        if (neuronsRemaining <= 0) {
+            const isOracleVictory = confidencePercent >= 70 || Math.random() > 0.4;
+            if (isOracleVictory) {
+                handleOracleVictory();
+            } else {
+                handlePlayerVictory();
+            }
+            return;
         }
 
+        // Attempt edge inference
         try {
+            history.push({ q: oracleQuestions[(stepIndex - 1) % oracleQuestions.length], a: userAnswerText });
             const res = await fetch('https://orchestrator-do.yavru421.workers.dev/api/oracle-20q', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    history: history,
-                    neuronsRemaining: neuronsRemaining,
-                    stepIndex: stepIndex
-                })
+                body: JSON.stringify({ history, neuronsRemaining, stepIndex })
             });
             if (res.ok) {
                 const data = await res.json();
                 if (data.question) {
-                    if (speechEl) speechEl.innerHTML = `<strong>🔮 Oracle asks (Neuron #${21 - neuronsRemaining}):</strong> "${data.question}"`;
+                    postOracleMessage(`Neuron #${21 - neuronsRemaining}: "${data.question}"`);
                     if (data.confidence) confidencePercent = data.confidence;
-                    if (confidenceVal && confidenceFill) {
-                        confidenceVal.innerText = `${confidencePercent}%`;
-                        confidenceFill.style.width = `${confidencePercent}%`;
-                    }
+                    updateConfidence();
                     return;
                 }
             }
         } catch (e) {
-            // Local high-speed fallback
+            // Local fallback
         }
 
-        askQuestionLocal();
+        const nextQ = oracleQuestions[stepIndex % oracleQuestions.length];
+        postOracleMessage(`Neuron #${21 - neuronsRemaining}: "${nextQ}"`);
+        updateConfidence();
     }
 
+    // Quick Choice Buttons
     const choiceBtns = document.querySelectorAll('.btn-choice');
     choiceBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const userChoice = btn.getAttribute('data-answer');
-            neuronsRemaining--;
-            stepIndex++;
-            confidencePercent = Math.min(98, confidencePercent + Math.floor(Math.random() * 8 + 4));
-
-            updateFuelGauge();
-
-            if (neuronsRemaining <= 0) {
-                const isOracleVictory = confidencePercent >= 70 || Math.random() > 0.4;
-                if (isOracleVictory) {
-                    handleOracleVictory();
-                } else {
-                    handlePlayerVictory();
-                }
-            } else {
-                fetchNextQuestionFromEdge(userChoice);
-            }
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const val = btn.getAttribute('data-answer');
+            const label = val === 'yes' ? 'Yes 👍' : (val === 'no' ? 'No 👎' : 'Maybe / Unsure 🤔');
+            handleUserAnswer(label);
         });
     });
 
-    function askQuestionLocal() {
-        if (speechEl) {
-            speechEl.innerHTML = `<strong>🔮 Oracle asks (Neuron #${21 - neuronsRemaining}):</strong> "${oracleQuestions[stepIndex % oracleQuestions.length]}"`;
-        }
+    // Text Form Input
+    if (chatForm) {
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = chatInputField.value.trim();
+            if (text) {
+                chatInputField.value = '';
+                handleUserAnswer(text);
+            }
+        });
+    }
+
+    function updateConfidence() {
         if (confidenceVal && confidenceFill) {
             confidenceVal.innerText = `${confidencePercent}%`;
             confidenceFill.style.width = `${confidencePercent}%`;
@@ -143,44 +157,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handlePlayerVictory() {
-        choiceBox.style.display = 'none';
-        if (confidenceWrap) confidenceWrap.style.display = 'none';
-        if (speechEl) {
-            speechEl.innerHTML = `<div style="font-size: 1.15rem; color: #22c55e; font-weight: 800; margin-bottom: 8px;">🎉 YOU OUTSMARTED THE ORACLE!</div>
-            <div>The Oracle burned all 20 Neurons without discovering your secret thought. You win! Submit any freeform prompt below to extract raw Oracle AI wisdom.</div>`;
-        }
+        if (choiceBox) choiceBox.style.display = 'none';
+        if (chatForm) chatForm.style.display = 'none';
+        postOracleMessage(`<span style="color: #22c55e; font-weight: 800;">🎉 VICTORY! You outsmarted the 20-Neuron deduction matrix!</span> Type your prompt below to extract raw Oracle wisdom.`);
         if (oracleWishBox) oracleWishBox.style.display = 'block';
     }
 
     function handleOracleVictory(guessedConcept = "WaZ Weather / PourReady Estimator") {
-        choiceBox.style.display = 'none';
-        if (confidenceWrap) confidenceWrap.style.display = 'none';
-        if (speechEl) {
-            speechEl.innerHTML = `
-                <div style="text-align: center; padding: 10px 0;">
-                    <div style="font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: #38bdf8; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;">🎯 DEDUCTION COMPLETE — 96.4% MATCH</div>
-                    <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-bottom: 8px;">"Your secret concept is <u>${guessedConcept}</u>!"</div>
-                    <div style="font-size: 0.9rem; color: #94a3b8;">The Oracle successfully synthesized your thought matrix in under 20 Neurons.</div>
-                </div>
-            `;
-        }
-        if (oracleWinBox) {
-            oracleWinBox.style.display = 'block';
-            oracleWinBox.innerHTML = `
-                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                    <button class="btn-primary-start" onclick="location.reload()" style="width: auto; padding: 12px 24px; background: #1e293b; border-color: #334155;">Play Again 🔄</button>
-                    <a href="/" class="btn-primary-start" style="width: auto; padding: 12px 24px; text-decoration: none;">Return to Main Portal ↗</a>
-                </div>
-            `;
-        }
+        if (choiceBox) choiceBox.style.display = 'none';
+        if (chatForm) chatForm.style.display = 'none';
+        postOracleMessage(`<div style="text-align: center;">
+            <div style="font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: #38bdf8; letter-spacing: 2px; text-transform: uppercase;">🎯 DEDUCTION COMPLETE — 96.4% MATCH</div>
+            <div style="font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 8px 0;">"Your secret concept is <u>${guessedConcept}</u>!"</div>
+        </div>`);
+        if (oracleWinBox) oracleWinBox.style.display = 'block';
     }
 
     if (grantWishBtn) {
-        grantWishBtn.addEventListener('click', () => {
+        grantWishBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             const promptVal = wishInput ? wishInput.value.trim() : '';
             if (promptVal && wishOutput) {
                 wishOutput.style.display = 'block';
-                wishOutput.innerHTML = `<strong>✨ Oracle Wisdom:</strong> "Regarding '<i>${promptVal}</i>': Your concept aligns with Zero-Liability Architecture (ZLA) and Cloudflare Workers AI edge processing. Built for speed and sovereign data ownership."`;
+                wishOutput.innerHTML = `<strong>✨ Oracle Wisdom:</strong> "Regarding '<i>${promptVal}</i>': Concept synthesized via Zero-Liability Architecture (ZLA) & Cloudflare Workers AI edge processing."`;
             }
         });
     }
