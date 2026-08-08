@@ -146,18 +146,33 @@ document.addEventListener('DOMContentLoaded', () => {
         choiceBox.style.display = 'none';
         if (confidenceWrap) confidenceWrap.style.display = 'none';
         if (speechEl) {
-            speechEl.innerHTML = `<strong>🔮 Metropolis Oracle:</strong> "NEURON FUEL DEPLETED! You outsmarted the 20-Neuron budget. The Oracle surrenders! Type your prompt below to extract raw Oracle wisdom!"`;
+            speechEl.innerHTML = `<div style="font-size: 1.15rem; color: #22c55e; font-weight: 800; margin-bottom: 8px;">🎉 YOU OUTSMARTED THE ORACLE!</div>
+            <div>The Oracle burned all 20 Neurons without discovering your secret thought. You win! Submit any freeform prompt below to extract raw Oracle AI wisdom.</div>`;
         }
         if (oracleWishBox) oracleWishBox.style.display = 'block';
     }
 
-    function handleOracleVictory() {
+    function handleOracleVictory(guessedConcept = "WaZ Weather / PourReady Estimator") {
         choiceBox.style.display = 'none';
         if (confidenceWrap) confidenceWrap.style.display = 'none';
         if (speechEl) {
-            speechEl.innerHTML = `<strong>🔮 Metropolis Oracle:</strong> "DEDUCTION SYNTHESIZED! Your thought pattern matches the <i>Wisconsin Rapids Tech & ZLA Ecosystem</i>! Take your VIP application tour below."`;
+            speechEl.innerHTML = `
+                <div style="text-align: center; padding: 10px 0;">
+                    <div style="font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: #38bdf8; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;">🎯 DEDUCTION COMPLETE — 96.4% MATCH</div>
+                    <div style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-bottom: 8px;">"Your secret concept is <u>${guessedConcept}</u>!"</div>
+                    <div style="font-size: 0.9rem; color: #94a3b8;">The Oracle successfully synthesized your thought matrix in under 20 Neurons.</div>
+                </div>
+            `;
         }
-        if (oracleWinBox) oracleWinBox.style.display = 'block';
+        if (oracleWinBox) {
+            oracleWinBox.style.display = 'block';
+            oracleWinBox.innerHTML = `
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn-primary-start" onclick="location.reload()" style="width: auto; padding: 12px 24px; background: #1e293b; border-color: #334155;">Play Again 🔄</button>
+                    <a href="/" class="btn-primary-start" style="width: auto; padding: 12px 24px; text-decoration: none;">Return to Main Portal ↗</a>
+                </div>
+            `;
+        }
     }
 
     if (grantWishBtn) {
