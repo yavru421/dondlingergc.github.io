@@ -1,0 +1,21 @@
+name = "metropolis-intake-agent"
+main = "src/index.js"
+compatibility_date = "2024-03-20"
+
+# AI Binding for LLaMA model
+[ai]
+binding = "AI"
+
+# Durable Object for maintaining conversation state
+[[durable_objects.bindings]]
+name = "CHAT_SESSIONS"
+class_name = "ChatSession"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["ChatSession"]
+
+# We'll use this for the Telegram dispatch webhook
+[vars]
+TELEGRAM_BOT_TOKEN = "" # Needs to be set via secrets
+TELEGRAM_CHAT_ID = ""   # Needs to be set via secrets
