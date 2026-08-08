@@ -60,9 +60,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    let history = [];
+
+    async function fetchNextQuestionFromEdge(answer = null) {
+        if (answer) {
+            history.push({ q: oracleQuestions[(stepIndex - 1) % oracleQuestions.length], a: answer });
+        }
+
+        try {
+            const res = await fetch('https://orchestrator-do.yavru421.workers.dev/api/oracle-20q', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    history: history,
+                    neuronsRemaining: neuronsRemaining,
+                    stepIndex: stepIndex
+                })
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data.question) {
+                    if (speechEl) speechEl.innerHTML = `<strong>🔮 Oracle asks (Neuron #${21 - neuronsRemaining}):</strong> "${data.question}"`;
+                    if (data.confidence) confidencePercent = data.confidence;
+                    if (confidenceVal && confidenceFill) {
+                        confidenceVal.innerText = `${confidencePercent}%`;
+                        confidenceFill.style.width = `${confidencePercent}%`;
+                    }
+                    return;
+                }
+            }
+        } catch (e) {
+            // Local high-speed fallback
+        }
+
+        askQuestionLocal();
+    }
+
     const choiceBtns = document.querySelectorAll('.btn-choice');
     choiceBtns.forEach(btn => {
         btn.addEventListener('click', () => {
+            const userChoice = btn.getAttribute('data-answer');
             neuronsRemaining--;
             stepIndex++;
             confidencePercent = Math.min(98, confidencePercent + Math.floor(Math.random() * 8 + 4));
@@ -70,20 +107,19 @@ document.addEventListener('DOMContentLoaded', () => {
             updateFuelGauge();
 
             if (neuronsRemaining <= 0) {
-                // Determine Victory or Defeat
-                const isOracleVictory = Math.random() > 0.45;
+                const isOracleVictory = confidencePercent >= 70 || Math.random() > 0.4;
                 if (isOracleVictory) {
                     handleOracleVictory();
                 } else {
                     handlePlayerVictory();
                 }
             } else {
-                askQuestion();
+                fetchNextQuestionFromEdge(userChoice);
             }
         });
     });
 
-    function askQuestion() {
+    function askQuestionLocal() {
         if (speechEl) {
             speechEl.innerHTML = `<strong>🔮 Oracle asks (Neuron #${21 - neuronsRemaining}):</strong> "${oracleQuestions[stepIndex % oracleQuestions.length]}"`;
         }
