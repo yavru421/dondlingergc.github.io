@@ -138,5 +138,15 @@
     "link": "https://personalization.dondlingergc.com",
     "btnLabel": "Launch Customizer",
     "category": "Platform & Architecture"
+  },
+  "theater": {
+    "title": "Neural Cinema & Theater // 15",
+    "accent": "#00f3ff",
+    "screenshot": "",
+    "desc": "Streaming neural radio theater, multi-speaker audio dramas, 9:16 vertical cinema, and typeset screenplays engineered by John Dondlinger.",
+    "who": ["Viewers", "Audio Engineers", "Directors"],
+    "link": "./theater.html",
+    "btnLabel": "Launch Theater",
+    "category": "Media & Creative Studios"
   }
 }
