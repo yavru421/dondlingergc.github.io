@@ -309,16 +309,23 @@
       </div>
     </section>
 
-    <!-- Right Column: Episode Catalog & Screenplay Viewer -->
-    <section class="episodes-section">
-      <div>
-        <h1 class="section-heading">Neural Radio & Vertical Cinema</h1>
-        <p style="color: var(--text-muted); font-size: 14px;">48kHz Polyphase DSP, Kokoro Voice Algebra, and 9:16 Cinema by John Dondlinger.</p>
+      <!-- Filter & Search Controls -->
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; margin-bottom: 8px;">
+        <input type="text" id="search-input" placeholder="🔍 Search episodes, cast, setting..." oninput="filterEpisodes()" style="flex: 1; min-width: 220px; background: #0E1522; border: 1px solid var(--card-border); color: #fff; padding: 10px 14px; border-radius: 10px; font-size: 13px; outline: none;">
+        <div style="display: flex; gap: 6px;">
+          <button class="nav-btn filter-btn active" onclick="setFilter('all', this)">All</button>
+          <button class="nav-btn filter-btn" onclick="setFilter('sci-fi', this)">Sci-Fi</button>
+          <button class="nav-btn filter-btn" onclick="setFilter('crime', this)">Crime</button>
+          <button class="nav-btn filter-btn" onclick="setFilter('gothic', this)">Gothic Noir</button>
+        </div>
       </div>
 
       <!-- Episode 1 Card -->
-      <div class="episode-card active" id="card-ep1" onclick="switchEpisode('ep1')">
-        <span class="ep-badge">EPISODE 01 // SCI-FI THRILLER</span>
+      <div class="episode-card active" id="card-ep1" data-category="sci-fi" onclick="switchEpisode('ep1')">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <span class="ep-badge">EPISODE 01 // SCI-FI THRILLER</span>
+          <span style="font-size: 11px; color: var(--text-muted); font-family: monospace;">01:14 • 48kHz DSP</span>
+        </div>
         <h2 class="ep-title">The Iron Trench — Signal 09</h2>
         <p class="ep-desc">A 1970s bathyscaphe submerged 8,000 meters in the Marianas Trench intercepts a repeating mechanical transmission vibrating through its own titanium hull.</p>
         <div class="ep-actions">
@@ -328,13 +335,30 @@
       </div>
 
       <!-- Episode 2 Card -->
-      <div class="episode-card" id="card-ep2" onclick="switchEpisode('ep2')">
-        <span class="ep-badge">EPISODE 02 // CRIME DRAMA</span>
+      <div class="episode-card" id="card-ep2" data-category="crime" onclick="switchEpisode('ep2')">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <span class="ep-badge">EPISODE 02 // CRIME DRAMA</span>
+          <span style="font-size: 11px; color: var(--text-muted); font-family: monospace;">01:18 • 48kHz DSP</span>
+        </div>
         <h2 class="ep-title">The Italian Restaurant Chronicles — Table Four</h2>
         <p class="ep-desc">Frankie and Tony sit in Mario's Trattoria while a suspicious individual lurks outside the kitchen door. Grounded 1970s Little Italy standoff.</p>
         <div class="ep-actions">
           <button class="btn-action" onclick="event.stopPropagation(); switchEpisode('ep2')">▶ Play Episode</button>
           <a class="btn-action" href="media/ep2_screenplay.pdf" target="_blank" onclick="event.stopPropagation();">📄 Screenplay PDF</a>
+        </div>
+      </div>
+
+      <!-- Episode 3 Card -->
+      <div class="episode-card" id="card-ep3" data-category="gothic" onclick="switchEpisode('ep3')">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <span class="ep-badge" style="background: rgba(255, 102, 204, 0.15); color: var(--accent-pink);">EPISODE 03 // GOTHIC NOIR</span>
+          <span style="font-size: 11px; color: var(--text-muted); font-family: monospace;">01:22 • Storm Telemetry</span>
+        </div>
+        <h2 class="ep-title">The Obsidian Lighthouse — Echo Station 77</h2>
+        <p class="ep-desc">Force 9 gale off Eilean Mor island. A foghorn echo bounces off submerged seabed bedrock while Echo Station 77 optics lock downwards into the seabed.</p>
+        <div class="ep-actions">
+          <button class="btn-action" onclick="event.stopPropagation(); switchEpisode('ep3')">▶ Play Episode</button>
+          <a class="btn-action" href="media/ep3_screenplay.pdf" target="_blank" onclick="event.stopPropagation();">📄 Screenplay PDF</a>
         </div>
       </div>
 
@@ -364,8 +388,15 @@
         title: "Screenplay: The Italian Restaurant Chronicles (Table Four)",
         video: "media/ep2_video.mp4",
         pdf: "media/ep2_screenplay.pdf"
+      },
+      ep3: {
+        title: "Screenplay: The Obsidian Lighthouse (Echo Station 77)",
+        video: "media/ep3_video.mp4",
+        pdf: "media/ep3_screenplay.pdf"
       }
     };
+
+    let activeFilter = 'all';
 
     function switchEpisode(epKey) {
       const data = episodeData[epKey];
@@ -373,7 +404,8 @@
 
       // Update Active Card
       document.querySelectorAll('.episode-card').forEach(card => card.classList.remove('active'));
-      document.getElementById(`card-${epKey}`).classList.add('active');
+      const activeCard = document.getElementById(`card-${epKey}`);
+      if (activeCard) activeCard.classList.add('active');
 
       // Update Video Player
       const player = document.getElementById('main-video-player');
@@ -387,6 +419,36 @@
       document.getElementById('pdf-download-link').href = data.pdf;
       document.getElementById('pdf-iframe').src = data.pdf;
     }
+
+    function setFilter(cat, btnElem) {
+      activeFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      if (btnElem) btnElem.classList.add('active');
+      filterEpisodes();
+    }
+
+    function filterEpisodes() {
+      const query = (document.getElementById('search-input').value || '').toLowerCase();
+      document.querySelectorAll('.episode-card').forEach(card => {
+        const cat = card.getAttribute('data-category');
+        const text = card.innerText.toLowerCase();
+        const matchesCat = (activeFilter === 'all' || cat === activeFilter);
+        const matchesQuery = !query || text.includes(query);
+        card.style.display = (matchesCat && matchesQuery) ? 'block' : 'none';
+      });
+    }
+
+    // Auto-advance to next episode when video ends
+    document.getElementById('main-video-player').addEventListener('ended', () => {
+      const keys = Object.keys(episodeData);
+      const activeCard = document.querySelector('.episode-card.active');
+      if (!activeCard) return;
+      const currentId = activeCard.id.replace('card-', '');
+      const idx = keys.indexOf(currentId);
+      if (idx !== -1 && idx < keys.length - 1) {
+        switchEpisode(keys[idx + 1]);
+      }
+    });
   </script>
 </body>
 </html>
