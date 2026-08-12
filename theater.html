@@ -302,8 +302,8 @@
     <!-- Left Column: 9:16 Cinema Player -->
     <section class="player-section">
       <div class="video-frame">
-        <video id="main-video-player" controls playsinline poster="media/ep1_slide_0.png">
-          <source id="video-source" src="media/ep1_video.mp4" type="video/mp4">
+        <video id="main-video-player" controls playsinline poster="/theater/media/ep1_slide_0.png">
+          <source id="video-source" src="/theater/media/ep1_video.mp4" type="video/mp4">
           Your browser does not support HTML5 video playback.
         </video>
       </div>
@@ -330,7 +330,7 @@
         <p class="ep-desc">A 1970s bathyscaphe submerged 8,000 meters in the Marianas Trench intercepts a repeating mechanical transmission vibrating through its own titanium hull.</p>
         <div class="ep-actions">
           <button class="btn-action" onclick="event.stopPropagation(); switchEpisode('ep1')">▶ Play Episode</button>
-          <a class="btn-action" href="media/ep1_screenplay.pdf" target="_blank" onclick="event.stopPropagation();">📄 Screenplay PDF</a>
+          <a class="btn-action" href="/theater/media/ep1_screenplay.pdf" target="_blank" onclick="event.stopPropagation();">📄 Screenplay PDF</a>
         </div>
       </div>
 
@@ -344,7 +344,7 @@
         <p class="ep-desc">Frankie and Tony sit in Mario's Trattoria while a suspicious individual lurks outside the kitchen door. Grounded 1970s Little Italy standoff.</p>
         <div class="ep-actions">
           <button class="btn-action" onclick="event.stopPropagation(); switchEpisode('ep2')">▶ Play Episode</button>
-          <a class="btn-action" href="media/ep2_screenplay.pdf" target="_blank" onclick="event.stopPropagation();">📄 Screenplay PDF</a>
+          <a class="btn-action" href="/theater/media/ep2_screenplay.pdf" target="_blank" onclick="event.stopPropagation();">📄 Screenplay PDF</a>
         </div>
       </div>
 
@@ -358,7 +358,7 @@
         <p class="ep-desc">Force 9 gale off Eilean Mor island. A foghorn echo bounces off submerged seabed bedrock while Echo Station 77 optics lock downwards into the seabed.</p>
         <div class="ep-actions">
           <button class="btn-action" onclick="event.stopPropagation(); switchEpisode('ep3')">▶ Play Episode</button>
-          <a class="btn-action" href="media/ep3_screenplay.pdf" target="_blank" onclick="event.stopPropagation();">📄 Screenplay PDF</a>
+          <a class="btn-action" href="/theater/media/ep3_screenplay.pdf" target="_blank" onclick="event.stopPropagation();">📄 Screenplay PDF</a>
         </div>
       </div>
 
@@ -366,9 +366,9 @@
       <div class="pdf-viewer-section">
         <div class="pdf-header">
           <div class="pdf-title" id="pdf-header-title">Screenplay: The Iron Trench</div>
-          <a id="pdf-download-link" href="media/ep1_screenplay.pdf" download class="btn-action">⬇ Download PDF</a>
+          <a id="pdf-download-link" href="/theater/media/ep1_screenplay.pdf" download class="btn-action">⬇ Download PDF</a>
         </div>
-        <iframe id="pdf-iframe" class="pdf-frame" src="media/ep1_screenplay.pdf"></iframe>
+        <iframe id="pdf-iframe" class="pdf-frame" src="/theater/media/ep1_screenplay.pdf"></iframe>
       </div>
     </section>
   </main>
@@ -381,18 +381,18 @@
     const episodeData = {
       ep1: {
         title: "Screenplay: The Iron Trench (Signal 09)",
-        video: "media/ep1_video.mp4",
-        pdf: "media/ep1_screenplay.pdf"
+        video: "/theater/media/ep1_video.mp4",
+        pdf: "/theater/media/ep1_screenplay.pdf"
       },
       ep2: {
         title: "Screenplay: The Italian Restaurant Chronicles (Table Four)",
-        video: "media/ep2_video.mp4",
-        pdf: "media/ep2_screenplay.pdf"
+        video: "/theater/media/ep2_video.mp4",
+        pdf: "/theater/media/ep2_screenplay.pdf"
       },
       ep3: {
         title: "Screenplay: The Obsidian Lighthouse (Echo Station 77)",
-        video: "media/ep3_video.mp4",
-        pdf: "media/ep3_screenplay.pdf"
+        video: "/theater/media/ep3_video.mp4",
+        pdf: "/theater/media/ep3_screenplay.pdf"
       }
     };
 
