@@ -133,7 +133,7 @@ export async function onRequest(context) {
         headers.set('Link', linkHeaderVal);
       }
 
-      return new Response(markdown, {
+      return new Response(request.method === 'HEAD' ? null : markdown, {
         status: response.status,
         statusText: response.statusText,
         headers
@@ -141,7 +141,7 @@ export async function onRequest(context) {
     } else if (url.pathname === '/' || url.pathname === '/index.html') {
       const headers = new Headers(response.headers);
       headers.set('Link', linkHeaderVal);
-      return new Response(response.body, {
+      return new Response(request.method === 'HEAD' ? null : response.body, {
         status: response.status,
         statusText: response.statusText,
         headers
