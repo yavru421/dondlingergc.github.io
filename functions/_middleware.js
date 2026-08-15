@@ -73,6 +73,46 @@ function htmlToMarkdown(html, url) {
 
 export async function onRequest(context) {
   const { request, next } = context;
+  const url = new URL(request.url);
+
+  // Direct RFC 9727 API Catalog route handler
+  if (url.pathname === '/.well-known/api-catalog' || url.pathname === '/api-catalog') {
+    const linksetData = {
+      "linkset": [
+        {
+          "anchor": "https://dondlingergc.com/api",
+          "service-desc": [
+            {
+              "href": "https://dondlingergc.com/openapi.json",
+              "type": "application/vnd.oai.openapi+json;version=3.1"
+            }
+          ],
+          "service-doc": [
+            {
+              "href": "https://dondlingergc.com/about.html",
+              "type": "text/html"
+            }
+          ],
+          "status": [
+            {
+              "href": "https://dondlingergc.com/api/health",
+              "type": "application/json"
+            }
+          ]
+        }
+      ]
+    };
+
+    return new Response(JSON.stringify(linksetData, null, 2), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/linkset+json; charset=utf-8",
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Access-Control-Allow-Origin": "*"
+      }
+    });
+  }
+
   const acceptHeader = request.headers.get('accept') || '';
 
   // Forward request normally if not asking for text/markdown
