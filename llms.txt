@@ -1,0 +1,35 @@
+# Dondlinger Digital Database & General Contracting (Dondlinger GC)
+
+> Wisconsin DSPS Licensed Dwelling Contractor & Zero-Liability Software Engineering.
+> Main Hub: https://dondlingergc.com
+> Primary Ingestion Endpoint: https://dondlingergc.com/openapi.json
+> Agent Registration: https://dondlingergc.com/auth.md
+
+## Core Capabilities & Services
+
+- **Field Contracting (Residential & Commercial)**: Doors, Windows, Exterior Siding, Roofing Shingles, Custom Kitchen & Shop Cabinets, Acoustical Drop Ceilings, On-Site Diagnostic Structural Scans.
+- **Zero-Liability Architecture (ZLA)**: Serverless, offline-first WebAssembly (Blazor WASM) utilities, encrypted WebRTC peer-to-peer data transport, edge telemetry, zero recurring cloud database hosting costs.
+
+## Authoritative Subdomain & Application Index
+
+- [PourReady Concrete Estimator](https://dondlingergc.com/calc/): Jobsite concrete volume, slab, footing, wall, and column estimator with custom waste safety margins.
+- [WaZ Weather Telemetry & Radar](https://wazweather.dondlingergc.com): Real-time atmospheric telemetry, live NEXRAD radar mapping, USGS river hydrology flow rates, and rain outlook dispatch for Wisconsin Rapids.
+- [TAP: Time & Place Field Verification](https://tap.dondlingergc.com): Minimal MudBlazor WASM location & field jobsite verification tracker providing cryptographic activity proofs.
+- [SkyDrop Encrypted P2P File Transfer](https://skydrop.dondlingergc.com): Direct browser-to-browser WebRTC encrypted zero-cloud file transport with QR pairing.
+- [Timeline ZLA Daily Log Builder](https://timelinezla.dondlingergc.com): Local-first construction timeline builder, peer-to-peer 6-digit sync, and vector PDF export engine.
+- [Voice Intake Portal](https://voice-intake-app.dondlingergc.com): Voice-first AI client intake engine for instant residential contracting quote requests and audio vision recording.
+- [On My Way (OMW) Field Broadcast](https://omw.dondlingergc.com): Real-time GPS coordinates and ETA arrival broadcast utility for active field crews.
+- [ShotStack Studio PWA](https://shotstackstudio.dondlingergc.com): Storyboard compiler, time calculator, and media assembly engine for directors and video editors.
+- [AmpliLoop Studio PWA](https://blazorpwa.dondlingergc.com): Blazor WebAssembly algorithmic rap beat generator, metronome, and instrument tuner.
+- [Zero Liability Architecture Showcase](https://zla.dondlingergc.com): Architectural technical whitepaper, compliance proof, and zero-liability software engineering principles.
+- [Heckler Audio Synth](https://heckler.dondlingergc.com): Blazor WASM tone synthesis, soundboard trigger engine, and diagnostic alerts.
+- [Personalization Hub](https://personalization.dondlingergc.com): Metropolis taskbar, identity synchronization, and desktop interface customizer.
+- [Touchscreen Diagnostic PWA](https://dondlingergc.com/touchscreen.html): Client-side touchscreen hardware deadzone tester and ghost-touch diagnostic.
+- [Neural Cinema & Theater](https://dondlingergc.com/theater.html): Multi-speaker neural radio theater, vertical screenplays, and audio dramas.
+
+## Machine-Readable Specifications
+
+- **OpenAPI 3.1 Specification**: `https://dondlingergc.com/openapi.json`
+- **RFC 9727 API Catalog**: `https://dondlingergc.com/.well-known/api-catalog`
+- **OAuth / Protected Resource Metadata**: `https://dondlingergc.com/.well-known/oauth-protected-resource`
+- **Content Signals Directive**: `search=yes, ai-train=no, ai-input=yes`

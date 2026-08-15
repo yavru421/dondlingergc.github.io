@@ -103,7 +103,7 @@ export async function onRequest(context) {
           ],
           "service-doc": [
             {
-              "href": "https://dondlingergc.com/about.html",
+              "href": "https://zla.dondlingergc.com",
               "type": "text/html"
             }
           ],

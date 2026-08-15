@@ -21,6 +21,58 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
+  <!-- Schema.org JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "HomeAndConstructionBusiness",
+        "@id": "https://dondlingergc.com/#business",
+        "name": "Dondlinger GC",
+        "url": "https://dondlingergc.com",
+        "description": "Wisconsin DSPS Licensed Dwelling Contractor specializing in Doors, Windows, Siding, Roofing Shingles, Custom Cabinets, and Drop Ceilings.",
+        "areaServed": [
+          {
+            "@type": "AdministrativeArea",
+            "name": "Wisconsin Rapids, WI"
+          },
+          {
+            "@type": "State",
+            "name": "Wisconsin"
+          }
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Dwelling Renovation Services",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Door Replacement & Installation" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Window Installation & Framing" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exterior Siding & Trim" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Roofing Shingles & Flashing" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Shop & Kitchen Cabinetry" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Acoustical Drop Ceilings" } }
+          ]
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://dondlingergc.com/calc/#app",
+        "name": "PourReady Estimator",
+        "url": "https://dondlingergc.com/calc/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "All",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "Free jobsite concrete volume calculator for slabs, footings, walls, and columns with custom waste safety margins."
+      }
+    ]
+  }
+  </script>
+
   <style>
     :root {
       --bg-dark: #030509;
@@ -374,10 +426,10 @@
     </a>
 
     <div class="nav-buttons">
-      <a href="estimator.html" class="btn-action btn-voice" style="background: rgba(0, 243, 255, 0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); box-shadow: none;">🧮 Instant Estimator ↗</a>
-      <a href="about.html" class="btn-action btn-software">ℹ️ About ↗</a>
-      <a href="digital.html" class="btn-action btn-software">💻 Digital ↗</a>
-      <button class="btn-action btn-voice" onclick="triggerIntake('General Dwelling Intake')">🎤 Fast Intake ↗</button>
+      <a href="/calc/" class="btn-action btn-voice" style="background: rgba(0, 243, 255, 0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); box-shadow: none;">🧮 PourReady Calc ↗</a>
+      <a href="https://zla.dondlingergc.com" class="btn-action btn-software">🛡️ ZLA Showcase ↗</a>
+      <a href="https://voice-intake-app.dondlingergc.com" class="btn-action btn-software">🎙️ Voice Intake ↗</a>
+      <button class="btn-action btn-voice" onclick="triggerIntake('General Dwelling Intake')">🎤 Fast Quote ↗</button>
     </div>
   </header>
 
@@ -417,8 +469,8 @@
             <button class="btn-action btn-voice" style="flex: 1; justify-content: center; padding: 14px;" onclick="triggerIntake('Residential Quote Request')">
               Submit Field Quote ↗
             </button>
-            <a href="estimator.html" class="btn-action btn-software" style="justify-content: center; padding: 14px; border-color: var(--accent-orange); color: var(--accent-orange);">
-              🧮 Instant Estimator ↗
+            <a href="/calc/" class="btn-action btn-software" style="justify-content: center; padding: 14px; border-color: var(--accent-orange); color: var(--accent-orange);">
+              🧮 PourReady Estimator ↗
             </a>
           </div>
         </div>
@@ -436,8 +488,8 @@
             <span class="chip-item digital-chip" style="border-color: rgba(0, 243, 255, 0.3);">💰 $0 Monthly Bills</span>
           </div>
 
-          <a href="digital.html" class="btn-action btn-software" style="width: 100%; justify-content: center; padding: 16px; background: rgba(0, 243, 255, 0.12); border-color: var(--accent-cyan); color: var(--accent-cyan);">
-            Explore Software Engineering ↗
+          <a href="https://zla.dondlingergc.com" class="btn-action btn-software" style="width: 100%; justify-content: center; padding: 16px; background: rgba(0, 243, 255, 0.12); border-color: var(--accent-cyan); color: var(--accent-cyan);">
+            Explore Zero-Liability Architecture ↗
           </a>
         </div>
 
@@ -467,9 +519,9 @@
           <div class="media-caption-title">Dondlinger GC Field Operations Reel</div>
           <div class="media-caption-sub">WI DSPS Licensed Dwelling Contractor | Doors • Windows • Siding • Roofing • Custom Cabinets • Drop Ceilings</div>
         </div>
-        <a href="estimator.html" class="btn-action btn-voice">
-          Calculate Instant Price ↗
-        </a>
+        <button class="btn-action btn-voice" onclick="triggerIntake('Residential Scope Inquiry')">
+          Calculate Field Price ↗
+        </button>
       </div>
     </div>
 
@@ -479,70 +531,70 @@
       <!-- DOORS PORTFOLIO -->
       <div class="portfolio-card">
         <div class="portfolio-thumb">
-          <video autoplay loop muted playsinline preload="auto" src="assets/hero-contracting.mp4" poster="assets/hero-contracting.jpg"></video>
+          <img src="assets/hero-contracting.jpg" alt="Interior & Exterior Doors" />
         </div>
         <div class="portfolio-content">
-          <div class="portfolio-title">Entry & Exterior Doors</div>
-          <div class="portfolio-desc">High-security entry door replacement, patio doors, hardware installation, and custom trim.</div>
-          <a href="estimator.html" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center;">
-            Estimate Door Cost ↗
-          </a>
+          <div class="portfolio-title">Interior & Exterior Door Systems</div>
+          <div class="portfolio-desc">High-precision entry doors, interior pre-hung sets, French patio doors, and custom hardware installations.</div>
+          <button onclick="triggerIntake('Doors')" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; width: 100%;">
+            Estimate Door Project ↗
+          </button>
         </div>
       </div>
 
       <!-- WINDOWS PORTFOLIO -->
       <div class="portfolio-card">
         <div class="portfolio-thumb">
-          <video autoplay loop muted playsinline preload="auto" src="assets/video-storefront.mp4" poster="assets/hero-contracting.jpg"></video>
+          <img src="assets/hero-contracting.jpg" alt="Replacement Windows" />
         </div>
         <div class="portfolio-content">
-          <div class="portfolio-title">Energy Windows & Replacement Glass</div>
-          <div class="portfolio-desc">High-efficiency Low-E vinyl and wood window replacements, custom trim, and weather sealing.</div>
-          <a href="estimator.html" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center;">
-            Estimate Window Cost ↗
-          </a>
+          <div class="portfolio-title">Window Installations & Casing</div>
+          <div class="portfolio-desc">Energy-efficient double-hung, casement, and slider windows. Framing, insulation, and exterior flashing.</div>
+          <button onclick="triggerIntake('Windows')" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; width: 100%;">
+            Estimate Windows Cost ↗
+          </button>
         </div>
       </div>
 
       <!-- SIDING PORTFOLIO -->
       <div class="portfolio-card">
         <div class="portfolio-thumb">
-          <img src="assets/hero-contracting.jpg" alt="Exterior Residential Siding" />
+          <img src="assets/hero-contracting.jpg" alt="Vinyl & Steel Siding" />
         </div>
         <div class="portfolio-content">
-          <div class="portfolio-title">Fiber Cement & Vinyl Siding</div>
-          <div class="portfolio-desc">Durable exterior dwelling siding replacement, engineered wood cladding, soffit, and fascia.</div>
-          <a href="estimator.html" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center;">
+          <div class="portfolio-title">Exterior Siding & Soffit/Fascia</div>
+          <div class="portfolio-desc">Vinyl, engineered wood, and metal siding installations. Weather-resistant barrier wraps and trim cladding.</div>
+          <button onclick="triggerIntake('Siding')" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; width: 100%;">
             Estimate Siding Cost ↗
-          </a>
+          </button>
         </div>
       </div>
 
-      <!-- ROOFING PORTFOLIO -->
+      <!-- ROOFING SHINGLES PORTFOLIO -->
       <div class="portfolio-card">
         <div class="portfolio-thumb">
-          <img src="assets/hero-contracting.jpg" alt="Roofing Shingles & Membranes" />
+          <img src="assets/hero-contracting.jpg" alt="Roofing Shingles Replacement" />
         </div>
         <div class="portfolio-content">
-          <div class="portfolio-title">Architectural Roofing Shingles</div>
-          <div class="portfolio-desc">Residential roof replacements, architectural shingle grids, ice/water shield, and ridge venting.</div>
-          <a href="estimator.html" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center;">
-            Estimate Roof Cost ↗
-          </a>
+          <div class="portfolio-title">Roofing Shingle Systems</div>
+          <div class="portfolio-desc">Architectural shingles, ice & water shield installation, ridge venting, and drip edge protection.</div>
+          <button onclick="triggerIntake('Roofing')" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; width: 100%;">
+            Estimate Roof Shingles ↗
+          </button>
         </div>
       </div>
 
       <!-- CUSTOM CABINETS PORTFOLIO -->
       <div class="portfolio-card">
         <div class="portfolio-thumb">
-          <video autoplay loop muted playsinline preload="auto" src="assets/video-cabinets.mp4" poster="assets/hero-contracting.jpg"></video>
+          <img src="assets/hero-contracting.jpg" alt="Custom Shop Cabinets" />
         </div>
         <div class="portfolio-content">
-          <div class="portfolio-title">Bespoke Millwork & Custom Cabinets</div>
-          <div class="portfolio-desc">Precision shop-fabricated kitchen cabinets, custom bathroom vanities, and built-in storage.</div>
-          <a href="estimator.html" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center;">
-            Estimate Cabinet Cost ↗
-          </a>
+          <div class="portfolio-title">Custom Shop & Kitchen Cabinets</div>
+          <div class="portfolio-desc">Precision-milled shop cabinetry, kitchen storage, and tailored built-ins designed for durability.</div>
+          <button onclick="triggerIntake('Custom Cabinets')" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; width: 100%;">
+            Estimate Cabinetry ↗
+          </button>
         </div>
       </div>
 
@@ -554,9 +606,9 @@
         <div class="portfolio-content">
           <div class="portfolio-title">Basement & Acoustical Drop Ceilings</div>
           <div class="portfolio-desc">Residential basement ceiling grid installation, acoustical ceiling tiles, and recessed lighting.</div>
-          <a href="estimator.html" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center;">
+          <button onclick="triggerIntake('Drop Ceilings')" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; width: 100%;">
             Estimate Ceiling Cost ↗
-          </a>
+          </button>
         </div>
       </div>
 
@@ -568,9 +620,9 @@
         <div class="portfolio-content">
           <div class="portfolio-title" style="color: var(--accent-cyan);">🔍 Roof & Structure Diagnostic Scans</div>
           <div class="portfolio-desc">$299 paid diagnostic on-site scans & $499 CAD roof reports. Visual inspection of moisture pockets, flashing wear, and UDC code issues.</div>
-          <a href="estimator.html" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; background: var(--accent-cyan); color: #030509;">
+          <button onclick="triggerIntake('Roof & Structure Diagnostic Scan ($299)')" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; background: var(--accent-cyan); color: #030509; width: 100%;">
             Book $299 On-Site Diagnostic ↗
-          </a>
+          </button>
         </div>
       </div>
 
@@ -582,9 +634,9 @@
         <div class="portfolio-content">
           <div class="portfolio-title" style="color: var(--accent-orange);">📐 Spatial Carpentry & 3D Fabrication</div>
           <div class="portfolio-desc">High-precision CAD drafting, custom milled cabinetry jigs, 3D spatial scanning, and specialized trim fabrication ($150/hr).</div>
-          <a href="estimator.html" class="btn-action btn-software" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; border-color: var(--accent-orange); color: var(--accent-orange);">
+          <button onclick="triggerIntake('Spatial Carpentry & 3D Fabrication')" class="btn-action btn-software" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; border-color: var(--accent-orange); color: var(--accent-orange); width: 100%;">
             Estimate Spatial Carpentry ↗
-          </a>
+          </button>
         </div>
       </div>
 
@@ -596,9 +648,9 @@
         <div class="portfolio-content">
           <div class="portfolio-title" style="color: var(--accent-emerald);">📋 Realtor Pre-Listing Escrow Diagnostic</div>
           <div class="portfolio-desc">Pre-sale inspection defect analysis, cost estimates for escrow repair holdbacks ($350 - $750 package).</div>
-          <a href="estimator.html" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; background: var(--accent-emerald); color: #030509;">
+          <button onclick="triggerIntake('Realtor Escrow Inspection')" class="btn-action btn-voice" style="padding: 8px 16px; font-size: 0.82rem; justify-content: center; background: var(--accent-emerald); color: #030509; width: 100%;">
             Book Escrow Inspection ↗
-          </a>
+          </button>
         </div>
       </div>
 
@@ -612,7 +664,7 @@
         <h3>⚡ Need Custom Offline-First Software or Edge Systems?</h3>
         <p>We design serverless PWAs, WebRTC P2P sync applications, and zero-liability software engineered for zero monthly server maintenance costs.</p>
       </div>
-      <a href="digital.html" class="btn-action btn-software" style="padding: 16px 32px; font-size: 1.05rem; background: rgba(0, 243, 255, 0.15); border-color: var(--accent-cyan); color: var(--accent-cyan);">
+      <a href="https://zla.dondlingergc.com" class="btn-action btn-software" style="padding: 16px 32px; font-size: 1.05rem; background: rgba(0, 243, 255, 0.15); border-color: var(--accent-cyan); color: var(--accent-cyan);">
         Explore Digital Engineering ↗
       </a>
     </div>
@@ -800,10 +852,11 @@
   <footer>
     <div>© 2026 Dondlinger GC. WI DSPS Licensed Dwelling Contractor. All rights reserved.</div>
     <div class="footer-links">
-      <a href="estimator.html">Instant Estimator</a>
-      <a href="about.html">About</a>
-      <a href="digital.html">Software Engineering</a>
-      <a href="https://voice-intake-app.dondlingergc.com">Voice Intake</a>
+      <a href="/calc/">PourReady Estimator</a>
+      <a href="https://zla.dondlingergc.com">Zero-Liability Architecture</a>
+      <a href="https://wazweather.dondlingergc.com">WaZ Weather Radar</a>
+      <a href="https://voice-intake-app.dondlingergc.com">Voice Intake Portal</a>
+      <a href="/llms.txt">llms.txt</a>
     </div>
   </footer>
 
