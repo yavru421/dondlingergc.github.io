@@ -113,33 +113,39 @@ export async function onRequest(context) {
     });
   }
 
-  const acceptHeader = request.headers.get('accept') || '';
-
-  // Forward request normally if not asking for text/markdown
-  if (!acceptHeader.includes('text/markdown')) {
-    return next();
-  }
-
-  // Fetch the upstream response
   const response = await next();
+  const linkHeaderVal = '</.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/json", </about.html>; rel="service-doc"; type="text/html"';
+
+  // If response is HTML and markdown requested, convert to text/markdown
   const contentType = response.headers.get('content-type') || '';
-
-  // If response is HTML, convert to text/markdown
   if (contentType.includes('text/html')) {
-    const html = await response.text();
-    const markdown = htmlToMarkdown(html, request.url);
-    const tokenEstimate = Math.ceil(markdown.length / 4);
+    if (acceptHeader.includes('text/markdown')) {
+      const html = await response.text();
+      const markdown = htmlToMarkdown(html, request.url);
+      const tokenEstimate = Math.ceil(markdown.length / 4);
 
-    const headers = new Headers(response.headers);
-    headers.set('Content-Type', 'text/markdown; charset=utf-8');
-    headers.set('Vary', 'Accept');
-    headers.set('x-markdown-tokens', tokenEstimate.toString());
+      const headers = new Headers(response.headers);
+      headers.set('Content-Type', 'text/markdown; charset=utf-8');
+      headers.set('Vary', 'Accept');
+      headers.set('x-markdown-tokens', tokenEstimate.toString());
+      if (url.pathname === '/' || url.pathname === '/index.html' || !headers.has('Link')) {
+        headers.set('Link', linkHeaderVal);
+      }
 
-    return new Response(markdown, {
-      status: response.status,
-      statusText: response.statusText,
-      headers
-    });
+      return new Response(markdown, {
+        status: response.status,
+        statusText: response.statusText,
+        headers
+      });
+    } else if (url.pathname === '/' || url.pathname === '/index.html') {
+      const headers = new Headers(response.headers);
+      headers.set('Link', linkHeaderVal);
+      return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers
+      });
+    }
   }
 
   return response;
