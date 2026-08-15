@@ -7,7 +7,6 @@
 /theater /theater/index.html 200
 /theater/* /theater/index.html 200
 
-/.well-known/api-catalog /api-catalog 200
 
 
 # Block sensitive dev/config files from being publicly served
