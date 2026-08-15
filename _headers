@@ -2,10 +2,9 @@
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
-  X-Frame-Options: DENY
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
-  Cross-Origin-Resource-Policy: same-origin
-  X-Permitted-Cross-Domain-Policies: none
+  Cross-Origin-Resource-Policy: cross-origin
+  Access-Control-Allow-Origin: *
   Content-Signal: search=yes, ai-train=no, ai-input=yes
 
 /robots.txt
