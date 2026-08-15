@@ -1,0 +1,79 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Dondlinger Digital Database & Lead Ingestion API",
+    "version": "1.0.0",
+    "description": "Public API specification for Dondlinger Digital Database services, AI chat assistant, lead intake ingestion, and operational telemetry."
+  },
+  "servers": [
+    {
+      "url": "https://dondlingergc.com",
+      "description": "Production Edge Gateway"
+    }
+  ],
+  "paths": {
+    "/api/chat": {
+      "post": {
+        "summary": "AI Chat Assistant",
+        "description": "Interacts with Dondlinger Assistant for application routing and capability discovery.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                },
+                "required": ["message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chat response message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reply": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health": {
+      "get": {
+        "summary": "System Health & Status",
+        "description": "Edge routing and health check heartbeat.",
+        "responses": {
+          "200": {
+            "description": "Health status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
