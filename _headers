@@ -6,13 +6,13 @@
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
   Cross-Origin-Resource-Policy: same-origin
   X-Permitted-Cross-Domain-Policies: none
-  Content-Signal: ai-train=no, search=yes, ai-input=no
+  Content-Signal: search=yes, ai-train=no, ai-input=yes
 
 /robots.txt
   Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=3600, s-maxage=3600
-  Content-Signal: ai-train=no, search=yes, ai-input=no
+  Content-Signal: search=yes, ai-train=no, ai-input=yes
 
 /
   Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/json", </about.html>; rel="service-doc"; type="text/html", </auth.md>; rel="describedby"; type="text/markdown"

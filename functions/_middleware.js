@@ -77,14 +77,14 @@ export async function onRequest(context) {
 
   // Direct robots.txt route handler with Content-Signal directive
   if (url.pathname === '/robots.txt') {
-    const robotsTxt = `User-agent: *\nAllow: /\nContent-Signal: ai-train=no, search=yes, ai-input=no\n\nSitemap: https://dondlingergc.com/sitemap.xml\n`;
+    const robotsTxt = `User-agent: *\nContent-Signal: search=yes, ai-train=no, ai-input=yes\nAllow: /\n\nSitemap: https://dondlingergc.com/sitemap.xml\n`;
     return new Response(request.method === 'HEAD' ? null : robotsTxt, {
       status: 200,
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
         "Cache-Control": "public, max-age=3600, s-maxage=3600",
         "Access-Control-Allow-Origin": "*",
-        "Content-Signal": "ai-train=no, search=yes, ai-input=no"
+        "Content-Signal": "search=yes, ai-train=no, ai-input=yes"
       }
     });
   }
