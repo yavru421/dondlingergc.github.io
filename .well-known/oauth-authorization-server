@@ -28,7 +28,7 @@
   ],
   "service_documentation": "https://dondlingergc.com/auth.md",
   "agent_auth": {
-    "skill": "https://dondlingergc.com/.well-known/agent-skills/auth-md/SKILL.md",
+    "skill": "https://dondlingergc.com/auth.md",
     "register_uri": "https://dondlingergc.com/api/agent/register",
     "identity_types_supported": [
       "identity_assertion",
