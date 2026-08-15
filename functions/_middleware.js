@@ -177,6 +177,8 @@ export async function onRequest(context) {
       "agent_auth": {
         "skill": "https://dondlingergc.com/auth.md",
         "register_uri": "https://dondlingergc.com/api/agent/register",
+        "claim_uri": "https://dondlingergc.com/api/agent/claim",
+        "revocation_uri": "https://dondlingergc.com/api/agent/revoke",
         "identity_types_supported": [
           "identity_assertion",
           "anonymous"
@@ -195,6 +197,13 @@ export async function onRequest(context) {
           "revocation_uri": "https://dondlingergc.com/api/agent/revoke"
         },
         "anonymous": {
+          "credential_types_supported": [
+            "bearer_token",
+            "api_key"
+          ],
+          "claim_uri": "https://dondlingergc.com/api/agent/claim"
+        },
+        "verified_email": {
           "credential_types_supported": [
             "bearer_token",
             "api_key"
