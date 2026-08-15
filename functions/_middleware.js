@@ -102,6 +102,89 @@ export async function onRequest(context) {
     });
   }
 
+  // Direct schema.json standard route handler
+  if (url.pathname === '/schema.json') {
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "HomeAndConstructionBusiness",
+          "@id": "https://dondlingergc.com/#business",
+          "name": "Dondlinger GC",
+          "alternateName": "Dondlinger General Contracting & Digital Database",
+          "url": "https://dondlingergc.com",
+          "logo": "https://dondlingergc.com/assets/hero-contracting.jpg",
+          "image": "https://dondlingergc.com/assets/hero-contracting.jpg",
+          "description": "Wisconsin DSPS Licensed Dwelling Contractor & Zero-Liability Software Engineering. Specializing in high-precision doors, replacement windows, vinyl & steel siding, architectural roofing shingles, custom shop cabinetry, acoustical drop ceilings, and serverless WebAssembly PWA applications.",
+          "telephone": "+1-715-000-0000",
+          "email": "johndondlinger21@gmail.com",
+          "priceRange": "$$",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Wisconsin Rapids",
+            "addressRegion": "WI",
+            "postalCode": "54494",
+            "addressCountry": "US"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 44.3836,
+            "longitude": -89.8173
+          },
+          "areaServed": [
+            { "@type": "AdministrativeArea", "name": "Wisconsin Rapids, WI" },
+            { "@type": "AdministrativeArea", "name": "Wood County, WI" },
+            { "@type": "State", "name": "Wisconsin" }
+          ],
+          "knowsAbout": [
+            "Residential Dwelling Construction",
+            "Interior & Exterior Door Installation",
+            "Energy-Efficient Replacement Windows",
+            "Exterior Siding, Soffit & Fascia",
+            "Architectural Roofing Shingles",
+            "Custom Shop & Kitchen Cabinetry",
+            "Acoustical Drop Ceilings",
+            "Zero-Liability Architecture (ZLA)",
+            "Offline-First Progressive Web Applications (PWA)",
+            "WebAssembly Blazor Engineering",
+            "WebRTC Peer-to-Peer Data Synchronization"
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Dondlinger General Contracting & Digital Services",
+            "itemListElement": [
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Interior & Exterior Door Systems", "description": "High-precision entry doors, interior pre-hung sets, French patio doors, and custom hardware installations." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Window Installations & Casing", "description": "Energy-efficient double-hung, casement, and slider windows. Framing, insulation, and exterior flashing." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exterior Siding & Soffit/Fascia", "description": "Vinyl, engineered wood, and metal siding installations. Weather-resistant barrier wraps and trim cladding." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Roofing Shingle Systems", "description": "Architectural shingles, ice & water shield installation, ridge venting, and drip edge protection." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Shop & Kitchen Cabinets", "description": "Precision-milled shop cabinetry, kitchen storage, and tailored built-ins designed for durability." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Basement & Acoustical Drop Ceilings", "description": "Residential basement ceiling grid installation, acoustical ceiling tiles, and recessed lighting." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Roof & Structure Diagnostic Scans", "description": "Paid on-site diagnostic structural scans and CAD roof analysis reports." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Spatial Carpentry & 3D Fabrication", "description": "High-precision CAD drafting, custom milled cabinetry jigs, and specialized trim fabrication." } }
+            ]
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://dondlingergc.com/#software-suite",
+          "name": "Dondlinger Digital Zero-Liability Architecture Suite",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "All (WebAssembly / PWA / Offline-First)",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "url": "https://dondlingergc.com"
+        }
+      ]
+    };
+    return new Response(request.method === 'HEAD' ? null : JSON.stringify(schemaData, null, 2), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/ld+json; charset=utf-8",
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Access-Control-Allow-Origin": "*"
+      }
+    });
+  }
+
   // Direct RFC 9727 API Catalog route handler
   if (url.pathname === '/.well-known/api-catalog' || url.pathname === '/api-catalog') {
     const linksetData = {
