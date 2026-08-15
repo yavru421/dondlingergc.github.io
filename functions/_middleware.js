@@ -82,7 +82,7 @@ export async function onRequest(context) {
       status: 200,
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
-        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Cache-Control": "no-cache, no-store, must-revalidate",
         "Access-Control-Allow-Origin": "*",
         "Content-Signal": "search=yes, ai-train=no, ai-input=yes"
       }
