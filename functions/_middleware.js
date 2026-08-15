@@ -113,6 +113,7 @@ export async function onRequest(context) {
     });
   }
 
+  const acceptHeader = request.headers.get('accept') || '';
   const response = await next();
   const linkHeaderVal = '</.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/json", </about.html>; rel="service-doc"; type="text/html"';
 
