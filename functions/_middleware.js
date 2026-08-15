@@ -359,7 +359,7 @@ Authorization: Bearer <agent_access_token>
 
   const acceptHeader = request.headers.get('accept') || '';
   const response = await next();
-  const linkHeaderVal = '</.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/json", </about.html>; rel="service-doc"; type="text/html", </auth.md>; rel="describedby"; type="text/markdown"';
+  const linkHeaderVal = '</.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/json", <https://zla.dondlingergc.com>; rel="service-doc"; type="text/html", </auth.md>; rel="describedby"; type="text/markdown", </llms.txt>; rel="describedby"; type="text/plain"';
 
   // If response is HTML and markdown requested, convert to text/markdown
   const contentType = response.headers.get('content-type') || '';
