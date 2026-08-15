@@ -103,7 +103,7 @@ export async function onRequest(context) {
       ]
     };
 
-    return new Response(JSON.stringify(linksetData, null, 2), {
+    return new Response(request.method === 'HEAD' ? null : JSON.stringify(linksetData, null, 2), {
       status: 200,
       headers: {
         "Content-Type": "application/linkset+json; charset=utf-8",
@@ -113,9 +113,113 @@ export async function onRequest(context) {
     });
   }
 
+  // Direct RFC 9470 OAuth Protected Resource Metadata handler
+  if (url.pathname === '/.well-known/oauth-protected-resource') {
+    const prmData = {
+      "resource": "https://dondlingergc.com",
+      "authorization_servers": [
+        "https://dondlingergc.com"
+      ],
+      "scopes_supported": [
+        "read",
+        "write",
+        "intake",
+        "dispatch",
+        "telemetry"
+      ],
+      "bearer_methods_supported": [
+        "header"
+      ],
+      "resource_documentation": "https://dondlingergc.com/auth.md"
+    };
+
+    return new Response(request.method === 'HEAD' ? null : JSON.stringify(prmData, null, 2), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Access-Control-Allow-Origin": "*"
+      }
+    });
+  }
+
+  // Direct RFC 8414 OAuth Authorization Server Metadata handler with Auth.md agent_auth block
+  if (url.pathname === '/.well-known/oauth-authorization-server') {
+    const asData = {
+      "issuer": "https://dondlingergc.com",
+      "authorization_endpoint": "https://dondlingergc.com/oauth/authorize",
+      "token_endpoint": "https://dondlingergc.com/oauth/token",
+      "registration_endpoint": "https://dondlingergc.com/oauth/register",
+      "revocation_endpoint": "https://dondlingergc.com/api/agent/revoke",
+      "response_types_supported": [
+        "code",
+        "token"
+      ],
+      "grant_types_supported": [
+        "authorization_code",
+        "client_credentials",
+        "urn:ietf:params:oauth:grant-type:token-exchange"
+      ],
+      "token_endpoint_auth_methods_supported": [
+        "client_secret_basic",
+        "client_secret_post",
+        "private_key_jwt",
+        "none"
+      ],
+      "scopes_supported": [
+        "read",
+        "write",
+        "intake",
+        "dispatch",
+        "telemetry"
+      ],
+      "service_documentation": "https://dondlingergc.com/auth.md",
+      "agent_auth": {
+        "skill": "https://dondlingergc.com/.well-known/agent-skills/auth-md/SKILL.md",
+        "register_uri": "https://dondlingergc.com/api/agent/register",
+        "identity_types_supported": [
+          "identity_assertion",
+          "anonymous"
+        ],
+        "identity_assertion": {
+          "assertion_types_supported": [
+            "urn:ietf:params:oauth:token-type:id-jag",
+            "verified_email"
+          ],
+          "credential_types_supported": [
+            "oauth_client_credentials",
+            "bearer_token",
+            "api_key"
+          ],
+          "claim_uri": "https://dondlingergc.com/api/agent/claim",
+          "revocation_uri": "https://dondlingergc.com/api/agent/revoke"
+        },
+        "anonymous": {
+          "credential_types_supported": [
+            "bearer_token",
+            "api_key"
+          ],
+          "claim_uri": "https://dondlingergc.com/api/agent/claim"
+        },
+        "events_supported": [
+          "https://schemas.openid.net/secevent/oauth/event-type/token-revocation"
+        ]
+      }
+    };
+
+    return new Response(request.method === 'HEAD' ? null : JSON.stringify(asData, null, 2), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+        "Access-Control-Allow-Origin": "*"
+      }
+    });
+  }
+
   const acceptHeader = request.headers.get('accept') || '';
   const response = await next();
-  const linkHeaderVal = '</.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/json", </about.html>; rel="service-doc"; type="text/html"';
+  const linkHeaderVal = '</.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/json", </about.html>; rel="service-doc"; type="text/html", </auth.md>; rel="describedby"; type="text/markdown"';
 
   // If response is HTML and markdown requested, convert to text/markdown
   const contentType = response.headers.get('content-type') || '';
