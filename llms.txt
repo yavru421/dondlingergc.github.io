@@ -1,0 +1,56 @@
+# Dondlinger General Contracting & Digital Database Suite
+
+> Wisconsin DSPS Licensed Dwelling Contractor & Sovereign Zero-Liability Architecture (ZLA) Blazor WebAssembly Software Suite.
+
+## Overview
+Dondlinger General Contracting (DGC) provides high-precision residential dwelling construction, spatial carpentry, architectural exterior remodeling, and a 15-application sovereign Zero-Liability WebAssembly (WASM) & PWA software database operating directly on the edge from Wisconsin Rapids, WI.
+
+- **Primary Portal**: https://dondlingergc.com
+- **Full LLM Spec**: https://dondlingergc.com/llms-full.txt
+- **WebMCP Manifest**: https://dondlingergc.com/.well-known/mcp.json
+- **Apps Catalog**: https://dondlingergc.com/data/apps.json
+- **Licensure**: Wisconsin DSPS Licensed Dwelling Contractor
+- **Headquarters & Geocoordinates**: Wisconsin Rapids, Wood County, WI 54494 (Lat: 44.3836, Long: -89.8173)
+- **Local Service Radius**: Wisconsin Rapids (54494, 54495), Biron, Port Edwards (54469), Nekoosa (54457), Grand Rapids, Saratoga, Lake Wazeecha, Rudolph, Wood County, Portage County (Stevens Point), Adams County, and Central Wisconsin.
+- **Local Landmark Projects**: Cotton Thimble, Kellner Ball Diamonds, Lake Wazeecha residential spatial carpentry, custom shop cabinetry, architectural roofing and replacement windows.
+
+---
+
+## Dondlinger Digital Database: 15 Sovereign Blazor & ZLA Applications
+
+All applications run client-side with Zero-Liability Architecture (zero tracking, offline-first WebAssembly/PWA, direct peer-to-peer data sync):
+
+1. **PourReady // 01** (`https://dondlingergc.com/calc`): Offline-first concrete volume, footing, slab, rafter, and stair stringer jobsite calculator with customizable waste margins for field contractors and foremen.
+2. **ShotStack Studio // 02** (`https://shotstackstudio.dondlingergc.com`): Storyboard compiler and exportable PDF layout builder for video directors, cinematographers, and production teams.
+3. **TAP: Time & Place // 03** (`https://tap.dondlingergc.com`): Authenticated field tracking protocol providing cryptographic proofs of location, jobsite activity, and duration for supervisors and auditors.
+4. **AmpliLoop Studio // 04** (`https://blazorpwa.dondlingergc.com`): High-performance Blazor WebAssembly algorithmic rap beat generator, precision metronome, and instrument tuner running locally in-browser.
+5. **Anytime Animal Control (AAC) // 05** (`https://aac.dondlingergc.com`): Wildlife removal & control dispatch portal with coverage maps and field diagnostics.
+6. **Voice Intake Engine // 06** (`https://dondlingergc.com/intake.html`): Voice-first contractor quote intake converting hands-free speech into structured construction specifications.
+7. **On My Way (OMW) // 07** (`https://omw.dondlingergc.com`): Live GPS & ETA broadcasting tool for technicians to share real-time arrival estimates securely.
+8. **Zero Liability Architecture (ZLA) // 08** (`https://zla.dondlingergc.com`): Canonical architectural blueprint for zero-login, client-side WebAssembly systems with zero data breach liability.
+9. **Heckler Audio Synth // 09** (`https://heckler.dondlingergc.com`): Blazor WASM tone synthesis engine, alert generator, and soundboard diagnostics.
+10. **TimelineZLA Sync // 10** (`https://timelinezla.dondlingergc.com`): Local-first daily construction log and timeline builder with 6-digit P2P code sync and instant PDF export.
+11. **SkyDrop Peer Transfer // 11** (`https://skydrop.dondlingergc.com`): Zero-liability WebRTC peer-to-peer file sharing with zero cloud storage and zero account requirements.
+12. **Touchscreen Diagnostic // 12** (`https://dondlingergc.com/touchscreen-tester.html`): Interactive hardware responsiveness tester, touch grid painter, and ghost-touch diagnostic PWA.
+13. **WaZ Weather Dashboard // 13** (`https://wazweather.dondlingergc.com`): Blazor WASM atmospheric telemetry, live radar mapping, and river hydrology flow rates for Central Wisconsin.
+14. **Personalization Engine // 14** (`https://personalization.dondlingergc.com`): Dynamic glassmorphism theme customizer and Metropolis desktop state manager.
+15. **Neural Cinema & Theater // 15** (`https://dondlingergc.com/theater.html`): 48kHz neural radio drama theater, vertical cinema player, and screenplay library.
+
+---
+
+## Core Construction Services (DSPS Licensed)
+- **Doors & Windows**: Pre-hung entryways, Low-E argon replacement windows ($U \le 0.27$).
+- **Siding & Envelope**: Vinyl, LP SmartSide, steel siding, brake-formed aluminum fascia/soffit.
+- **Architectural Roofing**: Multi-layer laminate architectural shingles, ice & water shields, continuous ridge venting.
+- **Custom Cabinetry & Millwork**: Shop-built Baltic birch cabinetry, dovetail drawers, custom router jigs.
+- **Drop Ceilings & Lighting**: Acoustical ceiling grids, moisture-resistant panels, integrated LED downlights.
+
+---
+
+## WebMCP Tool Interface (`/.well-known/mcp.json`)
+Exposes direct machine-callable tools for AI agents:
+- `get_blazor_app_directory`: Complete directory of all 15 applications with URLs and capabilities.
+- `calculate_concrete_volume`: Live concrete volume and material estimator tool.
+- `get_contractor_info`: Licensure, credentials, and geographic coordinates.
+- `submit_lead_intake`: Structured quote submission directly to inbox.
+- `query_zla_specs`: Architecture and WebAssembly technical specifications.
