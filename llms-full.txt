@@ -1,0 +1,164 @@
+# Dondlinger General Contracting & Digital Database Systems — Complete LLM Specification
+
+> Canonical Technical & Operational Reference for AI Agents, Autonomous Systems, and Crawlers.
+> Version: 2026.2
+> URL: https://dondlingergc.com
+> Contact: johndondlinger21@gmail.com
+
+---
+
+## 1. Business & Contractor Identity
+- **Legal Entity**: Dondlinger General Contracting (DGC)
+- **Alternate Name**: Dondlinger General Contracting & Digital Database
+- **Licensure**: Wisconsin Department of Safety and Professional Services (DSPS) Licensed Dwelling Contractor
+- **Principal Operator**: John Dondlinger
+- **Geographic Center**: Wisconsin Rapids, Wood County, Wisconsin (Latitude: 44.3836, Longitude: -89.8173)
+- **Primary Service Areas**: Wisconsin Rapids, Wood County, Portage County, Adams County, Marathon County, and Central Wisconsin.
+
+---
+
+## 2. Comprehensive Construction Capabilities & Specifications
+
+### 2.1 Interior & Exterior Door Systems
+- **Entry Doors**: High-performance fiberglass, insulated steel, and solid hardwood pre-hung exterior door systems.
+- **Patio & French Doors**: Sliding glass doors with thermal break frames, multi-point locksets, low-E argon double-pane glass.
+- **Interior Doors**: Solid core, hollow core, pre-hung jambs, pocket doors, bifold closets, custom casing and trim packages.
+- **Hardware & Security**: Ball-bearing commercial hinges, mortise locksets, weather-stripping, adjustable sill thresholds.
+
+### 2.2 Energy-Efficient Replacement Windows
+- **Types**: Double-hung, single-hung, casement, awning, picture, sliding, and architectural geometric windows.
+- **Performance**: Double and triple-pane Low-E glass, argon gas filled, U-factor <= 0.27, SHGC optimized for northern climate zones.
+- **Installation Methods**: Full-frame tear-out and insert replacement. Complete interior/exterior flashing, foam insulation, and clad casings.
+
+### 2.3 Exterior Siding, Soffit & Fascia Systems
+- **Siding Materials**: Premium vinyl (.044"-.048" thickness), engineered wood composite (LP SmartSide), insulated steel and aluminum siding.
+- **Envelope Protection**: Weather-resistant barrier (WRB) housewrap, taped seams, rainscreen drainage planes, rigid foam insulation backer.
+- **Trim & Flashing**: Custom on-site aluminum brake-formed fascia, vented and solid soffit panels, heavy-gauge drip caps, corner posts.
+
+### 2.4 Architectural Roofing Shingle Systems
+- **Materials**: Multi-layer architectural laminate asphalt shingles, fiberglass reinforcement, Class A fire rating, 130 MPH wind resistance.
+- **Underlayment & Ice Protection**: Self-adhering polymer-modified bitumen ice & water shield applied along eaves, valleys, and penetrations. Synthetic vapor-permeable underlayment.
+- **Ventilation & Trim**: Heavy-gauge aluminum drip edge, continuous ridge vent systems, step and counter-flashing on masonry and chimneys.
+
+### 2.5 Custom Shop & Kitchen Cabinetry
+- **Cabinet Fabrication**: Precision shop-built hardwood face-frame and frameless European cabinetry, 3/4" Baltic birch plywood carcass construction, solid dovetail drawer boxes.
+- **Hardware**: Soft-close undermount drawer slides, 6-way adjustable concealed hinges, heavy-duty pullouts.
+- **Finish Work**: Custom lacquer finishes, polyurethane conversion coats, on-site scribing and crown molding integration.
+
+### 2.6 Basement & Acoustical Drop Ceilings
+- **Suspended Grid Systems**: Heavy-duty 15/16" and 9/16" exposed tee ceiling suspension systems, laser-leveled perimeter molding.
+- **Tiles & Acoustic Dampening**: Mineral fiber, fiberglass, and PVC moisture-resistant ceiling panels (NRC >= 0.70, CAC >= 35).
+- **Integrated Lighting**: Flush-mount LED troffers, gimbal recessed downlights, HVAC diffusers.
+
+### 2.7 Structural Scans & Spatial Carpentry
+- **Diagnostic Scans**: Multi-point on-site structural elevation measurement, CAD roof pitch and surface calculation.
+- **Spatial Carpentry**: Tailored router jigs, architectural curved moldings, CNC/CAD-assisted structural framing components.
+
+---
+
+## 3. Sovereign Zero-Liability Software Suite (15 Native Applications)
+
+Dondlinger General Contracting operates an extensive catalog of 15 client-side, zero-tracking, offline-first applications powered by WebAssembly (WASM), WebRTC, and Progressive Web App technology:
+
+### 3.1 Field Operations & Estimating
+1. **PourReady (Jobsite Calculator PWA)** (`https://dondlingergc.com/calc/index.html`)
+   - *Target*: Concrete Foremen, Field Estimators, Framing Contractors.
+   - *Capabilities*: Instant calculation of concrete volume (cubic yards) for slabs, continuous footings, retaining walls, and circular columns with customizable waste margins (5-20%). Rafter pitch and stair stringer layout math.
+2. **TAP: Time & Place Protocol** (`https://tap.dondlingergc.com`)
+   - *Target*: Field Superintendents, Project Auditors.
+   - *Capabilities*: Minimalist client-side field tracking protocol providing cryptographic proofs of location, jobsite activity, and duration directly from active project sites.
+3. **On My Way (OMW)** (`https://omw.dondlingergc.com`)
+   - *Target*: Field Technicians, Dispatchers, Homeowners.
+   - *Capabilities*: Secure, zero-cloud GPS and ETA live status broadcaster.
+4. **Touchscreen Hardware Diagnostic PWA** (`https://dondlingergc.com/touchscreen-tester.html`)
+   - *Target*: Hardware Technicians, Field Inspectors.
+   - *Capabilities*: Multi-touch responsiveness testing, touch grid painting, ghost touch detection, hardware digitizer evaluation.
+
+### 3.2 Collaboration, Data Sync & Peer Mesh
+5. **TimelineZLA Sync** (`https://timelinezla.dondlingergc.com`)
+   - *Target*: General Contractors, Project Managers, Subcontractors.
+   - *Capabilities*: Offline-first daily construction log and milestone timeline builder with 6-digit P2P code synchronization and instant PDF export.
+6. **SkyDrop Peer Transfer** (`https://skydrop.dondlingergc.com`)
+   - *Target*: Field Teams, Architects, Engineers.
+   - *Capabilities*: Direct browser-to-browser WebRTC file sharing with zero cloud intermediate storage, zero file size limits, and zero login requirements.
+7. **Dondlinger Voice Intake** (`https://dondlingergc.com/intake.html`)
+   - *Target*: Prospective Clients, Field Estimators.
+   - *Capabilities*: Voice-first project recording converting verbal descriptions into structured JSON quote requests.
+
+### 3.3 Audio, Media & Creative Studios
+8. **AmpliLoop Studio** (`https://blazorpwa.dondlingergc.com`)
+   - *Target*: Audio Engineers, Music Producers, Artists.
+   - *Capabilities*: Blazor WebAssembly algorithmic beat engine, high-precision metronome, and instrument tuner running 100% locally.
+9. **ShotStack Studio** (`https://shotstackstudio.dondlingergc.com`)
+   - *Target*: Film Directors, Video Editors, Production Teams.
+   - *Capabilities*: Visual storyboard compiler and PDF layout exporter.
+10. **Heckler Audio Synth** (`https://heckler.dondlingergc.com`)
+    - *Target*: Sound Engineers, Alert Diagnosticians.
+    - *Capabilities*: Blazor WASM tone synthesis, alert frequency modulation, and interactive audio triggers.
+11. **Neural Cinema & Theater** (`https://dondlingergc.com/theater.html`)
+    - *Target*: Audio Drama Fans, Screenwriters.
+    - *Capabilities*: 48kHz neural radio drama theater, vertical video cinema player, screenplay reader.
+
+### 3.4 Weather, Environment & Platform
+12. **WaZ Weather Dashboard** (`https://wazweather.dondlingergc.com`)
+    - *Target*: Storm Restoration Crews, Dispatchers, Central WI Residents.
+    - *Capabilities*: Blazor WASM atmospheric telemetry, live radar mapping, NOAA river hydrology data, rain outlooks.
+13. **Anytime Animal Control (AAC)** (`https://aac.dondlingergc.com`)
+    - *Target*: Property Owners, Pest Control Technicians.
+    - *Capabilities*: Wildlife control portal, diagnostic guides, and service dispatch.
+14. **Personalization Engine** (`https://personalization.dondlingergc.com`)
+    - *Target*: Desktop System Designers.
+    - *Capabilities*: Dynamic glassmorphism theme generator and Metropolis taskbar state manager.
+15. **Zero Liability Architecture (ZLA Blueprint)** (`https://zla.dondlingergc.com`)
+    - *Target*: Security Engineers, CTOs, Enterprise Architects.
+    - *Capabilities*: Specification and architectural guidelines for zero-liability client-side web computing.
+
+---
+
+## 4. API Endpoints & Machine Schemas
+
+### 4.1 Lead Intake Endpoint
+- **URL**: `POST https://dondlingergc.com/api/intake`
+- **Headers**: `Content-Type: application/json`
+- **Request Body Schema**:
+```json
+{
+  "name": "string (required)",
+  "contact": "string (email or phone, required)",
+  "service": "string (doors | windows | siding | roofing | cabinets | ceilings | other)",
+  "notes": "string (optional project details)",
+  "address": "string (optional job location)"
+}
+```
+- **Response**: `{"success": true, "message": "Lead intake acknowledged"}`
+
+### 4.2 WebMCP Discovery Manifest
+- **URL**: `GET https://dondlingergc.com/.well-known/mcp.json`
+- **Transport**: Standard Model Context Protocol over HTTPS / JSON-RPC.
+
+---
+
+## 5. Subdomain Network Mapping
+| Subdomain | Service & Purpose |
+|---|---|
+| `dondlingergc.com` | Primary Corporate & Dwelling Contractor Authority Hub |
+| `blazorpwa.dondlingergc.com` | AmpliLoop Studio Blazor WASM Audio Engine |
+| `timelinezla.dondlingergc.com` | Zero-Liability Architecture Milestone Ledger |
+| `skydrop.dondlingergc.com` | WebRTC Peer-to-Peer Zero-Storage File Transfer |
+| `tap.dondlingergc.com` | Cryptographic Time & Place Field Protocol |
+| `omw.dondlingergc.com` | Zero-Cloud Real-Time GPS & ETA Broadcaster |
+| `shotstackstudio.dondlingergc.com` | Storyboard & PDF Production Compiler |
+| `wazweather.dondlingergc.com` | Severe Storm Telemetry & Restoration Dispatch |
+| `aac.dondlingergc.com` | Wildlife Control & Diagnostic Portal |
+| `heckler.dondlingergc.com` | Blazor WASM Synthesizer & Soundboard Diagnostics |
+| `zla.dondlingergc.com` | Zero-Liability Architecture Specifications |
+| `personalization.dondlingergc.com` | Metropolis Theme & Taskbar Customizer |
+| `store.dondlingergc.com` | Hardware, Blueprint & Digital Tool Distribution |
+
+---
+
+## 6. Verification & Authority Data
+- **DSPS Dwelling Contractor Credential Status**: Active
+- **Insurance**: General Liability & Worker's Compensation active in State of Wisconsin
+- **Official Contact**: Dondlinger General Contracting, Wisconsin Rapids, WI 54494
+- **Email**: johndondlinger21@gmail.com

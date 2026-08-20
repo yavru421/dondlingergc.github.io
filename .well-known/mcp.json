@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "dondlinger-digital-database-mcp",
+  "version": "1.1.0",
+  "protocolVersion": "2024-11-05",
+  "description": "Production WebMCP Server for Dondlinger Digital Database & General Contracting Suite. Exposes machine-callable contractor tools, 15 sovereign Blazor WASM/PWA applications, concrete volume calculation engines, and ZLA technical specifications to autonomous agents.",
+  "transport": {
+    "type": "http",
+    "endpoint": "https://dondlingergc.com/api/mcp"
+  },
+  "metadata": {
+    "operator": "John Dondlinger",
+    "organization": "Dondlinger General Contracting & Digital Database",
+    "location": "Wisconsin Rapids, WI, USA",
+    "licensure": "Wisconsin DSPS Licensed Dwelling Contractor",
+    "appsCatalog": "https://dondlingergc.com/data/apps.json",
+    "llmsTxt": "https://dondlingergc.com/llms.txt",
+    "llmsFullTxt": "https://dondlingergc.com/llms-full.txt"
+  },
+  "tools": [
+    {
+      "name": "get_blazor_app_directory",
+      "description": "Retrieves the complete catalog of all 15 sovereign Blazor WebAssembly and Zero-Liability Progressive Web Applications with direct access URLs, target audiences, and capability summaries.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "all",
+              "Field Operations",
+              "Media & Creative Studios",
+              "Collaboration & Peer Mesh",
+              "Weather & Environment",
+              "Platform & Architecture"
+            ],
+            "description": "Filter applications by category",
+            "default": "all"
+          }
+        }
+      }
+    },
+    {
+      "name": "calculate_concrete_volume",
+      "description": "Calculates required concrete cubic yards for slabs, footings, walls, and columns with safety margin waste factors (PourReady Engine).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "structure_type": {
+            "type": "string",
+            "enum": [
+              "slab",
+              "footing",
+              "column",
+              "wall"
+            ],
+            "description": "Structure geometry"
+          },
+          "length_feet": {
+            "type": "number",
+            "description": "Length in feet"
+          },
+          "width_feet": {
+            "type": "number",
+            "description": "Width in feet (or diameter if column)"
+          },
+          "depth_inches": {
+            "type": "number",
+            "description": "Thickness or depth in inches"
+          },
+          "waste_margin_percent": {
+            "type": "number",
+            "description": "Optional waste percentage (e.g. 10 for 10%)",
+            "default": 10
+          }
+        },
+        "required": [
+          "structure_type",
+          "length_feet",
+          "depth_inches"
+        ]
+      }
+    },
+    {
+      "name": "get_contractor_info",
+      "description": "Retrieves official business identity, Wisconsin DSPS dwelling contractor licensure, insurance status, and primary service area coordinates.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "get_service_catalog",
+      "description": "Retrieves full catalog of residential construction capabilities including doors, replacement windows, siding/soffit/fascia, architectural roofing, shop cabinetry, and acoustical drop ceilings.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "all",
+              "doors",
+              "windows",
+              "siding",
+              "roofing",
+              "cabinetry",
+              "ceilings",
+              "diagnostics"
+            ],
+            "description": "Filter by service trade category",
+            "default": "all"
+          }
+        }
+      }
+    },
+    {
+      "name": "submit_lead_intake",
+      "description": "Submits a prospective construction project or quote request directly to the Dondlinger GC intake system.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Client full name"
+          },
+          "contact": {
+            "type": "string",
+            "description": "Email address or phone number"
+          },
+          "service": {
+            "type": "string",
+            "description": "Requested trade (doors, windows, siding, roofing, cabinetry, ceilings, or custom)"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Project scope, dimensions, or specific requirements"
+          },
+          "address": {
+            "type": "string",
+            "description": "Jobsite street address or city in Wisconsin"
+          }
+        },
+        "required": [
+          "name",
+          "contact",
+          "service"
+        ]
+      }
+    },
+    {
+      "name": "query_zla_specs",
+      "description": "Queries the Zero-Liability Architecture (ZLA) software specification, offline-first WebAssembly PWA parameters, and cryptographic milestone logging.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "string",
+            "enum": [
+              "pourready_calc",
+              "ampliloop_studio",
+              "tap_protocol",
+              "skydrop_sync",
+              "timelinezla_ledger",
+              "wazweather_telemetry"
+            ],
+            "description": "The specific software suite module to query"
+          }
+        },
+        "required": [
+          "component"
+        ]
+      }
+    }
+  ]
+}

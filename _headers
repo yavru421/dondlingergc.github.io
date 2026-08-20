@@ -2,30 +2,17 @@
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
-  Cross-Origin-Resource-Policy: cross-origin
-  Access-Control-Allow-Origin: *
-  Content-Signal: search=yes, ai-train=no, ai-input=yes
-
-/robots.txt
-  Content-Type: text/plain; charset=utf-8
-  Access-Control-Allow-Origin: *
-  Cache-Control: no-cache, no-store, must-revalidate
-  Content-Signal: search=yes, ai-train=no, ai-input=yes
+  Cross-Origin-Resource-Policy: same-origin
+  X-Permitted-Cross-Domain-Policies: none
 
 /
-  Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/json", <https://zla.dondlingergc.com>; rel="service-doc"; type="text/html", </auth.md>; rel="describedby"; type="text/markdown"
   Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com https://waterservices.usgs.gov https://air-quality-api.open-meteo.com https://api.open-meteo.com https://cloudflareinsights.com https://api.weather.gov https://api.water.noaa.gov ; frame-src 'self' https://embed.windy.com https://www.facebook.com https://my.matterport.com https://john2121-quantumrabbithole-explorer.static.hf.space; manifest-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://static.cloudflareinsights.com https://cdn.jsdelivr.net; upgrade-insecure-requests; block-all-mixed-content
 
 /index.html
   Cache-Control: no-cache, no-store, must-revalidate
-  Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/json", <https://zla.dondlingergc.com>; rel="service-doc"; type="text/html", </auth.md>; rel="describedby"; type="text/markdown"
   Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com https://waterservices.usgs.gov https://air-quality-api.open-meteo.com https://api.open-meteo.com https://cloudflareinsights.com https://api.weather.gov https://api.water.noaa.gov ; frame-src 'self' https://embed.windy.com https://www.facebook.com https://my.matterport.com https://john2121-quantumrabbithole-explorer.static.hf.space; manifest-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://static.cloudflareinsights.com https://cdn.jsdelivr.net; upgrade-insecure-requests; block-all-mixed-content
-
-/llms.txt
-  Content-Type: text/plain; charset=utf-8
-  Access-Control-Allow-Origin: *
-  Cache-Control: public, max-age=3600, s-maxage=3600
 
 /data/apps.json
   Cache-Control: no-cache, no-store, must-revalidate
@@ -79,34 +66,27 @@
 /store.html
   Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: https://via.placeholder.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://cloudflareinsights.com; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; upgrade-insecure-requests
 
-/.well-known/api-catalog
-  Content-Type: application/linkset+json; charset=utf-8
+/llms.txt
   Access-Control-Allow-Origin: *
-  Cache-Control: public, max-age=3600, s-maxage=3600
-
-/openapi.json
-  Content-Type: application/json; charset=utf-8
-  Access-Control-Allow-Origin: *
-  Cache-Control: public, max-age=3600, s-maxage=3600
-
-/auth.md
   Content-Type: text/markdown; charset=utf-8
-  Access-Control-Allow-Origin: *
-  Cache-Control: public, max-age=3600, s-maxage=3600
+  Cache-Control: public, max-age=3600
 
-/.well-known/oauth-protected-resource
+/llms-full.txt
+  Access-Control-Allow-Origin: *
+  Content-Type: text/markdown; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/.well-known/mcp.json
+  Access-Control-Allow-Origin: *
   Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/robots.txt
   Access-Control-Allow-Origin: *
-  Cache-Control: public, max-age=3600, s-maxage=3600
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
 
-/.well-known/oauth-authorization-server
-  Content-Type: application/json; charset=utf-8
+/sitemap.xml
   Access-Control-Allow-Origin: *
-  Cache-Control: public, max-age=3600, s-maxage=3600
-
-/schema.json
-  Content-Type: application/ld+json; charset=utf-8
-  Access-Control-Allow-Origin: *
-  Cache-Control: public, max-age=3600, s-maxage=3600
-
-
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
