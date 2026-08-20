@@ -1,0 +1,138 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Dondlinger Digital Database & Lead Ingestion API",
+    "version": "1.0.0",
+    "description": "API specification for Dondlinger Digital Database services, AI chat assistant, lead intake ingestion, and operational telemetry."
+  },
+  "servers": [
+    {
+      "url": "https://dondlingergc.com",
+      "description": "Production Edge Gateway"
+    }
+  ],
+  "paths": {
+    "/api/chat": {
+      "post": {
+        "summary": "AI Chat Assistant",
+        "description": "Interacts with Dondlinger Assistant for application routing and capability discovery.",
+        "operationId": "chatWithAssistant",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "message"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chat response message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "reply": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/intake": {
+      "post": {
+        "summary": "Lead Intake Submission",
+        "description": "Ingests field contracting quote requests and contact information.",
+        "operationId": "submitLeadIntake",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "contact": {
+                    "type": "string"
+                  },
+                  "service": {
+                    "type": "string"
+                  },
+                  "notes": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "contact"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lead intake acknowledged",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Returns operational status of the edge deployment.",
+        "operationId": "getHealthStatus",
+        "responses": {
+          "200": {
+            "description": "Operational",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

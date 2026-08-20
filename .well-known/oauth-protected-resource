@@ -1,0 +1,17 @@
+{
+  "resource": "https://dondlingergc.com",
+  "authorization_servers": [
+    "https://dondlingergc.com"
+  ],
+  "scopes_supported": [
+    "read",
+    "write",
+    "intake",
+    "dispatch",
+    "telemetry"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "resource_documentation": "https://dondlingergc.com/auth.md"
+}

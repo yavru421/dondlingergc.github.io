@@ -135,7 +135,7 @@
     "screenshot": "",
     "desc": "Metropolis desktop customizer, dynamic glassmorphism theme generator, and Metropolis taskbar state manager.",
     "who": ["Designers", "Admins"],
-    "link": "https://personalization.dondlingergc.com",
+    "link": "https://wazweather.dondlingergc.com/personalization",
     "btnLabel": "Launch Customizer",
     "category": "Platform & Architecture"
   },
@@ -145,7 +145,7 @@
     "screenshot": "",
     "desc": "Streaming neural radio theater, multi-speaker audio dramas, 9:16 vertical cinema, and typeset screenplays engineered by John Dondlinger.",
     "who": ["Viewers", "Audio Engineers", "Directors"],
-    "link": "./theater.html",
+    "link": "./theater/",
     "btnLabel": "Launch Theater",
     "category": "Media & Creative Studios"
   }
