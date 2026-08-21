@@ -75,23 +75,21 @@
     <script src="js/clipboard.js"></script>
     <script src="js/zlaSync.js"></script>
     <script>
+        // Automatic cache purge on version mismatch
+        if ('caches' in window) {
+            caches.keys().then(keys => {
+                keys.forEach(key => {
+                    if (!key.includes('Fiiw00C/')) {
+                        caches.delete(key);
+                    }
+                });
+            });
+        }
         if (!window.location.hostname.endsWith('pages.dev')) {
             navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' })
                 .then(reg => {
-                    console.log('ServiceWorker registered with scope:', reg.scope);
-                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                    const isStandalone = window.navigator.standalone === true;
-                    if (isIOS && !isStandalone) {
-                        function notifyPwaInstallable() {
-                            if (window.DotNet && window.DotNet.invokeMethodAsync) {
-                                window.DotNet.invokeMethodAsync('JobsiteCalculatorPwa', 'PWAInstallable')
-                                    .catch(err => console.error('Failed to notify Blazor PWAInstallable:', err));
-                            } else {
-                                setTimeout(notifyPwaInstallable, 200);
-                            }
-                        }
-                        notifyPwaInstallable();
-                    }
+                    reg.update();
+                    console.log('ServiceWorker registered and updated:', reg.scope);
                 });
         }
     </script>
