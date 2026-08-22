@@ -3,41 +3,49 @@
     "title": "PourReady // 01",
     "accent": "#ff6b35",
     "screenshot": "img/pourready.png",
-    "desc": "A field-tested concrete volume estimator built directly for jobsites. Precise calculations for slabs, footings, walls, and columns with custom waste safety margins.",
+    "desc": "Field-tested concrete volume and structural geometry estimator used daily on active jobsites. Fast calculations for slabs, footings, walls, and columns with custom waste margins.",
     "who": ["Concrete Foremen", "Contractors", "Field Estimators"],
     "link": "./calc/index.html",
     "btnLabel": "Open PourReady",
-    "category": "Field Operations"
+    "category": "Production Utilities",
+    "status": "Active / Daily Use",
+    "statusColor": "#22c55e"
   },
   "shotstack": {
     "title": "ShotStack Studio // 02",
     "accent": "#38bdf8",
     "screenshot": "img/shotstackstudio_screenshot.PNG",
-    "desc": "A storyboard compiler allowing video editors, film directors, and design teams to compile images, screenshots, and annotation notes into an exportable PDF layout.",
+    "desc": "Visual storyboard compiler allowing video editors, film directors, and design teams to compile images, screenshots, and annotation notes into an exportable PDF layout.",
     "who": ["Directors", "Video Editors", "Production Crew"],
     "link": "https://shotstackstudio.dondlingergc.com",
     "btnLabel": "Launch ShotStack",
-    "category": "Media & Creative Studios"
+    "category": "Production Utilities",
+    "status": "Production",
+    "statusColor": "#22c55e"
   },
   "tap": {
     "title": "TAP: Time & Place // 03",
     "accent": "#22c55e",
     "screenshot": "img/TAP_screenshot.PNG",
-    "desc": "An authenticated, minimal field tracking protocol providing cryptographic proofs of location, activity, and duration directly from active project sites.",
+    "desc": "Authenticated field tracking protocol providing cryptographic proofs of location, activity, and duration directly from active project sites.",
     "who": ["Field Supervisors", "Auditors", "Project Managers"],
     "link": "https://tap.dondlingergc.com",
     "btnLabel": "Launch TAP Protocol",
-    "category": "Field Operations"
+    "category": "Production Utilities",
+    "status": "Production",
+    "statusColor": "#22c55e"
   },
   "ampliloop": {
     "title": "AmpliLoop Studio // 04",
     "accent": "#818cf8",
     "screenshot": "img/blazorcore.png",
-    "desc": "A high-performance algorithmic rap beat generator, precise metronome, and software instrument tuner running locally via fast Blazor WebAssembly compiles.",
-    "who": ["Artists", "Audio Engineers", "Producers"],
+    "desc": "Experimental Blazor WebAssembly audio DSP testbench. Explores algorithmic rap beat generation, high-precision metronome timing, and client-side software instrument tuning.",
+    "who": ["Audio Engineers", "Developers", "DSP Enthusiasts"],
     "link": "https://blazorpwa.dondlingergc.com",
-    "btnLabel": "Launch AmpliLoop Studio",
-    "category": "Media & Creative Studios"
+    "btnLabel": "Launch Testbench",
+    "category": "Audio DSP Labs",
+    "status": "Experimental Testbench",
+    "statusColor": "#818cf8"
   },
   "aac": {
     "title": "Anytime Animal Control // 05",
@@ -47,7 +55,9 @@
     "who": ["Property Owners", "Dispatchers", "Field Technicians"],
     "link": "https://aac.dondlingergc.com",
     "btnLabel": "Launch AAC Portal",
-    "category": "Weather & Environment"
+    "category": "Service Portals",
+    "status": "Active Portal",
+    "statusColor": "#22c55e"
   },
   "intake": {
     "title": "Dondlinger Voice Intake // 06",
@@ -57,87 +67,105 @@
     "who": ["Prospective Clients", "Estimators", "Project Leads"],
     "link": "./intake.html",
     "btnLabel": "Record Vision",
-    "category": "Collaboration & Peer Mesh"
+    "category": "Production Utilities",
+    "status": "Production",
+    "statusColor": "#22c55e"
   },
   "omw": {
     "title": "On My Way (OMW) // 07",
     "accent": "#f43f5e",
     "screenshot": "img/omw_preview.png",
-    "desc": "Live GPS and ETA broadcasting tool. Allows field technicians and contractors to securely share live travel status and exact arrival times with project managers and clients.",
+    "desc": "Live GPS and ETA broadcasting tool for field technicians. (Currently offline undergoing maintenance and protocol refactoring).",
     "who": ["Field Technicians", "Project Managers", "Clients"],
     "link": "https://omw.dondlingergc.com",
-    "btnLabel": "Launch OMW Tracker",
-    "category": "Field Operations"
+    "btnLabel": "Under Maintenance",
+    "category": "Maintenance",
+    "status": "Under Repair",
+    "statusColor": "#f43f5e"
   },
   "zla": {
     "title": "Zero Liability Architecture // 08",
     "accent": "#818cf8",
     "screenshot": "",
-    "desc": "A software architecture that runs high-impact business utilities entirely within your browser. Because no data is uploaded to a server, there are no logins and zero risk of data breach.",
-    "who": ["Clients", "Security Leads"],
+    "desc": "Client-side computing architecture specification for running business utilities entirely in-browser without central servers, accounts, or data storage liability.",
+    "who": ["Engineers", "Security Leads", "Architects"],
     "link": "https://zla.dondlingergc.com",
-    "btnLabel": "Launch ZLA",
-    "category": "Platform & Architecture"
+    "btnLabel": "Read Specs",
+    "category": "Architecture & Specs",
+    "status": "Specification",
+    "statusColor": "#38bdf8"
   },
   "heckler": {
     "title": "Heckler Audio Synth // 09",
     "accent": "#f97316",
     "screenshot": "",
-    "desc": "Blazor WASM audio trigger engine for soundboard diagnostics, tone synthesis, and high-velocity alerts.",
-    "who": ["Audio Techs", "Diagnosticians"],
+    "desc": "Experimental Blazor WASM audio synthesis sandbox for soundboard triggers, tone synthesis algorithms, and low-latency audio event testing.",
+    "who": ["Audio Techs", "Developers"],
     "link": "https://heckler.dondlingergc.com",
-    "btnLabel": "Launch Heckler",
-    "category": "Media & Creative Studios"
+    "btnLabel": "Launch Synth Sandbox",
+    "category": "Audio DSP Labs",
+    "status": "Experimental Testbench",
+    "statusColor": "#818cf8"
   },
   "timeline": {
     "title": "TimelineZLA Sync // 10",
     "accent": "#22c55e",
     "screenshot": "",
-    "desc": "A secure, local-first daily log and project timeline builder. Enables teams to construct site timelines and peer-to-peer sync via 6-digit codes with instant PDF export.",
+    "desc": "Secure, local-first daily log and project timeline builder. Enables teams to construct site timelines and peer-to-peer sync via 6-digit codes with instant PDF export.",
     "who": ["Field Superintendents", "Project Managers", "Field Crews"],
     "link": "https://timelinezla.dondlingergc.com",
-    "btnLabel": "Launch TimelineZLA",
-    "category": "Collaboration & Peer Mesh"
+    "btnLabel": "Launch Timeline",
+    "category": "Production Utilities",
+    "status": "Production",
+    "statusColor": "#22c55e"
   },
   "skydrop": {
     "title": "SkyDrop Peer Transfer // 11",
     "accent": "#38bdf8",
     "screenshot": "",
-    "desc": "A secure, zero-liability peer-to-peer file sharing utility. Allows instantaneous direct WebRTC transfers between devices with no cloud storage and zero account login.",
-    "who": ["Field Superintendents", "Project Managers", "Contractors"],
+    "desc": "Instantaneous direct WebRTC peer-to-peer file sharing utility between devices. Operates with zero cloud intermediate storage and zero logins.",
+    "who": ["Engineers", "Project Managers", "Field Teams"],
     "link": "https://skydrop.dondlingergc.com",
     "btnLabel": "Launch SkyDrop",
-    "category": "Collaboration & Peer Mesh"
+    "category": "Production Utilities",
+    "status": "Production",
+    "statusColor": "#22c55e"
   },
   "touchscreen": {
     "title": "Touchscreen Diagnostic // 12",
     "accent": "#22c55e",
     "screenshot": "",
-    "desc": "An interactive client-side hardware diagnostic PWA. Verify touchscreen hardware responsiveness, paint touch grids to identify dead zones, and monitor ghost touches in real-time.",
-    "who": ["Technicians", "Device Inspectors"],
+    "desc": "Interactive client-side hardware diagnostic PWA. Verify touchscreen hardware responsiveness, paint touch grids to identify dead zones, and monitor ghost touches in real-time.",
+    "who": ["Technicians", "Hardware Inspectors"],
     "link": "./touchscreen.html",
     "btnLabel": "Launch Tester PWA",
-    "category": "Field Operations"
+    "category": "Production Utilities",
+    "status": "Production",
+    "statusColor": "#22c55e"
   },
   "wazweather": {
     "title": "WaZ Weather Dashboard // 13",
     "accent": "#22c55e",
     "screenshot": "",
-    "desc": "Blazor WASM atmospheric telemetry, live radar mapping, river hydrology flow rates, and rain outlook dispatch for Wisconsin Rapids.",
+    "desc": "Blazor WASM atmospheric telemetry, live radar mapping, USGS river hydrology flow rates, and rain outlook dispatch for Wisconsin Rapids and Central Wisconsin.",
     "who": ["Dispatchers", "Field Crews", "Residents"],
     "link": "https://wazweather.dondlingergc.com",
     "btnLabel": "Launch WaZ Weather",
-    "category": "Weather & Environment"
+    "category": "Production Utilities",
+    "status": "Active / Live Telemetry",
+    "statusColor": "#22c55e"
   },
   "personalization": {
     "title": "Personalization Engine // 14",
     "accent": "#818cf8",
     "screenshot": "",
     "desc": "Metropolis desktop customizer, dynamic glassmorphism theme generator, and Metropolis taskbar state manager.",
-    "who": ["Designers", "Admins"],
+    "who": ["Designers", "System Admins"],
     "link": "https://wazweather.dondlingergc.com/personalization",
     "btnLabel": "Launch Customizer",
-    "category": "Platform & Architecture"
+    "category": "Production Utilities",
+    "status": "Production",
+    "statusColor": "#22c55e"
   },
   "theater": {
     "title": "Neural Cinema & Theater // 15",
@@ -145,8 +173,22 @@
     "screenshot": "",
     "desc": "Streaming neural radio theater, multi-speaker audio dramas, 9:16 vertical cinema, and typeset screenplays engineered by John Dondlinger.",
     "who": ["Viewers", "Audio Engineers", "Directors"],
-    "link": "./theater/",
+    "link": "./theater.html",
     "btnLabel": "Launch Theater",
-    "category": "Media & Creative Studios"
+    "category": "Production Utilities",
+    "status": "Production",
+    "statusColor": "#22c55e"
+  },
+  "architecture": {
+    "title": "Metropolis Architecture Spec // 16",
+    "accent": "#58a6ff",
+    "screenshot": "",
+    "desc": "Technical systems engineering whitepaper (METRO-SPEC-2026.08-REV1) running on interactive MudBlazor WebAssembly. Details Win32 CreateProcessW array dispatching, zero-copy DXGI to CUDA SM_89 VRAM delta pipeline (1,470 FPS), and DuckDB OLAP telemetry.",
+    "who": ["Systems Architects", "Engineering Directors", "Infrastructure Leads"],
+    "link": "https://store.dondlingergc.com",
+    "btnLabel": "Launch MudBlazor Spec",
+    "category": "Architecture & Specs",
+    "status": "MudBlazor WASM Live",
+    "statusColor": "#58a6ff"
   }
 }
