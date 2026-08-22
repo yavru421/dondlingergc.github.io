@@ -1,13 +1,14 @@
-/calc/wwwroot /calc/ 301
-/calc/wwwroot/* /calc/:splat 301
+/calc /calc/index.html 200
 /calc/* /calc/index.html 200
+/estimator /calc/index.html 200
+/estimator/* /calc/index.html 200
+/pourready /calc/index.html 200
+/pourready/* /calc/index.html 200
 
 /theater/media/* /theater/media/:splat 200
 /theater.html /theater/index.html 200
 /theater /theater/index.html 200
 /theater/* /theater/index.html 200
-
-
 
 # Block sensitive dev/config files from being publicly served
 /cooldown.json /index.html 404

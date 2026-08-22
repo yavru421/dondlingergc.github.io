@@ -183,9 +183,39 @@
       font-size: 14px;
       color: var(--text-muted);
       max-width: 680px;
-      line-height: 1.45;
+      line-height: 1.5;
+      margin-bottom: 16px;
     }
-
+    .hero-visual-reel {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .hero-visual-card {
+      position: relative;
+      aspect-ratio: 4/3;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid var(--border);
+    }
+    .hero-visual-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .hero-visual-card:hover img {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+    @media (max-width: 768px) {
+      .hero-visual-reel { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      .hero-visual-card:nth-child(4), .hero-visual-card:nth-child(5) { display: none; }
+    }
+    
     /* =========================================================================
        COMPACT MULTI-TAB CONTROLLER (APP HUB)
        ========================================================================= */
@@ -607,43 +637,82 @@
     }
 
     /* =========================================================================
-       TAB 3: FILTERABLE PHOTO LAKE / GALLERY
+       TAB 3: FILTERABLE PHOTO LAKE / GALLERY (SEPARATE CATEGORIZED SLEWS)
        ========================================================================= */
     .gallery-filter-bar {
       display: flex;
       gap: 6px;
       overflow-x: auto;
       padding-bottom: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       -webkit-overflow-scrolling: touch;
     }
     .filter-pill {
       font-family: var(--font-mono);
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 700;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 6px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border);
       color: var(--text-muted);
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.18s;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
-    .filter-pill .icon-svg { width: 12px; height: 12px; }
+    .filter-pill .icon-svg { width: 13px; height: 13px; }
     .filter-pill.active {
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent) 0%, #e64a19 100%);
       border-color: var(--accent);
       color: #fff;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .photo-lake-section {
+      margin-bottom: 24px;
+      background: rgba(18, 20, 28, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .photo-lake-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 8px;
+    }
+    .photo-lake-title {
+      font-family: var(--font-brand);
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.5px;
+    }
+    .photo-lake-sprite {
+      width: 24px;
+      height: 24px;
+      image-rendering: pixelated;
+      display: inline-block;
+      animation: spritePulse 2s infinite ease-in-out;
+    }
+    @keyframes spritePulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(255, 87, 34, 0.4)); }
+      50% { transform: scale(1.1); filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.7)); }
     }
 
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+      gap: 10px;
     }
     @media (min-width: 640px) {
       .gallery-grid {
@@ -664,36 +733,43 @@
       border: 1px solid var(--border);
       aspect-ratio: 4/3;
       cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
     }
     .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.2s ease;
+      transition: transform 0.3s ease;
+    }
+    .gallery-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+      border-color: rgba(255, 87, 34, 0.5);
     }
     .gallery-item:hover img {
-      transform: scale(1.04);
+      transform: scale(1.05);
     }
     .gallery-item-tag {
       position: absolute;
-      top: 5px; left: 5px;
-      background: rgba(0, 0, 0, 0.8);
+      top: 6px; left: 6px;
+      background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(4px);
       font-family: var(--font-mono);
-      font-size: 8px;
+      font-size: 8.5px;
       font-weight: 700;
       color: var(--text-main);
-      padding: 2px 5px;
-      border-radius: 3px;
+      padding: 2px 6px;
+      border-radius: 4px;
       text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.1);
     }
     .gallery-item-caption {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-      padding: 12px 6px 4px;
-      font-size: 10.5px;
+      background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+      padding: 16px 8px 6px;
+      font-size: 11px;
       font-weight: 600;
       color: #fff;
       white-space: nowrap;
@@ -701,7 +777,7 @@
       text-overflow: ellipsis;
     }
 
-    /* Lightbox Modal */
+    /* Lightbox Modal */dal */
     #lightbox-modal {
       display: none;
       position: fixed;
@@ -1107,6 +1183,13 @@
     <p class="hero-subtext">
       Dondlinger General Contracting LLC — Full-scope residential and commercial general contracting, exterior siding envelopes, replacement windows & doors, custom cabinetry, decks, and commercial acoustical buildouts.
     </p>
+    <div class="hero-visual-reel">
+      <div class="hero-visual-card"><img src="images/projects/wall_framing_addition.jpg" alt="Structural Framing" loading="lazy"></div>
+      <div class="hero-visual-card"><img src="images/projects/weather_sheathing_siding.jpg" alt="Weather Envelopes" loading="lazy"></div>
+      <div class="hero-visual-card"><img src="images/projects/composite_deck_construction.jpg" alt="Custom Decks" loading="lazy"></div>
+      <div class="hero-visual-card"><img src="images/projects/pine_ceiling_installation.jpg" alt="Interior Trim" loading="lazy"></div>
+      <div class="hero-visual-card"><img src="images/projects/window_installation_foam.jpg" alt="Window Installations" loading="lazy"></div>
+    </div>
   </section>
 
   <!-- MULTI-TAB HUB CONTAINER -->
@@ -1474,132 +1557,182 @@
       
       <!-- Filter Bar with clean line SVGs -->
       <div class="gallery-filter-bar">
-        <button class="filter-pill active" onclick="filterGallery('all', this)">All Jobs (16)</button>
+        <button class="filter-pill active" onclick="filterGallery('all', this)">All Photo Lakes (16)</button>
         <button class="filter-pill" onclick="filterGallery('siding', this)">
           <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-          Siding
+          Siding Lake
         </button>
         <button class="filter-pill" onclick="filterGallery('interior', this)">
           <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/></svg>
-          Interior
+          Kitchen & Interior
         </button>
         <button class="filter-pill" onclick="filterGallery('ceiling', this)">
           <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
-          Commercial
+          Commercial Acoustic
         </button>
         <button class="filter-pill" onclick="filterGallery('deck', this)">
           <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg>
-          Decks
+          Decks & Stairs
         </button>
         <button class="filter-pill" onclick="filterGallery('window', this)">
           <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18M3 12h18"/></svg>
-          Windows/Doors
+          Windows & Doors
         </button>
       </div>
 
-      <!-- Photo Grid -->
-      <div class="gallery-grid" id="gallery-container">
-        
-        <!-- Siding -->
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4801.webp', 'Finished Slate Blue Siding & Architectural Gables')">
-          <img src="images/projects/IMG_4801.webp" alt="Finished Slate Blue Siding" loading="lazy">
-          <span class="gallery-item-tag">Siding</span>
-          <div class="gallery-item-caption">Finished Siding & Gables</div>
+      <!-- PHOTO LAKE 1: SIDING ENVELOPES -->
+      <div class="photo-lake-section" data-lake-category="siding">
+        <div class="photo-lake-header">
+          <div class="photo-lake-title">
+            <img src="images/sprites/cuda_scan_1.png" class="photo-lake-sprite" alt="Siding Radar">
+            <span>RESIDENTIAL EXTERIORS & SIDING ENVELOPES</span>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--accent);">5 Verified Builds</span>
         </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4802.webp', 'Two-Story Side Elevation and Cased Trim')">
-          <img src="images/projects/IMG_4802.webp" alt="Side Wall Profile" loading="lazy">
-          <span class="gallery-item-tag">Siding</span>
-          <div class="gallery-item-caption">Side Wall Elevation</div>
+        <div class="gallery-grid">
+          <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4801.webp', 'Finished Slate Blue Siding & Architectural Gables')">
+            <img src="images/projects/IMG_4801.webp" alt="Finished Slate Blue Siding" loading="lazy">
+            <span class="gallery-item-tag">Siding</span>
+            <div class="gallery-item-caption">Finished Siding & Gables</div>
+          </div>
+          <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4802.webp', 'Two-Story Side Elevation and Cased Trim')">
+            <img src="images/projects/IMG_4802.webp" alt="Side Wall Profile" loading="lazy">
+            <span class="gallery-item-tag">Siding</span>
+            <div class="gallery-item-caption">Side Wall Elevation</div>
+          </div>
+          <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4349.webp', 'Foil Thermal Sheathing Installation')">
+            <img src="images/projects/IMG_4349.webp" alt="Foil Insulation Sheathing" loading="lazy">
+            <span class="gallery-item-tag">Insulation</span>
+            <div class="gallery-item-caption">Thermal Foil Sheathing</div>
+          </div>
+          <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2012.webp', 'Original Lap Siding Prior to Tear-Off')">
+            <img src="images/projects/IMG_2012.webp" alt="Old Lap Siding" loading="lazy">
+            <span class="gallery-item-tag">Tear-Off</span>
+            <div class="gallery-item-caption">Pre-Tearoff Lap Siding</div>
+          </div>
+          <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2014.webp', 'Front Porch Framing & Weather Barrier')">
+            <img src="images/projects/IMG_2014.webp" alt="Front Porch Entry" loading="lazy">
+            <span class="gallery-item-tag">Framing</span>
+            <div class="gallery-item-caption">Front Porch Framing</div>
+          </div>
         </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4349.webp', 'Foil Thermal Sheathing Installation')">
-          <img src="images/projects/IMG_4349.webp" alt="Foil Insulation Sheathing" loading="lazy">
-          <span class="gallery-item-tag">Siding</span>
-          <div class="gallery-item-caption">Thermal Foil Sheathing</div>
-        </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2012.webp', 'Original Lap Siding Prior to Tear-Off')">
-          <img src="images/projects/IMG_2012.webp" alt="Old Lap Siding" loading="lazy">
-          <span class="gallery-item-tag">Siding</span>
-          <div class="gallery-item-caption">Pre-Tearoff Lap Siding</div>
-        </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2014.webp', 'Front Porch Framing & Weather Barrier')">
-          <img src="images/projects/IMG_2014.webp" alt="Front Porch Entry" loading="lazy">
-          <span class="gallery-item-tag">Siding</span>
-          <div class="gallery-item-caption">Front Porch Framing</div>
-        </div>
+      </div>
 
-        <!-- Kitchen / Interior -->
-        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3346.webp', 'Custom White Shaker Cabinets and Marble-Pattern Countertops')">
-          <img src="images/projects/IMG_3346.webp" alt="Installed White Shaker Cabinets" loading="lazy">
-          <span class="gallery-item-tag">Interior</span>
-          <div class="gallery-item-caption">White Shaker Cabinets</div>
+      <!-- PHOTO LAKE 2: KITCHEN & INTERIOR -->
+      <div class="photo-lake-section" data-lake-category="interior">
+        <div class="photo-lake-header">
+          <div class="photo-lake-title">
+            <img src="images/sprites/duckdb_ingest_1.png" class="photo-lake-sprite" alt="Interior Lake">
+            <span>CUSTOM KITCHEN & FINISH CARPENTRY</span>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--cyan);">2 Verified Builds</span>
         </div>
-        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3341.webp', 'Full Kitchen Remodel with Subway Backsplash')">
-          <img src="images/projects/IMG_3341.webp" alt="Full Kitchen Remodel" loading="lazy">
-          <span class="gallery-item-tag">Interior</span>
-          <div class="gallery-item-caption">Full Kitchen Remodel</div>
+        <div class="gallery-grid">
+          <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3346.webp', 'Custom White Shaker Cabinets and Marble-Pattern Countertops')">
+            <img src="images/projects/IMG_3346.webp" alt="Installed White Shaker Cabinets" loading="lazy">
+            <span class="gallery-item-tag">Cabinetry</span>
+            <div class="gallery-item-caption">White Shaker Cabinets</div>
+          </div>
+          <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3341.webp', 'Full Kitchen Remodel with Subway Backsplash')">
+            <img src="images/projects/IMG_3341.webp" alt="Full Kitchen Remodel" loading="lazy">
+            <span class="gallery-item-tag">Kitchen</span>
+            <div class="gallery-item-caption">Full Kitchen Remodel</div>
+          </div>
         </div>
+      </div>
 
-        <!-- Commercial Ceiling -->
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6788.webp', 'Commercial Suspended Acoustical Grid in Concourse')">
-          <img src="images/projects/IMG_6788.webp" alt="Suspended Ceiling Grid" loading="lazy">
-          <span class="gallery-item-tag">Commercial</span>
-          <div class="gallery-item-caption">Concourse Ceiling Grid</div>
+      <!-- PHOTO LAKE 3: COMMERCIAL ACOUSTICAL CEILINGS -->
+      <div class="photo-lake-section" data-lake-category="ceiling">
+        <div class="photo-lake-header">
+          <div class="photo-lake-title">
+            <img src="images/sprites/edge_teleport_1.png" class="photo-lake-sprite" alt="Commercial Lake">
+            <span>COMMERCIAL SUSPENDED ACOUSTICAL CEILINGS</span>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: #ffb82b;">5 Verified Builds</span>
         </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6794.webp', 'Full Facility Ceiling Span & Integrated Lighting')">
-          <img src="images/projects/IMG_6794.webp" alt="Full Facility Ceiling Span" loading="lazy">
-          <span class="gallery-item-tag">Commercial</span>
-          <div class="gallery-item-caption">Full Span Grid</div>
+        <div class="gallery-grid">
+          <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6788.webp', 'Commercial Suspended Acoustical Grid in Concourse')">
+            <img src="images/projects/IMG_6788.webp" alt="Suspended Ceiling Grid" loading="lazy">
+            <span class="gallery-item-tag">Grid</span>
+            <div class="gallery-item-caption">Concourse Ceiling Grid</div>
+          </div>
+          <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6794.webp', 'Full Facility Ceiling Span & Integrated Lighting')">
+            <img src="images/projects/IMG_6794.webp" alt="Full Facility Ceiling Span" loading="lazy">
+            <span class="gallery-item-tag">Span</span>
+            <div class="gallery-item-caption">Full Span Grid</div>
+          </div>
+          <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6792.webp', 'Acoustical Grid Over Multi-Lane Facility')">
+            <img src="images/projects/IMG_6792.webp" alt="Overhead Acoustical Grid" loading="lazy">
+            <span class="gallery-item-tag">Commercial</span>
+            <div class="gallery-item-caption">Facility Wide Span</div>
+          </div>
+          <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6778.webp', 'Ceiling Tile Staging and Material Prep')">
+            <img src="images/projects/IMG_6778.webp" alt="Tile Staging" loading="lazy">
+            <span class="gallery-item-tag">Staging</span>
+            <div class="gallery-item-caption">Tile Staging & Prep</div>
+          </div>
+          <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6595.webp', 'Laser Level Grid Alignment & Scaffold Setup')">
+            <img src="images/projects/IMG_6595.webp" alt="Scaffolding Grid Work" loading="lazy">
+            <span class="gallery-item-tag">Laser Align</span>
+            <div class="gallery-item-caption">Scaffold Grid Work</div>
+          </div>
         </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6792.webp', 'Acoustical Grid Over Multi-Lane Facility')">
-          <img src="images/projects/IMG_6792.webp" alt="Overhead Acoustical Grid" loading="lazy">
-          <span class="gallery-item-tag">Commercial</span>
-          <div class="gallery-item-caption">Facility Wide Span</div>
-        </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6778.webp', 'Ceiling Tile Staging and Material Prep')">
-          <img src="images/projects/IMG_6778.webp" alt="Tile Staging" loading="lazy">
-          <span class="gallery-item-tag">Commercial</span>
-          <div class="gallery-item-caption">Tile Staging & Prep</div>
-        </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6595.webp', 'Laser Level Grid Alignment & Scaffold Setup')">
-          <img src="images/projects/IMG_6595.webp" alt="Scaffolding Grid Work" loading="lazy">
-          <span class="gallery-item-tag">Commercial</span>
-          <div class="gallery-item-caption">Scaffold Grid Work</div>
-        </div>
+      </div>
 
-        <!-- Decks -->
-        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_finished_stairs.webp', 'Finished Treated Wood Deck & 4-Step Staircase')">
-          <img src="images/projects/deck_finished_stairs.webp" alt="Finished Deck and Stairs" loading="lazy">
-          <span class="gallery-item-tag">Deck</span>
-          <div class="gallery-item-caption">Deck & Finished Stairs</div>
+      <!-- PHOTO LAKE 4: CUSTOM DECKS & EXTERIOR WOODWORK -->
+      <div class="photo-lake-section" data-lake-category="deck">
+        <div class="photo-lake-header">
+          <div class="photo-lake-title">
+            <img src="images/sprites/flock_split_1.png" class="photo-lake-sprite" alt="Deck Lake">
+            <span>CUSTOM TREATED DECKS & TIMBER STAIRS</span>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: #22c55e;">3 Verified Builds</span>
         </div>
-        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_corner_railing.webp', 'Baluster Safety Railing Profile')">
-          <img src="images/projects/deck_corner_railing.webp" alt="Baluster Safety Railing" loading="lazy">
-          <span class="gallery-item-tag">Deck</span>
-          <div class="gallery-item-caption">Baluster Railing Profile</div>
+        <div class="gallery-grid">
+          <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_finished_stairs.webp', 'Finished Treated Wood Deck & 4-Step Staircase')">
+            <img src="images/projects/deck_finished_stairs.webp" alt="Finished Deck and Stairs" loading="lazy">
+            <span class="gallery-item-tag">Stairs</span>
+            <div class="gallery-item-caption">Deck & Finished Stairs</div>
+          </div>
+          <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_corner_railing.webp', 'Baluster Safety Railing Profile')">
+            <img src="images/projects/deck_corner_railing.webp" alt="Baluster Safety Railing" loading="lazy">
+            <span class="gallery-item-tag">Railing</span>
+            <div class="gallery-item-caption">Baluster Railing Profile</div>
+          </div>
+          <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_stair_install.webp', 'Deck Surface Board Fitment and Fastening')">
+            <img src="images/projects/deck_stair_install.webp" alt="Deck Surface Fitment" loading="lazy">
+            <span class="gallery-item-tag">Fastening</span>
+            <div class="gallery-item-caption">Deck Board Fitment</div>
+          </div>
         </div>
-        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_stair_install.webp', 'Deck Surface Board Fitment and Fastening')">
-          <img src="images/projects/deck_stair_install.webp" alt="Deck Surface Fitment" loading="lazy">
-          <span class="gallery-item-tag">Deck</span>
-          <div class="gallery-item-caption">Deck Board Fitment</div>
-        </div>
+      </div>
 
-        <!-- Windows & Doors -->
-        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/window_replacement.webp', 'Energy-Efficient Double-Hung Replacement Windows')">
-          <img src="images/projects/window_replacement.webp" alt="Replacement Windows" loading="lazy">
-          <span class="gallery-item-tag">Windows</span>
-          <div class="gallery-item-caption">Double-Hung Windows</div>
+      <!-- PHOTO LAKE 5: REPLACEMENT WINDOWS & DOORS -->
+      <div class="photo-lake-section" data-lake-category="window">
+        <div class="photo-lake-header">
+          <div class="photo-lake-title">
+            <img src="images/sprites/success_1.png" class="photo-lake-sprite" alt="Window Lake">
+            <span>ENERGY-EFFICIENT WINDOWS & CUSTOM DOORS</span>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: #38bdf8;">3 Verified Builds</span>
         </div>
-        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/entry_door.webp', 'Insulated Fiberglass Entry Door with Privacy Sidelights')">
-          <img src="images/projects/entry_door.webp" alt="Insulated Entry Door" loading="lazy">
-          <span class="gallery-item-tag">Doors</span>
-          <div class="gallery-item-caption">Fiberglass Entry Door</div>
+        <div class="gallery-grid">
+          <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/window_replacement.webp', 'Energy-Efficient Double-Hung Replacement Windows')">
+            <img src="images/projects/window_replacement.webp" alt="Replacement Windows" loading="lazy">
+            <span class="gallery-item-tag">Windows</span>
+            <div class="gallery-item-caption">Double-Hung Windows</div>
+          </div>
+          <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/entry_door.webp', 'Insulated Fiberglass Entry Door with Privacy Sidelights')">
+            <img src="images/projects/entry_door.webp" alt="Insulated Entry Door" loading="lazy">
+            <span class="gallery-item-tag">Entry</span>
+            <div class="gallery-item-caption">Fiberglass Entry Door</div>
+          </div>
+          <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/patio_door.webp', 'Sliding Glass Patio Door with Deck Access')">
+            <img src="images/projects/patio_door.webp" alt="Sliding Patio Door" loading="lazy">
+            <span class="gallery-item-tag">Patio Door</span>
+            <div class="gallery-item-caption">Sliding Patio Door</div>
+          </div>
         </div>
-        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/patio_door.webp', 'Sliding Glass Patio Door with Deck Access')">
-          <img src="images/projects/patio_door.webp" alt="Sliding Patio Door" loading="lazy">
-          <span class="gallery-item-tag">Doors</span>
-          <div class="gallery-item-caption">Sliding Patio Door</div>
-        </div>
-
       </div>
 
     </section>
@@ -2003,12 +2136,17 @@
       pills.forEach(p => p.classList.remove('active'));
       btnEl.classList.add('active');
 
-      const items = document.querySelectorAll('.gallery-grid .gallery-item');
-      items.forEach(item => {
-        if (category === 'all' || item.getAttribute('data-category') === category) {
-          item.style.display = 'block';
+      const lakes = document.querySelectorAll('.photo-lake-section');
+      lakes.forEach(lake => {
+        const lakeCat = lake.getAttribute('data-lake-category');
+        if (category === 'all' || lakeCat === category) {
+          lake.style.display = 'block';
+          lake.style.opacity = '1';
+          lake.style.transform = 'translateY(0)';
         } else {
-          item.style.display = 'none';
+          lake.style.display = 'none';
+          lake.style.opacity = '0';
+          lake.style.transform = 'translateY(8px)';
         }
       });
     }

@@ -25,6 +25,70 @@ public partial class Home : ComponentBase
     private int WastePercent = 10;
     private string? _validationError;
 
+    // Central Wisconsin Local Estimator & Lead Bridge State
+    private string SelectedCity = "Wisconsin Rapids";
+    private string ContactPhone = "";
+    private string LeadSubmitText = "Request Site Walk";
+    private string? LeadStatusMessage;
+
+    private string GetTurnkeyRange()
+    {
+        if (Result == null) return "$0";
+        // Average turnkey slab/flatwork rate in Central WI is ~$11.50-$14.50/sq ft (or ~$160-$195/yd ready-mix + prep/finish)
+        // Monolithic or standard slab based on calculated cubic yards
+        double yards = Result.TotalCubicYardsWithWaste;
+        double baseTurnkey = yards * 540; // rough turnkey materials + labor
+        
+        // City factor adjustments
+        double cityMultiplier = SelectedCity switch
+        {
+            "Plover" => 1.02,
+            "Stevens Point" => 1.03,
+            "Marshfield" => 1.05,
+            "Wausau" => 1.06,
+            _ => 1.0 // Wisconsin Rapids
+        };
+
+        double low = Math.Round(baseTurnkey * 0.90 * cityMultiplier);
+        double high = Math.Round(baseTurnkey * 1.15 * cityMultiplier);
+        return $"${low:N0} – ${high:N0}";
+    }
+
+    private string GetVoiceIntakeUrl()
+    {
+        if (Result == null) return "https://voice-intake-app.dondlingergc.com/";
+        return $"https://voice-intake-app.dondlingergc.com/?ref=pourready&trade=concrete&city={Uri.EscapeDataString(SelectedCity)}&yards={Result.TotalCubicYardsWithWaste}&range={Uri.EscapeDataString(GetTurnkeyRange())}";
+    }
+
+    private string GetPhotoIntakeUrl()
+    {
+        return $"/intake.html?ref=pourready&trade=concrete&city={Uri.EscapeDataString(SelectedCity)}";
+    }
+
+    private async Task SubmitQuickLead()
+    {
+        if (string.IsNullOrWhiteSpace(ContactPhone) || ContactPhone.Length < 7)
+        {
+            LeadStatusMessage = "Please enter a valid phone number.";
+            return;
+        }
+
+        LeadSubmitText = "Sending...";
+        try
+        {
+            string payloadJson = $"{{\"name\":\"PourReady Visitor ({SelectedCity})\",\"phone\":\"{ContactPhone}\",\"project_type\":\"Concrete / PourReady - {GetProjectTypeName()}\",\"city\":\"{SelectedCity}\",\"notes\":\"Calculated Volume: {Result?.TotalCubicYardsWithWaste} yards ({Math.Round(Result?.TotalCubicFeetWithWaste ?? 0, 2)} cu ft). Estimated Turnkey: {GetTurnkeyRange()}. Generated in PourReady WASM.\"}}";
+            string res = await JSRuntime.InvokeAsync<string>("authFetch", "/api/intake", "POST", payloadJson);
+            LeadStatusMessage = "✓ Estimate sent directly to J. Dondlinger! We will call or text shortly.";
+            LeadSubmitText = "✓ Sent";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Intake error: {ex.Message}");
+            LeadStatusMessage = "Unable to dispatch automatically. Call or text (715) directly.";
+            LeadSubmitText = "Request Site Walk";
+        }
+    }
+
     private void OpenTriangleCalculator()
     {
         Navigation.NavigateTo("triangle");

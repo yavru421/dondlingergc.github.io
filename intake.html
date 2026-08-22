@@ -190,6 +190,62 @@
             transform: translateY(-1px);
         }
 
+        /* Photo Upload Dropzone & Previews */
+        .photo-dropzone {
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .photo-dropzone:hover {
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 136, 0.04);
+        }
+        .photo-drop-text {
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            font-family: var(--font-mono);
+        }
+        .photo-preview-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .preview-thumb-box {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: #000;
+        }
+        .preview-thumb-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .preview-remove-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         #status {
             margin-top: 1.2rem;
             font-size: 0.95rem;
@@ -253,6 +309,14 @@
             <div class="form-group">
                 <label for="notes">Project Scope & Notes</label>
                 <textarea id="notes" name="notes" rows="3" placeholder="Approximate dimensions, materials, preferred timeline..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Job Photos (Optional)</label>
+                <div class="photo-dropzone" onclick="document.getElementById('intakePhotosInput').click()">
+                    <input type="file" id="intakePhotosInput" accept="image/*" multiple style="display:none" onchange="handleIntakePhotos(event)">
+                    <div class="photo-drop-text">📷 Tap to attach photos or drop here</div>
+                </div>
+                <div class="photo-preview-grid" id="intakePhotoPreviews"></div>
             </div>
             <button type="submit" id="submitFormBtn" class="submit-btn">SEND TO TELEGRAM DISPATCH ⚡</button>
         </form>
@@ -361,27 +425,117 @@
             }
         }
 
+        // Intake Form Image State & Compression Helpers
+        let intakeAttachedPhotos = [];
+
+        function handleIntakePhotos(e) {
+            const files = Array.from(e.target.files || []);
+            if (!files.length) return;
+            files.forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+                intakeAttachedPhotos.push(file);
+            });
+            renderIntakePreviews();
+            e.target.value = '';
+        }
+
+        function removeIntakePhoto(idx) {
+            intakeAttachedPhotos.splice(idx, 1);
+            renderIntakePreviews();
+        }
+
+        function renderIntakePreviews() {
+            const container = document.getElementById('intakePhotoPreviews');
+            if (!container) return;
+            container.innerHTML = '';
+            intakeAttachedPhotos.forEach((file, idx) => {
+                const box = document.createElement('div');
+                box.className = 'preview-thumb-box';
+
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.onload = () => URL.revokeObjectURL(img.src);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'preview-remove-btn';
+                removeBtn.innerHTML = '✕';
+                removeBtn.onclick = () => removeIntakePhoto(idx);
+
+                box.appendChild(img);
+                box.appendChild(removeBtn);
+                container.appendChild(box);
+            });
+        }
+
+        async function compressIntakeImage(file, maxDim = 1920, quality = 0.85) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > maxDim || height > maxDim) {
+                            if (width > height) {
+                                height = Math.round((height * maxDim) / width);
+                                width = maxDim;
+                            } else {
+                                width = Math.round((width * maxDim) / height);
+                                height = maxDim;
+                            }
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        canvas.toBlob((blob) => {
+                            if (blob) {
+                                resolve(new File([blob], file.name, { type: 'image/jpeg', lastModified: Date.now() }));
+                            } else {
+                                resolve(file);
+                            }
+                        }, 'image/jpeg', quality);
+                    };
+                    img.onerror = () => resolve(file);
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => resolve(file);
+                reader.readAsDataURL(file);
+            });
+        }
+
         // Form Submit Logic
         async function submitForm(e) {
             e.preventDefault();
             const submitBtn = document.getElementById('submitFormBtn');
             const origText = submitBtn.textContent;
             submitBtn.disabled = true;
-            submitBtn.textContent = 'DISPATCHING TO TELEGRAM...';
+            submitBtn.textContent = intakeAttachedPhotos.length > 0 ? 'COMPRESSING & DISPATCHING...' : 'DISPATCHING TO TELEGRAM...';
 
-            const payload = {
-                name: document.getElementById('name').value,
-                contact: document.getElementById('contact').value,
-                service: document.getElementById('service').value,
-                address: document.getElementById('address').value,
-                notes: document.getElementById('notes').value
-            };
+            const formData = new FormData();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('contact', document.getElementById('contact').value);
+            formData.append('service', document.getElementById('service').value);
+            formData.append('address', document.getElementById('address').value);
+            formData.append('notes', document.getElementById('notes').value);
+
+            if (intakeAttachedPhotos.length > 0) {
+                for (let i = 0; i < intakeAttachedPhotos.length; i++) {
+                    try {
+                        const compressed = await compressIntakeImage(intakeAttachedPhotos[i]);
+                        formData.append(`photo_${i}`, compressed, compressed.name);
+                    } catch {
+                        formData.append(`photo_${i}`, intakeAttachedPhotos[i], intakeAttachedPhotos[i].name);
+                    }
+                }
+            }
 
             try {
                 const res = await fetch('/api/intake', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: formData
                 });
 
                 const data = await res.json();
@@ -389,6 +543,8 @@
                     submitBtn.textContent = '✅ DISPATCHED TO TELEGRAM!';
                     submitBtn.style.background = 'var(--accent-green)';
                     document.getElementById('intakeForm').reset();
+                    intakeAttachedPhotos = [];
+                    renderIntakePreviews();
                     setTimeout(() => {
                         submitBtn.textContent = origText;
                         submitBtn.style.background = '#ffffff';
