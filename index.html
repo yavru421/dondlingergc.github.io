@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="description" content="Dondlinger General Contracting LLC — Journeyman Carpentry & General Contracting in Wisconsin Rapids & Central Wisconsin. Quality framing, siding, custom cabinetry, windows, doors, and commercial buildouts.">
-  <title>Dondlinger General Contracting LLC — Wisconsin Rapids, WI</title>
+  <meta name="description" content="Dondlinger General Contracting LLC — J. Dondlinger, Journeyman Carpenter. Exterior siding envelopes, replacement windows, custom doors, kitchens, decks, and commercial drop ceilings in Wisconsin Rapids & Central Wisconsin.">
+  <title>Dondlinger General Contracting LLC — J. Dondlinger | Wisconsin Rapids, WI</title>
   
+  <script type="module" src="https://dondlingergc.com/.webmcp/bridge.js" data-packs="c2pa,mcp-server-client"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -15,6 +16,7 @@
       --bg: #090a0f;
       --bg-card: #12141c;
       --bg-card-hover: #181b26;
+      --bg-drawer: #0f111a;
       --border: rgba(255, 255, 255, 0.08);
       --border-accent: rgba(255, 87, 34, 0.4);
       --accent: #ff5722;
@@ -41,14 +43,14 @@
 
     body {
       padding-top: 62px;
-      padding-bottom: calc(72px + env(safe-area-inset-bottom, 16px));
+      padding-bottom: calc(76px + env(safe-area-inset-bottom, 16px));
       overflow-x: hidden;
       line-height: 1.5;
       min-height: 100vh;
       background: radial-gradient(circle at 50% 0%, rgba(255, 87, 34, 0.05) 0%, transparent 40%), var(--bg);
     }
 
-    /* SVG Icon Helpers */
+    /* Vector Icon Utility */
     .icon-svg {
       display: inline-block;
       width: 18px;
@@ -152,7 +154,7 @@
     }
 
     /* =========================================================================
-       CRISP HERO INTRO
+       HERO PRESENTATION
        ========================================================================= */
     .hero-compact {
       padding: 18px 16px 12px;
@@ -325,10 +327,6 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .pw-icon-badge .icon-svg {
-      width: 18px;
-      height: 18px;
-    }
     .pw-titles {
       display: flex;
       flex-direction: column;
@@ -361,7 +359,6 @@
       transition: transform 0.25s ease, background 0.2s, color 0.2s;
       flex-shrink: 0;
     }
-    .pw-toggle-btn .icon-svg { width: 14px; height: 14px; stroke-width: 2; }
     .project-window.open .pw-toggle-btn {
       transform: rotate(180deg);
       background: var(--accent);
@@ -868,12 +865,173 @@
     }
 
     /* =========================================================================
+       CARP-X TACTILE BALLPARK & DISPATCH DRAWER (BOTTOM SHEET)
+       ========================================================================= */
+    #carp-drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    #carp-drawer-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    #carp-drawer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--bg-drawer);
+      border-top: 1px solid var(--border-accent);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      z-index: 10001;
+      padding: 20px 16px calc(env(safe-area-inset-bottom, 16px) + 12px);
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    #carp-drawer.open {
+      transform: translateY(0);
+    }
+
+    .drawer-handle {
+      width: 40px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      margin: 0 auto 14px;
+    }
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .drawer-title {
+      font-family: var(--font-brand);
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .drawer-sub {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--cyan);
+    }
+    .drawer-close-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* Trade Selector Chips inside Drawer */
+    .drawer-trade-chips {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .drawer-chip {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.18s;
+    }
+    .drawer-chip.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Live Ballpark Display Box */
+    .ballpark-box {
+      background: linear-gradient(135deg, #181d2c 0%, #10131e 100%);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .ballpark-label {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .ballpark-range {
+      font-family: var(--font-brand);
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+    .ballpark-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Dynamic Slider Control */
+    .slider-group {
+      margin-bottom: 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .slider-val-tag {
+      color: var(--accent);
+    }
+    .scope-range-input {
+      width: 100%;
+      accent-color: var(--accent);
+      height: 6px;
+      cursor: pointer;
+    }
+
+    /* =========================================================================
        STICKY BOTTOM MOBILE DOCK
        ========================================================================= */
     #bottom-dock {
       position: fixed;
       bottom: 0; left: 0; right: 0;
-      height: 58px;
+      height: 60px;
       background: rgba(9, 10, 15, 0.96);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -882,18 +1040,18 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 2px);
+      padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 4px);
       gap: 8px;
     }
     .dock-btn-phone {
       flex: 1;
-      height: 40px;
+      height: 42px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--border);
       color: #fff;
       font-weight: 700;
       font-size: 12.5px;
-      border-radius: 6px;
+      border-radius: 8px;
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -902,13 +1060,13 @@
     }
     .dock-btn-phone .icon-svg { width: 14px; height: 14px; stroke: var(--green); }
     .dock-btn-estimate {
-      flex: 1.3;
-      height: 40px;
+      flex: 1.4;
+      height: 42px;
       background: var(--accent);
       color: #fff;
       font-weight: 800;
       font-size: 12.5px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: none;
       cursor: pointer;
       display: flex;
@@ -916,6 +1074,7 @@
       justify-content: center;
       gap: 6px;
       text-transform: uppercase;
+      box-shadow: 0 4px 14px var(--accent-glow);
     }
   </style>
 </head>
@@ -927,7 +1086,7 @@
       <img src="dondlinger_logo.png" alt="Dondlinger General Contracting" class="hud-logo">
       <div class="hud-brand-text">
         <span class="hud-name">DONDLINGER GC</span>
-        <span class="hud-sub"><span class="dot"></span> JOURNEYMAN CARPENTER</span>
+        <span class="hud-sub"><span class="dot"></span> J. DONDLINGER • CARPENTER</span>
       </div>
     </a>
     <div class="hud-actions">
@@ -935,19 +1094,19 @@
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         (715) 459-3050
       </a>
-      <button onclick="switchTab('tab-estimate')" class="btn-hud-estimate">ESTIMATE</button>
+      <button onclick="openCarpDrawer()" class="btn-hud-estimate">BALLPARK</button>
     </div>
   </header>
 
-  <!-- Crisp Hero Section -->
+  <!-- Crisp Hero Section with Dynamic Local City Context -->
   <section class="hero-compact">
-    <div class="hero-tagline">
-      <svg class="icon-svg" style="width:13px;height:13px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M2 12h20M12 2v20M5 5l14 14"/></svg>
-      Wisconsin Rapids & Wood County
+    <div class="hero-tagline" id="geo-location-tag">
+      <svg class="icon-svg" style="width:13px;height:13px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span id="geo-city-text">Wisconsin Rapids, Nekoosa, Port Edwards & Wood County</span>
     </div>
     <h1 class="hero-headline">Quality Work. Straightforward Contracting.</h1>
     <p class="hero-subtext">
-      Journeyman carpenter handling exterior envelopes, replacement windows & doors, custom cabinetry, decks, and commercial buildouts.
+      J. Dondlinger — Journeyman carpentry handling exterior siding envelopes, replacement windows & doors, custom cabinetry, decks, and commercial buildouts.
     </p>
   </section>
 
@@ -1058,7 +1217,7 @@
               <span class="pw-spec-tag">Custom Casings</span>
             </div>
 
-            <button onclick="prefillAndSwitch('Exterior Siding & Gables')" class="pw-quote-cta">Request Siding Estimate ↗</button>
+            <button onclick="launchScopeTrade('siding')" class="pw-quote-cta">Estimate Siding Ballpark ↗</button>
           </div>
         </div>
 
@@ -1112,7 +1271,7 @@
               <span class="pw-spec-tag">Plank Flooring</span>
             </div>
 
-            <button onclick="prefillAndSwitch('Custom Kitchen & Cabinetry')" class="pw-quote-cta">Request Kitchen Estimate ↗</button>
+            <button onclick="launchScopeTrade('kitchen')" class="pw-quote-cta">Estimate Kitchen Scope ↗</button>
           </div>
         </div>
 
@@ -1172,7 +1331,7 @@
               <span class="pw-spec-tag">HVAC Diffusers</span>
             </div>
 
-            <button onclick="prefillAndSwitch('Commercial Drop Ceilings')" class="pw-quote-cta">Request Commercial Estimate ↗</button>
+            <button onclick="launchScopeTrade('ceiling')" class="pw-quote-cta">Estimate Ceiling Grid ↗</button>
           </div>
         </div>
 
@@ -1228,7 +1387,7 @@
               <span class="pw-spec-tag">Slider Tie-In</span>
             </div>
 
-            <button onclick="prefillAndSwitch('Decks & Outdoor Living')" class="pw-quote-cta">Request Deck Estimate ↗</button>
+            <button onclick="launchScopeTrade('deck')" class="pw-quote-cta">Estimate Deck Ballpark ↗</button>
           </div>
         </div>
 
@@ -1266,7 +1425,7 @@
               <li>Dual Weatherstripping Seals</li>
               <li>Custom Exterior Trim</li>
             </ul>
-            <button onclick="prefillAndSwitch('Windows & Doors')" class="btn-wd-card-action">Get Window Quote ↗</button>
+            <button onclick="launchScopeTrade('windows')" class="btn-wd-card-action">Estimate Windows Ballpark ↗</button>
           </div>
         </div>
 
@@ -1284,7 +1443,7 @@
               <li>Magnetic Weather Seals</li>
               <li>Brushed Nickel Hardware</li>
             </ul>
-            <button onclick="prefillAndSwitch('Windows & Doors')" class="btn-wd-card-action">Get Door Quote ↗</button>
+            <button onclick="launchScopeTrade('doors')" class="btn-wd-card-action">Estimate Door Scope ↗</button>
           </div>
         </div>
 
@@ -1302,7 +1461,7 @@
               <li>Multi-Point Locking</li>
               <li>Smooth Ball Bearings</li>
             </ul>
-            <button onclick="prefillAndSwitch('Windows & Doors')" class="btn-wd-card-action">Get Patio Quote ↗</button>
+            <button onclick="launchScopeTrade('doors')" class="btn-wd-card-action">Estimate Patio Scope ↗</button>
           </div>
         </div>
       </div>
@@ -1452,8 +1611,8 @@
     <section class="tab-pane" id="tab-estimate">
       <div class="intake-card">
         <div class="intake-header">
-          <h2>Request a Project Estimate</h2>
-          <p>Direct mobile dispatch to John Dondlinger. Fast response guaranteed.</p>
+          <h2>Direct Dispatch to J. Dondlinger</h2>
+          <p>Send project notes directly to J. Dondlinger's mobile dispatch. Typical reply in 15–30 mins.</p>
         </div>
 
         <!-- Voice & Photo Alternative Link with clean SVG -->
@@ -1468,7 +1627,7 @@
           <a href="/intake.html" class="vpb-btn">Open App ↗</a>
         </div>
 
-        <form id="leadForm" onsubmit="handleLeadSubmit(event)">
+        <form id="leadForm" onsubmit="handleDirectLeadSubmit(event)">
           <div class="form-row">
             <label for="fName">Your Name *</label>
             <input type="text" id="fName" class="form-input" placeholder="e.g. Dave Madsen" required>
@@ -1482,8 +1641,8 @@
           <div class="form-row">
             <label for="fService">Project Scope *</label>
             <select id="fService" class="form-select" required>
-              <option value="Exterior Siding & Gables">Exterior Siding & Gables</option>
               <option value="Windows & Doors">High-Efficiency Windows & Doors</option>
+              <option value="Exterior Siding & Gables">Exterior Siding & Gables</option>
               <option value="Custom Kitchen & Cabinetry">Custom Kitchen & Cabinetry</option>
               <option value="Commercial Drop Ceilings">Commercial Drop Ceilings</option>
               <option value="Decks & Outdoor Living">Decks & Outdoor Living</option>
@@ -1499,19 +1658,79 @@
           </div>
 
           <div class="form-row">
-            <label for="fNotes">Project Details</label>
+            <label for="fNotes">Project Scope Notes</label>
             <textarea id="fNotes" class="form-textarea" rows="3" placeholder="Approximate dimensions, materials, or target timeline..."></textarea>
           </div>
 
           <button type="submit" id="fSubmitBtn" class="btn-submit-lead">
             <svg class="icon-svg" style="width:16px;height:16px;stroke:#fff;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            Send Estimate Request
+            Send Scope to J. Dondlinger
           </button>
         </form>
       </div>
     </section>
 
   </main>
+
+  <!-- CARP-X TACTILE BALLPARK ESTIMATOR & DIRECT DISPATCH DRAWER -->
+  <div id="carp-drawer-overlay" onclick="closeCarpDrawer()"></div>
+  <div id="carp-drawer" role="dialog" aria-modal="true">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title">Instant Scope & Ballpark</div>
+        <div class="drawer-sub">⚡ Real-Time Estimate • Direct Dispatch to J. Dondlinger</div>
+      </div>
+      <div class="drawer-close-btn" onclick="closeCarpDrawer()">✕</div>
+    </div>
+
+    <!-- Trade Chips -->
+    <div class="drawer-trade-chips">
+      <button class="drawer-chip active" id="chip-windows" onclick="selectScopeTrade('windows')">🪟 Windows</button>
+      <button class="drawer-chip" id="chip-decks" onclick="selectScopeTrade('decks')">🪵 Decks</button>
+      <button class="drawer-chip" id="chip-siding" onclick="selectScopeTrade('siding')">🏠 Siding</button>
+      <button class="drawer-chip" id="chip-ceilings" onclick="selectScopeTrade('ceilings')">🏢 Drop Ceilings</button>
+      <button class="drawer-chip" id="chip-doors" onclick="selectScopeTrade('doors')">🚪 Entry Doors</button>
+    </div>
+
+    <!-- Ballpark Display Box -->
+    <div class="ballpark-box">
+      <div class="ballpark-label" id="bp-trade-label">8 Replacement Windows Installed</div>
+      <div class="ballpark-range" id="bp-range-display">$3,600 – $6,000</div>
+      <div class="ballpark-note" id="bp-note-display">Includes tear-out, Low-E Argon units, insulation wrap & custom exterior casing.</div>
+    </div>
+
+    <!-- Dynamic Slider -->
+    <div class="slider-group" id="slider-container">
+      <div class="slider-header">
+        <span id="slider-title-text">Number of Window Openings:</span>
+        <span class="slider-val-tag" id="slider-val-display">8 Windows</span>
+      </div>
+      <input type="range" id="scope-slider" class="scope-range-input" min="1" max="25" value="8" oninput="updateBallparkCalculation()">
+    </div>
+
+    <!-- Quick Dispatch Form -->
+    <form id="drawerDispatchForm" onsubmit="handleDrawerDispatch(event)">
+      <div class="form-row">
+        <label for="dContact">Your Phone or Email *</label>
+        <input type="text" id="dContact" class="form-input" placeholder="(715) 555-0199 or name@email.com" required>
+      </div>
+
+      <div class="form-row">
+        <label for="dNotes">Quick Note for J. Dondlinger (Optional)</label>
+        <input type="text" id="dNotes" class="form-input" placeholder="e.g. Living room drafty, looking for fall install">
+      </div>
+
+      <button type="submit" id="dSubmitBtn" class="btn-submit-lead">
+        <svg class="icon-svg" style="width:16px;height:16px;stroke:#fff;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Send Scope to J. Dondlinger ⚡
+      </button>
+
+      <div style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:8px;font-family:var(--font-mono);">
+        🔒 Direct to Journeyman • Typical response within 15–30 mins
+      </div>
+    </form>
+  </div>
 
   <!-- Fullscreen Lightbox Modal -->
   <div id="lightbox-modal" onclick="closeLightbox()">
@@ -1526,13 +1745,226 @@
       <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
       Direct Call
     </a>
-    <button onclick="switchTab('tab-estimate')" class="dock-btn-estimate">
+    <button onclick="openCarpDrawer()" class="dock-btn-estimate">
       <svg class="icon-svg" style="width:15px;height:15px;stroke:#fff;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      Get Estimate
+      Instant Ballpark ⚡
     </button>
   </footer>
 
   <script>
+    // Active Trade State for Ballpark Engine
+    let currentTrade = 'windows';
+    let telemetryTimer = null;
+
+    const TRADE_CONFIG = {
+      windows: {
+        title: 'Number of Window Openings:',
+        unit: 'Windows',
+        min: 1, max: 25, default: 8,
+        costMin: 450, costMax: 750,
+        note: 'Includes tear-out, Low-E Argon units, insulation wrap & custom exterior casing.'
+      },
+      decks: {
+        title: 'Estimated Deck Area (Sq Ft):',
+        unit: 'Sq Ft',
+        min: 80, max: 600, default: 200, step: 20,
+        costMin: 35, costMax: 55,
+        note: 'Includes solid timber posts, treated joist framing, plank surface, baluster railings & stairs.'
+      },
+      siding: {
+        title: 'Estimated Wall Area (Sq Ft):',
+        unit: 'Sq Ft',
+        min: 600, max: 3500, default: 1500, step: 50,
+        costMin: 7.5, costMax: 12,
+        note: 'Includes tear-off, foil thermal weatherization barrier, vinyl siding, corner posts & custom window trims.'
+      },
+      ceilings: {
+        title: 'Ceiling Grid Area (Sq Ft):',
+        unit: 'Sq Ft',
+        min: 100, max: 2500, default: 400, step: 50,
+        costMin: 4.5, costMax: 7.5,
+        note: 'Includes laser-leveled suspended heavy grid, 2x4 acoustic absorption panels, and fixture fitments.'
+      },
+      doors: {
+        title: 'Number of Entry / Patio Doors:',
+        unit: 'Doors',
+        min: 1, max: 5, default: 1,
+        costMin: 1200, costMax: 2800,
+        note: 'Includes insulated fiberglass/steel door, privacy glass sidelights, magnetic weather seals & hardware.'
+      }
+    };
+
+    // Open / Close CARP-X Drawer
+    function openCarpDrawer() {
+      document.getElementById('carp-drawer-overlay').classList.add('active');
+      document.getElementById('carp-drawer').classList.add('open');
+      updateBallparkCalculation();
+    }
+
+    function closeCarpDrawer() {
+      document.getElementById('carp-drawer-overlay').classList.remove('active');
+      document.getElementById('carp-drawer').classList.remove('open');
+    }
+
+    function launchScopeTrade(tradeKey) {
+      selectScopeTrade(tradeKey);
+      openCarpDrawer();
+    }
+
+    // Select Trade in Drawer
+    function selectScopeTrade(tradeKey) {
+      currentTrade = tradeKey;
+      document.querySelectorAll('.drawer-chip').forEach(c => c.classList.remove('active'));
+      const chip = document.getElementById('chip-' + tradeKey);
+      if (chip) chip.classList.add('active');
+
+      const cfg = TRADE_CONFIG[tradeKey];
+      if (!cfg) return;
+
+      const slider = document.getElementById('scope-slider');
+      slider.min = cfg.min;
+      slider.max = cfg.max;
+      slider.step = cfg.step || 1;
+      slider.value = cfg.default;
+
+      document.getElementById('slider-title-text').textContent = cfg.title;
+      document.getElementById('bp-note-display').textContent = cfg.note;
+
+      updateBallparkCalculation();
+    }
+
+    // Live Ballpark Calculation & Debounced Telemetry
+    function updateBallparkCalculation() {
+      const cfg = TRADE_CONFIG[currentTrade];
+      if (!cfg) return;
+
+      const slider = document.getElementById('scope-slider');
+      const val = parseFloat(slider.value);
+
+      document.getElementById('slider-val-display').textContent = `${val} ${cfg.unit}`;
+
+      const minTotal = Math.round(val * cfg.costMin);
+      const maxTotal = Math.round(val * cfg.costMax);
+
+      const rangeStr = `$${minTotal.toLocaleString()} – $${maxTotal.toLocaleString()}`;
+      document.getElementById('bp-range-display').textContent = rangeStr;
+      document.getElementById('bp-trade-label').textContent = `${val} ${cfg.unit} (${currentTrade.toUpperCase()})`;
+
+      // Debounce anonymous telemetry beacon to Cloudflare D1
+      clearTimeout(telemetryTimer);
+      telemetryTimer = setTimeout(() => {
+        logScopeTelemetry(currentTrade, val, rangeStr);
+      }, 600);
+    }
+
+    // Log Scope Telemetry to /api/telemetry
+    async function logScopeTelemetry(trade, val, ballpark) {
+      try {
+        fetch('/api/telemetry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event: 'scope_slider_move',
+            trade,
+            value: val,
+            ballpark
+          })
+        }).catch(() => {});
+      } catch {}
+    }
+
+    // Handle Drawer Dispatch Submission to /api/intake
+    async function handleDrawerDispatch(e) {
+      e.preventDefault();
+      const btn = document.getElementById('dSubmitBtn');
+      const origHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.textContent = 'Dispatching to J. Dondlinger...';
+
+      const cfg = TRADE_CONFIG[currentTrade];
+      const sliderVal = document.getElementById('scope-slider').value;
+      const ballpark = document.getElementById('bp-range-display').textContent;
+
+      const payload = {
+        name: 'Website Scope Dispatch',
+        contact: document.getElementById('dContact').value,
+        service: `${sliderVal} ${cfg.unit} (${currentTrade.toUpperCase()})`,
+        ballpark: ballpark,
+        slider_details: { trade: currentTrade, value: sliderVal, range: ballpark },
+        notes: document.getElementById('dNotes').value || 'Requested ballpark review.'
+      };
+
+      try {
+        const res = await fetch('/api/intake', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          const ticketId = data.ticket_id || 'DGC-DISPATCH';
+          btn.textContent = `✅ Dispatched! Ticket #${ticketId}`;
+          btn.style.background = 'var(--green)';
+          document.getElementById('drawerDispatchForm').reset();
+          setTimeout(() => {
+            closeCarpDrawer();
+            btn.innerHTML = origHtml;
+            btn.style.background = 'var(--accent)';
+            btn.disabled = false;
+          }, 3500);
+        } else {
+          throw new Error(data.error || 'Error');
+        }
+      } catch (err) {
+        alert('Thank you! Your scope was received. Direct phone for J. Dondlinger: (715) 459-3050');
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+      }
+    }
+
+    // Direct Lead Submit from Tab 4
+    async function handleDirectLeadSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('fSubmitBtn');
+      const origHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.textContent = 'Dispatching to J. Dondlinger...';
+
+      const payload = {
+        name: document.getElementById('fName').value,
+        contact: document.getElementById('fContact').value,
+        service: document.getElementById('fService').value,
+        address: document.getElementById('fAddress').value,
+        notes: document.getElementById('fNotes').value
+      };
+
+      try {
+        const res = await fetch('/api/intake', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          const ticketId = data.ticket_id || 'DGC-DISPATCH';
+          btn.textContent = `✅ Dispatched! Ticket #${ticketId}`;
+          btn.style.background = 'var(--green)';
+          document.getElementById('leadForm').reset();
+          setTimeout(() => {
+            btn.innerHTML = origHtml;
+            btn.style.background = 'var(--accent)';
+            btn.disabled = false;
+          }, 4000);
+        } else {
+          throw new Error(data.error || 'Error');
+        }
+      } catch (err) {
+        alert('Thank you! Your request was received. Direct phone: (715) 459-3050');
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+      }
+    }
+
     // Tab Switching Logic
     function switchTab(tabId) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -1554,16 +1986,7 @@
       }
     }
 
-    // Prefill estimate service and switch to Tab 4
-    function prefillAndSwitch(serviceName) {
-      const select = document.getElementById('fService');
-      if (select) {
-        select.value = serviceName;
-      }
-      switchTab('tab-estimate');
-    }
-
-    // Expand / Collapse Project Window in Tab 1
+    // Expand / Collapse Project Window
     function toggleWindow(id) {
       const el = document.getElementById(id);
       if (el) {
@@ -1629,47 +2052,19 @@
       }
     }
 
-    // Handle Lead Submission to /api/intake
-    async function handleLeadSubmit(e) {
-      e.preventDefault();
-      const btn = document.getElementById('fSubmitBtn');
-      const orig = btn.innerHTML;
-      btn.disabled = true;
-      btn.textContent = 'Submitting to Dispatch...';
-
-      const payload = {
-        name: document.getElementById('fName').value,
-        contact: document.getElementById('fContact').value,
-        service: document.getElementById('fService').value,
-        address: document.getElementById('fAddress').value,
-        notes: document.getElementById('fNotes').value
-      };
-
+    // Geolocation city greeting fetch on load
+    window.addEventListener('DOMContentLoaded', async () => {
       try {
-        const res = await fetch('/api/intake', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+        const res = await fetch('/api/telemetry');
         const data = await res.json();
-        if (data.success) {
-          btn.innerHTML = '✅ Dispatched to Telegram!';
-          btn.style.background = 'var(--green)';
-          document.getElementById('leadForm').reset();
-          setTimeout(() => {
-            btn.innerHTML = orig;
-            btn.style.background = 'var(--accent)';
-            btn.disabled = false;
-          }, 4000);
-        } else {
-          throw new Error(data.error || 'Error');
+        if (data && data.city && data.city !== 'Unknown') {
+          const tag = document.getElementById('geo-city-text');
+          if (tag) {
+            tag.textContent = `Serving ${data.city} & Surrounding Central Wisconsin Area`;
+          }
         }
-      } catch (err) {
-        alert('Thank you! Your request was received. Direct phone: (715) 459-3050');
-        btn.disabled = false;
-        btn.innerHTML = orig;
-      }
-    }
+      } catch {}
+    });
   </script>
 </body>
 </html>
