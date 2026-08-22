@@ -13,7 +13,7 @@
     <meta property="og:title" content="PourReady — Concrete Estimator" />
     <meta property="og:description" content="Free concrete volume estimator built for the field. Slabs, footings, walls, columns." />
     <meta property="og:type" content="website" />
-    <link href="_framework/dotnet.cvcf9xzszk.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" />
+    <link href="_framework/dotnet.oiwmox6eze.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-4JWMW2r+iZ7FjOur/vxtEO3UzZiovLqRGKYpHjIniJA=" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -25,9 +25,20 @@
     <script type="importmap">{
   "imports": {
     "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.66stpp682q.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.cvcf9xzszk.js",
     "./_framework/dotnet.native.js": "./_framework/dotnet.native.j9yxww2air.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.oiwmox6eze.js",
     "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.r2kbxkuujc.js"
+  },
+  "scopes": {},
+  "integrity": {
+    "./_framework/blazor.webassembly.66stpp682q.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
+    "./_framework/blazor.webassembly.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
+    "./_framework/dotnet.js": "sha256-4JWMW2r+iZ7FjOur/vxtEO3UzZiovLqRGKYpHjIniJA=",
+    "./_framework/dotnet.native.j9yxww2air.js": "sha256-t2sLHIeFuKgbEH+wz5jXGlVRt+hMNlyCkCwLtVZUwws=",
+    "./_framework/dotnet.native.js": "sha256-t2sLHIeFuKgbEH+wz5jXGlVRt+hMNlyCkCwLtVZUwws=",
+    "./_framework/dotnet.oiwmox6eze.js": "sha256-4JWMW2r+iZ7FjOur/vxtEO3UzZiovLqRGKYpHjIniJA=",
+    "./_framework/dotnet.runtime.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU=",
+    "./_framework/dotnet.runtime.r2kbxkuujc.js": "sha256-YyudibIWETMKrLb+nAZdJ+xDY7HY6BWf6s32UAdcvCU="
   }
 }</script>
 </head>
@@ -55,6 +66,9 @@
         });
     </script>
     <script>
+        // Global auth fetch bridge for Blazor JSInterop.
+        // Uses credentials:'include' so the HttpOnly refresh cookie
+        // scoped to Domain=.dondlingergc.com is sent cross-origin.
         window.authFetch = async function (url, method, body) {
             try {
                 const opts = {
@@ -75,23 +89,98 @@
     <script src="js/clipboard.js"></script>
     <script src="js/zlaSync.js"></script>
     <script>
-        // Automatic cache purge on version mismatch
-        if ('caches' in window) {
-            caches.keys().then(keys => {
-                keys.forEach(key => {
-                    if (!key.includes('Fiiw00C/')) {
-                        caches.delete(key);
-                    }
-                });
-            });
-        }
         if (!window.location.hostname.endsWith('pages.dev')) {
             navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' })
                 .then(reg => {
-                    reg.update();
-                    console.log('ServiceWorker registered and updated:', reg.scope);
+                    console.log('ServiceWorker registered with scope:', reg.scope);
+                    
+                    // Detect iOS device and standalone mode
+                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                    const isStandalone = window.navigator.standalone === true;
+                    
+                    if (isIOS && !isStandalone) {
+                        // Poll until DotNet interop is available
+                        function notifyPwaInstallable() {
+                            if (window.DotNet && window.DotNet.invokeMethodAsync) {
+                                window.DotNet.invokeMethodAsync('JobsiteCalculatorPwa', 'PWAInstallable')
+                                    .catch(err => console.error('Failed to notify Blazor PWAInstallable:', err));
+                            } else {
+                                setTimeout(notifyPwaInstallable, 200);
+                            }
+                        }
+                        notifyPwaInstallable();
+                    }
                 });
+        } else {
+            console.log('Pages preview domain detected. Unregistering service workers to prevent Access SSO caching conflicts.');
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (let registration of registrations) {
+                    registration.unregister();
+                }
+            });
         }
+    </script>
+    <script>
+        // PWA install prompt capture
+        window._deferredInstallPrompt = null;
+        window.addEventListener('beforeinstallprompt', function (e) {
+            e.preventDefault();
+            window._deferredInstallPrompt = e;
+        });
+        window.pwaInstall = {
+            isAvailable: function () { return !!window._deferredInstallPrompt; },
+            prompt: async function () {
+                if (!window._deferredInstallPrompt) return false;
+                window._deferredInstallPrompt.prompt();
+                var choice = await window._deferredInstallPrompt.userChoice;
+                window._deferredInstallPrompt = null;
+                return choice.outcome === 'accepted';
+            },
+            showiOSInstructions: function () {
+                console.log("iOS PWA installation instructions requested.");
+            }
+        };
+    </script>
+    <script>
+        // Self-healing for PWA cache traps and integrity mismatch errors
+        async function healPwaAndReload() {
+            console.warn('Self-healing PWA caches...');
+            try {
+                if ('serviceWorker' in navigator) {
+                    const regs = await navigator.serviceWorker.getRegistrations();
+                    for (const reg of regs) {
+                        await reg.unregister();
+                    }
+                }
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    for (const key of keys) {
+                        await caches.delete(key);
+                    }
+                }
+                console.log('Cache cleared successfully. Reloading...');
+                window.location.reload(true);
+            } catch (err) {
+                console.error('Failed to self-heal:', err);
+                window.location.reload();
+            }
+        }
+
+        window.addEventListener('unhandledrejection', function (event) {
+            const msg = event.reason && event.reason.message ? event.reason.message : '';
+            if (msg.includes('Failed to start platform') || msg.includes('integrity') || msg.includes('dynamically imported module')) {
+                event.preventDefault();
+                healPwaAndReload();
+            }
+        });
+
+        window.addEventListener('error', function (event) {
+            const msg = event.message || '';
+            if (msg.includes('integrity') || msg.includes('Failed to load') || msg.includes('module script') || msg.includes('Unexpected error')) {
+                event.preventDefault();
+                healPwaAndReload();
+            }
+        }, true); // Use capture phase to catch script loading errors
     </script>
 </body>
 
