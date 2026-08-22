@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="description" content="Dondlinger General Contracting LLC — Wisconsin DSPS Licensed Dwelling Contractor in Wisconsin Rapids, WI. Siding, replacement windows, custom doors, kitchens, decks, and commercial drop ceilings.">
+  <meta name="description" content="Dondlinger General Contracting LLC — Journeyman Carpentry & General Contracting in Wisconsin Rapids & Central Wisconsin. Quality framing, siding, custom cabinetry, windows, doors, and commercial buildouts.">
   <title>Dondlinger General Contracting LLC — Wisconsin Rapids, WI</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,15 +15,13 @@
       --bg: #090a0f;
       --bg-card: #12141c;
       --bg-card-hover: #181b26;
-      --bg-surface: #151722;
-      --border: rgba(255, 255, 255, 0.1);
-      --border-focus: rgba(255, 87, 34, 0.5);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(255, 87, 34, 0.4);
       --accent: #ff5722;
       --accent-hover: #f44336;
-      --accent-glow: rgba(255, 87, 34, 0.3);
+      --accent-glow: rgba(255, 87, 34, 0.25);
       --green: #22c55e;
       --cyan: #38bdf8;
-      --amber: #fbbf24;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --font-brand: 'Syne', -apple-system, sans-serif;
@@ -43,11 +41,24 @@
 
     body {
       padding-top: 62px;
-      padding-bottom: calc(74px + env(safe-area-inset-bottom, 16px));
+      padding-bottom: calc(72px + env(safe-area-inset-bottom, 16px));
       overflow-x: hidden;
       line-height: 1.5;
       min-height: 100vh;
-      background: radial-gradient(circle at 50% 0%, rgba(255, 87, 34, 0.06) 0%, transparent 45%), var(--bg);
+      background: radial-gradient(circle at 50% 0%, rgba(255, 87, 34, 0.05) 0%, transparent 40%), var(--bg);
+    }
+
+    /* SVG Icon Helpers */
+    .icon-svg {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.75;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vertical-align: middle;
     }
 
     /* =========================================================================
@@ -111,7 +122,7 @@
       gap: 8px;
     }
     .btn-hud-call {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.06);
       color: #fff;
       font-family: var(--font-mono);
       font-size: 12px;
@@ -125,6 +136,7 @@
       gap: 6px;
       transition: background 0.2s;
     }
+    .btn-hud-call .icon-svg { width: 14px; height: 14px; stroke: var(--green); }
     .btn-hud-estimate {
       background: var(--accent);
       color: #fff;
@@ -140,44 +152,28 @@
     }
 
     /* =========================================================================
-       COMPACT HERO INTRO
+       CRISP HERO INTRO
        ========================================================================= */
     .hero-compact {
-      padding: 20px 16px 14px;
+      padding: 18px 16px 12px;
       max-width: 960px;
       margin: 0 auto;
     }
-    .hero-top-badges {
-      display: flex;
-      gap: 8px;
+    .hero-tagline {
+      display: inline-flex;
       align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-    .badge-dsps {
+      gap: 6px;
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       color: var(--accent);
-      background: rgba(255, 87, 34, 0.12);
-      border: 1px solid rgba(255, 87, 34, 0.3);
-      padding: 3px 8px;
-      border-radius: 6px;
+      margin-bottom: 6px;
       text-transform: uppercase;
-    }
-    .badge-geo {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--cyan);
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      padding: 3px 8px;
-      border-radius: 6px;
+      letter-spacing: 0.5px;
     }
     .hero-headline {
       font-family: var(--font-brand);
-      font-size: clamp(24px, 5.5vw, 36px);
+      font-size: clamp(24px, 5.2vw, 34px);
       font-weight: 800;
       letter-spacing: -0.4px;
       line-height: 1.15;
@@ -186,7 +182,7 @@
     .hero-subtext {
       font-size: 14px;
       color: var(--text-muted);
-      max-width: 720px;
+      max-width: 680px;
       line-height: 1.45;
     }
 
@@ -206,7 +202,7 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       z-index: 100;
-      padding: 10px 0;
+      padding: 8px 0;
       margin-bottom: 16px;
       border-bottom: 1px solid var(--border);
     }
@@ -215,7 +211,7 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.03);
       padding: 4px;
       border-radius: 12px;
       border: 1px solid var(--border);
@@ -228,20 +224,26 @@
       font-family: var(--font-body);
       font-weight: 700;
       font-size: 13px;
-      padding: 10px 6px;
+      padding: 8px 4px;
       border-radius: 8px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 3px;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      gap: 4px;
+      transition: all 0.18s ease;
       user-select: none;
     }
-    .tab-btn span.tab-icon {
-      font-size: 16px;
-      line-height: 1;
+    .tab-btn .tab-svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.18s ease;
     }
     .tab-btn span.tab-label {
       font-size: 11px;
@@ -255,18 +257,21 @@
       color: #fff;
       box-shadow: 0 4px 14px var(--accent-glow);
     }
+    .tab-btn.active .tab-svg {
+      transform: scale(1.1);
+    }
 
     /* Tab Panes */
     .tab-pane {
       display: none;
-      animation: fadeIn 0.22s ease-out;
+      animation: fadeIn 0.2s ease-out;
     }
     .tab-pane.active {
       display: block;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
+      from { opacity: 0; transform: translateY(3px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -276,32 +281,53 @@
     .project-window-stack {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
     .project-window {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
-      transition: border-color 0.2s, background 0.2s;
+      transition: border-color 0.2s;
     }
     .project-window:hover {
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.15);
     }
 
     .pw-header {
-      padding: 16px;
+      padding: 14px 16px;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid transparent;
       user-select: none;
+      border-bottom: 1px solid transparent;
     }
     .project-window.open .pw-header {
       border-bottom-color: var(--border);
       background: rgba(255, 255, 255, 0.02);
+    }
+    .pw-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .pw-icon-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(255, 87, 34, 0.1);
+      border: 1px solid rgba(255, 87, 34, 0.25);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .pw-icon-badge .icon-svg {
+      width: 18px;
+      height: 18px;
     }
     .pw-titles {
       display: flex;
@@ -318,38 +344,34 @@
     }
     .pw-name {
       font-family: var(--font-brand);
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 800;
       color: #fff;
     }
-    .pw-location {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
     .pw-toggle-btn {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border);
-      color: #fff;
+      color: var(--text-muted);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
-      font-weight: 700;
-      transition: transform 0.3s ease;
+      transition: transform 0.25s ease, background 0.2s, color 0.2s;
       flex-shrink: 0;
     }
+    .pw-toggle-btn .icon-svg { width: 14px; height: 14px; stroke-width: 2; }
     .project-window.open .pw-toggle-btn {
       transform: rotate(180deg);
       background: var(--accent);
       border-color: var(--accent);
+      color: #fff;
     }
 
     .pw-body {
       display: none;
-      padding: 16px;
+      padding: 14px 16px;
     }
     .project-window.open .pw-body {
       display: block;
@@ -357,21 +379,21 @@
 
     .pw-media-viewer {
       width: 100%;
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
       background: #000;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 220px;
-      max-height: 500px;
+      min-height: 200px;
+      max-height: 480px;
     }
     .pw-media-viewer img, .pw-media-viewer video {
       width: 100%;
       height: auto;
-      max-height: 480px;
+      max-height: 460px;
       object-fit: contain;
       display: block;
     }
@@ -380,21 +402,21 @@
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 12px;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
       -webkit-overflow-scrolling: touch;
     }
     .pw-thumb {
-      width: 68px;
-      height: 68px;
+      width: 64px;
+      height: 64px;
       flex-shrink: 0;
-      border-radius: 8px;
+      border-radius: 6px;
       border: 2px solid transparent;
       overflow: hidden;
       cursor: pointer;
       background: #000;
       position: relative;
-      opacity: 0.65;
+      opacity: 0.6;
       transition: opacity 0.2s, border-color 0.2s;
     }
     .pw-thumb.active {
@@ -411,7 +433,7 @@
       bottom: 2px; left: 2px; right: 2px;
       background: rgba(0, 0, 0, 0.85);
       font-family: var(--font-mono);
-      font-size: 7.5px;
+      font-size: 7px;
       font-weight: 700;
       text-align: center;
       color: #fff;
@@ -426,22 +448,22 @@
     .pw-narrative {
       font-size: 13.5px;
       color: #cbd5e1;
-      line-height: 1.5;
-      margin-bottom: 12px;
+      line-height: 1.45;
+      margin-bottom: 10px;
     }
     .pw-specs-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .pw-spec-tag {
       font-family: var(--font-mono);
-      font-size: 11px;
-      background: rgba(255, 255, 255, 0.05);
+      font-size: 10.5px;
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border);
-      padding: 4px 8px;
-      border-radius: 6px;
+      padding: 3px 8px;
+      border-radius: 4px;
       color: var(--text-muted);
     }
     .pw-quote-cta {
@@ -451,9 +473,9 @@
       background: var(--accent);
       color: #fff;
       font-weight: 800;
-      font-size: 12.5px;
-      padding: 9px 16px;
-      border-radius: 8px;
+      font-size: 12px;
+      padding: 8px 14px;
+      border-radius: 6px;
       text-decoration: none;
       text-transform: uppercase;
       border: none;
@@ -464,46 +486,45 @@
        TAB 2: WINDOWS & DOORS SHOWCASE
        ========================================================================= */
     .wd-hero-banner {
-      background: linear-gradient(135deg, #131b2e 0%, #0d121c 100%);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      border-radius: 16px;
-      padding: 18px 16px;
-      margin-bottom: 16px;
+      background: linear-gradient(135deg, #111726 0%, #0d121c 100%);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
     }
     .wd-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       font-family: var(--font-mono);
       font-size: 10px;
       font-weight: 800;
       color: var(--cyan);
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      padding: 3px 8px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 2px 6px;
       border-radius: 4px;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .wd-title {
       font-family: var(--font-brand);
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
       line-height: 1.2;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .wd-desc {
-      font-size: 13.5px;
+      font-size: 13px;
       color: #cbd5e1;
-      line-height: 1.45;
-      margin-bottom: 14px;
+      line-height: 1.4;
     }
 
     .wd-showcase-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
+      gap: 14px;
+      margin-bottom: 14px;
     }
     @media (min-width: 640px) {
       .wd-showcase-grid {
@@ -514,14 +535,14 @@
     .wd-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 12px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
     }
     .wd-card-media {
       width: 100%;
-      height: 200px;
+      height: 190px;
       background: #000;
       overflow: hidden;
     }
@@ -529,20 +550,20 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.3s ease;
+      transition: transform 0.25s ease;
     }
     .wd-card:hover .wd-card-media img {
-      transform: scale(1.03);
+      transform: scale(1.02);
     }
     .wd-card-content {
-      padding: 14px;
+      padding: 12px 14px;
       display: flex;
       flex-direction: column;
       flex: 1;
     }
     .wd-card-title {
       font-family: var(--font-brand);
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 800;
       color: #fff;
       margin-bottom: 4px;
@@ -550,37 +571,36 @@
     .wd-card-sub {
       font-size: 12px;
       color: var(--text-muted);
-      margin-bottom: 10px;
-      line-height: 1.4;
+      margin-bottom: 8px;
+      line-height: 1.35;
       flex: 1;
     }
     .wd-specs-list {
       list-style: none;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .wd-specs-list li {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--cyan);
-      margin-bottom: 3px;
+      margin-bottom: 2px;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
     .wd-specs-list li::before {
-      content: "•";
+      content: "—";
       color: var(--accent);
     }
     .btn-wd-card-action {
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
       color: var(--cyan);
       font-weight: 700;
-      font-size: 12px;
-      padding: 8px 12px;
-      border-radius: 8px;
+      font-size: 11.5px;
+      padding: 7px 10px;
+      border-radius: 6px;
       text-align: center;
-      text-decoration: none;
       cursor: pointer;
       text-transform: uppercase;
       transition: all 0.2s;
@@ -598,22 +618,26 @@
       gap: 6px;
       overflow-x: auto;
       padding-bottom: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       -webkit-overflow-scrolling: touch;
     }
     .filter-pill {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.05);
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border);
       color: var(--text-muted);
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.2s;
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
+    .filter-pill .icon-svg { width: 12px; height: 12px; }
     .filter-pill.active {
       background: var(--accent);
       border-color: var(--accent);
@@ -623,7 +647,7 @@
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 8px;
     }
     @media (min-width: 640px) {
       .gallery-grid {
@@ -638,7 +662,7 @@
 
     .gallery-item {
       position: relative;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
       background: #000;
       border: 1px solid var(--border);
@@ -650,30 +674,30 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.25s ease;
+      transition: transform 0.2s ease;
     }
     .gallery-item:hover img {
-      transform: scale(1.05);
+      transform: scale(1.04);
     }
     .gallery-item-tag {
       position: absolute;
-      top: 6px; left: 6px;
-      background: rgba(0, 0, 0, 0.75);
+      top: 5px; left: 5px;
+      background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(4px);
       font-family: var(--font-mono);
-      font-size: 8.5px;
+      font-size: 8px;
       font-weight: 700;
       color: var(--text-main);
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 2px 5px;
+      border-radius: 3px;
       text-transform: uppercase;
     }
     .gallery-item-caption {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
-      padding: 16px 8px 6px;
-      font-size: 11px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+      padding: 12px 6px 4px;
+      font-size: 10.5px;
       font-weight: 600;
       color: #fff;
       white-space: nowrap;
@@ -681,13 +705,13 @@
       text-overflow: ellipsis;
     }
 
-    /* Fullscreen Lightbox Modal */
+    /* Lightbox Modal */
     #lightbox-modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.94);
-      backdrop-filter: blur(12px);
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
       z-index: 99999;
       flex-direction: column;
       align-items: center;
@@ -700,28 +724,28 @@
     #lightbox-img {
       max-width: 95vw;
       max-height: 80vh;
-      border-radius: 8px;
+      border-radius: 6px;
       border: 1px solid var(--border);
       object-fit: contain;
     }
     #lightbox-caption {
-      margin-top: 12px;
-      font-size: 14px;
+      margin-top: 10px;
+      font-size: 13px;
       color: #cbd5e1;
       font-weight: 600;
       text-align: center;
+      font-family: var(--font-mono);
     }
     #lightbox-close {
       position: absolute;
       top: 16px;
       right: 16px;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.12);
       border: 1px solid var(--border);
       color: #fff;
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      font-size: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -733,56 +757,65 @@
        ========================================================================= */
     .intake-card {
       background: var(--bg-card);
-      border: 1px solid rgba(255, 87, 34, 0.35);
-      border-radius: 16px;
-      padding: 18px 16px;
+      border: 1px solid var(--border-accent);
+      border-radius: 14px;
+      padding: 16px;
       margin-bottom: 16px;
     }
     .intake-header {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .intake-header h2 {
       font-family: var(--font-brand);
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
     }
     .intake-header p {
-      font-size: 12.5px;
+      font-size: 12px;
       color: var(--text-muted);
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
     .voice-photo-banner {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px dashed rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      padding: 12px 14px;
-      margin-bottom: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+    }
+    .vpb-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .vpb-icon {
+      color: var(--cyan);
     }
     .vpb-text {
       display: flex;
       flex-direction: column;
     }
     .vpb-title {
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       color: #fff;
     }
     .vpb-sub {
-      font-size: 11px;
-      color: var(--cyan);
+      font-size: 10.5px;
+      color: var(--text-muted);
       font-family: var(--font-mono);
     }
     .vpb-btn {
-      background: var(--accent);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
       color: #fff;
       font-weight: 700;
-      font-size: 11.5px;
-      padding: 6px 12px;
+      font-size: 11px;
+      padding: 6px 10px;
       border-radius: 6px;
       text-decoration: none;
       white-space: nowrap;
@@ -794,21 +827,21 @@
     .form-row label {
       display: block;
       font-family: var(--font-mono);
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .form-input, .form-select, .form-textarea {
       width: 100%;
       background: #090a0f;
       border: 1px solid var(--border);
       color: #fff;
-      padding: 10px 12px;
-      border-radius: 8px;
+      padding: 9px 11px;
+      border-radius: 6px;
       font-family: var(--font-body);
-      font-size: 13.5px;
+      font-size: 13px;
       outline: none;
     }
     .form-input:focus, .form-select:focus, .form-textarea:focus {
@@ -816,18 +849,22 @@
     }
     .btn-submit-lead {
       width: 100%;
-      min-height: 46px;
+      min-height: 44px;
       background: var(--accent);
       color: #fff;
       font-weight: 800;
-      font-size: 13.5px;
-      border-radius: 8px;
+      font-size: 13px;
+      border-radius: 6px;
       border: none;
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-top: 6px;
+      margin-top: 4px;
       transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     /* =========================================================================
@@ -836,7 +873,7 @@
     #bottom-dock {
       position: fixed;
       bottom: 0; left: 0; right: 0;
-      height: 60px;
+      height: 58px;
       background: rgba(9, 10, 15, 0.96);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -846,31 +883,32 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 2px);
-      gap: 10px;
+      gap: 8px;
     }
     .dock-btn-phone {
       flex: 1;
-      height: 42px;
-      background: rgba(255, 255, 255, 0.08);
+      height: 40px;
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--border);
       color: #fff;
       font-weight: 700;
-      font-size: 13px;
-      border-radius: 8px;
+      font-size: 12.5px;
+      border-radius: 6px;
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
     }
+    .dock-btn-phone .icon-svg { width: 14px; height: 14px; stroke: var(--green); }
     .dock-btn-estimate {
       flex: 1.3;
-      height: 42px;
+      height: 40px;
       background: var(--accent);
       color: #fff;
       font-weight: 800;
-      font-size: 13px;
-      border-radius: 8px;
+      font-size: 12.5px;
+      border-radius: 6px;
       border: none;
       cursor: pointer;
       display: flex;
@@ -889,49 +927,72 @@
       <img src="dondlinger_logo.png" alt="Dondlinger General Contracting" class="hud-logo">
       <div class="hud-brand-text">
         <span class="hud-name">DONDLINGER GC</span>
-        <span class="hud-sub"><span class="dot"></span> WI DSPS #1519787</span>
+        <span class="hud-sub"><span class="dot"></span> JOURNEYMAN CARPENTER</span>
       </div>
     </a>
     <div class="hud-actions">
-      <a href="tel:7154593050" class="btn-hud-call">📞 (715) 459-3050</a>
+      <a href="tel:7154593050" class="btn-hud-call">
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (715) 459-3050
+      </a>
       <button onclick="switchTab('tab-estimate')" class="btn-hud-estimate">ESTIMATE</button>
     </div>
   </header>
 
-  <!-- Compact Hero Section -->
+  <!-- Crisp Hero Section -->
   <section class="hero-compact">
-    <div class="hero-top-badges">
-      <span class="badge-dsps">✓ DSPS Lic. #1519787</span>
-      <span class="badge-geo">📍 Wisconsin Rapids & Wood County</span>
+    <div class="hero-tagline">
+      <svg class="icon-svg" style="width:13px;height:13px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M2 12h20M12 2v20M5 5l14 14"/></svg>
+      Wisconsin Rapids & Wood County
     </div>
     <h1 class="hero-headline">Quality Work. Straightforward Contracting.</h1>
     <p class="hero-subtext">
-      Residential & commercial general contracting in Central Wisconsin. Exterior siding envelopes, high-efficiency windows, custom entry doors, kitchens, and commercial acoustical drop ceilings.
+      Journeyman carpenter handling exterior envelopes, replacement windows & doors, custom cabinetry, decks, and commercial buildouts.
     </p>
   </section>
 
   <!-- MULTI-TAB HUB CONTAINER -->
   <main class="hub-container">
 
-    <!-- Sticky Tab Controller -->
+    <!-- Sticky Tab Controller with Custom Line SVGs -->
     <div class="tab-bar-wrap">
       <nav class="tab-bar" aria-label="Main Navigation Hub">
+        
+        <!-- Tab 1: Speed Square / Framing Tool SVG -->
         <button class="tab-btn active" id="btn-projects" onclick="switchTab('tab-projects')">
-          <span class="tab-icon">🔨</span>
+          <svg class="tab-svg" viewBox="0 0 24 24">
+            <path d="M3 3v18h18L3 3z"/>
+            <path d="M7 17l2-2M10 14l2-2M13 11l2-2"/>
+          </svg>
           <span class="tab-label">Projects</span>
         </button>
+
+        <!-- Tab 2: Architectural Window & Door SVG -->
         <button class="tab-btn" id="btn-windows" onclick="switchTab('tab-windows')">
-          <span class="tab-icon">🪟</span>
+          <svg class="tab-svg" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M12 3v18M3 12h18"/>
+          </svg>
           <span class="tab-label">Windows & Doors</span>
         </button>
+
+        <!-- Tab 3: Minimalist Camera / Viewport SVG -->
         <button class="tab-btn" id="btn-gallery" onclick="switchTab('tab-gallery')">
-          <span class="tab-icon">📸</span>
+          <svg class="tab-svg" viewBox="0 0 24 24">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
           <span class="tab-label">Photo Lake</span>
         </button>
+
+        <!-- Tab 4: Direct Dispatch Lightning SVG -->
         <button class="tab-btn" id="btn-estimate" onclick="switchTab('tab-estimate')">
-          <span class="tab-icon">⚡</span>
+          <svg class="tab-svg" viewBox="0 0 24 24">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
           <span class="tab-label">Get Estimate</span>
         </button>
+
       </nav>
     </div>
 
@@ -941,15 +1002,21 @@
     <section class="tab-pane active" id="tab-projects">
       <div class="project-window-stack">
 
-        <!-- Project 1: Siding & Exterior Envelope -->
+        <!-- Project 1: Siding & Envelope -->
         <div class="project-window open" id="pw-siding">
           <div class="pw-header" onclick="toggleWindow('pw-siding')">
-            <div class="pw-titles">
-              <span class="pw-category">Exterior Envelope Renovation</span>
-              <span class="pw-name">Two-Story Siding & Architectural Gables</span>
-              <span class="pw-location">Wisconsin Rapids Area</span>
+            <div class="pw-header-left">
+              <div class="pw-icon-badge">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div class="pw-titles">
+                <span class="pw-category">Exterior Envelope</span>
+                <span class="pw-name">Two-Story Siding & Gable Shingles</span>
+              </div>
             </div>
-            <div class="pw-toggle-btn">▾</div>
+            <div class="pw-toggle-btn">
+              <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
           </div>
 
           <div class="pw-body">
@@ -959,8 +1026,8 @@
 
             <div class="pw-thumb-strip">
               <div class="pw-thumb active" onclick="switchMedia('siding', 'images/projects/IMG_4801.webp', 'image', this)">
-                <img src="images/projects/IMG_4801.webp" alt="Finished Siding & Gables">
-                <span class="pw-thumb-badge">Finished Siding</span>
+                <img src="images/projects/IMG_4801.webp" alt="Finished Siding">
+                <span class="pw-thumb-badge">Finished</span>
               </div>
               <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_4802.webp', 'image', this)">
                 <img src="images/projects/IMG_4802.webp" alt="Side Wall Profile">
@@ -968,42 +1035,48 @@
               </div>
               <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_4349.webp', 'image', this)">
                 <img src="images/projects/IMG_4349.webp" alt="Foil Insulation Sheathing">
-                <span class="pw-thumb-badge">Insulation Sheath</span>
+                <span class="pw-thumb-badge">Insulation</span>
               </div>
               <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_2012.webp', 'image', this)">
                 <img src="images/projects/IMG_2012.webp" alt="Old Lap Siding Stripdown">
-                <span class="pw-thumb-badge">Old Siding</span>
+                <span class="pw-thumb-badge">Tear-Off</span>
               </div>
               <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_2014.webp', 'image', this)">
                 <img src="images/projects/IMG_2014.webp" alt="Front Porch Framing">
-                <span class="pw-thumb-badge">Front Porch</span>
+                <span class="pw-thumb-badge">Porch Wrap</span>
               </div>
             </div>
 
             <p class="pw-narrative">
-              Stripped peeling painted white lap siding down to the frame, installed foil-faced thermal insulation barrier, and finished with deep slate-blue lap siding, crisp white window casings, matching corner trim, and decorative white fish-scale gable shingles.
+              Full tear-off down to framing, foil-faced thermal barrier installation, slate-blue lap siding, and custom-cased window profiles with white decorative gable shingles.
             </p>
 
             <div class="pw-specs-grid">
               <span class="pw-spec-tag">Slate Blue Vinyl</span>
-              <span class="pw-spec-tag">Decorative Gable Shingles</span>
-              <span class="pw-spec-tag">Foil Thermal Sheathing</span>
-              <span class="pw-spec-tag">Window Casings</span>
+              <span class="pw-spec-tag">Gable Shingles</span>
+              <span class="pw-spec-tag">Thermal Foil Barrier</span>
+              <span class="pw-spec-tag">Custom Casings</span>
             </div>
 
             <button onclick="prefillAndSwitch('Exterior Siding & Gables')" class="pw-quote-cta">Request Siding Estimate ↗</button>
           </div>
         </div>
 
-        <!-- Project 2: Custom Kitchen Shaker Cabinetry -->
+        <!-- Project 2: Custom Kitchen Cabinetry -->
         <div class="project-window" id="pw-kitchen">
           <div class="pw-header" onclick="toggleWindow('pw-kitchen')">
-            <div class="pw-titles">
-              <span class="pw-category">Interior Carpentry & Finish</span>
-              <span class="pw-name">Custom White Shaker Kitchen & Countertops</span>
-              <span class="pw-location">Central Wisconsin</span>
+            <div class="pw-header-left">
+              <div class="pw-icon-badge">
+                <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="9" x2="12" y2="21"/></svg>
+              </div>
+              <div class="pw-titles">
+                <span class="pw-category">Interior Finish</span>
+                <span class="pw-name">Custom White Shaker Kitchen Rebuild</span>
+              </div>
             </div>
-            <div class="pw-toggle-btn">▾</div>
+            <div class="pw-toggle-btn">
+              <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
           </div>
 
           <div class="pw-body">
@@ -1016,27 +1089,26 @@
             <div class="pw-thumb-strip">
               <div class="pw-thumb active" onclick="switchMedia('kitchen', 'videos/kitchen_walkthrough.mp4', 'video', this)">
                 <img src="images/projects/IMG_3346.webp" alt="Field Walkthrough Video">
-                <span class="pw-thumb-badge">▶ Video Tour</span>
+                <span class="pw-thumb-badge">▶ Tour</span>
               </div>
               <div class="pw-thumb" onclick="switchMedia('kitchen', 'images/projects/IMG_3346.webp', 'image', this)">
                 <img src="images/projects/IMG_3346.webp" alt="Installed White Shaker Cabinets">
-                <span class="pw-thumb-badge">Sink & Tops</span>
+                <span class="pw-thumb-badge">Cabinets</span>
               </div>
               <div class="pw-thumb" onclick="switchMedia('kitchen', 'images/projects/IMG_3341.webp', 'image', this)">
                 <img src="images/projects/IMG_3341.webp" alt="Full Kitchen Layout">
-                <span class="pw-thumb-badge">Full Layout</span>
+                <span class="pw-thumb-badge">Layout</span>
               </div>
             </div>
 
             <p class="pw-narrative">
-              Complete kitchen rebuild featuring bright white shaker cabinetry, marble-veined laminate countertops, stainless steel sink with high-arc commercial gooseneck pull-down sprayer, glazed white subway tile backsplash, butcher-block counter extension, and dark plank flooring.
+              Complete kitchen buildout: bright white shaker cabinetry, marble-veined tops, subway tile backsplash, and dark plank flooring.
             </p>
 
             <div class="pw-specs-grid">
               <span class="pw-spec-tag">White Shaker Cabinets</span>
               <span class="pw-spec-tag">Marble-Veined Tops</span>
               <span class="pw-spec-tag">Subway Backsplash</span>
-              <span class="pw-spec-tag">Gooseneck Sprayer</span>
               <span class="pw-spec-tag">Plank Flooring</span>
             </div>
 
@@ -1044,15 +1116,21 @@
           </div>
         </div>
 
-        <!-- Project 3: Commercial Acoustical Drop Ceiling -->
+        <!-- Project 3: Commercial Acoustical Ceiling -->
         <div class="project-window" id="pw-ceiling">
           <div class="pw-header" onclick="toggleWindow('pw-ceiling')">
-            <div class="pw-titles">
-              <span class="pw-category">Commercial Renovation</span>
-              <span class="pw-name">Commercial Facility Suspended Acoustical Grid</span>
-              <span class="pw-location">Wisconsin Rapids Area</span>
+            <div class="pw-header-left">
+              <div class="pw-icon-badge">
+                <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+              </div>
+              <div class="pw-titles">
+                <span class="pw-category">Commercial Renovation</span>
+                <span class="pw-name">Facility Suspended Acoustical Grid</span>
+              </div>
             </div>
-            <div class="pw-toggle-btn">▾</div>
+            <div class="pw-toggle-btn">
+              <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
           </div>
 
           <div class="pw-body">
@@ -1063,7 +1141,7 @@
             <div class="pw-thumb-strip">
               <div class="pw-thumb active" onclick="switchMedia('ceiling', 'images/projects/IMG_6788.webp', 'image', this)">
                 <img src="images/projects/IMG_6788.webp" alt="Concourse Ceiling Grid">
-                <span class="pw-thumb-badge">Concourse Grid</span>
+                <span class="pw-thumb-badge">Grid</span>
               </div>
               <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6794.webp', 'image', this)">
                 <img src="images/projects/IMG_6794.webp" alt="Full Facility Ceiling Span">
@@ -1071,42 +1149,48 @@
               </div>
               <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6792.webp', 'image', this)">
                 <img src="images/projects/IMG_6792.webp" alt="Wide Span Floor">
-                <span class="pw-thumb-badge">Wide Facility</span>
+                <span class="pw-thumb-badge">Floor Span</span>
               </div>
               <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6778.webp', 'image', this)">
                 <img src="images/projects/IMG_6778.webp" alt="Ceiling Tile Prep">
-                <span class="pw-thumb-badge">Tile Staging</span>
+                <span class="pw-thumb-badge">Staging</span>
               </div>
               <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6595.webp', 'image', this)">
                 <img src="images/projects/IMG_6595.webp" alt="Overhead Grid Work">
-                <span class="pw-thumb-badge">Scaffolding</span>
+                <span class="pw-thumb-badge">Laser Level</span>
               </div>
             </div>
 
             <p class="pw-narrative">
-              Full-span commercial suspended acoustical ceiling installation across a large recreation venue. Precision laser-leveled grid framework, 2x4 acoustic absorption panels, integrated fluorescent and LED lighting troffers, and HVAC diffuser fitments.
+              Laser-leveled commercial suspended ceiling grid with 2x4 acoustic absorption panels, troffer light fixtures, and HVAC diffuser tie-ins.
             </p>
 
             <div class="pw-specs-grid">
               <span class="pw-spec-tag">2x4 Acoustical Panels</span>
-              <span class="pw-spec-tag">Suspended Heavy Grid</span>
+              <span class="pw-spec-tag">Laser Leveled Grid</span>
               <span class="pw-spec-tag">Troffer Lighting</span>
-              <span class="pw-spec-tag">HVAC Integration</span>
+              <span class="pw-spec-tag">HVAC Diffusers</span>
             </div>
 
             <button onclick="prefillAndSwitch('Commercial Drop Ceilings')" class="pw-quote-cta">Request Commercial Estimate ↗</button>
           </div>
         </div>
 
-        <!-- Project 4: Treated Wood Deck & Staircase -->
+        <!-- Project 4: Treated Deck & Staircase -->
         <div class="project-window" id="pw-deck">
           <div class="pw-header" onclick="toggleWindow('pw-deck')">
-            <div class="pw-titles">
-              <span class="pw-category">Outdoor Living & Carpentry</span>
-              <span class="pw-name">Treated Wood Deck, Baluster Railing & Staircase</span>
-              <span class="pw-location">Central Wisconsin</span>
+            <div class="pw-header-left">
+              <div class="pw-icon-badge">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+              <div class="pw-titles">
+                <span class="pw-category">Outdoor Carpentry</span>
+                <span class="pw-name">Treated Wood Deck & Integrated Stairs</span>
+              </div>
             </div>
-            <div class="pw-toggle-btn">▾</div>
+            <div class="pw-toggle-btn">
+              <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
           </div>
 
           <div class="pw-body">
@@ -1117,31 +1201,31 @@
             <div class="pw-thumb-strip">
               <div class="pw-thumb active" onclick="switchMedia('deck', 'images/projects/deck_finished_stairs.webp', 'image', this)">
                 <img src="images/projects/deck_finished_stairs.webp" alt="Finished Deck and Staircase">
-                <span class="pw-thumb-badge">Finished Stairs</span>
+                <span class="pw-thumb-badge">Finished</span>
               </div>
               <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_stair_install.webp', 'image', this)">
                 <img src="images/projects/deck_stair_install.webp" alt="Deck Surface Installation">
-                <span class="pw-thumb-badge">Deck Surface</span>
+                <span class="pw-thumb-badge">Decking</span>
               </div>
               <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_corner_railing.webp', 'image', this)">
                 <img src="images/projects/deck_corner_railing.webp" alt="Baluster Railing Profile">
-                <span class="pw-thumb-badge">Railing Profile</span>
+                <span class="pw-thumb-badge">Railing</span>
               </div>
               <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_wide_elevation.webp', 'image', this)">
                 <img src="images/projects/deck_wide_elevation.webp" alt="Rear Elevation Sub-Structure">
-                <span class="pw-thumb-badge">Rear Elevation</span>
+                <span class="pw-thumb-badge">Framing</span>
               </div>
             </div>
 
             <p class="pw-narrative">
-              Elevated outdoor deck off the rear patio slider. Built on solid timber support posts with heavy rim joist framing, finished wood plank decking, vertical baluster safety railings, top rail cap, and custom-cut 4-step stringer stair system down to grade.
+              Elevated outdoor deck framing tied into patio slider, finished plank surface, baluster railings, and custom 4-step stringer stair system.
             </p>
 
             <div class="pw-specs-grid">
-              <span class="pw-spec-tag">Treated Lumber Framing</span>
-              <span class="pw-spec-tag">Vertical Baluster Railings</span>
+              <span class="pw-spec-tag">Treated Framing</span>
+              <span class="pw-spec-tag">Baluster Railing</span>
               <span class="pw-spec-tag">Custom Cut Stringers</span>
-              <span class="pw-spec-tag">Patio Slider Tie-In</span>
+              <span class="pw-spec-tag">Slider Tie-In</span>
             </div>
 
             <button onclick="prefillAndSwitch('Decks & Outdoor Living')" class="pw-quote-cta">Request Deck Estimate ↗</button>
@@ -1157,10 +1241,13 @@
     <section class="tab-pane" id="tab-windows">
       
       <div class="wd-hero-banner">
-        <span class="wd-badge">❄️ Wisconsin Winter-Proof Envelope</span>
-        <h2 class="wd-title">High-Efficiency Replacement Windows & Insulated Doors</h2>
+        <span class="wd-badge">
+          <svg class="icon-svg" style="width:12px;height:12px;" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Thermal Envelope
+        </span>
+        <h2 class="wd-title">Replacement Windows & Insulated Doors</h2>
         <p class="wd-desc">
-          Stop winter drafts, rotting sills, and sky-high heating bills. We install precision-fit Low-E insulated replacement windows, solid fiberglass entry doors, and heavy-duty patio sliders built for Central Wisconsin sub-zero winters.
+          Precision-fit Low-E insulated replacement windows, solid fiberglass entry systems, and heavy-duty patio sliders built for Wisconsin weather.
         </p>
       </div>
 
@@ -1168,16 +1255,16 @@
         <!-- Card 1: Windows -->
         <div class="wd-card">
           <div class="wd-card-media">
-            <img src="images/projects/window_replacement.webp" alt="High-efficiency double-hung replacement windows in Wisconsin daylight" loading="lazy">
+            <img src="images/projects/window_replacement.webp" alt="High-efficiency replacement windows" loading="lazy">
           </div>
           <div class="wd-card-content">
             <h3 class="wd-card-title">Replacement Windows</h3>
-            <p class="wd-card-sub">Double-hung, casement, picture, and slider replacement units with precision exterior casing.</p>
+            <p class="wd-card-sub">Double-hung, casement, and slider units with custom exterior casing.</p>
             <ul class="wd-specs-list">
               <li>Low-E Argon Insulated Glass</li>
-              <li>Multi-Chamber Fusion Welded Vinyl</li>
+              <li>Fusion-Welded Vinyl Frames</li>
               <li>Dual Weatherstripping Seals</li>
-              <li>Custom Exterior Trim & Flashing</li>
+              <li>Custom Exterior Trim</li>
             </ul>
             <button onclick="prefillAndSwitch('Windows & Doors')" class="btn-wd-card-action">Get Window Quote ↗</button>
           </div>
@@ -1186,16 +1273,16 @@
         <!-- Card 2: Entry Doors -->
         <div class="wd-card">
           <div class="wd-card-media">
-            <img src="images/projects/entry_door.webp" alt="Insulated fiberglass front entry door with privacy glass sidelights" loading="lazy">
+            <img src="images/projects/entry_door.webp" alt="Insulated fiberglass entry door" loading="lazy">
           </div>
           <div class="wd-card-content">
             <h3 class="wd-card-title">Insulated Entry Doors</h3>
-            <p class="wd-card-sub">Heavy-duty fiberglass and steel doors engineered for maximum security and thermal barrier protection.</p>
+            <p class="wd-card-sub">Heavy-duty fiberglass and steel doors for security and weather barrier defense.</p>
             <ul class="wd-specs-list">
-              <li>High-Density Foam Core Insulation</li>
-              <li>Satin Privacy Glass Sidelights</li>
-              <li>Heavy Magnetic Weather Seals</li>
-              <li>Brushed Nickel Hardware Sets</li>
+              <li>High-Density Foam Core</li>
+              <li>Satin Privacy Sidelights</li>
+              <li>Magnetic Weather Seals</li>
+              <li>Brushed Nickel Hardware</li>
             </ul>
             <button onclick="prefillAndSwitch('Windows & Doors')" class="btn-wd-card-action">Get Door Quote ↗</button>
           </div>
@@ -1204,16 +1291,16 @@
         <!-- Card 3: Patio Sliders -->
         <div class="wd-card">
           <div class="wd-card-media">
-            <img src="images/projects/patio_door.webp" alt="Modern sliding glass patio door leading to cedar deck" loading="lazy">
+            <img src="images/projects/patio_door.webp" alt="Sliding glass patio door" loading="lazy">
           </div>
           <div class="wd-card-content">
             <h3 class="wd-card-title">Sliding Patio Doors</h3>
-            <p class="wd-card-sub">Smooth-gliding multi-panel patio doors with tempered safety glass and integrated multi-point locking systems.</p>
+            <p class="wd-card-sub">Smooth-gliding multi-panel patio doors with tempered thermal glass.</p>
             <ul class="wd-specs-list">
-              <li>Heavy-Duty Aluminum Clad Frame</li>
-              <li>Dual-Pane Thermal Insulation</li>
-              <li>Multi-Point Security Lock</li>
-              <li>Smooth Ball-Bearing Rollers</li>
+              <li>Aluminum Clad Frame</li>
+              <li>Dual-Pane Thermal Glass</li>
+              <li>Multi-Point Locking</li>
+              <li>Smooth Ball Bearings</li>
             </ul>
             <button onclick="prefillAndSwitch('Windows & Doors')" class="btn-wd-card-action">Get Patio Quote ↗</button>
           </div>
@@ -1227,109 +1314,124 @@
          ===================================================================== -->
     <section class="tab-pane" id="tab-gallery">
       
-      <!-- Filter Bar -->
+      <!-- Filter Bar with clean line SVGs -->
       <div class="gallery-filter-bar">
         <button class="filter-pill active" onclick="filterGallery('all', this)">All Jobs (16)</button>
-        <button class="filter-pill" onclick="filterGallery('siding', this)">🏠 Siding & Envelope</button>
-        <button class="filter-pill" onclick="filterGallery('interior', this)">🗄️ Kitchen & Interior</button>
-        <button class="filter-pill" onclick="filterGallery('ceiling', this)">🏢 Commercial Ceilings</button>
-        <button class="filter-pill" onclick="filterGallery('deck', this)">🪵 Decks & Railings</button>
-        <button class="filter-pill" onclick="filterGallery('window', this)">🪟 Windows & Doors</button>
+        <button class="filter-pill" onclick="filterGallery('siding', this)">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          Siding
+        </button>
+        <button class="filter-pill" onclick="filterGallery('interior', this)">
+          <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/></svg>
+          Interior
+        </button>
+        <button class="filter-pill" onclick="filterGallery('ceiling', this)">
+          <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+          Commercial
+        </button>
+        <button class="filter-pill" onclick="filterGallery('deck', this)">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg>
+          Decks
+        </button>
+        <button class="filter-pill" onclick="filterGallery('window', this)">
+          <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18M3 12h18"/></svg>
+          Windows/Doors
+        </button>
       </div>
 
       <!-- Photo Grid -->
       <div class="gallery-grid" id="gallery-container">
         
         <!-- Siding -->
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4801.webp', 'Finished Slate Blue Siding with Decorative Gable Shingles')">
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4801.webp', 'Finished Slate Blue Siding & Architectural Gables')">
           <img src="images/projects/IMG_4801.webp" alt="Finished Slate Blue Siding" loading="lazy">
           <span class="gallery-item-tag">Siding</span>
           <div class="gallery-item-caption">Finished Siding & Gables</div>
         </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4802.webp', 'Two-Story Side Wall Profile and Corner Post Trim')">
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4802.webp', 'Two-Story Side Elevation and Cased Trim')">
           <img src="images/projects/IMG_4802.webp" alt="Side Wall Profile" loading="lazy">
           <span class="gallery-item-tag">Siding</span>
           <div class="gallery-item-caption">Side Wall Elevation</div>
         </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4349.webp', 'Foil-Faced Thermal Weatherization Barrier Installation')">
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4349.webp', 'Foil Thermal Sheathing Installation')">
           <img src="images/projects/IMG_4349.webp" alt="Foil Insulation Sheathing" loading="lazy">
           <span class="gallery-item-tag">Siding</span>
           <div class="gallery-item-caption">Thermal Foil Sheathing</div>
         </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2012.webp', 'Original Weathered White Lap Siding Prior to Tear-Off')">
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2012.webp', 'Original Lap Siding Prior to Tear-Off')">
           <img src="images/projects/IMG_2012.webp" alt="Old Lap Siding" loading="lazy">
           <span class="gallery-item-tag">Siding</span>
           <div class="gallery-item-caption">Pre-Tearoff Lap Siding</div>
         </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2014.webp', 'Front Porch Entry Frame & Wrap')">
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2014.webp', 'Front Porch Framing & Weather Barrier')">
           <img src="images/projects/IMG_2014.webp" alt="Front Porch Entry" loading="lazy">
           <span class="gallery-item-tag">Siding</span>
           <div class="gallery-item-caption">Front Porch Framing</div>
         </div>
 
         <!-- Kitchen / Interior -->
-        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3346.webp', 'Installed White Shaker Cabinets with Marble-Pattern Countertop')">
+        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3346.webp', 'Custom White Shaker Cabinets and Marble-Pattern Countertops')">
           <img src="images/projects/IMG_3346.webp" alt="Installed White Shaker Cabinets" loading="lazy">
           <span class="gallery-item-tag">Interior</span>
           <div class="gallery-item-caption">White Shaker Cabinets</div>
         </div>
-        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3341.webp', 'Full Kitchen Remodel with Subway Tile and Wood Flooring')">
+        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3341.webp', 'Full Kitchen Remodel with Subway Backsplash')">
           <img src="images/projects/IMG_3341.webp" alt="Full Kitchen Remodel" loading="lazy">
           <span class="gallery-item-tag">Interior</span>
           <div class="gallery-item-caption">Full Kitchen Remodel</div>
         </div>
 
         <!-- Commercial Ceiling -->
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6788.webp', 'Suspended Commercial Acoustical Ceiling Grid in Seating Concourse')">
+        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6788.webp', 'Commercial Suspended Acoustical Grid in Concourse')">
           <img src="images/projects/IMG_6788.webp" alt="Suspended Ceiling Grid" loading="lazy">
           <span class="gallery-item-tag">Commercial</span>
           <div class="gallery-item-caption">Concourse Ceiling Grid</div>
         </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6794.webp', 'Full Facility Ceiling Span with Integrated Lighting')">
+        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6794.webp', 'Full Facility Ceiling Span & Integrated Lighting')">
           <img src="images/projects/IMG_6794.webp" alt="Full Facility Ceiling Span" loading="lazy">
           <span class="gallery-item-tag">Commercial</span>
           <div class="gallery-item-caption">Full Span Grid</div>
         </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6792.webp', 'Overhead Acoustical Grid Over Recreation Lanes')">
+        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6792.webp', 'Acoustical Grid Over Multi-Lane Facility')">
           <img src="images/projects/IMG_6792.webp" alt="Overhead Acoustical Grid" loading="lazy">
           <span class="gallery-item-tag">Commercial</span>
           <div class="gallery-item-caption">Facility Wide Span</div>
         </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6778.webp', 'Ceiling Tile Material Staging')">
+        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6778.webp', 'Ceiling Tile Staging and Material Prep')">
           <img src="images/projects/IMG_6778.webp" alt="Tile Staging" loading="lazy">
           <span class="gallery-item-tag">Commercial</span>
           <div class="gallery-item-caption">Tile Staging & Prep</div>
         </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6595.webp', 'Scaffolding & Laser Level Grid Alignment')">
+        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6595.webp', 'Laser Level Grid Alignment & Scaffold Setup')">
           <img src="images/projects/IMG_6595.webp" alt="Scaffolding Grid Work" loading="lazy">
           <span class="gallery-item-tag">Commercial</span>
           <div class="gallery-item-caption">Scaffold Grid Work</div>
         </div>
 
         <!-- Decks -->
-        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_finished_stairs.webp', 'Completed Treated Wood Deck with 4-Step Staircase')">
+        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_finished_stairs.webp', 'Finished Treated Wood Deck & 4-Step Staircase')">
           <img src="images/projects/deck_finished_stairs.webp" alt="Finished Deck and Stairs" loading="lazy">
           <span class="gallery-item-tag">Deck</span>
           <div class="gallery-item-caption">Deck & Finished Stairs</div>
         </div>
-        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_corner_railing.webp', 'Vertical Baluster Safety Railing Profile')">
+        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_corner_railing.webp', 'Baluster Safety Railing Profile')">
           <img src="images/projects/deck_corner_railing.webp" alt="Baluster Safety Railing" loading="lazy">
           <span class="gallery-item-tag">Deck</span>
           <div class="gallery-item-caption">Baluster Railing Profile</div>
         </div>
-        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_stair_install.webp', 'Treated Deck Surface Fastening and Carpenter Fitment')">
+        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_stair_install.webp', 'Deck Surface Board Fitment and Fastening')">
           <img src="images/projects/deck_stair_install.webp" alt="Deck Surface Fitment" loading="lazy">
           <span class="gallery-item-tag">Deck</span>
           <div class="gallery-item-caption">Deck Board Fitment</div>
         </div>
 
         <!-- Windows & Doors -->
-        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/window_replacement.webp', 'Modern High-Efficiency Double-Hung Replacement Windows')">
+        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/window_replacement.webp', 'Energy-Efficient Double-Hung Replacement Windows')">
           <img src="images/projects/window_replacement.webp" alt="Replacement Windows" loading="lazy">
           <span class="gallery-item-tag">Windows</span>
           <div class="gallery-item-caption">Double-Hung Windows</div>
         </div>
-        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/entry_door.webp', 'Insulated Fiberglass Entry Door with Privacy Glass')">
+        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/entry_door.webp', 'Insulated Fiberglass Entry Door with Privacy Sidelights')">
           <img src="images/projects/entry_door.webp" alt="Insulated Entry Door" loading="lazy">
           <span class="gallery-item-tag">Doors</span>
           <div class="gallery-item-caption">Fiberglass Entry Door</div>
@@ -1354,11 +1456,14 @@
           <p>Direct mobile dispatch to John Dondlinger. Fast response guaranteed.</p>
         </div>
 
-        <!-- Voice & Photo Alternative Link -->
+        <!-- Voice & Photo Alternative Link with clean SVG -->
         <div class="voice-photo-banner">
-          <div class="vpb-text">
-            <span class="vpb-title">🎙️ Need Voice or Photo Intake?</span>
-            <span class="vpb-sub">Record voice specs or upload job photos</span>
+          <div class="vpb-left">
+            <svg class="icon-svg vpb-icon" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div class="vpb-text">
+              <span class="vpb-title">Voice & Photo Intake</span>
+              <span class="vpb-sub">Record specs or upload job photos</span>
+            </div>
           </div>
           <a href="/intake.html" class="vpb-btn">Open App ↗</a>
         </div>
@@ -1398,7 +1503,10 @@
             <textarea id="fNotes" class="form-textarea" rows="3" placeholder="Approximate dimensions, materials, or target timeline..."></textarea>
           </div>
 
-          <button type="submit" id="fSubmitBtn" class="btn-submit-lead">Send Estimate Request ⚡</button>
+          <button type="submit" id="fSubmitBtn" class="btn-submit-lead">
+            <svg class="icon-svg" style="width:16px;height:16px;stroke:#fff;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Send Estimate Request
+          </button>
         </form>
       </div>
     </section>
@@ -1412,20 +1520,24 @@
     <div id="lightbox-caption"></div>
   </div>
 
-  <!-- Sticky Bottom Dock -->
+  <!-- Sticky Bottom Dock with clean SVGs -->
   <footer id="bottom-dock">
-    <a href="tel:7154593050" class="dock-btn-phone">📞 Direct Call</a>
-    <button onclick="switchTab('tab-estimate')" class="dock-btn-estimate">⚡ Get Estimate</button>
+    <a href="tel:7154593050" class="dock-btn-phone">
+      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Direct Call
+    </a>
+    <button onclick="switchTab('tab-estimate')" class="dock-btn-estimate">
+      <svg class="icon-svg" style="width:15px;height:15px;stroke:#fff;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Get Estimate
+    </button>
   </footer>
 
   <script>
     // Tab Switching Logic
     function switchTab(tabId) {
-      // Deactivate all tabs
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
 
-      // Activate selected tab
       const btnId = 'btn-' + tabId.replace('tab-', '');
       const btn = document.getElementById(btnId);
       const pane = document.getElementById(tabId);
@@ -1433,7 +1545,6 @@
       if (btn) btn.classList.add('active');
       if (pane) pane.classList.add('active');
 
-      // Scroll to tab bar smoothly if below top
       const bar = document.querySelector('.tab-bar-wrap');
       if (bar) {
         const barTop = bar.getBoundingClientRect().top + window.scrollY - 70;
@@ -1472,13 +1583,13 @@
 
       if (mediaType === 'video') {
         viewer.innerHTML = `
-          <video controls autoplay playsinline style="width:100%;height:auto;max-height:480px;object-fit:contain;">
+          <video controls autoplay playsinline style="width:100%;height:auto;max-height:460px;object-fit:contain;">
             <source src="${mediaSrc}" type="video/mp4">
           </video>
         `;
       } else {
         viewer.innerHTML = `
-          <img src="${mediaSrc}" alt="Project Photo" style="width:100%;height:auto;max-height:480px;object-fit:contain;">
+          <img src="${mediaSrc}" alt="Project Photo" style="width:100%;height:auto;max-height:460px;object-fit:contain;">
         `;
       }
     }
@@ -1522,7 +1633,7 @@
     async function handleLeadSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('fSubmitBtn');
-      const orig = btn.textContent;
+      const orig = btn.innerHTML;
       btn.disabled = true;
       btn.textContent = 'Submitting to Dispatch...';
 
@@ -1542,11 +1653,11 @@
         });
         const data = await res.json();
         if (data.success) {
-          btn.textContent = '✅ Estimate Dispatched to Telegram!';
+          btn.innerHTML = '✅ Dispatched to Telegram!';
           btn.style.background = 'var(--green)';
           document.getElementById('leadForm').reset();
           setTimeout(() => {
-            btn.textContent = orig;
+            btn.innerHTML = orig;
             btn.style.background = 'var(--accent)';
             btn.disabled = false;
           }, 4000);
@@ -1556,7 +1667,7 @@
       } catch (err) {
         alert('Thank you! Your request was received. Direct phone: (715) 459-3050');
         btn.disabled = false;
-        btn.textContent = orig;
+        btn.innerHTML = orig;
       }
     }
   </script>
