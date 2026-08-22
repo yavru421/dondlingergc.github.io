@@ -84,6 +84,78 @@
       gap: 10px;
       text-decoration: none;
       color: #fff;
+      position: relative;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .hud-brand:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .hud-dropdown-icon {
+      font-size: 10px;
+      color: var(--accent);
+      margin-left: 4px;
+      transition: transform 0.2s ease;
+    }
+    .hud-brand.active .hud-dropdown-icon {
+      transform: rotate(180deg);
+    }
+    .hud-menu-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      width: 280px;
+      background: #0e131a;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 10000;
+    }
+    .hud-menu-dropdown.show {
+      display: flex;
+    }
+    .hud-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 600;
+      transition: all 0.18s;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid transparent;
+    }
+    .hud-menu-item:hover {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: var(--cyan);
+    }
+    .hud-menu-icon {
+      font-size: 16px;
+      width: 22px;
+      text-align: center;
+    }
+    .hud-menu-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .hud-menu-title {
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+    .hud-menu-desc {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
     }
     .hud-logo {
       width: 36px;
@@ -1111,13 +1183,52 @@
 
   <!-- Sticky Top Header HUD -->
   <header id="site-hud">
-    <a href="#" class="hud-brand">
+    <div class="hud-brand" id="hud-brand-toggle" onclick="toggleHudMenu(event)">
       <img src="dondlinger_logo.png" alt="Dondlinger General Contracting" class="hud-logo">
       <div class="hud-brand-text">
-        <span class="hud-name">DONDLINGER GENERAL CONTRACTING LLC</span>
+        <span class="hud-name">DONDLINGER GENERAL CONTRACTING LLC <span class="hud-dropdown-icon">▼</span></span>
         <span class="hud-sub"><span class="dot"></span> WI DSPS #1519787 • LICENSED</span>
       </div>
-    </a>
+
+      <!-- Expandable Multi-App Menu Dropdown -->
+      <div class="hud-menu-dropdown" id="hud-menu-dropdown">
+        <a href="/calc/" class="hud-menu-item">
+          <span class="hud-menu-icon">🏗️</span>
+          <div class="hud-menu-text">
+            <span class="hud-menu-title">PourReady Concrete Estimator</span>
+            <span class="hud-menu-desc">Central WI Slab & Yardage Estimator</span>
+          </div>
+        </a>
+        <a href="https://voice-intake-app.dondlingergc.com" class="hud-menu-item" target="_blank" rel="noopener">
+          <span class="hud-menu-icon">🎙️</span>
+          <div class="hud-menu-text">
+            <span class="hud-menu-title">Voice Intake Portal</span>
+            <span class="hud-menu-desc">15s Audio Job Note Dispatch</span>
+          </div>
+        </a>
+        <a href="https://wazweather.dondlingergc.com" class="hud-menu-item" target="_blank" rel="noopener">
+          <span class="hud-menu-icon">⚡</span>
+          <div class="hud-menu-text">
+            <span class="hud-menu-title">WaZ Weather Radar</span>
+            <span class="hud-menu-desc">Atmospheric & Storm Dispatch</span>
+          </div>
+        </a>
+        <a href="https://skydrop.dondlingergc.com" class="hud-menu-item" target="_blank" rel="noopener">
+          <span class="hud-menu-icon">📦</span>
+          <div class="hud-menu-text">
+            <span class="hud-menu-title">SkyDrop File Transfer</span>
+            <span class="hud-menu-desc">Encrypted Zero-Cloud Transfer</span>
+          </div>
+        </a>
+        <a href="/architecture.html" class="hud-menu-item">
+          <span class="hud-menu-icon">📐</span>
+          <div class="hud-menu-text">
+            <span class="hud-menu-title">ZLA Architecture Spec</span>
+            <span class="hud-menu-desc">Telemetry & Whitepaper Dossier</span>
+          </div>
+        </a>
+      </div>
+    </div>
     <div class="hud-actions">
       <a href="tel:7154593050" class="btn-hud-call">
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -2079,6 +2190,41 @@
           }
         }
       } catch {}
+    });
+
+    function toggleHudMenu(e) {
+      if (e.target.closest('.hud-menu-item')) return; // Allow navigation click
+      e.stopPropagation();
+      const brand = document.getElementById('hud-brand-toggle');
+      const menu = document.getElementById('hud-menu-dropdown');
+      if (!brand || !menu) return;
+      const isOpen = menu.classList.contains('show');
+      if (isOpen) {
+        menu.classList.remove('show');
+        brand.classList.remove('active');
+      } else {
+        menu.classList.add('show');
+        brand.classList.add('active');
+      }
+    }
+
+    document.addEventListener('click', function(e) {
+      const brand = document.getElementById('hud-brand-toggle');
+      const menu = document.getElementById('hud-menu-dropdown');
+      if (menu && menu.classList.contains('show') && !brand.contains(e.target)) {
+        menu.classList.remove('show');
+        brand.classList.remove('active');
+      }
+    });
+
+    // Close drawers on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const menu = document.getElementById('hud-menu-dropdown');
+        const brand = document.getElementById('hud-brand-toggle');
+        if (menu) { menu.classList.remove('show'); brand.classList.remove('active'); }
+        closeCarpDrawer();
+      }
     });
   </script>
 </body>

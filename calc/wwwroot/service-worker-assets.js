@@ -1,13 +1,13 @@
 self.assetsManifest = {
-  "version": "6Y5E+HSl",
+  "version": "9jQnHqCH",
   "assets": [
     {
       "hash": "sha256-FwsldD18PzVFdX7uk1euJYwB0nLS0XrHMZDJS8rnZ/0=",
       "url": "JobsiteCalculatorPwa.styles.css"
     },
     {
-      "hash": "sha256-uiojwwfT6/8huhJQEuTZRmjXadJAnJeyd9JtDXLFKNQ=",
-      "url": "_framework/JobsiteCalculatorPwa.ejkz0uez1p.wasm"
+      "hash": "sha256-RLkcFWpzj5iKEQ66cvw+pwxsiiQmU96Bv06mUYOHh18=",
+      "url": "_framework/JobsiteCalculatorPwa.8h9bmzcdl8.wasm"
     },
     {
       "hash": "sha256-vj209v7TMHscZnUv9D3QaqBlEQeoWmZE4Nw1T4qu+34=",
@@ -206,8 +206,8 @@ self.assetsManifest = {
       "url": "_framework/blazor.webassembly.66stpp682q.js"
     },
     {
-      "hash": "sha256-dXA5oJdJqR2c2KKedkg1xR1xAWj0hLG6TXdZaHHYj5w=",
-      "url": "_framework/dotnet.3qifru93yd.js"
+      "hash": "sha256-CcuXX1sHZCGmhALcT70qQUwIsdO+12/NgpGw1tIXI38=",
+      "url": "_framework/dotnet.jtxvsvwwkz.js"
     },
     {
       "hash": "sha256-t2sLHIeFuKgbEH+wz5jXGlVRt+hMNlyCkCwLtVZUwws=",
@@ -250,7 +250,7 @@ self.assetsManifest = {
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-3Bd1ORcDV5CJAPf5MxsySMC++zrMK7xH25nGVpypWCo=",
+      "hash": "sha256-zDZhzKLIaok9ZHDRjlm6wDk2E+ptfzHGJONrqGiH1T4=",
       "url": "index.html"
     },
     {
