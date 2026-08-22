@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="description" content="Dondlinger General Contracting LLC — J. Dondlinger, Journeyman Carpenter. Exterior siding envelopes, replacement windows, custom doors, kitchens, decks, and commercial drop ceilings in Wisconsin Rapids & Central Wisconsin.">
-  <title>Dondlinger General Contracting LLC — J. Dondlinger | Wisconsin Rapids, WI</title>
+  <meta name="description" content="Dondlinger General Contracting LLC — Wisconsin DSPS Licensed Dwelling Contractor #1519787 in Wisconsin Rapids, WI. Residential & commercial siding envelopes, replacement windows, custom doors, kitchens, decks, and commercial drop ceilings.">
+  <title>Dondlinger General Contracting LLC — Wisconsin Rapids, WI</title>
   
   <script type="module" src="https://dondlingergc.com/.webmcp/bridge.js" data-packs="c2pa,mcp-server-client"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,13 +38,11 @@
       color: var(--text-main);
       font-family: var(--font-body);
       font-size: 16px;
-      scroll-behavior: smooth;
     }
 
     body {
       padding-top: 62px;
       padding-bottom: calc(76px + env(safe-area-inset-bottom, 16px));
-      overflow-x: hidden;
       line-height: 1.5;
       min-height: 100vh;
       background: radial-gradient(circle at 50% 0%, rgba(255, 87, 34, 0.05) 0%, transparent 40%), var(--bg);
@@ -273,8 +271,8 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(3px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     /* =========================================================================
@@ -359,6 +357,7 @@
       transition: transform 0.25s ease, background 0.2s, color 0.2s;
       flex-shrink: 0;
     }
+    .pw-toggle-btn .icon-svg { width: 14px; height: 14px; stroke-width: 2; }
     .project-window.open .pw-toggle-btn {
       transform: rotate(180deg);
       background: var(--accent);
@@ -1085,8 +1084,8 @@
     <a href="#" class="hud-brand">
       <img src="dondlinger_logo.png" alt="Dondlinger General Contracting" class="hud-logo">
       <div class="hud-brand-text">
-        <span class="hud-name">DONDLINGER GC</span>
-        <span class="hud-sub"><span class="dot"></span> J. DONDLINGER • CARPENTER</span>
+        <span class="hud-name">DONDLINGER GENERAL CONTRACTING LLC</span>
+        <span class="hud-sub"><span class="dot"></span> WI DSPS #1519787 • LICENSED</span>
       </div>
     </a>
     <div class="hud-actions">
@@ -1106,7 +1105,7 @@
     </div>
     <h1 class="hero-headline">Quality Work. Straightforward Contracting.</h1>
     <p class="hero-subtext">
-      J. Dondlinger — Journeyman carpentry handling exterior siding envelopes, replacement windows & doors, custom cabinetry, decks, and commercial buildouts.
+      Dondlinger General Contracting LLC — Full-scope residential and commercial general contracting, exterior siding envelopes, replacement windows & doors, custom cabinetry, decks, and commercial acoustical buildouts.
     </p>
   </section>
 
@@ -1752,7 +1751,6 @@
   </footer>
 
   <script>
-    // Active Trade State for Ballpark Engine
     let currentTrade = 'windows';
     let telemetryTimer = null;
 
@@ -1794,7 +1792,6 @@
       }
     };
 
-    // Open / Close CARP-X Drawer
     function openCarpDrawer() {
       document.getElementById('carp-drawer-overlay').classList.add('active');
       document.getElementById('carp-drawer').classList.add('open');
@@ -1811,7 +1808,6 @@
       openCarpDrawer();
     }
 
-    // Select Trade in Drawer
     function selectScopeTrade(tradeKey) {
       currentTrade = tradeKey;
       document.querySelectorAll('.drawer-chip').forEach(c => c.classList.remove('active'));
@@ -1833,7 +1829,6 @@
       updateBallparkCalculation();
     }
 
-    // Live Ballpark Calculation & Debounced Telemetry
     function updateBallparkCalculation() {
       const cfg = TRADE_CONFIG[currentTrade];
       if (!cfg) return;
@@ -1850,14 +1845,12 @@
       document.getElementById('bp-range-display').textContent = rangeStr;
       document.getElementById('bp-trade-label').textContent = `${val} ${cfg.unit} (${currentTrade.toUpperCase()})`;
 
-      // Debounce anonymous telemetry beacon to Cloudflare D1
       clearTimeout(telemetryTimer);
       telemetryTimer = setTimeout(() => {
         logScopeTelemetry(currentTrade, val, rangeStr);
       }, 600);
     }
 
-    // Log Scope Telemetry to /api/telemetry
     async function logScopeTelemetry(trade, val, ballpark) {
       try {
         fetch('/api/telemetry', {
@@ -1873,7 +1866,6 @@
       } catch {}
     }
 
-    // Handle Drawer Dispatch Submission to /api/intake
     async function handleDrawerDispatch(e) {
       e.preventDefault();
       const btn = document.getElementById('dSubmitBtn');
@@ -1922,7 +1914,6 @@
       }
     }
 
-    // Direct Lead Submit from Tab 4
     async function handleDirectLeadSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('fSubmitBtn');
@@ -1965,7 +1956,7 @@
       }
     }
 
-    // Tab Switching Logic
+    // Native Tab Switch (Zero Involuntary Scroll Jumps)
     function switchTab(tabId) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
@@ -1976,17 +1967,8 @@
 
       if (btn) btn.classList.add('active');
       if (pane) pane.classList.add('active');
-
-      const bar = document.querySelector('.tab-bar-wrap');
-      if (bar) {
-        const barTop = bar.getBoundingClientRect().top + window.scrollY - 70;
-        if (window.scrollY > barTop) {
-          window.scrollTo({ top: barTop, behavior: 'smooth' });
-        }
-      }
     }
 
-    // Expand / Collapse Project Window
     function toggleWindow(id) {
       const el = document.getElementById(id);
       if (el) {
@@ -1994,7 +1976,6 @@
       }
     }
 
-    // Media Switcher inside Project Window
     function switchMedia(projectKey, mediaSrc, mediaType, thumbEl) {
       const viewer = document.getElementById('viewer-' + projectKey);
       if (!viewer) return;
@@ -2017,7 +1998,6 @@
       }
     }
 
-    // Filter Gallery Items in Tab 3
     function filterGallery(category, btnEl) {
       const pills = document.querySelectorAll('.gallery-filter-bar .filter-pill');
       pills.forEach(p => p.classList.remove('active'));
@@ -2033,7 +2013,6 @@
       });
     }
 
-    // Lightbox Modal for Photo Gallery
     function openLightbox(src, caption) {
       const modal = document.getElementById('lightbox-modal');
       const img = document.getElementById('lightbox-img');
@@ -2052,7 +2031,6 @@
       }
     }
 
-    // Geolocation city greeting fetch on load
     window.addEventListener('DOMContentLoaded', async () => {
       try {
         const res = await fetch('/api/telemetry');
