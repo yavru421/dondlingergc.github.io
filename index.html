@@ -2,663 +2,500 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="description" content="Dondlinger General Contracting LLC — Wisconsin DSPS Licensed Dwelling Contractor in Wisconsin Rapids, WI. High-precision roofing, siding, custom cabinetry, doors, windows, and commercial acoustical ceilings throughout Wood County & Central Wisconsin.">
-  <meta name="keywords" content="Wisconsin Rapids contractor, general contracting Wisconsin Rapids, roofing Wisconsin Rapids, siding Wood County, replacement windows, custom kitchen cabinets, 5 Star Lanes ceiling, DSPS licensed dwelling contractor, Nekoosa contractor, Port Edwards builder">
-  <meta name="geo.region" content="US-WI">
-  <meta name="geo.placename" content="Wisconsin Rapids, Wood County, Wisconsin">
-  <meta name="geo.position" content="44.3836;-89.8173">
-  <meta name="ICBM" content="44.3836, -89.8173">
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="dondlinger_logo.png">
-  <link rel="alternate" type="text/markdown" title="LLM Context" href="/llms.txt">
-  <link rel="alternate" type="text/markdown" title="Full LLM Context" href="/llms-full.txt">
-  <link rel="service-desc" type="application/json" title="WebMCP Manifest" href="/.well-known/mcp.json">
-  <title>Dondlinger General Contracting LLC — Wisconsin DSPS Licensed Dwelling Contractor</title>
-  
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "HomeAndConstructionBusiness",
-        "@id": "https://dondlingergc.com/#business",
-        "name": "Dondlinger General Contracting LLC",
-        "alternateName": "Dondlinger GC",
-        "url": "https://dondlingergc.com",
-        "logo": "https://dondlingergc.com/dondlinger_logo.png",
-        "image": "https://dondlingergc.com/images/projects/IMG_4801.webp",
-        "description": "Wisconsin DSPS Licensed Dwelling Contractor specializing in high-precision roofing, vinyl & steel siding, replacement windows, interior/exterior doors, custom shop & kitchen cabinetry, commercial drop ceilings, and residential additions.",
-        "telephone": "+1-715-459-3221",
-        "email": "johndondlinger21@gmail.com",
-        "priceRange": "$$",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Wisconsin Rapids",
-          "addressRegion": "WI",
-          "postalCode": "54494",
-          "addressCountry": "US"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 44.3836,
-          "longitude": -89.8173
-        },
-        "areaServed": [
-          { "@type": "City", "name": "Wisconsin Rapids" },
-          { "@type": "City", "name": "Nekoosa" },
-          { "@type": "City", "name": "Port Edwards" },
-          { "@type": "City", "name": "Biron" },
-          { "@type": "AdministrativeArea", "name": "Grand Rapids" },
-          { "@type": "AdministrativeArea", "name": "Saratoga" },
-          { "@type": "AdministrativeArea", "name": "Wood County" },
-          { "@type": "AdministrativeArea", "name": "Portage County" }
-        ],
-        "knowsAbout": [
-          "Wisconsin DSPS Dwelling Licensure",
-          "Architectural Shingle Roofing",
-          "Exterior Siding, Soffit & Fascia",
-          "Custom Kitchen & Shop Cabinetry",
-          "Commercial Acoustical Drop Ceilings",
-          "Window & Door Installation",
-          "UDC Structural Framing & Additions"
-        ]
-      }
-    ]
-  }
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="description" content="Dondlinger General Contracting LLC — Wisconsin DSPS Licensed Dwelling Contractor. High-precision roofing, siding, custom cabinetry, doors, windows, and commercial acoustical ceilings throughout Wood County & Central Wisconsin.">
+  <title>Dondlinger General Contracting LLC — WI DSPS Licensed Dwelling Contractor</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-base: #07090e;
-      --bg-card: #0e121a;
-      --bg-card-hover: #141b26;
-      --border: rgba(255, 255, 255, 0.08);
-      --border-accent: rgba(56, 189, 248, 0.3);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --accent: #ff6b35;
-      --accent-glow: rgba(255, 107, 53, 0.35);
-      --accent-cyan: #38bdf8;
-      --accent-green: #10b981;
-      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --bg: #060709;
+      --bg-card: #0d0f14;
+      --border: rgba(255, 255, 255, 0.12);
+      --accent: #ff5722;
+      --accent-glow: rgba(255, 87, 34, 0.4);
+      --cyan: #00f0ff;
+      --green: #22c55e;
+      --font-brand: 'Syne', sans-serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
+      --font-tech: 'Chakra Petch', sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    html {
+      background: var(--bg);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
 
     body {
-      font-family: var(--font-sans);
-      background-color: var(--bg-base);
-      color: var(--text-main);
-      line-height: 1.6;
+      padding-top: 56px;
+      padding-bottom: calc(80px + env(safe-area-inset-bottom, 20px));
       overflow-x: hidden;
-      padding-bottom: 90px;
     }
 
-    .top-trust-bar {
-      background: linear-gradient(90deg, #0b1320 0%, #17253d 50%, #0b1320 100%);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 20px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .trust-badges {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .badge-dsps {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-mono);
-      font-weight: 700;
-      color: var(--accent-cyan);
-      background: rgba(56, 189, 248, 0.1);
-      padding: 3px 10px;
-      border-radius: 6px;
-      border: 1px solid rgba(56, 189, 248, 0.25);
-    }
-    .badge-dsps .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--accent-green);
-      box-shadow: 0 0 8px var(--accent-green);
-    }
-
-    header.site-header {
-      padding: 16px 24px;
-      background: rgba(7, 9, 14, 0.88);
+    /* =========================================================================
+       STICKY MOBILE HUD (TOP)
+       ========================================================================= */
+    #mobile-hud {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: rgba(6, 7, 9, 0.95);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      z-index: 9999;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
+      padding: 0 16px;
     }
-    .brand-container {
+    .hud-brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
       text-decoration: none;
-      color: inherit;
+      color: #fff;
     }
-    .brand-logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
+    .hud-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
       object-fit: cover;
-      border: 1px solid var(--border-accent);
+      border: 1px solid rgba(255, 87, 34, 0.4);
     }
-    .brand-text h1 {
-      font-size: 1.15rem;
+    .hud-titles {
+      display: flex;
+      flex-direction: column;
+    }
+    .hud-name {
+      font-family: var(--font-brand);
       font-weight: 800;
+      font-size: 14px;
       letter-spacing: -0.3px;
-      line-height: 1.2;
+      line-height: 1.1;
     }
-    .brand-text p {
+    .hud-lic {
       font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-size: 9px;
+      color: var(--green);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hud-lic .dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+    }
+    .hud-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hud-btn-bid {
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      text-transform: uppercase;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    /* =========================================================================
+       HERO VIDEO BACKGROUND WITH LIVE OVERLAY
+       ========================================================================= */
+    .hero-video-viewport {
+      position: relative;
+      width: 100%;
+      min-height: 82svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px 20px 40px;
+      overflow: hidden;
+    }
+    .hero-bg-video {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      opacity: 0.65;
+      filter: contrast(1.1) brightness(0.85);
+    }
+    .hero-overlay-gradient {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, rgba(6,7,9,0.3) 0%, rgba(6,7,9,0.7) 60%, rgba(6,7,9,1) 100%);
+      z-index: 2;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 640px;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 87, 34, 0.15);
+      border: 1px solid var(--accent);
       color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .hero-headline {
+      font-family: var(--font-brand);
+      font-size: clamp(32px, 8vw, 48px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+    }
+    .hero-headline span.pop {
+      color: var(--accent);
+      text-shadow: 0 0 20px rgba(255, 87, 34, 0.5);
+    }
+    .hero-sub {
+      font-size: 15px;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .hero-taps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tap-btn-primary {
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-tech);
+      font-weight: 800;
+      font-size: 16px;
+      min-height: 52px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px var(--accent-glow);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .btn-header-quote {
-      background: var(--accent);
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 0.9rem;
-      padding: 10px 18px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all 0.2s;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 4px 14px var(--accent-glow);
-    }
-    .btn-header-quote:hover {
-      background: #ff5417;
-      transform: translateY(-1px);
-    }
-
-    .hero-section {
-      padding: 48px 24px 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-      text-align: center;
-      position: relative;
-    }
-    .hero-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 107, 53, 0.1);
-      border: 1px solid rgba(255, 107, 53, 0.3);
-      color: var(--accent);
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 6px 16px;
-      border-radius: 30px;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-    }
-    .hero-title {
-      font-size: clamp(2rem, 5vw, 3.4rem);
-      font-weight: 900;
-      line-height: 1.15;
-      letter-spacing: -1px;
-      margin-bottom: 20px;
-    }
-    .hero-title span.highlight {
-      background: linear-gradient(135deg, #ff8c5a 0%, #ff5417 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-desc {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      max-width: 720px;
-      margin: 0 auto 32px;
-      line-height: 1.6;
-    }
-    .hero-cta-group {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 40px;
-    }
-    .btn-hero-main {
-      background: var(--accent);
+    .tap-btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
       color: #fff;
-      font-size: 1.1rem;
+      border: 1px solid var(--border);
+      font-family: var(--font-tech);
+      font-weight: 700;
+      font-size: 15px;
+      min-height: 48px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* =========================================================================
+       SECTION CONTAINERS & PROOF CARDS
+       ========================================================================= */
+    .mobile-section {
+      padding: 36px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sec-head {
+      margin-bottom: 20px;
+    }
+    .sec-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
       font-weight: 800;
-      padding: 16px 32px;
-      border-radius: 12px;
-      text-decoration: none;
-      box-shadow: 0 8px 25px var(--accent-glow);
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-hero-main:hover {
-      background: #ff5417;
-      transform: scale(1.02);
-    }
-    .btn-hero-alt {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-main);
-      font-size: 1.05rem;
-      font-weight: 700;
-      padding: 16px 28px;
-      border-radius: 12px;
-      text-decoration: none;
-      border: 1px solid var(--border);
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-hero-alt:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .stats-strip {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      max-width: 1080px;
-      margin: 0 auto 48px;
-      padding: 0 12px;
-    }
-    .stat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      text-align: center;
-    }
-    .stat-card .val {
-      font-size: 1.8rem;
-      font-weight: 900;
-      color: var(--accent-cyan);
-      font-family: var(--font-mono);
-      display: block;
-      margin-bottom: 4px;
-    }
-    .stat-card .lbl {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .section-wrap {
-      max-width: 1200px;
-      margin: 0 auto 64px;
-      padding: 0 24px;
-    }
-    .section-header {
-      margin-bottom: 32px;
-      text-align: center;
-    }
-    .section-tag {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: var(--accent-cyan);
-      text-transform: uppercase;
+      color: var(--cyan);
       letter-spacing: 1px;
-      margin-bottom: 8px;
+      text-transform: uppercase;
       display: block;
-      font-weight: 700;
+      margin-bottom: 6px;
     }
-    .section-title {
-      font-size: clamp(1.8rem, 4vw, 2.4rem);
+    .sec-title {
+      font-family: var(--font-brand);
+      font-size: 26px;
       font-weight: 800;
       letter-spacing: -0.5px;
+      line-height: 1.15;
     }
 
-    .transformation-container {
+    /* BEFORE & AFTER TOUCH SLIDER */
+    .slider-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      margin-bottom: 48px;
+      margin-bottom: 24px;
     }
-    .slider-wrapper {
+    .slider-frame {
       position: relative;
       width: 100%;
-      height: clamp(340px, 50vw, 560px);
+      height: 380px;
       overflow: hidden;
       user-select: none;
+      touch-action: pan-y;
     }
-    .slider-img {
+    .slider-img-after {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0; width: 100%; height: 100%;
       object-fit: cover;
     }
-    .slider-before {
+    .slider-clip-before {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 50%;
-      height: 100%;
+      top: 0; left: 0; width: 50%; height: 100%;
       overflow: hidden;
       z-index: 2;
+      border-right: 3px solid #fff;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.8);
     }
-    .slider-before img {
+    .slider-clip-before img {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0; width: 100%; height: 100%;
       object-fit: cover;
       max-width: none;
     }
-    .slider-handle {
+    .slider-handle-touch {
       position: absolute;
-      top: 0;
-      bottom: 0;
+      top: 50%;
       left: 50%;
-      width: 4px;
-      background: #ffffff;
-      box-shadow: 0 0 12px rgba(0,0,0,0.8);
-      z-index: 3;
-      cursor: ew-resize;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .slider-button {
-      width: 40px;
-      height: 40px;
-      background: #ffffff;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      background: #fff;
       color: #000;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      font-size: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-    .slider-label {
-      position: absolute;
-      bottom: 20px;
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      backdrop-filter: blur(8px);
+      font-size: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.7);
       z-index: 4;
+      pointer-events: none;
     }
-    .label-before {
-      left: 20px;
-      background: rgba(0, 0, 0, 0.7);
-      color: #f87171;
-      border: 1px solid rgba(248, 113, 113, 0.3);
-    }
-    .label-after {
-      right: 20px;
-      background: rgba(0, 0, 0, 0.7);
-      color: var(--accent-green);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .transformation-desc {
-      padding: 24px;
+    .slider-tags {
+      position: absolute;
+      bottom: 14px;
+      left: 14px; right: 14px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-      border-top: 1px solid var(--border);
+      z-index: 5;
+      pointer-events: none;
     }
-    .trans-info h3 {
-      font-size: 1.25rem;
+    .s-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
       font-weight: 800;
-      margin-bottom: 4px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px);
+      text-transform: uppercase;
     }
-    .trans-info p {
-      font-size: 0.92rem;
-      color: var(--text-muted);
+    .s-tag.b { color: #f87171; border: 1px solid rgba(248, 113, 113, 0.4); }
+    .s-tag.a { color: var(--green); border: 1px solid rgba(34, 197, 94, 0.4); }
+
+    .slider-info {
+      padding: 16px;
+    }
+    .slider-info h3 {
+      font-family: var(--font-brand);
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .slider-info p {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
     }
 
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-    }
-    .project-card {
+    /* VIDEO WALKTHROUGH EMBEDS */
+    .video-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 16px;
       overflow: hidden;
-      transition: transform 0.2s, border-color 0.2s;
-      display: flex;
-      flex-direction: column;
+      margin-bottom: 20px;
     }
-    .project-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--border-accent);
-    }
-    .card-thumb-wrap {
+    .video-media-wrap {
       position: relative;
       width: 100%;
-      height: 240px;
+      height: 320px;
       background: #000;
     }
-    .card-thumb-wrap img {
+    .video-media-wrap video {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    .card-badge {
+    .video-badge {
       position: absolute;
       top: 12px;
       left: 12px;
+      background: rgba(0, 240, 255, 0.2);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
       font-family: var(--font-mono);
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      text-transform: uppercase;
-      backdrop-filter: blur(8px);
-    }
-    .badge-result {
-      background: rgba(16, 185, 129, 0.2);
-      color: var(--accent-green);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-    }
-    .badge-process {
-      background: rgba(56, 189, 248, 0.2);
-      color: var(--accent-cyan);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-    }
-    .card-body {
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-    .card-title {
-      font-size: 1.2rem;
+      font-size: 10px;
       font-weight: 800;
-      margin-bottom: 8px;
-    }
-    .card-location {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      margin-bottom: 12px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      backdrop-filter: blur(6px);
       text-transform: uppercase;
     }
-    .card-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-      margin-bottom: 16px;
-      flex-grow: 1;
+    .video-info {
+      padding: 16px;
     }
-    .card-specs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      border-top: 1px solid var(--border);
-      padding-top: 14px;
+    .video-info h3 {
+      font-family: var(--font-brand);
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 6px;
     }
-    .spec-pill {
-      font-size: 0.72rem;
-      font-family: var(--font-mono);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      padding: 3px 8px;
-      border-radius: 4px;
-      color: var(--text-muted);
+    .video-info p {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.45;
     }
 
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+    /* TOUCH FEED / GALLERY TILES */
+    .gallery-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
-    .service-card {
+    .craft-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 24px;
-      transition: all 0.2s;
+      overflow: hidden;
     }
-    .service-card:hover {
-      border-color: rgba(255, 107, 53, 0.35);
-      background: var(--bg-card-hover);
+    .craft-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 240px;
     }
-    .service-icon {
-      font-size: 2rem;
-      margin-bottom: 12px;
-      display: inline-block;
+    .craft-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
-    .service-title {
-      font-size: 1.15rem;
+    .craft-pill {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-family: var(--font-mono);
+      font-size: 9px;
       font-weight: 800;
-      margin-bottom: 8px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
     }
-    .service-details {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      line-height: 1.5;
+    .pill-res { background: rgba(34, 197, 94, 0.2); color: var(--green); border: 1px solid var(--green); }
+    .pill-proc { background: rgba(0, 240, 255, 0.2); color: var(--cyan); border: 1px solid var(--cyan); }
+    .craft-desc {
+      padding: 14px;
+    }
+    .craft-desc h4 {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .craft-desc p {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.4;
     }
 
-    .intake-section {
-      background: linear-gradient(145deg, #0e1420 0%, #151d2d 100%);
-      border: 1px solid var(--border-accent);
-      border-radius: 24px;
-      padding: 40px 32px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    /* DIRECT MOBILE INTAKE */
+    .mobile-intake-card {
+      background: linear-gradient(160deg, #10141e 0%, #0a0d14 100%);
+      border: 1px solid var(--accent);
+      border-radius: 18px;
+      padding: 24px 18px;
+      box-shadow: 0 10px 30px var(--accent-glow);
     }
-    .intake-form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin-bottom: 16px;
+    .m-input-group {
+      margin-bottom: 14px;
     }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .form-group.full-width {
-      grid-column: 1 / -1;
-    }
-    .form-label {
+    .m-label {
       font-family: var(--font-mono);
-      font-size: 0.78rem;
+      font-size: 10px;
       font-weight: 700;
-      color: var(--text-muted);
+      color: #94a3b8;
       text-transform: uppercase;
+      margin-bottom: 4px;
+      display: block;
     }
-    .form-input, .form-select, .form-textarea {
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid var(--border);
-      color: #ffffff;
-      padding: 14px 16px;
-      border-radius: 10px;
-      font-family: var(--font-sans);
-      font-size: 0.95rem;
+    .m-input, .m-select, .m-textarea {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 14px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
     }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
+    .m-input:focus, .m-select:focus, .m-textarea:focus {
       border-color: var(--accent);
     }
-    .btn-submit-lead {
-      background: var(--accent);
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 1.05rem;
-      padding: 16px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-      transition: all 0.2s;
-      box-shadow: 0 4px 20px var(--accent-glow);
-    }
-    .btn-submit-lead:hover {
-      background: #ff5417;
-      transform: translateY(-2px);
-    }
 
-    .mobile-bottom-dock {
+    /* STICKY BOTTOM THUMB ACTION DOCK */
+    #thumb-dock {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(7, 9, 14, 0.92);
+      bottom: 0; left: 0; right: 0;
+      height: 72px;
+      background: rgba(6, 7, 9, 0.96);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-top: 1px solid var(--border);
-      padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+      z-index: 9999;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      z-index: 999;
+      padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 6px);
+      gap: 10px;
     }
-    .btn-dock-call {
+    .dock-call {
       flex: 1;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border);
-      color: var(--text-main);
-      font-weight: 700;
-      font-size: 0.95rem;
-      padding: 12px;
+      color: #fff;
+      font-family: var(--font-tech);
+      font-weight: 800;
+      font-size: 14px;
+      height: 50px;
       border-radius: 10px;
       text-decoration: none;
       display: flex;
@@ -666,433 +503,252 @@
       justify-content: center;
       gap: 6px;
     }
-    .btn-dock-quote {
+    .dock-bid {
       flex: 1.4;
       background: var(--accent);
       color: #fff;
+      font-family: var(--font-tech);
       font-weight: 800;
-      font-size: 0.95rem;
-      padding: 12px;
+      font-size: 15px;
+      height: 50px;
       border-radius: 10px;
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      box-shadow: 0 4px 15px var(--accent-glow);
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 40px 24px 20px;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .footer-links a:hover {
-      color: var(--accent);
-    }
-
-    @media (max-width: 768px) {
-      .top-trust-bar { justify-content: center; }
-      .header-actions { display: none; }
-      .transformation-desc { flex-direction: column; align-items: flex-start; }
+      box-shadow: 0 0 16px var(--accent-glow);
+      text-transform: uppercase;
     }
   </style>
 </head>
 <body>
 
-  <div class="top-trust-bar">
-    <div class="trust-badges">
-      <span class="badge-dsps"><span class="dot"></span> WI DSPS LICENSED DWELLING CONTRACTOR</span>
-      <span>• Wood County & Central Wisconsin</span>
-    </div>
-    <div>
-      <span>Direct Line: <strong>(715) 459-3221</strong></span>
-    </div>
-  </div>
-
-  <header class="site-header">
-    <a href="#" class="brand-container">
-      <img src="dondlinger_logo.png" alt="Dondlinger General Contracting" class="brand-logo">
-      <div class="brand-text">
-        <h1>DONDLINGER GC LLC</h1>
-        <p>Licensed Dwelling Contractor</p>
+  <!-- Top Sticky HUD -->
+  <header id="mobile-hud">
+    <a href="#" class="hud-brand">
+      <img src="dondlinger_logo.png" alt="DGC" class="hud-logo">
+      <div class="hud-titles">
+        <span class="hud-name">DONDLINGER GC</span>
+        <span class="hud-lic"><span class="dot"></span> WI DSPS LICENSED</span>
       </div>
     </a>
-
-    <div class="header-actions">
-      <a href="#services" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 600; margin-right: 12px;">Services</a>
-      <a href="#gallery" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 600; margin-right: 12px;">Project Proofs</a>
-      <a href="/calc/index.html" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.9rem; font-weight: 600; margin-right: 12px;">🧮 Concrete Calc</a>
-      <a href="#intake" class="btn-header-quote">REQUEST BID ⚡</a>
+    <div class="hud-actions">
+      <a href="#intake" class="hud-btn-bid">GET BID ⚡</a>
     </div>
   </header>
 
-  <section class="hero-section">
-    <div class="hero-pill">
-      🔨 High-Precision Building & Renovation
-    </div>
-    <h2 class="hero-title">
-      Built to Wisconsin Code.<br>
-      <span class="highlight">Finished with Master Craftsmanship.</span>
-    </h2>
-    <p class="hero-desc">
-      Wisconsin DSPS Licensed Dwelling Contractor in Wisconsin Rapids. From whole-home siding transformations and architectural roofing to custom shop cabinetry and commercial acoustical drop ceilings throughout Wood County.
-    </p>
+  <!-- Hero Video Viewport -->
+  <section class="hero-video-viewport">
+    <video class="hero-bg-video" autoplay muted loop playsinline poster="images/projects/IMG_4801.webp">
+      <source src="videos/exterior_panning.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay-gradient"></div>
 
-    <div class="hero-cta-group">
-      <a href="#intake" class="btn-hero-main">
-        <span>📋 REQUEST ESTIMATE / BID</span>
-      </a>
-      <a href="tel:+17154593221" class="btn-hero-alt">
-        <span>📞 (715) 459-3221</span>
-      </a>
-    </div>
+    <div class="hero-content">
+      <div class="hero-tag">🔨 Wood County Dwelling Contractor</div>
+      <h1 class="hero-headline">
+        Built to Code.<br>
+        <span class="pop">Finished by Craftsmen.</span>
+      </h1>
+      <p class="hero-sub">
+        Whole-home siding & gables, architectural roofing, custom kitchen cabinetry, and 5 Star Lanes commercial drop ceilings across Wisconsin Rapids, Nekoosa, and Central Wisconsin.
+      </p>
 
-    <div class="stats-strip">
-      <div class="stat-card">
-        <span class="val">DSPS</span>
-        <span class="lbl">Licensed & Insured</span>
-      </div>
-      <div class="stat-card">
-        <span class="val">100%</span>
-        <span class="lbl">Code Compliant</span>
-      </div>
-      <div class="stat-card">
-        <span class="val">Wood Co.</span>
-        <span class="lbl">Rapids • Nekoosa • Edwards</span>
-      </div>
-      <div class="stat-card">
-        <span class="val">Fast</span>
-        <span class="lbl">Direct Owner Bidding</span>
+      <div class="hero-taps">
+        <a href="#intake" class="tap-btn-primary">📋 REQUEST DISPATCH ESTIMATE ⚡</a>
+        <a href="tel:+17154593221" class="tap-btn-secondary">📞 CALL JOHN DIRECT: (715) 459-3221</a>
       </div>
     </div>
   </section>
 
-  <section class="section-wrap" id="gallery">
-    <div class="section-header">
-      <span class="section-tag">[ PROVEN TRANSFORMATION PROOF ]</span>
-      <h2 class="section-title">Whole-Home Siding & Exterior Envelope</h2>
+  <!-- Interactive 80/20 Touch Transformation -->
+  <section class="mobile-section" id="proofs">
+    <div class="sec-head">
+      <span class="sec-badge">[ PROVEN TRANSFORMATION ]</span>
+      <h2 class="sec-title">Swipe to Reveal Craftsmanship</h2>
     </div>
 
-    <div class="transformation-container">
-      <div class="slider-wrapper" id="beforeAfterSlider">
-        <img src="images/projects/IMG_4801.webp" alt="Completed Slate Blue Siding and White Trim" class="slider-img">
+    <!-- 610 Siding Slider -->
+    <div class="slider-card">
+      <div class="slider-frame" id="touchSliderFrame">
+        <img src="images/projects/IMG_4801.webp" alt="Completed Slate Blue Siding and Gables" class="slider-img-after">
         
-        <div class="slider-before" id="sliderBeforeClip">
-          <img src="images/projects/IMG_2012.webp" alt="Before: Peeling Weathered Siding">
+        <div class="slider-clip-before" id="touchSliderBefore">
+          <img src="images/projects/IMG_2012.webp" alt="Before: Peeling Weathered Lap Siding">
         </div>
 
-        <div class="slider-handle" id="sliderHandle">
-          <div class="slider-button">↔</div>
-        </div>
+        <div class="slider-handle-touch" id="touchSliderHandle">↔</div>
 
-        <div class="slider-label label-before">BEFORE: Weathered Lap Siding</div>
-        <div class="slider-label label-after">AFTER: Slate Blue & Custom Gables</div>
+        <div class="slider-tags">
+          <span class="s-tag b">Before: Weathered</span>
+          <span class="s-tag a">After: Slate Blue & Gables</span>
+        </div>
       </div>
-
-      <div class="transformation-desc">
-        <div class="trans-info">
-          <h3>610 Residential Exterior Renovation</h3>
-          <p>Complete weather barrier envelope installation, structural casing, deep slate-blue horizontal vinyl, custom white corner trim, and architectural fish-scale gable shingles.</p>
-        </div>
-        <a href="#intake" class="btn-header-quote" style="padding: 12px 20px;">GET SIMILAR QUOTE ↗</a>
+      <div class="slider-info">
+        <h3>610 Whole-Home Exterior Envelope</h3>
+        <p>Complete vapor barrier wrap, window casing intrusion seals, horizontal vinyl siding, white corner posts, and custom fish-scale gable shingles.</p>
       </div>
     </div>
 
-    <div class="section-header" style="margin-top: 48px;">
-      <span class="section-tag">[ RESULTS & CRAFTSMANSHIP PROOF ]</span>
-      <h2 class="section-title">Featured Project Showcase</h2>
+    <!-- Live Video Walkthrough: Kitchen Renovation -->
+    <div class="sec-head" style="margin-top: 24px;">
+      <span class="sec-badge">[ LIVE FIELD VIDEO ]</span>
+      <h2 class="sec-title">Interior Finish & Cabinetry Walkthrough</h2>
     </div>
 
-    <div class="showcase-grid">
-      
-      <div class="project-card">
-        <div class="card-thumb-wrap">
-          <img src="images/projects/IMG_3346.webp" alt="Custom Shaker Kitchen Cabinetry and Subway Tile">
-          <span class="card-badge badge-result">★ FINISHED RESULT</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">Custom Kitchen Cabinetry & Finish Work</h3>
-          <div class="card-location">Interior Carpentry • Wisconsin Rapids</div>
-          <p class="card-desc">Seamless white shaker wall and base cabinets, marble-vein counters, butcher block station, under-mount stainless sink, and subway tile backsplash.</p>
-          <div class="card-specs">
-            <span class="spec-pill">Shaker Cabinets</span>
-            <span class="spec-pill">Marble Countertop</span>
-            <span class="spec-pill">Subway Tile</span>
-            <span class="spec-pill">Finish Trim</span>
-          </div>
-        </div>
+    <div class="video-card">
+      <div class="video-media-wrap">
+        <video autoplay muted loop playsinline controls poster="images/projects/IMG_3346.webp">
+          <source src="videos/kitchen_walkthrough.mp4" type="video/mp4">
+        </video>
+        <span class="video-badge">▶ LIVE WALKTHROUGH</span>
       </div>
-
-      <div class="project-card">
-        <div class="card-thumb-wrap">
-          <img src="images/projects/IMG_6778.webp" alt="Commercial Acoustical Drop Ceiling 5 Star Lanes">
-          <span class="card-badge badge-result">★ COMMERCIAL FINISH</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">5 Star Lanes Commercial Drop Ceiling</h3>
-          <div class="card-location">Commercial Renovation • Concourse & Bar</div>
-          <p class="card-desc">High-span commercial acoustical drop ceiling grid installation with integrated flush LED illumination, ventilation, and overhead ceiling fan mounts across multi-lane facility.</p>
-          <div class="card-specs">
-            <span class="spec-pill">Commercial Grid</span>
-            <span class="spec-pill">Acoustical Tiles</span>
-            <span class="spec-pill">Integrated LED</span>
-            <span class="spec-pill">Large Span</span>
-          </div>
-        </div>
+      <div class="video-info">
+        <h3>Custom Shaker Kitchen & Trim Build</h3>
+        <p>White shaker cabinets, marble counters, under-mount sink, butcher block accent, and subway tile backsplash.</p>
       </div>
-
-      <div class="project-card">
-        <div class="card-thumb-wrap">
-          <img src="images/projects/IMG_4349.webp" alt="Exterior Reflective Barrier and Window Flashing">
-          <span class="card-badge badge-process">🛠️ PROCESS PROOF</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">Weather Barrier & Energy Envelope</h3>
-          <div class="card-location">Sub-Structure Prep • 610 Project</div>
-          <p class="card-desc">Precision thermal reflective vapor barrier, window frame water intrusion seals, and UDC code flashing before high-grade exterior siding attachment.</p>
-          <div class="card-specs">
-            <span class="spec-pill">Thermal Barrier</span>
-            <span class="spec-pill">Window Flashing</span>
-            <span class="spec-pill">Moisture Control</span>
-            <span class="spec-pill">Sub-Structure</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="card-thumb-wrap">
-          <img src="images/projects/IMG_6595.webp" alt="Scaffolding and Laser Level Drop Ceiling Grid Tracking">
-          <span class="card-badge badge-process">🛠️ PROCESS PROOF</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">Laser-Aligned Structural Grid Tracking</h3>
-          <div class="card-location">Facility Tear-out • 5 Star Lanes</div>
-          <p class="card-desc">Full facility acoustic insulation overhaul, high-altitude scaffold tracking, and laser-trued leveling for precision ceiling panel distribution.</p>
-          <div class="card-specs">
-            <span class="spec-pill">Laser Leveling</span>
-            <span class="spec-pill">Scaffold Work</span>
-            <span class="spec-pill">Acoustic Insulation</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="section-wrap" id="services">
-    <div class="section-header">
-      <span class="section-tag">[ LICENSED CAPABILITIES ]</span>
-      <h2 class="section-title">General Contracting Services</h2>
     </div>
 
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon">🏠</div>
-        <h3 class="service-title">Exterior Siding & Trim</h3>
-        <p class="service-details">Horizontal vinyl, steel siding, soffit, aluminum fascia wrap, custom gable accents, and energy barrier envelopes.</p>
+    <!-- Commercial Ceiling Showcase -->
+    <div class="sec-head" style="margin-top: 24px;">
+      <span class="sec-badge">[ COMMERCIAL CAPACITY ]</span>
+      <h2 class="sec-title">5 Star Lanes Concourse Drop Ceiling</h2>
+    </div>
+
+    <div class="gallery-stack">
+      <div class="craft-card">
+        <div class="craft-img-wrap">
+          <img src="images/projects/IMG_6778.webp" alt="5 Star Lanes Finished Acoustical Drop Ceiling">
+          <span class="craft-pill pill-res">★ Finished Concourse</span>
+        </div>
+        <div class="craft-desc">
+          <h4>Multi-Lane Commercial Concourse Ceiling</h4>
+          <p>High-span suspended grid, acoustical sound-dampening tiles, flush LED lighting, and ventilation integration.</p>
+        </div>
       </div>
 
-      <div class="service-card">
-        <div class="service-icon">🔨</div>
-        <h3 class="service-title">Architectural Roofing</h3>
-        <p class="service-details">Tear-off, synthetic underlayment, drip edge, ridge venting, flashing, and architectural asphalt shingle installation.</p>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">🪟</div>
-        <h3 class="service-title">Windows & Doors</h3>
-        <p class="service-details">High-efficiency vinyl replacement windows, pre-hung entry doors, sliding patio units, and custom exterior casing.</p>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">🗄️</div>
-        <h3 class="service-title">Custom Cabinetry</h3>
-        <p class="service-details">Kitchen shaker cabinets, shop cabinetry, hardware installation, countertop fitment, and custom wood trim.</p>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">🏢</div>
-        <h3 class="service-title">Acoustical Drop Ceilings</h3>
-        <p class="service-details">Commercial and residential suspended grid ceilings, acoustical sound dampening, and integrated LED lighting.</p>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">📐</div>
-        <h3 class="service-title">Additions & Framing</h3>
-        <p class="service-details">Garage conversions, structural wall additions, partition walls, stairways, and custom decking builds.</p>
+      <div class="craft-card">
+        <div class="craft-img-wrap">
+          <img src="images/projects/IMG_6595.webp" alt="Laser Level Scaffolding Tracking">
+          <span class="craft-pill pill-proc">🛠️ Laser Grid Tracking Prep</span>
+        </div>
+        <div class="craft-desc">
+          <h4>Structural Laser Alignment & Insulation</h4>
+          <p>Scaffold tracking and laser leveling to guarantee a perfectly trued ceiling plane over thousands of square feet.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section-wrap" id="intake">
-    <div class="intake-section">
-      <div class="section-header" style="text-align: left; margin-bottom: 24px;">
-        <span class="section-tag" style="color: var(--accent);">[ DIRECT DISPATCH ]</span>
-        <h2 class="section-title">Request a Project Bid / Estimate</h2>
-        <p style="color: var(--text-muted); margin-top: 8px;">Submissions dispatch instantly to John Dondlinger's mobile phone via Telegram.</p>
-      </div>
+  <!-- Mobile Intake Form -->
+  <section class="mobile-section" id="intake">
+    <div class="sec-head">
+      <span class="sec-badge" style="color: var(--accent);">[ INSTANT DISPATCH ]</span>
+      <h2 class="sec-title">Request a Jobsite Bid</h2>
+    </div>
 
-      <form id="leadCaptureForm" onsubmit="submitLead(event)">
-        <div class="intake-form-grid">
-          <div class="form-group">
-            <label class="form-label" for="leadName">Your Name *</label>
-            <input type="text" id="leadName" class="form-input" placeholder="e.g. Dave Madsen" required>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="leadContact">Phone or Email *</label>
-            <input type="text" id="leadContact" class="form-input" placeholder="(715) 555-0199 or email" required>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="leadService">Project Type *</label>
-            <select id="leadService" class="form-select" required>
-              <option value="Exterior Siding & Trim">Exterior Siding & Trim</option>
-              <option value="Architectural Roofing">Architectural Roofing</option>
-              <option value="Windows & Doors">Windows & Doors</option>
-              <option value="Custom Kitchen & Cabinetry">Custom Kitchen & Cabinetry</option>
-              <option value="Commercial Drop Ceilings">Commercial Drop Ceilings</option>
-              <option value="Garage Conversion / Addition">Garage Conversion / Addition</option>
-              <option value="Concrete / PourReady">Concrete / PourReady Flatwork</option>
-              <option value="General Carpentry">General Carpentry</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="leadAddress">Job Location / City</label>
-            <input type="text" id="leadAddress" class="form-input" placeholder="Wisconsin Rapids, Nekoosa, Port Edwards...">
-          </div>
-
-          <div class="form-group full-width">
-            <label class="form-label" for="leadNotes">Project Details & Approximate Scope</label>
-            <textarea id="leadNotes" class="form-textarea" rows="3" placeholder="Tell us about your project dimensions, materials, timeline, or current issues..."></textarea>
-          </div>
+    <div class="mobile-intake-card">
+      <form id="mobileLeadForm" onsubmit="submitMobileLead(event)">
+        <div class="m-input-group">
+          <label class="m-label">Your Name *</label>
+          <input type="text" id="mName" class="m-input" placeholder="e.g. Dave Madsen" required>
         </div>
 
-        <button type="submit" id="leadSubmitBtn" class="btn-submit-lead">DISPATCH BID REQUEST ⚡</button>
+        <div class="m-input-group">
+          <label class="m-label">Phone or Email *</label>
+          <input type="text" id="mContact" class="m-input" placeholder="(715) 555-0199" required>
+        </div>
+
+        <div class="m-input-group">
+          <label class="m-label">Project Category *</label>
+          <select id="mService" class="m-select" required>
+            <option value="Exterior Siding & Gables">Exterior Siding & Gables</option>
+            <option value="Architectural Roofing">Architectural Roofing</option>
+            <option value="Windows & Doors">Windows & Doors</option>
+            <option value="Custom Kitchen & Cabinetry">Custom Kitchen & Cabinetry</option>
+            <option value="Commercial Drop Ceilings">Commercial Drop Ceilings</option>
+            <option value="Additions & Framing">Additions & Framing</option>
+            <option value="Concrete / PourReady Flatwork">Concrete / PourReady Flatwork</option>
+          </select>
+        </div>
+
+        <div class="m-input-group">
+          <label class="m-label">City / Job Location</label>
+          <input type="text" id="mAddress" class="m-input" placeholder="Wisconsin Rapids, Nekoosa, Port Edwards...">
+        </div>
+
+        <div class="m-input-group">
+          <label class="m-label">Scope Notes</label>
+          <textarea id="mNotes" class="m-textarea" rows="3" placeholder="Tell John about your project dimensions, materials, or timeline..."></textarea>
+        </div>
+
+        <button type="submit" id="mSubmitBtn" class="tap-btn-primary" style="border: none; width: 100%; cursor: pointer;">
+          DISPATCH BID TO TELEGRAM ⚡
+        </button>
       </form>
     </div>
   </section>
 
-  <section class="section-wrap" style="margin-bottom: 32px;">
-    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-      <div>
-        <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 4px;">Contractor Field Utilities & Calculators</h4>
-        <p style="font-size: 0.88rem; color: var(--text-muted);">Access our offline PourReady concrete yardage estimator, atmospheric radar telemetry, and intake tools.</p>
-      </div>
-      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-        <a href="/calc/index.html" class="btn-hero-alt" style="padding: 10px 18px; font-size: 0.9rem; border-color: rgba(255, 107, 53, 0.3); color: var(--accent);">🧮 PourReady Calc</a>
-        <a href="/intake.html" class="btn-hero-alt" style="padding: 10px 18px; font-size: 0.9rem; color: var(--accent-cyan);">🎙️ Voice Memo Intake</a>
-        <a href="https://wazweather.dondlingergc.com" target="_blank" class="btn-hero-alt" style="padding: 10px 18px; font-size: 0.9rem; color: var(--accent-green);">🌤️ Live Weather Radar</a>
-      </div>
-    </div>
-  </section>
-
-  <div class="mobile-bottom-dock">
-    <a href="tel:+17154593221" class="btn-dock-call">
-      <span>📞 (715) 459-3221</span>
-    </a>
-    <a href="#intake" class="btn-dock-quote">
-      <span>📋 REQUEST BID ⚡</span>
-    </a>
+  <!-- Sticky Bottom Thumb Action Bar -->
+  <div id="thumb-dock">
+    <a href="tel:+17154593221" class="dock-call">📞 (715) 459-3221</a>
+    <a href="#intake" class="dock-bid">REQUEST BID ⚡</a>
   </div>
 
-  <footer>
-    <div class="footer-links">
-      <a href="#services">Services</a>
-      <a href="#gallery">Project Gallery</a>
-      <a href="/calc/index.html">PourReady Estimator</a>
-      <a href="/intake.html">Voice Intake</a>
-      <a href="/privacy-policy.html">Privacy Policy</a>
-      <a href="/terms-of-service.html">Terms</a>
-    </div>
-    <p>© 2026 Dondlinger General Contracting LLC. All rights reserved.</p>
-    <p style="font-size: 0.78rem; font-family: var(--font-mono); margin-top: 6px; color: #64748b;">
-      Wisconsin DSPS Licensed Dwelling Contractor • Wood County, Wisconsin Rapids, WI 54494
-    </p>
-  </footer>
-
   <script>
-    const sliderWrapper = document.getElementById('beforeAfterSlider');
-    const sliderBeforeClip = document.getElementById('sliderBeforeClip');
-    const sliderHandle = document.getElementById('sliderHandle');
-    let isDragging = false;
+    // Touch & Drag Slider Engine
+    const frame = document.getElementById('touchSliderFrame');
+    const clip = document.getElementById('touchSliderBefore');
+    const handle = document.getElementById('touchSliderHandle');
+    let active = false;
 
-    function updateSlider(x) {
-      const rect = sliderWrapper.getBoundingClientRect();
+    function move(x) {
+      const rect = frame.getBoundingClientRect();
       let pos = (x - rect.left) / rect.width;
       if (pos < 0.05) pos = 0.05;
       if (pos > 0.95) pos = 0.95;
       const pct = pos * 100;
-      sliderBeforeClip.style.width = pct + '%';
-      sliderHandle.style.left = pct + '%';
-      
-      const beforeImg = sliderBeforeClip.querySelector('img');
-      if (beforeImg) {
-        beforeImg.style.width = rect.width + 'px';
-      }
+      clip.style.width = pct + '%';
+      handle.style.left = pct + '%';
+      const beforeImg = clip.querySelector('img');
+      if (beforeImg) beforeImg.style.width = rect.width + 'px';
     }
 
     window.addEventListener('resize', () => {
-      const rect = sliderWrapper.getBoundingClientRect();
-      const beforeImg = sliderBeforeClip.querySelector('img');
+      const rect = frame.getBoundingClientRect();
+      const beforeImg = clip.querySelector('img');
       if (beforeImg) beforeImg.style.width = rect.width + 'px';
     });
 
     setTimeout(() => {
-      const rect = sliderWrapper.getBoundingClientRect();
-      const beforeImg = sliderBeforeClip.querySelector('img');
+      const rect = frame.getBoundingClientRect();
+      const beforeImg = clip.querySelector('img');
       if (beforeImg) beforeImg.style.width = rect.width + 'px';
     }, 100);
 
-    sliderWrapper.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      updateSlider(e.clientX);
-    });
-    window.addEventListener('mouseup', () => isDragging = false);
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      updateSlider(e.clientX);
-    });
+    frame.addEventListener('mousedown', (e) => { active = true; move(e.clientX); });
+    window.addEventListener('mouseup', () => active = false);
+    window.addEventListener('mousemove', (e) => { if (active) move(e.clientX); });
 
-    sliderWrapper.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      updateSlider(e.touches[0].clientX);
-    });
-    window.addEventListener('touchend', () => isDragging = false);
-    window.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      updateSlider(e.touches[0].clientX);
-    });
+    frame.addEventListener('touchstart', (e) => { active = true; move(e.touches[0].clientX); });
+    window.addEventListener('touchend', () => active = false);
+    window.addEventListener('touchmove', (e) => { if (active) move(e.touches[0].clientX); });
 
-    async function submitLead(e) {
+    // Lead Dispatch to Telegram /api/intake
+    async function submitMobileLead(e) {
       e.preventDefault();
-      const submitBtn = document.getElementById('leadSubmitBtn');
-      const origText = submitBtn.textContent;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'DISPATCHING TO TELEGRAM...';
+      const btn = document.getElementById('mSubmitBtn');
+      const orig = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'DISPATCHING TO TELEGRAM...';
 
       const payload = {
-        name: document.getElementById('leadName').value,
-        contact: document.getElementById('leadContact').value,
-        service: document.getElementById('leadService').value,
-        address: document.getElementById('leadAddress').value,
-        notes: document.getElementById('leadNotes').value
+        name: document.getElementById('mName').value,
+        contact: document.getElementById('mContact').value,
+        service: document.getElementById('mService').value,
+        address: document.getElementById('mAddress').value,
+        notes: document.getElementById('mNotes').value
       };
 
       try {
@@ -1101,25 +757,23 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-
         const data = await res.json();
         if (data.success) {
-          submitBtn.textContent = '✅ BID REQUEST DISPATCHED TO JOHN!';
-          submitBtn.style.background = '#10b981';
-          document.getElementById('leadCaptureForm').reset();
+          btn.textContent = '✅ BID REQUEST SENT TO JOHN!';
+          btn.style.background = '#22c55e';
+          document.getElementById('mobileLeadForm').reset();
           setTimeout(() => {
-            submitBtn.textContent = origText;
-            submitBtn.style.background = 'var(--accent)';
-            submitBtn.disabled = false;
-          }, 4500);
+            btn.textContent = orig;
+            btn.style.background = 'var(--accent)';
+            btn.disabled = false;
+          }, 4000);
         } else {
-          throw new Error(data.error || 'Submission error');
+          throw new Error(data.error || 'Error');
         }
       } catch (err) {
-        console.error("Lead submission error:", err);
-        alert('Thank you! Your request was logged. Direct phone: (715) 459-3221');
-        submitBtn.disabled = false;
-        submitBtn.textContent = origText;
+        alert('Thank you! Request received. Direct phone: (715) 459-3221');
+        btn.disabled = false;
+        btn.textContent = orig;
       }
     }
   </script>
