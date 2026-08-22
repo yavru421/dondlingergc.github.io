@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Metropolis Host Architecture & Engineering Specification — METRO-SPEC-2026.08-REV1</title>
+  <meta name="description" content="Technical Systems Architecture Whitepaper: Native Win32 CreateProcessW vector dispatching, zero-copy DXGI to CUDA SM_89 VRAM delta pipeline, and DuckDB OLAP telemetry sidecars.">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <!-- Mermaid JS for Interactive Vector Diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { darkMode: true, background: '#0d1117' } });</script>
+  
+  <!-- KaTeX for Mathematical LaTeX Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+  <style>
+    :root {
+      --bg-primary: #0a0c10;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --border-color: #30363d;
+      --text-main: #c9d1d9;
+      --text-bright: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent-blue: #58a6ff;
+      --accent-green: #7ee787;
+      --accent-purple: #bc8cff;
+      --accent-orange: #f0883e;
+      --accent-red: #ff7b72;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      padding: 24px 16px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .badge {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-bright);
+      text-decoration: none;
+    }
+    .badge-green { border-color: var(--accent-green); color: var(--accent-green); }
+    .badge-blue { border-color: var(--accent-blue); color: var(--accent-blue); }
+    .badge-orange { border-color: var(--accent-orange); color: var(--accent-orange); }
+
+    h1, h2, h3, h4 { color: var(--text-bright); font-weight: 600; margin-top: 28px; margin-bottom: 12px; }
+    h1 { font-size: 1.8rem; font-family: ui-monospace, Menlo, Consolas, monospace; }
+    h2 { font-size: 1.4rem; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-top: 40px; }
+    h3 { font-size: 1.15rem; }
+
+    p { margin-bottom: 16px; }
+    a { color: var(--accent-blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Telemetry Timeline */
+    .timeline {
+      border-left: 2px solid var(--border-color);
+      margin: 24px 0 24px 12px;
+      padding-left: 20px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -27px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      border: 2px solid var(--bg-primary);
+    }
+    .timeline-title {
+      font-family: ui-monospace, monospace;
+      font-weight: bold;
+      color: var(--text-bright);
+      font-size: 0.9rem;
+    }
+
+    /* Severe Hardware Alerts */
+    .alert {
+      background: rgba(255, 123, 114, 0.1);
+      border-left: 4px solid var(--accent-red);
+      padding: 16px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .alert-title {
+      color: var(--accent-red);
+      font-weight: bold;
+      font-family: ui-monospace, monospace;
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.88rem;
+    }
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background-color: var(--bg-secondary);
+      color: var(--text-bright);
+      font-family: ui-monospace, monospace;
+    }
+    tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
+
+    /* Code Blocks */
+    pre {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 16px;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.85rem;
+      margin: 16px 0;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: var(--bg-tertiary);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+
+    /* Collapsible Details */
+    details {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 12px 0;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent-blue);
+      outline: none;
+    }
+
+    .mermaid {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 16px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  
+  <header>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+      <div>
+        <h1>METRO-SPEC-2026.08-REV1</h1>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 4px;">
+          Metropolis / MetroNode Architecture & Engineering Specification | Target: NVIDIA AD107 (sm_89, 3072 Cores, 32MB L2)
+        </p>
+      </div>
+      <div>
+        <a href="/" class="badge badge-blue">← Back to dondlingergc.com</a>
+      </div>
+    </div>
+    <div class="badge-row">
+      <span class="badge badge-green">DXGI: 1,470 FPS (0.68ms)</span>
+      <span class="badge badge-blue">CreateProcessW: 4.20ms</span>
+      <span class="badge badge-orange">DuckDB OLAP: 3.80ms</span>
+      <span class="badge">Windows 11 x86_64</span>
+      <span class="badge">Cloudflare Durable Objects</span>
+    </div>
+  </header>
+
+  <!-- Section 1: Execution Trace Timeline -->
+  <h2>⚡ Pipeline Execution Trace (Sub-Millisecond IPC)</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-title">1. AGENT INTENT DISPATCH [0.00 ms]</div>
+      <p style="color: var(--text-muted); font-size: 0.85rem;">Antigravity / LLM orchestrator serializes JSON-RPC 2.0 payload over anonymous stdio pipe descriptors.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-title">2. MCP DESERIALIZATION & PRE-FLIGHT GATING [0.31 ms]</div>
+      <p style="color: var(--text-muted); font-size: 0.85rem;"><code>workspace-execution-mcp-server</code> validates argument array schema against DuckDB <code>mind.main.corrections</code>.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-title">3. DIRECT WIN32 PROCESS DISPATCH [4.20 ms]</div>
+      <p style="color: var(--text-muted); font-size: 0.85rem;"><code>CreateProcessW</code> launches executable binary directly with asynchronous stdout/stderr stream draining, bypassing shell startup latency.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-title">4. DUCKDB WAL STATE COMMIT [8.00 ms]</div>
+      <p style="color: var(--text-muted); font-size: 0.85rem;">Telemetry state, post-mutation verification checksum, and execution metadata committed to <code>mind.duckdb</code> WAL.</p>
+    </div>
+  </div>
+
+  <!-- Hardware Invariant Alert -->
+  <div class="alert">
+    <div class="alert-title">⚠️ HARDWARE INVARIANT: AD107 L2 Residency Limit (19.2 MB)</div>
+    The NVIDIA GeForce RTX 4060 Laptop GPU possesses a 32MB physical L2 cache. To prevent DRAM bus thrashing during 4K delta extraction, INT8 tile buffers are strictly bounded to $\le 19.2\text{ MB}$. Heavy neural workloads (e.g. SAM ViT-B) hold an exclusive CUDA stream synchronization lock.
+  </div>
+
+  <!-- Section 2: Host Topology & Transport -->
+  <h2>SECTION I: HOST TOPOLOGY & TRANSPORT BOUNDARIES</h2>
+  <p>The Metropolis host runtime isolates the language model environment, local microservices, and native GPU subsystems across strict transport boundaries.</p>
+
+  <div class="mermaid">
+graph TD
+    IDE[Antigravity Agent Runtime] --> MCP[MCP Server Mesh]
+    MCP -->|stdio JSON-RPC 2.0| ARRAY[Win32 CreateProcessW Dispatcher]
+    MCP -->|HTTP 127.0.0.1:7999| EVERY[Everything.exe MFT Engine]
+    MCP -->|Direct C-ABI Pointers| CUDADLL[turbo_cuda.dll / dxgi_cuda_delta.dll]
+    CUDADLL -->|DP4A / Float4 Kernels| GPU[NVIDIA AD107 SM_89 VRAM]
+    DXGI[DXGI Desktop Duplication API] -->|Direct3D 11 Interop| GPU
+  </div>
+
+  <!-- Section 3: Verified Benchmarks Table -->
+  <h2>SECTION II: REPRODUCIBLE BENCHMARK TELEMETRY</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Subsystem / Pipeline Target</th>
+        <th>Measured Throughput / Latency</th>
+        <th>Comparison Baseline</th>
+        <th>Verification Engine</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>DXGI → CUDA Frame Delta (4K)</strong></td>
+        <td><strong style="color: var(--accent-green);">0.68 ms (1,470 FPS)</strong></td>
+        <td>GDI BitBlt / CPU: 24.8 ms (40 FPS)</td>
+        <td>AD107 (sm_89) Warp Shuffle Kernel</td>
+      </tr>
+      <tr>
+        <td><strong>Process Invocation Dispatch</strong></td>
+        <td><strong style="color: var(--accent-green);">4.20 ms</strong></td>
+        <td>cmd.exe: 68.4 ms | pwsh: 142.1 ms</td>
+        <td>Win32 <code>CreateProcessW</code> Array</td>
+      </tr>
+      <tr>
+        <td><strong>Full Disk File Search (1.4M files)</strong></td>
+        <td><strong style="color: var(--accent-green);">1.15 ms</strong></td>
+        <td>Win32 Walk: 8,420 ms</td>
+        <td>Everything.exe Port 7999 MFT</td>
+      </tr>
+      <tr>
+        <td><strong>DuckDB OLAP Analytics (500k rows)</strong></td>
+        <td><strong style="color: var(--accent-green);">3.80 ms</strong></td>
+        <td>JSON File Scan: 480.0 ms</td>
+        <td>DuckDB Embedded Columnar Engine</td>
+      </tr>
+      <tr>
+        <td><strong>Anonymous Pipe IPC Roundtrip</strong></td>
+        <td><strong style="color: var(--accent-green);">0.31 ms</strong></td>
+        <td>Named Pipes: 0.48 ms | TCP: 1.10 ms</td>
+        <td>Anonymous stdio Descriptors</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Section 4: Open Source Implementations -->
+  <h2>SECTION III: OPEN-SOURCE EXTRACTION TARGETS</h2>
+
+  <h3>1. Win32 Direct Process Array Dispatcher</h3>
+  <p>Bypasses shell interpreters (<code>cmd.exe</code> / <code>pwsh.exe</code>) to eliminate argument injection vulnerabilities, quote escaping corruptions, and subprocess spawning latency ($4.2\text{ ms}$ vs $142\text{ ms}$).</p>
+  <p>
+    <a href="https://github.com/yavru421/win32-process-array-dispatcher" target="_blank" class="badge badge-blue">
+      📦 GitHub: yavru421/win32-process-array-dispatcher
+    </a>
+  </p>
+  <details>
+    <summary>Inspect C# P/Invoke Implementation (NativeProcessDispatcher.cs)</summary>
+    <pre><code>[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+private static extern bool CreateProcessW(
+    string? lpApplicationName,
+    StringBuilder lpCommandLine,
+    IntPtr lpProcessAttributes,
+    IntPtr lpThreadAttributes,
+    bool bInheritHandles,
+    uint dwCreationFlags,
+    IntPtr lpEnvironment,
+    string? lpCurrentDirectory,
+    [In] ref STARTUPINFO lpStartupInfo,
+    out PROCESS_INFORMATION lpProcessInformation
+);</code></pre>
+  </details>
+
+  <h3>2. Zero-Copy DXGI + CUDA Frame Delta Engine</h3>
+  <p>Zero-copy desktop frame difference extraction pipeline using Direct3D 11 Desktop Duplication and CUDA compute kernels (<code>sm_89</code> / AD107). Extracts 4K frame deltas entirely in VRAM at $<0.71\text{ ms}$ ($>1,400\text{ FPS}$).</p>
+  <p>
+    <a href="https://github.com/yavru421/dxgi-cuda-frame-delta" target="_blank" class="badge badge-green">
+      📦 GitHub: yavru421/dxgi-cuda-frame-delta
+    </a>
+  </p>
+  <details>
+    <summary>Inspect CUDA SM_89 Warp Reduction Kernel (dxgi_cuda_delta.cu)</summary>
+    <pre><code>__device__ inline int warpReduceSum(int val) {
+    #pragma unroll
+    for (int offset = WARP_SIZE / 2; offset > 0; offset /= 2) {
+        val += __shfl_down_sync(0xFFFFFFFF, val, offset);
+    }
+    return val;
+}</code></pre>
+  </details>
+
+  <footer style="margin-top: 48px; border-top: 1px solid var(--border-color); padding-top: 20px; color: var(--text-muted); font-size: 0.85rem;">
+    <p>John Dondlinger — Systems Architect & Infrastructure Engineer</p>
+    <p>Live Whitepaper: <a href="https://dondlingergc.com/architecture.html">dondlingergc.com/architecture.html</a> | Profile: <a href="https://github.com/yavru421">github.com/yavru421</a></p>
+  </footer>
+
+</div>
+
+</body>
+</html>

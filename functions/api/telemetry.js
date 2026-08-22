@@ -24,7 +24,7 @@ export async function onRequest(context) {
     }), { status: 200, headers: corsHeaders });
   }
 
-  // POST: Record client scope / interaction telemetry
+  // POST: Record client scope / slider telemetry
   if (request.method === 'POST') {
     try {
       let data = {};
@@ -59,9 +59,10 @@ export async function onRequest(context) {
         } catch {}
       }
 
-      // 1. Log into D1 visitor_traffic and app_telemetry
+      // Log into D1 visitor_traffic and app_telemetry
       if (env.DB) {
         try {
+          // Hash IP for privacy compliance
           let ipHash = 'anon';
           if (rawIp) {
             const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(rawIp));
@@ -88,79 +89,55 @@ export async function onRequest(context) {
         }
       }
 
-      // 2. Dispatch Telegram Notification for high-intent actions & visitor arrivals
-      let tgAlertSuccess = false;
-      const botToken = env.TELEGRAM_BOT_TOKEN || '7955190883:AAFUBoUU65F4v52ApOYNT0c5ZRCPEFjoLBY';
-      const chatId = env.TELEGRAM_CHAT_ID || '8104595144';
-      const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
-
-      // Determine alert criteria
-      const isCallOrSms = (eventType === 'call_button_click' || eventType === 'direct_call_attempt' || eventType === 'sms_button_click');
-      const isLeadOrCalc = (eventType === 'concrete_calc' || eventType === 'pwa_estimate_calculate' || eventType === 'quote_requested');
-      const isArrival = (eventType === 'visitor_arrival' || eventType === 'page_view_intent');
-
-      if (isCallOrSms || isLeadOrCalc || isArrival) {
+      // If this is a direct call or phone click event, dispatch instant Telegram Alert!
+      let tgCallAlert = false;
+      if (eventType === 'call_button_click' || eventType === 'direct_call_attempt' || eventType === 'sms_button_click') {
         try {
-          let icon = '⚡';
-          let actionTitle = 'VISITOR INTERACTION';
+          const botToken = env.TELEGRAM_BOT_TOKEN || '7955190883:AAFUBoUU65F4v52ApOYNT0c5ZRCPEFjoLBY';
+          const chatId = env.TELEGRAM_CHAT_ID || '8104595144';
+          const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
+          const clientIp = request.headers.get('cf-connecting-ip') || 'Unknown IP';
+          const activeTab = data.active_tab || 'Unknown Tab';
+          const viewedTrades = data.viewed_trades || trade || 'None';
+          const lastBallpark = data.last_ballpark || calculatedRange || 'None Calculated';
+          const timeOnSite = data.time_on_site_seconds ? `${data.time_on_site_seconds}s` : 'Unknown';
 
-          if (eventType === 'sms_button_click') {
-            icon = '💬';
-            actionTitle = 'DIRECT SMS INTENT DETECTED';
-          } else if (eventType === 'call_button_click' || eventType === 'direct_call_attempt') {
-            icon = '📞';
-            actionTitle = 'INCOMING CALL INTENT';
-          } else if (isLeadOrCalc) {
-            icon = '📐';
-            actionTitle = 'CONCRETE ESTIMATOR CALCULATION';
-          } else if (isArrival) {
-            icon = '🌐';
-            actionTitle = 'NEW VISITOR ARRIVAL';
-          }
+          const icon = eventType === 'sms_button_click' ? '💬' : '📞';
+          const actionTitle = eventType === 'sms_button_click' ? 'DIRECT SMS INTENT DETECTED' : 'INCOMING CALL INTENT / CALL BUTTON CLICKED';
 
           const tgMessage = `${icon} <b>${actionTitle}!</b> ${icon}\n\n` +
-            `📍 <b>Location:</b> <b>${cfCity}</b>${cfPostal ? ', WI ' + cfPostal : ', WI'}\n` +
+            `📍 <b>Expected Area:</b> <b>${cfCity}</b>${cfPostal ? ', WI ' + cfPostal : ', WI'}\n` +
             `⏰ <b>Time:</b> ${timestamp} (CT)\n\n` +
-            `📊 <b>Telemetry Context:</b>\n` +
-            `• <b>Event:</b> <code>${eventType}</code>\n` +
-            `• <b>Trade / View:</b> ${viewedTrades}\n` +
-            `• <b>Scope / Details:</b> ${calculatedRange || sliderVal || 'Standard'}\n` +
-            `• <b>Device:</b> <code>${device}</code>\n` +
-            `• <b>Client IP:</b> <code>${rawIp || 'Hidden'}</code>\n\n` +
-            `⚡ <i>dondlingergc.com edge dispatch</i>`;
+            `📊 <b>User Session Context:</b>\n` +
+            `• <b>Active Page Tab:</b> ${activeTab}\n` +
+            `• <b>Trade Explored:</b> ${viewedTrades}\n` +
+            `• <b>Ballpark Viewed:</b> ${lastBallpark}\n` +
+            `• <b>Time on Site:</b> ${timeOnSite}\n` +
+            `• <b>Device:</b> <code>${userAgent.includes('iPhone') ? 'iPhone' : userAgent.includes('Android') ? 'Android' : 'Desktop/Other'}</code>\n` +
+            `• <b>Client IP:</b> <code>${clientIp}</code>\n\n` +
+            `⚡ <i>Get ready for a direct call/message from the ${cfCity} area!</i>`;
 
           const bodyPayload = {
             chat_id: chatId,
             text: tgMessage,
             parse_mode: 'HTML'
           };
-
+          // Route to forum topic if active
           if (data.message_thread_id || data.thread_id) {
             bodyPayload.message_thread_id = data.message_thread_id || data.thread_id;
+          } else {
+            bodyPayload.message_thread_id = 757; // Default to active forum thread
           }
 
-          // First attempt: Topic or direct
-          let tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyPayload)
           });
-          let tgJson = await tgRes.json();
-
-          // Fallback to main chat if topic thread is closed/invalid
-          if (!tgJson.ok && bodyPayload.message_thread_id) {
-            delete bodyPayload.message_thread_id;
-            tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(bodyPayload)
-            });
-            tgJson = await tgRes.json();
-          }
-
-          tgAlertSuccess = tgJson.ok === true;
+          const tgJson = await tgRes.json();
+          tgCallAlert = tgJson.ok === true;
         } catch (tgErr) {
-          console.error('Telegram Telemetry Error:', tgErr.message);
+          console.error('Call Alert Telegram Error:', tgErr.message);
         }
       }
 
@@ -173,7 +150,7 @@ export async function onRequest(context) {
           ballpark: calculatedRange,
           city: cfCity,
           postal: cfPostal,
-          telegram_alert: tgAlertSuccess
+          telegram_alert: tgCallAlert
         },
         timestamp: new Date().toISOString()
       }), {
