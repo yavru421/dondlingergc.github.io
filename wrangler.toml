@@ -3,6 +3,15 @@ compatibility_date = "2024-09-23"
 compatibility_flags = [ "nodejs_compat" ]
 pages_build_output_dir = "."
 
+[[d1_databases]]
+binding = "DB"
+database_name = "dgc"
+database_id = "f473414a-c9d7-4595-996c-1afaa8691ef0"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "jdondlingermedia"
+
 [env.production]
 name = "dondlingergc-github-io"
 
