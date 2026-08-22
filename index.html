@@ -689,6 +689,9 @@
     </div>
 
     <div class="nav-actions">
+      <a href="./architecture.html" class="btn-contact-nav" style="background: rgba(88, 166, 255, 0.25); color: #ffffff; border: 1px solid #58a6ff; margin-right: 8px; text-decoration: none; font-weight: 700;">
+        ⚡ ARCHITECTURE SPEC
+      </a>
       <a href="./theater.html" class="btn-contact-nav" style="background: rgba(0, 243, 255, 0.25); color: #ffffff; border: 1px solid var(--neon-cyan); margin-right: 8px; text-decoration: none; font-weight: 700;">
         🎬 NEURAL THEATER
       </a>
@@ -704,6 +707,7 @@
   <!-- Category Sub-Filter Bar -->
   <div class="category-filter-bar">
     <button class="filter-btn active" data-filter="all">ALL PORTAL</button>
+    <a href="./architecture.html" class="filter-btn" style="text-decoration: none; color: #58a6ff; border-color: rgba(88, 166, 255, 0.4);">⚡ ARCHITECTURE SPEC</a>
     <a href="./theater.html" class="filter-btn" style="text-decoration: none; color: var(--neon-cyan); border-color: rgba(0, 229, 255, 0.4);">🎬 NEURAL THEATER</a>
     <button class="filter-btn" data-filter="apps">🌐 PRODUCTION APPS</button>
     <button class="filter-btn" data-filter="calculator">🧮 SCOPE CALCULATOR</button>
@@ -726,13 +730,13 @@
           <div class="hero-interactive-elements">
             <div class="hero-pill-tag" style="background: rgba(37, 99, 235, 0.15); border-color: rgba(37, 99, 235, 0.35); color: #38bdf8;">
               <span class="pill-dot" style="background: #38bdf8; box-shadow: 0 0 8px #38bdf8;"></span>
-              🔒 ZERO-LIABILITY ARCHITECTURE & ENTERPRISE PWAS
+              ⚡ CLIENT-SIDE WEBAPPS, TELEMETRY & EDGE INFRASTRUCTURE
             </div>
             <h1 class="hero-main-title">
-              Next-Generation Enterprise Applications & <span style="background: linear-gradient(135deg, #38bdf8 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Edge Intelligence</span>
+              High-Performance WebAssembly & <span style="background: linear-gradient(135deg, #38bdf8 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Sovereign Computing</span>
             </h1>
             <p class="hero-lead-text">
-              Dondlinger Digital Database engineers high-performance Progressive Web Applications, zero-liability peer sync engines, and custom operational tools built for enterprise scalability and 99.99% reliability.
+              Dondlinger Digital Database develops field-tested client-side applications, real-time atmospheric telemetry pipelines, and low-latency edge tools engineered for speed and offline-first autonomy.
             </p>
             <div class="hero-cta-buttons">
               <button class="btn-hero-primary" onclick="document.getElementById('infomercial-section').scrollIntoView({behavior:'smooth'})">
@@ -1464,15 +1468,13 @@
         <!-- Sidebar Nav -->
         <nav id="sidebar">
           <div class="brand">Dondlinger Digital</div>
-          <div class="brand-sub">ZLA Architecture Hub</div>
-
-          <div class="nav-label">Enterprise Categories</div>
-          <div class="nav-link active" data-category="All" onclick="filterCategory('All')">All Applications</div>
-          <div class="nav-link" data-category="Field Operations" onclick="filterCategory('Field Operations')">🚜 Field Operations</div>
-          <div class="nav-link" data-category="Weather & Environment" onclick="filterCategory('Weather & Environment')">📡 Weather & Environment</div>
-          <div class="nav-link" data-category="Collaboration & Peer Mesh" onclick="filterCategory('Collaboration & Peer Mesh')">🔗 Collaboration & Peer Mesh</div>
-          <div class="nav-link" data-category="Media & Creative Studios" onclick="filterCategory('Media & Creative Studios')">🎬 Media & Creative Studios</div>
-          <div class="nav-link" data-category="Platform & Architecture" onclick="filterCategory('Platform & Architecture')">🔒 Platform & Architecture</div>
+          <div class="nav-label">Applications & Labs</div>
+          <div class="nav-link active" data-category="All" onclick="filterCategory('All')">All Applications & Labs</div>
+          <div class="nav-link" data-category="Production Utilities" onclick="filterCategory('Production Utilities')">⚡ Production Utilities</div>
+          <div class="nav-link" data-category="Audio DSP Labs" onclick="filterCategory('Audio DSP Labs')">🎛️ Audio DSP Labs (Tests)</div>
+          <div class="nav-link" data-category="Service Portals" onclick="filterCategory('Service Portals')">🌐 Service Portals</div>
+          <div class="nav-link" data-category="Architecture & Specs" onclick="filterCategory('Architecture & Specs')">📐 Architecture & Specs</div>
+          <div class="nav-link" data-category="Maintenance" onclick="filterCategory('Maintenance')">🛠️ Under Maintenance</div>
           
           <a href="./dondlingerdigitaldatabase/index.html#oracle-game" class="special-link">
             > Launch Neural Oracle 20Q
@@ -1574,15 +1576,23 @@
            });
         }
 
+        const statusBadge = app.status ? `<span style="font-family: var(--font-mono); font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.06); color: ${app.statusColor || '#22c55e'}; border: 1px solid ${app.statusColor || '#22c55e'}40;">● ${app.status}</span>` : '';
+        const btnStyle = app.category === 'Maintenance' 
+          ? `padding: 4px 10px; font-size: 0.75rem; background: rgba(244, 63, 94, 0.2); color: #f43f5e; border: 1px solid #f43f5e; font-weight: 700; cursor: not-allowed;` 
+          : `padding: 4px 10px; font-size: 0.75rem; background: ${app.accent || 'var(--neon-green)'}; color: #000; font-weight: 700; border: none;`;
+
         card.innerHTML = `
           <div class="card-header">
-            <div class="card-title" style="color: ${app.accent || '#00f3ff'}">${app.title.split('//')[0].trim()}</div>
+            <div>
+              <div class="card-title" style="color: ${app.accent || '#00f3ff'}">${app.title.split('//')[0].trim()}</div>
+              <div style="margin-top: 4px;">${statusBadge}</div>
+            </div>
             <div class="card-tag">${app.category || 'App'}</div>
           </div>
           <div class="card-desc">${app.desc}</div>
           <div class="card-footer" style="display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; gap: 6px;">${whoHtml}</div>
-            <span class="btn-launch-service" style="padding: 4px 10px; font-size: 0.75rem; background: ${app.accent || 'var(--neon-green)'}; color: #000; font-weight: 700; border: none;">LAUNCH ↗</span>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">${whoHtml}</div>
+            <span class="btn-launch-service" style="${btnStyle}">${app.btnLabel || 'LAUNCH ↗'}</span>
           </div>
         `;
         grid.appendChild(card);
