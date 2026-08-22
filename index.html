@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="description" content="Dondlinger General Contracting LLC — Wisconsin DSPS Licensed Dwelling Contractor in Wisconsin Rapids, WI. Residential and commercial general contracting, siding, roofing, custom cabinetry, drop ceilings, and additions.">
+  <meta name="description" content="Dondlinger General Contracting LLC — Wisconsin DSPS Licensed Dwelling Contractor in Wisconsin Rapids, WI. Siding, replacement windows, custom doors, kitchens, decks, and commercial drop ceilings.">
   <title>Dondlinger General Contracting LLC — Wisconsin Rapids, WI</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +15,7 @@
       --bg: #090a0f;
       --bg-card: #12141c;
       --bg-card-hover: #181b26;
+      --bg-surface: #151722;
       --border: rgba(255, 255, 255, 0.1);
       --border-focus: rgba(255, 87, 34, 0.5);
       --accent: #ff5722;
@@ -22,6 +23,7 @@
       --accent-glow: rgba(255, 87, 34, 0.3);
       --green: #22c55e;
       --cyan: #38bdf8;
+      --amber: #fbbf24;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --font-brand: 'Syne', -apple-system, sans-serif;
@@ -40,19 +42,21 @@
     }
 
     body {
-      padding-top: 60px;
-      padding-bottom: calc(76px + env(safe-area-inset-bottom, 20px));
+      padding-top: 62px;
+      padding-bottom: calc(74px + env(safe-area-inset-bottom, 16px));
       overflow-x: hidden;
       line-height: 1.5;
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 0%, rgba(255, 87, 34, 0.06) 0%, transparent 45%), var(--bg);
     }
 
     /* =========================================================================
-       CLEAN STICKY HEADER HUD
+       STICKY TOP HUD
        ========================================================================= */
     #site-hud {
       position: fixed;
       top: 0; left: 0; right: 0;
-      height: 60px;
+      height: 62px;
       background: rgba(9, 10, 15, 0.94);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -104,7 +108,22 @@
     .hud-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+    }
+    .btn-hud-call {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
     }
     .btn-hud-estimate {
       background: var(--accent);
@@ -115,112 +134,149 @@
       padding: 8px 14px;
       border-radius: 8px;
       text-decoration: none;
+      cursor: pointer;
+      border: none;
       transition: background 0.2s;
     }
 
     /* =========================================================================
-       HERO PRESENTATION (CLEAN & DIRECT)
+       COMPACT HERO INTRO
        ========================================================================= */
-    .hero-wrap {
-      padding: 28px 16px 24px;
-      max-width: 900px;
+    .hero-compact {
+      padding: 20px 16px 14px;
+      max-width: 960px;
       margin: 0 auto;
     }
-    .hero-badge {
-      display: inline-flex;
+    .hero-top-badges {
+      display: flex;
+      gap: 8px;
       align-items: center;
-      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .badge-dsps {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       color: var(--accent);
       background: rgba(255, 87, 34, 0.12);
       border: 1px solid rgba(255, 87, 34, 0.3);
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 6px;
-      margin-bottom: 12px;
       text-transform: uppercase;
     }
-    .hero-title {
+    .badge-geo {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--cyan);
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .hero-headline {
       font-family: var(--font-brand);
-      font-size: clamp(26px, 6vw, 38px);
+      font-size: clamp(24px, 5.5vw, 36px);
       font-weight: 800;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.4px;
       line-height: 1.15;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
-    .hero-desc {
-      font-size: 15px;
+    .hero-subtext {
+      font-size: 14px;
       color: var(--text-muted);
-      margin-bottom: 20px;
-      max-width: 680px;
-    }
-    .hero-quick-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .btn-action-primary {
-      flex: 1;
-      min-width: 160px;
-      min-height: 48px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 800;
-      font-size: 14px;
-      border-radius: 10px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .btn-action-phone {
-      flex: 1;
-      min-width: 160px;
-      min-height: 48px;
-      background: rgba(255, 255, 255, 0.06);
-      color: #fff;
-      border: 1px solid var(--border);
-      font-weight: 700;
-      font-size: 14px;
-      border-radius: 10px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      max-width: 720px;
+      line-height: 1.45;
     }
 
     /* =========================================================================
-       PROJECT WINDOWS / INTERACTIVE CARDS
+       COMPACT MULTI-TAB CONTROLLER (APP HUB)
        ========================================================================= */
-    .section-wrap {
-      padding: 16px;
-      max-width: 900px;
-      margin: 0 auto 24px;
+    .hub-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 16px 20px;
     }
-    .section-title-row {
+    
+    .tab-bar-wrap {
+      position: sticky;
+      top: 62px;
+      background: rgba(9, 10, 15, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 100;
+      padding: 10px 0;
       margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-    }
-    .sec-heading {
-      font-family: var(--font-brand);
-      font-size: 20px;
-      font-weight: 800;
-    }
-    .sec-sub-note {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--cyan);
+      border-bottom: 1px solid var(--border);
     }
 
+    .tab-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+    .tab-btn span.tab-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+    .tab-btn span.tab-label {
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    /* Tab Panes */
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.22s ease-out;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================================================================
+       TAB 1: FEATURED PROJECTS (EXPANDABLE PROJECT WINDOWS)
+       ========================================================================= */
     .project-window-stack {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
     .project-window {
@@ -262,7 +318,7 @@
     }
     .pw-name {
       font-family: var(--font-brand);
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 800;
       color: #fff;
     }
@@ -271,8 +327,8 @@
       color: var(--text-muted);
     }
     .pw-toggle-btn {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--border);
@@ -280,9 +336,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 700;
       transition: transform 0.3s ease;
+      flex-shrink: 0;
     }
     .project-window.open .pw-toggle-btn {
       transform: rotate(180deg);
@@ -290,7 +347,6 @@
       border-color: var(--accent);
     }
 
-    /* Project Window Body (Expandable) */
     .pw-body {
       display: none;
       padding: 16px;
@@ -299,40 +355,38 @@
       display: block;
     }
 
-    /* Media Switcher & Viewer */
     .pw-media-viewer {
       width: 100%;
       border-radius: 12px;
       overflow: hidden;
       background: #000;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 240px;
-      max-height: 520px;
+      min-height: 220px;
+      max-height: 500px;
     }
     .pw-media-viewer img, .pw-media-viewer video {
       width: 100%;
       height: auto;
-      max-height: 500px;
+      max-height: 480px;
       object-fit: contain;
       display: block;
     }
 
-    /* Horizontal Thumbnail Strip */
     .pw-thumb-strip {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       overflow-x: auto;
-      padding-bottom: 10px;
-      margin-bottom: 14px;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
       -webkit-overflow-scrolling: touch;
     }
     .pw-thumb {
-      width: 72px;
-      height: 72px;
+      width: 68px;
+      height: 68px;
       flex-shrink: 0;
       border-radius: 8px;
       border: 2px solid transparent;
@@ -340,52 +394,53 @@
       cursor: pointer;
       background: #000;
       position: relative;
-      opacity: 0.7;
+      opacity: 0.65;
       transition: opacity 0.2s, border-color 0.2s;
     }
     .pw-thumb.active {
       border-color: var(--accent);
       opacity: 1;
     }
-    .pw-thumb img, .pw-thumb video {
+    .pw-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
     .pw-thumb-badge {
       position: absolute;
-      bottom: 2px;
-      left: 2px;
-      right: 2px;
-      background: rgba(0, 0, 0, 0.8);
+      bottom: 2px; left: 2px; right: 2px;
+      background: rgba(0, 0, 0, 0.85);
       font-family: var(--font-mono);
-      font-size: 8px;
+      font-size: 7.5px;
       font-weight: 700;
       text-align: center;
       color: #fff;
       padding: 1px 0;
       border-radius: 2px;
       text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .pw-narrative {
-      font-size: 14px;
+      font-size: 13.5px;
       color: #cbd5e1;
       line-height: 1.5;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .pw-specs-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .pw-spec-tag {
       font-family: var(--font-mono);
       font-size: 11px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border);
-      padding: 4px 10px;
+      padding: 4px 8px;
       border-radius: 6px;
       color: var(--text-muted);
     }
@@ -396,58 +451,350 @@
       background: var(--accent);
       color: #fff;
       font-weight: 800;
-      font-size: 13px;
-      padding: 10px 18px;
+      font-size: 12.5px;
+      padding: 9px 16px;
       border-radius: 8px;
       text-decoration: none;
       text-transform: uppercase;
+      border: none;
+      cursor: pointer;
     }
 
     /* =========================================================================
-       SERVICES & CAPABILITIES
+       TAB 2: WINDOWS & DOORS SHOWCASE
        ========================================================================= */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-      margin-bottom: 24px;
+    .wd-hero-banner {
+      background: linear-gradient(135deg, #131b2e 0%, #0d121c 100%);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 16px;
+      padding: 18px 16px;
+      margin-bottom: 16px;
     }
-    .service-tile {
+    .wd-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--cyan);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .wd-title {
+      font-family: var(--font-brand);
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .wd-desc {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      line-height: 1.45;
+      margin-bottom: 14px;
+    }
+
+    .wd-showcase-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    @media (min-width: 640px) {
+      .wd-showcase-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .wd-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
-    .service-tile h3 {
-      font-size: 15px;
+    .wd-card-media {
+      width: 100%;
+      height: 200px;
+      background: #000;
+      overflow: hidden;
+    }
+    .wd-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .wd-card:hover .wd-card-media img {
+      transform: scale(1.03);
+    }
+    .wd-card-content {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .wd-card-title {
+      font-family: var(--font-brand);
+      font-size: 16px;
       font-weight: 800;
+      color: #fff;
       margin-bottom: 4px;
+    }
+    .wd-card-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      line-height: 1.4;
+      flex: 1;
+    }
+    .wd-specs-list {
+      list-style: none;
+      margin-bottom: 12px;
+    }
+    .wd-specs-list li {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--cyan);
+      margin-bottom: 3px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 5px;
     }
-    .service-tile p {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.4;
+    .wd-specs-list li::before {
+      content: "•";
+      color: var(--accent);
+    }
+    .btn-wd-card-action {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .btn-wd-card-action:hover {
+      background: var(--cyan);
+      color: #000;
     }
 
     /* =========================================================================
-       ESTIMATE / INTAKE FORM
+       TAB 3: FILTERABLE PHOTO LAKE / GALLERY
+       ========================================================================= */
+    .gallery-filter-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .filter-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .filter-pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    @media (min-width: 640px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (min-width: 860px) {
+      .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid var(--border);
+      aspect-ratio: 4/3;
+      cursor: pointer;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+    .gallery-item-tag {
+      position: absolute;
+      top: 6px; left: 6px;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .gallery-item-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+      padding: 16px 8px 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Fullscreen Lightbox Modal */
+    #lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.94);
+      backdrop-filter: blur(12px);
+      z-index: 99999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    #lightbox-modal.active {
+      display: flex;
+    }
+    #lightbox-img {
+      max-width: 95vw;
+      max-height: 80vh;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      object-fit: contain;
+    }
+    #lightbox-caption {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #cbd5e1;
+      font-weight: 600;
+      text-align: center;
+    }
+    #lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid var(--border);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* =========================================================================
+       TAB 4: ESTIMATE INTAKE & DIRECT DISPATCH
        ========================================================================= */
     .intake-card {
       background: var(--bg-card);
       border: 1px solid rgba(255, 87, 34, 0.35);
       border-radius: 16px;
-      padding: 20px 16px;
+      padding: 18px 16px;
+      margin-bottom: 16px;
     }
+    .intake-header {
+      margin-bottom: 14px;
+    }
+    .intake-header h2 {
+      font-family: var(--font-brand);
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .intake-header p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .voice-photo-banner {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .vpb-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .vpb-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .vpb-sub {
+      font-size: 11px;
+      color: var(--cyan);
+      font-family: var(--font-mono);
+    }
+    .vpb-btn {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 11.5px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
     .form-row {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .form-row label {
       display: block;
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
@@ -458,10 +805,10 @@
       background: #090a0f;
       border: 1px solid var(--border);
       color: #fff;
-      padding: 12px 14px;
+      padding: 10px 12px;
       border-radius: 8px;
       font-family: var(--font-body);
-      font-size: 14px;
+      font-size: 13.5px;
       outline: none;
     }
     .form-input:focus, .form-select:focus, .form-textarea:focus {
@@ -469,25 +816,27 @@
     }
     .btn-submit-lead {
       width: 100%;
-      min-height: 48px;
+      min-height: 46px;
       background: var(--accent);
       color: #fff;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13.5px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      margin-top: 6px;
+      transition: background 0.2s;
     }
 
     /* =========================================================================
-       STICKY BOTTOM DOCK
+       STICKY BOTTOM MOBILE DOCK
        ========================================================================= */
     #bottom-dock {
       position: fixed;
       bottom: 0; left: 0; right: 0;
-      height: 64px;
+      height: 60px;
       background: rgba(9, 10, 15, 0.96);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -496,17 +845,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 4px);
+      padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 2px);
       gap: 10px;
     }
     .dock-btn-phone {
       flex: 1;
-      height: 46px;
+      height: 42px;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border);
       color: #fff;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
       border-radius: 8px;
       text-decoration: none;
       display: flex;
@@ -516,13 +865,14 @@
     }
     .dock-btn-estimate {
       flex: 1.3;
-      height: 46px;
+      height: 42px;
       background: var(--accent);
       color: #fff;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13px;
       border-radius: 8px;
-      text-decoration: none;
+      border: none;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -533,389 +883,576 @@
 </head>
 <body>
 
-  <!-- Sticky Top Header -->
+  <!-- Sticky Top Header HUD -->
   <header id="site-hud">
     <a href="#" class="hud-brand">
       <img src="dondlinger_logo.png" alt="Dondlinger General Contracting" class="hud-logo">
       <div class="hud-brand-text">
         <span class="hud-name">DONDLINGER GC</span>
-        <span class="hud-sub"><span class="dot"></span> WI DSPS LICENSED</span>
+        <span class="hud-sub"><span class="dot"></span> WI DSPS #1519787</span>
       </div>
     </a>
     <div class="hud-actions">
-      <a href="#estimate" class="btn-hud-estimate">ESTIMATE</a>
+      <a href="tel:7154593050" class="btn-hud-call">📞 (715) 459-3050</a>
+      <button onclick="switchTab('tab-estimate')" class="btn-hud-estimate">ESTIMATE</button>
     </div>
   </header>
 
-  <!-- Clean Hero Section -->
-  <section class="hero-wrap">
-    <div class="hero-badge">Wisconsin Rapids & Wood County</div>
-    <h1 class="hero-title">Quality Work.<br>Straightforward Contracting.</h1>
-    <p class="hero-desc">
-      Licensed general contracting in Central Wisconsin. Siding, roofing, custom kitchen cabinetry, commercial drop ceilings, and structural additions.
+  <!-- Compact Hero Section -->
+  <section class="hero-compact">
+    <div class="hero-top-badges">
+      <span class="badge-dsps">✓ DSPS Lic. #1519787</span>
+      <span class="badge-geo">📍 Wisconsin Rapids & Wood County</span>
+    </div>
+    <h1 class="hero-headline">Quality Work. Straightforward Contracting.</h1>
+    <p class="hero-subtext">
+      Residential & commercial general contracting in Central Wisconsin. Exterior siding envelopes, high-efficiency windows, custom entry doors, kitchens, and commercial acoustical drop ceilings.
     </p>
-
-    <div class="hero-quick-actions">
-      <a href="#estimate" class="btn-action-primary">⚡ Send Project Specs</a>
-      <a href="/intake.html" class="btn-action-phone">🎙️ Voice & Photo Intake</a>
-    </div>
   </section>
 
-  <!-- EXPANDABLE PROJECT WINDOWS -->
-  <section class="section-wrap" id="projects">
-    <div class="section-title-row">
-      <h2 class="sec-heading">Recent Projects</h2>
-      <span class="sec-sub-note">Tap to view photos & video</span>
+  <!-- MULTI-TAB HUB CONTAINER -->
+  <main class="hub-container">
+
+    <!-- Sticky Tab Controller -->
+    <div class="tab-bar-wrap">
+      <nav class="tab-bar" aria-label="Main Navigation Hub">
+        <button class="tab-btn active" id="btn-projects" onclick="switchTab('tab-projects')">
+          <span class="tab-icon">🔨</span>
+          <span class="tab-label">Projects</span>
+        </button>
+        <button class="tab-btn" id="btn-windows" onclick="switchTab('tab-windows')">
+          <span class="tab-icon">🪟</span>
+          <span class="tab-label">Windows & Doors</span>
+        </button>
+        <button class="tab-btn" id="btn-gallery" onclick="switchTab('tab-gallery')">
+          <span class="tab-icon">📸</span>
+          <span class="tab-label">Photo Lake</span>
+        </button>
+        <button class="tab-btn" id="btn-estimate" onclick="switchTab('tab-estimate')">
+          <span class="tab-icon">⚡</span>
+          <span class="tab-label">Get Estimate</span>
+        </button>
+      </nav>
     </div>
 
-    <div class="project-window-stack">
+    <!-- =====================================================================
+         TAB 1: FEATURED PROJECTS (EXPANDABLE PROJECT WINDOWS)
+         ===================================================================== -->
+    <section class="tab-pane active" id="tab-projects">
+      <div class="project-window-stack">
 
-      <!-- Project Window 1: Siding & Exterior Renovation -->
-      <div class="project-window open" id="pw-siding">
-        <div class="pw-header" onclick="toggleWindow('pw-siding')">
-          <div class="pw-titles">
-            <span class="pw-category">Exterior Renovation</span>
-            <span class="pw-name">Two-Story Exterior Siding & Architectural Gables</span>
-            <span class="pw-location">Central Wisconsin</span>
+        <!-- Project 1: Siding & Exterior Envelope -->
+        <div class="project-window open" id="pw-siding">
+          <div class="pw-header" onclick="toggleWindow('pw-siding')">
+            <div class="pw-titles">
+              <span class="pw-category">Exterior Envelope Renovation</span>
+              <span class="pw-name">Two-Story Siding & Architectural Gables</span>
+              <span class="pw-location">Wisconsin Rapids Area</span>
+            </div>
+            <div class="pw-toggle-btn">▾</div>
           </div>
-          <div class="pw-toggle-btn">▾</div>
+
+          <div class="pw-body">
+            <div class="pw-media-viewer" id="viewer-siding">
+              <img src="images/projects/IMG_4801.webp" alt="Finished Slate Blue Siding and Gables" id="main-img-siding">
+            </div>
+
+            <div class="pw-thumb-strip">
+              <div class="pw-thumb active" onclick="switchMedia('siding', 'images/projects/IMG_4801.webp', 'image', this)">
+                <img src="images/projects/IMG_4801.webp" alt="Finished Siding & Gables">
+                <span class="pw-thumb-badge">Finished Siding</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_4802.webp', 'image', this)">
+                <img src="images/projects/IMG_4802.webp" alt="Side Wall Profile">
+                <span class="pw-thumb-badge">Side Wall</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_4349.webp', 'image', this)">
+                <img src="images/projects/IMG_4349.webp" alt="Foil Insulation Sheathing">
+                <span class="pw-thumb-badge">Insulation Sheath</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_2012.webp', 'image', this)">
+                <img src="images/projects/IMG_2012.webp" alt="Old Lap Siding Stripdown">
+                <span class="pw-thumb-badge">Old Siding</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_2014.webp', 'image', this)">
+                <img src="images/projects/IMG_2014.webp" alt="Front Porch Framing">
+                <span class="pw-thumb-badge">Front Porch</span>
+              </div>
+            </div>
+
+            <p class="pw-narrative">
+              Stripped peeling painted white lap siding down to the frame, installed foil-faced thermal insulation barrier, and finished with deep slate-blue lap siding, crisp white window casings, matching corner trim, and decorative white fish-scale gable shingles.
+            </p>
+
+            <div class="pw-specs-grid">
+              <span class="pw-spec-tag">Slate Blue Vinyl</span>
+              <span class="pw-spec-tag">Decorative Gable Shingles</span>
+              <span class="pw-spec-tag">Foil Thermal Sheathing</span>
+              <span class="pw-spec-tag">Window Casings</span>
+            </div>
+
+            <button onclick="prefillAndSwitch('Exterior Siding & Gables')" class="pw-quote-cta">Request Siding Estimate ↗</button>
+          </div>
         </div>
 
-        <div class="pw-body">
-          <!-- Main Media Viewer -->
-          <div class="pw-media-viewer" id="viewer-siding">
-            <img src="images/projects/IMG_4801.webp" alt="Finished Slate Blue Siding, White Corner Posts, and Architectural Gables" id="main-img-siding">
+        <!-- Project 2: Custom Kitchen Shaker Cabinetry -->
+        <div class="project-window" id="pw-kitchen">
+          <div class="pw-header" onclick="toggleWindow('pw-kitchen')">
+            <div class="pw-titles">
+              <span class="pw-category">Interior Carpentry & Finish</span>
+              <span class="pw-name">Custom White Shaker Kitchen & Countertops</span>
+              <span class="pw-location">Central Wisconsin</span>
+            </div>
+            <div class="pw-toggle-btn">▾</div>
           </div>
 
-          <!-- Thumbnail Selector -->
-          <div class="pw-thumb-strip">
-            <div class="pw-thumb active" onclick="switchMedia('siding', 'images/projects/IMG_4801.webp', 'image', this)">
-              <img src="images/projects/IMG_4801.webp" alt="Completed Siding & Gables">
-              <span class="pw-thumb-badge">Finished Siding</span>
+          <div class="pw-body">
+            <div class="pw-media-viewer" id="viewer-kitchen">
+              <video controls playsinline poster="images/projects/IMG_3346.webp" id="main-video-kitchen">
+                <source src="videos/kitchen_walkthrough.mp4" type="video/mp4">
+              </video>
             </div>
-            <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_4802.webp', 'image', this)">
-              <img src="images/projects/IMG_4802.webp" alt="Side Elevation">
-              <span class="pw-thumb-badge">Side Wall</span>
+
+            <div class="pw-thumb-strip">
+              <div class="pw-thumb active" onclick="switchMedia('kitchen', 'videos/kitchen_walkthrough.mp4', 'video', this)">
+                <img src="images/projects/IMG_3346.webp" alt="Field Walkthrough Video">
+                <span class="pw-thumb-badge">▶ Video Tour</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('kitchen', 'images/projects/IMG_3346.webp', 'image', this)">
+                <img src="images/projects/IMG_3346.webp" alt="Installed White Shaker Cabinets">
+                <span class="pw-thumb-badge">Sink & Tops</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('kitchen', 'images/projects/IMG_3341.webp', 'image', this)">
+                <img src="images/projects/IMG_3341.webp" alt="Full Kitchen Layout">
+                <span class="pw-thumb-badge">Full Layout</span>
+              </div>
             </div>
-            <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_4349.webp', 'image', this)">
-              <img src="images/projects/IMG_4349.webp" alt="Foil-Faced Thermal Insulation Sheathing">
-              <span class="pw-thumb-badge">Insulation Sheathing</span>
+
+            <p class="pw-narrative">
+              Complete kitchen rebuild featuring bright white shaker cabinetry, marble-veined laminate countertops, stainless steel sink with high-arc commercial gooseneck pull-down sprayer, glazed white subway tile backsplash, butcher-block counter extension, and dark plank flooring.
+            </p>
+
+            <div class="pw-specs-grid">
+              <span class="pw-spec-tag">White Shaker Cabinets</span>
+              <span class="pw-spec-tag">Marble-Veined Tops</span>
+              <span class="pw-spec-tag">Subway Backsplash</span>
+              <span class="pw-spec-tag">Gooseneck Sprayer</span>
+              <span class="pw-spec-tag">Plank Flooring</span>
             </div>
-            <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_2012.webp', 'image', this)">
-              <img src="images/projects/IMG_2012.webp" alt="Original Weathered White Lap Siding">
-              <span class="pw-thumb-badge">Old Lap Siding</span>
+
+            <button onclick="prefillAndSwitch('Custom Kitchen & Cabinetry')" class="pw-quote-cta">Request Kitchen Estimate ↗</button>
+          </div>
+        </div>
+
+        <!-- Project 3: Commercial Acoustical Drop Ceiling -->
+        <div class="project-window" id="pw-ceiling">
+          <div class="pw-header" onclick="toggleWindow('pw-ceiling')">
+            <div class="pw-titles">
+              <span class="pw-category">Commercial Renovation</span>
+              <span class="pw-name">Commercial Facility Suspended Acoustical Grid</span>
+              <span class="pw-location">Wisconsin Rapids Area</span>
             </div>
-            <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_2014.webp', 'image', this)">
-              <img src="images/projects/IMG_2014.webp" alt="Front Porch & Entry Before Siding">
-              <span class="pw-thumb-badge">Front Porch Entry</span>
-            </div>
+            <div class="pw-toggle-btn">▾</div>
           </div>
 
-          <p class="pw-narrative">
-            Complete exterior envelope renovation of a 2-story home. Stripped peeling painted white lap siding down to the frame, installed foil-faced thermal insulation barrier, and finished with deep slate-blue lap siding, crisp white window casings, matching corner trim, and decorative white fish-scale gable shingles.
-          </p>
+          <div class="pw-body">
+            <div class="pw-media-viewer" id="viewer-ceiling">
+              <img src="images/projects/IMG_6788.webp" alt="Commercial Suspended Ceiling Grid" id="main-img-ceiling">
+            </div>
 
-          <div class="pw-specs-grid">
-            <span class="pw-spec-tag">Slate Blue Vinyl</span>
-            <span class="pw-spec-tag">Decorative Gable Shingles</span>
-            <span class="pw-spec-tag">Foil Thermal Sheathing</span>
-            <span class="pw-spec-tag">Window Casings</span>
+            <div class="pw-thumb-strip">
+              <div class="pw-thumb active" onclick="switchMedia('ceiling', 'images/projects/IMG_6788.webp', 'image', this)">
+                <img src="images/projects/IMG_6788.webp" alt="Concourse Ceiling Grid">
+                <span class="pw-thumb-badge">Concourse Grid</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6794.webp', 'image', this)">
+                <img src="images/projects/IMG_6794.webp" alt="Full Facility Ceiling Span">
+                <span class="pw-thumb-badge">Full Span</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6792.webp', 'image', this)">
+                <img src="images/projects/IMG_6792.webp" alt="Wide Span Floor">
+                <span class="pw-thumb-badge">Wide Facility</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6778.webp', 'image', this)">
+                <img src="images/projects/IMG_6778.webp" alt="Ceiling Tile Prep">
+                <span class="pw-thumb-badge">Tile Staging</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6595.webp', 'image', this)">
+                <img src="images/projects/IMG_6595.webp" alt="Overhead Grid Work">
+                <span class="pw-thumb-badge">Scaffolding</span>
+              </div>
+            </div>
+
+            <p class="pw-narrative">
+              Full-span commercial suspended acoustical ceiling installation across a large recreation venue. Precision laser-leveled grid framework, 2x4 acoustic absorption panels, integrated fluorescent and LED lighting troffers, and HVAC diffuser fitments.
+            </p>
+
+            <div class="pw-specs-grid">
+              <span class="pw-spec-tag">2x4 Acoustical Panels</span>
+              <span class="pw-spec-tag">Suspended Heavy Grid</span>
+              <span class="pw-spec-tag">Troffer Lighting</span>
+              <span class="pw-spec-tag">HVAC Integration</span>
+            </div>
+
+            <button onclick="prefillAndSwitch('Commercial Drop Ceilings')" class="pw-quote-cta">Request Commercial Estimate ↗</button>
+          </div>
+        </div>
+
+        <!-- Project 4: Treated Wood Deck & Staircase -->
+        <div class="project-window" id="pw-deck">
+          <div class="pw-header" onclick="toggleWindow('pw-deck')">
+            <div class="pw-titles">
+              <span class="pw-category">Outdoor Living & Carpentry</span>
+              <span class="pw-name">Treated Wood Deck, Baluster Railing & Staircase</span>
+              <span class="pw-location">Central Wisconsin</span>
+            </div>
+            <div class="pw-toggle-btn">▾</div>
           </div>
 
-          <a href="#estimate" onclick="prefillEstimate('Exterior Siding & Gables')" class="pw-quote-cta">Request Siding Estimate ↗</a>
+          <div class="pw-body">
+            <div class="pw-media-viewer" id="viewer-deck">
+              <img src="images/projects/deck_finished_stairs.webp" alt="Completed Treated Wood Deck with 4-Step Staircase" id="main-img-deck">
+            </div>
+
+            <div class="pw-thumb-strip">
+              <div class="pw-thumb active" onclick="switchMedia('deck', 'images/projects/deck_finished_stairs.webp', 'image', this)">
+                <img src="images/projects/deck_finished_stairs.webp" alt="Finished Deck and Staircase">
+                <span class="pw-thumb-badge">Finished Stairs</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_stair_install.webp', 'image', this)">
+                <img src="images/projects/deck_stair_install.webp" alt="Deck Surface Installation">
+                <span class="pw-thumb-badge">Deck Surface</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_corner_railing.webp', 'image', this)">
+                <img src="images/projects/deck_corner_railing.webp" alt="Baluster Railing Profile">
+                <span class="pw-thumb-badge">Railing Profile</span>
+              </div>
+              <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_wide_elevation.webp', 'image', this)">
+                <img src="images/projects/deck_wide_elevation.webp" alt="Rear Elevation Sub-Structure">
+                <span class="pw-thumb-badge">Rear Elevation</span>
+              </div>
+            </div>
+
+            <p class="pw-narrative">
+              Elevated outdoor deck off the rear patio slider. Built on solid timber support posts with heavy rim joist framing, finished wood plank decking, vertical baluster safety railings, top rail cap, and custom-cut 4-step stringer stair system down to grade.
+            </p>
+
+            <div class="pw-specs-grid">
+              <span class="pw-spec-tag">Treated Lumber Framing</span>
+              <span class="pw-spec-tag">Vertical Baluster Railings</span>
+              <span class="pw-spec-tag">Custom Cut Stringers</span>
+              <span class="pw-spec-tag">Patio Slider Tie-In</span>
+            </div>
+
+            <button onclick="prefillAndSwitch('Decks & Outdoor Living')" class="pw-quote-cta">Request Deck Estimate ↗</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 2: WINDOWS & DOORS SHOWCASE
+         ===================================================================== -->
+    <section class="tab-pane" id="tab-windows">
+      
+      <div class="wd-hero-banner">
+        <span class="wd-badge">❄️ Wisconsin Winter-Proof Envelope</span>
+        <h2 class="wd-title">High-Efficiency Replacement Windows & Insulated Doors</h2>
+        <p class="wd-desc">
+          Stop winter drafts, rotting sills, and sky-high heating bills. We install precision-fit Low-E insulated replacement windows, solid fiberglass entry doors, and heavy-duty patio sliders built for Central Wisconsin sub-zero winters.
+        </p>
+      </div>
+
+      <div class="wd-showcase-grid">
+        <!-- Card 1: Windows -->
+        <div class="wd-card">
+          <div class="wd-card-media">
+            <img src="images/projects/window_replacement.webp" alt="High-efficiency double-hung replacement windows in Wisconsin daylight" loading="lazy">
+          </div>
+          <div class="wd-card-content">
+            <h3 class="wd-card-title">Replacement Windows</h3>
+            <p class="wd-card-sub">Double-hung, casement, picture, and slider replacement units with precision exterior casing.</p>
+            <ul class="wd-specs-list">
+              <li>Low-E Argon Insulated Glass</li>
+              <li>Multi-Chamber Fusion Welded Vinyl</li>
+              <li>Dual Weatherstripping Seals</li>
+              <li>Custom Exterior Trim & Flashing</li>
+            </ul>
+            <button onclick="prefillAndSwitch('Windows & Doors')" class="btn-wd-card-action">Get Window Quote ↗</button>
+          </div>
+        </div>
+
+        <!-- Card 2: Entry Doors -->
+        <div class="wd-card">
+          <div class="wd-card-media">
+            <img src="images/projects/entry_door.webp" alt="Insulated fiberglass front entry door with privacy glass sidelights" loading="lazy">
+          </div>
+          <div class="wd-card-content">
+            <h3 class="wd-card-title">Insulated Entry Doors</h3>
+            <p class="wd-card-sub">Heavy-duty fiberglass and steel doors engineered for maximum security and thermal barrier protection.</p>
+            <ul class="wd-specs-list">
+              <li>High-Density Foam Core Insulation</li>
+              <li>Satin Privacy Glass Sidelights</li>
+              <li>Heavy Magnetic Weather Seals</li>
+              <li>Brushed Nickel Hardware Sets</li>
+            </ul>
+            <button onclick="prefillAndSwitch('Windows & Doors')" class="btn-wd-card-action">Get Door Quote ↗</button>
+          </div>
+        </div>
+
+        <!-- Card 3: Patio Sliders -->
+        <div class="wd-card">
+          <div class="wd-card-media">
+            <img src="images/projects/patio_door.webp" alt="Modern sliding glass patio door leading to cedar deck" loading="lazy">
+          </div>
+          <div class="wd-card-content">
+            <h3 class="wd-card-title">Sliding Patio Doors</h3>
+            <p class="wd-card-sub">Smooth-gliding multi-panel patio doors with tempered safety glass and integrated multi-point locking systems.</p>
+            <ul class="wd-specs-list">
+              <li>Heavy-Duty Aluminum Clad Frame</li>
+              <li>Dual-Pane Thermal Insulation</li>
+              <li>Multi-Point Security Lock</li>
+              <li>Smooth Ball-Bearing Rollers</li>
+            </ul>
+            <button onclick="prefillAndSwitch('Windows & Doors')" class="btn-wd-card-action">Get Patio Quote ↗</button>
+          </div>
         </div>
       </div>
 
-      <!-- Project Window 2: Custom Kitchen Shaker Cabinetry -->
-      <div class="project-window" id="pw-kitchen">
-        <div class="pw-header" onclick="toggleWindow('pw-kitchen')">
-          <div class="pw-titles">
-            <span class="pw-category">Interior Finish</span>
-            <span class="pw-name">Custom White Shaker Kitchen & Countertops</span>
-            <span class="pw-location">Central Wisconsin</span>
-          </div>
-          <div class="pw-toggle-btn">▾</div>
-        </div>
+    </section>
 
-        <div class="pw-body">
-          <div class="pw-media-viewer" id="viewer-kitchen">
-            <video controls playsinline poster="images/projects/IMG_3346.webp" id="main-video-kitchen">
-              <source src="videos/kitchen_walkthrough.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="pw-thumb-strip">
-            <div class="pw-thumb active" onclick="switchMedia('kitchen', 'videos/kitchen_walkthrough.mp4', 'video', this)">
-              <img src="images/projects/IMG_3346.webp" alt="Field Walkthrough Video">
-              <span class="pw-thumb-badge">▶ Walkthrough</span>
-            </div>
-            <div class="pw-thumb" onclick="switchMedia('kitchen', 'images/projects/IMG_3346.webp', 'image', this)">
-              <img src="images/projects/IMG_3346.webp" alt="Installed White Shaker Cabinets and Marble-Pattern Countertops">
-              <span class="pw-thumb-badge">Sink & Cabinets</span>
-            </div>
-            <div class="pw-thumb" onclick="switchMedia('kitchen', 'images/projects/IMG_3341.webp', 'image', this)">
-              <img src="images/projects/IMG_3341.webp" alt="Wide Angle Layout with Subway Tile and Wood Flooring">
-              <span class="pw-thumb-badge">Full Layout</span>
-            </div>
-          </div>
-
-          <p class="pw-narrative">
-            Complete kitchen rebuild featuring bright white shaker cabinetry, marble-veined laminate countertops, stainless steel sink with high-arc commercial gooseneck pull-down sprayer, glazed white subway tile backsplash, butcher-block counter extension, and dark plank flooring.
-          </p>
-
-          <div class="pw-specs-grid">
-            <span class="pw-spec-tag">White Shaker Cabinets</span>
-            <span class="pw-spec-tag">Marble-Veined Tops</span>
-            <span class="pw-spec-tag">Subway Backsplash</span>
-            <span class="pw-spec-tag">Gooseneck Sprayer</span>
-            <span class="pw-spec-tag">Plank Flooring</span>
-          </div>
-
-          <a href="#estimate" onclick="prefillEstimate('Custom Kitchen & Cabinetry')" class="pw-quote-cta">Request Kitchen Estimate ↗</a>
-        </div>
+    <!-- =====================================================================
+         TAB 3: FILTERABLE PHOTO LAKE / GALLERY
+         ===================================================================== -->
+    <section class="tab-pane" id="tab-gallery">
+      
+      <!-- Filter Bar -->
+      <div class="gallery-filter-bar">
+        <button class="filter-pill active" onclick="filterGallery('all', this)">All Jobs (16)</button>
+        <button class="filter-pill" onclick="filterGallery('siding', this)">🏠 Siding & Envelope</button>
+        <button class="filter-pill" onclick="filterGallery('interior', this)">🗄️ Kitchen & Interior</button>
+        <button class="filter-pill" onclick="filterGallery('ceiling', this)">🏢 Commercial Ceilings</button>
+        <button class="filter-pill" onclick="filterGallery('deck', this)">🪵 Decks & Railings</button>
+        <button class="filter-pill" onclick="filterGallery('window', this)">🪟 Windows & Doors</button>
       </div>
 
-      <!-- Project Window 3: Commercial Acoustical Drop Ceiling -->
-      <div class="project-window" id="pw-ceiling">
-        <div class="pw-header" onclick="toggleWindow('pw-ceiling')">
-          <div class="pw-titles">
-            <span class="pw-category">Commercial Renovation</span>
-            <span class="pw-name">Commercial Facility Suspended Acoustical Grid & Ceiling</span>
-            <span class="pw-location">Central Wisconsin</span>
-          </div>
-          <div class="pw-toggle-btn">▾</div>
+      <!-- Photo Grid -->
+      <div class="gallery-grid" id="gallery-container">
+        
+        <!-- Siding -->
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4801.webp', 'Finished Slate Blue Siding with Decorative Gable Shingles')">
+          <img src="images/projects/IMG_4801.webp" alt="Finished Slate Blue Siding" loading="lazy">
+          <span class="gallery-item-tag">Siding</span>
+          <div class="gallery-item-caption">Finished Siding & Gables</div>
+        </div>
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4802.webp', 'Two-Story Side Wall Profile and Corner Post Trim')">
+          <img src="images/projects/IMG_4802.webp" alt="Side Wall Profile" loading="lazy">
+          <span class="gallery-item-tag">Siding</span>
+          <div class="gallery-item-caption">Side Wall Elevation</div>
+        </div>
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4349.webp', 'Foil-Faced Thermal Weatherization Barrier Installation')">
+          <img src="images/projects/IMG_4349.webp" alt="Foil Insulation Sheathing" loading="lazy">
+          <span class="gallery-item-tag">Siding</span>
+          <div class="gallery-item-caption">Thermal Foil Sheathing</div>
+        </div>
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2012.webp', 'Original Weathered White Lap Siding Prior to Tear-Off')">
+          <img src="images/projects/IMG_2012.webp" alt="Old Lap Siding" loading="lazy">
+          <span class="gallery-item-tag">Siding</span>
+          <div class="gallery-item-caption">Pre-Tearoff Lap Siding</div>
+        </div>
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2014.webp', 'Front Porch Entry Frame & Wrap')">
+          <img src="images/projects/IMG_2014.webp" alt="Front Porch Entry" loading="lazy">
+          <span class="gallery-item-tag">Siding</span>
+          <div class="gallery-item-caption">Front Porch Framing</div>
         </div>
 
-        <div class="pw-body">
-          <div class="pw-media-viewer" id="viewer-ceiling">
-            <img src="images/projects/IMG_6788.webp" alt="Completed Commercial Suspended Ceiling Grid across Seating Concourse" id="main-img-ceiling">
-          </div>
-
-          <div class="pw-thumb-strip">
-            <div class="pw-thumb active" onclick="switchMedia('ceiling', 'images/projects/IMG_6788.webp', 'image', this)">
-              <img src="images/projects/IMG_6788.webp" alt="Seating Concourse Ceiling Grid">
-              <span class="pw-thumb-badge">Concourse Grid</span>
-            </div>
-            <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6794.webp', 'image', this)">
-              <img src="images/projects/IMG_6794.webp" alt="Full Facility Ceiling Span & Integrated Lighting">
-              <span class="pw-thumb-badge">Full Span</span>
-            </div>
-            <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6792.webp', 'image', this)">
-              <img src="images/projects/IMG_6792.webp" alt="Wide Span Over Multi-Lane Floor">
-              <span class="pw-thumb-badge">Wide Facility</span>
-            </div>
-            <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6778.webp', 'image', this)">
-              <img src="images/projects/IMG_6778.webp" alt="Ceiling Tile Staging and Material Prep">
-              <span class="pw-thumb-badge">Tile Staging</span>
-            </div>
-            <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6595.webp', 'image', this)">
-              <img src="images/projects/IMG_6595.webp" alt="Overhead Grid Work & Scaffolding Protection">
-              <span class="pw-thumb-badge">Scaffold Work</span>
-            </div>
-            <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6596.webp', 'image', this)">
-              <img src="images/projects/IMG_6596.webp" alt="Bar Area Overhead Grid & Ceiling Fans">
-              <span class="pw-thumb-badge">Bar Area Grid</span>
-            </div>
-          </div>
-
-          <p class="pw-narrative">
-            Full-span commercial suspended acoustical ceiling installation across a large recreation and seating venue. Precision laser-leveled grid framework, 2x4 acoustic absorption panels, integrated fluorescent and LED lighting troffers, HVAC diffuser fitments, and ceiling fan mounts.
-          </p>
-
-          <div class="pw-specs-grid">
-            <span class="pw-spec-tag">2x4 Acoustical Panels</span>
-            <span class="pw-spec-tag">Suspended Heavy Grid</span>
-            <span class="pw-spec-tag">Troffer Lighting</span>
-            <span class="pw-spec-tag">HVAC Integration</span>
-          </div>
-
-          <a href="#estimate" onclick="prefillEstimate('Commercial Drop Ceilings')" class="pw-quote-cta">Request Commercial Estimate ↗</a>
+        <!-- Kitchen / Interior -->
+        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3346.webp', 'Installed White Shaker Cabinets with Marble-Pattern Countertop')">
+          <img src="images/projects/IMG_3346.webp" alt="Installed White Shaker Cabinets" loading="lazy">
+          <span class="gallery-item-tag">Interior</span>
+          <div class="gallery-item-caption">White Shaker Cabinets</div>
         </div>
+        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3341.webp', 'Full Kitchen Remodel with Subway Tile and Wood Flooring')">
+          <img src="images/projects/IMG_3341.webp" alt="Full Kitchen Remodel" loading="lazy">
+          <span class="gallery-item-tag">Interior</span>
+          <div class="gallery-item-caption">Full Kitchen Remodel</div>
+        </div>
+
+        <!-- Commercial Ceiling -->
+        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6788.webp', 'Suspended Commercial Acoustical Ceiling Grid in Seating Concourse')">
+          <img src="images/projects/IMG_6788.webp" alt="Suspended Ceiling Grid" loading="lazy">
+          <span class="gallery-item-tag">Commercial</span>
+          <div class="gallery-item-caption">Concourse Ceiling Grid</div>
+        </div>
+        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6794.webp', 'Full Facility Ceiling Span with Integrated Lighting')">
+          <img src="images/projects/IMG_6794.webp" alt="Full Facility Ceiling Span" loading="lazy">
+          <span class="gallery-item-tag">Commercial</span>
+          <div class="gallery-item-caption">Full Span Grid</div>
+        </div>
+        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6792.webp', 'Overhead Acoustical Grid Over Recreation Lanes')">
+          <img src="images/projects/IMG_6792.webp" alt="Overhead Acoustical Grid" loading="lazy">
+          <span class="gallery-item-tag">Commercial</span>
+          <div class="gallery-item-caption">Facility Wide Span</div>
+        </div>
+        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6778.webp', 'Ceiling Tile Material Staging')">
+          <img src="images/projects/IMG_6778.webp" alt="Tile Staging" loading="lazy">
+          <span class="gallery-item-tag">Commercial</span>
+          <div class="gallery-item-caption">Tile Staging & Prep</div>
+        </div>
+        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6595.webp', 'Scaffolding & Laser Level Grid Alignment')">
+          <img src="images/projects/IMG_6595.webp" alt="Scaffolding Grid Work" loading="lazy">
+          <span class="gallery-item-tag">Commercial</span>
+          <div class="gallery-item-caption">Scaffold Grid Work</div>
+        </div>
+
+        <!-- Decks -->
+        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_finished_stairs.webp', 'Completed Treated Wood Deck with 4-Step Staircase')">
+          <img src="images/projects/deck_finished_stairs.webp" alt="Finished Deck and Stairs" loading="lazy">
+          <span class="gallery-item-tag">Deck</span>
+          <div class="gallery-item-caption">Deck & Finished Stairs</div>
+        </div>
+        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_corner_railing.webp', 'Vertical Baluster Safety Railing Profile')">
+          <img src="images/projects/deck_corner_railing.webp" alt="Baluster Safety Railing" loading="lazy">
+          <span class="gallery-item-tag">Deck</span>
+          <div class="gallery-item-caption">Baluster Railing Profile</div>
+        </div>
+        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_stair_install.webp', 'Treated Deck Surface Fastening and Carpenter Fitment')">
+          <img src="images/projects/deck_stair_install.webp" alt="Deck Surface Fitment" loading="lazy">
+          <span class="gallery-item-tag">Deck</span>
+          <div class="gallery-item-caption">Deck Board Fitment</div>
+        </div>
+
+        <!-- Windows & Doors -->
+        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/window_replacement.webp', 'Modern High-Efficiency Double-Hung Replacement Windows')">
+          <img src="images/projects/window_replacement.webp" alt="Replacement Windows" loading="lazy">
+          <span class="gallery-item-tag">Windows</span>
+          <div class="gallery-item-caption">Double-Hung Windows</div>
+        </div>
+        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/entry_door.webp', 'Insulated Fiberglass Entry Door with Privacy Glass')">
+          <img src="images/projects/entry_door.webp" alt="Insulated Entry Door" loading="lazy">
+          <span class="gallery-item-tag">Doors</span>
+          <div class="gallery-item-caption">Fiberglass Entry Door</div>
+        </div>
+        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/patio_door.webp', 'Sliding Glass Patio Door with Deck Access')">
+          <img src="images/projects/patio_door.webp" alt="Sliding Patio Door" loading="lazy">
+          <span class="gallery-item-tag">Doors</span>
+          <div class="gallery-item-caption">Sliding Patio Door</div>
+        </div>
+
       </div>
 
-      <!-- Project Window 4: Custom Treated Deck & Baluster Railing -->
-      <div class="project-window" id="pw-deck">
-        <div class="pw-header" onclick="toggleWindow('pw-deck')">
-          <div class="pw-titles">
-            <span class="pw-category">Outdoor Living & Carpentry</span>
-            <span class="pw-name">Treated Wood Deck, Baluster Railing & Integrated Stairs</span>
-            <span class="pw-location">Central Wisconsin</span>
-          </div>
-          <div class="pw-toggle-btn">▾</div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 4: ESTIMATE INTAKE & DIRECT DISPATCH
+         ===================================================================== -->
+    <section class="tab-pane" id="tab-estimate">
+      <div class="intake-card">
+        <div class="intake-header">
+          <h2>Request a Project Estimate</h2>
+          <p>Direct mobile dispatch to John Dondlinger. Fast response guaranteed.</p>
         </div>
 
-        <div class="pw-body">
-          <div class="pw-media-viewer" id="viewer-deck">
-            <img src="images/projects/deck_finished_stairs.webp" alt="Completed Stained Treated Wood Deck with 4-Step Staircase and Baluster Railing" id="main-img-deck">
+        <!-- Voice & Photo Alternative Link -->
+        <div class="voice-photo-banner">
+          <div class="vpb-text">
+            <span class="vpb-title">🎙️ Need Voice or Photo Intake?</span>
+            <span class="vpb-sub">Record voice specs or upload job photos</span>
           </div>
+          <a href="/intake.html" class="vpb-btn">Open App ↗</a>
+        </div>
 
-          <div class="pw-thumb-strip">
-            <div class="pw-thumb active" onclick="switchMedia('deck', 'images/projects/deck_finished_stairs.webp', 'image', this)">
-              <img src="images/projects/deck_finished_stairs.webp" alt="Finished Deck and Staircase">
-              <span class="pw-thumb-badge">Finished Stairs</span>
-            </div>
-            <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_stair_install.webp', 'image', this)">
-              <img src="images/projects/deck_stair_install.webp" alt="Deck Surface Installation and Carpenter Fitment">
-              <span class="pw-thumb-badge">Deck Surface</span>
-            </div>
-            <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_corner_railing.webp', 'image', this)">
-              <img src="images/projects/deck_corner_railing.webp" alt="Cantilever Post & Baluster Railing Profile">
-              <span class="pw-thumb-badge">Railing Profile</span>
-            </div>
-            <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_wide_elevation.webp', 'image', this)">
-              <img src="images/projects/deck_wide_elevation.webp" alt="Full Back Yard Elevation with Deck Sub-Structure">
-              <span class="pw-thumb-badge">Rear Elevation</span>
-            </div>
-          </div>
-
-          <p class="pw-narrative">
-            Full build of an elevated outdoor deck off the rear patio slider. Built on solid timber support posts with heavy rim joist framing, finished wood plank decking, vertical baluster safety railings, top rail cap, and custom-cut 4-step stringer stair system down to grade.
-          </p>
-
-          <div class="pw-specs-grid">
-            <span class="pw-spec-tag">Treated Lumber Framing</span>
-            <span class="pw-spec-tag">Vertical Baluster Railings</span>
-            <span class="pw-spec-tag">Custom Cut Stringers</span>
-            <span class="pw-spec-tag">Patio Slider Tie-In</span>
+        <form id="leadForm" onsubmit="handleLeadSubmit(event)">
+          <div class="form-row">
+            <label for="fName">Your Name *</label>
+            <input type="text" id="fName" class="form-input" placeholder="e.g. Dave Madsen" required>
           </div>
 
-          <a href="#estimate" onclick="prefillEstimate('Decks & Outdoor Living')" class="pw-quote-cta">Request Deck Estimate ↗</a>
-        </div>
+          <div class="form-row">
+            <label for="fContact">Phone or Email *</label>
+            <input type="text" id="fContact" class="form-input" placeholder="(715) 555-0199 or name@email.com" required>
+          </div>
+
+          <div class="form-row">
+            <label for="fService">Project Scope *</label>
+            <select id="fService" class="form-select" required>
+              <option value="Exterior Siding & Gables">Exterior Siding & Gables</option>
+              <option value="Windows & Doors">High-Efficiency Windows & Doors</option>
+              <option value="Custom Kitchen & Cabinetry">Custom Kitchen & Cabinetry</option>
+              <option value="Commercial Drop Ceilings">Commercial Drop Ceilings</option>
+              <option value="Decks & Outdoor Living">Decks & Outdoor Living</option>
+              <option value="Architectural Roofing">Architectural Roofing</option>
+              <option value="Additions & Framing">Additions & Framing</option>
+              <option value="Other Scope">Other Construction Scope</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="fAddress">City / Location</label>
+            <input type="text" id="fAddress" class="form-input" placeholder="Wisconsin Rapids, Nekoosa, Port Edwards, Stevens Point...">
+          </div>
+
+          <div class="form-row">
+            <label for="fNotes">Project Details</label>
+            <textarea id="fNotes" class="form-textarea" rows="3" placeholder="Approximate dimensions, materials, or target timeline..."></textarea>
+          </div>
+
+          <button type="submit" id="fSubmitBtn" class="btn-submit-lead">Send Estimate Request ⚡</button>
+        </form>
       </div>
+    </section>
 
-    </div>
-  </section>
+  </main>
 
-  <!-- HIGH-PERFORMANCE WINDOWS & DOORS FEATURE SPOTLIGHT -->
-  <section class="section-wrap" id="windows-doors">
-    <div style="background: linear-gradient(135deg, #161a29 0%, #0d101a 100%); border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 18px; padding: 22px 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 24px;">
-      <div style="display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: var(--cyan); background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); padding: 3px 8px; border-radius: 4px; text-transform: uppercase; margin-bottom: 10px;">
-        ❄️ WISCONSIN WINTER-PROOF ENVELOPE
-      </div>
-      <h2 style="font-family: var(--font-brand); font-size: 22px; font-weight: 800; line-height: 1.2; margin-bottom: 8px;">
-        High-Performance Windows & Exterior Doors
-      </h2>
-      <p style="font-size: 14px; color: #cbd5e1; line-height: 1.5; margin-bottom: 16px;">
-        Stop high winter heating bills, drafty rooms, and rotting window sills. We install precision-fit replacement windows and heavy-duty insulated entry & patio doors designed specifically for harsh Central Wisconsin weather.
-      </p>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 16px;">
-        <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border); padding: 10px; border-radius: 8px;">
-          <div style="font-weight: 800; font-size: 13px; color: #fff; margin-bottom: 2px;">🪟 Windows</div>
-          <div style="font-size: 11px; color: var(--text-muted);">Double-hung, casement, bay & bow, Low-E & argon gas insulated vinyl.</div>
-        </div>
-        <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border); padding: 10px; border-radius: 8px;">
-          <div style="font-weight: 800; font-size: 13px; color: #fff; margin-bottom: 2px;">🚪 Entry Doors</div>
-          <div style="font-size: 11px; color: var(--text-muted);">Insulated fiberglass & steel doors with weather-intrusion seals.</div>
-        </div>
-        <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border); padding: 10px; border-radius: 8px;">
-          <div style="font-weight: 800; font-size: 13px; color: #fff; margin-bottom: 2px;">🏡 Patio Sliders</div>
-          <div style="font-size: 11px; color: var(--text-muted);">Smooth-glide sliding glass doors with multi-point security locks.</div>
-        </div>
-      </div>
-
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="#estimate" onclick="prefillEstimate('Windows & Doors')" style="flex: 1; min-height: 44px; background: var(--cyan); color: #000; font-weight: 800; font-size: 13px; border-radius: 8px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase;">
-          Get Window / Door Estimate ↗
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVICES OVERVIEW -->
-  <section class="section-wrap" id="services">
-    <div class="section-title-row">
-      <h2 class="sec-heading">All Services</h2>
-    </div>
-
-    <div class="services-grid">
-      <div class="service-tile">
-        <h3>🏠 Siding & Exterior Trim</h3>
-        <p>Vinyl & steel siding, aluminum fascia, soffit, corner trim, and thermal weather barrier envelopes.</p>
-      </div>
-
-      <div class="service-tile">
-        <h3>🔨 Roofing</h3>
-        <p>Architectural shingle installation, complete tear-offs, synthetic underlayment, and flashing.</p>
-      </div>
-
-      <div class="service-tile">
-        <h3>🗄️ Kitchen & Shop Cabinetry</h3>
-        <p>Custom shaker cabinets, countertops, finish trim, hardware fitment, and kitchen remodels.</p>
-      </div>
-
-      <div class="service-tile">
-        <h3>🏢 Acoustical Drop Ceilings</h3>
-        <p>Commercial and basement suspended grid ceilings, sound insulation, and LED panel integration.</p>
-      </div>
-
-      <div class="service-tile">
-        <h3>🪟 Windows & Doors</h3>
-        <p>Energy-efficient replacement windows, entry doors, sliding patio units, and exterior casings.</p>
-      </div>
-
-      <div class="service-tile">
-        <h3>📐 Additions & Framing</h3>
-        <p>Garage conversions, interior partition walls, stairways, decks, and structural home additions.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ESTIMATE & INTAKE FORM -->
-  <section class="section-wrap" id="estimate">
-    <div class="intake-card">
-      <div style="margin-bottom: 16px;">
-        <h2 class="sec-heading">Request an Estimate</h2>
-        <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Direct dispatch to John Dondlinger in Wisconsin Rapids.</p>
-      </div>
-
-      <form id="leadForm" onsubmit="handleLeadSubmit(event)">
-        <div class="form-row">
-          <label for="fName">Your Name *</label>
-          <input type="text" id="fName" class="form-input" placeholder="e.g. Dave Madsen" required>
-        </div>
-
-        <div class="form-row">
-          <label for="fContact">Phone or Email *</label>
-          <input type="text" id="fContact" class="form-input" placeholder="(715) 555-0199 or name@email.com" required>
-        </div>
-
-        <div class="form-row">
-          <label for="fService">Project Type *</label>
-          <select id="fService" class="form-select" required>
-            <option value="Exterior Siding & Gables">Exterior Siding & Gables</option>
-            <option value="Architectural Roofing">Architectural Roofing</option>
-            <option value="Custom Kitchen & Cabinetry">Custom Kitchen & Cabinetry</option>
-            <option value="Commercial Drop Ceilings">Commercial Drop Ceilings</option>
-            <option value="Windows & Doors">Windows & Doors</option>
-            <option value="Additions & Framing">Additions & Framing</option>
-            <option value="Other Construction Scope">Other Construction Scope</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label for="fAddress">City / Location</label>
-          <input type="text" id="fAddress" class="form-input" placeholder="Wisconsin Rapids, Nekoosa, Port Edwards...">
-        </div>
-
-        <div class="form-row">
-          <label for="fNotes">Project Scope Notes</label>
-          <textarea id="fNotes" class="form-textarea" rows="3" placeholder="Approximate dimensions, materials, or target timeline..."></textarea>
-        </div>
-
-        <button type="submit" id="fSubmitBtn" class="btn-submit-lead">Submit Estimate Request</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Sticky Bottom Dock -->
-  <div id="bottom-dock">
-    <a href="/intake.html" class="dock-btn-phone">🎙️ Voice Intake</a>
-    <a href="#estimate" class="dock-btn-estimate">Send Specs ⚡</a>
+  <!-- Fullscreen Lightbox Modal -->
+  <div id="lightbox-modal" onclick="closeLightbox()">
+    <div id="lightbox-close" onclick="closeLightbox()">✕</div>
+    <img id="lightbox-img" src="" alt="Project Photo">
+    <div id="lightbox-caption"></div>
   </div>
 
+  <!-- Sticky Bottom Dock -->
+  <footer id="bottom-dock">
+    <a href="tel:7154593050" class="dock-btn-phone">📞 Direct Call</a>
+    <button onclick="switchTab('tab-estimate')" class="dock-btn-estimate">⚡ Get Estimate</button>
+  </footer>
+
   <script>
-    // Expand / Collapse Project Window
+    // Tab Switching Logic
+    function switchTab(tabId) {
+      // Deactivate all tabs
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      // Activate selected tab
+      const btnId = 'btn-' + tabId.replace('tab-', '');
+      const btn = document.getElementById(btnId);
+      const pane = document.getElementById(tabId);
+
+      if (btn) btn.classList.add('active');
+      if (pane) pane.classList.add('active');
+
+      // Scroll to tab bar smoothly if below top
+      const bar = document.querySelector('.tab-bar-wrap');
+      if (bar) {
+        const barTop = bar.getBoundingClientRect().top + window.scrollY - 70;
+        if (window.scrollY > barTop) {
+          window.scrollTo({ top: barTop, behavior: 'smooth' });
+        }
+      }
+    }
+
+    // Prefill estimate service and switch to Tab 4
+    function prefillAndSwitch(serviceName) {
+      const select = document.getElementById('fService');
+      if (select) {
+        select.value = serviceName;
+      }
+      switchTab('tab-estimate');
+    }
+
+    // Expand / Collapse Project Window in Tab 1
     function toggleWindow(id) {
       const el = document.getElementById(id);
       if (el) {
@@ -928,41 +1465,66 @@
       const viewer = document.getElementById('viewer-' + projectKey);
       if (!viewer) return;
 
-      // Update thumbnail active states
       const strip = thumbEl.parentElement;
       const thumbs = strip.querySelectorAll('.pw-thumb');
       thumbs.forEach(t => t.classList.remove('active'));
       thumbEl.classList.add('active');
 
-      // Replace viewer media cleanly
       if (mediaType === 'video') {
         viewer.innerHTML = `
-          <video controls autoplay playsinline style="width:100%;height:auto;max-height:500px;object-fit:contain;">
+          <video controls autoplay playsinline style="width:100%;height:auto;max-height:480px;object-fit:contain;">
             <source src="${mediaSrc}" type="video/mp4">
           </video>
         `;
       } else {
         viewer.innerHTML = `
-          <img src="${mediaSrc}" alt="Project Photo" style="width:100%;height:auto;max-height:500px;object-fit:contain;">
+          <img src="${mediaSrc}" alt="Project Photo" style="width:100%;height:auto;max-height:480px;object-fit:contain;">
         `;
       }
     }
 
-    // Pre-fill estimate form from project window button
-    function prefillEstimate(serviceName) {
-      const select = document.getElementById('fService');
-      if (select) {
-        select.value = serviceName;
+    // Filter Gallery Items in Tab 3
+    function filterGallery(category, btnEl) {
+      const pills = document.querySelectorAll('.gallery-filter-bar .filter-pill');
+      pills.forEach(p => p.classList.remove('active'));
+      btnEl.classList.add('active');
+
+      const items = document.querySelectorAll('.gallery-grid .gallery-item');
+      items.forEach(item => {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Lightbox Modal for Photo Gallery
+    function openLightbox(src, caption) {
+      const modal = document.getElementById('lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      const cap = document.getElementById('lightbox-caption');
+      if (modal && img && cap) {
+        img.src = src;
+        cap.textContent = caption || '';
+        modal.classList.add('active');
       }
     }
 
-    // Submit Lead to /api/intake
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+    }
+
+    // Handle Lead Submission to /api/intake
     async function handleLeadSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('fSubmitBtn');
       const orig = btn.textContent;
       btn.disabled = true;
-      btn.textContent = 'Submitting...';
+      btn.textContent = 'Submitting to Dispatch...';
 
       const payload = {
         name: document.getElementById('fName').value,
@@ -980,7 +1542,7 @@
         });
         const data = await res.json();
         if (data.success) {
-          btn.textContent = '✅ Estimate Request Sent!';
+          btn.textContent = '✅ Estimate Dispatched to Telegram!';
           btn.style.background = 'var(--green)';
           document.getElementById('leadForm').reset();
           setTimeout(() => {
