@@ -15,7 +15,7 @@ export async function onRequest(context) {
     const botToken = env.TELEGRAM_BOT_TOKEN || '7955190883:AAFUBoUU65F4v52ApOYNT0c5ZRCPEFjoLBY';
     const chatId = env.TELEGRAM_CHAT_ID || '8104595144';
     
-    // Dedicated Forum Topic Thread IDs (Default: 2 for Live Telemetry, 1 for Lead Direct Calls)
+    // Dedicated Forum Topic Thread IDs
     const leadThreadId = env.TELEGRAM_LEAD_THREAD_ID ? parseInt(env.TELEGRAM_LEAD_THREAD_ID, 10) : 1;
     const telemetryThreadId = env.TELEGRAM_TELEMETRY_THREAD_ID ? parseInt(env.TELEGRAM_TELEMETRY_THREAD_ID, 10) : 2;
 
@@ -58,19 +58,36 @@ export async function onRequest(context) {
       `⏱️ <b>Dwell:</b> ${dwell}s | <b>Device:</b> ${device}\n` +
       `🆔 <code>${sid}</code>`;
 
-    const tgPayload = {
+    // Attempt Topic dispatch first; fall back to root chat if topic thread ID is not found on group
+    const tgPayloadTopic = {
       chat_id: chatId,
+      message_thread_id: targetThreadId,
       text: message,
       parse_mode: 'HTML',
       disable_web_page_preview: true
     };
-    if (targetThreadId) tgPayload.message_thread_id = targetThreadId;
 
-    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(tgPayload)
-    }).catch(console.error);
+      body: JSON.stringify(tgPayloadTopic)
+    });
+
+    const resJson = await res.json().catch(() => ({}));
+    if (!resJson.ok) {
+      // Fallback without message_thread_id if topic does not exist
+      const tgPayloadRoot = {
+        chat_id: chatId,
+        text: message,
+        parse_mode: 'HTML',
+        disable_web_page_preview: true
+      };
+      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(tgPayloadRoot)
+      }).catch(console.error);
+    }
 
     return new Response(JSON.stringify({ success: true }), { status: 200, headers: corsHeaders });
   } catch (err) {

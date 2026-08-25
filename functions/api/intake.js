@@ -71,20 +71,28 @@ export async function onRequest(context) {
       `🆔 <code>${leadId}</code>`;
 
     if (uploadedPhotos.length === 0) {
-      const tgPayload = {
+      const tgPayloadTopic = {
         chat_id: chatId,
+        message_thread_id: leadThreadId,
         text: caption,
         parse_mode: 'HTML'
       };
-      if (leadThreadId) tgPayload.message_thread_id = leadThreadId;
 
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(tgPayload)
+        body: JSON.stringify(tgPayloadTopic)
       });
+      const resJson = await res.json().catch(() => ({}));
+      if (!resJson.ok) {
+        // Fallback to root chat if thread ID is not found on group
+        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text: caption, parse_mode: 'HTML' })
+        }).catch(console.error);
+      }
     } else {
-      // Send Photo or Media Group
       const tgForm = new FormData();
       tgForm.append('chat_id', chatId);
       if (leadThreadId) tgForm.append('message_thread_id', leadThreadId.toString());
@@ -92,10 +100,22 @@ export async function onRequest(context) {
       tgForm.append('parse_mode', 'HTML');
       tgForm.append('photo', uploadedPhotos[0], uploadedPhotos[0].name);
 
-      await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+      const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
         method: 'POST',
         body: tgForm
       });
+      const resJson = await res.json().catch(() => ({}));
+      if (!resJson.ok) {
+        const tgFormRoot = new FormData();
+        tgFormRoot.append('chat_id', chatId);
+        tgFormRoot.append('caption', caption);
+        tgFormRoot.append('parse_mode', 'HTML');
+        tgFormRoot.append('photo', uploadedPhotos[0], uploadedPhotos[0].name);
+        await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+          method: 'POST',
+          body: tgFormRoot
+        }).catch(console.error);
+      }
     }
 
     return new Response(JSON.stringify({ success: true, lead_id: leadId }), { status: 200, headers: corsHeaders });
