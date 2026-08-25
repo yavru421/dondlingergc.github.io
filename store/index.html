@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Suite Launchpad | Dondlinger General Contracting</title>
+  <meta name="description" content="Central App Store & Zero-Liability Application Suite for Dondlinger General Contracting LLC. Launch jobsite calculators, voice intake, weather radar, and P2P utilities.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a0f;
+      --bg-card: #12141c;
+      --bg-card-hover: #181b26;
+      --border: rgba(255, 255, 255, 0.08);
+      --accent: #ff5722;
+      --accent-glow: rgba(255, 87, 34, 0.25);
+      --green: #22c55e;
+      --cyan: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-brand: 'Syne', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 40px;
+      background-image: radial-gradient(circle at 50% 0%, rgba(255, 87, 34, 0.08) 0%, transparent 50%);
+    }
+    .header {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-home:hover { background: rgba(255, 87, 34, 0.15); border-color: var(--accent); }
+    .brand-title {
+      font-family: var(--font-brand);
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .hero {
+      text-align: center;
+      max-width: 640px;
+      margin-bottom: 32px;
+    }
+    .hero h1 {
+      font-family: var(--font-brand);
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    .hero p {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 960px;
+    }
+    .app-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    .app-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 87, 34, 0.3);
+      transform: translateY(-2px);
+    }
+    .app-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .app-name {
+      font-family: var(--font-brand);
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .app-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+    .btn-launch {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 800;
+      padding: 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .btn-launch:hover { background: #f44336; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="https://dondlingergc.com" class="btn-home">← Return to Main Hub</a>
+    <span class="brand-title">DONDLINGER GC</span>
+  </header>
+
+  <section class="hero">
+    <h1>Application Suite Launchpad</h1>
+    <p>Offline-first WebAssembly utilities, volume calculators, weather telemetry, and encrypted peer-to-peer tools.</p>
+  </section>
+
+  <main class="app-grid">
+
+    <!-- App 1 -->
+    <div class="app-card">
+      <div class="app-icon">🏗️</div>
+      <h2 class="app-name">PourReady Estimator</h2>
+      <p class="app-desc">Blazor WASM offline concrete volume, slab, footing, wall, and column estimator.</p>
+      <a href="https://calc.dondlingergc.com" class="btn-launch">Launch App ↗</a>
+    </div>
+
+    <!-- App 2 -->
+    <div class="app-card">
+      <div class="app-icon">🎙️</div>
+      <h2 class="app-name">Voice Intake Portal</h2>
+      <p class="app-desc">Voice-first AI client quote request engine and hands-free audio note recorder.</p>
+      <a href="https://voice-intake-app.dondlingergc.com" class="btn-launch">Launch App ↗</a>
+    </div>
+
+    <!-- App 3 -->
+    <div class="app-card">
+      <div class="app-icon">⚡</div>
+      <h2 class="app-name">WaZ Weather Radar</h2>
+      <p class="app-desc">Real-time atmospheric telemetry, live NEXRAD radar, and Wisconsin river hydrology.</p>
+      <a href="https://wazweather.dondlingergc.com" class="btn-launch">Launch App ↗</a>
+    </div>
+
+    <!-- App 4 -->
+    <div class="app-card">
+      <div class="app-icon">📦</div>
+      <h2 class="app-name">SkyDrop File Transfer</h2>
+      <p class="app-desc">Direct browser-to-browser WebRTC encrypted zero-cloud file transport with QR pairing.</p>
+      <a href="https://skydrop.dondlingergc.com" class="btn-launch">Launch App ↗</a>
+    </div>
+
+    <!-- App 5 -->
+    <div class="app-card">
+      <div class="app-icon">📐</div>
+      <h2 class="app-name">ZLA Architecture Spec</h2>
+      <p class="app-desc">Technical whitepaper, compliance proof, and zero-liability software engineering principles.</p>
+      <a href="https://zla.dondlingergc.com" class="btn-launch">Launch App ↗</a>
+    </div>
+
+    <!-- App 6 -->
+    <div class="app-card">
+      <div class="app-icon">⏱️</div>
+      <h2 class="app-name">Timeline ZLA Builder</h2>
+      <p class="app-desc">Construction timeline builder, peer-to-peer 6-digit sync, and vector PDF export engine.</p>
+      <a href="https://timelinezla.dondlingergc.com" class="btn-launch">Launch App ↗</a>
+    </div>
+
+  </main>
+
+  <script src="/telemetry.js"></script>
+</body>
+</html>
