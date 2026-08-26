@@ -24,10 +24,18 @@ export async function onRequest(context) {
     const cfCity = request.cf?.city || 'Central Wisconsin';
     const cfRegion = request.cf?.region || 'WI';
     const ua = request.headers.get('user-agent') || '';
+
+    // 1. Bot / Crawler / Port Scanner Filter
+    const isBot = /bot|crawl|spider|slurp|censys|shodan|masscan|bytespider|gptbot|claudebot|headless|python-requests|aiohttp|wget|curl/i.test(ua);
+    if (isBot) {
+      // Silently log or ignore bot probes - NEVER trigger Telegram alerts
+      return new Response(JSON.stringify({ success: true, bot: true }), { status: 200, headers: corsHeaders });
+    }
+
     const device = ua.includes('iPhone') ? 'iPhone' : ua.includes('Android') ? 'Android' : 'Desktop';
     const sid = data.sid || (request.headers.get('cf-ray') ? request.headers.get('cf-ray').split('-')[0] : 'anon');
 
-    // 1. ALWAYS Log Full Raw Clickstream Data into Cloudflare D1
+    // 2. ALWAYS Log Full Raw Clickstream Data into Cloudflare D1
     if (env.DB) {
       await env.DB.prepare(`
         INSERT INTO visitor_traffic (sid, event_type, path, trade_viewed, ballpark_val, time_on_site_sec, device, city, region)
@@ -35,19 +43,32 @@ export async function onRequest(context) {
       `).bind(sid, eventType, activeTab, trade, ballpark, dwell, device, cfCity, cfRegion).run().catch(console.error);
     }
 
-    // 2. High-Filter Notification Rule:
-    // ONLY send Telegram notification on NEW SESSION START ('page_view') or DIRECT CALL TAP
-    // Silent for background clicks/drags to eliminate notification noise
-    const isNewSession = (eventType === 'page_view');
+    // 3. Human Engagement Gating for Telegram Alerts:
+    // Suppress instant 0-second page_view bounces.
+    // ONLY alert on Telegram on:
+    // a) Direct phone/SMS click
+    // b) Estimate CTA click
+    // c) Verified human dwell time >= 4s ('engaged_read')
+    // d) High-intent interactive exploration (gallery views, tab switches)
     const isCallIntent = (eventType === 'call_button_click' || eventType === 'sms_button_click');
+    const isCtaIntent = (eventType === 'cta_estimate_click');
+    const isEngagedDwell = (eventType === 'engaged_read' || eventType === 'session_dwell') && dwell >= 4;
+    const isExploration = (eventType === 'tab_switch' || eventType === 'gallery_photo_view' || eventType === 'calc_estimate_adjust');
 
-    if (isNewSession || isCallIntent) {
-      const message = `${isCallIntent ? '📞 <b>INTENT: CALL/PHONE TAP</b>' : '🌐 <b>NEW VISITOR ARRIVED</b>'}\n\n` +
+    if (isCallIntent || isCtaIntent || isEngagedDwell || isExploration) {
+      let headerIcon = '🌐 <b>LIVE HUMAN VISITOR</b>';
+      if (isCallIntent) headerIcon = '📞 <b>HIGH INTENT: PHONE / SMS TAP</b>';
+      else if (isCtaIntent) headerIcon = '📝 <b>HIGH INTENT: ESTIMATE CTA CLICK</b>';
+      else if (isExploration) headerIcon = '🔍 <b>ENGAGED INTERACTION</b>';
+
+      const message = `${headerIcon}\n\n` +
         `📍 <b>Location:</b> ${cfCity}, ${cfRegion}\n` +
         `📱 <b>Device:</b> ${device}\n` +
-        `📄 <b>Landing Page:</b> <b>${activeTab}</b>\n` +
+        `📄 <b>Active Section:</b> <b>${activeTab}</b>\n` +
+        (dwell > 0 ? `⏱️ <b>Time on Site:</b> ${dwell}s\n` : '') +
+        (details ? `📌 <b>Detail:</b> ${details}\n` : '') +
         `🆔 <code>${sid}</code>\n\n` +
-        `<i>All clickstream events logged quietly to D1 database.</i>`;
+        `<i>Filtered telemetry (bot probes suppressed).</i>`;
 
       await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',

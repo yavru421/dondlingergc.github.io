@@ -15,6 +15,12 @@ export async function onRequest(context) {
     const chatId = env.TELEGRAM_CHAT_ID || '8104595144';
     const leadThreadId = env.TELEGRAM_LEAD_THREAD_ID ? parseInt(env.TELEGRAM_LEAD_THREAD_ID, 10) : 1;
 
+    const ua = request.headers.get('user-agent') || '';
+    const isBot = /bot|crawl|spider|slurp|censys|shodan|masscan|bytespider|headless|python-requests|aiohttp|wget|curl/i.test(ua);
+    if (isBot) {
+      return new Response(JSON.stringify({ success: true, bot: true }), { status: 200, headers: corsHeaders });
+    }
+
     const contentType = request.headers.get('content-type') || '';
     let name = 'Web Client';
     let contact = 'N/A';
@@ -22,10 +28,12 @@ export async function onRequest(context) {
     let address = 'Wisconsin Rapids Area';
     let notes = '';
     let ballpark = '';
+    let honeypot = '';
     const uploadedPhotos = [];
 
     if (contentType.includes('multipart/form-data')) {
       const formData = await request.formData();
+      honeypot = formData.get('website_trap') || formData.get('hp_field') || '';
       name = formData.get('name') || name;
       contact = formData.get('contact') || contact;
       service = formData.get('service') || service;
@@ -40,12 +48,18 @@ export async function onRequest(context) {
       }
     } else {
       const data = await request.json().catch(() => ({}));
+      honeypot = data.website_trap || data.hp_field || '';
       name = data.name || name;
       contact = data.contact || contact;
       service = data.service || service;
       address = data.address || address;
       notes = data.notes || notes;
       ballpark = data.ballpark || '';
+    }
+
+    // Honeypot trip check: Drop spambots silently
+    if (honeypot && honeypot.trim().length > 0) {
+      return new Response(JSON.stringify({ success: true, spam_dropped: true }), { status: 200, headers: corsHeaders });
     }
 
     const cfCity = request.cf?.city || 'Central Wisconsin';

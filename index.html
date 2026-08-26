@@ -3,8 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="description" content="Dondlinger General Contracting LLC — Licensed Dwelling Contractor in Wisconsin Rapids, WI. Residential & commercial siding envelopes, replacement windows, custom doors, kitchens, decks, and commercial drop ceilings.">
-  <title>Dondlinger General Contracting LLC — Wisconsin Rapids, WI</title>
+  <meta name="description" content="DondlingerGC — Certified Journeyman General Contractor in Wisconsin Rapids, WI. Residential & commercial siding envelopes, replacement windows, custom doors, kitchens, decks, and commercial drop ceilings.">
+  <title>DondlingerGC — Wisconsin Rapids, WI</title>
+  
+  <!-- Schema.org LocalBusiness & GeneralContractor JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "GeneralContractor"],
+    "name": "DondlingerGC",
+    "image": "https://dondlingergc.com/assets/images/logo.png",
+    "telephone": "+1-715-459-3050",
+    "email": "dondlingergeneralcontracting@gmail.com",
+    "url": "https://dondlingergc.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Wisconsin Rapids",
+      "addressRegion": "WI",
+      "postalCode": "54494",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 44.3836,
+      "longitude": -89.8173
+    },
+    "areaServed": [
+      "Wisconsin Rapids, WI",
+      "Stevens Point, WI",
+      "Marshfield, WI",
+      "Port Edwards, WI",
+      "Nekoosa, WI",
+      "Wood County, WI",
+      "Portage County, WI",
+      "Adams County, WI"
+    ],
+    "priceRange": "$$$",
+    "paymentAccepted": "Cash, Check, Bank Transfer",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "07:00",
+      "closes": "18:00"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "DGC Contracting Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Residential & Commercial Siding Envelopes"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Replacement Windows & Exterior Doors"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Custom Treated & Composite Decks"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Architectural Roofing Repairs & Replacements"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "PourReady Concrete Slabs & Flatwork"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Kitchen & Bathroom Turnkey Remodels"
+          }
+        }
+      ]
+    }
+  }
+  </script>
   
   <script type="module" src="https://dondlingergc.com/.webmcp/bridge.js" data-packs="c2pa,mcp-server-client"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1877,64 +1968,98 @@
 
   </main>
 
-  <!-- CARP-X TACTILE ESTIMATE & DIRECT DISPATCH DRAWER -->
+  <!-- DONDLINGERGC 4-MODULE BALLPARK ESTIMATOR DRAWER -->
   <div id="carp-drawer-overlay" onclick="closeCarpDrawer()"></div>
   <div id="carp-drawer" role="dialog" aria-modal="true">
     <div class="drawer-handle"></div>
     <div class="drawer-header">
       <div>
-        <div class="drawer-title">Instant Scope & Pricing Calculator</div>
-        <div class="drawer-sub">⚡ Real-Time Estimate • Direct Dispatch to J. Dondlinger</div>
+        <div class="drawer-title">Instant Ballpark Estimator</div>
+        <div class="drawer-sub">⚡ Step 1: Select Trade & Scope ➔ Step 2: Instant Turnkey Range</div>
       </div>
       <div class="drawer-close-btn" onclick="closeCarpDrawer()">✕</div>
     </div>
 
-    <!-- Trade Chips -->
+    <!-- Trade Selector Chips -->
     <div class="drawer-trade-chips">
-      <button class="drawer-chip active" id="chip-windows" onclick="selectScopeTrade('windows')">🪟 Windows</button>
-      <button class="drawer-chip" id="chip-decks" onclick="selectScopeTrade('decks')">🪵 Decks</button>
-      <button class="drawer-chip" id="chip-siding" onclick="selectScopeTrade('siding')">🏠 Siding</button>
-      <button class="drawer-chip" id="chip-ceilings" onclick="selectScopeTrade('ceilings')">🏢 Drop Ceilings</button>
-      <button class="drawer-chip" id="chip-doors" onclick="selectScopeTrade('doors')">🚪 Entry Doors</button>
-    </div>
-
-    <!-- Live Estimate Display Box -->
-    <div class="ballpark-box">
-      <div class="ballpark-label" id="bp-trade-label">8 Replacement Windows Installed</div>
-      <div class="ballpark-range" id="bp-range-display">$3,600 – $6,000</div>
-      <div class="ballpark-note" id="bp-note-display">Includes tear-out, Low-E Argon units, insulation wrap & custom exterior casing.</div>
+      <button class="drawer-chip active" id="chip-decks" onclick="selectScopeTrade('decks')">🪵 Custom Decks</button>
+      <button class="drawer-chip" id="chip-siding" onclick="selectScopeTrade('siding')">🏠 Siding Envelopes</button>
+      <button class="drawer-chip" id="chip-roofing" onclick="selectScopeTrade('roofing')">🔨 Roofing</button>
+      <button class="drawer-chip" id="chip-concrete" onclick="selectScopeTrade('concrete')">🧱 PourReady Concrete</button>
+      <button class="drawer-chip" id="chip-windows" onclick="selectScopeTrade('windows')">🪟 Windows & Doors</button>
     </div>
 
     <!-- Dynamic Slider -->
     <div class="slider-group" id="slider-container">
       <div class="slider-header">
-        <span id="slider-title-text">Number of Window Openings:</span>
-        <span class="slider-val-tag" id="slider-val-display">8 Windows</span>
+        <span id="slider-title-text">Estimated Deck Area (Sq Ft):</span>
+        <span class="slider-val-tag" id="slider-val-display">200 Sq Ft</span>
       </div>
-      <input type="range" id="scope-slider" class="scope-range-input" min="1" max="25" value="8" oninput="updateBallparkCalculation()">
+      <input type="range" id="scope-slider" class="scope-range-input" min="80" max="600" value="200" step="20" oninput="updateBallparkCalculation()">
     </div>
 
-    <!-- Quick Dispatch Form -->
-    <form id="drawerDispatchForm" onsubmit="handleDrawerDispatch(event)">
-      <div class="form-row">
-        <label for="dContact">Your Phone or Email *</label>
-        <input type="text" id="dContact" class="form-input" placeholder="(715) 555-0199 or name@email.com" required>
-      </div>
+    <!-- MODULE A: THE BALLPARK QUOTE -->
+    <div class="ballpark-box" style="background:linear-gradient(135deg, rgba(255,87,34,0.12) 0%, rgba(18,20,28,0.95) 100%);border:1px solid var(--accent);border-radius:12px;padding:16px;margin-bottom:14px;">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:4px;" id="bp-trade-label">Estimated Turnkey Range:</div>
+      <div class="ballpark-range" id="bp-range-display" style="font-size:28px;font-weight:900;color:#fff;font-family:var(--font-brand);letter-spacing:-0.5px;margin-bottom:8px;">$7,000 – $11,000</div>
+      <ul style="list-style:none;font-size:11.5px;color:#cbd5e1;line-height:1.6;margin-bottom:4px;">
+        <li style="display:flex;align-items:center;gap:6px;">✓ <span>Turnkey pricing: Premium materials & certified installation</span></li>
+        <li style="display:flex;align-items:center;gap:6px;">✓ <span>Daily jobsite clean-up & full debris disposal included</span></li>
+        <li style="display:flex;align-items:center;gap:6px;">✓ <span>Central Wisconsin municipal building code compliance</span></li>
+      </ul>
+      <div style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);margin-top:6px;">*Instant ballpark based on Central Wisconsin historical project averages.</div>
+    </div>
 
-      <div class="form-row">
-        <label for="dNotes">Quick Note for J. Dondlinger (Optional)</label>
-        <input type="text" id="dNotes" class="form-input" placeholder="e.g. Living room drafty, looking for fall install">
+    <!-- MODULE B: CROSS-CATEGORY SPILLOVER (Interactive Add-ons) -->
+    <div id="module-b-addons" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
+      <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;margin-bottom:4px;">💡 Enhance Your Project (Optional Add-ons)</div>
+      <div style="font-size:11.5px;color:var(--text-muted);margin-bottom:10px;">Homeowners frequently pair this scope with:</div>
+      <div id="addons-checkbox-container" style="display:flex;flex-direction:column;gap:8px;">
+        <!-- Dynamic Addon Checkboxes Injected by JS -->
       </div>
+    </div>
 
-      <button type="submit" id="dSubmitBtn" class="btn-submit-lead">
-        <svg class="icon-svg" style="width:16px;height:16px;stroke:#fff;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        Send Scope to J. Dondlinger ⚡
-      </button>
-
-      <div style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:8px;font-family:var(--font-mono);">
-        🔒 Direct to Journeyman • Typical response within 15–30 mins
+    <!-- MODULE C: VISUAL BEFORE/AFTER STORIES -->
+    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
+      <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;margin-bottom:8px;">📸 Real Central WI Project Proof</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:#090a0f;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:11px;">
+          <div style="font-weight:700;color:#fff;margin-bottom:2px;">Scholz Project</div>
+          <div style="color:var(--text-muted);font-size:10px;margin-bottom:4px;">Wisconsin Rapids, WI</div>
+          <div style="color:var(--green);font-family:var(--font-mono);font-size:9.5px;">✓ Living Room & Trim</div>
+        </div>
+        <div style="background:#090a0f;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:11px;">
+          <div style="font-weight:700;color:#fff;margin-bottom:2px;">Camp Fairwood</div>
+          <div style="color:var(--text-muted);font-size:10px;margin-bottom:4px;">Nekoosa, WI</div>
+          <div style="color:var(--cyan);font-family:var(--font-mono);font-size:9.5px;">✓ Structural Pavilion</div>
+        </div>
       </div>
-    </form>
+    </div>
+
+    <!-- MODULE D: PROGRESSIVE DISCLOSURE & PHOTO DISPATCH -->
+    <div style="background:rgba(255,87,34,0.08);border:1px solid rgba(255,87,34,0.3);border-radius:12px;padding:14px;margin-bottom:10px;">
+      <div style="font-family:var(--font-brand);font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;">📸 Snap / Attach Project Photos for Fast Quote</div>
+      <div style="font-size:11.5px;color:#cbd5e1;margin-bottom:10px;">Attach 1–3 photos of your deck, siding, roof, or project area for an exact review:</div>
+      
+      <!-- Photo Dropzone / File Picker -->
+      <label for="dPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;border:2px dashed rgba(255,87,34,0.4);border-radius:8px;background:rgba(255,87,34,0.04);cursor:pointer;margin-bottom:10px;text-align:center;">
+        <svg class="icon-svg" style="width:24px;height:24px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span style="font-size:12px;font-weight:700;color:#fff;">Tap to Snap or Upload Photos (1–3)</span>
+        <span style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);">JPG, PNG, HEIC from iPhone/Android</span>
+      </label>
+      <input type="file" id="dPhotos" accept="image/*" multiple onchange="previewDrawerPhotos(event)" style="display:none;">
+      <div id="drawer-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:10px;"></div>
+
+      <form id="drawerDispatchForm" onsubmit="handleDrawerDispatch(event)">
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <input type="text" id="dContact" class="form-input" placeholder="Your Phone or Email (Required) *" style="font-size:12px;" required>
+          <input type="text" id="dNotes" class="form-input" placeholder="Quick note / city (e.g. Wisconsin Rapids, 12x16 deck)..." style="font-size:12px;">
+          <button type="submit" id="dSubmitBtn" class="btn-submit-lead" style="width:100%;padding:12px;font-size:13.5px;font-weight:800;background:var(--accent);color:#fff;border:none;border-radius:8px;box-shadow:0 4px 16px var(--accent-glow);cursor:pointer;">
+            🚀 Dispatch Scope & Photos to John ⚡
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- Fullscreen Lightbox Modal -->
@@ -1943,6 +2068,27 @@
     <img id="lightbox-img" src="" alt="Project Photo">
     <div id="lightbox-caption"></div>
   </div>
+
+  <!-- =========================================================================
+       AI SEARCH & LOCAL CREDENTIALS VERIFICATION TRUTH LAYER
+       ========================================================================= -->
+  <section id="ai-truth-layer" style="max-width:960px;margin:30px auto 20px;padding:20px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;font-size:12.5px;color:var(--text-muted);line-height:1.6;">
+    <h2 style="font-family:var(--font-brand);font-size:15px;font-weight:800;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+      <span style="color:var(--green);">●</span> Certified Journeyman Carpenter & Local Service Authority
+    </h2>
+    <p style="margin-bottom:8px;">
+      <strong>Dondlinger General Contracting LLC (DGC)</strong> is owned and operated by certified journeyman carpenter <strong>John Dondlinger</strong> with over 10+ years of dedicated residential framing, roofing, exterior envelopes, and finish carpentry experience operating out of Wisconsin Rapids, WI.
+    </p>
+    <p style="margin-bottom:8px;">
+      <strong>Central Wisconsin Service Radius & Zip Codes:</strong> Wisconsin Rapids (54494, 54495), Stevens Point (54481, 54482), Marshfield (54449), Nekoosa (54457), Port Edwards (54469), Adams-Friendship (54966), Wood County, Portage County, Adams County, and surrounding Marathon County areas.
+    </p>
+    <p style="margin-bottom:8px;">
+      <strong>Contracting Disciplines & Assembly Scope:</strong> Specialized in residential and commercial siding envelopes, Low-E argon replacement windows, custom exterior doors, architectural roofing tear-offs and replacements, custom treated and composite decks, PourReady concrete slabs, suspended acoustic drop ceilings, and turnkey interior carpentry.
+    </p>
+    <p>
+      <strong>Turnkey Proposals & Standards:</strong> All projects are quoted with clear, fixed-price written proposals covering quality materials and professional installation from start to finish with zero surprise fees. Every project includes thorough daily jobsite clean-up and dedicated craftsmanship guarantees. Direct phone: <strong>(715) 459-3050</strong>.
+    </p>
+  </section>
 
   <!-- Sticky Bottom Dock with clean SVGs -->
   <footer id="bottom-dock">
@@ -1957,51 +2103,72 @@
   </footer>
 
   <script>
-    let currentTrade = 'windows';
+    let currentTrade = 'decks';
     let telemetryTimer = null;
+    let selectedAddons = {};
 
     const TRADE_CONFIG = {
-      windows: {
-        title: 'Number of Window Openings:',
-        unit: 'Windows',
-        min: 1, max: 25, default: 8,
-        costMin: 450, costMax: 750,
-        note: 'Includes tear-out, Low-E Argon units, insulation wrap & custom exterior casing.'
-      },
       decks: {
         title: 'Estimated Deck Area (Sq Ft):',
         unit: 'Sq Ft',
         min: 80, max: 600, default: 200, step: 20,
         costMin: 35, costMax: 55,
-        note: 'Includes solid timber posts, treated joist framing, plank surface, baluster railings & stairs.'
+        note: 'Includes solid timber posts, treated joist framing, plank surface, baluster railings & stairs.',
+        addons: [
+          { id: 'deck_slab', name: 'PourReady Concrete Slab Underneath', costMin: 3200, costMax: 4800 },
+          { id: 'deck_drain', name: 'Under-Deck RainEscape Drainage System', costMin: 2100, costMax: 3000 },
+          { id: 'deck_bench', name: 'Built-In Perimeter Bench Seating', costMin: 950, costMax: 1400 }
+        ]
       },
       siding: {
         title: 'Estimated Wall Area (Sq Ft):',
         unit: 'Sq Ft',
         min: 600, max: 3500, default: 1500, step: 50,
         costMin: 7.5, costMax: 12,
-        note: 'Includes tear-off, foil thermal weatherization barrier, vinyl siding, corner posts & custom window trims.'
+        note: 'Includes tear-off, foil thermal weatherization barrier, vinyl siding, corner posts & custom window trims.',
+        addons: [
+          { id: 'siding_wraps', name: 'Custom Aluminum Window & Door Wraps', costMin: 950, costMax: 1600 },
+          { id: 'siding_gutters', name: 'Seamless Gutter & Downspout Upgrade', costMin: 850, costMax: 1400 }
+        ]
       },
-      ceilings: {
-        title: 'Ceiling Grid Area (Sq Ft):',
+      roofing: {
+        title: 'Roofing Area (Squares / 100 Sq Ft):',
+        unit: 'Squares',
+        min: 10, max: 65, default: 25, step: 1,
+        costMin: 350, costMax: 520,
+        note: 'Includes full tear-off, synthetic underlayment, ice & water shield, architectural shingles & ridge vent.',
+        addons: [
+          { id: 'roof_gutters', name: 'Seamless Gutters & Downspout Package', costMin: 850, costMax: 1200 },
+          { id: 'roof_leafguard', name: 'Premium Micro-Mesh Leaf Guard', costMin: 450, costMax: 750 }
+        ]
+      },
+      concrete: {
+        title: 'PourReady Slab Area (Sq Ft):',
         unit: 'Sq Ft',
-        min: 100, max: 2500, default: 400, step: 50,
-        costMin: 4.5, costMax: 7.5,
-        note: 'Includes laser-leveled suspended heavy grid, 2x4 acoustic absorption panels, and fixture fitments.'
+        min: 100, max: 1500, default: 400, step: 25,
+        costMin: 8.5, costMax: 14,
+        note: 'Includes subgrade excavation, gravel compaction, rebar reinforcement grid & power-trowel finish.',
+        addons: [
+          { id: 'conc_mono', name: 'Mono Slab Thickened Edge Footing', costMin: 450, costMax: 850 },
+          { id: 'conc_seal', name: 'Commercial Penetrating Siloxane Sealant', costMin: 350, costMax: 600 }
+        ]
       },
-      doors: {
-        title: 'Number of Entry / Patio Doors:',
-        unit: 'Doors',
-        min: 1, max: 5, default: 1,
-        costMin: 1200, costMax: 2800,
-        note: 'Includes insulated fiberglass/steel door, privacy glass sidelights, magnetic weather seals & hardware.'
+      windows: {
+        title: 'Number of Window Openings:',
+        unit: 'Windows',
+        min: 1, max: 25, default: 8,
+        costMin: 450, costMax: 750,
+        note: 'Includes tear-out, Low-E Argon units, insulation wrap & custom exterior casing.',
+        addons: [
+          { id: 'win_wrap', name: 'Aluminum Sill & Casing Wrap', costMin: 650, costMax: 1100 }
+        ]
       }
     };
 
     function openCarpDrawer() {
       document.getElementById('carp-drawer-overlay').classList.add('active');
       document.getElementById('carp-drawer').classList.add('open');
-      updateBallparkCalculation();
+      selectScopeTrade(currentTrade);
     }
 
     function closeCarpDrawer() {
@@ -2016,6 +2183,7 @@
 
     function selectScopeTrade(tradeKey) {
       currentTrade = tradeKey;
+      selectedAddons = {};
       document.querySelectorAll('.drawer-chip').forEach(c => c.classList.remove('active'));
       const chip = document.getElementById('chip-' + tradeKey);
       if (chip) chip.classList.add('active');
@@ -2030,8 +2198,34 @@
       slider.value = cfg.default;
 
       document.getElementById('slider-title-text').textContent = cfg.title;
-      document.getElementById('bp-note-display').textContent = cfg.note;
 
+      // Render Module B Addon Checkboxes
+      const container = document.getElementById('addons-checkbox-container');
+      if (container) {
+        if (cfg.addons && cfg.addons.length > 0) {
+          container.innerHTML = cfg.addons.map(a => `
+            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#e2e8f0;cursor:pointer;background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);">
+              <input type="checkbox" id="addon-${a.id}" onchange="toggleAddon('${a.id}', ${a.costMin}, ${a.costMax})" style="accent-color:var(--accent);width:16px;height:16px;">
+              <span style="flex:1;">${a.name}</span>
+              <span style="font-family:var(--font-mono);color:var(--cyan);font-weight:700;">+$${a.costMin.toLocaleString()}–$${a.costMax.toLocaleString()}</span>
+            </label>
+          `).join('');
+          document.getElementById('module-b-addons').style.display = 'block';
+        } else {
+          document.getElementById('module-b-addons').style.display = 'none';
+        }
+      }
+
+      updateBallparkCalculation();
+    }
+
+    function toggleAddon(id, cMin, cMax) {
+      const chk = document.getElementById('addon-' + id);
+      if (chk && chk.checked) {
+        selectedAddons[id] = { cMin, cMax };
+      } else {
+        delete selectedAddons[id];
+      }
       updateBallparkCalculation();
     }
 
@@ -2044,12 +2238,25 @@
 
       document.getElementById('slider-val-display').textContent = `${val} ${cfg.unit}`;
 
-      const minTotal = Math.round(val * cfg.costMin);
-      const maxTotal = Math.round(val * cfg.costMax);
+      let minTotal = Math.round(val * cfg.costMin);
+      let maxTotal = Math.round(val * cfg.costMax);
+
+      // Add selected addon costs
+      for (const key in selectedAddons) {
+        minTotal += selectedAddons[key].cMin;
+        maxTotal += selectedAddons[key].cMax;
+      }
 
       const rangeStr = `$${minTotal.toLocaleString()} – $${maxTotal.toLocaleString()}`;
       document.getElementById('bp-range-display').textContent = rangeStr;
-      document.getElementById('bp-trade-label').textContent = `${val} ${cfg.unit} (${currentTrade.toUpperCase()})`;
+      document.getElementById('bp-trade-label').textContent = `Estimated Turnkey Range: ${val} ${cfg.unit} (${currentTrade.toUpperCase()})`;
+
+      // Update Module D 1-Tap SMS Link
+      const smsBody = encodeURIComponent(`Hi John, please save my ${currentTrade.toUpperCase()} estimate of ${rangeStr} (${val} ${cfg.unit}). I'd like to schedule an on-site measurement.`);
+      const smsBtn = document.getElementById('btn-sms-quote');
+      if (smsBtn) {
+        smsBtn.href = `sms:7154593050?body=${smsBody}`;
+      }
 
       clearTimeout(telemetryTimer);
       telemetryTimer = setTimeout(() => {
@@ -2072,44 +2279,75 @@
       } catch {}
     }
 
+    function previewDrawerPhotos(e) {
+      const container = document.getElementById('drawer-photo-preview');
+      if (!container) return;
+      container.innerHTML = '';
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+
+      Array.from(files).slice(0, 4).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const img = document.createElement('img');
+          img.src = evt.target.result;
+          img.style.width = '56px';
+          img.style.height = '56px';
+          img.style.objectFit = 'cover';
+          img.style.borderRadius = '6px';
+          img.style.border = '1px solid var(--accent)';
+          container.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
     async function handleDrawerDispatch(e) {
       e.preventDefault();
       const btn = document.getElementById('dSubmitBtn');
       const origHtml = btn.innerHTML;
       btn.disabled = true;
-      btn.textContent = 'Dispatching to J. Dondlinger...';
+      btn.textContent = 'Dispatching Scope & Photos to John...';
 
       const cfg = TRADE_CONFIG[currentTrade];
       const sliderVal = document.getElementById('scope-slider').value;
       const ballpark = document.getElementById('bp-range-display').textContent;
+      const contact = document.getElementById('dContact').value;
+      const notes = document.getElementById('dNotes').value || 'Requested ballpark review.';
 
-      const payload = {
-        name: 'Website Scope Dispatch',
-        contact: document.getElementById('dContact').value,
-        service: `${sliderVal} ${cfg.unit} (${currentTrade.toUpperCase()})`,
-        ballpark: ballpark,
-        slider_details: { trade: currentTrade, value: sliderVal, range: ballpark },
-        notes: document.getElementById('dNotes').value || 'Requested ballpark review.'
-      };
+      const formData = new FormData();
+      formData.append('name', 'Website Estimate Scope');
+      formData.append('contact', contact);
+      formData.append('service', `${sliderVal} ${cfg.unit} (${currentTrade.toUpperCase()})`);
+      formData.append('ballpark', ballpark);
+      formData.append('notes', notes);
+
+      // Append selected project photos
+      const fileInput = document.getElementById('dPhotos');
+      if (fileInput && fileInput.files.length > 0) {
+        Array.from(fileInput.files).slice(0, 3).forEach((file, idx) => {
+          formData.append(`photo_${idx}`, file, file.name);
+        });
+      }
 
       try {
         const res = await fetch('/api/intake', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: formData
         });
         const data = await res.json();
         if (data.success) {
-          const ticketId = data.ticket_id || 'DGC-DISPATCH';
-          btn.textContent = `✅ Dispatched! Ticket #${ticketId}`;
+          const leadId = data.lead_id || 'DGC-LEAD';
+          btn.textContent = `✅ Dispatched! Reference #${leadId}`;
           btn.style.background = 'var(--green)';
           document.getElementById('drawerDispatchForm').reset();
+          document.getElementById('drawer-photo-preview').innerHTML = '';
           setTimeout(() => {
             closeCarpDrawer();
             btn.innerHTML = origHtml;
             btn.style.background = 'var(--accent)';
             btn.disabled = false;
-          }, 3500);
+          }, 4000);
         } else {
           throw new Error(data.error || 'Error');
         }
@@ -2288,7 +2526,73 @@
         closeCarpDrawer();
       }
     });
-  </script>
+  <!-- =========================================================================
+       STICKY MOBILE ACTION BAR (Photo Upload & Telegram Scope Ingress)
+       ========================================================================= -->
+  <div id="mobile-sticky-bar">
+    <button onclick="openCarpDrawer(); setTimeout(() => document.getElementById('dPhotos').click(), 250);" class="btn-sticky-action btn-sticky-photo" style="background:var(--accent);color:#fff;border:1px solid rgba(255,87,34,0.5);box-shadow:0 4px 16px var(--accent-glow);cursor:pointer;">
+      <svg class="icon-svg" style="width:16px;height:16px;stroke:#fff;" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <span>Snap / Upload Photos 📸</span>
+    </button>
+    <button onclick="openCarpDrawer()" class="btn-sticky-action btn-sticky-estimate" style="background:rgba(56,189,248,0.15);color:var(--cyan);border:1px solid rgba(56,189,248,0.35);cursor:pointer;">
+      <svg class="icon-svg" style="width:16px;height:16px;stroke:var(--cyan);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span>Instant Ballpark ⚡</span>
+    </button>
+  </div>
+
+  <style>
+    #mobile-sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(9, 10, 15, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 12px));
+      display: flex;
+      gap: 10px;
+      z-index: 9998;
+    }
+    .btn-sticky-action {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .btn-sticky-call {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+    .btn-sticky-call:hover {
+      background: rgba(34, 197, 94, 0.25);
+    }
+    .btn-sticky-text {
+      background: var(--accent);
+      color: #fff;
+      border: 1px solid rgba(255, 87, 34, 0.5);
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+    .btn-sticky-text:hover {
+      background: var(--accent-hover);
+    }
+    @media (min-width: 769px) {
+      #mobile-sticky-bar {
+        display: none;
+      }
+    }
+  </style>
+
   <script src="/telemetry.js"></script>
 </body>
 </html>

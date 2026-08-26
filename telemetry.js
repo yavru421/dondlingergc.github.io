@@ -22,9 +22,16 @@
     }
   }
 
-  // 1. Initial Page View Beacon
+  // 1. Initial Page View Beacon (Raw D1 log) & Engaged Reader Timer (4s)
   window.addEventListener('DOMContentLoaded', () => {
     trackEvent('page_view', { tab: document.title || 'Home' });
+
+    // After 4s of active presence, dispatch engaged_read beacon
+    setTimeout(() => {
+      if (document.visibilityState !== 'hidden') {
+        trackEvent('engaged_read', { tab: currentTab, details: 'Active reading session >= 4s' });
+      }
+    }, 4000);
   });
 
   // 2. Track Hash Navigation / Tabs
