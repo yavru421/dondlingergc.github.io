@@ -533,26 +533,85 @@
             }
 
             try {
-                const res = await fetch('/api/intake', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const data = await res.json();
-                if (data.success) {
-                    submitBtn.textContent = '✅ DISPATCHED TO TELEGRAM!';
-                    submitBtn.style.background = 'var(--accent-green)';
-                    document.getElementById('intakeForm').reset();
-                    intakeAttachedPhotos = [];
-                    renderIntakePreviews();
-                    setTimeout(() => {
-                        submitBtn.textContent = origText;
-                        submitBtn.style.background = '#ffffff';
-                        submitBtn.disabled = false;
-                    }, 4000);
-                } else {
-                    throw new Error(data.error || 'Submission error');
+                let sent = false;
+                try {
+                    const res = await fetch('/api/intake', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.success) {
+                            sent = true;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Pages function offline, falling back to direct Telegram route:', e);
                 }
+
+                if (!sent) {
+                    const BOT_TOKEN = '8830044077:AAHuP_uOakAkEexOBnPkI0AkCOYS3My1SlU';
+                    const CHAT_ID = '8104595144';
+                    const leadId = 'DGC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+                    const caption = 
+                        `🚨 *NEW CLIENT LEAD DISPATCH* 🚨\n\n` +
+                        `👤 *Client:* ${document.getElementById('name').value}\n` +
+                        `📞 *Contact:* \`${document.getElementById('contact').value}\`\n` +
+                        `📍 *Location:* ${document.getElementById('address').value || 'Central Wisconsin'}\n` +
+                        `🔨 *Service:* ${document.getElementById('service').value}\n` +
+                        `📝 *Notes:* ${document.getElementById('notes').value}\n\n` +
+                        `🕒 *Timestamp:* ${new Date().toLocaleString()}\n` +
+                        `🆔 *Ref ID:* \`${leadId}\`\n` +
+                        `🌐 *Origin:* \`dondlingergc.com/intake.html\``;
+
+                    if (intakeAttachedPhotos.length > 0) {
+                        const primary = await compressIntakeImage(intakeAttachedPhotos[0]);
+                        const tgForm = new FormData();
+                        tgForm.append('chat_id', CHAT_ID);
+                        tgForm.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
+                        tgForm.append('parse_mode', 'Markdown');
+                        tgForm.append('photo', primary, primary.name || 'photo.jpg');
+
+                        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                            method: 'POST',
+                            body: tgForm
+                        });
+
+                        for (let i = 1; i < intakeAttachedPhotos.length; i++) {
+                            const extra = await compressIntakeImage(intakeAttachedPhotos[i]);
+                            const extraForm = new FormData();
+                            extraForm.append('chat_id', CHAT_ID);
+                            extraForm.append('caption', `📷 Additional Photo (${i + 1}/${intakeAttachedPhotos.length}) — Ref \`${leadId}\``);
+                            extraForm.append('parse_mode', 'Markdown');
+                            extraForm.append('photo', extra, extra.name || `photo_${i}.jpg`);
+                            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                                method: 'POST',
+                                body: extraForm
+                            });
+                        }
+                    } else {
+                        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                chat_id: CHAT_ID,
+                                text: caption,
+                                parse_mode: 'Markdown'
+                            })
+                        });
+                    }
+                }
+
+                submitBtn.textContent = '✅ DISPATCHED TO TELEGRAM!';
+                submitBtn.style.background = 'var(--accent-green)';
+                document.getElementById('intakeForm').reset();
+                intakeAttachedPhotos = [];
+                renderIntakePreviews();
+                setTimeout(() => {
+                    submitBtn.textContent = origText;
+                    submitBtn.style.background = '#ffffff';
+                    submitBtn.disabled = false;
+                }, 4000);
             } catch (err) {
                 console.error("Form error:", err);
                 alert('Submission error: ' + err.message);

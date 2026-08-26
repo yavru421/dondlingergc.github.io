@@ -1292,24 +1292,71 @@
       }
 
       try {
-        const res = await fetch('/api/intake', { method: 'POST', body: formData });
-        const data = await res.json();
-        if (data.success) {
-          const leadId = data.lead_id || data.ticket_id || 'DGC-LEAD';
-          showStatus('hero-status-msg', 'success', `Photos Dispatched to John Dondlinger! Reference #${leadId}`);
-          btn.textContent = `✅ Sent! Ref #${leadId}`;
-          btn.style.background = 'var(--green)';
-          document.getElementById('heroPhotoForm').reset();
-          document.getElementById('heroPhotos').value = '';
-          document.getElementById('hero-photo-preview').innerHTML = '';
-          setTimeout(() => {
-            btn.innerHTML = origHtml;
-            btn.style.background = 'var(--accent)';
-            btn.disabled = false;
-          }, 4000);
-        } else {
-          throw new Error(data.error || 'Server error');
+        let sent = false;
+        let leadId = 'DGC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        try {
+          const res = await fetch('/api/intake', { method: 'POST', body: formData });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success) {
+              leadId = data.lead_id || leadId;
+              sent = true;
+            }
+          }
+        } catch (e) {
+          console.warn('Pages function offline, executing direct Telegram route:', e);
         }
+
+        if (!sent) {
+          const BOT_TOKEN = '8830044077:AAHuP_uOakAkEexOBnPkI0AkCOYS3My1SlU';
+          const CHAT_ID = '8104595144';
+          const caption = 
+            `🚨 *NEW HERO PHOTO LEAD DISPATCH* 🚨\n\n` +
+            `👤 *Client:* Hero Photo Quote\n` +
+            `📞 *Contact:* \`${contact}\`\n` +
+            `📍 *Location:* ${city || 'Central Wisconsin'}\n` +
+            `🔨 *Scope:* Photo Scope Review\n` +
+            `📝 *Notes:* ${notes || 'No description'}\n\n` +
+            `🕒 *Timestamp:* ${new Date().toLocaleString()}\n` +
+            `🆔 *Ref ID:* \`${leadId}\`\n` +
+            `🌐 *Origin:* \`dondlingergc.com (Hero Photo Form)\``;
+
+          if (fileInput && fileInput.files.length > 0) {
+            const primaryPhoto = fileInput.files[0];
+            const tgForm = new FormData();
+            tgForm.append('chat_id', CHAT_ID);
+            tgForm.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
+            tgForm.append('parse_mode', 'Markdown');
+            tgForm.append('photo', primaryPhoto, primaryPhoto.name || 'photo.jpg');
+
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+              method: 'POST',
+              body: tgForm
+            });
+          } else {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: caption,
+                parse_mode: 'Markdown'
+              })
+            });
+          }
+        }
+
+        showStatus('hero-status-msg', 'success', `Photos Dispatched to John Dondlinger! Reference #${leadId}`);
+        btn.textContent = `✅ Sent! Ref #${leadId}`;
+        btn.style.background = 'var(--green)';
+        document.getElementById('heroPhotoForm').reset();
+        document.getElementById('heroPhotos').value = '';
+        document.getElementById('hero-photo-preview').innerHTML = '';
+        setTimeout(() => {
+          btn.innerHTML = origHtml;
+          btn.style.background = 'var(--accent)';
+          btn.disabled = false;
+        }, 4000);
       } catch (err) {
         showStatus('hero-status-msg', 'error', `Direct dispatch failed. Direct call: (715) 459-3050`);
         btn.disabled = false;
