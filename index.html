@@ -813,6 +813,7 @@
             </ul>
             <button onclick="launchScopeTrade('doors')" class="btn-wd-card-action">Estimate Patio Door     <!-- TAB 3: INTERACTIVE PROJECT STORY SLIDESHOWS -->
         <!-- TAB 3: INTERACTIVE PROJECT STORIES & SLIDESHOW LAKE -->
+        <!-- TAB 3: INTERACTIVE PROJECT STORIES & SLIDESHOW LAKE -->
     <section class="tab-pane" id="tab-gallery">
       <!-- Header Banner -->
       <div style="background:linear-gradient(135deg, rgba(255,87,34,0.12) 0%, rgba(56,189,248,0.08) 100%);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:16px;">
@@ -839,7 +840,600 @@
 
       <!-- Project Cards Stack Container -->
       <div id="projects-feed-container" style="display:flex;flex-direction:column;gap:24px;">
-        <!-- Dynamically rendered by renderProjectsFeed() -->
+
+      <!-- PROJECT: FRED PARKER WHOLE-HOME REMODEL & EXTERIOR ENVELOPE -->
+      <div class="project-slideshow-card" data-category="remodel" data-project="fredparker" style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.25);">
+        <!-- Card Header -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent);background:rgba(255,87,34,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(255,87,34,0.25);text-transform:uppercase;">Remodel & Envelope • Multi-Stage</span>
+              <span style="font-family:var(--font-mono);font-size:10.5px;color:#94a3b8;">66 Verified Photos</span>
+            </div>
+            <h3 style="font-family:var(--font-brand);font-size:17.5px;font-weight:800;color:#fff;margin:0 0 4px 0;">Fred Parker Whole-Home Remodel & Exterior Envelope</h3>
+            <p style="font-size:12px;color:#94a3b8;margin:0;line-height:1.4;">Full exterior envelope overhaul, structural framing reinforcements, architectural siding installation, and interior living room finish carpentry.</p>
+          </div>
+          <span id="ss-counter-fredparker" style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--cyan);background:rgba(56,189,248,0.1);padding:4px 9px;border-radius:6px;border:1px solid rgba(56,189,248,0.25);white-space:nowrap;">
+            1 / 66
+          </span>
+        </div>
+
+        <!-- Slide Display Viewport -->
+        <div style="position:relative;width:100%;aspect-ratio:16/10;background:#05070a;border-radius:12px;overflow:hidden;margin-bottom:10px;border:1px solid var(--border);user-select:none;">
+          <img id="ss-img-fredparker" src="images/projects/fredparker/IMG_5779.webp" alt="Fred Parker Project - IMG_5779" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:opacity 0.2s ease;display:block;" onclick="openProjectLightbox('fredparker')">
+          
+          <!-- Slide Badge Overlay -->
+          <div id="ss-badge-fredparker" style="position:absolute;top:10px;left:10px;background:rgba(9,10,15,0.85);backdrop-filter:blur(8px);font-family:var(--font-mono);font-size:10.5px;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;border:1px solid var(--border-accent);max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            Slide 1: Fred Parker Project - IMG_5779
+          </div>
+
+          <!-- Left / Right Controls -->
+          <button onclick="navProjectSlide('fredparker', -1)" aria-label="Previous Slide" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❮</button>
+          <button onclick="navProjectSlide('fredparker', 1)" aria-label="Next Slide" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❯</button>
+        </div>
+
+        <!-- Thumbnail Scrubber Strip -->
+        <div id="ss-thumbs-fredparker" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px;scrollbar-width:thin;">
+          
+          <div onclick="jumpProjectSlide('fredparker', 0)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:2px solid var(--accent);cursor:pointer;opacity:1;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5779.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 1)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5780.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 2)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5781.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 3)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5783.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 4)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5784.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 5)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5851.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 6)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5852.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 7)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5853.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 8)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5854.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 9)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5855.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 10)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5857.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 11)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5858.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 12)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5859.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 13)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5862.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 14)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5863.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 15)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5864.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 16)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5865.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 17)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5867.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 18)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5868.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 19)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5869.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 20)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5870.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 21)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5871.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 22)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5872.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 23)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5877.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 24)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5878.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 25)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5879.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 26)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5880.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 27)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5881.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 28)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5882.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 29)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5883.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 30)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5884.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 31)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5885.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 32)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5886.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 33)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5887.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 34)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5888.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 35)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5889.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 36)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5902.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 37)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5903.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 38)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5904.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 39)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5905.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 40)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5906.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 41)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5907.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 42)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5908.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 43)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5909.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 44)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5910.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 45)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5911.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 46)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5912.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 47)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5913.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 48)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5930.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 49)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5931.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 50)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5932.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 51)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5933.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 52)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5934.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 53)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5960.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 54)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5987.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 55)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5988.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 56)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5989.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 57)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5990.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 58)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5991.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 59)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_5992.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 60)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_6038.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 61)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_6039.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 62)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/IMG_6040.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 63)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/Resized952025112495110103.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 64)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/Resized952025112495110115.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('fredparker', 65)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/fredparker/Resized_20251124_110056.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+
+        <!-- Caption & Details -->
+        <p id="ss-desc-fredparker" style="font-size:12.5px;color:#cbd5e1;line-height:1.45;margin-bottom:12px;min-height:36px;">
+          Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence.
+        </p>
+
+        <!-- Card CTA Actions -->
+        <div style="display:flex;gap:8px;">
+          <button onclick="launchScopeTrade('siding')" style="flex:1;padding:10px 14px;background:var(--accent);color:#fff;font-weight:800;font-size:12.5px;border:none;border-radius:8px;cursor:pointer;box-shadow:0 4px 12px var(--accent-glow);display:flex;align-items:center;justify-content:center;gap:6px;">
+            ⚡ Calculate Whole-Home Remodel Scope
+          </button>
+          <button onclick="openProjectLightbox('fredparker')" style="padding:10px 14px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px;">
+            🔍 Fullscreen
+          </button>
+        </div>
+      </div>
+
+      <!-- PROJECT: DICKMAN RESIDENTIAL ADDITION & STRUCTURAL FRAMING -->
+      <div class="project-slideshow-card" data-category="addition" data-project="dickman" style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.25);">
+        <!-- Card Header -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent);background:rgba(255,87,34,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(255,87,34,0.25);text-transform:uppercase;">Structural Addition • Heavy Timber Framing</span>
+              <span style="font-family:var(--font-mono);font-size:10.5px;color:#94a3b8;">14 Verified Photos</span>
+            </div>
+            <h3 style="font-family:var(--font-brand);font-size:17.5px;font-weight:800;color:#fff;margin:0 0 4px 0;">Dickman Residential Addition & Structural Framing</h3>
+            <p style="font-size:12px;color:#94a3b8;margin:0;line-height:1.4;">Custom home addition framing from the ground up, subfloor installation, engineered roof trusses, shear wall sheathing, and weather envelope integration.</p>
+          </div>
+          <span id="ss-counter-dickman" style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--cyan);background:rgba(56,189,248,0.1);padding:4px 9px;border-radius:6px;border:1px solid rgba(56,189,248,0.25);white-space:nowrap;">
+            1 / 14
+          </span>
+        </div>
+
+        <!-- Slide Display Viewport -->
+        <div style="position:relative;width:100%;aspect-ratio:16/10;background:#05070a;border-radius:12px;overflow:hidden;margin-bottom:10px;border:1px solid var(--border);user-select:none;">
+          <img id="ss-img-dickman" src="images/projects/dickman_addition/IMG_2009.webp" alt="Dickman Addition - IMG_2009" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:opacity 0.2s ease;display:block;" onclick="openProjectLightbox('dickman')">
+          
+          <!-- Slide Badge Overlay -->
+          <div id="ss-badge-dickman" style="position:absolute;top:10px;left:10px;background:rgba(9,10,15,0.85);backdrop-filter:blur(8px);font-family:var(--font-mono);font-size:10.5px;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;border:1px solid var(--border-accent);max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            Slide 1: Dickman Addition - IMG_2009
+          </div>
+
+          <!-- Left / Right Controls -->
+          <button onclick="navProjectSlide('dickman', -1)" aria-label="Previous Slide" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❮</button>
+          <button onclick="navProjectSlide('dickman', 1)" aria-label="Next Slide" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❯</button>
+        </div>
+
+        <!-- Thumbnail Scrubber Strip -->
+        <div id="ss-thumbs-dickman" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px;scrollbar-width:thin;">
+          
+          <div onclick="jumpProjectSlide('dickman', 0)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:2px solid var(--accent);cursor:pointer;opacity:1;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_2009.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 1)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_2010.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 2)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_2066.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 3)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_2067.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 4)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_2069.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 5)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_2071.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 6)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_2072.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 7)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_2156.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 8)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_2158.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 9)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_2159.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 10)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_2945.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 11)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_3074.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 12)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_3452.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('dickman', 13)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dickman_addition/IMG_3453.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+
+        <!-- Caption & Details -->
+        <p id="ss-desc-dickman" style="font-size:12.5px;color:#cbd5e1;line-height:1.45;margin-bottom:12px;min-height:36px;">
+          Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion.
+        </p>
+
+        <!-- Card CTA Actions -->
+        <div style="display:flex;gap:8px;">
+          <button onclick="launchScopeTrade('framing')" style="flex:1;padding:10px 14px;background:var(--accent);color:#fff;font-weight:800;font-size:12.5px;border:none;border-radius:8px;cursor:pointer;box-shadow:0 4px 12px var(--accent-glow);display:flex;align-items:center;justify-content:center;gap:6px;">
+            ⚡ Calculate Home Addition Scope
+          </button>
+          <button onclick="openProjectLightbox('dickman')" style="padding:10px 14px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px;">
+            🔍 Fullscreen
+          </button>
+        </div>
+      </div>
+
+      <!-- PROJECT: SCHOLZ LIVING ROOM & TRIM REMODEL -->
+      <div class="project-slideshow-card" data-category="interior" data-project="scholz" style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.25);">
+        <!-- Card Header -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent);background:rgba(255,87,34,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(255,87,34,0.25);text-transform:uppercase;">Interior Craftsmanship • 6-Step Story</span>
+              <span style="font-family:var(--font-mono);font-size:10.5px;color:#94a3b8;">6 Verified Photos</span>
+            </div>
+            <h3 style="font-family:var(--font-brand);font-size:17.5px;font-weight:800;color:#fff;margin:0 0 4px 0;">Scholz Living Room & Trim Remodel</h3>
+            <p style="font-size:12px;color:#94a3b8;margin:0;line-height:1.4;">Floor protection, drywall surface scraping, laser alignment before corner bead float, joint compounding, high-build primer, and trim restoration.</p>
+          </div>
+          <span id="ss-counter-scholz" style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--cyan);background:rgba(56,189,248,0.1);padding:4px 9px;border-radius:6px;border:1px solid rgba(56,189,248,0.25);white-space:nowrap;">
+            1 / 6
+          </span>
+        </div>
+
+        <!-- Slide Display Viewport -->
+        <div style="position:relative;width:100%;aspect-ratio:16/10;background:#05070a;border-radius:12px;overflow:hidden;margin-bottom:10px;border:1px solid var(--border);user-select:none;">
+          <img id="ss-img-scholz" src="images/projects/dusty-scholz/01-living-room-prep.webp" alt="Living Room Preparation" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:opacity 0.2s ease;display:block;" onclick="openProjectLightbox('scholz')">
+          
+          <!-- Slide Badge Overlay -->
+          <div id="ss-badge-scholz" style="position:absolute;top:10px;left:10px;background:rgba(9,10,15,0.85);backdrop-filter:blur(8px);font-family:var(--font-mono);font-size:10.5px;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;border:1px solid var(--border-accent);max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            Slide 1: Living Room Preparation
+          </div>
+
+          <!-- Left / Right Controls -->
+          <button onclick="navProjectSlide('scholz', -1)" aria-label="Previous Slide" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❮</button>
+          <button onclick="navProjectSlide('scholz', 1)" aria-label="Next Slide" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❯</button>
+        </div>
+
+        <!-- Thumbnail Scrubber Strip -->
+        <div id="ss-thumbs-scholz" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px;scrollbar-width:thin;">
+          
+          <div onclick="jumpProjectSlide('scholz', 0)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:2px solid var(--accent);cursor:pointer;opacity:1;transition:all 0.15s ease;">
+            <img src="images/projects/dusty-scholz/01-living-room-prep.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('scholz', 1)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dusty-scholz/02-joint-compound-float.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('scholz', 2)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dusty-scholz/03-ceiling-feathering.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('scholz', 3)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dusty-scholz/04-high-build-primer.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('scholz', 4)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dusty-scholz/05-enamel-trim-casing.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('scholz', 5)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/dusty-scholz/06-finished-living-room.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+
+        <!-- Caption & Details -->
+        <p id="ss-desc-scholz" style="font-size:12.5px;color:#cbd5e1;line-height:1.45;margin-bottom:12px;min-height:36px;">
+          Floor masking, laser leveling, and drywall surface scraping.
+        </p>
+
+        <!-- Card CTA Actions -->
+        <div style="display:flex;gap:8px;">
+          <button onclick="launchScopeTrade('kitchen')" style="flex:1;padding:10px 14px;background:var(--accent);color:#fff;font-weight:800;font-size:12.5px;border:none;border-radius:8px;cursor:pointer;box-shadow:0 4px 12px var(--accent-glow);display:flex;align-items:center;justify-content:center;gap:6px;">
+            ⚡ Calculate Interior Carpentry Scope
+          </button>
+          <button onclick="openProjectLightbox('scholz')" style="padding:10px 14px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px;">
+            🔍 Fullscreen
+          </button>
+        </div>
+      </div>
+
+      <!-- PROJECT: TWO-STORY SLATE BLUE SIDING & ARCHITECTURAL GABLES -->
+      <div class="project-slideshow-card" data-category="siding" data-project="siding" style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.25);">
+        <!-- Card Header -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent);background:rgba(255,87,34,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(255,87,34,0.25);text-transform:uppercase;">Exterior Envelope • 5-Step Story</span>
+              <span style="font-family:var(--font-mono);font-size:10.5px;color:#94a3b8;">3 Verified Photos</span>
+            </div>
+            <h3 style="font-family:var(--font-brand);font-size:17.5px;font-weight:800;color:#fff;margin:0 0 4px 0;">Two-Story Slate Blue Siding & Architectural Gables</h3>
+            <p style="font-size:12px;color:#94a3b8;margin:0;line-height:1.4;">Full tear-off down to original sheathing, foil-faced thermal barrier installation, slate-blue vinyl lap siding, and white architectural gable accents.</p>
+          </div>
+          <span id="ss-counter-siding" style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--cyan);background:rgba(56,189,248,0.1);padding:4px 9px;border-radius:6px;border:1px solid rgba(56,189,248,0.25);white-space:nowrap;">
+            1 / 3
+          </span>
+        </div>
+
+        <!-- Slide Display Viewport -->
+        <div style="position:relative;width:100%;aspect-ratio:16/10;background:#05070a;border-radius:12px;overflow:hidden;margin-bottom:10px;border:1px solid var(--border);user-select:none;">
+          <img id="ss-img-siding" src="images/projects/IMG_4801.webp" alt="Finished Slate Blue Siding" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:opacity 0.2s ease;display:block;" onclick="openProjectLightbox('siding')">
+          
+          <!-- Slide Badge Overlay -->
+          <div id="ss-badge-siding" style="position:absolute;top:10px;left:10px;background:rgba(9,10,15,0.85);backdrop-filter:blur(8px);font-family:var(--font-mono);font-size:10.5px;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;border:1px solid var(--border-accent);max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            Slide 1: Finished Slate Blue Siding
+          </div>
+
+          <!-- Left / Right Controls -->
+          <button onclick="navProjectSlide('siding', -1)" aria-label="Previous Slide" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❮</button>
+          <button onclick="navProjectSlide('siding', 1)" aria-label="Next Slide" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❯</button>
+        </div>
+
+        <!-- Thumbnail Scrubber Strip -->
+        <div id="ss-thumbs-siding" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px;scrollbar-width:thin;">
+          
+          <div onclick="jumpProjectSlide('siding', 0)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:2px solid var(--accent);cursor:pointer;opacity:1;transition:all 0.15s ease;">
+            <img src="images/projects/IMG_4801.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('siding', 1)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/IMG_4802.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('siding', 2)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/IMG_4805.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+
+        <!-- Caption & Details -->
+        <p id="ss-desc-siding" style="font-size:12.5px;color:#cbd5e1;line-height:1.45;margin-bottom:12px;min-height:36px;">
+          Completed high-durability siding with crisp architectural white corner posts.
+        </p>
+
+        <!-- Card CTA Actions -->
+        <div style="display:flex;gap:8px;">
+          <button onclick="launchScopeTrade('siding')" style="flex:1;padding:10px 14px;background:var(--accent);color:#fff;font-weight:800;font-size:12.5px;border:none;border-radius:8px;cursor:pointer;box-shadow:0 4px 12px var(--accent-glow);display:flex;align-items:center;justify-content:center;gap:6px;">
+            ⚡ Calculate Exterior Siding Scope
+          </button>
+          <button onclick="openProjectLightbox('siding')" style="padding:10px 14px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px;">
+            🔍 Fullscreen
+          </button>
+        </div>
+      </div>
+
+      <!-- PROJECT: CUSTOM COMPOSITE DECK & TREATED SUBSTRUCTURE -->
+      <div class="project-slideshow-card" data-category="decks" data-project="decks" style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.25);">
+        <!-- Card Header -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent);background:rgba(255,87,34,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(255,87,34,0.25);text-transform:uppercase;">Outdoor Living • Multi-Step Story</span>
+              <span style="font-family:var(--font-mono);font-size:10.5px;color:#94a3b8;">3 Verified Photos</span>
+            </div>
+            <h3 style="font-family:var(--font-brand);font-size:17.5px;font-weight:800;color:#fff;margin:0 0 4px 0;">Custom Composite Deck & Treated Substructure</h3>
+            <p style="font-size:12px;color:#94a3b8;margin:0;line-height:1.4;">Treated timber framing, below-frost concrete sonotube piers, and premium composite decking with hidden clip fasteners and custom stair assemblies.</p>
+          </div>
+          <span id="ss-counter-decks" style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--cyan);background:rgba(56,189,248,0.1);padding:4px 9px;border-radius:6px;border:1px solid rgba(56,189,248,0.25);white-space:nowrap;">
+            1 / 3
+          </span>
+        </div>
+
+        <!-- Slide Display Viewport -->
+        <div style="position:relative;width:100%;aspect-ratio:16/10;background:#05070a;border-radius:12px;overflow:hidden;margin-bottom:10px;border:1px solid var(--border);user-select:none;">
+          <img id="ss-img-decks" src="images/projects/composite_deck_construction.jpg" alt="Finished Composite Surface" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:opacity 0.2s ease;display:block;" onclick="openProjectLightbox('decks')">
+          
+          <!-- Slide Badge Overlay -->
+          <div id="ss-badge-decks" style="position:absolute;top:10px;left:10px;background:rgba(9,10,15,0.85);backdrop-filter:blur(8px);font-family:var(--font-mono);font-size:10.5px;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;border:1px solid var(--border-accent);max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            Slide 1: Finished Composite Surface
+          </div>
+
+          <!-- Left / Right Controls -->
+          <button onclick="navProjectSlide('decks', -1)" aria-label="Previous Slide" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❮</button>
+          <button onclick="navProjectSlide('decks', 1)" aria-label="Next Slide" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❯</button>
+        </div>
+
+        <!-- Thumbnail Scrubber Strip -->
+        <div id="ss-thumbs-decks" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px;scrollbar-width:thin;">
+          
+          <div onclick="jumpProjectSlide('decks', 0)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:2px solid var(--accent);cursor:pointer;opacity:1;transition:all 0.15s ease;">
+            <img src="images/projects/composite_deck_construction.jpg" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('decks', 1)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/wall_framing_addition.jpg" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('decks', 2)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/pine_ceiling_installation.jpg" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+
+        <!-- Caption & Details -->
+        <p id="ss-desc-decks" style="font-size:12.5px;color:#cbd5e1;line-height:1.45;margin-bottom:12px;min-height:36px;">
+          Maintenance-free composite deck boards fastened with hidden clip systems.
+        </p>
+
+        <!-- Card CTA Actions -->
+        <div style="display:flex;gap:8px;">
+          <button onclick="launchScopeTrade('decks')" style="flex:1;padding:10px 14px;background:var(--accent);color:#fff;font-weight:800;font-size:12.5px;border:none;border-radius:8px;cursor:pointer;box-shadow:0 4px 12px var(--accent-glow);display:flex;align-items:center;justify-content:center;gap:6px;">
+            ⚡ Calculate Outdoor Living Scope
+          </button>
+          <button onclick="openProjectLightbox('decks')" style="padding:10px 14px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px;">
+            🔍 Fullscreen
+          </button>
+        </div>
+      </div>
+
+      <!-- PROJECT: REPLACEMENT WINDOWS & INSULATED ENTRY DOORS -->
+      <div class="project-slideshow-card" data-category="windows" data-project="windows" style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.25);">
+        <!-- Card Header -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent);background:rgba(255,87,34,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(255,87,34,0.25);text-transform:uppercase;">Envelope Upgrade • Multi-Step Story</span>
+              <span style="font-family:var(--font-mono);font-size:10.5px;color:#94a3b8;">2 Verified Photos</span>
+            </div>
+            <h3 style="font-family:var(--font-brand);font-size:17.5px;font-weight:800;color:#fff;margin:0 0 4px 0;">Replacement Windows & Insulated Entry Doors</h3>
+            <p style="font-size:12px;color:#94a3b8;margin:0;line-height:1.4;">Energy-efficient Low-E Argon vinyl and composite replacement windows with expanding foam thermal break seals and custom aluminum casing wraps.</p>
+          </div>
+          <span id="ss-counter-windows" style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--cyan);background:rgba(56,189,248,0.1);padding:4px 9px;border-radius:6px;border:1px solid rgba(56,189,248,0.25);white-space:nowrap;">
+            1 / 2
+          </span>
+        </div>
+
+        <!-- Slide Display Viewport -->
+        <div style="position:relative;width:100%;aspect-ratio:16/10;background:#05070a;border-radius:12px;overflow:hidden;margin-bottom:10px;border:1px solid var(--border);user-select:none;">
+          <img id="ss-img-windows" src="images/projects/window_installation_foam.jpg" alt="Low-E Argon Replacement Window" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:opacity 0.2s ease;display:block;" onclick="openProjectLightbox('windows')">
+          
+          <!-- Slide Badge Overlay -->
+          <div id="ss-badge-windows" style="position:absolute;top:10px;left:10px;background:rgba(9,10,15,0.85);backdrop-filter:blur(8px);font-family:var(--font-mono);font-size:10.5px;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;border:1px solid var(--border-accent);max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            Slide 1: Low-E Argon Replacement Window
+          </div>
+
+          <!-- Left / Right Controls -->
+          <button onclick="navProjectSlide('windows', -1)" aria-label="Previous Slide" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❮</button>
+          <button onclick="navProjectSlide('windows', 1)" aria-label="Next Slide" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❯</button>
+        </div>
+
+        <!-- Thumbnail Scrubber Strip -->
+        <div id="ss-thumbs-windows" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px;scrollbar-width:thin;">
+          
+          <div onclick="jumpProjectSlide('windows', 0)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:2px solid var(--accent);cursor:pointer;opacity:1;transition:all 0.15s ease;">
+            <img src="images/projects/window_installation_foam.jpg" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div onclick="jumpProjectSlide('windows', 1)" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:1px solid var(--border);cursor:pointer;opacity:0.6;transition:all 0.15s ease;">
+            <img src="images/projects/window_replacement.webp" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+
+        <!-- Caption & Details -->
+        <p id="ss-desc-windows" style="font-size:12.5px;color:#cbd5e1;line-height:1.45;margin-bottom:12px;min-height:36px;">
+          Low-pressure polyurethane foam insulation sealing window perimeter.
+        </p>
+
+        <!-- Card CTA Actions -->
+        <div style="display:flex;gap:8px;">
+          <button onclick="launchScopeTrade('windows')" style="flex:1;padding:10px 14px;background:var(--accent);color:#fff;font-weight:800;font-size:12.5px;border:none;border-radius:8px;cursor:pointer;box-shadow:0 4px 12px var(--accent-glow);display:flex;align-items:center;justify-content:center;gap:6px;">
+            ⚡ Calculate Windows & Doors Scope
+          </button>
+          <button onclick="openProjectLightbox('windows')" style="padding:10px 14px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px;">
+            🔍 Fullscreen
+          </button>
+        </div>
+      </div>
       </div>
     </section>Shaker Kitchen Cabinets</div>
         </div>
