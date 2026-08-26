@@ -45,59 +45,10 @@
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       "opens": "07:00",
       "closes": "18:00"
-    },
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "DGC Contracting Services",
-      "itemListElement": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Residential & Commercial Siding Envelopes"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Replacement Windows & Exterior Doors"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Custom Treated & Composite Decks"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Architectural Roofing Repairs & Replacements"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "PourReady Concrete Slabs & Flatwork"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Kitchen & Bathroom Turnkey Remodels"
-          }
-        }
-      ]
     }
   }
   </script>
   
-  <script type="module" src="https://dondlingergc.com/.webmcp/bridge.js" data-packs="c2pa,mcp-server-client"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -139,7 +90,6 @@
       background: radial-gradient(circle at 50% 0%, rgba(255, 87, 34, 0.05) 0%, transparent 40%), var(--bg);
     }
 
-    /* Vector Icon Utility */
     .icon-svg {
       display: inline-block;
       width: 18px;
@@ -152,9 +102,7 @@
       vertical-align: middle;
     }
 
-    /* =========================================================================
-       STICKY TOP HUD
-       ========================================================================= */
+    /* Top Sticky HUD */
     #site-hud {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -181,18 +129,9 @@
       border-radius: 8px;
       transition: background 0.2s;
     }
-    .hud-brand:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-    .hud-dropdown-icon {
-      font-size: 10px;
-      color: var(--accent);
-      margin-left: 4px;
-      transition: transform 0.2s ease;
-    }
-    .hud-brand.active .hud-dropdown-icon {
-      transform: rotate(180deg);
-    }
+    .hud-brand:hover { background: rgba(255, 255, 255, 0.05); }
+    .hud-dropdown-icon { font-size: 10px; color: var(--accent); margin-left: 4px; transition: transform 0.2s ease; }
+    .hud-brand.active .hud-dropdown-icon { transform: rotate(180deg); }
     .hud-menu-dropdown {
       position: absolute;
       top: calc(100% + 8px);
@@ -208,9 +147,7 @@
       gap: 6px;
       z-index: 10000;
     }
-    .hud-menu-dropdown.show {
-      display: flex;
-    }
+    .hud-menu-dropdown.show { display: flex; }
     .hud-menu-item {
       display: flex;
       align-items: center;
@@ -230,42 +167,13 @@
       border-color: rgba(56, 189, 248, 0.3);
       color: var(--cyan);
     }
-    .hud-menu-icon {
-      font-size: 16px;
-      width: 22px;
-      text-align: center;
-    }
-    .hud-menu-text {
-      display: flex;
-      flex-direction: column;
-    }
-    .hud-menu-title {
-      font-size: 12.5px;
-      font-weight: 700;
-    }
-    .hud-menu-desc {
-      font-size: 10px;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-    }
-    .hud-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      object-fit: cover;
-      border: 1px solid var(--border);
-    }
-    .hud-brand-text {
-      display: flex;
-      flex-direction: column;
-    }
-    .hud-name {
-      font-family: var(--font-brand);
-      font-weight: 800;
-      font-size: 14px;
-      letter-spacing: -0.2px;
-      line-height: 1.1;
-    }
+    .hud-menu-icon { font-size: 16px; width: 22px; text-align: center; }
+    .hud-menu-text { display: flex; flex-direction: column; }
+    .hud-menu-title { font-size: 12.5px; font-weight: 700; }
+    .hud-menu-desc { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
+    .hud-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
+    .hud-brand-text { display: flex; flex-direction: column; }
+    .hud-name { font-family: var(--font-brand); font-weight: 800; font-size: 14px; letter-spacing: -0.2px; line-height: 1.1; }
     .hud-sub {
       font-family: var(--font-mono);
       font-size: 10px;
@@ -275,15 +183,8 @@
       align-items: center;
       gap: 5px;
     }
-    .hud-sub .dot {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--green);
-      box-shadow: 0 0 6px var(--green);
-    }
-    .hud-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .hud-sub .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .hud-actions { display: flex; align-items: center; gap: 8px; }
     .btn-hud-call {
       background: rgba(255, 255, 255, 0.06);
       color: #fff;
@@ -297,7 +198,6 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: background 0.2s;
     }
     .btn-hud-call .icon-svg { width: 14px; height: 14px; stroke: var(--green); }
     .btn-hud-estimate {
@@ -308,20 +208,12 @@
       font-weight: 800;
       padding: 8px 14px;
       border-radius: 8px;
-      text-decoration: none;
       cursor: pointer;
       border: none;
-      transition: background 0.2s;
     }
 
-    /* =========================================================================
-       HERO PRESENTATION
-       ========================================================================= */
-    .hero-compact {
-      padding: 18px 16px 12px;
-      max-width: 960px;
-      margin: 0 auto;
-    }
+    /* Hero Section */
+    .hero-compact { padding: 18px 16px 12px; max-width: 960px; margin: 0 auto; }
     .hero-tagline {
       display: inline-flex;
       align-items: center;
@@ -342,19 +234,8 @@
       line-height: 1.15;
       margin-bottom: 6px;
     }
-    .hero-subtext {
-      font-size: 14px;
-      color: var(--text-muted);
-      max-width: 680px;
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
-    .hero-visual-reel {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin-bottom: 4px;
-    }
+    .hero-subtext { font-size: 14px; color: var(--text-muted); max-width: 680px; line-height: 1.5; margin-bottom: 16px; }
+    .hero-visual-reel { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 4px; }
     .hero-visual-card {
       position: relative;
       aspect-ratio: 4/3;
@@ -363,31 +244,15 @@
       background: #000;
       border: 1px solid var(--border);
     }
-    .hero-visual-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.9;
-      transition: transform 0.2s, opacity 0.2s;
-    }
-    .hero-visual-card:hover img {
-      transform: scale(1.05);
-      opacity: 1;
-    }
+    .hero-visual-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: transform 0.2s, opacity 0.2s; }
+    .hero-visual-card:hover img { transform: scale(1.05); opacity: 1; }
     @media (max-width: 768px) {
       .hero-visual-reel { grid-template-columns: repeat(3, 1fr); gap: 6px; }
       .hero-visual-card:nth-child(4), .hero-visual-card:nth-child(5) { display: none; }
     }
-    
-    /* =========================================================================
-       COMPACT MULTI-TAB CONTROLLER (APP HUB)
-       ========================================================================= */
-    .hub-container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 16px 20px;
-    }
-    
+
+    /* Tabs */
+    .hub-container { max-width: 960px; margin: 0 auto; padding: 0 16px 20px; }
     .tab-bar-wrap {
       position: sticky;
       top: 62px;
@@ -399,7 +264,6 @@
       margin-bottom: 16px;
       border-bottom: 1px solid var(--border);
     }
-
     .tab-bar {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -409,7 +273,6 @@
       border-radius: 12px;
       border: 1px solid var(--border);
     }
-
     .tab-btn {
       background: transparent;
       border: none;
@@ -426,98 +289,29 @@
       justify-content: center;
       gap: 4px;
       transition: all 0.18s ease;
-      user-select: none;
     }
-    .tab-btn .tab-svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.75;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: transform 0.18s ease;
-    }
-    .tab-btn span.tab-label {
-      font-size: 11px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-    }
-    .tab-btn.active {
-      background: var(--accent);
-      color: #fff;
-      box-shadow: 0 4px 14px var(--accent-glow);
-    }
-    .tab-btn.active .tab-svg {
-      transform: scale(1.1);
-    }
+    .tab-btn .tab-svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.75; }
+    .tab-btn span.tab-label { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tab-btn.active { background: var(--accent); color: #fff; box-shadow: 0 4px 14px var(--accent-glow); }
 
-    /* Tab Panes */
-    .tab-pane {
-      display: none;
-      animation: fadeIn 0.2s ease-out;
-    }
-    .tab-pane.active {
-      display: block;
-    }
+    .tab-pane { display: none; animation: fadeIn 0.2s ease-out; }
+    .tab-pane.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* =========================================================================
-       TAB 1: FEATURED PROJECTS (EXPANDABLE PROJECT WINDOWS)
-       ========================================================================= */
-    .project-window-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
+    /* Project Window */
+    .project-window-stack { display: flex; flex-direction: column; gap: 14px; }
     .project-window {
       background: var(--bg-card);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 14px;
       overflow: hidden;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     }
-    .project-window:hover {
-      border-color: rgba(255, 87, 34, 0.35);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-    }
-    .project-window.open {
-      border-color: rgba(255, 87, 34, 0.5);
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 87, 34, 0.08);
-    }
-
-    .pw-header {
-      padding: 14px 16px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      user-select: none;
-      border-bottom: 1px solid transparent;
-      transition: background 0.2s;
-    }
-    .project-window.open .pw-header {
-      border-bottom-color: var(--border);
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .pw-header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .pw-header-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .project-window.open { border-color: rgba(255, 87, 34, 0.5); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7); }
+    .pw-header { padding: 14px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .project-window.open .pw-header { border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.02); }
+    .pw-header-left { display: flex; align-items: center; gap: 12px; }
+    .pw-header-right { display: flex; align-items: center; gap: 8px; }
     .pw-expand-indicator {
       font-family: var(--font-mono);
       font-size: 10px;
@@ -528,792 +322,163 @@
       padding: 3px 8px;
       border-radius: 6px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all 0.2s ease;
     }
-    .project-window.open .pw-expand-indicator {
-      color: var(--accent);
-      background: rgba(255, 87, 34, 0.12);
-      border-color: rgba(255, 87, 34, 0.3);
-    }
+    .project-window.open .pw-expand-indicator { color: var(--accent); background: rgba(255, 87, 34, 0.12); border-color: rgba(255, 87, 34, 0.3); }
     .pw-icon-badge {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: rgba(255, 87, 34, 0.1);
-      border: 1px solid rgba(255, 87, 34, 0.25);
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255, 87, 34, 0.1); border: 1px solid rgba(255, 87, 34, 0.25);
+      color: var(--accent); display: flex; align-items: center; justify-content: center;
     }
-    .pw-titles {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .pw-category {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--accent);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .pw-name {
-      font-family: var(--font-brand);
-      font-size: 15.5px;
-      font-weight: 800;
-      color: #fff;
-    }
+    .pw-titles { display: flex; flex-direction: column; gap: 2px; }
+    .pw-category { font-family: var(--font-mono); font-size: 10px; color: var(--accent); font-weight: 700; text-transform: uppercase; }
+    .pw-name { font-family: var(--font-brand); font-size: 15.5px; font-weight: 800; color: #fff; }
     .pw-toggle-btn {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.25s ease, background 0.2s, color 0.2s;
-      flex-shrink: 0;
+      width: 28px; height: 28px; border-radius: 50%; background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border); color: var(--text-muted); display: flex; align-items: center; justify-content: center;
     }
-    .pw-toggle-btn .icon-svg { width: 14px; height: 14px; stroke-width: 2; }
-    .project-window.open .pw-toggle-btn {
-      transform: rotate(180deg);
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .pw-body {
-      display: none;
-      padding: 14px 16px;
-    }
-    .project-window.open .pw-body {
-      display: block;
-    }
-
+    .project-window.open .pw-toggle-btn { transform: rotate(180deg); background: var(--accent); color: #fff; }
+    .pw-body { display: none; padding: 14px 16px; }
+    .project-window.open .pw-body { display: block; }
     .pw-media-viewer {
-      width: 100%;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #000;
-      margin-bottom: 10px;
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 200px;
-      max-height: 480px;
+      width: 100%; border-radius: 10px; overflow: hidden; background: #000;
+      margin-bottom: 10px; border: 1px solid var(--border); min-height: 200px; max-height: 480px;
+      display: flex; align-items: center; justify-content: center;
     }
-    .pw-media-viewer img, .pw-media-viewer video {
-      width: 100%;
-      height: auto;
-      max-height: 460px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .pw-thumb-strip {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 10px;
-      -webkit-overflow-scrolling: touch;
-    }
+    .pw-media-viewer img, .pw-media-viewer video { width: 100%; height: auto; max-height: 460px; object-fit: contain; }
+    .pw-thumb-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; }
     .pw-thumb {
-      width: 64px;
-      height: 64px;
-      flex-shrink: 0;
-      border-radius: 6px;
-      border: 2px solid transparent;
-      overflow: hidden;
-      cursor: pointer;
-      background: #000;
-      position: relative;
-      opacity: 0.6;
-      transition: opacity 0.2s, border-color 0.2s;
+      width: 64px; height: 64px; flex-shrink: 0; border-radius: 6px;
+      border: 2px solid transparent; overflow: hidden; cursor: pointer; background: #000; position: relative; opacity: 0.6;
     }
-    .pw-thumb.active {
-      border-color: var(--accent);
-      opacity: 1;
-    }
-    .pw-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .pw-thumb.active { border-color: var(--accent); opacity: 1; }
+    .pw-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .pw-thumb-badge {
-      position: absolute;
-      bottom: 2px; left: 2px; right: 2px;
-      background: rgba(0, 0, 0, 0.85);
-      font-family: var(--font-mono);
-      font-size: 7px;
-      font-weight: 700;
-      text-align: center;
-      color: #fff;
-      padding: 1px 0;
-      border-radius: 2px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      position: absolute; bottom: 2px; left: 2px; right: 2px; background: rgba(0, 0, 0, 0.85);
+      font-family: var(--font-mono); font-size: 7px; font-weight: 700; text-align: center; color: #fff;
     }
-
-    .pw-narrative {
-      font-size: 13.5px;
-      color: #cbd5e1;
-      line-height: 1.45;
-      margin-bottom: 10px;
-    }
-    .pw-specs-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-    .pw-spec-tag {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      padding: 3px 8px;
-      border-radius: 4px;
-      color: var(--text-muted);
-    }
+    .pw-narrative { font-size: 13.5px; color: #cbd5e1; line-height: 1.45; margin-bottom: 10px; }
+    .pw-specs-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .pw-spec-tag { font-family: var(--font-mono); font-size: 10.5px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); padding: 3px 8px; border-radius: 4px; color: var(--text-muted); }
     .pw-quote-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 800;
-      font-size: 12px;
-      padding: 8px 14px;
-      border-radius: 6px;
-      text-decoration: none;
-      text-transform: uppercase;
-      border: none;
-      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px; background: var(--accent);
+      color: #fff; font-weight: 800; font-size: 12px; padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer;
     }
 
-    /* =========================================================================
-       TAB 2: WINDOWS & DOORS SHOWCASE
-       ========================================================================= */
-    .wd-hero-banner {
-      background: linear-gradient(135deg, #111726 0%, #0d121c 100%);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 14px;
-    }
-    .wd-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 800;
-      color: var(--cyan);
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      padding: 2px 6px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-    .wd-title {
-      font-family: var(--font-brand);
-      font-size: 19px;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 4px;
-    }
-    .wd-desc {
-      font-size: 13px;
-      color: #cbd5e1;
-      line-height: 1.4;
-    }
-
-    .wd-showcase-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-    @media (min-width: 640px) {
-      .wd-showcase-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .wd-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    .wd-card-media {
-      width: 100%;
-      height: 190px;
-      background: #000;
-      overflow: hidden;
-    }
-    .wd-card-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.25s ease;
-    }
-    .wd-card:hover .wd-card-media img {
-      transform: scale(1.02);
-    }
-    .wd-card-content {
-      padding: 12px 14px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-    .wd-card-title {
-      font-family: var(--font-brand);
-      font-size: 15.5px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-    .wd-card-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-      line-height: 1.35;
-      flex: 1;
-    }
-    .wd-specs-list {
-      list-style: none;
-      margin-bottom: 10px;
-    }
-    .wd-specs-list li {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      color: var(--cyan);
-      margin-bottom: 2px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .wd-specs-list li::before {
-      content: "—";
-      color: var(--accent);
-    }
+    /* Windows / Doors Showcase */
+    .wd-hero-banner { background: linear-gradient(135deg, #111726 0%, #0d121c 100%); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+    .wd-badge { font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: var(--cyan); background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+    .wd-title { font-family: var(--font-brand); font-size: 19px; font-weight: 800; margin: 6px 0 4px; }
+    .wd-desc { font-size: 13px; color: #cbd5e1; line-height: 1.4; }
+    .wd-showcase-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
+    @media (min-width: 640px) { .wd-showcase-grid { grid-template-columns: repeat(3, 1fr); } }
+    .wd-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+    .wd-card-media { width: 100%; height: 190px; background: #000; overflow: hidden; }
+    .wd-card-media img { width: 100%; height: 100%; object-fit: cover; }
+    .wd-card-content { padding: 12px 14px; display: flex; flex-direction: column; flex: 1; }
+    .wd-card-title { font-family: var(--font-brand); font-size: 15.5px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .wd-card-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; flex: 1; }
+    .wd-specs-list { list-style: none; margin-bottom: 10px; }
+    .wd-specs-list li { font-family: var(--font-mono); font-size: 10.5px; color: var(--cyan); margin-bottom: 2px; }
     .btn-wd-card-action {
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: var(--cyan);
-      font-weight: 700;
-      font-size: 11.5px;
-      padding: 7px 10px;
-      border-radius: 6px;
-      text-align: center;
-      cursor: pointer;
-      text-transform: uppercase;
-      transition: all 0.2s;
-    }
-    .btn-wd-card-action:hover {
-      background: var(--cyan);
-      color: #000;
+      background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--cyan); font-weight: 700; font-size: 11.5px; padding: 7px 10px; border-radius: 6px; text-align: center; cursor: pointer;
     }
 
-    /* =========================================================================
-       TAB 3: FILTERABLE PHOTO LAKE / GALLERY
-       ========================================================================= */
-    .gallery-filter-bar {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 12px;
-      -webkit-overflow-scrolling: touch;
-    }
+    /* Gallery / Photo Lake */
+    .gallery-filter-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; }
     .filter-pill {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      font-weight: 700;
-      padding: 5px 10px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.18s;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; padding: 5px 10px; border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; white-space: nowrap;
     }
-    .filter-pill .icon-svg { width: 12px; height: 12px; }
-    .filter-pill.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-    @media (min-width: 640px) {
-      .gallery-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-      }
-    }
-    @media (min-width: 900px) {
-      .gallery-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-      }
-    }
-
-    .gallery-item {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #0d1017;
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      aspect-ratio: 4/3;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .gallery-item:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255, 87, 34, 0.45);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 16px rgba(255, 87, 34, 0.12);
-    }
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.3s ease;
-    }
-    .gallery-item:hover img {
-      transform: scale(1.05);
-    }
+    .filter-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+    @media (min-width: 640px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
+    .gallery-item { position: relative; border-radius: 12px; overflow: hidden; background: #0d1017; border: 1px solid rgba(255, 255, 255, 0.09); aspect-ratio: 4/3; cursor: pointer; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
     .gallery-item-tag {
-      position: absolute;
-      top: 8px; left: 8px;
-      background: rgba(9, 10, 15, 0.85);
-      backdrop-filter: blur(6px);
-      font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 700;
-      color: var(--cyan);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      padding: 3px 7px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      z-index: 2;
+      position: absolute; top: 8px; left: 8px; background: rgba(9, 10, 15, 0.85);
+      font-family: var(--font-mono); font-size: 9px; font-weight: 700; color: var(--cyan); padding: 3px 7px; border-radius: 4px;
     }
     .gallery-item-caption {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
+      position: absolute; bottom: 0; left: 0; right: 0;
       background: linear-gradient(to top, rgba(9, 10, 15, 0.95) 0%, rgba(9, 10, 15, 0.6) 65%, transparent 100%);
-      padding: 20px 10px 8px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #f1f5f9;
-      font-family: var(--font-brand);
-      letter-spacing: -0.2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      z-index: 2;
+      padding: 20px 10px 8px; font-size: 12px; font-weight: 700; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
     /* Lightbox Modal */
-    #lightbox-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(10px);
-      z-index: 99999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    #lightbox-modal.active {
-      display: flex;
-    }
-    #lightbox-img {
-      max-width: 95vw;
-      max-height: 80vh;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      object-fit: contain;
-    }
-    #lightbox-caption {
-      margin-top: 10px;
-      font-size: 13px;
-      color: #cbd5e1;
-      font-weight: 600;
-      text-align: center;
-      font-family: var(--font-mono);
-    }
-    #lightbox-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid var(--border);
-      color: #fff;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
+    #lightbox-modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 99999; flex-direction: column; align-items: center; justify-content: center; padding: 16px; }
+    #lightbox-modal.active { display: flex; }
+    #lightbox-img { max-width: 95vw; max-height: 80vh; border-radius: 6px; border: 1px solid var(--border); object-fit: contain; }
+    #lightbox-caption { margin-top: 10px; font-size: 13px; color: #cbd5e1; font-weight: 600; text-align: center; font-family: var(--font-mono); }
+    #lightbox-close { position: absolute; top: 16px; right: 16px; background: rgba(255, 255, 255, 0.12); color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-    /* =========================================================================
-       TAB 4: ESTIMATE INTAKE & DIRECT DISPATCH
-       ========================================================================= */
-    .intake-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-accent);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .intake-header {
-      margin-bottom: 12px;
-    }
-    .intake-header h2 {
-      font-family: var(--font-brand);
-      font-size: 17px;
-      font-weight: 800;
-    }
-    .intake-header p {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .voice-photo-banner {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px dashed rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      padding: 10px 12px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .vpb-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .vpb-icon {
-      color: var(--cyan);
-    }
-    .vpb-text {
-      display: flex;
-      flex-direction: column;
-    }
-    .vpb-title {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: #fff;
-    }
-    .vpb-sub {
-      font-size: 10.5px;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-    }
-    .vpb-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border);
-      color: #fff;
-      font-weight: 700;
-      font-size: 11px;
-      padding: 6px 10px;
-      border-radius: 6px;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .form-row {
-      margin-bottom: 10px;
-    }
-    .form-row label {
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 3px;
-    }
+    /* Intake Cards & Forms */
+    .intake-card { background: var(--bg-card); border: 1px solid var(--border-accent); border-radius: 14px; padding: 16px; margin-bottom: 16px; }
+    .intake-header h2 { font-family: var(--font-brand); font-size: 17px; font-weight: 800; }
+    .intake-header p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .form-row { margin-bottom: 10px; }
+    .form-row label { display: block; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; }
     .form-input, .form-select, .form-textarea {
-      width: 100%;
-      background: #090a0f;
-      border: 1px solid var(--border);
-      color: #fff;
-      padding: 9px 11px;
-      border-radius: 6px;
-      font-family: var(--font-body);
-      font-size: 13px;
-      outline: none;
+      width: 100%; background: #090a0f; border: 1px solid var(--border); color: #fff;
+      padding: 9px 11px; border-radius: 6px; font-family: var(--font-body); font-size: 13px; outline: none;
     }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      border-color: var(--accent);
-    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
     .btn-submit-lead {
-      width: 100%;
-      min-height: 44px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 800;
-      font-size: 13px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 4px;
-      transition: background 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      width: 100%; min-height: 44px; background: var(--accent); color: #fff;
+      font-weight: 800; font-size: 13px; border-radius: 6px; border: none; cursor: pointer;
+      text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 6px;
     }
 
-    /* =========================================================================
-       CARP-X TACTILE BALLPARK & DISPATCH DRAWER (BOTTOM SHEET)
-       ========================================================================= */
-    #carp-drawer-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
-      z-index: 10000;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-    }
-    #carp-drawer-overlay.active {
-      display: block;
-      opacity: 1;
-    }
-
+    /* Drawer */
+    #carp-drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); z-index: 10000; opacity: 0; transition: opacity 0.25s ease; }
+    #carp-drawer-overlay.active { display: block; opacity: 1; }
     #carp-drawer {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      max-width: 600px;
-      margin: 0 auto;
-      background: var(--bg-drawer);
-      border-top: 1px solid var(--border-accent);
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      z-index: 10001;
-      padding: 20px 16px calc(env(safe-area-inset-bottom, 16px) + 12px);
-      transform: translateY(100%);
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
-      max-height: 90vh;
-      overflow-y: auto;
+      position: fixed; bottom: 0; left: 0; right: 0; max-width: 600px; margin: 0 auto;
+      background: var(--bg-drawer); border-top: 1px solid var(--border-accent); border-top-left-radius: 20px; border-top-right-radius: 20px;
+      z-index: 10001; padding: 20px 16px calc(env(safe-area-inset-bottom, 16px) + 12px);
+      transform: translateY(100%); transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto;
     }
-    #carp-drawer.open {
-      transform: translateY(0);
-    }
-
-    .drawer-handle {
-      width: 40px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
-      margin: 0 auto 14px;
-    }
-    .drawer-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 14px;
-    }
-    .drawer-title {
-      font-family: var(--font-brand);
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-    }
-    .drawer-sub {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--cyan);
-    }
-    .drawer-close-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border);
-      color: #fff;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    /* Trade Selector Chips inside Drawer */
-    .drawer-trade-chips {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 14px;
-      -webkit-overflow-scrolling: touch;
-    }
+    #carp-drawer.open { transform: translateY(0); }
+    .drawer-handle { width: 40px; height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 2px; margin: 0 auto 14px; }
+    .drawer-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .drawer-title { font-family: var(--font-brand); font-size: 18px; font-weight: 800; color: #fff; }
+    .drawer-sub { font-family: var(--font-mono); font-size: 11px; color: var(--cyan); }
+    .drawer-close-btn { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .drawer-trade-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 14px; }
     .drawer-chip {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.18s;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; white-space: nowrap;
     }
-    .drawer-chip.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
+    .drawer-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .ballpark-box { background: linear-gradient(135deg, #181d2c 0%, #10131e 100%); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 12px; padding: 14px; margin-bottom: 14px; text-align: center; }
+    .slider-group { margin-bottom: 14px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+    .slider-header { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; font-weight: 700; margin-bottom: 8px; }
+    .scope-range-input { width: 100%; accent-color: var(--accent); height: 6px; cursor: pointer; }
 
-    /* Live Ballpark Display Box */
-    .ballpark-box {
-      background: linear-gradient(135deg, #181d2c 0%, #10131e 100%);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 14px;
-      text-align: center;
+    /* Unified Bottom Mobile Action Dock */
+    #site-bottom-dock {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 62px;
+      background: rgba(9, 10, 15, 0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border); z-index: 9998;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 6px); gap: 8px;
     }
-    .ballpark-label {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      color: var(--cyan);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 2px;
+    .dock-btn {
+      flex: 1; height: 42px; border-radius: 8px; font-weight: 800; font-size: 12.5px;
+      display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; cursor: pointer; border: none;
     }
-    .ballpark-range {
-      font-family: var(--font-brand);
-      font-size: 24px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.5px;
-    }
-    .ballpark-note {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
+    .dock-btn-call { background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border); color: #fff; }
+    .dock-btn-photo { background: var(--accent); color: #fff; box-shadow: 0 4px 14px var(--accent-glow); }
+    .dock-btn-estimate { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); color: var(--cyan); }
 
-    /* Dynamic Slider Control */
-    .slider-group {
-      margin-bottom: 14px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
+    /* Inline Alert & Confirmation Badges */
+    .status-badge {
+      display: none; padding: 10px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700;
+      margin-bottom: 10px; animation: fadeIn 0.2s ease-out;
     }
-    .slider-header {
-      display: flex;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .slider-val-tag {
-      color: var(--accent);
-    }
-    .scope-range-input {
-      width: 100%;
-      accent-color: var(--accent);
-      height: 6px;
-      cursor: pointer;
-    }
-
-    /* =========================================================================
-       STICKY BOTTOM MOBILE DOCK
-       ========================================================================= */
-    #bottom-dock {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      height: 60px;
-      background: rgba(9, 10, 15, 0.96);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid var(--border);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 4px);
-      gap: 8px;
-    }
-    .dock-btn-phone {
-      flex: 1;
-      height: 42px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border);
-      color: #fff;
-      font-weight: 700;
-      font-size: 12.5px;
-      border-radius: 8px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .dock-btn-phone .icon-svg { width: 14px; height: 14px; stroke: var(--green); }
-    .dock-btn-estimate {
-      flex: 1.4;
-      height: 42px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 800;
-      font-size: 12.5px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      text-transform: uppercase;
-      box-shadow: 0 4px 14px var(--accent-glow);
-    }
+    .status-badge.success { display: flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.35); color: #4ade80; }
+    .status-badge.error { display: flex; align-items: center; gap: 8px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #f87171; }
   </style>
 </head>
 <body>
@@ -1327,7 +492,6 @@
         <span class="hud-sub"><span class="dot"></span> LICENSED DWELLING CONTRACTOR • INSURED</span>
       </div>
 
-      <!-- Expandable Multi-App Menu Dropdown -->
       <div class="hud-menu-dropdown" id="hud-menu-dropdown">
         <a href="https://calc.dondlingergc.com" class="hud-menu-item">
           <span class="hud-menu-icon">🏗️</span>
@@ -1375,7 +539,7 @@
     </div>
   </header>
 
-  <!-- Crisp Hero Section with Dynamic Local City Context & Priority Photo Upload -->
+  <!-- Hero Section -->
   <section class="hero-compact">
     <div class="hero-tagline" id="geo-location-tag">
       <svg class="icon-svg" style="width:13px;height:13px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -1386,9 +550,7 @@
       DondlingerGC — Certified journeyman residential & commercial contracting in Central Wisconsin. Siding envelopes, replacement windows & doors, custom decks, roofing, and PourReady concrete flatwork.
     </p>
 
-    <!-- =========================================================================
-         PRIORITY #1 HERO CARD: DIRECT PHOTO UPLOAD & 15-MIN SCOPE REVIEW
-         ========================================================================= -->
+    <!-- Priority Hero Card: Direct Photo Upload -->
     <div id="hero-photo-card" style="background:linear-gradient(135deg, rgba(255,87,34,0.14) 0%, #12141c 100%);border:2px solid var(--accent);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 8px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,87,34,0.15);">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
         <span style="font-family:var(--font-brand);font-size:16px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;">
@@ -1402,16 +564,17 @@
         Snap or attach 1–3 photos of your deck, siding, roof, or project area. John will review your photos and send an exact ballpark directly:
       </p>
 
-      <!-- Instant Photo Dropzone -->
-      <label for="heroPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 12px;border:2px dashed rgba(255,87,34,0.5);border-radius:10px;background:rgba(255,87,34,0.05);cursor:pointer;margin-bottom:12px;text-align:center;transition:background 0.2s;">
-        <svg class="icon-svg" style="width:28px;height:28px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span style="font-size:13.5px;font-weight:800;color:#fff;">Tap Here to Select or Snap Photos 📸</span>
-        <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">Supports iPhone / Android Photos, JPG, PNG, HEIC</span>
-      </label>
-      <input type="file" id="heroPhotos" accept="image/*" multiple onchange="previewHeroPhotos(event)" style="display:none;">
-      <div id="hero-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;"></div>
+      <div id="hero-status-msg" class="status-badge"></div>
 
       <form id="heroPhotoForm" onsubmit="handleHeroPhotoSubmit(event)">
+        <label for="heroPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 12px;border:2px dashed rgba(255,87,34,0.5);border-radius:10px;background:rgba(255,87,34,0.05);cursor:pointer;margin-bottom:12px;text-align:center;">
+          <svg class="icon-svg" style="width:28px;height:28px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span style="font-size:13.5px;font-weight:800;color:#fff;">Tap Here to Select or Snap Photos 📸</span>
+          <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">Supports iPhone / Android Photos, JPG, PNG, HEIC</span>
+        </label>
+        <input type="file" id="heroPhotos" name="heroPhotos" accept="image/*" multiple onchange="previewHeroPhotos(event)" style="display:none;">
+        <div id="hero-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;"></div>
+
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
           <input type="text" id="hContact" class="form-input" placeholder="Your Phone or Email *" required style="font-size:13px;">
           <input type="text" id="hCity" class="form-input" placeholder="City (e.g. Wisconsin Rapids)..." style="font-size:13px;">
@@ -1437,64 +600,38 @@
     </div>
   </section>
 
-  <!-- MULTI-TAB HUB CONTAINER -->
+  <!-- Multi-Tab App Hub -->
   <main class="hub-container">
-
-    <!-- Sticky Tab Controller with Custom Line SVGs -->
     <div class="tab-bar-wrap">
       <nav class="tab-bar" aria-label="Main Navigation Hub">
-        
-        <!-- Tab 1: Speed Square / Framing Tool SVG -->
         <button class="tab-btn active" id="btn-projects" onclick="switchTab('tab-projects')">
-          <svg class="tab-svg" viewBox="0 0 24 24">
-            <path d="M3 3v18h18L3 3z"/>
-            <path d="M7 17l2-2M10 14l2-2M13 11l2-2"/>
-          </svg>
+          <svg class="tab-svg" viewBox="0 0 24 24"><path d="M3 3v18h18L3 3z"/><path d="M7 17l2-2M10 14l2-2M13 11l2-2"/></svg>
           <span class="tab-label">Projects</span>
         </button>
-
-        <!-- Tab 2: Architectural Window & Door SVG -->
         <button class="tab-btn" id="btn-windows" onclick="switchTab('tab-windows')">
-          <svg class="tab-svg" viewBox="0 0 24 24">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <path d="M12 3v18M3 12h18"/>
-          </svg>
+          <svg class="tab-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18M3 12h18"/></svg>
           <span class="tab-label">Windows & Doors</span>
         </button>
-
-        <!-- Tab 3: Minimalist Camera / Viewport SVG -->
         <button class="tab-btn" id="btn-gallery" onclick="switchTab('tab-gallery')">
-          <svg class="tab-svg" viewBox="0 0 24 24">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-            <circle cx="12" cy="13" r="4"/>
-          </svg>
+          <svg class="tab-svg" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
           <span class="tab-label">Photo Lake</span>
         </button>
-
-        <!-- Tab 4: Direct Dispatch Lightning SVG -->
         <button class="tab-btn" id="btn-estimate" onclick="switchTab('tab-estimate')">
-          <svg class="tab-svg" viewBox="0 0 24 24">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-          </svg>
+          <svg class="tab-svg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           <span class="tab-label">Get Estimate</span>
         </button>
-
       </nav>
     </div>
 
-    <!-- =====================================================================
-         TAB 1: FEATURED PROJECTS (EXPANDABLE PROJECT WINDOWS)
-         ===================================================================== -->
+    <!-- TAB 1: FEATURED PROJECTS -->
     <section class="tab-pane active" id="tab-projects">
       <div class="project-window-stack">
 
-        <!-- Project 1: Siding & Envelope -->
+        <!-- Siding -->
         <div class="project-window open" id="pw-siding">
           <div class="pw-header" onclick="toggleWindow('pw-siding')">
             <div class="pw-header-left">
-              <div class="pw-icon-badge">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-              </div>
+              <div class="pw-icon-badge"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
               <div class="pw-titles">
                 <span class="pw-category">Exterior Envelope</span>
                 <span class="pw-name">Two-Story Siding & Gable Shingles</span>
@@ -1502,451 +639,229 @@
             </div>
             <div class="pw-header-right">
               <span class="pw-expand-indicator"><span class="pw-expand-text">Collapse</span></span>
-              <div class="pw-toggle-btn">
-                <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
+              <div class="pw-toggle-btn"><svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
             </div>
           </div>
-
           <div class="pw-body">
             <div class="pw-media-viewer" id="viewer-siding">
               <img src="images/projects/IMG_4801.webp" alt="Finished Slate Blue Siding and Gables" id="main-img-siding">
             </div>
-
             <div class="pw-thumb-strip">
-              <div class="pw-thumb active" onclick="switchMedia('siding', 'images/projects/IMG_4801.webp', 'image', this)">
-                <img src="images/projects/IMG_4801.webp" alt="Finished Siding">
-                <span class="pw-thumb-badge">Finished</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_4802.webp', 'image', this)">
-                <img src="images/projects/IMG_4802.webp" alt="Side Wall Profile">
-                <span class="pw-thumb-badge">Side Wall</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_4349.webp', 'image', this)">
-                <img src="images/projects/IMG_4349.webp" alt="Foil Insulation Sheathing">
-                <span class="pw-thumb-badge">Insulation</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_2012.webp', 'image', this)">
-                <img src="images/projects/IMG_2012.webp" alt="Old Lap Siding Stripdown">
-                <span class="pw-thumb-badge">Tear-Off</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_2014.webp', 'image', this)">
-                <img src="images/projects/IMG_2014.webp" alt="Front Porch Framing">
-                <span class="pw-thumb-badge">Porch Wrap</span>
-              </div>
+              <div class="pw-thumb active" onclick="switchMedia('siding', 'images/projects/IMG_4801.webp', 'image', this)"><img src="images/projects/IMG_4801.webp" alt="Finished Siding"><span class="pw-thumb-badge">Finished</span></div>
+              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_4802.webp', 'image', this)"><img src="images/projects/IMG_4802.webp" alt="Side Wall Profile"><span class="pw-thumb-badge">Side Wall</span></div>
+              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_4349.webp', 'image', this)"><img src="images/projects/IMG_4349.webp" alt="Foil Insulation Sheathing"><span class="pw-thumb-badge">Insulation</span></div>
+              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_2012.webp', 'image', this)"><img src="images/projects/IMG_2012.webp" alt="Old Lap Siding Stripdown"><span class="pw-thumb-badge">Tear-Off</span></div>
+              <div class="pw-thumb" onclick="switchMedia('siding', 'images/projects/IMG_2014.webp', 'image', this)"><img src="images/projects/IMG_2014.webp" alt="Front Porch Framing"><span class="pw-thumb-badge">Porch Wrap</span></div>
             </div>
-
-            <p class="pw-narrative">
-              Full tear-off down to framing, foil-faced thermal barrier installation, slate-blue lap siding, and custom-cased window profiles with white decorative gable shingles.
-            </p>
-
+            <p class="pw-narrative">Full tear-off down to framing, foil-faced thermal barrier installation, slate-blue lap siding, and custom-cased window profiles with white decorative gable shingles.</p>
             <div class="pw-specs-grid">
               <span class="pw-spec-tag">Slate Blue Vinyl</span>
               <span class="pw-spec-tag">Gable Shingles</span>
               <span class="pw-spec-tag">Thermal Foil Barrier</span>
               <span class="pw-spec-tag">Custom Casings</span>
             </div>
-
             <button onclick="launchScopeTrade('siding')" class="pw-quote-cta">Calculate Siding Scope ↗</button>
           </div>
         </div>
 
-        <!-- Project 2: Custom Kitchen Cabinetry -->
+        <!-- Kitchen -->
         <div class="project-window" id="pw-kitchen">
           <div class="pw-header" onclick="toggleWindow('pw-kitchen')">
             <div class="pw-header-left">
-              <div class="pw-icon-badge">
-                <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="9" x2="12" y2="21"/></svg>
-              </div>
+              <div class="pw-icon-badge"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg></div>
               <div class="pw-titles">
-                <span class="pw-category">Interior Finish</span>
-                <span class="pw-name">Custom White Shaker Kitchen Rebuild</span>
+                <span class="pw-category">Interior Carpentry</span>
+                <span class="pw-name">Custom Kitchen & Cabinetry Installation</span>
               </div>
             </div>
             <div class="pw-header-right">
               <span class="pw-expand-indicator"><span class="pw-expand-text">View Gallery</span></span>
-              <div class="pw-toggle-btn">
-                <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
+              <div class="pw-toggle-btn"><svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
             </div>
           </div>
-
           <div class="pw-body">
             <div class="pw-media-viewer" id="viewer-kitchen">
-              <video controls playsinline poster="images/projects/IMG_3346.webp" id="main-video-kitchen">
-                <source src="videos/kitchen_walkthrough.mp4" type="video/mp4">
-              </video>
+              <img src="images/projects/custom_cabinets_installed.jpg" alt="Finished Custom Kitchen Cabinets" id="main-img-kitchen">
             </div>
-
             <div class="pw-thumb-strip">
-              <div class="pw-thumb active" onclick="switchMedia('kitchen', 'videos/kitchen_walkthrough.mp4', 'video', this)">
-                <img src="images/projects/IMG_3346.webp" alt="Field Walkthrough Video">
-                <span class="pw-thumb-badge">▶ Tour</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('kitchen', 'images/projects/IMG_3346.webp', 'image', this)">
-                <img src="images/projects/IMG_3346.webp" alt="Installed White Shaker Cabinets">
-                <span class="pw-thumb-badge">Cabinets</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('kitchen', 'images/projects/IMG_3341.webp', 'image', this)">
-                <img src="images/projects/IMG_3341.webp" alt="Full Kitchen Layout">
-                <span class="pw-thumb-badge">Layout</span>
-              </div>
+              <div class="pw-thumb active" onclick="switchMedia('kitchen', 'images/projects/custom_cabinets_installed.jpg', 'image', this)"><img src="images/projects/custom_cabinets_installed.jpg" alt="Cabinetry"><span class="pw-thumb-badge">Finished</span></div>
+              <div class="pw-thumb" onclick="switchMedia('kitchen', 'images/projects/kitchen_backsplash_tile.jpg', 'image', this)"><img src="images/projects/kitchen_backsplash_tile.jpg" alt="Tile Backsplash"><span class="pw-thumb-badge">Tile</span></div>
+              <div class="pw-thumb" onclick="switchMedia('kitchen', 'images/projects/IMG_0126.webp', 'image', this)"><img src="images/projects/IMG_0126.webp" alt="Trim Fitment"><span class="pw-thumb-badge">Trim</span></div>
             </div>
-
-            <p class="pw-narrative">
-              Complete kitchen buildout: bright white shaker cabinetry, marble-veined tops, subway tile backsplash, and dark plank flooring.
-            </p>
-
+            <p class="pw-narrative">Precision cabinet box leveling, soft-close hardware installation, custom crown trim fitment, and subway tile backsplash installation.</p>
             <div class="pw-specs-grid">
-              <span class="pw-spec-tag">White Shaker Cabinets</span>
-              <span class="pw-spec-tag">Marble-Veined Tops</span>
-              <span class="pw-spec-tag">Subway Backsplash</span>
-              <span class="pw-spec-tag">Plank Flooring</span>
+              <span class="pw-spec-tag">Custom Shaker Boxes</span>
+              <span class="pw-spec-tag">Crown Moulding</span>
+              <span class="pw-spec-tag">Laser-Leveled Base</span>
             </div>
-
             <button onclick="launchScopeTrade('kitchen')" class="pw-quote-cta">Calculate Kitchen Scope ↗</button>
           </div>
         </div>
 
-        <!-- Project 3: Commercial Acoustical Ceiling -->
+        <!-- Ceilings -->
         <div class="project-window" id="pw-ceiling">
           <div class="pw-header" onclick="toggleWindow('pw-ceiling')">
             <div class="pw-header-left">
-              <div class="pw-icon-badge">
-                <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
-              </div>
+              <div class="pw-icon-badge"><svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></div>
               <div class="pw-titles">
-                <span class="pw-category">Commercial Renovation</span>
-                <span class="pw-name">Facility Suspended Acoustical Grid</span>
+                <span class="pw-category">Commercial Acoustical</span>
+                <span class="pw-name">Suspended Acoustic Drop Ceilings</span>
               </div>
             </div>
             <div class="pw-header-right">
               <span class="pw-expand-indicator"><span class="pw-expand-text">View Gallery</span></span>
-              <div class="pw-toggle-btn">
-                <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
+              <div class="pw-toggle-btn"><svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
             </div>
           </div>
-
           <div class="pw-body">
             <div class="pw-media-viewer" id="viewer-ceiling">
-              <img src="images/projects/IMG_6788.webp" alt="Commercial Suspended Ceiling Grid" id="main-img-ceiling">
+              <img src="images/projects/suspended_ceiling_grid.jpg" alt="Commercial Suspended Drop Ceiling Grid" id="main-img-ceiling">
             </div>
-
             <div class="pw-thumb-strip">
-              <div class="pw-thumb active" onclick="switchMedia('ceiling', 'images/projects/IMG_6788.webp', 'image', this)">
-                <img src="images/projects/IMG_6788.webp" alt="Concourse Ceiling Grid">
-                <span class="pw-thumb-badge">Grid</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6794.webp', 'image', this)">
-                <img src="images/projects/IMG_6794.webp" alt="Full Facility Ceiling Span">
-                <span class="pw-thumb-badge">Full Span</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6792.webp', 'image', this)">
-                <img src="images/projects/IMG_6792.webp" alt="Wide Span Floor">
-                <span class="pw-thumb-badge">Floor Span</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6778.webp', 'image', this)">
-                <img src="images/projects/IMG_6778.webp" alt="Ceiling Tile Prep">
-                <span class="pw-thumb-badge">Staging</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/IMG_6595.webp', 'image', this)">
-                <img src="images/projects/IMG_6595.webp" alt="Overhead Grid Work">
-                <span class="pw-thumb-badge">Laser Level</span>
-              </div>
+              <div class="pw-thumb active" onclick="switchMedia('ceiling', 'images/projects/suspended_ceiling_grid.jpg', 'image', this)"><img src="images/projects/suspended_ceiling_grid.jpg" alt="Ceiling Grid"><span class="pw-thumb-badge">Main Grid</span></div>
+              <div class="pw-thumb" onclick="switchMedia('ceiling', 'images/projects/pine_ceiling_installation.jpg', 'image', this)"><img src="images/projects/pine_ceiling_installation.jpg" alt="Wood Ceiling"><span class="pw-thumb-badge">Tongue & Groove</span></div>
             </div>
-
-            <p class="pw-narrative">
-              Laser-leveled commercial suspended ceiling grid with 2x4 acoustic absorption panels, troffer light fixtures, and HVAC diffuser tie-ins.
-            </p>
-
+            <p class="pw-narrative">Laser-shot perimeter wall angle installation, 12-gauge hanger wire tie-ins, heavy-duty main tees, and high-NRC acoustic tile integration.</p>
             <div class="pw-specs-grid">
-              <span class="pw-spec-tag">2x4 Acoustical Panels</span>
-              <span class="pw-spec-tag">Laser Leveled Grid</span>
-              <span class="pw-spec-tag">Troffer Lighting</span>
-              <span class="pw-spec-tag">HVAC Diffusers</span>
+              <span class="pw-spec-tag">15/16" Heavy Grid</span>
+              <span class="pw-spec-tag">Laser-Leveled</span>
+              <span class="pw-spec-tag">Acoustic Tiles</span>
             </div>
-
-            <button onclick="launchScopeTrade('ceiling')" class="pw-quote-cta">Calculate Ceiling Scope ↗</button>
+            <button onclick="launchScopeTrade('ceilings')" class="pw-quote-cta">Calculate Ceiling Scope ↗</button>
           </div>
-        </div>
-
-        <!-- Project 4: Treated Deck & Staircase -->
-        <div class="project-window" id="pw-deck">
-          <div class="pw-header" onclick="toggleWindow('pw-deck')">
-            <div class="pw-header-left">
-              <div class="pw-icon-badge">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-              </div>
-              <div class="pw-titles">
-                <span class="pw-category">Outdoor Carpentry</span>
-                <span class="pw-name">Treated Wood Deck & Integrated Stairs</span>
-              </div>
-            </div>
-            <div class="pw-header-right">
-              <span class="pw-expand-indicator"><span class="pw-expand-text">View Gallery</span></span>
-              <div class="pw-toggle-btn">
-                <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
-            </div>
-          </div>
-
-          <div class="pw-body">
-            <div class="pw-media-viewer" id="viewer-deck">
-              <img src="images/projects/deck_finished_stairs.webp" alt="Completed Treated Wood Deck with 4-Step Staircase" id="main-img-deck">
-            </div>
-
-            <div class="pw-thumb-strip">
-              <div class="pw-thumb active" onclick="switchMedia('deck', 'images/projects/deck_finished_stairs.webp', 'image', this)">
-                <img src="images/projects/deck_finished_stairs.webp" alt="Finished Deck and Staircase">
-                <span class="pw-thumb-badge">Finished</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_stair_install.webp', 'image', this)">
-                <img src="images/projects/deck_stair_install.webp" alt="Deck Surface Installation">
-                <span class="pw-thumb-badge">Decking</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_corner_railing.webp', 'image', this)">
-                <img src="images/projects/deck_corner_railing.webp" alt="Baluster Railing Profile">
-                <span class="pw-thumb-badge">Railing</span>
-              </div>
-              <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/deck_wide_elevation.webp', 'image', this)">
-                <img src="images/projects/deck_wide_elevation.webp" alt="Rear Elevation Sub-Structure">
-                <span class="pw-thumb-badge">Framing</span>
-              </div>
-            </div>
-
-            <p class="pw-narrative">
-              Elevated outdoor deck framing tied into patio slider, finished plank surface, baluster railings, and custom 4-step stringer stair system.
-            </p>
-
-            <div class="pw-specs-grid">
-              <span class="pw-spec-tag">Treated Framing</span>
-              <span class="pw-spec-tag">Baluster Railing</span>
-              <span class="pw-spec-tag">Custom Cut Stringers</span>
-              <span class="pw-spec-tag">Slider Tie-In</span>
-            </div>
-
-            <button onclick="launchScopeTrade('deck')" class="pw-quote-cta">Calculate Deck Scope ↗</button>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- =====================================================================
-         TAB 2: WINDOWS & DOORS SHOWCASE
-         ===================================================================== -->
-    <section class="tab-pane" id="tab-windows">
-      
-      <div class="wd-hero-banner">
-        <span class="wd-badge">
-          <svg class="icon-svg" style="width:12px;height:12px;" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          Thermal Envelope
-        </span>
-        <h2 class="wd-title">Replacement Windows & Insulated Doors</h2>
-        <p class="wd-desc">
-          Precision-fit Low-E insulated replacement windows, solid fiberglass entry systems, and heavy-duty patio sliders built for Wisconsin weather.
-        </p>
-      </div>
-
-      <div class="wd-showcase-grid">
-        <!-- Card 1: Windows -->
-        <div class="wd-card">
-          <div class="wd-card-media">
-            <img src="images/projects/window_replacement.webp" alt="High-efficiency replacement windows" loading="lazy">
-          </div>
-          <div class="wd-card-content">
-            <h3 class="wd-card-title">Replacement Windows</h3>
-            <p class="wd-card-sub">Double-hung, casement, and slider units with custom exterior casing.</p>
-            <ul class="wd-specs-list">
-              <li>Low-E Argon Insulated Glass</li>
-              <li>Fusion-Welded Vinyl Frames</li>
-              <li>Dual Weatherstripping Seals</li>
-              <li>Custom Exterior Trim</li>
-            </ul>
-            <button onclick="launchScopeTrade('windows')" class="btn-wd-card-action">Estimate Window Scope ↗</button>
-          </div>
-        </div>
-
-        <!-- Card 2: Entry Doors -->
-        <div class="wd-card">
-          <div class="wd-card-media">
-            <img src="images/projects/entry_door.webp" alt="Insulated fiberglass entry door" loading="lazy">
-          </div>
-          <div class="wd-card-content">
-            <h3 class="wd-card-title">Insulated Entry Doors</h3>
-            <p class="wd-card-sub">Heavy-duty fiberglass and steel doors for security and weather barrier defense.</p>
-            <ul class="wd-specs-list">
-              <li>High-Density Foam Core</li>
-              <li>Satin Privacy Sidelights</li>
-              <li>Magnetic Weather Seals</li>
-              <li>Brushed Nickel Hardware</li>
-            </ul>
-            <button onclick="launchScopeTrade('doors')" class="btn-wd-card-action">Estimate Door Scope ↗</button>
-          </div>
-        </div>
-
-        <!-- Card 3: Patio Sliders -->
-        <div class="wd-card">
-          <div class="wd-card-media">
-            <img src="images/projects/patio_door.webp" alt="Sliding glass patio door" loading="lazy">
-          </div>
-          <div class="wd-card-content">
-            <h3 class="wd-card-title">Sliding Patio Doors</h3>
-            <p class="wd-card-sub">Smooth-gliding multi-panel patio doors with tempered thermal glass.</p>
-            <ul class="wd-specs-list">
-              <li>Aluminum Clad Frame</li>
-              <li>Dual-Pane Thermal Glass</li>
-              <li>Multi-Point Locking</li>
-              <li>Smooth Ball Bearings</li>
-            </ul>
-            <button onclick="launchScopeTrade('doors')" class="btn-wd-card-action">Estimate Patio Scope ↗</button>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- =====================================================================
-         TAB 3: FILTERABLE PHOTO LAKE / GALLERY
-         ===================================================================== -->
-    <section class="tab-pane" id="tab-gallery">
-      
-      <!-- Filter Bar with clean line SVGs -->
-      <div class="gallery-filter-bar">
-        <button class="filter-pill active" onclick="filterGallery('all', this)">All Jobs (16)</button>
-        <button class="filter-pill" onclick="filterGallery('siding', this)">
-          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-          Siding
-        </button>
-        <button class="filter-pill" onclick="filterGallery('interior', this)">
-          <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/></svg>
-          Interior
-        </button>
-        <button class="filter-pill" onclick="filterGallery('ceiling', this)">
-          <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
-          Commercial
-        </button>
-        <button class="filter-pill" onclick="filterGallery('deck', this)">
-          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg>
-          Decks
-        </button>
-        <button class="filter-pill" onclick="filterGallery('window', this)">
-          <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18M3 12h18"/></svg>
-          Windows/Doors
-        </button>
-      </div>
-
-      <!-- Photo Grid -->
-      <div class="gallery-grid" id="gallery-container">
-        
-        <!-- Siding -->
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4801.webp', 'Finished Slate Blue Siding & Architectural Gables')">
-          <img src="images/projects/IMG_4801.webp" alt="Finished Slate Blue Siding" loading="lazy">
-          <span class="gallery-item-tag">Siding</span>
-          <div class="gallery-item-caption">Finished Siding & Gables</div>
-        </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4802.webp', 'Two-Story Side Elevation and Cased Trim')">
-          <img src="images/projects/IMG_4802.webp" alt="Side Wall Profile" loading="lazy">
-          <span class="gallery-item-tag">Siding</span>
-          <div class="gallery-item-caption">Side Wall Elevation</div>
-        </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4349.webp', 'Foil Thermal Sheathing Installation')">
-          <img src="images/projects/IMG_4349.webp" alt="Foil Insulation Sheathing" loading="lazy">
-          <span class="gallery-item-tag">Siding</span>
-          <div class="gallery-item-caption">Thermal Foil Sheathing</div>
-        </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2012.webp', 'Original Lap Siding Prior to Tear-Off')">
-          <img src="images/projects/IMG_2012.webp" alt="Old Lap Siding" loading="lazy">
-          <span class="gallery-item-tag">Siding</span>
-          <div class="gallery-item-caption">Pre-Tearoff Lap Siding</div>
-        </div>
-        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_2014.webp', 'Front Porch Framing & Weather Barrier')">
-          <img src="images/projects/IMG_2014.webp" alt="Front Porch Entry" loading="lazy">
-          <span class="gallery-item-tag">Siding</span>
-          <div class="gallery-item-caption">Front Porch Framing</div>
-        </div>
-
-        <!-- Kitchen / Interior -->
-        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3346.webp', 'Custom White Shaker Cabinets and Marble-Pattern Countertops')">
-          <img src="images/projects/IMG_3346.webp" alt="Installed White Shaker Cabinets" loading="lazy">
-          <span class="gallery-item-tag">Interior</span>
-          <div class="gallery-item-caption">White Shaker Cabinets</div>
-        </div>
-        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/IMG_3341.webp', 'Full Kitchen Remodel with Subway Backsplash')">
-          <img src="images/projects/IMG_3341.webp" alt="Full Kitchen Remodel" loading="lazy">
-          <span class="gallery-item-tag">Interior</span>
-          <div class="gallery-item-caption">Full Kitchen Remodel</div>
-        </div>
-
-        <!-- Commercial Ceiling -->
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6788.webp', 'Commercial Suspended Acoustical Grid in Concourse')">
-          <img src="images/projects/IMG_6788.webp" alt="Suspended Ceiling Grid" loading="lazy">
-          <span class="gallery-item-tag">Commercial</span>
-          <div class="gallery-item-caption">Concourse Ceiling Grid</div>
-        </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6794.webp', 'Full Facility Ceiling Span & Integrated Lighting')">
-          <img src="images/projects/IMG_6794.webp" alt="Full Facility Ceiling Span" loading="lazy">
-          <span class="gallery-item-tag">Commercial</span>
-          <div class="gallery-item-caption">Full Span Grid</div>
-        </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6792.webp', 'Acoustical Grid Over Multi-Lane Facility')">
-          <img src="images/projects/IMG_6792.webp" alt="Overhead Acoustical Grid" loading="lazy">
-          <span class="gallery-item-tag">Commercial</span>
-          <div class="gallery-item-caption">Facility Wide Span</div>
-        </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6778.webp', 'Ceiling Tile Staging and Material Prep')">
-          <img src="images/projects/IMG_6778.webp" alt="Tile Staging" loading="lazy">
-          <span class="gallery-item-tag">Commercial</span>
-          <div class="gallery-item-caption">Tile Staging & Prep</div>
-        </div>
-        <div class="gallery-item" data-category="ceiling" onclick="openLightbox('images/projects/IMG_6595.webp', 'Laser Level Grid Alignment & Scaffold Setup')">
-          <img src="images/projects/IMG_6595.webp" alt="Scaffolding Grid Work" loading="lazy">
-          <span class="gallery-item-tag">Commercial</span>
-          <div class="gallery-item-caption">Scaffold Grid Work</div>
         </div>
 
         <!-- Decks -->
-        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_finished_stairs.webp', 'Finished Treated Wood Deck & 4-Step Staircase')">
-          <img src="images/projects/deck_finished_stairs.webp" alt="Finished Deck and Stairs" loading="lazy">
-          <span class="gallery-item-tag">Deck</span>
-          <div class="gallery-item-caption">Deck & Finished Stairs</div>
-        </div>
-        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_corner_railing.webp', 'Baluster Safety Railing Profile')">
-          <img src="images/projects/deck_corner_railing.webp" alt="Baluster Safety Railing" loading="lazy">
-          <span class="gallery-item-tag">Deck</span>
-          <div class="gallery-item-caption">Baluster Railing Profile</div>
-        </div>
-        <div class="gallery-item" data-category="deck" onclick="openLightbox('images/projects/deck_stair_install.webp', 'Deck Surface Board Fitment and Fastening')">
-          <img src="images/projects/deck_stair_install.webp" alt="Deck Surface Fitment" loading="lazy">
-          <span class="gallery-item-tag">Deck</span>
-          <div class="gallery-item-caption">Deck Board Fitment</div>
-        </div>
-
-        <!-- Windows & Doors -->
-        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/window_replacement.webp', 'Energy-Efficient Double-Hung Replacement Windows')">
-          <img src="images/projects/window_replacement.webp" alt="Replacement Windows" loading="lazy">
-          <span class="gallery-item-tag">Windows</span>
-          <div class="gallery-item-caption">Double-Hung Windows</div>
-        </div>
-        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/entry_door.webp', 'Insulated Fiberglass Entry Door with Privacy Sidelights')">
-          <img src="images/projects/entry_door.webp" alt="Insulated Entry Door" loading="lazy">
-          <span class="gallery-item-tag">Doors</span>
-          <div class="gallery-item-caption">Fiberglass Entry Door</div>
-        </div>
-        <div class="gallery-item" data-category="window" onclick="openLightbox('images/projects/patio_door.webp', 'Sliding Glass Patio Door with Deck Access')">
-          <img src="images/projects/patio_door.webp" alt="Sliding Patio Door" loading="lazy">
-          <span class="gallery-item-tag">Doors</span>
-          <div class="gallery-item-caption">Sliding Patio Door</div>
+        <div class="project-window" id="pw-deck">
+          <div class="pw-header" onclick="toggleWindow('pw-deck')">
+            <div class="pw-header-left">
+              <div class="pw-icon-badge"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+              <div class="pw-titles">
+                <span class="pw-category">Outdoor Living</span>
+                <span class="pw-name">Custom Composite & Timber Decks</span>
+              </div>
+            </div>
+            <div class="pw-header-right">
+              <span class="pw-expand-indicator"><span class="pw-expand-text">View Gallery</span></span>
+              <div class="pw-toggle-btn"><svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+            </div>
+          </div>
+          <div class="pw-body">
+            <div class="pw-media-viewer" id="viewer-deck">
+              <img src="images/projects/composite_deck_construction.jpg" alt="Custom Composite Deck" id="main-img-deck">
+            </div>
+            <div class="pw-thumb-strip">
+              <div class="pw-thumb active" onclick="switchMedia('deck', 'images/projects/composite_deck_construction.jpg', 'image', this)"><img src="images/projects/composite_deck_construction.jpg" alt="Composite Deck"><span class="pw-thumb-badge">Deck</span></div>
+              <div class="pw-thumb" onclick="switchMedia('deck', 'images/projects/wall_framing_addition.jpg', 'image', this)"><img src="images/projects/wall_framing_addition.jpg" alt="Deck Framing"><span class="pw-thumb-badge">Substructure</span></div>
+            </div>
+            <p class="pw-narrative">Deep concrete sonotube footings below frost line, treated joist framing, hidden fastener composite boards, and sturdy railing packages.</p>
+            <div class="pw-specs-grid">
+              <span class="pw-spec-tag">Composite Surface</span>
+              <span class="pw-spec-tag">Hidden Fasteners</span>
+              <span class="pw-spec-tag">Frost Footings</span>
+            </div>
+            <button onclick="launchScopeTrade('decks')" class="pw-quote-cta">Calculate Deck Scope ↗</button>
+          </div>
         </div>
 
       </div>
-
     </section>
 
-    <!-- =====================================================================
-         TAB 4: ESTIMATE INTAKE & DIRECT DISPATCH
-         ===================================================================== -->
+    <!-- TAB 2: WINDOWS & DOORS -->
+    <section class="tab-pane" id="tab-windows">
+      <div class="wd-hero-banner">
+        <span class="wd-badge">Precision Envelope Upgrades</span>
+        <h2 class="wd-title">Replacement Windows & Custom Exterior Doors</h2>
+        <p class="wd-desc">Energy-efficient Low-E Argon vinyl, composite, and wood windows with custom exterior aluminum casing wraps.</p>
+      </div>
+
+      <div class="wd-showcase-grid">
+        <div class="wd-card">
+          <div class="wd-card-media"><img src="images/projects/window_installation_foam.jpg" alt="Replacement Window Insulated"></div>
+          <div class="wd-card-content">
+            <div class="wd-card-title">Low-E Argon Windows</div>
+            <div class="wd-card-sub">Double-hung & casement retrofits with expanding low-pressure foam insulation.</div>
+            <ul class="wd-specs-list">
+              <li>✓ Low-E Argon Glass</li>
+              <li>✓ Custom Aluminum Casing</li>
+            </ul>
+            <button onclick="launchScopeTrade('windows')" class="btn-wd-card-action">Estimate Windows ↗</button>
+          </div>
+        </div>
+
+        <div class="wd-card">
+          <div class="wd-card-media"><img src="images/projects/entry_door_installed.jpg" alt="Fiberglass Entry Door"></div>
+          <div class="wd-card-content">
+            <div class="wd-card-title">Custom Entry Doors</div>
+            <div class="wd-card-sub">Heavy insulated fiberglass and steel doors with magnetic weather seals.</div>
+            <ul class="wd-specs-list">
+              <li>✓ Multi-Point Locking</li>
+              <li>✓ Rot-Proof Composite Frame</li>
+            </ul>
+            <button onclick="launchScopeTrade('doors')" class="btn-wd-card-action">Estimate Doors ↗</button>
+          </div>
+        </div>
+
+        <div class="wd-card">
+          <div class="wd-card-media"><img src="images/projects/IMG_0128.webp" alt="Sliding Patio Door"></div>
+          <div class="wd-card-content">
+            <div class="wd-card-title">Sliding Patio Doors</div>
+            <div class="wd-card-sub">Smooth rolling multi-chamber vinyl patio doors with integrated foot locks.</div>
+            <ul class="wd-specs-list">
+              <li>✓ Tempered Safety Glass</li>
+              <li>✓ Heavy-Duty Ball Bearings</li>
+            </ul>
+            <button onclick="launchScopeTrade('doors')" class="btn-wd-card-action">Estimate Patio Door ↗</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: PHOTO LAKE -->
+    <section class="tab-pane" id="tab-gallery">
+      <div class="gallery-filter-bar">
+        <button class="filter-pill active" onclick="filterGallery('all', this)">All Projects</button>
+        <button class="filter-pill" onclick="filterGallery('siding', this)">Siding</button>
+        <button class="filter-pill" onclick="filterGallery('decks', this)">Decks</button>
+        <button class="filter-pill" onclick="filterGallery('windows', this)">Windows/Doors</button>
+        <button class="filter-pill" onclick="filterGallery('interior', this)">Interior</button>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4801.webp', 'Finished Slate Blue Siding & Gable Shingles')">
+          <span class="gallery-item-tag">Siding</span>
+          <img src="images/projects/IMG_4801.webp" alt="Finished Slate Blue Siding" loading="lazy">
+          <div class="gallery-item-caption">Two-Story Siding & Gables</div>
+        </div>
+        <div class="gallery-item" data-category="siding" onclick="openLightbox('images/projects/IMG_4349.webp', 'Foil Thermal Weatherization Layer')">
+          <span class="gallery-item-tag">Siding</span>
+          <img src="images/projects/IMG_4349.webp" alt="Foil Insulation Sheathing" loading="lazy">
+          <div class="gallery-item-caption">Thermal Foil Barrier</div>
+        </div>
+        <div class="gallery-item" data-category="decks" onclick="openLightbox('images/projects/composite_deck_construction.jpg', 'Composite Deck Build')">
+          <span class="gallery-item-tag">Decks</span>
+          <img src="images/projects/composite_deck_construction.jpg" alt="Composite Deck" loading="lazy">
+          <div class="gallery-item-caption">Custom Timber & Composite Deck</div>
+        </div>
+        <div class="gallery-item" data-category="windows" onclick="openLightbox('images/projects/window_installation_foam.jpg', 'Window Foam Seal')">
+          <span class="gallery-item-tag">Windows</span>
+          <img src="images/projects/window_installation_foam.jpg" alt="Window Installation" loading="lazy">
+          <div class="gallery-item-caption">Low-E Argon Window Retrofit</div>
+        </div>
+        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/pine_ceiling_installation.jpg', 'Pine Tongue & Groove Ceiling')">
+          <span class="gallery-item-tag">Interior</span>
+          <img src="images/projects/pine_ceiling_installation.jpg" alt="Pine Ceiling" loading="lazy">
+          <div class="gallery-item-caption">Knotty Pine Ceiling Installation</div>
+        </div>
+        <div class="gallery-item" data-category="interior" onclick="openLightbox('images/projects/custom_cabinets_installed.jpg', 'Custom Kitchen Cabinetry')">
+          <span class="gallery-item-tag">Interior</span>
+          <img src="images/projects/custom_cabinets_installed.jpg" alt="Custom Cabinets" loading="lazy">
+          <div class="gallery-item-caption">Custom Shaker Kitchen Cabinets</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: GET ESTIMATE / INTAKE -->
     <section class="tab-pane" id="tab-estimate">
       <div class="intake-card">
         <div class="intake-header">
@@ -1954,17 +869,7 @@
           <p>Send project notes directly to J. Dondlinger's mobile dispatch. Typical reply in 15–30 mins.</p>
         </div>
 
-        <!-- Voice & Photo Alternative Link with clean SVG -->
-        <div class="voice-photo-banner">
-          <div class="vpb-left">
-            <svg class="icon-svg vpb-icon" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-            <div class="vpb-text">
-              <span class="vpb-title">Voice & Photo Intake</span>
-              <span class="vpb-sub">Record specs or upload job photos</span>
-            </div>
-          </div>
-          <a href="/intake.html" class="vpb-btn">Open App ↗</a>
-        </div>
+        <div id="lead-status-msg" class="status-badge"></div>
 
         <form id="leadForm" onsubmit="handleDirectLeadSubmit(event)">
           <div class="form-row">
@@ -1980,13 +885,13 @@
           <div class="form-row">
             <label for="fService">Project Scope *</label>
             <select id="fService" class="form-select" required>
-              <option value="Windows & Doors">High-Efficiency Windows & Doors</option>
-              <option value="Exterior Siding & Gables">Exterior Siding & Gables</option>
+              <option value="Custom Decks & Outdoor Living">Custom Decks & Outdoor Living</option>
+              <option value="Exterior Siding & Envelopes">Exterior Siding & Envelopes</option>
+              <option value="Architectural Roofing">Architectural Roofing</option>
+              <option value="PourReady Concrete Flatwork">PourReady Concrete Flatwork</option>
+              <option value="High-Efficiency Windows & Doors">High-Efficiency Windows & Doors</option>
               <option value="Custom Kitchen & Cabinetry">Custom Kitchen & Cabinetry</option>
               <option value="Commercial Drop Ceilings">Commercial Drop Ceilings</option>
-              <option value="Decks & Outdoor Living">Decks & Outdoor Living</option>
-              <option value="Architectural Roofing">Architectural Roofing</option>
-              <option value="Additions & Framing">Additions & Framing</option>
               <option value="Other Scope">Other Construction Scope</option>
             </select>
           </div>
@@ -2030,6 +935,8 @@
       <button class="drawer-chip" id="chip-roofing" onclick="selectScopeTrade('roofing')">🔨 Roofing</button>
       <button class="drawer-chip" id="chip-concrete" onclick="selectScopeTrade('concrete')">🧱 PourReady Concrete</button>
       <button class="drawer-chip" id="chip-windows" onclick="selectScopeTrade('windows')">🪟 Windows & Doors</button>
+      <button class="drawer-chip" id="chip-kitchen" onclick="selectScopeTrade('kitchen')">🍳 Kitchen</button>
+      <button class="drawer-chip" id="chip-ceilings" onclick="selectScopeTrade('ceilings')">🏢 Drop Ceilings</button>
     </div>
 
     <!-- Dynamic Slider -->
@@ -2057,9 +964,7 @@
     <div id="module-b-addons" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
       <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;margin-bottom:4px;">💡 Enhance Your Project (Optional Add-ons)</div>
       <div style="font-size:11.5px;color:var(--text-muted);margin-bottom:10px;">Homeowners frequently pair this scope with:</div>
-      <div id="addons-checkbox-container" style="display:flex;flex-direction:column;gap:8px;">
-        <!-- Dynamic Addon Checkboxes Injected by JS -->
-      </div>
+      <div id="addons-checkbox-container" style="display:flex;flex-direction:column;gap:8px;"></div>
     </div>
 
     <!-- MODULE C: VISUAL BEFORE/AFTER STORIES -->
@@ -2084,7 +989,8 @@
       <div style="font-family:var(--font-brand);font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;">📸 Snap / Attach Project Photos for Fast Quote</div>
       <div style="font-size:11.5px;color:#cbd5e1;margin-bottom:10px;">Attach 1–3 photos of your deck, siding, roof, or project area for an exact review:</div>
       
-      <!-- Photo Dropzone / File Picker -->
+      <div id="drawer-status-msg" class="status-badge"></div>
+
       <label for="dPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;border:2px dashed rgba(255,87,34,0.4);border-radius:8px;background:rgba(255,87,34,0.04);cursor:pointer;margin-bottom:10px;text-align:center;">
         <svg class="icon-svg" style="width:24px;height:24px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
         <span style="font-size:12px;font-weight:700;color:#fff;">Tap to Snap or Upload Photos (1–3)</span>
@@ -2112,9 +1018,7 @@
     <div id="lightbox-caption"></div>
   </div>
 
-  <!-- =========================================================================
-       AI SEARCH & LOCAL CREDENTIALS VERIFICATION TRUTH LAYER
-       ========================================================================= -->
+  <!-- AI Truth Layer -->
   <section id="ai-truth-layer" style="max-width:960px;margin:30px auto 20px;padding:20px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;font-size:12.5px;color:var(--text-muted);line-height:1.6;">
     <h2 style="font-family:var(--font-brand);font-size:15px;font-weight:800;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
       <span style="color:var(--green);">●</span> Certified Journeyman Carpenter & Local Service Authority
@@ -2133,15 +1037,19 @@
     </p>
   </section>
 
-  <!-- Sticky Bottom Dock with clean SVGs -->
-  <footer id="bottom-dock">
-    <a href="tel:7154593050" class="dock-btn-phone">
-      <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      Direct Call
+  <!-- Unified Responsive Bottom Dock -->
+  <footer id="site-bottom-dock">
+    <a href="tel:7154593050" class="dock-btn dock-btn-call">
+      <svg class="icon-svg" style="width:15px;height:15px;stroke:var(--green);" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span>(715) 459-3050</span>
     </a>
-    <button onclick="openCarpDrawer()" class="dock-btn-estimate">
-      <svg class="icon-svg" style="width:15px;height:15px;stroke:#fff;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      Instant Estimate ⚡
+    <button onclick="triggerQuickPhotoUpload()" class="dock-btn dock-btn-photo">
+      <svg class="icon-svg" style="width:15px;height:15px;stroke:#fff;" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <span>Upload Photos 📸</span>
+    </button>
+    <button onclick="openCarpDrawer()" class="dock-btn dock-btn-estimate">
+      <svg class="icon-svg" style="width:15px;height:15px;stroke:var(--cyan);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span>Estimator ⚡</span>
     </button>
   </footer>
 
@@ -2152,6 +1060,18 @@
 
     const TRADE_CONFIG = {
       decks: {
+        title: 'Estimated Deck Area (Sq Ft):',
+        unit: 'Sq Ft',
+        min: 80, max: 600, default: 200, step: 20,
+        costMin: 35, costMax: 55,
+        note: 'Includes solid timber posts, treated joist framing, plank surface, baluster railings & stairs.',
+        addons: [
+          { id: 'deck_slab', name: 'PourReady Concrete Slab Underneath', costMin: 3200, costMax: 4800 },
+          { id: 'deck_drain', name: 'Under-Deck RainEscape Drainage System', costMin: 2100, costMax: 3000 },
+          { id: 'deck_bench', name: 'Built-In Perimeter Bench Seating', costMin: 950, costMax: 1400 }
+        ]
+      },
+      deck: {
         title: 'Estimated Deck Area (Sq Ft):',
         unit: 'Sq Ft',
         min: 80, max: 600, default: 200, step: 20,
@@ -2205,8 +1125,66 @@
         addons: [
           { id: 'win_wrap', name: 'Aluminum Sill & Casing Wrap', costMin: 650, costMax: 1100 }
         ]
+      },
+      doors: {
+        title: 'Number of Entry / Patio Doors:',
+        unit: 'Doors',
+        min: 1, max: 6, default: 1,
+        costMin: 1200, costMax: 2800,
+        note: 'Includes insulated fiberglass/steel door, frame insulation, weather seals & hardware fitments.',
+        addons: [
+          { id: 'door_storm', name: 'Heavy Aluminum Storm Door Package', costMin: 450, costMax: 750 }
+        ]
+      },
+      kitchen: {
+        title: 'Estimated Kitchen Floor Area (Sq Ft):',
+        unit: 'Sq Ft',
+        min: 80, max: 400, default: 150, step: 10,
+        costMin: 65, costMax: 120,
+        note: 'Includes cabinet box installation, soft-close hardware, countertop fitments & crown trim.',
+        addons: [
+          { id: 'kitch_tile', name: 'Custom Tile Backsplash Installation', costMin: 850, costMax: 1600 }
+        ]
+      },
+      ceilings: {
+        title: 'Ceiling Grid Area (Sq Ft):',
+        unit: 'Sq Ft',
+        min: 100, max: 2500, default: 400, step: 50,
+        costMin: 4.5, costMax: 7.5,
+        note: 'Includes laser-leveled suspended heavy grid, 2x4 acoustic absorption panels, and perimeter trim.',
+        addons: [
+          { id: 'ceil_tiles', name: 'Premium High-NRC Acoustic Tiles', costMin: 450, costMax: 850 }
+        ]
+      },
+      ceiling: {
+        title: 'Ceiling Grid Area (Sq Ft):',
+        unit: 'Sq Ft',
+        min: 100, max: 2500, default: 400, step: 50,
+        costMin: 4.5, costMax: 7.5,
+        note: 'Includes laser-leveled suspended heavy grid, 2x4 acoustic absorption panels, and perimeter trim.',
+        addons: [
+          { id: 'ceil_tiles', name: 'Premium High-NRC Acoustic Tiles', costMin: 450, costMax: 850 }
+        ]
       }
     };
+
+    function showStatus(elementId, type, message) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.className = `status-badge ${type}`;
+      el.innerHTML = type === 'success' ? `✅ ${message}` : `⚠️ ${message}`;
+      el.style.display = 'flex';
+      setTimeout(() => { el.style.display = 'none'; }, 6000);
+    }
+
+    function triggerQuickPhotoUpload() {
+      const heroInput = document.getElementById('heroPhotos');
+      if (heroInput) {
+        heroInput.click();
+      } else {
+        openCarpDrawer();
+      }
+    }
 
     function openCarpDrawer() {
       document.getElementById('carp-drawer-overlay').classList.add('active');
@@ -2225,13 +1203,14 @@
     }
 
     function selectScopeTrade(tradeKey) {
-      currentTrade = tradeKey;
+      const key = (tradeKey === 'deck' ? 'decks' : tradeKey === 'ceiling' ? 'ceilings' : tradeKey);
+      currentTrade = key;
       selectedAddons = {};
       document.querySelectorAll('.drawer-chip').forEach(c => c.classList.remove('active'));
-      const chip = document.getElementById('chip-' + tradeKey);
+      const chip = document.getElementById('chip-' + key) || document.getElementById('chip-' + tradeKey);
       if (chip) chip.classList.add('active');
 
-      const cfg = TRADE_CONFIG[tradeKey];
+      const cfg = TRADE_CONFIG[key] || TRADE_CONFIG[tradeKey];
       if (!cfg) return;
 
       const slider = document.getElementById('scope-slider');
@@ -2242,7 +1221,6 @@
 
       document.getElementById('slider-title-text').textContent = cfg.title;
 
-      // Render Module B Addon Checkboxes
       const container = document.getElementById('addons-checkbox-container');
       if (container) {
         if (cfg.addons && cfg.addons.length > 0) {
@@ -2284,7 +1262,6 @@
       let minTotal = Math.round(val * cfg.costMin);
       let maxTotal = Math.round(val * cfg.costMax);
 
-      // Add selected addon costs
       for (const key in selectedAddons) {
         minTotal += selectedAddons[key].cMin;
         maxTotal += selectedAddons[key].cMax;
@@ -2293,13 +1270,6 @@
       const rangeStr = `$${minTotal.toLocaleString()} – $${maxTotal.toLocaleString()}`;
       document.getElementById('bp-range-display').textContent = rangeStr;
       document.getElementById('bp-trade-label').textContent = `Estimated Turnkey Range: ${val} ${cfg.unit} (${currentTrade.toUpperCase()})`;
-
-      // Update Module D 1-Tap SMS Link
-      const smsBody = encodeURIComponent(`Hi John, please save my ${currentTrade.toUpperCase()} estimate of ${rangeStr} (${val} ${cfg.unit}). I'd like to schedule an on-site measurement.`);
-      const smsBtn = document.getElementById('btn-sms-quote');
-      if (smsBtn) {
-        smsBtn.href = `sms:7154593050?body=${smsBody}`;
-      }
 
       clearTimeout(telemetryTimer);
       telemetryTimer = setTimeout(() => {
@@ -2312,12 +1282,7 @@
         fetch('/api/telemetry', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            event: 'scope_slider_move',
-            trade,
-            value: val,
-            ballpark
-          })
+          body: JSON.stringify({ event: 'scope_slider_move', trade, value: val, ballpark })
         }).catch(() => {});
       } catch {}
     }
@@ -2357,7 +1322,7 @@
       const notes = document.getElementById('hNotes').value || 'Hero photo estimate request';
 
       const formData = new FormData();
-      formData.append('name', 'Hero Photo Fast Quote');
+      formData.append('name', 'Hero Photo Quote');
       formData.append('contact', contact);
       formData.append('service', `Photo Scope Review (${city})`);
       formData.append('notes', notes);
@@ -2370,16 +1335,15 @@
       }
 
       try {
-        const res = await fetch('/api/intake', {
-          method: 'POST',
-          body: formData
-        });
+        const res = await fetch('/api/intake', { method: 'POST', body: formData });
         const data = await res.json();
         if (data.success) {
-          const leadId = data.lead_id || 'DGC-PHOTO-LEAD';
-          btn.textContent = `✅ Photos Sent! Ref #${leadId}`;
+          const leadId = data.lead_id || data.ticket_id || 'DGC-LEAD';
+          showStatus('hero-status-msg', 'success', `Photos Dispatched to John Dondlinger! Reference #${leadId}`);
+          btn.textContent = `✅ Sent! Ref #${leadId}`;
           btn.style.background = 'var(--green)';
           document.getElementById('heroPhotoForm').reset();
+          document.getElementById('heroPhotos').value = '';
           document.getElementById('hero-photo-preview').innerHTML = '';
           setTimeout(() => {
             btn.innerHTML = origHtml;
@@ -2387,10 +1351,10 @@
             btn.disabled = false;
           }, 4000);
         } else {
-          throw new Error(data.error || 'Error');
+          throw new Error(data.error || 'Server error');
         }
       } catch (err) {
-        alert('Thank you! Photos received. Direct phone for J. Dondlinger: (715) 459-3050');
+        showStatus('hero-status-msg', 'error', `Direct dispatch failed. Direct call: (715) 459-3050`);
         btn.disabled = false;
         btn.innerHTML = origHtml;
       }
@@ -2424,7 +1388,7 @@
       const btn = document.getElementById('dSubmitBtn');
       const origHtml = btn.innerHTML;
       btn.disabled = true;
-      btn.textContent = 'Dispatching Scope & Photos to John...';
+      btn.textContent = 'Dispatching Scope & Photos...';
 
       const cfg = TRADE_CONFIG[currentTrade];
       const sliderVal = document.getElementById('scope-slider').value;
@@ -2439,7 +1403,6 @@
       formData.append('ballpark', ballpark);
       formData.append('notes', notes);
 
-      // Append selected project photos
       const fileInput = document.getElementById('dPhotos');
       if (fileInput && fileInput.files.length > 0) {
         Array.from(fileInput.files).slice(0, 3).forEach((file, idx) => {
@@ -2448,28 +1411,27 @@
       }
 
       try {
-        const res = await fetch('/api/intake', {
-          method: 'POST',
-          body: formData
-        });
+        const res = await fetch('/api/intake', { method: 'POST', body: formData });
         const data = await res.json();
         if (data.success) {
-          const leadId = data.lead_id || 'DGC-LEAD';
-          btn.textContent = `✅ Dispatched! Reference #${leadId}`;
+          const leadId = data.lead_id || data.ticket_id || 'DGC-LEAD';
+          showStatus('drawer-status-msg', 'success', `Scope & Photos Dispatched! Ref #${leadId}`);
+          btn.textContent = `✅ Dispatched! #${leadId}`;
           btn.style.background = 'var(--green)';
           document.getElementById('drawerDispatchForm').reset();
+          document.getElementById('dPhotos').value = '';
           document.getElementById('drawer-photo-preview').innerHTML = '';
           setTimeout(() => {
             closeCarpDrawer();
             btn.innerHTML = origHtml;
             btn.style.background = 'var(--accent)';
             btn.disabled = false;
-          }, 4000);
+          }, 3500);
         } else {
           throw new Error(data.error || 'Error');
         }
       } catch (err) {
-        alert('Thank you! Your scope was received. Direct phone for J. Dondlinger: (715) 459-3050');
+        showStatus('drawer-status-msg', 'error', 'Dispatch failed. Direct call: (715) 459-3050');
         btn.disabled = false;
         btn.innerHTML = origHtml;
       }
@@ -2498,8 +1460,9 @@
         });
         const data = await res.json();
         if (data.success) {
-          const ticketId = data.ticket_id || 'DGC-DISPATCH';
-          btn.textContent = `✅ Dispatched! Ticket #${ticketId}`;
+          const ticketId = data.ticket_id || data.lead_id || 'DGC-LEAD';
+          showStatus('lead-status-msg', 'success', `Scope Dispatched! Reference #${ticketId}`);
+          btn.textContent = `✅ Dispatched! #${ticketId}`;
           btn.style.background = 'var(--green)';
           document.getElementById('leadForm').reset();
           setTimeout(() => {
@@ -2511,13 +1474,12 @@
           throw new Error(data.error || 'Error');
         }
       } catch (err) {
-        alert('Thank you! Your request was received. Direct phone: (715) 459-3050');
+        showStatus('lead-status-msg', 'error', 'Direct dispatch failed. Direct call: (715) 459-3050');
         btn.disabled = false;
         btn.innerHTML = origHtml;
       }
     }
 
-    // Native Tab Switch (Zero Involuntary Scroll Jumps)
     function switchTab(tabId) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
@@ -2591,9 +1553,7 @@
 
     function closeLightbox() {
       const modal = document.getElementById('lightbox-modal');
-      if (modal) {
-        modal.classList.remove('active');
-      }
+      if (modal) { modal.classList.remove('active'); }
     }
 
     window.addEventListener('DOMContentLoaded', async () => {
@@ -2610,7 +1570,7 @@
     });
 
     function toggleHudMenu(e) {
-      if (e.target.closest('.hud-menu-item')) return; // Allow navigation click
+      if (e.target.closest('.hud-menu-item')) return;
       e.stopPropagation();
       const brand = document.getElementById('hud-brand-toggle');
       const menu = document.getElementById('hud-menu-dropdown');
@@ -2634,7 +1594,6 @@
       }
     });
 
-    // Close drawers on ESC key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         const menu = document.getElementById('hud-menu-dropdown');
@@ -2644,73 +1603,6 @@
       }
     });
   </script>
-
-  <!-- =========================================================================
-       STICKY MOBILE ACTION BAR (Photo Upload & Telegram Scope Ingress)
-       ========================================================================= -->
-  <div id="mobile-sticky-bar">
-    <button onclick="openCarpDrawer(); setTimeout(() => document.getElementById('dPhotos').click(), 250);" class="btn-sticky-action btn-sticky-photo" style="background:var(--accent);color:#fff;border:1px solid rgba(255,87,34,0.5);box-shadow:0 4px 16px var(--accent-glow);cursor:pointer;">
-      <svg class="icon-svg" style="width:16px;height:16px;stroke:#fff;" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      <span>Snap / Upload Photos 📸</span>
-    </button>
-    <button onclick="openCarpDrawer()" class="btn-sticky-action btn-sticky-estimate" style="background:rgba(56,189,248,0.15);color:var(--cyan);border:1px solid rgba(56,189,248,0.35);cursor:pointer;">
-      <svg class="icon-svg" style="width:16px;height:16px;stroke:var(--cyan);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      <span>Instant Ballpark ⚡</span>
-    </button>
-  </div>
-
-  <style>
-    #mobile-sticky-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(9, 10, 15, 0.96);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid var(--border);
-      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 12px));
-      display: flex;
-      gap: 10px;
-      z-index: 9998;
-    }
-    .btn-sticky-action {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 13.5px;
-      font-weight: 800;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      text-align: center;
-    }
-    .btn-sticky-call {
-      background: rgba(34, 197, 94, 0.15);
-      color: #4ade80;
-      border: 1px solid rgba(34, 197, 94, 0.35);
-    }
-    .btn-sticky-call:hover {
-      background: rgba(34, 197, 94, 0.25);
-    }
-    .btn-sticky-text {
-      background: var(--accent);
-      color: #fff;
-      border: 1px solid rgba(255, 87, 34, 0.5);
-      box-shadow: 0 4px 16px var(--accent-glow);
-    }
-    .btn-sticky-text:hover {
-      background: var(--accent-hover);
-    }
-    @media (min-width: 769px) {
-      #mobile-sticky-bar {
-        display: none;
-      }
-    }
-  </style>
 
   <script src="/telemetry.js"></script>
 </body>
