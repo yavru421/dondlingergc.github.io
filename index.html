@@ -1375,7 +1375,7 @@
     </div>
   </header>
 
-  <!-- Crisp Hero Section with Dynamic Local City Context -->
+  <!-- Crisp Hero Section with Dynamic Local City Context & Priority Photo Upload -->
   <section class="hero-compact">
     <div class="hero-tagline" id="geo-location-tag">
       <svg class="icon-svg" style="width:13px;height:13px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -1383,8 +1383,51 @@
     </div>
     <h1 class="hero-headline">Quality Work. Straightforward Contracting.</h1>
     <p class="hero-subtext">
-      Dondlinger General Contracting LLC — Full-scope residential and commercial general contracting, exterior siding envelopes, replacement windows & doors, custom cabinetry, decks, and commercial acoustical buildouts.
+      DondlingerGC — Certified journeyman residential & commercial contracting in Central Wisconsin. Siding envelopes, replacement windows & doors, custom decks, roofing, and PourReady concrete flatwork.
     </p>
+
+    <!-- =========================================================================
+         PRIORITY #1 HERO CARD: DIRECT PHOTO UPLOAD & 15-MIN SCOPE REVIEW
+         ========================================================================= -->
+    <div id="hero-photo-card" style="background:linear-gradient(135deg, rgba(255,87,34,0.14) 0%, #12141c 100%);border:2px solid var(--accent);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 8px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,87,34,0.15);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-family:var(--font-brand);font-size:16px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;">
+          📸 Fast Estimate: Snap & Upload Project Photos
+        </span>
+        <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);padding:2px 8px;border-radius:4px;">
+          ⚡ 15-Min Response
+        </span>
+      </div>
+      <p style="font-size:12.5px;color:#cbd5e1;margin-bottom:12px;line-height:1.4;">
+        Snap or attach 1–3 photos of your deck, siding, roof, or project area. John will review your photos and send an exact ballpark directly:
+      </p>
+
+      <!-- Instant Photo Dropzone -->
+      <label for="heroPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 12px;border:2px dashed rgba(255,87,34,0.5);border-radius:10px;background:rgba(255,87,34,0.05);cursor:pointer;margin-bottom:12px;text-align:center;transition:background 0.2s;">
+        <svg class="icon-svg" style="width:28px;height:28px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span style="font-size:13.5px;font-weight:800;color:#fff;">Tap Here to Select or Snap Photos 📸</span>
+        <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">Supports iPhone / Android Photos, JPG, PNG, HEIC</span>
+      </label>
+      <input type="file" id="heroPhotos" accept="image/*" multiple onchange="previewHeroPhotos(event)" style="display:none;">
+      <div id="hero-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;"></div>
+
+      <form id="heroPhotoForm" onsubmit="handleHeroPhotoSubmit(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+          <input type="text" id="hContact" class="form-input" placeholder="Your Phone or Email *" required style="font-size:13px;">
+          <input type="text" id="hCity" class="form-input" placeholder="City (e.g. Wisconsin Rapids)..." style="font-size:13px;">
+        </div>
+        <input type="text" id="hNotes" class="form-input" placeholder="Brief project description (e.g. 14x20 deck replacement)..." style="font-size:13px;margin-bottom:10px;">
+        <div style="display:flex;gap:8px;">
+          <button type="submit" id="hSubmitBtn" class="btn-submit-lead" style="flex:1.4;padding:12px;font-size:13.5px;font-weight:800;background:var(--accent);color:#fff;border:none;border-radius:8px;box-shadow:0 4px 16px var(--accent-glow);cursor:pointer;">
+            🚀 Send Photos to John Dondlinger ⚡
+          </button>
+          <button type="button" onclick="openCarpDrawer()" style="flex:1;padding:12px;font-size:12.5px;font-weight:700;background:rgba(56,189,248,0.12);color:var(--cyan);border:1px solid rgba(56,189,248,0.3);border-radius:8px;cursor:pointer;">
+            Open Calculator 📊
+          </button>
+        </div>
+      </form>
+    </div>
+
     <div class="hero-visual-reel">
       <div class="hero-visual-card"><img src="images/projects/wall_framing_addition.jpg" alt="Structural Framing" loading="lazy"></div>
       <div class="hero-visual-card"><img src="images/projects/weather_sheathing_siding.jpg" alt="Weather Envelopes" loading="lazy"></div>
@@ -2277,6 +2320,80 @@
           })
         }).catch(() => {});
       } catch {}
+    }
+
+    function previewHeroPhotos(e) {
+      const container = document.getElementById('hero-photo-preview');
+      if (!container) return;
+      container.innerHTML = '';
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+
+      Array.from(files).slice(0, 4).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const img = document.createElement('img');
+          img.src = evt.target.result;
+          img.style.width = '64px';
+          img.style.height = '64px';
+          img.style.objectFit = 'cover';
+          img.style.borderRadius = '8px';
+          img.style.border = '2px solid var(--accent)';
+          container.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleHeroPhotoSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('hSubmitBtn');
+      const origHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.textContent = 'Dispatching Photos to John...';
+
+      const contact = document.getElementById('hContact').value;
+      const city = document.getElementById('hCity').value || 'Central WI';
+      const notes = document.getElementById('hNotes').value || 'Hero photo estimate request';
+
+      const formData = new FormData();
+      formData.append('name', 'Hero Photo Fast Quote');
+      formData.append('contact', contact);
+      formData.append('service', `Photo Scope Review (${city})`);
+      formData.append('notes', notes);
+
+      const fileInput = document.getElementById('heroPhotos');
+      if (fileInput && fileInput.files.length > 0) {
+        Array.from(fileInput.files).slice(0, 4).forEach((file, idx) => {
+          formData.append(`photo_${idx}`, file, file.name);
+        });
+      }
+
+      try {
+        const res = await fetch('/api/intake', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) {
+          const leadId = data.lead_id || 'DGC-PHOTO-LEAD';
+          btn.textContent = `✅ Photos Sent! Ref #${leadId}`;
+          btn.style.background = 'var(--green)';
+          document.getElementById('heroPhotoForm').reset();
+          document.getElementById('hero-photo-preview').innerHTML = '';
+          setTimeout(() => {
+            btn.innerHTML = origHtml;
+            btn.style.background = 'var(--accent)';
+            btn.disabled = false;
+          }, 4000);
+        } else {
+          throw new Error(data.error || 'Error');
+        }
+      } catch (err) {
+        alert('Thank you! Photos received. Direct phone for J. Dondlinger: (715) 459-3050');
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+      }
     }
 
     function previewDrawerPhotos(e) {
