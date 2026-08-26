@@ -1,516 +1,181 @@
 {
   "fredparker": {
     "id": "fredparker",
-    "title": "Fred Parker Whole-Home Remodel & Exterior Envelope",
+    "title": "Fred Parker Whole-Home Remodel & Exterior Envelope Overhaul",
     "category": "remodel",
     "categoryLabel": "Whole-Home Remodel",
     "trade": "siding",
-    "tag": "Remodel & Envelope \u2022 Multi-Stage",
-    "lead": "Full exterior envelope overhaul, structural framing reinforcements, architectural siding installation, and interior living room finish carpentry.",
+    "tag": "Exterior Overhaul \u2022 8-Phase Story",
+    "lead": "Full exterior envelope renovation: tear-off down to original sheathing, thermal vapor wrap, window pan flashing, slate blue vinyl lap siding, custom brake metal casing wraps, and architectural white gable accents.",
     "slides": [
       {
         "src": "images/projects/fredparker/IMG_5779.webp",
-        "title": "Fred Parker Project - IMG_5779",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5780.webp",
-        "title": "Fred Parker Project - IMG_5780",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5781.webp",
-        "title": "Fred Parker Project - IMG_5781",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5783.webp",
-        "title": "Fred Parker Project - IMG_5783",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5784.webp",
-        "title": "Fred Parker Project - IMG_5784",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
+        "title": "Phase 1: Full Exterior Tear-Off & Sheathing Inspection",
+        "caption": "Complete removal of aged siding down to substrate, verifying structural OSB sheathing and stud condition across all exterior elevations."
       },
       {
         "src": "images/projects/fredparker/IMG_5851.webp",
-        "title": "Fred Parker Project - IMG_5851",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5852.webp",
-        "title": "Fred Parker Project - IMG_5852",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5853.webp",
-        "title": "Fred Parker Project - IMG_5853",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
+        "title": "Phase 2: Continuous Vapor Barrier & Seam Taping",
+        "caption": "Installation of high-performance weather-resistant barrier (WRB) with shingle-lapped vertical seams and acrylic flashing tape."
       },
       {
         "src": "images/projects/fredparker/IMG_5854.webp",
-        "title": "Fred Parker Project - IMG_5854",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5855.webp",
-        "title": "Fred Parker Project - IMG_5855",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5857.webp",
-        "title": "Fred Parker Project - IMG_5857",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5858.webp",
-        "title": "Fred Parker Project - IMG_5858",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5859.webp",
-        "title": "Fred Parker Project - IMG_5859",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5862.webp",
-        "title": "Fred Parker Project - IMG_5862",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5863.webp",
-        "title": "Fred Parker Project - IMG_5863",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
+        "title": "Phase 3: Window Sill Pan Flashing & Thermal Break",
+        "caption": "Precision sill pan flashing, expanding low-pressure foam insulation around window rough openings, and drip cap head flashing."
       },
       {
         "src": "images/projects/fredparker/IMG_5864.webp",
-        "title": "Fred Parker Project - IMG_5864",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5865.webp",
-        "title": "Fred Parker Project - IMG_5865",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5867.webp",
-        "title": "Fred Parker Project - IMG_5867",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5868.webp",
-        "title": "Fred Parker Project - IMG_5868",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5869.webp",
-        "title": "Fred Parker Project - IMG_5869",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5870.webp",
-        "title": "Fred Parker Project - IMG_5870",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
+        "title": "Phase 4: Laser-Leveled Starter Strip & Outside Corner Posts",
+        "caption": "Precision laser transit baseline layout for starter strips and 3-1/2 inch architectural white vinyl corner post assemblies."
       },
       {
         "src": "images/projects/fredparker/IMG_5871.webp",
-        "title": "Fred Parker Project - IMG_5871",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5872.webp",
-        "title": "Fred Parker Project - IMG_5872",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5877.webp",
-        "title": "Fred Parker Project - IMG_5877",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5878.webp",
-        "title": "Fred Parker Project - IMG_5878",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5879.webp",
-        "title": "Fred Parker Project - IMG_5879",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5880.webp",
-        "title": "Fred Parker Project - IMG_5880",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
+        "title": "Phase 5: Slate Blue Vinyl Lap Siding Installation",
+        "caption": "Installation of premium thick-gauge vinyl lap siding with 1/4-inch thermal expansion allowance in all receiving J-channels."
       },
       {
         "src": "images/projects/fredparker/IMG_5881.webp",
-        "title": "Fred Parker Project - IMG_5881",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5882.webp",
-        "title": "Fred Parker Project - IMG_5882",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5883.webp",
-        "title": "Fred Parker Project - IMG_5883",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5884.webp",
-        "title": "Fred Parker Project - IMG_5884",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5885.webp",
-        "title": "Fred Parker Project - IMG_5885",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5886.webp",
-        "title": "Fred Parker Project - IMG_5886",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5887.webp",
-        "title": "Fred Parker Project - IMG_5887",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5888.webp",
-        "title": "Fred Parker Project - IMG_5888",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5889.webp",
-        "title": "Fred Parker Project - IMG_5889",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5902.webp",
-        "title": "Fred Parker Project - IMG_5902",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5903.webp",
-        "title": "Fred Parker Project - IMG_5903",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5904.webp",
-        "title": "Fred Parker Project - IMG_5904",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5905.webp",
-        "title": "Fred Parker Project - IMG_5905",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
+        "title": "Phase 6: Custom Brake Metal Window & Door Casing Wraps",
+        "caption": "On-site custom aluminum sheet metal bending on 10-foot brake, encasing exterior window frames with clean hemmed returns."
       },
       {
         "src": "images/projects/fredparker/IMG_5906.webp",
-        "title": "Fred Parker Project - IMG_5906",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5907.webp",
-        "title": "Fred Parker Project - IMG_5907",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5908.webp",
-        "title": "Fred Parker Project - IMG_5908",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5909.webp",
-        "title": "Fred Parker Project - IMG_5909",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5910.webp",
-        "title": "Fred Parker Project - IMG_5910",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5911.webp",
-        "title": "Fred Parker Project - IMG_5911",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5912.webp",
-        "title": "Fred Parker Project - IMG_5912",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5913.webp",
-        "title": "Fred Parker Project - IMG_5913",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5930.webp",
-        "title": "Fred Parker Project - IMG_5930",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5931.webp",
-        "title": "Fred Parker Project - IMG_5931",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5932.webp",
-        "title": "Fred Parker Project - IMG_5932",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5933.webp",
-        "title": "Fred Parker Project - IMG_5933",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
+        "title": "Phase 7: Continuous Vented Soffits & Aluminum Fascia",
+        "caption": "Under-eave intake soffit ventilation integration and matching heavy-gauge aluminum fascia wraps protecting wood rafter tails."
       },
       {
         "src": "images/projects/fredparker/IMG_5934.webp",
-        "title": "Fred Parker Project - IMG_5934",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5960.webp",
-        "title": "Fred Parker Project - IMG_5960",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5987.webp",
-        "title": "Fred Parker Project - IMG_5987",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5988.webp",
-        "title": "Fred Parker Project - IMG_5988",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5989.webp",
-        "title": "Fred Parker Project - IMG_5989",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5990.webp",
-        "title": "Fred Parker Project - IMG_5990",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5991.webp",
-        "title": "Fred Parker Project - IMG_5991",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5992.webp",
-        "title": "Fred Parker Project - IMG_5992",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_6038.webp",
-        "title": "Fred Parker Project - IMG_6038",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_6039.webp",
-        "title": "Fred Parker Project - IMG_6039",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_6040.webp",
-        "title": "Fred Parker Project - IMG_6040",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/Resized952025112495110103.webp",
-        "title": "Fred Parker Project - Resized952025112495110103",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/Resized952025112495110115.webp",
-        "title": "Fred Parker Project - Resized952025112495110115",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
-      },
-      {
-        "src": "images/projects/fredparker/Resized_20251124_110056.webp",
-        "title": "Fred Parker Project - Resized_20251124_110056",
-        "caption": "Architectural exterior siding, structural envelope, and framing detailing on the Fred Parker residence."
+        "title": "Phase 8: Architectural White Gable Accents & Completed Elevation",
+        "caption": "Upper gable transition board flashing, crisp white accent trim, and full exterior perimeter weather seal inspection."
       }
     ]
   },
   "dickman": {
     "id": "dickman",
-    "title": "Dickman Residential Addition & Structural Framing",
+    "title": "Dickman Residential Addition & Heavy Structural Framing",
     "category": "addition",
     "categoryLabel": "Home Addition",
     "trade": "framing",
-    "tag": "Structural Addition \u2022 Heavy Timber Framing",
-    "lead": "Custom home addition framing from the ground up, subfloor installation, engineered roof trusses, shear wall sheathing, and weather envelope integration.",
+    "tag": "Ground-Up Addition \u2022 5 Framing Stages",
+    "lead": "Wisconsin Rapids home addition (JOB-DICKMAN-003): ground-up framing, treated mudsills, 2x10 floor joists 16\" O.C., 2x6 exterior load-bearing walls, engineered roof truss tie-ins, and shear wall sheathing.",
     "slides": [
       {
         "src": "images/projects/dickman_addition/IMG_2009.webp",
-        "title": "Dickman Addition - IMG_2009",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_2010.webp",
-        "title": "Dickman Addition - IMG_2010",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
+        "title": "Stage 1: Excavation, Staging & Foundation Anchor Layout",
+        "caption": "Driveway jobsite staging, lumber grading inspection, and foundation sill plate anchor bolt layout for addition tie-in."
       },
       {
         "src": "images/projects/dickman_addition/IMG_2066.webp",
-        "title": "Dickman Addition - IMG_2066",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_2067.webp",
-        "title": "Dickman Addition - IMG_2067",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_2069.webp",
-        "title": "Dickman Addition - IMG_2069",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
+        "title": "Stage 2: Treated Mudsill & 2x10 Subfloor Joist Assembly",
+        "caption": "Pressure-treated sill gaskets, 2x10 floor joists on 16\" centers, cross-bridging, and tongue-and-groove subfloor glue/screw fastening."
       },
       {
         "src": "images/projects/dickman_addition/IMG_2071.webp",
-        "title": "Dickman Addition - IMG_2071",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_2072.webp",
-        "title": "Dickman Addition - IMG_2072",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_2156.webp",
-        "title": "Dickman Addition - IMG_2156",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
+        "title": "Stage 3: 2x6 Exterior Wall Framing & Double Headers",
+        "caption": "2x6 framing for superior R-value insulation cavity, structural double top plates, engineered window headers, and corner corner-posts."
       },
       {
         "src": "images/projects/dickman_addition/IMG_2158.webp",
-        "title": "Dickman Addition - IMG_2158",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_2159.webp",
-        "title": "Dickman Addition - IMG_2159",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_2945.webp",
-        "title": "Dickman Addition - IMG_2945",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
+        "title": "Stage 4: Structural Roof Truss Placement & Ridge Tie-Ins",
+        "caption": "Setting engineered common and scissor trusses, temporary bracing, hurricane tie anchoring, and existing roof valley tie-in."
       },
       {
         "src": "images/projects/dickman_addition/IMG_3074.webp",
-        "title": "Dickman Addition - IMG_3074",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_3452.webp",
-        "title": "Dickman Addition - IMG_3452",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_3453.webp",
-        "title": "Dickman Addition - IMG_3453",
-        "caption": "Precision structural framing, roof connection ties, and exterior sheathing on the Dickman residential expansion."
+        "title": "Stage 5: 7/16\" OSB Shear Wall Sheathing & Weather Wrap",
+        "caption": "7/16\" structural OSB wall and roof sheathing with 8d ring-shank nailing pattern, followed by complete weather-tight building wrap."
       }
     ]
   },
   "scholz": {
     "id": "scholz",
-    "title": "Scholz Living Room & Trim Remodel",
+    "title": "Scholz Living Room Level-5 Drywall & Interior Trim Remodel",
     "category": "interior",
     "categoryLabel": "Interior Carpentry",
     "trade": "kitchen",
-    "tag": "Interior Craftsmanship \u2022 6-Step Story",
-    "lead": "Floor protection, drywall surface scraping, laser alignment before corner bead float, joint compounding, high-build primer, and trim restoration.",
+    "tag": "Interior Finishing \u2022 6-Step Story",
+    "lead": "Living room craftsmanship overhaul: heavy floor protection, laser wall leveling, multi-coat corner bead compound float, PVA high-build primer, and satin urethane enamel trim.",
     "slides": [
       {
         "src": "images/IMG_3142.webp",
-        "title": "Living Room Preparation & Floor Masking",
-        "caption": "Floor protection, laser leveling, and drywall surface scraping."
+        "title": "Step 1: Floor Masking & Laser Alignment",
+        "caption": "Ram Board floor protection, containment barriers, and laser leveling of uneven wall stud transitions before compounding."
       },
       {
         "src": "images/IMG_3143.webp",
-        "title": "Joint Compound & Corner Bead Float",
-        "caption": "Precision corner bead floating and multi-coat feathered compounding."
+        "title": "Step 2: Paper-Faced Corner Bead Float",
+        "caption": "Setting paper-faced metal corner beads and applying first coat of lightweight joint compound feathered out 8 inches."
       },
       {
         "src": "images/IMG_3341.webp",
-        "title": "Ceiling Blend & Dustless Sanding",
-        "caption": "Dustless drywall sanding and smooth ceiling transition blending."
+        "title": "Step 3: Ceiling Feathering & Dustless Sanding",
+        "caption": "Multi-coat joint compound blending on ceiling seams with HEPA vacuum dustless sanding for level-5 surface uniformity."
       },
       {
         "src": "images/IMG_3346.webp",
-        "title": "High-Build PVA Primer Application",
-        "caption": "Uniform high-build PVA primer coat sealing patched gypsum boards."
+        "title": "Step 4: High-Build PVA Primer Application",
+        "caption": "Airless spray application of high-solids PVA drywall primer to equalize porosity between drywall paper and joint compound."
       },
       {
         "src": "images/IMG_4349.webp",
-        "title": "Enamel Window & Door Trim Casing",
-        "caption": "Ultra-smooth satin urethane enamel coating on custom trim moldings."
+        "title": "Step 5: Enamel Window & Door Trim Casing",
+        "caption": "Precision 45-degree mitered door and window casings finished with durable satin urethane enamel."
       },
       {
         "src": "images/IMG_6595.webp",
-        "title": "Completed Architectural Trim",
-        "caption": "Pristine level-5 drywall finish and seamless interior architectural trim."
+        "title": "Step 6: Completed Living Room Architectural Trim",
+        "caption": "Pristine finished space with clean baseboards, casing returns, and seamless level-5 wall surfaces ready for furniture placement."
       }
     ]
   },
   "siding": {
     "id": "siding",
-    "title": "Two-Story Slate Blue Siding & Architectural Gables",
+    "title": "Two-Story Slate Blue Siding & Architectural White Gables",
     "category": "siding",
     "categoryLabel": "Exterior Siding",
     "trade": "siding",
-    "tag": "Exterior Envelope \u2022 5-Step Story",
-    "lead": "Full tear-off down to original sheathing, foil-faced thermal barrier installation, slate-blue vinyl lap siding, and white architectural gable accents.",
+    "tag": "Exterior Envelope \u2022 3-Stage Showcase",
+    "lead": "Multi-story exterior transformation with foil-faced thermal barrier, slate blue lap siding, and vented vinyl soffits.",
     "slides": [
       {
         "src": "images/projects/IMG_4801.webp",
-        "title": "Finished Slate Blue Siding",
-        "caption": "Completed high-durability siding with crisp architectural white corner posts."
+        "title": "Phase 1: Finished Slate Blue Siding & Corner Trims",
+        "caption": "Completed multi-story exterior showing crisp white corner posts and uniform lap siding lines."
       },
       {
         "src": "images/projects/IMG_4802.webp",
-        "title": "Gable Detail & Soffit Wrap",
-        "caption": "Vented vinyl soffit integration and aluminum fascia trim wraps."
+        "title": "Phase 2: High-Elevation Gable Details & Soffit Ventilation",
+        "caption": "Architectural gable vent framing and continuous hidden-vent soffits ensuring balanced attic airflow."
       },
       {
         "src": "images/projects/IMG_4805.webp",
-        "title": "Weather Barrier & Sheathing",
-        "caption": "Vapor barrier flashing around window heads and precision sill pans."
+        "title": "Phase 3: Thermal Barrier & Window Head Flashing",
+        "caption": "Foil-faced insulation board beneath siding creating a continuous thermal break across exterior wall framing."
       }
     ]
   },
   "decks": {
     "id": "decks",
-    "title": "Custom Composite Deck & Treated Substructure",
+    "title": "Custom Composite Deck & Heavy Timber Substructure",
     "category": "decks",
     "categoryLabel": "Outdoor Living",
     "trade": "decks",
-    "tag": "Outdoor Living \u2022 Multi-Step Story",
-    "lead": "Treated timber framing, below-frost concrete sonotube piers, and premium composite decking with hidden clip fasteners and custom stair assemblies.",
+    "tag": "Outdoor Living \u2022 3-Stage Showcase",
+    "lead": "Below-frost concrete sonotube footings, treated 2x10 joist framing, tongue-and-groove pine ceiling, and premium composite decking with hidden fasteners.",
     "slides": [
       {
         "src": "images/projects/composite_deck_construction.jpg",
-        "title": "Finished Composite Surface",
-        "caption": "Maintenance-free composite deck boards fastened with hidden clip systems."
+        "title": "Stage 1: Finished Composite Surface & Rail Package",
+        "caption": "Maintenance-free grooved composite deck boards installed with hidden clip fasteners and code-compliant railing."
       },
       {
         "src": "images/projects/wall_framing_addition.jpg",
-        "title": "Heavy Timber Substructure",
-        "caption": "Treated 2x10 joist framing and galvanized structural post-beam connectors."
+        "title": "Stage 2: Heavy Timber Joist Framing & Structural Posts",
+        "caption": "Treated 2x10 joist framing, galvanized post-to-beam connectors, and solid timber ledger board attachment with code lag screws."
       },
       {
         "src": "images/projects/pine_ceiling_installation.jpg",
-        "title": "Covered Porch Ceiling",
-        "caption": "Tongue-and-groove natural pine ceiling under covered patio deck."
+        "title": "Stage 3: Tongue-and-Groove Pine Porch Ceiling",
+        "caption": "Natural knotty pine tongue-and-groove ceiling with clear spar urethane finish installed beneath covered deck."
       }
     ]
   },
@@ -520,18 +185,18 @@
     "category": "windows",
     "categoryLabel": "Windows & Doors",
     "trade": "windows",
-    "tag": "Envelope Upgrade \u2022 Multi-Step Story",
-    "lead": "Energy-efficient Low-E Argon vinyl and composite replacement windows with expanding foam thermal break seals and custom aluminum casing wraps.",
+    "tag": "Envelope Upgrades \u2022 2-Stage Showcase",
+    "lead": "Energy-efficient Low-E Argon vinyl replacement windows with expanding foam air-seals and custom exterior brake metal casing wraps.",
     "slides": [
       {
         "src": "images/projects/window_installation_foam.jpg",
-        "title": "Low-E Argon Replacement Window",
-        "caption": "Low-pressure polyurethane foam insulation sealing window perimeter."
+        "title": "Stage 1: Low-Pressure Foam Insulation Seal",
+        "caption": "Expanding closed-cell low-pressure polyurethane foam creating an airtight draft barrier without bowing the window jambs."
       },
       {
         "src": "images/projects/window_replacement.webp",
-        "title": "Custom Aluminum Casing Wrap",
-        "caption": "Maintenance-free exterior aluminum trim bending and weather-tight silicone caulking."
+        "title": "Stage 2: Custom Aluminum Casing Wrap & Silicone Seal",
+        "caption": "Exterior wood brickmould fully wrapped with heavy aluminum trim coil and sealed with commercial neutral-cure silicone."
       }
     ]
   }
