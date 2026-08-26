@@ -74,7 +74,8 @@ export async function onRequest(context) {
       `).bind(leadId, name, contact, service, address, ballpark, notes, cfCity, cfRegion).run().catch(console.error);
     }
 
-    // 2. Dispatch to Telegram Thread 1 (High Priority Leads)
+    // 2. Dispatch to Telegram
+    const isForumGroup = chatId.toString().startsWith('-100');
     const caption = `🚨 <b>NEW INTAKE LEAD DISPATCH</b>\n\n` +
       `👤 <b>Name:</b> <b>${name}</b>\n` +
       `📞 <b>Contact:</b> <code>${contact}</code>\n` +
@@ -84,51 +85,40 @@ export async function onRequest(context) {
       (notes ? `📝 <b>Notes:</b> ${notes}\n\n` : '\n') +
       `🆔 <code>${leadId}</code>`;
 
-    if (uploadedPhotos.length === 0) {
-      const tgPayloadTopic = {
-        chat_id: chatId,
-        message_thread_id: leadThreadId,
-        text: caption,
-        parse_mode: 'HTML'
-      };
+    // A. Always dispatch primary text alert first to ensure lead delivery
+    const textPayload = {
+      chat_id: chatId,
+      text: caption,
+      parse_mode: 'HTML'
+    };
+    if (isForumGroup && leadThreadId) {
+      textPayload.message_thread_id = leadThreadId;
+    }
 
-      const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(tgPayloadTopic)
-      });
-      const resJson = await res.json().catch(() => ({}));
-      if (!resJson.ok) {
-        // Fallback to root chat if thread ID is not found on group
-        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: chatId, text: caption, parse_mode: 'HTML' })
-        }).catch(console.error);
-      }
-    } else {
-      const tgForm = new FormData();
-      tgForm.append('chat_id', chatId);
-      if (leadThreadId) tgForm.append('message_thread_id', leadThreadId.toString());
-      tgForm.append('caption', caption);
-      tgForm.append('parse_mode', 'HTML');
-      tgForm.append('photo', uploadedPhotos[0], uploadedPhotos[0].name);
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(textPayload)
+    }).catch(console.error);
 
-      const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
-        method: 'POST',
-        body: tgForm
-      });
-      const resJson = await res.json().catch(() => ({}));
-      if (!resJson.ok) {
-        const tgFormRoot = new FormData();
-        tgFormRoot.append('chat_id', chatId);
-        tgFormRoot.append('caption', caption);
-        tgFormRoot.append('parse_mode', 'HTML');
-        tgFormRoot.append('photo', uploadedPhotos[0], uploadedPhotos[0].name);
+    // B. If photos were uploaded, dispatch photo attachments
+    if (uploadedPhotos.length > 0) {
+      try {
+        const tgForm = new FormData();
+        tgForm.append('chat_id', chatId);
+        if (isForumGroup && leadThreadId) {
+          tgForm.append('message_thread_id', leadThreadId.toString());
+        }
+        tgForm.append('caption', `📸 Project Photo for Lead <code>${leadId}</code> (${contact})`);
+        tgForm.append('parse_mode', 'HTML');
+        tgForm.append('photo', uploadedPhotos[0], uploadedPhotos[0].name);
+
         await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
           method: 'POST',
-          body: tgFormRoot
-        }).catch(console.error);
+          body: tgForm
+        });
+      } catch (photoErr) {
+        console.error('Photo dispatch error:', photoErr);
       }
     }
 
