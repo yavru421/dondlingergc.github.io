@@ -603,18 +603,14 @@
   <!-- Multi-Tab App Hub -->
   <main class="hub-container">
     <div class="tab-bar-wrap">
-      <nav class="tab-bar" aria-label="Main Navigation Hub">
-        <button class="tab-btn active" id="btn-apps" onclick="switchTab('tab-apps')">
-          <svg class="tab-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          <span class="tab-label">Apps & Tools</span>
+      <nav class="tab-bar" aria-label="Main Navigation Hub" style="grid-template-columns: repeat(3, 1fr);">
+        <button class="tab-btn active" id="btn-projects" onclick="switchTab('tab-projects')">
+          <svg class="tab-svg" viewBox="0 0 24 24"><path d="M3 3v18h18L3 3z"/><path d="M7 17l2-2M10 14l2-2M13 11l2-2"/></svg>
+          <span class="tab-label">Projects</span>
         </button>
         <button class="tab-btn" id="btn-windows" onclick="switchTab('tab-windows')">
           <svg class="tab-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18M3 12h18"/></svg>
           <span class="tab-label">Windows & Doors</span>
-        </button>
-        <button class="tab-btn" id="btn-db" onclick="switchTab('tab-db')">
-          <svg class="tab-svg" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-          <span class="tab-label">DondlingerDB</span>
         </button>
         <button class="tab-btn" id="btn-estimate" onclick="switchTab('tab-estimate')">
           <svg class="tab-svg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -623,202 +619,302 @@
       </nav>
     </div>
 
-    <!-- TAB 1: DONDLINGER DIGITAL APPS & TOOLS HUB -->
-    <section class="tab-pane active" id="tab-apps">
+    <!-- TAB 1: DGC CRAFTSMANSHIP PHOTO LAKE & PROJECT STORIES -->
+    <section class="tab-pane active" id="tab-projects">
       <!-- Banner Header -->
       <div style="background:linear-gradient(135deg, rgba(255,87,34,0.14) 0%, rgba(56,189,248,0.09) 100%);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:14px;">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
           <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);"></span>
-          <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;">DGC Production Web Applications</span>
+          <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;">Ground-Truth Jobsite Telemetry</span>
         </div>
-        <h2 style="font-family:var(--font-brand);font-size:20px;font-weight:900;color:#fff;margin:0 0 4px 0;">Digital Apps & Field Estimators</h2>
+        <h2 style="font-family:var(--font-brand);font-size:20px;font-weight:900;color:#fff;margin:0 0 4px 0;">DGC Craftsmanship Photo Lake</h2>
         <p style="font-size:13px;color:#94a3b8;margin:0;line-height:1.45;">
-          Direct access to John Dondlinger's suite of field engineering tools, concrete calculators, storm telemetry, and peer-to-peer jobsite utilities.
+          Tap any project tile below to launch its interactive step-by-step slideshow with full photo scrubbers and line-item scope calculators.
         </p>
       </div>
 
-      <!-- App Cards Grid -->
-      <div class="app-hub-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:14px;margin-bottom:24px;">
+      <!-- Filter Pills -->
+      <div class="gallery-filter-bar" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:14px;scrollbar-width:none;">
+        <button class="filter-pill active" onclick="filterGallery('all', this)">All Photos (27)</button>
+        <button class="filter-pill" onclick="filterGallery('remodel', this)">Fred Parker Remodel (8)</button>
+        <button class="filter-pill" onclick="filterGallery('addition', this)">Dickman Addition (5)</button>
+        <button class="filter-pill" onclick="filterGallery('interior', this)">Scholz Drywall (6)</button>
+        <button class="filter-pill" onclick="filterGallery('siding', this)">Siding & Gables (3)</button>
+        <button class="filter-pill" onclick="filterGallery('decks', this)">Custom Decks (3)</button>
+        <button class="filter-pill" onclick="filterGallery('windows', this)">Windows & Doors (2)</button>
+      </div>
 
-        <!-- CARD 1: PourReady Estimator PWA -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,0.3);transition:transform 0.2s, border-color 0.2s;">
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-              <span style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);background:rgba(255,87,34,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(255,87,34,0.25);text-transform:uppercase;">CONCRETE & JOBSITE PWA</span>
-              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.12);padding:2px 6px;border-radius:4px;">⚡ LIVE PWA</span>
-            </div>
-            <h3 style="font-family:var(--font-brand);font-size:17px;font-weight:800;color:#fff;margin:0 0 6px 0;">PourReady Concrete Estimator</h3>
-            <p style="font-size:12px;color:#94a3b8;margin:0 0 12px 0;line-height:1.45;">
-              Mobile PWA for instant concrete slab, sonotube footing, curb, and bag mix yardage estimations with live material costs.
-            </p>
+      <!-- The 2-Column (Mobile) / 3-Column (Desktop) Visual Photo Lake Grid -->
+      <div class="gallery-grid" id="photolake-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:12px;margin-bottom:24px;">
+
+        <!-- FRED PARKER REMODEL (8 PHOTOS) -->
+        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/fredparker/IMG_5779.webp" alt="Phase 1: Full Exterior Tear-Off & Sheathing Inspection" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 1</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Fred Parker Remodel</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 1: Full Exterior Tear-Off & Sheathing Inspection</div>
           </div>
-          <a href="https://calc.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:var(--accent);color:#fff;font-weight:800;font-size:12.5px;border-radius:8px;text-decoration:none;box-sizing:border-box;box-shadow:0 4px 12px var(--accent-glow);">
-            🚀 Launch PourReady PWA ↗
-          </a>
         </div>
 
-        <!-- CARD 2: WaZ Weather Radar -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,0.3);transition:transform 0.2s, border-color 0.2s;">
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-              <span style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--cyan);background:rgba(56,189,248,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(56,189,248,0.25);text-transform:uppercase;">STORM & RADAR TELEMETRY</span>
-              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.12);padding:2px 6px;border-radius:4px;">🛰️ DOPPLER</span>
-            </div>
-            <h3 style="font-family:var(--font-brand);font-size:17px;font-weight:800;color:#fff;margin:0 0 6px 0;">WaZ Weather Radar</h3>
-            <p style="font-size:12px;color:#94a3b8;margin:0 0 12px 0;line-height:1.45;">
-              Real-time Doppler radar telemetry, severe storm intercept tracking, NWS convective alerts, and jobsite meteorological conditions.
-            </p>
+        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/fredparker/IMG_5851.webp" alt="Phase 2: Continuous Vapor Barrier & Seam Taping" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 2</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Fred Parker Remodel</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 2: Continuous Vapor Barrier & Seam Taping</div>
           </div>
-          <a href="https://wazweather.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:rgba(56,189,248,0.15);color:var(--cyan);border:1px solid rgba(56,189,248,0.3);font-weight:800;font-size:12.5px;border-radius:8px;text-decoration:none;box-sizing:border-box;">
-            ⛈️ Open WaZ Weather Radar ↗
-          </a>
         </div>
 
-        <!-- CARD 3: SkyDrop File Transfer -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,0.3);transition:transform 0.2s, border-color 0.2s;">
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-              <span style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:#a855f7;background:rgba(168,85,247,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(168,85,247,0.25);text-transform:uppercase;">ENCRYPTED P2P TRANSFER</span>
-              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.12);padding:2px 6px;border-radius:4px;">🔒 ZERO-CLOUD</span>
-            </div>
-            <h3 style="font-family:var(--font-brand);font-size:17px;font-weight:800;color:#fff;margin:0 0 6px 0;">SkyDrop File Transfer</h3>
-            <p style="font-size:12px;color:#94a3b8;margin:0 0 12px 0;line-height:1.45;">
-              Encrypted peer-to-peer jobsite blueprint and photo transfer powered by WebRTC and direct QR-code camera syncing.
-            </p>
+        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/fredparker/IMG_5854.webp" alt="Phase 3: Window Sill Pan Flashing & Thermal Break" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 3</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Fred Parker Remodel</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 3: Window Sill Pan Flashing & Thermal Break</div>
           </div>
-          <a href="https://skydrop.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3);font-weight:800;font-size:12.5px;border-radius:8px;text-decoration:none;box-sizing:border-box;">
-            ⚡ Launch SkyDrop Transfer ↗
-          </a>
         </div>
 
-        <!-- CARD 4: TAP Field Verification -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,0.3);transition:transform 0.2s, border-color 0.2s;">
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-              <span style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(34,197,94,0.25);text-transform:uppercase;">MUDBLAZOR WASM</span>
-              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.12);padding:2px 6px;border-radius:4px;">📍 SPATIAL</span>
-            </div>
-            <h3 style="font-family:var(--font-brand);font-size:17px;font-weight:800;color:#fff;margin:0 0 6px 0;">TAP Field Verification</h3>
-            <p style="font-size:12px;color:#94a3b8;margin:0 0 12px 0;line-height:1.45;">
-              High-precision spatial jobsite tracker, GPS timecards, job perimeter beacons, and project milestone logging.
-            </p>
+        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/fredparker/IMG_5864.webp" alt="Phase 4: Laser-Leveled Starter Strip & Outside Corner Posts" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 4</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Fred Parker Remodel</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 4: Laser-Leveled Starter Strip Layout</div>
           </div>
-          <a href="https://tap.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:rgba(34,197,94,0.15);color:var(--green);border:1px solid rgba(34,197,94,0.3);font-weight:800;font-size:12.5px;border-radius:8px;text-decoration:none;box-sizing:border-box;">
-            📍 Open TAP Client ↗
-          </a>
         </div>
 
-        <!-- CARD 5: Timeline ZLA Suite -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,0.3);transition:transform 0.2s, border-color 0.2s;">
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-              <span style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:#eab308;background:rgba(234,179,8,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(234,179,8,0.25);text-transform:uppercase;">ZLA CONTRACT BUILDER</span>
-              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.12);padding:2px 6px;border-radius:4px;">📑 UETA § 137.15</span>
-            </div>
-            <h3 style="font-family:var(--font-brand);font-size:17px;font-weight:800;color:#fff;margin:0 0 6px 0;">Timeline ZLA Contract Engine</h3>
-            <p style="font-size:12px;color:#94a3b8;margin:0 0 12px 0;line-height:1.45;">
-              Zero-Liability contract suite, job chronology timeline, milestone tracking, and automated PDF invoice generation.
-            </p>
+        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/fredparker/IMG_5871.webp" alt="Phase 5: Slate Blue Vinyl Lap Siding Installation" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 5</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Fred Parker Remodel</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 5: Slate Blue Vinyl Lap Siding</div>
           </div>
-          <a href="https://timelinezla.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:rgba(234,179,8,0.15);color:#fde047;border:1px solid rgba(234,179,8,0.3);font-weight:800;font-size:12.5px;border-radius:8px;text-decoration:none;box-sizing:border-box;">
-            📑 Open Timeline ZLA ↗
-          </a>
         </div>
 
-        <!-- CARD 6: DondlingerDB Telemetry Lake -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,0.3);transition:transform 0.2s, border-color 0.2s;">
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-              <span style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--cyan);background:rgba(56,189,248,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(56,189,248,0.25);text-transform:uppercase;">DUCKDB TELEMETRY LAKE</span>
-              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.12);padding:2px 6px;border-radius:4px;">💾 7-LAKE</span>
-            </div>
-            <h3 style="font-family:var(--font-brand);font-size:17px;font-weight:800;color:#fff;margin:0 0 6px 0;">DondlingerDB Digital Archives</h3>
-            <p style="font-size:12px;color:#94a3b8;margin:0 0 12px 0;line-height:1.45;">
-              Ground-truth project ledgers, rate estimating calibrations, historical job archives, and DuckDB analytical storage.
-            </p>
+        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/fredparker/IMG_5881.webp" alt="Phase 6: Custom Brake Metal Window & Door Casing Wraps" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 6</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Fred Parker Remodel</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 6: Custom Aluminum Brake Metal Wraps</div>
           </div>
-          <button onclick="switchTab('tab-db')" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:rgba(56,189,248,0.15);color:var(--cyan);border:1px solid rgba(56,189,248,0.3);font-weight:800;font-size:12.5px;border-radius:8px;cursor:pointer;">
-            🔍 Explore DondlingerDB ↗
-          </button>
         </div>
 
-        <!-- CARD 7: Voice Intake Engine -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,0.3);transition:transform 0.2s, border-color 0.2s;">
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-              <span style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:#f97316;background:rgba(249,115,22,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(249,115,22,0.25);text-transform:uppercase;">AI SPEECH DISPATCH</span>
-              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.12);padding:2px 6px;border-radius:4px;">🎙️ HANDS-FREE</span>
-            </div>
-            <h3 style="font-family:var(--font-brand);font-size:17px;font-weight:800;color:#fff;margin:0 0 6px 0;">Voice Intake & Dispatch</h3>
-            <p style="font-size:12px;color:#94a3b8;margin:0 0 12px 0;line-height:1.45;">
-              Hands-free voice recording engine with automated project spec extraction and instant mobile dispatch.
-            </p>
+        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/fredparker/IMG_5906.webp" alt="Phase 7: Continuous Vented Soffits & Aluminum Fascia" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 7</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Fred Parker Remodel</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 7: Continuous Vented Soffits & Fascia</div>
           </div>
-          <a href="https://voice-intake-app.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:rgba(249,115,22,0.15);color:#fb923c;border:1px solid rgba(249,115,22,0.3);font-weight:800;font-size:12.5px;border-radius:8px;text-decoration:none;box-sizing:border-box;">
-            🎙️ Open Voice Intake ↗
-          </a>
         </div>
 
-        <!-- CARD 8: Touchscreen Diagnostic Utility -->
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,0.3);transition:transform 0.2s, border-color 0.2s;">
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-              <span style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:#64748b;background:rgba(100,116,139,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(100,116,139,0.25);text-transform:uppercase;">FIELD HARDWARE BENCH</span>
-              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.12);padding:2px 6px;border-radius:4px;">📱 BENCHMARK</span>
-            </div>
-            <h3 style="font-family:var(--font-brand);font-size:17px;font-weight:800;color:#fff;margin:0 0 6px 0;">Touchscreen Diagnostic</h3>
-            <p style="font-size:12px;color:#94a3b8;margin:0 0 12px 0;line-height:1.45;">
-              Hardware touchzone test bench, multitouch grid calibration, and tablet interface diagnostics for field tablets.
-            </p>
+        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/fredparker/IMG_5934.webp" alt="Phase 8: Architectural White Gable Accents & Completed Elevation" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 8</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Fred Parker Remodel</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 8: Architectural White Gable Accents</div>
           </div>
-          <a href="/touchscreen.html" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:rgba(255,255,255,0.06);color:#e2e8f0;border:1px solid var(--border);font-weight:800;font-size:12.5px;border-radius:8px;text-decoration:none;box-sizing:border-box;">
-            📱 Launch Diagnostic Tool ↗
-          </a>
+        </div>
+
+        <!-- DICKMAN RESIDENTIAL ADDITION (5 PHOTOS) -->
+        <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/dickman_addition/IMG_2009.webp" alt="Stage 1: Excavation, Staging & Foundation Anchor Layout" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Stage 1</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Dickman Addition</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 1: Excavation, Staging & Foundation Anchor Layout</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/dickman_addition/IMG_2066.webp" alt="Stage 2: Treated Mudsill & 2x10 Subfloor Joist Assembly" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Stage 2</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Dickman Addition</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 2: Treated Mudsill & 2x10 Subfloor Joists</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/dickman_addition/IMG_2071.webp" alt="Stage 3: 2x6 Exterior Wall Framing & Double Headers" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Stage 3</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Dickman Addition</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 3: 2x6 Exterior Wall Framing & Double Headers</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/dickman_addition/IMG_2158.webp" alt="Stage 4: Structural Roof Truss Placement & Ridge Tie-Ins" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Stage 4</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Dickman Addition</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 4: Structural Roof Truss Placement</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/dickman_addition/IMG_3074.webp" alt="Stage 5: 7/16 OSB Shear Wall Sheathing & Weather Wrap" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Stage 5</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Dickman Addition</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 5: 7/16" OSB Shear Wall Sheathing</div>
+          </div>
+        </div>
+
+        <!-- SCHOLZ DRYWALL & INTERIOR TRIM (6 PHOTOS) -->
+        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_3142.webp" alt="Step 1: Floor Masking & Laser Alignment" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 1</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Scholz Drywall</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 1: Floor Masking & Laser Alignment</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_3143.webp" alt="Step 2: Paper-Faced Corner Bead Float" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 2</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Scholz Drywall</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 2: Paper-Faced Corner Bead Float</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_3341.webp" alt="Step 3: Ceiling Feathering & Dustless Sanding" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 3</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Scholz Drywall</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 3: Ceiling Feathering & Dustless Sanding</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_3346.webp" alt="Step 4: High-Build PVA Primer Application" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 4</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Scholz Drywall</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 4: High-Build PVA Primer Application</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_4349.webp" alt="Step 5: Enamel Window & Door Trim Casing" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 5</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Scholz Drywall</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 5: Enamel Window & Door Trim Casing</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_6595.webp" alt="Step 6: Completed Living Room Architectural Trim" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 6</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Scholz Drywall</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 6: Completed Living Room Architectural Trim</div>
+          </div>
+        </div>
+
+        <!-- SIDING & GABLES (3 PHOTOS) -->
+        <div class="gallery-item" data-category="siding" data-project="siding" onclick="openProjectLightbox('siding')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_4801.webp" alt="Phase 1: Finished Slate Blue Siding & Corner Trims" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Siding • Phase 1</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Slate Blue Siding</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 1: Finished Slate Blue Siding & Corner Trims</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="siding" data-project="siding" onclick="openProjectLightbox('siding')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_4802.webp" alt="Phase 2: High-Elevation Gable Details & Soffit Ventilation" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Siding • Phase 2</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Slate Blue Siding</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 2: High-Elevation Gable Details & Soffits</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="siding" data-project="siding" onclick="openProjectLightbox('siding')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_4805.webp" alt="Phase 3: Thermal Barrier & Window Head Flashing" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Siding • Phase 3</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Slate Blue Siding</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 3: Thermal Barrier & Window Head Flashing</div>
+          </div>
+        </div>
+
+        <!-- CUSTOM DECKS & TIMBER (3 PHOTOS) -->
+        <div class="gallery-item" data-category="decks" data-project="decks" onclick="openProjectLightbox('decks')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/composite_deck_construction.jpg" alt="Stage 1: Finished Composite Surface & Rail Package" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Decks • Stage 1</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Custom Composite Deck</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 1: Finished Composite Surface & Rail Package</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="decks" data-project="decks" onclick="openProjectLightbox('decks')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/wall_framing_addition.jpg" alt="Stage 2: Heavy Timber Joist Framing & Structural Posts" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Decks • Stage 2</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Custom Composite Deck</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 2: Heavy Timber Joist Framing & Posts</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="decks" data-project="decks" onclick="openProjectLightbox('decks')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/pine_ceiling_installation.jpg" alt="Stage 3: Tongue-and-Groove Pine Porch Ceiling" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Decks • Stage 3</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Custom Composite Deck</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 3: Tongue-and-Groove Pine Porch Ceiling</div>
+          </div>
+        </div>
+
+        <!-- WINDOWS & DOORS (2 PHOTOS) -->
+        <div class="gallery-item" data-category="windows" data-project="windows" onclick="openProjectLightbox('windows')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/window_installation_foam.jpg" alt="Stage 1: Low-Pressure Foam Insulation Seal" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Windows • Stage 1</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Replacement Windows</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 1: Low-Pressure Foam Insulation Seal</div>
+          </div>
+        </div>
+
+        <div class="gallery-item" data-category="windows" data-project="windows" onclick="openProjectLightbox('windows')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/window_replacement.webp" alt="Stage 2: Custom Aluminum Casing Wrap & Silicone Seal" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Windows • Stage 2</span>
+          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Replacement Windows</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 2: Custom Aluminum Casing Wrap & Silicone Seal</div>
+          </div>
         </div>
 
       </div>
-    </section>
 
-    <!-- TAB 3: DONDLINGERDB TELEMETRY & DIGITAL ARCHIVES -->
-    <section class="tab-pane" id="tab-db">
-      <div style="background:linear-gradient(135deg, rgba(56,189,248,0.14) 0%, #0d121f 100%);border:1px solid rgba(56,189,248,0.3);border-radius:14px;padding:20px;margin-bottom:18px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-          <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);"></span>
-          <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;">7-Lake Unified Storage & Ledger Architecture</span>
-        </div>
-        <h2 style="font-family:var(--font-brand);font-size:22px;font-weight:900;color:#fff;margin:0 0 6px 0;">DondlingerDB Digital Telemetry Lake</h2>
-        <p style="font-size:13px;color:#cbd5e1;margin:0 0 16px 0;line-height:1.5;">
-          Real-time analytical DuckDB storage powering DGC estimating calibrations, bid projections, and electronic contract verification under Wisconsin UETA § 137.15.
-        </p>
-
-        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;margin-bottom:16px;">
-          <div style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;padding:12px;">
-            <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">LABOR RATE CALIBRATION</div>
-            <div style="font-family:var(--font-brand);font-size:20px;font-weight:800;color:var(--green);">$80.00 / hr</div>
-            <div style="font-size:10.5px;color:#94a3b8;">Journeyman Standard Floor</div>
-          </div>
-          <div style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;padding:12px;">
-            <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">MATERIAL MARKUP</div>
-            <div style="font-family:var(--font-brand);font-size:20px;font-weight:800;color:var(--cyan);">15.0% Fixed</div>
-            <div style="font-size:10.5px;color:#94a3b8;">Single-Supplier Procurement</div>
-          </div>
-          <div style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;padding:12px;">
-            <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">PROFIT FLOOR PROTECTION</div>
-            <div style="font-family:var(--font-brand);font-size:20px;font-weight:800;color:#fde047;">$350.00 / day</div>
-            <div style="font-size:10.5px;color:#94a3b8;">($600/day Commercial)</div>
-          </div>
-          <div style="background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:10px;padding:12px;">
-            <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">PRODUCTION NODES</div>
-            <div style="font-family:var(--font-brand);font-size:20px;font-weight:800;color:#fff;">15 Endpoints</div>
-            <div style="font-size:10.5px;color:#94a3b8;">Cloudflare Zero Trust Mesh</div>
+      <!-- Compact Digital Apps & Tools Suite Bar -->
+      <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:18px;">⚡</span>
+          <div>
+            <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;">Digital Apps & Field Calculators</div>
+            <div style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">PourReady Concrete PWA • WaZ Radar • SkyDrop Transfer</div>
           </div>
         </div>
-
-        <a href="https://personalization.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:var(--cyan);color:#05070a;font-weight:900;font-size:13.5px;border-radius:8px;text-decoration:none;box-shadow:0 4px 16px rgba(56,189,248,0.4);">
-          🚀 Launch DondlingerDB Taskbar & Telemetry Lake ↗
-        </a>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <a href="https://calc.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="padding:6px 12px;background:rgba(255,87,34,0.15);color:var(--accent);border:1px solid rgba(255,87,34,0.3);font-size:11.5px;font-weight:700;border-radius:6px;text-decoration:none;">PourReady PWA ↗</a>
+          <a href="https://wazweather.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="padding:6px 12px;background:rgba(56,189,248,0.15);color:var(--cyan);border:1px solid rgba(56,189,248,0.3);font-size:11.5px;font-weight:700;border-radius:6px;text-decoration:none;">WaZ Radar ↗</a>
+          <a href="https://skydrop.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="padding:6px 12px;background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3);font-size:11.5px;font-weight:700;border-radius:6px;text-decoration:none;">SkyDrop ↗</a>
+        </div>
       </div>
     </section>
+
 
     <!-- TAB 2: WINDOWS & DOORS -->
     <section class="tab-pane" id="tab-windows">
