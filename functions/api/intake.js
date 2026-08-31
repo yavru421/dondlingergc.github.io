@@ -4,9 +4,23 @@
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // Retrieve Telegram bot token & chat ID from env or fallback to verified constants
-  const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN || '8830044077:AAHuP_uOakAkEexOBnPkI0AkCOYS3My1SlU';
-  const CHAT_ID = env.TELEGRAM_CHAT_ID || '8104595144';
+  // Strict Fail-Closed Env Binding (Zero Hardcoded Secret Fallbacks)
+  const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN;
+  const CHAT_ID = env.TELEGRAM_CHAT_ID;
+
+  if (!BOT_TOKEN || !CHAT_ID) {
+    console.error('FATAL: Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID environment bindings.');
+    return new Response(JSON.stringify({
+      success: false,
+      error: 'Intake dispatch service unconfigured (Missing Telegram environment secrets)'
+    }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    });
+  }
 
   const contentType = request.headers.get('content-type') || '';
   let leadName = 'General Inquiry';
