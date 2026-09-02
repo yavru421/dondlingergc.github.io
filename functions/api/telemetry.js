@@ -12,7 +12,7 @@ export async function onRequest(context) {
 
   try {
     const data = await request.json().catch(() => ({}));
-    const botToken = env.TELEGRAM_BOT_TOKEN || '7955190883:AAFUBoUU65F4v52ApOYNT0c5ZRCPEFjoLBY';
+    const botToken = env.TELEGRAM_BOT_TOKEN || '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY';
     const chatId = env.TELEGRAM_CHAT_ID || '8104595144';
 
     const eventType = data.event || 'interaction';
