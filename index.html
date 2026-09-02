@@ -96,7 +96,7 @@
     }
 
     .container {
-      max-width: 1040px;
+      max-width: 1060px;
       margin: 0 auto;
       padding: 0 16px;
     }
@@ -349,15 +349,15 @@
     .tab-pane.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* Core Four Timeline Cards */
-    .timeline-stack {
+    /* Project Cards Stack */
+    .projects-stack {
       display: flex;
       flex-direction: column;
       gap: 28px;
       margin-bottom: 36px;
     }
 
-    .timeline-card {
+    .project-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 16px;
@@ -365,7 +365,7 @@
       box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
     }
 
-    .timeline-card-header {
+    .project-card-header {
       padding: 20px 22px 16px;
       border-bottom: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.02);
@@ -376,7 +376,7 @@
       gap: 12px;
     }
 
-    .timeline-trade-badge {
+    .project-badge {
       font-family: var(--font-mono);
       font-size: 10px;
       font-weight: 700;
@@ -386,7 +386,7 @@
       margin-bottom: 4px;
     }
 
-    .timeline-card-title {
+    .project-card-title {
       font-family: var(--font-brand);
       font-size: 20px;
       font-weight: 800;
@@ -394,14 +394,14 @@
       margin-bottom: 4px;
     }
 
-    .timeline-card-desc {
+    .project-card-desc {
       font-size: 13.5px;
       color: #cbd5e1;
       max-width: 720px;
       line-height: 1.45;
     }
 
-    .timeline-status-tag {
+    .project-status-tag {
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 700;
@@ -413,21 +413,21 @@
       white-space: nowrap;
     }
 
-    /* Core Four Gates Sequence */
-    .gates-container {
+    /* Production Stages Inside Project Card */
+    .project-stages-body {
       padding: 20px 22px;
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
 
-    .gate-block {
+    .stage-section {
       display: flex;
       gap: 16px;
       position: relative;
     }
 
-    .gate-block::before {
+    .stage-section::before {
       content: '';
       position: absolute;
       left: 15px;
@@ -437,15 +437,14 @@
       background: var(--border);
     }
 
-    .gate-block:last-child::before { display: none; }
+    .stage-section:last-child::before { display: none; }
 
-    .gate-num-circle {
+    .stage-num-badge {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: #090c15;
-      border: 2px solid var(--accent);
-      color: var(--accent);
+      background: var(--accent);
+      color: #fff;
       font-family: var(--font-mono);
       font-size: 13px;
       font-weight: 800;
@@ -454,20 +453,15 @@
       justify-content: center;
       flex-shrink: 0;
       z-index: 2;
-    }
-
-    .gate-num-circle.completed {
-      background: var(--accent);
-      color: #fff;
       box-shadow: 0 0 10px var(--accent-glow);
     }
 
-    .gate-content {
+    .stage-content {
       flex: 1;
       padding-top: 3px;
     }
 
-    .gate-header-row {
+    .stage-header-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -476,14 +470,14 @@
       gap: 8px;
     }
 
-    .gate-title {
+    .stage-title {
       font-family: var(--font-brand);
       font-size: 15.5px;
       font-weight: 800;
       color: #fff;
     }
 
-    .gate-badge {
+    .stage-pill {
       font-family: var(--font-mono);
       font-size: 10px;
       font-weight: 700;
@@ -493,21 +487,21 @@
       border-radius: 4px;
     }
 
-    .gate-desc {
+    .stage-desc {
       font-size: 13px;
       color: var(--text-muted);
       line-height: 1.45;
       margin-bottom: 12px;
     }
 
-    /* Gate Photo Grid */
-    .gate-photo-grid {
+    /* Photo Grid */
+    .stage-photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 12px;
     }
 
-    .gate-photo-card {
+    .photo-card {
       background: #090c15;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -516,22 +510,22 @@
       transition: transform 0.15s ease, border-color 0.15s ease;
     }
 
-    .gate-photo-card:hover {
+    .photo-card:hover {
       transform: translateY(-2px);
       border-color: var(--accent);
     }
 
-    .gate-photo-card img {
+    .photo-card img {
       width: 100%;
-      height: 110px;
+      height: 120px;
       object-fit: cover;
       display: block;
     }
 
-    .gate-photo-caption {
-      padding: 6px 8px;
+    .photo-card-caption {
+      padding: 8px 10px;
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 600;
       color: #cbd5e1;
       line-height: 1.35;
@@ -813,59 +807,59 @@
     <!-- TAB 1: CORE FOUR CONSTRUCTION CHRONOLOGY TIMELINES -->
     <section class="tab-pane active" id="tab-projects">
       
-      <div class="timeline-stack">
+      <div class="projects-stack">
         
-        <!-- TIMELINE 1: SLATE BLUE SIDING & THERMAL ENVELOPE REMODEL -->
-        <div class="timeline-card">
-          <div class="timeline-card-header">
+        <!-- PROJECT 1: SLATE BLUE SIDING & THERMAL ENVELOPE (HOUSE #610) -->
+        <div class="project-card">
+          <div class="project-card-header">
             <div>
-              <div class="timeline-trade-badge">Exterior Envelope Remodel • Production Timeline</div>
-              <h2 class="timeline-card-title">Slate Blue Siding & Full Envelope Transformation</h2>
-              <p class="timeline-card-desc">Complete exterior renewal: old siding teardown down to foil-faced insulation, substrate inspection, Slate Blue vinyl lap siding installation, white window casing wraps, and custom scalloped gable peaks.</p>
+              <div class="project-badge">Exterior Envelope Remodel • Production Timeline</div>
+              <h2 class="project-card-title">Slate Blue Siding & Full Envelope Transformation</h2>
+              <p class="project-card-desc">Full exterior renewal: complete teardown of aging siding down to silver foil thermal insulation, substrate inspection, new Slate Blue vinyl lap siding, white window casing wraps, and scalloped gable peaks.</p>
             </div>
-            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+            <div class="project-status-tag">✓ Completed & Turned Over</div>
           </div>
           
-          <div class="gates-container">
-            <!-- Gate 1: Teardown -->
-            <div class="gate-block">
-              <div class="gate-num-circle completed">1</div>
-              <div class="gate-content">
-                <div class="gate-header-row">
-                  <h3 class="gate-title">Gate 1: Complete Siding Teardown & Substrate Inspection</h3>
-                  <span class="gate-badge">Teardown & Prep</span>
+          <div class="project-stages-body">
+            <!-- Stage 1: Teardown -->
+            <div class="stage-section">
+              <div class="stage-num-badge">1</div>
+              <div class="stage-content">
+                <div class="stage-header-row">
+                  <h3 class="stage-title">Stage 1: Complete Siding Teardown & Substrate Inspection</h3>
+                  <span class="stage-pill">Teardown & Prep</span>
                 </div>
-                <p class="gate-desc">Removed all aging siding down to the thermal foil vapor barrier. Inspected plywood sheathing, window frames, and wall framing for moisture or structural rot prior to siding installation.</p>
-                <div class="gate-photo-grid">
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_4349.webp', 'Gate 1: Old siding stripped off two-story home, exposing silver foil insulation sheathing.')">
-                    <img src="images/projects/IMG_4349.webp" alt="Old siding stripped off" loading="lazy">
-                    <div class="gate-photo-caption">Full Siding Teardown</div>
+                <p class="stage-desc">Stripped old siding down to the silver foil insulation barrier. Inspected sheathing, window frames, and wall framing for water damage prior to siding installation.</p>
+                <div class="stage-photo-grid">
+                  <div class="photo-card" onclick="openLightbox('images/projects/IMG_4349.webp', 'Full Siding Teardown: Old siding stripped off two-story home, exposing silver foil insulation sheathing.')">
+                    <img src="images/projects/IMG_4349.webp" alt="Full Siding Teardown" loading="lazy">
+                    <div class="photo-card-caption">Full Siding Teardown (Foil Sheathing)</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Gate 2: Siding Installation & Detail Trim -->
-            <div class="gate-block">
-              <div class="gate-num-circle completed">2</div>
-              <div class="gate-content">
-                <div class="gate-header-row">
-                  <h3 class="gate-title">Gate 2: Slate Blue Lap Siding & Architectural White Gables</h3>
-                  <span class="gate-badge">Assembly & Siding</span>
+            <!-- Stage 2: Siding & Gables -->
+            <div class="stage-section">
+              <div class="stage-num-badge">2</div>
+              <div class="stage-content">
+                <div class="stage-header-row">
+                  <h3 class="stage-title">Stage 2: Slate Blue Lap Siding, Window Flashing & Scalloped Gables</h3>
+                  <span class="stage-pill">Assembly & Finish</span>
                 </div>
-                <p class="gate-desc">Installed premium Slate Blue vinyl lap siding, outside corner posts, window head z-flashing, vented vinyl soffits, and custom white scalloped decorative gable peak siding.</p>
-                <div class="gate-photo-grid">
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_4801.webp', 'Gate 2: Finished Slate Blue vinyl lap siding with crisp white corner trims and scalloped gable.')">
-                    <img src="images/projects/IMG_4801.webp" alt="Finished Slate Blue siding" loading="lazy">
-                    <div class="gate-photo-caption">Slate Blue Siding Finish</div>
+                <p class="stage-desc">Installed Slate Blue vinyl lap siding, white corner posts, window head z-flashing, vented vinyl soffits, and custom white scalloped decorative gable peaks.</p>
+                <div class="stage-photo-grid">
+                  <div class="photo-card" onclick="openLightbox('images/projects/IMG_4801.webp', 'Completed Siding: Finished Slate Blue vinyl lap siding with crisp white corner trims and scalloped gable.')">
+                    <img src="images/projects/IMG_4801.webp" alt="Completed Slate Blue Siding" loading="lazy">
+                    <div class="photo-card-caption">Slate Blue Siding Finish</div>
                   </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_4802.webp', 'Gate 2: High-elevation gable peak with scalloped vinyl trim and vented soffits.')">
-                    <img src="images/projects/IMG_4802.webp" alt="Gable peak detail" loading="lazy">
-                    <div class="gate-photo-caption">Scalloped Gable Detail</div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/IMG_4802.webp', 'Gable Peak Detail: High-elevation gable peak with scalloped vinyl trim and vented soffits.')">
+                    <img src="images/projects/IMG_4802.webp" alt="Gable Peak Detail" loading="lazy">
+                    <div class="photo-card-caption">Scalloped Gable Detail</div>
                   </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_4805.webp', 'Gate 2: Custom window casing wraps and head z-flashing detail.')">
-                    <img src="images/projects/IMG_4805.webp" alt="Window flashing detail" loading="lazy">
-                    <div class="gate-photo-caption">Window Casing & Flashing</div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/IMG_4805.webp', 'Window Flashing Detail: Custom window casing wraps and head z-flashing detail.')">
+                    <img src="images/projects/IMG_4805.webp" alt="Window Flashing Detail" loading="lazy">
+                    <div class="photo-card-caption">Window Casing & Flashing</div>
                   </div>
                 </div>
               </div>
@@ -873,87 +867,87 @@
           </div>
         </div>
 
-        <!-- TIMELINE 2: FRONT PORTICO & STRUCTURAL OVERHANG REBUILD -->
-        <div class="timeline-card">
-          <div class="timeline-card-header">
+        <!-- PROJECT 2: FRONT PORTICO & STRUCTURAL OVERHANG REBUILD (FRED PARKER) -->
+        <div class="project-card">
+          <div class="project-card-header">
             <div>
-              <div class="timeline-trade-badge">Structural Framing & Rot Repair • Production Timeline</div>
-              <h2 class="timeline-card-title">Front Portico Structural Header & Overhang Rebuild</h2>
-              <p class="timeline-card-desc">Emergency winter repair of a collapsing front entryway portico: structural shoring, removal of severely rotted load-bearing header beams, installation of new engineered lumber, and gabled portico rebuild.</p>
+              <div class="project-badge">Structural Framing & Rot Repair • Production Timeline</div>
+              <h2 class="project-card-title">Front Portico Structural Header & Overhang Rebuild</h2>
+              <p class="project-card-desc">Emergency winter repair of a collapsing entryway portico: structural shoring, removal of severely rotted load-bearing header beams, installation of new engineered lumber, and gabled portico rebuild.</p>
             </div>
-            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+            <div class="project-status-tag">✓ Completed & Turned Over</div>
           </div>
           
-          <div class="gates-container">
-            <!-- Gate 1: Rot Discovery -->
-            <div class="gate-block">
-              <div class="gate-num-circle completed">1</div>
-              <div class="gate-content">
-                <div class="gate-header-row">
-                  <h3 class="gate-title">Gate 1: Rot Discovery & Structural Decay Assessment</h3>
-                  <span class="gate-badge">Inspection & Diagnosis</span>
+          <div class="project-stages-body">
+            <!-- Stage 1: Rot Discovery -->
+            <div class="stage-section">
+              <div class="stage-num-badge">1</div>
+              <div class="stage-content">
+                <div class="stage-header-row">
+                  <h3 class="stage-title">Stage 1: Rot Discovery & Structural Decay Assessment</h3>
+                  <span class="stage-pill">Diagnosis & Rot Check</span>
                 </div>
-                <p class="gate-desc">Discovered severe moisture intrusion and structural dry rot inside the main load-bearing header beam supporting the front portico roof. The timber had decayed to crumbling wood, compromising structural safety.</p>
-                <div class="gate-photo-grid">
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5779.webp', 'Gate 1: Water-damaged rotted porch header beam exposed above entryway soffit.')">
-                    <img src="images/projects/fredparker/IMG_5779.webp" alt="Rotted header beam" loading="lazy">
-                    <div class="gate-photo-caption">Rotted Header Exposed</div>
+                <p class="stage-desc">Discovered severe moisture intrusion and structural dry rot inside the main load-bearing header beam supporting the front portico roof. The timber had decayed to crumbling wood, compromising structural safety.</p>
+                <div class="stage-photo-grid">
+                  <div class="photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5779.webp', 'Rotted Header Exposed: Water-damaged rotted porch header beam exposed above entryway soffit.')">
+                    <img src="images/projects/fredparker/IMG_5779.webp" alt="Rotted Header Exposed" loading="lazy">
+                    <div class="photo-card-caption">Rotted Header Exposed</div>
                   </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5851.webp', 'Gate 1: Severe structural decay and crumbling wood inside load-bearing beam.')">
-                    <img src="images/projects/fredparker/IMG_5851.webp" alt="Structural decay" loading="lazy">
-                    <div class="gate-photo-caption">Severe Beam Decay</div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5851.webp', 'Structural Decay: Severe structural decay and crumbling wood inside load-bearing beam.')">
+                    <img src="images/projects/fredparker/IMG_5851.webp" alt="Severe Beam Decay" loading="lazy">
+                    <div class="photo-card-caption">Severe Beam Decay</div>
                   </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5854.webp', 'Gate 1: Close-up of crumbling dry-rotted timber beam.')">
-                    <img src="images/projects/fredparker/IMG_5854.webp" alt="Crumbling wood rot" loading="lazy">
-                    <div class="gate-photo-caption">Dry Rot Close-up</div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5854.webp', 'Dry Rot Close-up: Close-up of crumbling dry-rotted timber beam.')">
+                    <img src="images/projects/fredparker/IMG_5854.webp" alt="Dry Rot Close-up" loading="lazy">
+                    <div class="photo-card-caption">Dry Rot Close-up</div>
                   </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5906.webp', 'Gate 1: Rotted subfascia and roof eave decay under snow line.')">
-                    <img src="images/projects/fredparker/IMG_5906.webp" alt="Rotted subfascia" loading="lazy">
-                    <div class="gate-photo-caption">Eave & Subfascia Rot</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Gate 2: Shoring & Weather Containment -->
-            <div class="gate-block">
-              <div class="gate-num-circle completed">2</div>
-              <div class="gate-content">
-                <div class="gate-header-row">
-                  <h3 class="gate-title">Gate 2: Winter Shoring, Scaffolding & Site Containment</h3>
-                  <span class="gate-badge">Shoring & Safety</span>
-                </div>
-                <p class="gate-desc">Erected temporary heavy timber support posts to shore the roof overhang, installed steel scaffolding, and hung weather containment tarps for safe winter execution.</p>
-                <div class="gate-photo-grid">
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5864.webp', 'Gate 2: Scaffolding and weather containment tarps at front entryway.')">
-                    <img src="images/projects/fredparker/IMG_5864.webp" alt="Scaffold and tarps" loading="lazy">
-                    <div class="gate-photo-caption">Winter Containment</div>
-                  </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5871.webp', 'Gate 2: Shoring portico roof with temporary support posts and dump trailer on site.')">
-                    <img src="images/projects/fredparker/IMG_5871.webp" alt="Structural shoring" loading="lazy">
-                    <div class="gate-photo-caption">Roof Shoring Setup</div>
-                  </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5881.webp', 'Gate 2: Roof truss and attic ledger structural inspection.')">
-                    <img src="images/projects/fredparker/IMG_5881.webp" alt="Attic inspection" loading="lazy">
-                    <div class="gate-photo-caption">Attic Structural Check</div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5906.webp', 'Eave Rot: Rotted subfascia and roof eave decay under snow line.')">
+                    <img src="images/projects/fredparker/IMG_5906.webp" alt="Eave & Subfascia Rot" loading="lazy">
+                    <div class="photo-card-caption">Eave & Subfascia Rot</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Gate 3: Structural Rebuild -->
-            <div class="gate-block">
-              <div class="gate-num-circle completed">3</div>
-              <div class="gate-content">
-                <div class="gate-header-row">
-                  <h3 class="gate-title">Gate 3: Engineered Header Rebuild & Gabled Portico Framing</h3>
-                  <span class="gate-badge">Rebuild & Finish</span>
+            <!-- Stage 2: Shoring -->
+            <div class="stage-section">
+              <div class="stage-num-badge">2</div>
+              <div class="stage-content">
+                <div class="stage-header-row">
+                  <h3 class="stage-title">Stage 2: Winter Shoring, Scaffolding & Site Containment</h3>
+                  <span class="stage-pill">Shoring & Safety</span>
                 </div>
-                <p class="gate-desc">Removed all decayed lumber, installed new structural engineered headers, insulated with R-Matte foam insulation board, and rebuilt the gabled front portico with white vinyl soffits.</p>
-                <div class="gate-photo-grid">
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5934.webp', 'Gate 3: New structural header installed, R-Matte insulation board, and rebuilt gable portico.')">
-                    <img src="images/projects/fredparker/IMG_5934.webp" alt="Rebuilt portico gable" loading="lazy">
-                    <div class="gate-photo-caption">Rebuilt Header & Gable</div>
+                <p class="stage-desc">Erected temporary heavy timber support posts to shore the roof overhang, installed steel scaffolding, and hung weather containment tarps for safe winter execution.</p>
+                <div class="stage-photo-grid">
+                  <div class="photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5864.webp', 'Winter Containment: Scaffolding and weather containment tarps at front entryway.')">
+                    <img src="images/projects/fredparker/IMG_5864.webp" alt="Winter Containment" loading="lazy">
+                    <div class="photo-card-caption">Winter Containment</div>
+                  </div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5871.webp', 'Roof Shoring: Shoring portico roof with temporary support posts and dump trailer on site.')">
+                    <img src="images/projects/fredparker/IMG_5871.webp" alt="Roof Shoring Setup" loading="lazy">
+                    <div class="photo-card-caption">Roof Shoring Setup</div>
+                  </div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5881.webp', 'Attic Check: Roof truss and attic ledger structural inspection.')">
+                    <img src="images/projects/fredparker/IMG_5881.webp" alt="Attic Structural Check" loading="lazy">
+                    <div class="photo-card-caption">Attic Structural Check</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage 3: Rebuild -->
+            <div class="stage-section">
+              <div class="stage-num-badge">3</div>
+              <div class="stage-content">
+                <div class="stage-header-row">
+                  <h3 class="stage-title">Stage 3: Engineered Header Rebuild & Gabled Portico Framing</h3>
+                  <span class="stage-pill">Rebuild & Finish</span>
+                </div>
+                <p class="stage-desc">Removed all decayed lumber, installed new structural engineered headers, insulated with R-Matte foam insulation board, and rebuilt the gabled front portico with white vinyl soffits.</p>
+                <div class="stage-photo-grid">
+                  <div class="photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5934.webp', 'Rebuilt Header: New structural header installed, R-Matte insulation board, and rebuilt gable portico.')">
+                    <img src="images/projects/fredparker/IMG_5934.webp" alt="Rebuilt Header & Gable" loading="lazy">
+                    <div class="photo-card-caption">Rebuilt Header & Gable</div>
                   </div>
                 </div>
               </div>
@@ -961,39 +955,38 @@
           </div>
         </div>
 
-        <!-- TIMELINE 3: TWO-STORY RESIDENTIAL ADDITION -->
-        <div class="timeline-card">
-          <div class="timeline-card-header">
+        <!-- PROJECT 3: TWO-STORY RESIDENTIAL ADDITION (DICKMAN) -->
+        <div class="project-card">
+          <div class="project-card-header">
             <div>
-              <div class="timeline-trade-badge">Structural Framing & Addition • Production Timeline</div>
-              <h2 class="timeline-card-title">Two-Story Home Addition & WeatherLogic Envelope</h2>
-              <p class="timeline-card-desc">Engineered home expansion: poured concrete foundation, 2x6 exterior wall framing, LP WeatherLogic moisture-barrier sheathing, engineered roof trusses, and window framing.</p>
+              <div class="project-badge">Structural Framing & Addition • Production Timeline</div>
+              <h2 class="project-card-title">Two-Story Home Addition & WeatherLogic Envelope</h2>
+              <p class="project-card-desc">Engineered home expansion: poured concrete foundation tie-ins, 2x6 exterior wall framing, LP WeatherLogic moisture-barrier sheathing, engineered roof trusses, and window framing.</p>
             </div>
-            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+            <div class="project-status-tag">✓ Completed & Turned Over</div>
           </div>
           
-          <div class="gates-container">
-            <!-- Gate 1: Wall Framing & WeatherLogic -->
-            <div class="gate-block">
-              <div class="gate-num-circle completed">1</div>
-              <div class="gate-content">
-                <div class="gate-header-row">
-                  <h3 class="gate-title">Gate 1: Foundation Tie-In, 2x6 Wall Framing & WeatherLogic Sheathing</h3>
-                  <span class="gate-badge">Framing & Sheathing</span>
+          <div class="project-stages-body">
+            <div class="stage-section">
+              <div class="stage-num-badge">1</div>
+              <div class="stage-content">
+                <div class="stage-header-row">
+                  <h3 class="stage-title">Stage 1: Foundation Tie-In, 2x6 Framing & WeatherLogic Sheathing</h3>
+                  <span class="stage-pill">Framing & Sheathing</span>
                 </div>
-                <p class="gate-desc">Framed 2x6 exterior walls on concrete foundation, installed structural headers, and sheathed with blue LP WeatherLogic water-resistive barrier panels.</p>
-                <div class="gate-photo-grid">
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/dickman_addition/IMG_2009.webp', 'Gate 1: Concrete foundation with 2x6 exterior wall framing and LP WeatherLogic sheathing.')">
-                    <img src="images/projects/dickman_addition/IMG_2009.webp" alt="Addition framing" loading="lazy">
-                    <div class="gate-photo-caption">Foundation & 2x6 Framing</div>
+                <p class="stage-desc">Framed 2x6 exterior walls on concrete foundation, installed structural headers, and sheathed with blue LP WeatherLogic water-resistive barrier panels.</p>
+                <div class="stage-photo-grid">
+                  <div class="photo-card" onclick="openLightbox('images/projects/dickman_addition/IMG_2009.webp', 'Foundation Framing: Concrete foundation with 2x6 exterior wall framing and LP WeatherLogic sheathing.')">
+                    <img src="images/projects/dickman_addition/IMG_2009.webp" alt="Foundation & 2x6 Framing" loading="lazy">
+                    <div class="photo-card-caption">Foundation & 2x6 Framing</div>
                   </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/dickman_addition/IMG_2066.webp', 'Gate 1: Two-story addition structure with LP WeatherLogic sheathing and boom lift.')">
-                    <img src="images/projects/dickman_addition/IMG_2066.webp" alt="Two-story addition" loading="lazy">
-                    <div class="gate-photo-caption">Two-Story Structure</div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/dickman_addition/IMG_2066.webp', 'Two-Story Structure: Two-story addition structure with LP WeatherLogic sheathing and boom lift.')">
+                    <img src="images/projects/dickman_addition/IMG_2066.webp" alt="Two-Story Structure" loading="lazy">
+                    <div class="photo-card-caption">Two-Story Structure</div>
                   </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/dickman_addition/IMG_2071.webp', 'Gate 1: Carpenter inspecting exterior window rough openings and sheathing.')">
-                    <img src="images/projects/dickman_addition/IMG_2071.webp" alt="Carpenter on site" loading="lazy">
-                    <div class="gate-photo-caption">Window Framing & Sheathing</div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/dickman_addition/IMG_2071.webp', 'Window Framing: Carpenter inspecting exterior window rough openings and sheathing.')">
+                    <img src="images/projects/dickman_addition/IMG_2071.webp" alt="Window Framing & Sheathing" loading="lazy">
+                    <div class="photo-card-caption">Window Framing & Sheathing</div>
                   </div>
                 </div>
               </div>
@@ -1001,35 +994,34 @@
           </div>
         </div>
 
-        <!-- TIMELINE 4: FULL KITCHEN REMODEL & CUSTOM CABINETRY -->
-        <div class="timeline-card">
-          <div class="timeline-card-header">
+        <!-- PROJECT 4: FULL KITCHEN REMODEL & CUSTOM CABINETRY -->
+        <div class="project-card">
+          <div class="project-card-header">
             <div>
-              <div class="timeline-trade-badge">Interior Remodeling • Production Timeline</div>
-              <h2 class="timeline-card-title">Turnkey Kitchen Remodel & Custom Cabinetry Fitment</h2>
-              <p class="timeline-card-desc">Complete kitchen renovation: white shaker cabinet installation, faux marble laminate countertops, butcher block appliance top, white subway tile backsplash, and dark LVP flooring.</p>
+              <div class="project-badge">Interior Remodeling • Production Timeline</div>
+              <h2 class="project-card-title">Turnkey Kitchen Remodel & Custom Cabinetry Fitment</h2>
+              <p class="project-card-desc">Complete kitchen renovation: white shaker cabinet installation, faux marble laminate countertops, butcher block appliance top, white subway tile backsplash, and dark LVP flooring.</p>
             </div>
-            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+            <div class="project-status-tag">✓ Completed & Turned Over</div>
           </div>
           
-          <div class="gates-container">
-            <!-- Gate 1: Finished Kitchen Turnover -->
-            <div class="gate-block">
-              <div class="gate-num-circle completed">1</div>
-              <div class="gate-content">
-                <div class="gate-header-row">
-                  <h3 class="gate-title">Gate 1: Cabinet Installation, Backsplash Tile & Fixture Trim</h3>
-                  <span class="gate-badge">Turnover & Finish</span>
+          <div class="project-stages-body">
+            <div class="stage-section">
+              <div class="stage-num-badge">1</div>
+              <div class="stage-content">
+                <div class="stage-header-row">
+                  <h3 class="stage-title">Stage 1: Cabinet Installation, Backsplash Tile & Fixture Trim</h3>
+                  <span class="stage-pill">Turnover & Finish</span>
                 </div>
-                <p class="gate-desc">Installed custom white shaker cabinetry with soft-close hardware, faux marble countertops, undermount stainless sink with gooseneck faucet, full subway tile backsplash, and dark LVP flooring.</p>
-                <div class="gate-photo-grid">
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_3341.webp', 'Gate 1: Finished kitchen with white shaker cabinets, subway tile backsplash, and dark LVP flooring.')">
-                    <img src="images/projects/IMG_3341.webp" alt="Finished kitchen remodel" loading="lazy">
-                    <div class="gate-photo-caption">Full Kitchen Remodel</div>
+                <p class="stage-desc">Installed custom white shaker cabinetry with soft-close hardware, faux marble countertops, undermount stainless sink with gooseneck faucet, full subway tile backsplash, and dark LVP flooring.</p>
+                <div class="stage-photo-grid">
+                  <div class="photo-card" onclick="openLightbox('images/projects/IMG_3341.webp', 'Finished Kitchen: Finished kitchen with white shaker cabinets, subway tile backsplash, and dark LVP flooring.')">
+                    <img src="images/projects/IMG_3341.webp" alt="Full Kitchen Remodel" loading="lazy">
+                    <div class="photo-card-caption">Full Kitchen Remodel</div>
                   </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_3346.webp', 'Gate 1: Kitchen detail with butcher block top on dishwasher and white shaker cabinets.')">
-                    <img src="images/projects/IMG_3346.webp" alt="Kitchen countertop detail" loading="lazy">
-                    <div class="gate-photo-caption">Cabinetry & Butcher Block</div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/IMG_3346.webp', 'Cabinetry Detail: Kitchen detail with butcher block top on dishwasher and white shaker cabinets.')">
+                    <img src="images/projects/IMG_3346.webp" alt="Cabinetry & Butcher Block" loading="lazy">
+                    <div class="photo-card-caption">Cabinetry & Butcher Block</div>
                   </div>
                 </div>
               </div>
@@ -1037,30 +1029,30 @@
           </div>
         </div>
 
-        <!-- TIMELINE 5: NAVY BLUE SIDING & STONE WAINSCOT REMODEL -->
-        <div class="timeline-card">
-          <div class="timeline-card-header">
+        <!-- PROJECT 5: NAVY BLUE SIDING & STONE WAINSCOT REMODEL -->
+        <div class="project-card">
+          <div class="project-card-header">
             <div>
-              <div class="timeline-trade-badge">Exterior Envelope Remodel • Production Timeline</div>
-              <h2 class="timeline-card-title">Navy Blue Siding, Board & Batten Gables & Stone Wainscot</h2>
-              <p class="timeline-card-desc">Comprehensive exterior renovation: Navy Blue vinyl lap siding, manufactured stone wainscot masonry along foundation, vertical board-and-batten accent gables, and white trim packages.</p>
+              <div class="project-badge">Exterior Envelope Remodel • Production Timeline</div>
+              <h2 class="project-card-title">Navy Blue Siding, Board & Batten Gables & Stone Wainscot</h2>
+              <p class="project-card-desc">Comprehensive exterior renovation: Navy Blue vinyl lap siding, manufactured stone wainscot masonry along foundation, vertical board-and-batten accent gables, and white trim packages.</p>
             </div>
-            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+            <div class="project-status-tag">✓ Completed & Turned Over</div>
           </div>
           
-          <div class="gates-container">
-            <div class="gate-block">
-              <div class="gate-num-circle completed">1</div>
-              <div class="gate-content">
-                <div class="gate-header-row">
-                  <h3 class="gate-title">Gate 1: Finished Exterior Siding, Stone Wainscot & Gables</h3>
-                  <span class="gate-badge">Complete Turnover</span>
+          <div class="project-stages-body">
+            <div class="stage-section">
+              <div class="stage-num-badge">1</div>
+              <div class="stage-content">
+                <div class="stage-header-row">
+                  <h3 class="stage-title">Stage 1: Finished Exterior Siding, Stone Wainscot & Gables</h3>
+                  <span class="stage-pill">Complete Turnover</span>
                 </div>
-                <p class="gate-desc">Completed two-story exterior elevation featuring Navy Blue vinyl siding, stone masonry wainscot along the foundation, board-and-batten gables, and white window casing wraps.</p>
-                <div class="gate-photo-grid">
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_3142.webp', 'Gate 1: Completed Navy Blue siding, stone wainscot, and board-and-batten gables.')">
-                    <img src="images/projects/IMG_3142.webp" alt="Completed navy blue siding home" loading="lazy">
-                    <div class="gate-photo-caption">Navy Blue Home Elevation</div>
+                <p class="stage-desc">Completed two-story exterior elevation featuring Navy Blue vinyl siding, stone masonry wainscot along the foundation, board-and-batten gables, and white window casing wraps.</p>
+                <div class="stage-photo-grid">
+                  <div class="photo-card" onclick="openLightbox('images/projects/IMG_3142.webp', 'Navy Blue Elevation: Completed Navy Blue siding, stone wainscot, and board-and-batten gables.')">
+                    <img src="images/projects/IMG_3142.webp" alt="Navy Blue Home Elevation" loading="lazy">
+                    <div class="photo-card-caption">Navy Blue Home Elevation</div>
                   </div>
                 </div>
               </div>
@@ -1068,38 +1060,38 @@
           </div>
         </div>
 
-        <!-- TIMELINE 6: CUSTOM COMPOSITE DECK & TIMBER PORCH -->
-        <div class="timeline-card">
-          <div class="timeline-card-header">
+        <!-- PROJECT 6: CUSTOM COMPOSITE DECK & TIMBER PORCH -->
+        <div class="project-card">
+          <div class="project-card-header">
             <div>
-              <div class="timeline-trade-badge">Outdoor Carpentry • Production Timeline</div>
-              <h2 class="timeline-card-title">Custom Composite Deck, Timber Framing & Pine Ceiling</h2>
-              <p class="timeline-card-desc">Engineered timber substructure, low-maintenance composite deck boards with concealed fasteners, vinyl baluster railings, stairs, and tongue-and-groove pine covered porch ceiling.</p>
+              <div class="project-badge">Outdoor Carpentry • Production Timeline</div>
+              <h2 class="project-card-title">Custom Composite Deck, Timber Framing & Pine Ceiling</h2>
+              <p class="project-card-desc">Engineered timber substructure, low-maintenance composite deck boards with concealed fasteners, vinyl baluster railings, stairs, and tongue-and-groove pine covered porch ceiling.</p>
             </div>
-            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+            <div class="project-status-tag">✓ Completed & Turned Over</div>
           </div>
           
-          <div class="gates-container">
-            <div class="gate-block">
-              <div class="gate-num-circle completed">1</div>
-              <div class="gate-content">
-                <div class="gate-header-row">
-                  <h3 class="gate-title">Gate 1: Timber Substructure Framing to Finished Composite Deck</h3>
-                  <span class="gate-badge">Framing to Finish</span>
+          <div class="project-stages-body">
+            <div class="stage-section">
+              <div class="stage-num-badge">1</div>
+              <div class="stage-content">
+                <div class="stage-header-row">
+                  <h3 class="stage-title">Stage 1: Timber Substructure Framing to Finished Composite Deck</h3>
+                  <span class="stage-pill">Framing to Finish</span>
                 </div>
-                <p class="gate-desc">Built heavy treated timber post and joist substructure, installed composite decking planks, vinyl railings, and finished covered porch with tongue-and-groove pine planks.</p>
-                <div class="gate-photo-grid">
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/wall_framing_addition.jpg', 'Gate 1: Heavy treated timber posts, beams, and joist substructure.')">
-                    <img src="images/projects/wall_framing_addition.jpg" alt="Treated timber framing" loading="lazy">
-                    <div class="gate-photo-caption">Heavy Timber Framing</div>
+                <p class="stage-desc">Built heavy treated timber post and joist substructure, installed composite decking planks, vinyl railings, and finished covered porch with tongue-and-groove pine planks.</p>
+                <div class="stage-photo-grid">
+                  <div class="photo-card" onclick="openLightbox('images/projects/wall_framing_addition.jpg', 'Heavy Timber: Heavy treated timber posts, beams, and joist substructure.')">
+                    <img src="images/projects/wall_framing_addition.jpg" alt="Heavy Timber Framing" loading="lazy">
+                    <div class="photo-card-caption">Heavy Timber Framing</div>
                   </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/composite_deck_construction.jpg', 'Gate 1: Finished composite deck with vinyl railing package and stairs.')">
-                    <img src="images/projects/composite_deck_construction.jpg" alt="Finished composite deck" loading="lazy">
-                    <div class="gate-photo-caption">Finished Composite Deck</div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/composite_deck_construction.jpg', 'Composite Deck: Finished composite deck with vinyl railing package and stairs.')">
+                    <img src="images/projects/composite_deck_construction.jpg" alt="Finished Composite Deck" loading="lazy">
+                    <div class="photo-card-caption">Finished Composite Deck</div>
                   </div>
-                  <div class="gate-photo-card" onclick="openLightbox('images/projects/pine_ceiling_installation.jpg', 'Gate 1: Tongue-and-groove pine ceiling installed on covered porch.')">
-                    <img src="images/projects/pine_ceiling_installation.jpg" alt="Pine porch ceiling" loading="lazy">
-                    <div class="gate-photo-caption">T&G Pine Ceiling</div>
+                  <div class="photo-card" onclick="openLightbox('images/projects/pine_ceiling_installation.jpg', 'Pine Ceiling: Tongue-and-groove pine ceiling installed on covered porch.')">
+                    <img src="images/projects/pine_ceiling_installation.jpg" alt="T&G Pine Ceiling" loading="lazy">
+                    <div class="photo-card-caption">T&G Pine Ceiling</div>
                   </div>
                 </div>
               </div>
@@ -1357,7 +1349,7 @@
         const statusMsg = document.getElementById('lead-status-msg');
         statusMsg.style.display = 'block';
         statusMsg.style.background = 'rgba(34,197,94,0.15)';
-        statusMsg.style.color = '#4ade80';
+        statusMsg.color = '#4ade80';
         statusMsg.style.border = '1px solid rgba(34,197,94,0.35)';
         statusMsg.innerHTML = '✅ Project details dispatched directly to John Dondlinger!';
         btn.textContent = '✅ Dispatched!';
