@@ -1,0 +1,202 @@
+
+/* ==========================================================================
+   DGC Programmatic Local Service Landing Pages & Mobile Fast-Action Rail
+   ========================================================================== */
+.service-detail {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 6rem;
+  color: #f1f5f9;
+}
+
+.service-hero {
+  text-align: center;
+  padding: 3rem 1rem 2.5rem;
+  background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 100%);
+  border: 1px solid #334155;
+  border-radius: 16px;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.service-hero .badge {
+  display: inline-block;
+  background: rgba(255, 87, 34, 0.15);
+  color: #ff5722;
+  border: 1px solid rgba(255, 87, 34, 0.4);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.25rem;
+}
+
+.service-hero h1 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 1rem;
+  color: #ffffff;
+}
+
+.service-hero .subtitle {
+  font-size: 1.15rem;
+  color: #94a3b8;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  line-height: 1.5;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: #ff5722;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(255, 87, 34, 0.4);
+}
+
+.btn-primary:hover {
+  background: #f4511e;
+  box-shadow: 0 6px 20px rgba(255, 87, 34, 0.6);
+}
+
+.btn-secondary {
+  background: #1e293b;
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.btn-secondary:hover {
+  background: #334155;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+
+.feature-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  border-color: #ff5722;
+}
+
+.feature-card h3 {
+  color: #38bdf8;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.feature-card p {
+  color: #cbd5e1;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.cta-box {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 2px solid rgba(255, 87, 34, 0.4);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.cta-box h3 {
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.cta-box p {
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+
+#dgc-mobile-action-rail {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(56px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: rgba(15, 23, 42, 0.98);
+  border-top: 1px solid rgba(255, 87, 34, 0.4);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 6px 12px;
+  z-index: 99999;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.7);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 8px;
+  transition: transform 0.1s ease;
+}
+
+.action-btn:active {
+  transform: scale(0.97);
+}
+
+.call-btn {
+  background: #ff5722;
+  color: #ffffff;
+}
+
+.sms-btn {
+  background: #181b26;
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+@media (min-width: 768px) {
+  #dgc-mobile-action-rail {
+    display: none;
+  }
+}

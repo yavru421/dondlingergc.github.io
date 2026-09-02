@@ -2,17 +2,22 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "HomeAndConstructionBusiness",
-      "@id": "https://dondlingergc.com/#business",
+      "@type": ["HomeAndConstructionBusiness", "GeneralContractor"],
+      "@id": "https://dondlingergc.com/#contractor",
       "name": "Dondlinger GC",
+      "legalName": "Dondlinger General Contracting LLC",
       "alternateName": "Dondlinger General Contracting & Digital Database",
       "url": "https://dondlingergc.com",
-      "logo": "https://dondlingergc.com/assets/hero-contracting.jpg",
-      "image": "https://dondlingergc.com/assets/hero-contracting.jpg",
-      "description": "Wisconsin DSPS Licensed Dwelling Contractor & Zero-Liability Software Engineering. Specializing in high-precision doors, replacement windows, vinyl & steel siding, architectural roofing shingles, custom shop cabinetry, acoustical drop ceilings, and serverless WebAssembly PWA applications.",
-      "telephone": "+1-715-000-0000",
-      "email": "johndondlinger21@gmail.com",
+      "logo": "https://dondlingergc.com/assets/images/logo.png",
+      "image": [
+        "https://dondlingergc.com/assets/hero-contracting.jpg"
+      ],
+      "telephone": "+1-715-459-3050",
+      "email": "dondlingergeneralcontracting@gmail.com",
       "priceRange": "$$",
+      "currenciesAccepted": "USD",
+      "paymentAccepted": "Cash, Check, Credit Card, Bank Transfer",
+      "knowsLanguage": ["en-US"],
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Wisconsin Rapids",
@@ -25,100 +30,147 @@
         "latitude": 44.3836,
         "longitude": -89.8173
       },
+      "serviceArea": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": 44.3836,
+          "longitude": -89.8173
+        },
+        "geoRadius": "40233.6"
+      },
       "areaServed": [
         {
+          "@type": "City",
+          "name": "Wisconsin Rapids",
+          "sameAs": "https://en.wikipedia.org/wiki/Wisconsin_Rapids,_Wisconsin",
+          "postalCode": ["54494", "54495"]
+        },
+        {
+          "@type": "City",
+          "name": "Stevens Point",
+          "sameAs": "https://en.wikipedia.org/wiki/Stevens_Point,_Wisconsin",
+          "postalCode": ["54481", "54482"]
+        },
+        {
+          "@type": "City",
+          "name": "Plover",
+          "sameAs": "https://en.wikipedia.org/wiki/Plover,_Wisconsin",
+          "postalCode": ["54467"]
+        },
+        {
           "@type": "AdministrativeArea",
-          "name": "Wisconsin Rapids, WI"
+          "name": "Port Edwards",
+          "postalCode": ["54469"]
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Nekoosa",
+          "postalCode": ["54457"]
         },
         {
           "@type": "AdministrativeArea",
           "name": "Wood County, WI"
         },
         {
-          "@type": "State",
-          "name": "Wisconsin"
+          "@type": "AdministrativeArea",
+          "name": "Portage County, WI"
         }
       ],
-      "knowsAbout": [
-        "Residential Dwelling Construction",
-        "Interior & Exterior Door Installation",
-        "Energy-Efficient Replacement Windows",
-        "Exterior Siding, Soffit & Fascia",
-        "Architectural Roofing Shingles",
-        "Custom Shop & Kitchen Cabinetry",
-        "Acoustical Drop Ceilings",
-        "Zero-Liability Architecture (ZLA)",
-        "Offline-First Progressive Web Applications (PWA)",
-        "WebAssembly Blazor Engineering",
-        "WebRTC Peer-to-Peer Data Synchronization"
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "07:00",
+          "closes": "18:00"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "38",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Wisconsin DSPS Dwelling Contractor Credential",
+          "credentialCategory": "State Contractor License",
+          "recognizedBy": {
+            "@type": "GovernmentOrganization",
+            "name": "Wisconsin Department of Safety and Professional Services"
+          }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Wisconsin DSPS Dwelling Contractor Qualifier",
+          "credentialCategory": "Professional Master Qualifier"
+        }
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "Dondlinger General Contracting & Digital Services",
+        "name": "DGC Core Contracting Services",
         "itemListElement": [
           {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Interior & Exterior Door Systems",
-              "description": "High-precision entry doors, interior pre-hung sets, French patio doors, and custom hardware installations."
-            }
+            "@type": "OfferCatalog",
+            "name": "Drywall Repair Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Seamless Drywall Repair & Texture Matching",
+                  "description": "Invisible drywall blowout patch repair, water damage sheetrock restoration, and knockdown/orange peel texture matching.",
+                  "url": "https://dondlingergc.com/services/drywall-repair-wisconsin-rapids.html"
+                }
+              }
+            ]
           },
           {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Window Installations & Casing",
-              "description": "Energy-efficient double-hung, casement, and slider windows. Framing, insulation, and exterior flashing."
-            }
+            "@type": "OfferCatalog",
+            "name": "Concrete Flatwork & Slabs",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Concrete Flatwork, Patios & Aprons",
+                  "description": "High-durability 4000 PSI air-entrained concrete slab pours, garage aprons, walkways, and frost-heave crack repair.",
+                  "url": "https://dondlingergc.com/services/concrete-work-wisconsin-rapids.html"
+                }
+              }
+            ]
           },
           {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Exterior Siding & Soffit/Fascia",
-              "description": "Vinyl, engineered wood, and metal siding installations. Weather-resistant barrier wraps and trim cladding."
-            }
+            "@type": "OfferCatalog",
+            "name": "Window & Door Installation",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Energy-Efficient Window & Patio Door Installation",
+                  "description": "Precision exterior sliding patio doors, French doors, entry doors, and replacement insulated vinyl window units.",
+                  "url": "https://dondlingergc.com/services/doors-windows-wisconsin-rapids.html"
+                }
+              }
+            ]
           },
           {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Roofing Shingle Systems",
-              "description": "Architectural shingles, ice & water shield installation, ridge venting, and drip edge protection."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Custom Shop & Kitchen Cabinets",
-              "description": "Precision-milled shop cabinetry, kitchen storage, and tailored built-ins designed for durability."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Basement & Acoustical Drop Ceilings",
-              "description": "Residential basement ceiling grid installation, acoustical ceiling tiles, and recessed lighting."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Roof & Structure Diagnostic Scans",
-              "description": "Paid on-site diagnostic structural scans and CAD roof analysis reports."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Spatial Carpentry & 3D Fabrication",
-              "description": "High-precision CAD drafting, custom milled cabinetry jigs, and specialized trim fabrication."
-            }
+            "@type": "OfferCatalog",
+            "name": "Subfloor Structural Repair",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Commercial & Residential Subfloor Repair",
+                  "description": "Subfloor replacement, floor joist sistering, moisture damage restoration, and commercial floor leveling.",
+                  "url": "https://dondlingergc.com/services/subfloor-repair-wisconsin-rapids.html"
+                }
+              }
+            ]
           }
         ]
       }
