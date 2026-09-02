@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <title>Dondlinger General Contracting | Wisconsin Rapids, Stevens Point & Plover</title>
-  <meta name="description" content="Wisconsin DSPS Master Dwelling Contractor in Wisconsin Rapids, Stevens Point, and Plover. Two-story additions, siding remodels, structural rot repair, kitchen remodeling, and replacement windows.">
+  <title>Dondlinger General Contracting | Central Wisconsin</title>
+  <meta name="description" content="Wisconsin DSPS Master Dwelling Contractor in Wisconsin Rapids, Stevens Point, and Plover. Drywall, Concrete, Framing, Remodels. Fixed-price hard bids with John Dondlinger.">
   <link rel="canonical" href="https://dondlingergc.com/">
   
   <!-- Schema.org LocalBusiness JSON-LD -->
@@ -55,16 +55,16 @@
   
   <style>
     :root {
-      --bg: #090c15;
-      --bg-card: #131929;
-      --bg-card-hover: #1a233a;
+      --bg: #0b0f19;
+      --bg-card: #121826;
+      --bg-card-hover: #182238;
       --bg-drawer: #0e1320;
-      --border: #202b45;
-      --border-accent: rgba(255, 87, 34, 0.4);
-      --accent: #ff5722;
-      --accent-hover: #f4511e;
-      --accent-glow: rgba(255, 87, 34, 0.3);
+      --border: #1e293b;
+      --border-accent: rgba(34, 197, 94, 0.4);
       --green: #22c55e;
+      --green-dark: #16a34a;
+      --green-glow: rgba(34, 197, 94, 0.25);
+      --accent-orange: #ff5722;
       --cyan: #38bdf8;
       --text: #f8fafc;
       --text-muted: #94a3b8;
@@ -92,7 +92,7 @@
       padding-bottom: 74px;
       line-height: 1.5;
       min-height: 100vh;
-      background: radial-gradient(circle at 50% 0%, #151d33 0%, var(--bg) 60%);
+      background: radial-gradient(circle at 50% 0%, #162036 0%, var(--bg) 65%);
     }
 
     .container {
@@ -106,7 +106,7 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       height: 64px;
-      background: rgba(9, 12, 21, 0.95);
+      background: rgba(11, 15, 25, 0.95);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
@@ -135,13 +135,13 @@
 
     .hud-name {
       font-family: var(--font-brand);
-      font-weight: 800;
-      font-size: 14.5px;
+      font-weight: 900;
+      font-size: 15px;
       letter-spacing: -0.2px;
       color: #fff;
     }
 
-    .hud-name span { color: var(--accent); }
+    .hud-name span { color: var(--green); }
 
     .hud-sub {
       font-family: var(--font-mono);
@@ -185,11 +185,11 @@
     .btn-hud-call:hover { background: rgba(255, 255, 255, 0.1); }
 
     .btn-hud-estimate {
-      background: var(--accent);
-      color: #fff;
+      background: var(--green);
+      color: #0b0f19;
       font-family: var(--font-body);
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       padding: 8px 14px;
       border-radius: 8px;
       cursor: pointer;
@@ -197,27 +197,27 @@
       transition: background 0.15s;
     }
 
-    .btn-hud-estimate:hover { background: var(--accent-hover); }
+    .btn-hud-estimate:hover { background: var(--green-dark); }
 
-    /* Hero Banner */
-    .hero-banner {
+    /* Hero Banner matching Business Card */
+    .hero-card-proof {
       position: relative;
       border-radius: 16px;
       overflow: hidden;
       margin: 20px 0 24px;
       padding: 44px 20px;
-      background: linear-gradient(180deg, rgba(9,12,21,0.75) 0%, rgba(9,12,21,0.96) 100%), url('assets/hero-contracting.jpg') center/cover no-repeat;
+      background: linear-gradient(180deg, rgba(11,15,25,0.75) 0%, rgba(11,15,25,0.96) 100%), url('assets/hero-contracting.jpg') center/cover no-repeat;
       border: 1px solid var(--border);
       text-align: center;
     }
 
-    .hero-badge {
+    .hero-badge-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255, 87, 34, 0.15);
+      background: rgba(34, 197, 94, 0.12);
       border: 1px solid var(--border-accent);
-      color: #ff7043;
+      color: var(--green);
       padding: 4px 14px;
       border-radius: 999px;
       font-size: 11px;
@@ -228,17 +228,35 @@
       margin-bottom: 12px;
     }
 
-    .hero-banner h1 {
+    .hero-card-proof h1 {
       font-family: var(--font-brand);
-      font-size: clamp(26px, 5vw, 40px);
+      font-size: clamp(28px, 5.5vw, 44px);
       font-weight: 900;
-      letter-spacing: -0.4px;
+      letter-spacing: -0.5px;
       line-height: 1.15;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       color: #ffffff;
     }
 
-    .hero-banner p {
+    /* Green Ribbon matching Business Card */
+    .trade-ribbon-bar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--green);
+      color: #090c15;
+      font-family: var(--font-brand);
+      font-size: clamp(12px, 3.2vw, 15px);
+      font-weight: 900;
+      letter-spacing: 1px;
+      padding: 8px 18px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 16px var(--green-glow);
+    }
+
+    .hero-card-proof p {
       font-size: 14.5px;
       color: #cbd5e1;
       max-width: 680px;
@@ -268,16 +286,17 @@
     }
 
     .btn-hero.primary {
-      background: var(--accent);
-      color: #fff;
-      box-shadow: 0 4px 16px var(--accent-glow);
+      background: var(--green);
+      color: #090c15;
+      box-shadow: 0 4px 16px var(--green-glow);
       border: none;
+      font-weight: 900;
     }
 
-    .btn-hero.primary:hover { background: var(--accent-hover); }
+    .btn-hero.primary:hover { background: var(--green-dark); color: #fff; }
 
     .btn-hero.secondary {
-      background: rgba(19, 25, 41, 0.85);
+      background: rgba(18, 24, 38, 0.85);
       color: var(--cyan);
       border: 1px solid var(--border);
       backdrop-filter: blur(8px);
@@ -303,7 +322,7 @@
     .tab-bar-wrap {
       position: sticky;
       top: 64px;
-      background: rgba(9, 12, 21, 0.96);
+      background: rgba(11, 15, 25, 0.96);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       z-index: 100;
@@ -314,7 +333,7 @@
 
     .tab-bar {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 6px;
       background: rgba(255, 255, 255, 0.03);
       padding: 4px;
@@ -340,16 +359,122 @@
     }
 
     .tab-btn.active {
-      background: var(--accent);
-      color: #fff;
-      box-shadow: 0 2px 10px var(--accent-glow);
+      background: var(--green);
+      color: #090c15;
+      font-weight: 900;
+      box-shadow: 0 2px 10px var(--green-glow);
     }
 
     .tab-pane { display: none; animation: fadeIn 0.2s ease-out; }
     .tab-pane.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* Project Cards Stack */
+    /* 4 Core Trade Cards on Front Face */
+    .trade-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    @media (min-width: 640px) {
+      .trade-cards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .trade-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.18s ease, border-color 0.18s ease;
+    }
+
+    .trade-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--green);
+    }
+
+    .trade-card-media {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      background: #000;
+      position: relative;
+    }
+
+    .trade-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .trade-card:hover .trade-card-media img {
+      transform: scale(1.03);
+    }
+
+    .trade-card-badge {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: rgba(9, 12, 21, 0.9);
+      border: 1px solid var(--border-accent);
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .trade-card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .trade-card-title {
+      font-family: var(--font-brand);
+      font-size: 17px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .trade-card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 14px;
+    }
+
+    /* Photo Lake & Core Four Job Timelines */
+    .lake-intro-box {
+      background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(56,189,248,0.06) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 24px;
+    }
+
+    .lake-intro-box h2 {
+      font-family: var(--font-brand);
+      font-size: 19px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .lake-intro-box p {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+
     .projects-stack {
       display: flex;
       flex-direction: column;
@@ -366,7 +491,7 @@
     }
 
     .project-card-header {
-      padding: 20px 22px 16px;
+      padding: 18px 20px 14px;
       border-bottom: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.02);
       display: flex;
@@ -380,7 +505,7 @@
       font-family: var(--font-mono);
       font-size: 10px;
       font-weight: 700;
-      color: var(--accent);
+      color: var(--green);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 4px;
@@ -388,7 +513,7 @@
 
     .project-card-title {
       font-family: var(--font-brand);
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
       color: #fff;
       margin-bottom: 4px;
@@ -413,26 +538,25 @@
       white-space: nowrap;
     }
 
-    /* Production Stages Inside Project Card */
     .project-stages-body {
-      padding: 20px 22px;
+      padding: 18px 20px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
     }
 
     .stage-section {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       position: relative;
     }
 
     .stage-section::before {
       content: '';
       position: absolute;
-      left: 15px;
-      top: 32px;
-      bottom: -20px;
+      left: 14px;
+      top: 30px;
+      bottom: -18px;
       width: 2px;
       background: var(--border);
     }
@@ -440,26 +564,23 @@
     .stage-section:last-child::before { display: none; }
 
     .stage-num-badge {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      background: var(--accent);
-      color: #fff;
+      background: var(--green);
+      color: #090c15;
       font-family: var(--font-mono);
-      font-size: 13px;
-      font-weight: 800;
+      font-size: 12px;
+      font-weight: 900;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       z-index: 2;
-      box-shadow: 0 0 10px var(--accent-glow);
+      box-shadow: 0 0 10px var(--green-glow);
     }
 
-    .stage-content {
-      flex: 1;
-      padding-top: 3px;
-    }
+    .stage-content { flex: 1; padding-top: 2px; }
 
     .stage-header-row {
       display: flex;
@@ -472,7 +593,7 @@
 
     .stage-title {
       font-family: var(--font-brand);
-      font-size: 15.5px;
+      font-size: 15px;
       font-weight: 800;
       color: #fff;
     }
@@ -494,10 +615,9 @@
       margin-bottom: 12px;
     }
 
-    /* Photo Grid */
     .stage-photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
       gap: 12px;
     }
 
@@ -512,12 +632,12 @@
 
     .photo-card:hover {
       transform: translateY(-2px);
-      border-color: var(--accent);
+      border-color: var(--green);
     }
 
     .photo-card img {
       width: 100%;
-      height: 130px;
+      height: 120px;
       object-fit: cover;
       display: block;
     }
@@ -525,7 +645,7 @@
     .photo-card-caption {
       padding: 8px 10px;
       font-family: var(--font-mono);
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 600;
       color: #cbd5e1;
       line-height: 1.35;
@@ -577,6 +697,33 @@
       cursor: pointer;
     }
 
+    /* Windows & Doors Grid */
+    .wd-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 640px) {
+      .wd-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .wd-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wd-card-media { width: 100%; height: 170px; background: #000; overflow: hidden; }
+    .wd-card-media img { width: 100%; height: 100%; object-fit: cover; }
+    .wd-card-content { padding: 14px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .wd-card-title { font-family: var(--font-brand); font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .wd-card-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+
     /* Intake Form */
     .intake-card {
       background: var(--bg-card);
@@ -609,14 +756,14 @@
       outline: none;
     }
 
-    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--green); }
 
     .btn-submit-lead {
       width: 100%;
       min-height: 44px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 800;
+      background: var(--green);
+      color: #090c15;
+      font-weight: 900;
       font-size: 13.5px;
       border-radius: 8px;
       border: none;
@@ -668,11 +815,11 @@
       font-family: var(--font-mono); font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 8px;
       background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; white-space: nowrap;
     }
-    .drawer-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .drawer-chip.active { background: var(--green); border-color: var(--green); color: #090c15; font-weight: 900; }
 
     .ballpark-box {
-      background: linear-gradient(135deg, rgba(255,87,34,0.12) 0%, rgba(18,20,28,0.95) 100%);
-      border: 1px solid var(--accent);
+      background: linear-gradient(135deg, rgba(34,197,94,0.12) 0%, rgba(18,20,28,0.95) 100%);
+      border: 1px solid var(--green);
       border-radius: 12px;
       padding: 16px;
       margin-bottom: 14px;
@@ -695,14 +842,14 @@
       margin-bottom: 8px;
     }
 
-    .scope-range-input { width: 100%; accent-color: var(--accent); height: 6px; cursor: pointer; }
+    .scope-range-input { width: 100%; accent-color: var(--green); height: 6px; cursor: pointer; }
 
     /* Bottom Action Dock */
     #site-bottom-dock {
       position: fixed;
       bottom: 0; left: 0; right: 0;
       height: 62px;
-      background: rgba(9, 12, 21, 0.98);
+      background: rgba(11, 15, 25, 0.98);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-top: 1px solid var(--border);
@@ -720,7 +867,7 @@
     }
 
     .dock-btn-call { background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border); color: #fff; }
-    .dock-btn-photo { background: var(--accent); color: #fff; box-shadow: 0 2px 10px var(--accent-glow); }
+    .dock-btn-photo { background: var(--green); color: #090c15; font-weight: 900; box-shadow: 0 2px 10px var(--green-glow); }
     .dock-btn-estimate { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); color: var(--cyan); }
   </style>
 </head>
@@ -732,7 +879,7 @@
       <img src="dondlinger_logo.png" alt="Dondlinger GC Logo" class="hud-logo">
       <div>
         <div class="hud-name">DONDLINGER <span>GC</span></div>
-        <div class="hud-sub"><span class="dot"></span> DSPS MASTER CONTRACTOR</div>
+        <div class="hud-sub"><span class="dot"></span> CENTRAL WISCONSIN • DSPS MASTER</div>
       </div>
     </a>
     <div class="hud-actions">
@@ -742,22 +889,23 @@
   </header>
 
   <main class="container">
-    <!-- Hero Banner -->
-    <section class="hero-banner">
-      <div class="hero-badge">Wisconsin DSPS Certified • Rapids • Point • Plover</div>
+    <!-- Hero Banner (Matched to Business Card Proof) -->
+    <section class="hero-card-proof">
+      <div class="hero-badge-tag">Wisconsin DSPS Certified • Rapids • Point • Plover</div>
       <h1>Quality Work. Straightforward Contracting.</h1>
-      <p>Precision siding envelopes, two-story structural additions, rot repairs, kitchen remodeling, and replacement windows with 100% turnkey fixed-price hard bids.</p>
+      <div class="trade-ribbon-bar">DRYWALL • CONCRETE • FRAMING • REMODELS</div>
+      <p>Precision craftsmanship by John Dondlinger, Owner & Journeyman Carpenter. Turnkey fixed-price hard bids across Central Wisconsin.</p>
       
       <div class="hero-actions">
-        <a href="tel:7154593050" class="btn-hero primary">Direct Call: (715) 459-3050</a>
-        <button onclick="openCarpDrawer()" class="btn-hero secondary">Instant Ballpark Calculator 📊</button>
-        <button onclick="switchTab('tab-estimate')" class="btn-hero secondary">Request a Hard Bid ✉️</button>
+        <a href="tel:7154593050" class="btn-hero primary">Call John: (715) 459-3050</a>
+        <button onclick="switchTab('tab-lake')" class="btn-hero secondary">Explore Jobsite Photo Lake 📁</button>
+        <button onclick="switchTab('tab-estimate')" class="btn-hero secondary">Request Free Quote ✉️</button>
       </div>
 
       <div class="trust-strip">
         <span>✓ DSPS Licensed Qualifier</span>
-        <span>✓ Turnkey Hard Bids</span>
-        <span>✓ Single-Supplier Materials</span>
+        <span>✓ Fixed Hard Bids</span>
+        <span>✓ Single-Supplier Logistics</span>
         <span>✓ Prompt Local Dispatch</span>
       </div>
     </section>
@@ -765,8 +913,11 @@
     <!-- Navigation Hub Tabs -->
     <div class="tab-bar-wrap">
       <nav class="tab-bar" aria-label="Main Hub Tabs">
-        <button class="tab-btn active" id="btn-projects" onclick="switchTab('tab-projects')">
-          <span>⏱️ 4 Core Project Timelines</span>
+        <button class="tab-btn active" id="btn-services" onclick="switchTab('tab-services')">
+          <span>🔨 Services</span>
+        </button>
+        <button class="tab-btn" id="btn-lake" onclick="switchTab('tab-lake')">
+          <span>📁 Photo Lake (4 Jobs)</span>
         </button>
         <button class="tab-btn" id="btn-estimate" onclick="switchTab('tab-estimate')">
           <span>✉️ Get Free Quote</span>
@@ -774,20 +925,96 @@
       </nav>
     </div>
 
-    <!-- TAB 1: THE 4 REAL CORE FOUR PROJECT TIMELINES -->
-    <section class="tab-pane active" id="tab-projects">
+    <!-- TAB 1: INITIAL CLEAN FRONT FACE (4 CORE TRADES MATCHING BUSINESS CARD) -->
+    <section class="tab-pane active" id="tab-services">
+      <div class="trade-cards-grid">
+        
+        <!-- Card 1: DRYWALL -->
+        <div class="trade-card">
+          <div class="trade-card-media">
+            <img src="assets/hero-contracting.jpg" alt="Drywall Repairs & Texture Matching">
+            <div class="trade-card-badge">Drywall Specialist</div>
+          </div>
+          <div class="trade-card-body">
+            <div>
+              <h3 class="trade-card-title">Drywall Repair & Texture Matching</h3>
+              <p class="trade-card-desc">Seamless sheetrock patching, ceiling water damage repair, level-5 smooth finishing, knockdown & orange peel texture blending, and dustless sanding.</p>
+            </div>
+            <button onclick="openCarpDrawer();selectScopeTrade('drywall');" class="btn-hero secondary" style="width:100%;padding:8px;font-size:12px;">Instant Drywall Estimate ↗</button>
+          </div>
+        </div>
+
+        <!-- Card 2: CONCRETE -->
+        <div class="trade-card">
+          <div class="trade-card-media">
+            <img src="assets/hero-contracting.jpg" alt="Concrete Flatwork & Slabs">
+            <div class="trade-card-badge">Concrete Flatwork</div>
+          </div>
+          <div class="trade-card-body">
+            <div>
+              <h3 class="trade-card-title">Concrete Flatwork & Slabs</h3>
+              <p class="trade-card-desc">Garage floors, patios, walkways, approach slabs, and foundation repairs with PourReady precise volume planning and broom/trowel finishes.</p>
+            </div>
+            <button onclick="openCarpDrawer();selectScopeTrade('concrete');" class="btn-hero secondary" style="width:100%;padding:8px;font-size:12px;">Instant Concrete Estimate ↗</button>
+          </div>
+        </div>
+
+        <!-- Card 3: FRAMING -->
+        <div class="trade-card">
+          <div class="trade-card-media">
+            <img src="images/projects/dickman_addition/IMG_3074.webp" alt="Structural Framing & Additions">
+            <div class="trade-card-badge">Master Framing</div>
+          </div>
+          <div class="trade-card-body">
+            <div>
+              <h3 class="trade-card-title">Structural Framing & Additions</h3>
+              <p class="trade-card-desc">2x6 load-bearing walls, engineered roof trusses, floor joist framing, beam replacements, and rot repair engineered for Wisconsin snow and wind loads.</p>
+            </div>
+            <button onclick="switchTab('tab-lake')" class="btn-hero secondary" style="width:100%;padding:8px;font-size:12px;">View Framing Case Studies ↗</button>
+          </div>
+        </div>
+
+        <!-- Card 4: REMODELS -->
+        <div class="trade-card">
+          <div class="trade-card-media">
+            <img src="images/projects/IMG_4801.webp" alt="Turnkey Remodeling">
+            <div class="trade-card-badge">Full Remodels</div>
+          </div>
+          <div class="trade-card-body">
+            <div>
+              <h3 class="trade-card-title">Full Exterior & Interior Remodels</h3>
+              <p class="trade-card-desc">Complete exterior siding renewal, kitchen transformations, custom cabinetry, trim casing, and high-efficiency replacement window packages.</p>
+            </div>
+            <button onclick="switchTab('tab-lake')" class="btn-hero secondary" style="width:100%;padding:8px;font-size:12px;">View Siding & Kitchen Work ↗</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: THE VERIFIED JOBSITE PHOTO LAKE (THE 4 PHYSICAL JOBS) -->
+    <section class="tab-pane" id="tab-lake">
       
+      <div class="lake-intro-box">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);"></span>
+          <span style="font-family:var(--font-mono);font-size:10.5px;font-weight:700;color:var(--green);text-transform:uppercase;">Central Wisconsin Field Photo Lake</span>
+        </div>
+        <h2>The DGC Craftsmanship Photo Lake (4 Real Case Studies)</h2>
+        <p>100% verified, unedited field photos documenting the complete build sequence of our real jobs from substrate discovery to final turnover.</p>
+      </div>
+
       <div class="projects-stack">
         
-        <!-- PROJECT 1: TWO-STORY ADDITION, NAVY BLUE SIDING & STONE WAINSCOT (DICKMAN) -->
+        <!-- JOB 1: TWO-STORY ADDITION, NAVY BLUE SIDING & STONE WAINSCOT (DICKMAN) -->
         <div class="project-card">
           <div class="project-card-header">
             <div>
-              <div class="project-badge">Structural Addition & Exterior Remodel • Production Timeline</div>
-              <h2 class="project-card-title">Two-Story Structural Addition, Navy Blue Siding & Stone Wainscot</h2>
-              <p class="project-card-desc">Major home expansion: 2x6 exterior framing on concrete foundation, blue LP WeatherLogic moisture barrier sheathing, crane/lift placement, and completed Navy Blue lap siding with manufactured stone wainscot masonry and vertical board-and-batten accent gables.</p>
+              <div class="project-badge">Job 1 • Structural Addition & Exterior Remodel</div>
+              <h3 class="project-card-title">Two-Story Structural Addition, Navy Blue Siding & Stone Wainscot</h3>
+              <p class="project-card-desc">Major home expansion: 2x6 exterior framing on concrete foundation, blue LP WeatherLogic moisture barrier sheathing, and completed Navy Blue lap siding with manufactured stone wainscot masonry and board-and-batten accent gables.</p>
             </div>
-            <div class="project-status-tag">✓ Completed & Turned Over</div>
+            <div class="project-status-tag">✓ Completed</div>
           </div>
           
           <div class="project-stages-body">
@@ -796,7 +1023,7 @@
               <div class="stage-num-badge">1</div>
               <div class="stage-content">
                 <div class="stage-header-row">
-                  <h3 class="stage-title">Stage 1: Foundation Tie-In, 2x6 Framing & WeatherLogic Sheathing</h3>
+                  <h4 class="stage-title">Stage 1: Foundation Tie-In, 2x6 Framing & WeatherLogic Sheathing</h4>
                   <span class="stage-pill">Structural Framing</span>
                 </div>
                 <p class="stage-desc">Framed 2x6 exterior walls tied into existing structure, assembled structural headers, and sheathed with blue LP WeatherLogic water-resistive barrier panels using boom lift access.</p>
@@ -822,7 +1049,7 @@
               <div class="stage-num-badge">2</div>
               <div class="stage-content">
                 <div class="stage-header-row">
-                  <h3 class="stage-title">Stage 2: Completed Navy Blue Siding, Stone Wainscot & Gables</h3>
+                  <h4 class="stage-title">Stage 2: Completed Navy Blue Siding, Stone Wainscot & Gables</h4>
                   <span class="stage-pill">Final Turnover</span>
                 </div>
                 <p class="stage-desc">Completed two-story home transformation featuring Navy Blue vinyl lap siding, stone masonry wainscot along foundation, vertical board-and-batten accent gables, and white trim packages.</p>
@@ -837,15 +1064,15 @@
           </div>
         </div>
 
-        <!-- PROJECT 2: FRONT PORTICO & STRUCTURAL HEADER REBUILD (FRED PARKER) -->
+        <!-- JOB 2: FRONT PORTICO & STRUCTURAL HEADER REBUILD (FRED PARKER) -->
         <div class="project-card">
           <div class="project-card-header">
             <div>
-              <div class="project-badge">Structural Rot Repair & Framing • Production Timeline</div>
-              <h2 class="project-card-title">Front Portico Structural Header & Overhang Rebuild</h2>
+              <div class="project-badge">Job 2 • Structural Rot Repair & Framing</div>
+              <h3 class="project-card-title">Front Portico Structural Header & Overhang Rebuild</h3>
               <p class="project-card-desc">Emergency winter repair of a collapsing entryway portico: structural shoring, removal of severely rotted load-bearing header beams, installation of new engineered lumber, and gabled portico rebuild.</p>
             </div>
-            <div class="project-status-tag">✓ Completed & Turned Over</div>
+            <div class="project-status-tag">✓ Completed</div>
           </div>
           
           <div class="project-stages-body">
@@ -854,7 +1081,7 @@
               <div class="stage-num-badge">1</div>
               <div class="stage-content">
                 <div class="stage-header-row">
-                  <h3 class="stage-title">Stage 1: Rot Discovery & Structural Decay Assessment</h3>
+                  <h4 class="stage-title">Stage 1: Rot Discovery & Structural Decay Assessment</h4>
                   <span class="stage-pill">Diagnosis & Rot Check</span>
                 </div>
                 <p class="stage-desc">Discovered severe moisture intrusion and structural dry rot inside the main load-bearing header beam supporting the front portico roof. The timber had decayed to crumbling wood, compromising structural safety.</p>
@@ -884,7 +1111,7 @@
               <div class="stage-num-badge">2</div>
               <div class="stage-content">
                 <div class="stage-header-row">
-                  <h3 class="stage-title">Stage 2: Winter Shoring, Scaffolding & Site Containment</h3>
+                  <h4 class="stage-title">Stage 2: Winter Shoring, Scaffolding & Site Containment</h4>
                   <span class="stage-pill">Shoring & Safety</span>
                 </div>
                 <p class="stage-desc">Erected temporary heavy timber support posts to shore the roof overhang, installed steel scaffolding, and hung weather containment tarps for safe winter execution.</p>
@@ -910,7 +1137,7 @@
               <div class="stage-num-badge">3</div>
               <div class="stage-content">
                 <div class="stage-header-row">
-                  <h3 class="stage-title">Stage 3: Engineered Header Rebuild & Gabled Portico Framing</h3>
+                  <h4 class="stage-title">Stage 3: Engineered Header Rebuild & Gabled Portico Framing</h4>
                   <span class="stage-pill">Rebuild & Finish</span>
                 </div>
                 <p class="stage-desc">Removed all decayed lumber, installed new structural engineered headers, insulated with R-Matte foam insulation board, and rebuilt the gabled front portico with white vinyl soffits.</p>
@@ -925,15 +1152,15 @@
           </div>
         </div>
 
-        <!-- PROJECT 3: SLATE BLUE SIDING & THERMAL ENVELOPE (HOUSE #610) -->
+        <!-- JOB 3: SLATE BLUE SIDING & THERMAL ENVELOPE (HOUSE #610) -->
         <div class="project-card">
           <div class="project-card-header">
             <div>
-              <div class="project-badge">Exterior Envelope Remodel • Production Timeline</div>
-              <h2 class="project-card-title">Slate Blue Siding & Full Envelope Transformation</h2>
+              <div class="project-badge">Job 3 • Exterior Envelope Remodel</div>
+              <h3 class="project-card-title">Slate Blue Siding & Full Envelope Transformation</h3>
               <p class="project-card-desc">Full exterior renewal: complete teardown of aging siding down to silver foil thermal insulation, substrate inspection, new Slate Blue vinyl lap siding, white window casing wraps, and scalloped gable peaks.</p>
             </div>
-            <div class="project-status-tag">✓ Completed & Turned Over</div>
+            <div class="project-status-tag">✓ Completed</div>
           </div>
           
           <div class="project-stages-body">
@@ -942,7 +1169,7 @@
               <div class="stage-num-badge">1</div>
               <div class="stage-content">
                 <div class="stage-header-row">
-                  <h3 class="stage-title">Stage 1: Complete Siding Teardown & Substrate Inspection</h3>
+                  <h4 class="stage-title">Stage 1: Complete Siding Teardown & Substrate Inspection</h4>
                   <span class="stage-pill">Teardown & Prep</span>
                 </div>
                 <p class="stage-desc">Stripped old siding down to the silver foil insulation barrier. Inspected sheathing, window frames, and wall framing for water damage prior to siding installation.</p>
@@ -960,7 +1187,7 @@
               <div class="stage-num-badge">2</div>
               <div class="stage-content">
                 <div class="stage-header-row">
-                  <h3 class="stage-title">Stage 2: Slate Blue Lap Siding, Window Flashing & Scalloped Gables</h3>
+                  <h4 class="stage-title">Stage 2: Slate Blue Lap Siding, Window Flashing & Scalloped Gables</h4>
                   <span class="stage-pill">Assembly & Finish</span>
                 </div>
                 <p class="stage-desc">Installed Slate Blue vinyl lap siding, white corner posts, window head z-flashing, vented vinyl soffits, and custom white scalloped decorative gable peaks.</p>
@@ -983,15 +1210,15 @@
           </div>
         </div>
 
-        <!-- PROJECT 4: FULL KITCHEN REMODEL & CUSTOM CABINETRY -->
+        <!-- JOB 4: FULL KITCHEN REMODEL & CUSTOM CABINETRY -->
         <div class="project-card">
           <div class="project-card-header">
             <div>
-              <div class="project-badge">Interior Remodeling • Production Timeline</div>
-              <h2 class="project-card-title">Turnkey Kitchen Remodel & Custom Cabinetry Fitment</h2>
+              <div class="project-badge">Job 4 • Interior Remodeling</div>
+              <h3 class="project-card-title">Turnkey Kitchen Remodel & Custom Cabinetry Fitment</h3>
               <p class="project-card-desc">Complete kitchen renovation: white shaker cabinet installation, faux marble laminate countertops, butcher block appliance top, white subway tile backsplash, and dark LVP flooring.</p>
             </div>
-            <div class="project-status-tag">✓ Completed & Turned Over</div>
+            <div class="project-status-tag">✓ Completed</div>
           </div>
           
           <div class="project-stages-body">
@@ -999,7 +1226,7 @@
               <div class="stage-num-badge">1</div>
               <div class="stage-content">
                 <div class="stage-header-row">
-                  <h3 class="stage-title">Stage 1: Cabinet Installation, Backsplash Tile & Fixture Trim</h3>
+                  <h4 class="stage-title">Stage 1: Cabinet Installation, Backsplash Tile & Fixture Trim</h4>
                   <span class="stage-pill">Turnover & Finish</span>
                 </div>
                 <p class="stage-desc">Installed custom white shaker cabinetry with soft-close hardware, faux marble countertops, undermount stainless sink with gooseneck faucet, full subway tile backsplash, and dark LVP flooring.</p>
@@ -1022,7 +1249,7 @@
 
     </section>
 
-    <!-- TAB 2: GET ESTIMATE / DISPATCH -->
+    <!-- TAB 3: GET ESTIMATE / DISPATCH -->
     <section class="tab-pane" id="tab-estimate">
       <div class="intake-card">
         <h2 style="font-family:var(--font-brand);font-size:18px;font-weight:800;color:#fff;margin-bottom:4px;">Direct Project Dispatch to John Dondlinger</h2>
@@ -1044,12 +1271,12 @@
           <div class="form-row">
             <label for="fService">Project Scope *</label>
             <select id="fService" class="form-select" required>
-              <option value="Exterior Siding & Trim">Exterior Siding & Trim</option>
-              <option value="Structural Home Addition">Structural Home Addition</option>
-              <option value="Kitchen Remodeling & Cabinetry">Kitchen Remodeling & Cabinetry</option>
-              <option value="Front Porch & Header Rot Repair">Front Porch & Header Rot Repair</option>
-              <option value="High-Efficiency Windows & Doors">High-Efficiency Windows & Doors</option>
+              <option value="Drywall Repair & Texture Matching">Drywall Repair & Texture Matching</option>
               <option value="Concrete Flatwork & Slabs">Concrete Flatwork & Slabs</option>
+              <option value="Structural Framing & Additions">Structural Framing & Additions</option>
+              <option value="Exterior Siding & Remodels">Exterior Siding & Remodels</option>
+              <option value="Kitchen Remodeling & Cabinetry">Kitchen Remodeling & Cabinetry</option>
+              <option value="High-Efficiency Windows & Doors">High-Efficiency Windows & Doors</option>
             </select>
           </div>
 
@@ -1092,24 +1319,23 @@
     </div>
 
     <div class="drawer-trade-chips">
-      <button class="drawer-chip active" id="chip-siding" onclick="selectScopeTrade('siding')">🏠 Siding</button>
-      <button class="drawer-chip" id="chip-decks" onclick="selectScopeTrade('decks')">🪵 Custom Decks</button>
-      <button class="drawer-chip" id="chip-roofing" onclick="selectScopeTrade('roofing')">🔨 Roofing</button>
+      <button class="drawer-chip active" id="chip-drywall" onclick="selectScopeTrade('drywall')">🧱 Drywall</button>
       <button class="drawer-chip" id="chip-concrete" onclick="selectScopeTrade('concrete')">🧱 Concrete</button>
-      <button class="drawer-chip" id="chip-windows" onclick="selectScopeTrade('windows')">🪟 Windows</button>
+      <button class="drawer-chip" id="chip-framing" onclick="selectScopeTrade('framing')">📐 Framing</button>
+      <button class="drawer-chip" id="chip-siding" onclick="selectScopeTrade('siding')">🏠 Siding</button>
     </div>
 
     <div class="slider-group" id="slider-container">
       <div class="slider-header">
-        <span id="slider-title-text">Estimated Wall Area (Sq Ft):</span>
-        <span class="slider-val-tag" id="slider-val-display">1,500 Sq Ft</span>
+        <span id="slider-title-text">Estimated Drywall Area (Sq Ft):</span>
+        <span class="slider-val-tag" id="slider-val-display">250 Sq Ft</span>
       </div>
-      <input type="range" id="scope-slider" class="scope-range-input" min="600" max="3500" value="1500" step="50" oninput="updateBallparkCalculation()">
+      <input type="range" id="scope-slider" class="scope-range-input" min="50" max="1500" value="250" step="25" oninput="updateBallparkCalculation()">
     </div>
 
     <div class="ballpark-box">
-      <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:4px;" id="bp-trade-label">Estimated Turnkey Range:</div>
-      <div class="ballpark-range" id="bp-range-display" style="font-size:26px;font-weight:900;color:#fff;font-family:var(--font-brand);margin-bottom:8px;">$11,250 – $18,000</div>
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--green);font-weight:700;text-transform:uppercase;margin-bottom:4px;" id="bp-trade-label">Estimated Turnkey Range:</div>
+      <div class="ballpark-range" id="bp-range-display" style="font-size:26px;font-weight:900;color:#fff;font-family:var(--font-brand);margin-bottom:8px;">$500 – $950</div>
       <ul style="list-style:none;font-size:11.5px;color:#cbd5e1;line-height:1.5;">
         <li>✓ Turnkey fixed-price quote: Premium materials & master labor</li>
         <li>✓ Daily jobsite clean-up & full debris disposal</li>
@@ -1121,7 +1347,7 @@
   <!-- Bottom Action Dock -->
   <footer id="site-bottom-dock">
     <a href="tel:7154593050" class="dock-btn dock-btn-call">📞 (715) 459-3050</a>
-    <button onclick="switchTab('tab-estimate')" class="dock-btn dock-btn-photo">✉️ Get Quote</button>
+    <button onclick="switchTab('tab-lake')" class="dock-btn dock-btn-photo">📁 Photo Lake</button>
     <button onclick="openCarpDrawer()" class="dock-btn dock-btn-estimate">⚡ Calculator</button>
   </footer>
 
@@ -1157,14 +1383,12 @@
       document.getElementById('carp-drawer').classList.remove('open');
     }
 
-    let currentTrade = 'siding';
+    let currentTrade = 'drywall';
     const TRADE_CONFIG = {
-      siding: { title: 'Estimated Wall Area (Sq Ft):', unit: 'Sq Ft', min: 600, max: 3500, default: 1500, step: 50, costMin: 7.5, costMax: 12 },
-      decks: { title: 'Estimated Deck Area (Sq Ft):', unit: 'Sq Ft', min: 80, max: 600, default: 200, step: 20, costMin: 35, costMax: 55 },
-      roofing: { title: 'Roofing Area (Squares):', unit: 'Squares', min: 10, max: 65, default: 25, step: 1, costMin: 350, costMax: 520 },
-      concrete: { title: 'PourReady Slab Area (Sq Ft):', unit: 'Sq Ft', min: 100, max: 1500, default: 400, step: 25, costMin: 8.5, costMax: 14 },
-      windows: { title: 'Number of Windows:', unit: 'Windows', min: 1, max: 25, default: 8, step: 1, costMin: 450, costMax: 750 },
-      doors: { title: 'Number of Doors:', unit: 'Doors', min: 1, max: 6, default: 1, step: 1, costMin: 1200, costMax: 2800 }
+      drywall: { title: 'Estimated Drywall Area (Sq Ft):', unit: 'Sq Ft', min: 50, max: 1500, default: 250, step: 25, costMin: 2.0, costMax: 3.8 },
+      concrete: { title: 'PourReady Slab Area (Sq Ft):', unit: 'Sq Ft', min: 100, max: 1500, default: 400, step: 25, costMin: 8.5, costMax: 14.0 },
+      framing: { title: 'Estimated Framing Area (Sq Ft):', unit: 'Sq Ft', min: 100, max: 2000, default: 400, step: 50, costMin: 12.0, costMax: 22.0 },
+      siding: { title: 'Estimated Wall Area (Sq Ft):', unit: 'Sq Ft', min: 600, max: 3500, default: 1500, step: 50, costMin: 7.5, costMax: 12.0 }
     };
 
     function selectScopeTrade(tradeKey) {
