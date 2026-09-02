@@ -2,17 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="description" content="DondlingerGC — Certified Journeyman General Contractor in Wisconsin Rapids, WI. Residential & commercial siding envelopes, replacement windows, custom doors, kitchens, decks, and commercial drop ceilings.">
-  <title>DondlingerGC — Wisconsin Rapids, WI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>Dondlinger General Contracting | Wisconsin Rapids, Stevens Point & Plover</title>
+  <meta name="description" content="Wisconsin DSPS Master Dwelling Contractor in Wisconsin Rapids, Stevens Point, and Plover. Siding remodels, structural additions, kitchen remodeling, custom composite decks, and replacement windows.">
+  <link rel="canonical" href="https://dondlingergc.com/">
   
-  <!-- Schema.org LocalBusiness & GeneralContractor JSON-LD -->
+  <!-- Schema.org LocalBusiness JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "GeneralContractor"],
-    "name": "DondlingerGC",
-    "image": "https://dondlingergc.com/assets/images/logo.png",
+    "@type": ["HomeAndConstructionBusiness", "GeneralContractor"],
+    "name": "Dondlinger General Contracting LLC",
+    "alternateName": "Dondlinger GC",
+    "image": "https://dondlingergc.com/assets/hero-contracting.jpg",
     "telephone": "+1-715-459-3050",
     "email": "dondlingergeneralcontracting@gmail.com",
     "url": "https://dondlingergc.com",
@@ -31,15 +33,13 @@
     "areaServed": [
       "Wisconsin Rapids, WI",
       "Stevens Point, WI",
-      "Marshfield, WI",
+      "Plover, WI",
       "Port Edwards, WI",
       "Nekoosa, WI",
       "Wood County, WI",
-      "Portage County, WI",
-      "Adams County, WI"
+      "Portage County, WI"
     ],
-    "priceRange": "$$$",
-    "paymentAccepted": "Cash, Check, Bank Transfer",
+    "priceRange": "$$",
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -48,68 +48,67 @@
     }
   }
   </script>
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg: #090a0f;
-      --bg-card: #12141c;
-      --bg-card-hover: #181b26;
-      --bg-drawer: #0f111a;
-      --border: rgba(255, 255, 255, 0.08);
+      --bg: #090c15;
+      --bg-card: #131929;
+      --bg-card-hover: #1a233a;
+      --bg-drawer: #0e1320;
+      --border: #202b45;
       --border-accent: rgba(255, 87, 34, 0.4);
       --accent: #ff5722;
-      --accent-hover: #f44336;
-      --accent-glow: rgba(255, 87, 34, 0.25);
+      --accent-hover: #f4511e;
+      --accent-glow: rgba(255, 87, 34, 0.3);
       --green: #22c55e;
       --cyan: #38bdf8;
-      --text-main: #f8fafc;
+      --text: #f8fafc;
       --text-muted: #94a3b8;
-      --font-brand: 'Syne', -apple-system, sans-serif;
-      --font-body: 'Inter', -apple-system, sans-serif;
+      --font-brand: 'Syne', system-ui, sans-serif;
+      --font-body: 'Inter', system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
     html {
       background: var(--bg);
-      color: var(--text-main);
+      color: var(--text);
       font-family: var(--font-body);
       font-size: 16px;
     }
 
     body {
-      padding-top: 62px;
-      padding-bottom: calc(76px + env(safe-area-inset-bottom, 16px));
+      padding-top: 64px;
+      padding-bottom: 74px;
       line-height: 1.5;
       min-height: 100vh;
-      background: radial-gradient(circle at 50% 0%, rgba(255, 87, 34, 0.05) 0%, transparent 40%), var(--bg);
+      background: radial-gradient(circle at 50% 0%, #151d33 0%, var(--bg) 60%);
     }
 
-    .icon-svg {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      stroke-width: 1.75;
-      stroke: currentColor;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      vertical-align: middle;
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 16px;
     }
 
     /* Top Sticky HUD */
     #site-hud {
       position: fixed;
       top: 0; left: 0; right: 0;
-      height: 62px;
-      background: rgba(9, 10, 15, 0.94);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      height: 64px;
+      background: rgba(9, 12, 21, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
       z-index: 9999;
       display: flex;
@@ -117,76 +116,58 @@
       justify-content: space-between;
       padding: 0 16px;
     }
+
     .hud-brand {
       display: flex;
       align-items: center;
       gap: 10px;
       text-decoration: none;
       color: #fff;
-      position: relative;
-      cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 8px;
-      transition: background 0.2s;
     }
-    .hud-brand:hover { background: rgba(255, 255, 255, 0.05); }
-    .hud-dropdown-icon { font-size: 10px; color: var(--accent); margin-left: 4px; transition: transform 0.2s ease; }
-    .hud-brand.active .hud-dropdown-icon { transform: rotate(180deg); }
-    .hud-menu-dropdown {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      width: 280px;
-      background: #0e131a;
+
+    .hud-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      object-fit: cover;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
-      display: none;
-      flex-direction: column;
-      gap: 6px;
-      z-index: 10000;
     }
-    .hud-menu-dropdown.show { display: flex; }
-    .hud-menu-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 10px;
-      border-radius: 8px;
-      text-decoration: none;
+
+    .hud-name {
+      font-family: var(--font-brand);
+      font-weight: 800;
+      font-size: 14.5px;
+      letter-spacing: -0.2px;
       color: #fff;
-      font-size: 12.5px;
-      font-weight: 600;
-      transition: all 0.18s;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid transparent;
     }
-    .hud-menu-item:hover {
-      background: rgba(56, 189, 248, 0.1);
-      border-color: rgba(56, 189, 248, 0.3);
-      color: var(--cyan);
-    }
-    .hud-menu-icon { font-size: 16px; width: 22px; text-align: center; }
-    .hud-menu-text { display: flex; flex-direction: column; }
-    .hud-menu-title { font-size: 12.5px; font-weight: 700; }
-    .hud-menu-desc { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
-    .hud-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
-    .hud-brand-text { display: flex; flex-direction: column; }
-    .hud-name { font-family: var(--font-brand); font-weight: 800; font-size: 14px; letter-spacing: -0.2px; line-height: 1.1; }
+
+    .hud-name span { color: var(--accent); }
+
     .hud-sub {
       font-family: var(--font-mono);
       font-size: 10px;
-      color: var(--green);
+      color: var(--cyan);
       font-weight: 700;
       display: flex;
       align-items: center;
       gap: 5px;
     }
-    .hud-sub .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); }
-    .hud-actions { display: flex; align-items: center; gap: 8px; }
+
+    .hud-sub .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    .hud-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .btn-hud-call {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.05);
       color: #fff;
       font-family: var(--font-mono);
       font-size: 12px;
@@ -198,8 +179,11 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      transition: background 0.15s;
     }
-    .btn-hud-call .icon-svg { width: 14px; height: 14px; stroke: var(--green); }
+
+    .btn-hud-call:hover { background: rgba(255, 255, 255, 0.1); }
+
     .btn-hud-estimate {
       background: var(--accent);
       color: #fff;
@@ -210,69 +194,134 @@
       border-radius: 8px;
       cursor: pointer;
       border: none;
+      transition: background 0.15s;
     }
 
-    /* Hero Section */
-    .hero-compact { padding: 18px 16px 12px; max-width: 960px; margin: 0 auto; }
-    .hero-tagline {
+    .btn-hud-estimate:hover { background: var(--accent-hover); }
+
+    /* Hero Banner */
+    .hero-banner {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 20px 0 24px;
+      padding: 44px 20px;
+      background: linear-gradient(180deg, rgba(9,12,21,0.75) 0%, rgba(9,12,21,0.96) 100%), url('assets/hero-contracting.jpg') center/cover no-repeat;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-family: var(--font-mono);
+      background: rgba(255, 87, 34, 0.15);
+      border: 1px solid var(--border-accent);
+      color: #ff7043;
+      padding: 4px 14px;
+      border-radius: 999px;
       font-size: 11px;
+      font-family: var(--font-mono);
       font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 6px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-    }
-    .hero-headline {
-      font-family: var(--font-brand);
-      font-size: clamp(24px, 5.2vw, 34px);
-      font-weight: 800;
-      letter-spacing: -0.4px;
-      line-height: 1.15;
-      margin-bottom: 6px;
-    }
-    .hero-subtext { font-size: 14px; color: var(--text-muted); max-width: 680px; line-height: 1.5; margin-bottom: 16px; }
-    .hero-visual-reel { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 4px; }
-    .hero-visual-card {
-      position: relative;
-      aspect-ratio: 4/3;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #000;
-      border: 1px solid var(--border);
-    }
-    .hero-visual-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: transform 0.2s, opacity 0.2s; }
-    .hero-visual-card:hover img { transform: scale(1.05); opacity: 1; }
-    @media (max-width: 768px) {
-      .hero-visual-reel { grid-template-columns: repeat(3, 1fr); gap: 6px; }
-      .hero-visual-card:nth-child(4), .hero-visual-card:nth-child(5) { display: none; }
+      margin-bottom: 12px;
     }
 
-    /* Tabs */
-    .hub-container { max-width: 960px; margin: 0 auto; padding: 0 16px 20px; }
+    .hero-banner h1 {
+      font-family: var(--font-brand);
+      font-size: clamp(26px, 5vw, 40px);
+      font-weight: 900;
+      letter-spacing: -0.4px;
+      line-height: 1.15;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    .hero-banner p {
+      font-size: 14.5px;
+      color: #cbd5e1;
+      max-width: 680px;
+      margin: 0 auto 20px;
+      line-height: 1.5;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      font-size: 13.5px;
+      font-weight: 800;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-hero.primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 16px var(--accent-glow);
+      border: none;
+    }
+
+    .btn-hero.primary:hover { background: var(--accent-hover); }
+
+    .btn-hero.secondary {
+      background: rgba(19, 25, 41, 0.85);
+      color: var(--cyan);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-hero.secondary:hover {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: var(--cyan);
+    }
+
+    .trust-strip {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    /* Tab Bar */
     .tab-bar-wrap {
       position: sticky;
-      top: 62px;
-      background: rgba(9, 10, 15, 0.96);
+      top: 64px;
+      background: rgba(9, 12, 21, 0.96);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       z-index: 100;
       padding: 8px 0;
-      margin-bottom: 16px;
+      margin: 16px 0 20px;
       border-bottom: 1px solid var(--border);
     }
+
     .tab-bar {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 6px;
       background: rgba(255, 255, 255, 0.03);
       padding: 4px;
-      border-radius: 12px;
+      border-radius: 10px;
       border: 1px solid var(--border);
     }
+
     .tab-btn {
       background: transparent;
       border: none;
@@ -280,699 +329,833 @@
       font-family: var(--font-body);
       font-weight: 700;
       font-size: 13px;
-      padding: 8px 4px;
-      border-radius: 8px;
+      padding: 10px 6px;
+      border-radius: 6px;
       cursor: pointer;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 6px;
       transition: all 0.18s ease;
     }
-    .tab-btn .tab-svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.75; }
-    .tab-btn span.tab-label { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .tab-btn.active { background: var(--accent); color: #fff; box-shadow: 0 4px 14px var(--accent-glow); }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 10px var(--accent-glow);
+    }
 
     .tab-pane { display: none; animation: fadeIn 0.2s ease-out; }
     .tab-pane.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* Project Window */
-    .project-window-stack { display: flex; flex-direction: column; gap: 14px; }
-    .project-window {
-      background: var(--bg-card);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    /* Core Four Timeline Cards */
+    .timeline-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-bottom: 36px;
     }
-    .project-window.open { border-color: rgba(255, 87, 34, 0.5); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7); }
-    .pw-header { padding: 14px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-    .project-window.open .pw-header { border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.02); }
-    .pw-header-left { display: flex; align-items: center; gap: 12px; }
-    .pw-header-right { display: flex; align-items: center; gap: 8px; }
-    .pw-expand-indicator {
+
+    .timeline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .timeline-card-header {
+      padding: 20px 22px 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.02);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .timeline-trade-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .timeline-card-title {
+      font-family: var(--font-brand);
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .timeline-card-desc {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      max-width: 720px;
+      line-height: 1.45;
+    }
+
+    .timeline-status-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green);
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* Core Four Gates Sequence */
+    .gates-container {
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .gate-block {
+      display: flex;
+      gap: 16px;
+      position: relative;
+    }
+
+    .gate-block::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 32px;
+      bottom: -20px;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .gate-block:last-child::before { display: none; }
+
+    .gate-num-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #090c15;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 2;
+    }
+
+    .gate-num-circle.completed {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .gate-content {
+      flex: 1;
+      padding-top: 3px;
+    }
+
+    .gate-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .gate-title {
+      font-family: var(--font-brand);
+      font-size: 15.5px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .gate-badge {
       font-family: var(--font-mono);
       font-size: 10px;
       font-weight: 700;
       color: var(--cyan);
       background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      padding: 3px 8px;
-      border-radius: 6px;
-      text-transform: uppercase;
-    }
-    .project-window.open .pw-expand-indicator { color: var(--accent); background: rgba(255, 87, 34, 0.12); border-color: rgba(255, 87, 34, 0.3); }
-    .pw-icon-badge {
-      width: 36px; height: 36px; border-radius: 8px;
-      background: rgba(255, 87, 34, 0.1); border: 1px solid rgba(255, 87, 34, 0.25);
-      color: var(--accent); display: flex; align-items: center; justify-content: center;
-    }
-    .pw-titles { display: flex; flex-direction: column; gap: 2px; }
-    .pw-category { font-family: var(--font-mono); font-size: 10px; color: var(--accent); font-weight: 700; text-transform: uppercase; }
-    .pw-name { font-family: var(--font-brand); font-size: 15.5px; font-weight: 800; color: #fff; }
-    .pw-toggle-btn {
-      width: 28px; height: 28px; border-radius: 50%; background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border); color: var(--text-muted); display: flex; align-items: center; justify-content: center;
-    }
-    .project-window.open .pw-toggle-btn { transform: rotate(180deg); background: var(--accent); color: #fff; }
-    .pw-body { display: none; padding: 14px 16px; }
-    .project-window.open .pw-body { display: block; }
-    .pw-media-viewer {
-      width: 100%; border-radius: 10px; overflow: hidden; background: #000;
-      margin-bottom: 10px; border: 1px solid var(--border); min-height: 200px; max-height: 480px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .pw-media-viewer img, .pw-media-viewer video { width: 100%; height: auto; max-height: 460px; object-fit: contain; }
-    .pw-thumb-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; }
-    .pw-thumb {
-      width: 64px; height: 64px; flex-shrink: 0; border-radius: 6px;
-      border: 2px solid transparent; overflow: hidden; cursor: pointer; background: #000; position: relative; opacity: 0.6;
-    }
-    .pw-thumb.active { border-color: var(--accent); opacity: 1; }
-    .pw-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .pw-thumb-badge {
-      position: absolute; bottom: 2px; left: 2px; right: 2px; background: rgba(0, 0, 0, 0.85);
-      font-family: var(--font-mono); font-size: 7px; font-weight: 700; text-align: center; color: #fff;
-    }
-    .pw-narrative { font-size: 13.5px; color: #cbd5e1; line-height: 1.45; margin-bottom: 10px; }
-    .pw-specs-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-    .pw-spec-tag { font-family: var(--font-mono); font-size: 10.5px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); padding: 3px 8px; border-radius: 4px; color: var(--text-muted); }
-    .pw-quote-cta {
-      display: inline-flex; align-items: center; gap: 6px; background: var(--accent);
-      color: #fff; font-weight: 800; font-size: 12px; padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer;
+      padding: 2px 8px;
+      border-radius: 4px;
     }
 
-    /* Windows / Doors Showcase */
-    .wd-hero-banner { background: linear-gradient(135deg, #111726 0%, #0d121c 100%); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
-    .wd-badge { font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: var(--cyan); background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
-    .wd-title { font-family: var(--font-brand); font-size: 19px; font-weight: 800; margin: 6px 0 4px; }
-    .wd-desc { font-size: 13px; color: #cbd5e1; line-height: 1.4; }
-    .wd-showcase-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
-    @media (min-width: 640px) { .wd-showcase-grid { grid-template-columns: repeat(3, 1fr); } }
-    .wd-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
-    .wd-card-media { width: 100%; height: 190px; background: #000; overflow: hidden; }
-    .wd-card-media img { width: 100%; height: 100%; object-fit: cover; }
-    .wd-card-content { padding: 12px 14px; display: flex; flex-direction: column; flex: 1; }
-    .wd-card-title { font-family: var(--font-brand); font-size: 15.5px; font-weight: 800; color: #fff; margin-bottom: 4px; }
-    .wd-card-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; flex: 1; }
-    .wd-specs-list { list-style: none; margin-bottom: 10px; }
-    .wd-specs-list li { font-family: var(--font-mono); font-size: 10.5px; color: var(--cyan); margin-bottom: 2px; }
-    .btn-wd-card-action {
-      background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3);
-      color: var(--cyan); font-weight: 700; font-size: 11.5px; padding: 7px 10px; border-radius: 6px; text-align: center; cursor: pointer;
+    .gate-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 12px;
     }
 
-    /* Gallery / Photo Lake */
-    .gallery-filter-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; }
-    .filter-pill {
-      font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; padding: 5px 10px; border-radius: 6px;
-      background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; white-space: nowrap;
+    /* Gate Photo Grid */
+    .gate-photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
     }
-    .filter-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
-    @media (min-width: 640px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
-    .gallery-item { position: relative; border-radius: 12px; overflow: hidden; background: #0d1017; border: 1px solid rgba(255, 255, 255, 0.09); aspect-ratio: 4/3; cursor: pointer; }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
-    .gallery-item-tag {
-      position: absolute; top: 8px; left: 8px; background: rgba(9, 10, 15, 0.85);
-      font-family: var(--font-mono); font-size: 9px; font-weight: 700; color: var(--cyan); padding: 3px 7px; border-radius: 4px;
+
+    .gate-photo-card {
+      background: #090c15;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease;
     }
-    .gallery-item-caption {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: linear-gradient(to top, rgba(9, 10, 15, 0.95) 0%, rgba(9, 10, 15, 0.6) 65%, transparent 100%);
-      padding: 20px 10px 8px; font-size: 12px; font-weight: 700; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+
+    .gate-photo-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .gate-photo-card img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gate-photo-caption {
+      padding: 6px 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: #cbd5e1;
+      line-height: 1.35;
     }
 
     /* Lightbox Modal */
-    #lightbox-modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 99999; flex-direction: column; align-items: center; justify-content: center; padding: 16px; }
-    #lightbox-modal.active { display: flex; }
-    #lightbox-img { max-width: 95vw; max-height: 80vh; border-radius: 6px; border: 1px solid var(--border); object-fit: contain; }
-    #lightbox-caption { margin-top: 10px; font-size: 13px; color: #cbd5e1; font-weight: 600; text-align: center; font-family: var(--font-mono); }
-    #lightbox-close { position: absolute; top: 16px; right: 16px; background: rgba(255, 255, 255, 0.12); color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-
-    /* Intake Cards & Forms */
-    .intake-card { background: var(--bg-card); border: 1px solid var(--border-accent); border-radius: 14px; padding: 16px; margin-bottom: 16px; }
-    .intake-header h2 { font-family: var(--font-brand); font-size: 17px; font-weight: 800; }
-    .intake-header p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-    .form-row { margin-bottom: 10px; }
-    .form-row label { display: block; font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; }
-    .form-input, .form-select, .form-textarea {
-      width: 100%; background: #090a0f; border: 1px solid var(--border); color: #fff;
-      padding: 9px 11px; border-radius: 6px; font-family: var(--font-body); font-size: 13px; outline: none;
+    #lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 99999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
     }
+
+    #lightbox-modal.active { display: flex; }
+    #lightbox-img {
+      max-width: 95vw;
+      max-height: 80vh;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      object-fit: contain;
+    }
+
+    #lightbox-caption {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #cbd5e1;
+      font-weight: 600;
+      text-align: center;
+      max-width: 680px;
+      font-family: var(--font-mono);
+      line-height: 1.45;
+    }
+
+    #lightbox-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* Windows & Doors */
+    .wd-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 640px) {
+      .wd-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .wd-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wd-card-media { width: 100%; height: 170px; background: #000; overflow: hidden; }
+    .wd-card-media img { width: 100%; height: 100%; object-fit: cover; }
+    .wd-card-content { padding: 14px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .wd-card-title { font-family: var(--font-brand); font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .wd-card-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+
+    /* Intake Form */
+    .intake-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-row { margin-bottom: 12px; }
+    .form-row label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: #090c15;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      outline: none;
+    }
+
     .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+
     .btn-submit-lead {
-      width: 100%; min-height: 44px; background: var(--accent); color: #fff;
-      font-weight: 800; font-size: 13px; border-radius: 6px; border: none; cursor: pointer;
-      text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%;
+      min-height: 44px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+      font-size: 13.5px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
     }
 
     /* Drawer */
-    #carp-drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); z-index: 10000; opacity: 0; transition: opacity 0.25s ease; }
-    #carp-drawer-overlay.active { display: block; opacity: 1; }
-    #carp-drawer {
-      position: fixed; bottom: 0; left: 0; right: 0; max-width: 600px; margin: 0 auto;
-      background: var(--bg-drawer); border-top: 1px solid var(--border-accent); border-top-left-radius: 20px; border-top-right-radius: 20px;
-      z-index: 10001; padding: 20px 16px calc(env(safe-area-inset-bottom, 16px) + 12px);
-      transform: translateY(100%); transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto;
+    #carp-drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      opacity: 0;
+      transition: opacity 0.25s ease;
     }
+
+    #carp-drawer-overlay.active { display: block; opacity: 1; }
+
+    #carp-drawer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--bg-drawer);
+      border-top: 1px solid var(--border-accent);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      z-index: 10001;
+      padding: 20px 16px calc(env(safe-area-inset-bottom, 16px) + 12px);
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
     #carp-drawer.open { transform: translateY(0); }
     .drawer-handle { width: 40px; height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 2px; margin: 0 auto 14px; }
     .drawer-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
     .drawer-title { font-family: var(--font-brand); font-size: 18px; font-weight: 800; color: #fff; }
     .drawer-sub { font-family: var(--font-mono); font-size: 11px; color: var(--cyan); }
     .drawer-close-btn { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
     .drawer-trade-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 14px; }
     .drawer-chip {
       font-family: var(--font-mono); font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 8px;
       background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; white-space: nowrap;
     }
     .drawer-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-    .ballpark-box { background: linear-gradient(135deg, #181d2c 0%, #10131e 100%); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 12px; padding: 14px; margin-bottom: 14px; text-align: center; }
-    .slider-group { margin-bottom: 14px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
-    .slider-header { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; font-weight: 700; margin-bottom: 8px; }
+
+    .ballpark-box {
+      background: linear-gradient(135deg, rgba(255,87,34,0.12) 0%, rgba(18,20,28,0.95) 100%);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .slider-group {
+      margin-bottom: 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
     .scope-range-input { width: 100%; accent-color: var(--accent); height: 6px; cursor: pointer; }
 
-    /* Unified Bottom Mobile Action Dock */
+    /* Bottom Action Dock */
     #site-bottom-dock {
-      position: fixed; bottom: 0; left: 0; right: 0; height: 62px;
-      background: rgba(9, 10, 15, 0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid var(--border); z-index: 9998;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 6px); gap: 8px;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 62px;
+      background: rgba(9, 12, 21, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      z-index: 9998;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 6px);
+      gap: 8px;
     }
+
     .dock-btn {
       flex: 1; height: 42px; border-radius: 8px; font-weight: 800; font-size: 12.5px;
       display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; cursor: pointer; border: none;
     }
-    .dock-btn-call { background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border); color: #fff; }
-    .dock-btn-photo { background: var(--accent); color: #fff; box-shadow: 0 4px 14px var(--accent-glow); }
-    .dock-btn-estimate { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); color: var(--cyan); }
 
-    /* Inline Alert & Confirmation Badges */
-    .status-badge {
-      display: none; padding: 10px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700;
-      margin-bottom: 10px; animation: fadeIn 0.2s ease-out;
-    }
-    .status-badge.success { display: flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.35); color: #4ade80; }
-    .status-badge.error { display: flex; align-items: center; gap: 8px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #f87171; }
+    .dock-btn-call { background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border); color: #fff; }
+    .dock-btn-photo { background: var(--accent); color: #fff; box-shadow: 0 2px 10px var(--accent-glow); }
+    .dock-btn-estimate { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); color: var(--cyan); }
   </style>
 </head>
 <body>
 
-  <!-- Sticky Top Header HUD -->
+  <!-- Top Sticky HUD -->
   <header id="site-hud">
-    <div class="hud-brand" id="hud-brand-toggle" onclick="toggleHudMenu(event)">
-      <img src="dondlinger_logo.png" alt="Dondlinger General Contracting" class="hud-logo">
-      <div class="hud-brand-text">
-        <span class="hud-name">DONDLINGER GENERAL CONTRACTING LLC <span class="hud-dropdown-icon">▼</span></span>
-        <span class="hud-sub"><span class="dot"></span> LICENSED DWELLING CONTRACTOR • INSURED</span>
+    <a href="index.html" class="hud-brand">
+      <img src="dondlinger_logo.png" alt="Dondlinger GC Logo" class="hud-logo">
+      <div>
+        <div class="hud-name">DONDLINGER <span>GC</span></div>
+        <div class="hud-sub"><span class="dot"></span> DSPS MASTER CONTRACTOR</div>
       </div>
-
-      <div class="hud-menu-dropdown" id="hud-menu-dropdown">
-        <a href="https://calc.dondlingergc.com" class="hud-menu-item">
-          <span class="hud-menu-icon">🏗️</span>
-          <div class="hud-menu-text">
-            <span class="hud-menu-title">PourReady Concrete Estimator</span>
-            <span class="hud-menu-desc">Blazor WASM Concrete Volume & Slab Calculator</span>
-          </div>
-        </a>
-        <a href="https://voice-intake-app.dondlingergc.com" class="hud-menu-item" target="_blank" rel="noopener">
-          <span class="hud-menu-icon">🎙️</span>
-          <div class="hud-menu-text">
-            <span class="hud-menu-title">Voice Intake Portal</span>
-            <span class="hud-menu-desc">15s Audio Job Note Dispatch</span>
-          </div>
-        </a>
-        <a href="https://wazweather.dondlingergc.com" class="hud-menu-item" target="_blank" rel="noopener">
-          <span class="hud-menu-icon">⚡</span>
-          <div class="hud-menu-text">
-            <span class="hud-menu-title">WaZ Weather Radar</span>
-            <span class="hud-menu-desc">Atmospheric & Storm Dispatch</span>
-          </div>
-        </a>
-        <a href="https://skydrop.dondlingergc.com" class="hud-menu-item" target="_blank" rel="noopener">
-          <span class="hud-menu-icon">📦</span>
-          <div class="hud-menu-text">
-            <span class="hud-menu-title">SkyDrop File Transfer</span>
-            <span class="hud-menu-desc">Encrypted Zero-Cloud Transfer</span>
-          </div>
-        </a>
-        <a href="/architecture.html" class="hud-menu-item">
-          <span class="hud-menu-icon">📐</span>
-          <div class="hud-menu-text">
-            <span class="hud-menu-title">ZLA Architecture Spec</span>
-            <span class="hud-menu-desc">Telemetry & Whitepaper Dossier</span>
-          </div>
-        </a>
-      </div>
-    </div>
+    </a>
     <div class="hud-actions">
-      <a href="tel:7154593050" class="btn-hud-call">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        (715) 459-3050
-      </a>
-      <button onclick="openCarpDrawer()" class="btn-hud-estimate">INSTANT ESTIMATE</button>
+      <a href="tel:7154593050" class="btn-hud-call">(715) 459-3050</a>
+      <button onclick="openCarpDrawer()" class="btn-hud-estimate">ESTIMATE ⚡</button>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero-compact">
-    <div class="hero-tagline" id="geo-location-tag">
-      <svg class="icon-svg" style="width:13px;height:13px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <span id="geo-city-text">Wisconsin Rapids, Nekoosa, Port Edwards & Wood County</span>
-    </div>
-    <h1 class="hero-headline">Quality Work. Straightforward Contracting.</h1>
-    <p class="hero-subtext">
-      DondlingerGC — Certified journeyman residential & commercial contracting in Central Wisconsin. Siding envelopes, replacement windows & doors, custom decks, roofing, and PourReady concrete flatwork.
-    </p>
-
-    <!-- Priority Hero Card: Direct Photo Upload -->
-    <div id="hero-photo-card" style="background:linear-gradient(135deg, rgba(255,87,34,0.14) 0%, #12141c 100%);border:2px solid var(--accent);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 8px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,87,34,0.15);">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-        <span style="font-family:var(--font-brand);font-size:16px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;">
-          📸 Fast Estimate: Snap & Upload Project Photos
-        </span>
-        <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);padding:2px 8px;border-radius:4px;">
-          ⚡ 15-Min Response
-        </span>
+  <main class="container">
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+      <div class="hero-badge">Wisconsin DSPS Certified • Rapids • Point • Plover</div>
+      <h1>Quality Work. Straightforward Contracting.</h1>
+      <p>Precision siding envelopes, structural home additions, kitchen remodeling, custom composite decks, and replacement windows with 100% turnkey fixed-price hard bids.</p>
+      
+      <div class="hero-actions">
+        <a href="tel:7154593050" class="btn-hero primary">Direct Call: (715) 459-3050</a>
+        <button onclick="openCarpDrawer()" class="btn-hero secondary">Instant Ballpark Calculator 📊</button>
+        <button onclick="switchTab('tab-estimate')" class="btn-hero secondary">Request a Hard Bid ✉️</button>
       </div>
-      <p style="font-size:12.5px;color:#cbd5e1;margin-bottom:12px;line-height:1.4;">
-        Snap or attach 1–3 photos of your deck, siding, roof, or project area for an instant ballpark estimate:
-      </p>
 
-      <div id="hero-status-msg" class="status-badge"></div>
+      <div class="trust-strip">
+        <span>✓ DSPS Licensed Qualifier</span>
+        <span>✓ Turnkey Hard Bids</span>
+        <span>✓ Single-Supplier Materials</span>
+        <span>✓ Prompt Local Dispatch</span>
+      </div>
+    </section>
 
-      <form id="heroPhotoForm" onsubmit="handleHeroPhotoSubmit(event)">
-        <label for="heroPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 12px;border:2px dashed rgba(255,87,34,0.5);border-radius:10px;background:rgba(255,87,34,0.05);cursor:pointer;margin-bottom:12px;text-align:center;">
-          <svg class="icon-svg" style="width:28px;height:28px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span style="font-size:13.5px;font-weight:800;color:#fff;">Tap Here to Select or Snap Photos 📸</span>
-          <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">Supports iPhone / Android Photos, JPG, PNG, HEIC</span>
-        </label>
-        <input type="file" id="heroPhotos" name="heroPhotos" accept="image/*" multiple onchange="previewHeroPhotos(event)" style="display:none;">
-        <div id="hero-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;"></div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
-          <input type="text" id="hContact" class="form-input" placeholder="Your Phone or Email *" required style="font-size:13px;">
-          <input type="text" id="hCity" class="form-input" placeholder="City (e.g. Wisconsin Rapids)..." style="font-size:13px;">
-        </div>
-        <input type="text" id="hNotes" class="form-input" placeholder="Brief project description (e.g. 14x20 deck replacement)..." style="font-size:13px;margin-bottom:10px;">
-        <div style="display:flex;gap:8px;">
-          <button type="submit" id="hSubmitBtn" class="btn-submit-lead" style="flex:1.4;padding:12px;font-size:13.5px;font-weight:800;background:var(--accent);color:#fff;border:none;border-radius:8px;box-shadow:0 4px 16px var(--accent-glow);cursor:pointer;">
-            🚀 Submit Estimate Request ⚡
-          </button>
-          <button type="button" onclick="openCarpDrawer()" style="flex:1;padding:12px;font-size:12.5px;font-weight:700;background:rgba(56,189,248,0.12);color:var(--cyan);border:1px solid rgba(56,189,248,0.3);border-radius:8px;cursor:pointer;">
-            Open Calculator 📊
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <div class="hero-visual-reel">
-      <div class="hero-visual-card"><img src="images/projects/wall_framing_addition.jpg" alt="Structural Framing" loading="lazy"></div>
-      <div class="hero-visual-card"><img src="images/projects/weather_sheathing_siding.jpg" alt="Weather Envelopes" loading="lazy"></div>
-      <div class="hero-visual-card"><img src="images/projects/composite_deck_construction.jpg" alt="Custom Decks" loading="lazy"></div>
-      <div class="hero-visual-card"><img src="images/projects/pine_ceiling_installation.jpg" alt="Interior Trim" loading="lazy"></div>
-      <div class="hero-visual-card"><img src="images/projects/window_installation_foam.jpg" alt="Window Installations" loading="lazy"></div>
-    </div>
-  </section>
-
-  <!-- Multi-Tab App Hub -->
-  <main class="hub-container">
+    <!-- Navigation Hub Tabs -->
     <div class="tab-bar-wrap">
-      <nav class="tab-bar" aria-label="Main Navigation Hub" style="grid-template-columns: repeat(3, 1fr);">
+      <nav class="tab-bar" aria-label="Main Hub Tabs">
         <button class="tab-btn active" id="btn-projects" onclick="switchTab('tab-projects')">
-          <svg class="tab-svg" viewBox="0 0 24 24"><path d="M3 3v18h18L3 3z"/><path d="M7 17l2-2M10 14l2-2M13 11l2-2"/></svg>
-          <span class="tab-label">Projects</span>
+          <span>⏱️ Core Four Project Timelines</span>
         </button>
         <button class="tab-btn" id="btn-windows" onclick="switchTab('tab-windows')">
-          <svg class="tab-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18M3 12h18"/></svg>
-          <span class="tab-label">Windows & Doors</span>
+          <span>🪟 Windows & Doors</span>
         </button>
         <button class="tab-btn" id="btn-estimate" onclick="switchTab('tab-estimate')">
-          <svg class="tab-svg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span class="tab-label">Get Estimate</span>
+          <span>✉️ Get Free Quote</span>
         </button>
       </nav>
     </div>
 
-    <!-- TAB 1: DGC CRAFTSMANSHIP PHOTO LAKE & PROJECT STORIES -->
+    <!-- TAB 1: CORE FOUR CONSTRUCTION CHRONOLOGY TIMELINES -->
     <section class="tab-pane active" id="tab-projects">
-      <!-- Banner Header -->
-      <div style="background:linear-gradient(135deg, rgba(255,87,34,0.14) 0%, rgba(56,189,248,0.09) 100%);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:14px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-          <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);"></span>
-          <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;">Ground-Truth Jobsite Telemetry</span>
+      
+      <div class="timeline-stack">
+        
+        <!-- TIMELINE 1: SLATE BLUE SIDING & THERMAL ENVELOPE REMODEL -->
+        <div class="timeline-card">
+          <div class="timeline-card-header">
+            <div>
+              <div class="timeline-trade-badge">Exterior Envelope Remodel • Production Timeline</div>
+              <h2 class="timeline-card-title">Slate Blue Siding & Full Envelope Transformation</h2>
+              <p class="timeline-card-desc">Complete exterior renewal: old siding teardown down to foil-faced insulation, substrate inspection, Slate Blue vinyl lap siding installation, white window casing wraps, and custom scalloped gable peaks.</p>
+            </div>
+            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+          </div>
+          
+          <div class="gates-container">
+            <!-- Gate 1: Teardown -->
+            <div class="gate-block">
+              <div class="gate-num-circle completed">1</div>
+              <div class="gate-content">
+                <div class="gate-header-row">
+                  <h3 class="gate-title">Gate 1: Complete Siding Teardown & Substrate Inspection</h3>
+                  <span class="gate-badge">Teardown & Prep</span>
+                </div>
+                <p class="gate-desc">Removed all aging siding down to the thermal foil vapor barrier. Inspected plywood sheathing, window frames, and wall framing for moisture or structural rot prior to siding installation.</p>
+                <div class="gate-photo-grid">
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_4349.webp', 'Gate 1: Old siding stripped off two-story home, exposing silver foil insulation sheathing.')">
+                    <img src="images/projects/IMG_4349.webp" alt="Old siding stripped off" loading="lazy">
+                    <div class="gate-photo-caption">Full Siding Teardown</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gate 2: Siding Installation & Detail Trim -->
+            <div class="gate-block">
+              <div class="gate-num-circle completed">2</div>
+              <div class="gate-content">
+                <div class="gate-header-row">
+                  <h3 class="gate-title">Gate 2: Slate Blue Lap Siding & Architectural White Gables</h3>
+                  <span class="gate-badge">Assembly & Siding</span>
+                </div>
+                <p class="gate-desc">Installed premium Slate Blue vinyl lap siding, outside corner posts, window head z-flashing, vented vinyl soffits, and custom white scalloped decorative gable peak siding.</p>
+                <div class="gate-photo-grid">
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_4801.webp', 'Gate 2: Finished Slate Blue vinyl lap siding with crisp white corner trims and scalloped gable.')">
+                    <img src="images/projects/IMG_4801.webp" alt="Finished Slate Blue siding" loading="lazy">
+                    <div class="gate-photo-caption">Slate Blue Siding Finish</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_4802.webp', 'Gate 2: High-elevation gable peak with scalloped vinyl trim and vented soffits.')">
+                    <img src="images/projects/IMG_4802.webp" alt="Gable peak detail" loading="lazy">
+                    <div class="gate-photo-caption">Scalloped Gable Detail</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_4805.webp', 'Gate 2: Custom window casing wraps and head z-flashing detail.')">
+                    <img src="images/projects/IMG_4805.webp" alt="Window flashing detail" loading="lazy">
+                    <div class="gate-photo-caption">Window Casing & Flashing</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <h2 style="font-family:var(--font-brand);font-size:20px;font-weight:900;color:#fff;margin:0 0 4px 0;">DGC Craftsmanship Photo Lake</h2>
-        <p style="font-size:13px;color:#94a3b8;margin:0;line-height:1.45;">
-          Tap any project tile below to launch its interactive step-by-step slideshow with full photo scrubbers and line-item scope calculators.
-        </p>
+
+        <!-- TIMELINE 2: FRONT PORTICO & STRUCTURAL OVERHANG REBUILD -->
+        <div class="timeline-card">
+          <div class="timeline-card-header">
+            <div>
+              <div class="timeline-trade-badge">Structural Framing & Rot Repair • Production Timeline</div>
+              <h2 class="timeline-card-title">Front Portico Structural Header & Overhang Rebuild</h2>
+              <p class="timeline-card-desc">Emergency winter repair of a collapsing front entryway portico: structural shoring, removal of severely rotted load-bearing header beams, installation of new engineered lumber, and gabled portico rebuild.</p>
+            </div>
+            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+          </div>
+          
+          <div class="gates-container">
+            <!-- Gate 1: Rot Discovery -->
+            <div class="gate-block">
+              <div class="gate-num-circle completed">1</div>
+              <div class="gate-content">
+                <div class="gate-header-row">
+                  <h3 class="gate-title">Gate 1: Rot Discovery & Structural Decay Assessment</h3>
+                  <span class="gate-badge">Inspection & Diagnosis</span>
+                </div>
+                <p class="gate-desc">Discovered severe moisture intrusion and structural dry rot inside the main load-bearing header beam supporting the front portico roof. The timber had decayed to crumbling wood, compromising structural safety.</p>
+                <div class="gate-photo-grid">
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5779.webp', 'Gate 1: Water-damaged rotted porch header beam exposed above entryway soffit.')">
+                    <img src="images/projects/fredparker/IMG_5779.webp" alt="Rotted header beam" loading="lazy">
+                    <div class="gate-photo-caption">Rotted Header Exposed</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5851.webp', 'Gate 1: Severe structural decay and crumbling wood inside load-bearing beam.')">
+                    <img src="images/projects/fredparker/IMG_5851.webp" alt="Structural decay" loading="lazy">
+                    <div class="gate-photo-caption">Severe Beam Decay</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5854.webp', 'Gate 1: Close-up of crumbling dry-rotted timber beam.')">
+                    <img src="images/projects/fredparker/IMG_5854.webp" alt="Crumbling wood rot" loading="lazy">
+                    <div class="gate-photo-caption">Dry Rot Close-up</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5906.webp', 'Gate 1: Rotted subfascia and roof eave decay under snow line.')">
+                    <img src="images/projects/fredparker/IMG_5906.webp" alt="Rotted subfascia" loading="lazy">
+                    <div class="gate-photo-caption">Eave & Subfascia Rot</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gate 2: Shoring & Weather Containment -->
+            <div class="gate-block">
+              <div class="gate-num-circle completed">2</div>
+              <div class="gate-content">
+                <div class="gate-header-row">
+                  <h3 class="gate-title">Gate 2: Winter Shoring, Scaffolding & Site Containment</h3>
+                  <span class="gate-badge">Shoring & Safety</span>
+                </div>
+                <p class="gate-desc">Erected temporary heavy timber support posts to shore the roof overhang, installed steel scaffolding, and hung weather containment tarps for safe winter execution.</p>
+                <div class="gate-photo-grid">
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5864.webp', 'Gate 2: Scaffolding and weather containment tarps at front entryway.')">
+                    <img src="images/projects/fredparker/IMG_5864.webp" alt="Scaffold and tarps" loading="lazy">
+                    <div class="gate-photo-caption">Winter Containment</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5871.webp', 'Gate 2: Shoring portico roof with temporary support posts and dump trailer on site.')">
+                    <img src="images/projects/fredparker/IMG_5871.webp" alt="Structural shoring" loading="lazy">
+                    <div class="gate-photo-caption">Roof Shoring Setup</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5881.webp', 'Gate 2: Roof truss and attic ledger structural inspection.')">
+                    <img src="images/projects/fredparker/IMG_5881.webp" alt="Attic inspection" loading="lazy">
+                    <div class="gate-photo-caption">Attic Structural Check</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gate 3: Structural Rebuild -->
+            <div class="gate-block">
+              <div class="gate-num-circle completed">3</div>
+              <div class="gate-content">
+                <div class="gate-header-row">
+                  <h3 class="gate-title">Gate 3: Engineered Header Rebuild & Gabled Portico Framing</h3>
+                  <span class="gate-badge">Rebuild & Finish</span>
+                </div>
+                <p class="gate-desc">Removed all decayed lumber, installed new structural engineered headers, insulated with R-Matte foam insulation board, and rebuilt the gabled front portico with white vinyl soffits.</p>
+                <div class="gate-photo-grid">
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/fredparker/IMG_5934.webp', 'Gate 3: New structural header installed, R-Matte insulation board, and rebuilt gable portico.')">
+                    <img src="images/projects/fredparker/IMG_5934.webp" alt="Rebuilt portico gable" loading="lazy">
+                    <div class="gate-photo-caption">Rebuilt Header & Gable</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TIMELINE 3: TWO-STORY RESIDENTIAL ADDITION -->
+        <div class="timeline-card">
+          <div class="timeline-card-header">
+            <div>
+              <div class="timeline-trade-badge">Structural Framing & Addition • Production Timeline</div>
+              <h2 class="timeline-card-title">Two-Story Home Addition & WeatherLogic Envelope</h2>
+              <p class="timeline-card-desc">Engineered home expansion: poured concrete foundation, 2x6 exterior wall framing, LP WeatherLogic moisture-barrier sheathing, engineered roof trusses, and window framing.</p>
+            </div>
+            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+          </div>
+          
+          <div class="gates-container">
+            <!-- Gate 1: Wall Framing & WeatherLogic -->
+            <div class="gate-block">
+              <div class="gate-num-circle completed">1</div>
+              <div class="gate-content">
+                <div class="gate-header-row">
+                  <h3 class="gate-title">Gate 1: Foundation Tie-In, 2x6 Wall Framing & WeatherLogic Sheathing</h3>
+                  <span class="gate-badge">Framing & Sheathing</span>
+                </div>
+                <p class="gate-desc">Framed 2x6 exterior walls on concrete foundation, installed structural headers, and sheathed with blue LP WeatherLogic water-resistive barrier panels.</p>
+                <div class="gate-photo-grid">
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/dickman_addition/IMG_2009.webp', 'Gate 1: Concrete foundation with 2x6 exterior wall framing and LP WeatherLogic sheathing.')">
+                    <img src="images/projects/dickman_addition/IMG_2009.webp" alt="Addition framing" loading="lazy">
+                    <div class="gate-photo-caption">Foundation & 2x6 Framing</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/dickman_addition/IMG_2066.webp', 'Gate 1: Two-story addition structure with LP WeatherLogic sheathing and boom lift.')">
+                    <img src="images/projects/dickman_addition/IMG_2066.webp" alt="Two-story addition" loading="lazy">
+                    <div class="gate-photo-caption">Two-Story Structure</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/dickman_addition/IMG_2071.webp', 'Gate 1: Carpenter inspecting exterior window rough openings and sheathing.')">
+                    <img src="images/projects/dickman_addition/IMG_2071.webp" alt="Carpenter on site" loading="lazy">
+                    <div class="gate-photo-caption">Window Framing & Sheathing</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TIMELINE 4: FULL KITCHEN REMODEL & CUSTOM CABINETRY -->
+        <div class="timeline-card">
+          <div class="timeline-card-header">
+            <div>
+              <div class="timeline-trade-badge">Interior Remodeling • Production Timeline</div>
+              <h2 class="timeline-card-title">Turnkey Kitchen Remodel & Custom Cabinetry Fitment</h2>
+              <p class="timeline-card-desc">Complete kitchen renovation: white shaker cabinet installation, faux marble laminate countertops, butcher block appliance top, white subway tile backsplash, and dark LVP flooring.</p>
+            </div>
+            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+          </div>
+          
+          <div class="gates-container">
+            <!-- Gate 1: Finished Kitchen Turnover -->
+            <div class="gate-block">
+              <div class="gate-num-circle completed">1</div>
+              <div class="gate-content">
+                <div class="gate-header-row">
+                  <h3 class="gate-title">Gate 1: Cabinet Installation, Backsplash Tile & Fixture Trim</h3>
+                  <span class="gate-badge">Turnover & Finish</span>
+                </div>
+                <p class="gate-desc">Installed custom white shaker cabinetry with soft-close hardware, faux marble countertops, undermount stainless sink with gooseneck faucet, full subway tile backsplash, and dark LVP flooring.</p>
+                <div class="gate-photo-grid">
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_3341.webp', 'Gate 1: Finished kitchen with white shaker cabinets, subway tile backsplash, and dark LVP flooring.')">
+                    <img src="images/projects/IMG_3341.webp" alt="Finished kitchen remodel" loading="lazy">
+                    <div class="gate-photo-caption">Full Kitchen Remodel</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_3346.webp', 'Gate 1: Kitchen detail with butcher block top on dishwasher and white shaker cabinets.')">
+                    <img src="images/projects/IMG_3346.webp" alt="Kitchen countertop detail" loading="lazy">
+                    <div class="gate-photo-caption">Cabinetry & Butcher Block</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TIMELINE 5: NAVY BLUE SIDING & STONE WAINSCOT REMODEL -->
+        <div class="timeline-card">
+          <div class="timeline-card-header">
+            <div>
+              <div class="timeline-trade-badge">Exterior Envelope Remodel • Production Timeline</div>
+              <h2 class="timeline-card-title">Navy Blue Siding, Board & Batten Gables & Stone Wainscot</h2>
+              <p class="timeline-card-desc">Comprehensive exterior renovation: Navy Blue vinyl lap siding, manufactured stone wainscot masonry along foundation, vertical board-and-batten accent gables, and white trim packages.</p>
+            </div>
+            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+          </div>
+          
+          <div class="gates-container">
+            <div class="gate-block">
+              <div class="gate-num-circle completed">1</div>
+              <div class="gate-content">
+                <div class="gate-header-row">
+                  <h3 class="gate-title">Gate 1: Finished Exterior Siding, Stone Wainscot & Gables</h3>
+                  <span class="gate-badge">Complete Turnover</span>
+                </div>
+                <p class="gate-desc">Completed two-story exterior elevation featuring Navy Blue vinyl siding, stone masonry wainscot along the foundation, board-and-batten gables, and white window casing wraps.</p>
+                <div class="gate-photo-grid">
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/IMG_3142.webp', 'Gate 1: Completed Navy Blue siding, stone wainscot, and board-and-batten gables.')">
+                    <img src="images/projects/IMG_3142.webp" alt="Completed navy blue siding home" loading="lazy">
+                    <div class="gate-photo-caption">Navy Blue Home Elevation</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TIMELINE 6: CUSTOM COMPOSITE DECK & TIMBER PORCH -->
+        <div class="timeline-card">
+          <div class="timeline-card-header">
+            <div>
+              <div class="timeline-trade-badge">Outdoor Carpentry • Production Timeline</div>
+              <h2 class="timeline-card-title">Custom Composite Deck, Timber Framing & Pine Ceiling</h2>
+              <p class="timeline-card-desc">Engineered timber substructure, low-maintenance composite deck boards with concealed fasteners, vinyl baluster railings, stairs, and tongue-and-groove pine covered porch ceiling.</p>
+            </div>
+            <div class="timeline-status-tag">✓ Completed & Turned Over</div>
+          </div>
+          
+          <div class="gates-container">
+            <div class="gate-block">
+              <div class="gate-num-circle completed">1</div>
+              <div class="gate-content">
+                <div class="gate-header-row">
+                  <h3 class="gate-title">Gate 1: Timber Substructure Framing to Finished Composite Deck</h3>
+                  <span class="gate-badge">Framing to Finish</span>
+                </div>
+                <p class="gate-desc">Built heavy treated timber post and joist substructure, installed composite decking planks, vinyl railings, and finished covered porch with tongue-and-groove pine planks.</p>
+                <div class="gate-photo-grid">
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/wall_framing_addition.jpg', 'Gate 1: Heavy treated timber posts, beams, and joist substructure.')">
+                    <img src="images/projects/wall_framing_addition.jpg" alt="Treated timber framing" loading="lazy">
+                    <div class="gate-photo-caption">Heavy Timber Framing</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/composite_deck_construction.jpg', 'Gate 1: Finished composite deck with vinyl railing package and stairs.')">
+                    <img src="images/projects/composite_deck_construction.jpg" alt="Finished composite deck" loading="lazy">
+                    <div class="gate-photo-caption">Finished Composite Deck</div>
+                  </div>
+                  <div class="gate-photo-card" onclick="openLightbox('images/projects/pine_ceiling_installation.jpg', 'Gate 1: Tongue-and-groove pine ceiling installed on covered porch.')">
+                    <img src="images/projects/pine_ceiling_installation.jpg" alt="Pine porch ceiling" loading="lazy">
+                    <div class="gate-photo-caption">T&G Pine Ceiling</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Filter Pills -->
-      <div class="gallery-filter-bar" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:14px;scrollbar-width:none;">
-        <button class="filter-pill active" onclick="filterGallery('all', this)">All Photos (27)</button>
-        <button class="filter-pill" onclick="filterGallery('remodel', this)">Exterior Remodels (8)</button>
-        <button class="filter-pill" onclick="filterGallery('addition', this)">Framing Additions (5)</button>
-        <button class="filter-pill" onclick="filterGallery('interior', this)">Drywall & Trim (6)</button>
-        <button class="filter-pill" onclick="filterGallery('siding', this)">Siding & Gables (3)</button>
-        <button class="filter-pill" onclick="filterGallery('decks', this)">Custom Decks (3)</button>
-        <button class="filter-pill" onclick="filterGallery('windows', this)">Windows & Doors (2)</button>
-      </div>
-
-      <!-- The 2-Column (Mobile) / 3-Column (Desktop) Visual Photo Lake Grid -->
-      <div class="gallery-grid" id="photolake-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:12px;margin-bottom:24px;">
-
-        <!-- EXTERIOR ENVELOPE REMODEL (8 PHOTOS) -->
-        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5779.webp" alt="Phase 1: Full Exterior Tear-Off & Sheathing Inspection" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 1</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 1: Full Exterior Tear-Off & Sheathing Inspection</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5851.webp" alt="Phase 2: Continuous Vapor Barrier & Seam Taping" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 2</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 2: Continuous Vapor Barrier & Seam Taping</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5854.webp" alt="Phase 3: Window Sill Pan Flashing & Thermal Break" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 3</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 3: Window Sill Pan Flashing & Thermal Break</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5864.webp" alt="Phase 4: Laser-Leveled Starter Strip & Outside Corner Posts" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 4</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 4: Laser-Leveled Starter Strip Layout</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5871.webp" alt="Phase 5: Slate Blue Vinyl Lap Siding Installation" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 5</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 5: Slate Blue Vinyl Lap Siding</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5881.webp" alt="Phase 6: Custom Brake Metal Window & Door Casing Wraps" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 6</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 6: Custom Aluminum Brake Metal Wraps</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5906.webp" alt="Phase 7: Continuous Vented Soffits & Aluminum Fascia" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 7</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 7: Continuous Vented Soffits & Fascia</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5934.webp" alt="Phase 8: Architectural White Gable Accents & Completed Elevation" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Remodel • Phase 8</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 8: Architectural White Gable Accents</div>
-          </div>
-        </div>
-
-        <!-- STRUCTURAL ADDITION (5 PHOTOS) -->
-        <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/dickman_addition/IMG_2009.webp" alt="Stage 1: Excavation, Staging & Foundation Anchor Layout" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Stage 1</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Structural Home Addition</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 1: Excavation, Staging & Foundation Anchor Layout</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/dickman_addition/IMG_2066.webp" alt="Stage 2: Treated Mudsill & 2x10 Subfloor Joist Assembly" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Stage 2</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Structural Home Addition</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 2: Treated Mudsill & 2x10 Subfloor Joists</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/dickman_addition/IMG_2071.webp" alt="Stage 3: 2x6 Exterior Wall Framing & Double Headers" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Stage 3</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Structural Home Addition</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 3: 2x6 Exterior Wall Framing & Double Headers</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/dickman_addition/IMG_2158.webp" alt="Stage 4: Structural Roof Truss Placement & Ridge Tie-Ins" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Stage 4</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Structural Home Addition</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 4: Structural Roof Truss Placement</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/dickman_addition/IMG_3074.webp" alt="Stage 5: 7/16 OSB Shear Wall Sheathing & Weather Wrap" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Stage 5</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Structural Home Addition</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 5: 7/16" OSB Shear Wall Sheathing</div>
-          </div>
-        </div>
-
-        <!-- INTERIOR DRYWALL & TRIM (6 PHOTOS) -->
-        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_3142.webp" alt="Step 1: Floor Masking & Laser Alignment" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 1</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 1: Floor Masking & Laser Alignment</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_3143.webp" alt="Step 2: Paper-Faced Corner Bead Float" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 2</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 2: Paper-Faced Corner Bead Float</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_3341.webp" alt="Step 3: Ceiling Feathering & Dustless Sanding" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 3</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 3: Ceiling Feathering & Dustless Sanding</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_3346.webp" alt="Step 4: High-Build PVA Primer Application" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 4</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 4: High-Build PVA Primer Application</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_4349.webp" alt="Step 5: Enamel Window & Door Trim Casing" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 5</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 5: Enamel Window & Door Trim Casing</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_6595.webp" alt="Step 6: Completed Living Room Architectural Trim" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Interior • Step 6</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Step 6: Completed Living Room Architectural Trim</div>
-          </div>
-        </div>
-
-        <!-- SIDING & GABLES (3 PHOTOS) -->
-        <div class="gallery-item" data-category="siding" data-project="siding" onclick="openProjectLightbox('siding')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_4801.webp" alt="Phase 1: Finished Slate Blue Siding & Corner Trims" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Siding • Phase 1</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Slate Blue Siding</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 1: Finished Slate Blue Siding & Corner Trims</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="siding" data-project="siding" onclick="openProjectLightbox('siding')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_4802.webp" alt="Phase 2: High-Elevation Gable Details & Soffit Ventilation" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Siding • Phase 2</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Slate Blue Siding</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 2: High-Elevation Gable Details & Soffits</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="siding" data-project="siding" onclick="openProjectLightbox('siding')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_4805.webp" alt="Phase 3: Thermal Barrier & Window Head Flashing" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Siding • Phase 3</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Slate Blue Siding</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phase 3: Thermal Barrier & Window Head Flashing</div>
-          </div>
-        </div>
-
-        <!-- CUSTOM DECKS & TIMBER (3 PHOTOS) -->
-        <div class="gallery-item" data-category="decks" data-project="decks" onclick="openProjectLightbox('decks')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/composite_deck_construction.jpg" alt="Stage 1: Finished Composite Surface & Rail Package" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Decks • Stage 1</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Custom Composite Deck</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 1: Finished Composite Surface & Rail Package</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="decks" data-project="decks" onclick="openProjectLightbox('decks')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/wall_framing_addition.jpg" alt="Stage 2: Heavy Timber Joist Framing & Structural Posts" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Decks • Stage 2</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Custom Composite Deck</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 2: Heavy Timber Joist Framing & Posts</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="decks" data-project="decks" onclick="openProjectLightbox('decks')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/pine_ceiling_installation.jpg" alt="Stage 3: Tongue-and-Groove Pine Porch Ceiling" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Decks • Stage 3</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Custom Composite Deck</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 3: Tongue-and-Groove Pine Porch Ceiling</div>
-          </div>
-        </div>
-
-        <!-- WINDOWS & DOORS (2 PHOTOS) -->
-        <div class="gallery-item" data-category="windows" data-project="windows" onclick="openProjectLightbox('windows')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/window_installation_foam.jpg" alt="Stage 1: Low-Pressure Foam Insulation Seal" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Windows • Stage 1</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Replacement Windows</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 1: Low-Pressure Foam Insulation Seal</div>
-          </div>
-        </div>
-
-        <div class="gallery-item" data-category="windows" data-project="windows" onclick="openProjectLightbox('windows')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/window_replacement.webp" alt="Stage 2: Custom Aluminum Casing Wrap & Silicone Seal" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Windows • Stage 2</span>
-          <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Replacement Windows</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Stage 2: Custom Aluminum Casing Wrap & Silicone Seal</div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Compact Digital Apps & Tools Suite Bar -->
-      <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:18px;">⚡</span>
-          <div>
-            <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;">Digital Apps & Field Calculators</div>
-            <div style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">PourReady Concrete PWA • WaZ Radar • SkyDrop Transfer</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <a href="https://calc.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="padding:6px 12px;background:rgba(255,87,34,0.15);color:var(--accent);border:1px solid rgba(255,87,34,0.3);font-size:11.5px;font-weight:700;border-radius:6px;text-decoration:none;">PourReady PWA ↗</a>
-          <a href="https://wazweather.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="padding:6px 12px;background:rgba(56,189,248,0.15);color:var(--cyan);border:1px solid rgba(56,189,248,0.3);font-size:11.5px;font-weight:700;border-radius:6px;text-decoration:none;">WaZ Radar ↗</a>
-          <a href="https://skydrop.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="padding:6px 12px;background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3);font-size:11.5px;font-weight:700;border-radius:6px;text-decoration:none;">SkyDrop ↗</a>
-        </div>
-      </div>
     </section>
-
 
     <!-- TAB 2: WINDOWS & DOORS -->
     <section class="tab-pane" id="tab-windows">
-      <div class="wd-hero-banner">
-        <span class="wd-badge">Precision Envelope Upgrades</span>
-        <h2 class="wd-title">Replacement Windows & Custom Exterior Doors</h2>
-        <p class="wd-desc">Energy-efficient Low-E Argon vinyl, composite, and wood windows with custom exterior aluminum casing wraps.</p>
+      <div style="background:linear-gradient(135deg, #111726 0%, #0d121c 100%);border:1px solid rgba(56,189,248,0.3);border-radius:12px;padding:16px;margin-bottom:14px;">
+        <span style="font-family:var(--font-mono);font-size:10px;font-weight:800;color:var(--cyan);background:rgba(56,189,248,0.1);padding:2px 6px;border-radius:4px;text-transform:uppercase;">Envelope Upgrades</span>
+        <h2 style="font-family:var(--font-brand);font-size:18px;font-weight:800;margin:6px 0 4px;color:#fff;">Replacement Windows & Custom Exterior Doors</h2>
+        <p style="font-size:13px;color:#cbd5e1;line-height:1.4;">Energy-efficient Low-E Argon vinyl, composite, and wood windows with custom brake-metal casing wraps.</p>
       </div>
 
-      <div class="wd-showcase-grid">
+      <div class="wd-grid">
         <div class="wd-card">
-          <div class="wd-card-media"><img src="images/projects/window_installation_foam.jpg" alt="Replacement Window Insulated"></div>
+          <div class="wd-card-media"><img src="images/projects/window_installation_foam.jpg" alt="Replacement Windows"></div>
           <div class="wd-card-content">
             <div class="wd-card-title">Low-E Argon Windows</div>
-            <div class="wd-card-sub">Double-hung & casement retrofits with expanding low-pressure foam insulation.</div>
-            <ul class="wd-specs-list">
-              <li>✓ Low-E Argon Glass</li>
-              <li>✓ Custom Aluminum Casing</li>
-            </ul>
-            <button onclick="launchScopeTrade('windows')" class="btn-wd-card-action">Estimate Windows ↗</button>
+            <div class="wd-card-sub">Double-hung & casement retrofits with low-pressure foam insulation.</div>
+            <button onclick="openCarpDrawer();selectScopeTrade('windows');" class="btn-hero secondary" style="width:100%;padding:8px;font-size:12px;">Estimate Windows ↗</button>
           </div>
         </div>
 
         <div class="wd-card">
-          <div class="wd-card-media"><img src="images/projects/entry_door.webp" alt="Fiberglass Entry Door"></div>
+          <div class="wd-card-media"><img src="images/projects/entry_door.webp" alt="Custom Entry Doors"></div>
           <div class="wd-card-content">
             <div class="wd-card-title">Custom Entry Doors</div>
-            <div class="wd-card-sub">Heavy insulated fiberglass and steel doors with magnetic weather seals.</div>
-            <ul class="wd-specs-list">
-              <li>✓ Multi-Point Locking</li>
-              <li>✓ Rot-Proof Composite Frame</li>
-            </ul>
-            <button onclick="launchScopeTrade('doors')" class="btn-wd-card-action">Estimate Doors ↗</button>
+            <div class="wd-card-sub">Insulated fiberglass & steel doors with rot-proof composite frames.</div>
+            <button onclick="openCarpDrawer();selectScopeTrade('doors');" class="btn-hero secondary" style="width:100%;padding:8px;font-size:12px;">Estimate Doors ↗</button>
           </div>
         </div>
 
         <div class="wd-card">
-          <div class="wd-card-media"><img src="images/projects/window_replacement.webp" alt="Sliding Patio Door"></div>
+          <div class="wd-card-media"><img src="images/projects/window_replacement.webp" alt="Sliding Patio Doors"></div>
           <div class="wd-card-content">
             <div class="wd-card-title">Sliding Patio Doors</div>
-            <div class="wd-card-sub">Smooth rolling multi-chamber vinyl patio doors with integrated foot locks.</div>
-            <ul class="wd-specs-list">
-              <li>✓ Tempered Safety Glass</li>
-              <li>✓ Heavy-Duty Ball Bearings</li>
-            </ul>
-            <button onclick="launchScopeTrade('doors')" class="btn-wd-card-action">Estimate Patio Door ↗</button>
+            <div class="wd-card-sub">Multi-chamber vinyl patio sliders with integrated foot locks & tempered glass.</div>
+            <button onclick="openCarpDrawer();selectScopeTrade('doors');" class="btn-hero secondary" style="width:100%;padding:8px;font-size:12px;">Estimate Patio Doors ↗</button>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- TAB 3: GET ESTIMATE / DISPATCH -->
     <section class="tab-pane" id="tab-estimate">
       <div class="intake-card">
-        <div class="intake-header">
-          <h2>Direct Dispatch to J. Dondlinger</h2>
-          <p>Send project notes directly to J. Dondlinger's mobile dispatch. Typical reply in 15–30 mins.</p>
-        </div>
+        <h2 style="font-family:var(--font-brand);font-size:18px;font-weight:800;color:#fff;margin-bottom:4px;">Direct Project Dispatch to John Dondlinger</h2>
+        <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:16px;">Send scope details or text photos for a fixed turnkey estimate. Typical reply within 15–30 minutes.</p>
 
-        <div id="lead-status-msg" class="status-badge"></div>
+        <div id="lead-status-msg" style="display:none;padding:10px;border-radius:8px;margin-bottom:12px;font-size:12.5px;font-weight:700;"></div>
 
         <form id="leadForm" onsubmit="handleDirectLeadSubmit(event)">
           <div class="form-row">
@@ -988,30 +1171,27 @@
           <div class="form-row">
             <label for="fService">Project Scope *</label>
             <select id="fService" class="form-select" required>
+              <option value="Exterior Siding & Trim">Exterior Siding & Trim</option>
               <option value="Custom Decks & Outdoor Living">Custom Decks & Outdoor Living</option>
-              <option value="Exterior Siding & Envelopes">Exterior Siding & Envelopes</option>
-              <option value="Architectural Roofing">Architectural Roofing</option>
-              <option value="PourReady Concrete Flatwork">PourReady Concrete Flatwork</option>
+              <option value="Kitchen Remodeling & Cabinetry">Kitchen Remodeling & Cabinetry</option>
+              <option value="Structural Room Addition">Structural Room Addition</option>
               <option value="High-Efficiency Windows & Doors">High-Efficiency Windows & Doors</option>
-              <option value="Custom Kitchen & Cabinetry">Custom Kitchen & Cabinetry</option>
-              <option value="Commercial Drop Ceilings">Commercial Drop Ceilings</option>
-              <option value="Other Scope">Other Construction Scope</option>
+              <option value="Concrete Flatwork & Slabs">Concrete Flatwork & Slabs</option>
             </select>
           </div>
 
           <div class="form-row">
             <label for="fAddress">City / Location</label>
-            <input type="text" id="fAddress" class="form-input" placeholder="Wisconsin Rapids, Nekoosa, Port Edwards, Stevens Point...">
+            <input type="text" id="fAddress" class="form-input" placeholder="Wisconsin Rapids, Stevens Point, Plover, Nekoosa...">
           </div>
 
           <div class="form-row">
-            <label for="fNotes">Project Scope Notes</label>
+            <label for="fNotes">Project Notes</label>
             <textarea id="fNotes" class="form-textarea" rows="3" placeholder="Approximate dimensions, materials, or target timeline..."></textarea>
           </div>
 
           <button type="submit" id="fSubmitBtn" class="btn-submit-lead">
-            <svg class="icon-svg" style="width:16px;height:16px;stroke:#fff;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            Send Scope to J. Dondlinger
+            Send Scope to John Dondlinger ⚡
           </button>
         </form>
       </div>
@@ -1019,274 +1199,78 @@
 
   </main>
 
-  <!-- DONDLINGERGC 4-MODULE BALLPARK ESTIMATOR DRAWER -->
+  <!-- Lightbox Modal -->
+  <div id="lightbox-modal" onclick="closeLightbox()">
+    <div id="lightbox-close" onclick="closeLightbox()">✕</div>
+    <img id="lightbox-img" src="" alt="Full Resolution Project Photo">
+    <div id="lightbox-caption"></div>
+  </div>
+
+  <!-- Ballpark Estimator Drawer -->
   <div id="carp-drawer-overlay" onclick="closeCarpDrawer()"></div>
   <div id="carp-drawer" role="dialog" aria-modal="true">
     <div class="drawer-handle"></div>
     <div class="drawer-header">
       <div>
         <div class="drawer-title">Instant Ballpark Estimator</div>
-        <div class="drawer-sub">⚡ Step 1: Select Trade & Scope ➔ Step 2: Instant Turnkey Range</div>
+        <div class="drawer-sub">⚡ Select Trade ➔ Move Slider for Instant Turnkey Range</div>
       </div>
       <div class="drawer-close-btn" onclick="closeCarpDrawer()">✕</div>
     </div>
 
-    <!-- Trade Selector Chips -->
     <div class="drawer-trade-chips">
-      <button class="drawer-chip active" id="chip-decks" onclick="selectScopeTrade('decks')">🪵 Custom Decks</button>
-      <button class="drawer-chip" id="chip-siding" onclick="selectScopeTrade('siding')">🏠 Siding Envelopes</button>
+      <button class="drawer-chip active" id="chip-siding" onclick="selectScopeTrade('siding')">🏠 Siding</button>
+      <button class="drawer-chip" id="chip-decks" onclick="selectScopeTrade('decks')">🪵 Custom Decks</button>
       <button class="drawer-chip" id="chip-roofing" onclick="selectScopeTrade('roofing')">🔨 Roofing</button>
-      <button class="drawer-chip" id="chip-concrete" onclick="selectScopeTrade('concrete')">🧱 PourReady Concrete</button>
-      <button class="drawer-chip" id="chip-windows" onclick="selectScopeTrade('windows')">🪟 Windows & Doors</button>
-      <button class="drawer-chip" id="chip-kitchen" onclick="selectScopeTrade('kitchen')">🍳 Kitchen</button>
-      <button class="drawer-chip" id="chip-ceilings" onclick="selectScopeTrade('ceilings')">🏢 Drop Ceilings</button>
+      <button class="drawer-chip" id="chip-concrete" onclick="selectScopeTrade('concrete')">🧱 Concrete</button>
+      <button class="drawer-chip" id="chip-windows" onclick="selectScopeTrade('windows')">🪟 Windows</button>
     </div>
 
-    <!-- Dynamic Slider -->
     <div class="slider-group" id="slider-container">
       <div class="slider-header">
-        <span id="slider-title-text">Estimated Deck Area (Sq Ft):</span>
-        <span class="slider-val-tag" id="slider-val-display">200 Sq Ft</span>
+        <span id="slider-title-text">Estimated Wall Area (Sq Ft):</span>
+        <span class="slider-val-tag" id="slider-val-display">1,500 Sq Ft</span>
       </div>
-      <input type="range" id="scope-slider" class="scope-range-input" min="80" max="600" value="200" step="20" oninput="updateBallparkCalculation()">
+      <input type="range" id="scope-slider" class="scope-range-input" min="600" max="3500" value="1500" step="50" oninput="updateBallparkCalculation()">
     </div>
 
-    <!-- MODULE A: THE BALLPARK QUOTE -->
-    <div class="ballpark-box" style="background:linear-gradient(135deg, rgba(255,87,34,0.12) 0%, rgba(18,20,28,0.95) 100%);border:1px solid var(--accent);border-radius:12px;padding:16px;margin-bottom:14px;">
+    <div class="ballpark-box">
       <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:4px;" id="bp-trade-label">Estimated Turnkey Range:</div>
-      <div class="ballpark-range" id="bp-range-display" style="font-size:28px;font-weight:900;color:#fff;font-family:var(--font-brand);letter-spacing:-0.5px;margin-bottom:8px;">$7,000 – $11,000</div>
-      <ul style="list-style:none;font-size:11.5px;color:#cbd5e1;line-height:1.6;margin-bottom:4px;">
-        <li style="display:flex;align-items:center;gap:6px;">✓ <span>Turnkey pricing: Premium materials & certified installation</span></li>
-        <li style="display:flex;align-items:center;gap:6px;">✓ <span>Daily jobsite clean-up & full debris disposal included</span></li>
-        <li style="display:flex;align-items:center;gap:6px;">✓ <span>Central Wisconsin municipal building code compliance</span></li>
+      <div class="ballpark-range" id="bp-range-display" style="font-size:26px;font-weight:900;color:#fff;font-family:var(--font-brand);margin-bottom:8px;">$11,250 – $18,000</div>
+      <ul style="list-style:none;font-size:11.5px;color:#cbd5e1;line-height:1.5;">
+        <li>✓ Turnkey fixed-price quote: Premium materials & master labor</li>
+        <li>✓ Daily jobsite clean-up & full debris disposal</li>
+        <li>✓ Code-compliant master craftsmanship</li>
       </ul>
-      <div style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);margin-top:6px;">*Instant ballpark based on Central Wisconsin historical project averages.</div>
-    </div>
-
-    <!-- MODULE B: CROSS-CATEGORY SPILLOVER (Interactive Add-ons) -->
-    <div id="module-b-addons" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
-      <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;margin-bottom:4px;">💡 Enhance Your Project (Optional Add-ons)</div>
-      <div style="font-size:11.5px;color:var(--text-muted);margin-bottom:10px;">Homeowners frequently pair this scope with:</div>
-      <div id="addons-checkbox-container" style="display:flex;flex-direction:column;gap:8px;"></div>
-    </div>
-
-    <!-- MODULE C: VISUAL BEFORE/AFTER STORIES -->
-    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
-      <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;margin-bottom:8px;">📸 Real Central WI Project Proof</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div style="background:#090a0f;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:11px;">
-          <div style="font-weight:700;color:#fff;margin-bottom:2px;">Living Room & Trim</div>
-          <div style="color:var(--text-muted);font-size:10px;margin-bottom:4px;">Wisconsin Rapids, WI</div>
-          <div style="color:var(--green);font-family:var(--font-mono);font-size:9.5px;">✓ Level-5 Drywall & Casing</div>
-        </div>
-        <div style="background:#090a0f;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:11px;">
-          <div style="font-weight:700;color:#fff;margin-bottom:2px;">Timber Pavilion</div>
-          <div style="color:var(--text-muted);font-size:10px;margin-bottom:4px;">Nekoosa, WI</div>
-          <div style="color:var(--cyan);font-family:var(--font-mono);font-size:9.5px;">✓ Heavy Structural Timber</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODULE D: PROGRESSIVE DISCLOSURE & PHOTO DISPATCH -->
-    <div style="background:rgba(255,87,34,0.08);border:1px solid rgba(255,87,34,0.3);border-radius:12px;padding:14px;margin-bottom:10px;">
-      <div style="font-family:var(--font-brand);font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;">📸 Snap / Attach Project Photos for Fast Quote</div>
-      <div style="font-size:11.5px;color:#cbd5e1;margin-bottom:10px;">Attach 1–3 photos of your deck, siding, roof, or project area for an exact review:</div>
-      
-      <div id="drawer-status-msg" class="status-badge"></div>
-
-      <label for="dPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;border:2px dashed rgba(255,87,34,0.4);border-radius:8px;background:rgba(255,87,34,0.04);cursor:pointer;margin-bottom:10px;text-align:center;">
-        <svg class="icon-svg" style="width:24px;height:24px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span style="font-size:12px;font-weight:700;color:#fff;">Tap to Snap or Upload Photos (1–3)</span>
-        <span style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);">JPG, PNG, HEIC from iPhone/Android</span>
-      </label>
-      <input type="file" id="dPhotos" accept="image/*" multiple onchange="previewDrawerPhotos(event)" style="display:none;">
-      <div id="drawer-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:10px;"></div>
-
-      <form id="drawerDispatchForm" onsubmit="handleDrawerDispatch(event)">
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <input type="text" id="dContact" class="form-input" placeholder="Your Phone or Email (Required) *" style="font-size:12px;" required>
-          <input type="text" id="dNotes" class="form-input" placeholder="Quick note / city (e.g. Wisconsin Rapids, 12x16 deck)..." style="font-size:12px;">
-          <button type="submit" id="dSubmitBtn" class="btn-submit-lead" style="width:100%;padding:12px;font-size:13.5px;font-weight:800;background:var(--accent);color:#fff;border:none;border-radius:8px;box-shadow:0 4px 16px var(--accent-glow);cursor:pointer;">
-            🚀 Dispatch Scope & Photos to John ⚡
-          </button>
-        </div>
-      </form>
     </div>
   </div>
 
-  <!-- Fullscreen Lightbox Modal -->
-  <div id="lightbox-modal" onclick="closeLightbox()">
-    <div id="lightbox-close" onclick="closeLightbox()">✕</div>
-    <img id="lightbox-img" src="" alt="Project Photo">
-    <div id="lightbox-caption"></div>
-  </div>
-
-  <!-- AI Truth Layer -->
-  <section id="ai-truth-layer" style="max-width:960px;margin:30px auto 20px;padding:20px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;font-size:12.5px;color:var(--text-muted);line-height:1.6;">
-    <h2 style="font-family:var(--font-brand);font-size:15px;font-weight:800;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
-      <span style="color:var(--green);">●</span> Certified Journeyman Carpenter & Local Service Authority
-    </h2>
-    <p style="margin-bottom:8px;">
-      <strong>Dondlinger General Contracting LLC (DGC)</strong> is owned and operated by certified journeyman carpenter <strong>John Dondlinger</strong> with over 10+ years of dedicated residential framing, roofing, exterior envelopes, and finish carpentry experience operating out of Wisconsin Rapids, WI.
-    </p>
-    <p style="margin-bottom:8px;">
-      <strong>Central Wisconsin Service Radius & Zip Codes:</strong> Wisconsin Rapids (54494, 54495), Stevens Point (54481, 54482), Marshfield (54449), Nekoosa (54457), Port Edwards (54469), Adams-Friendship (54966), Wood County, Portage County, Adams County, and surrounding Marathon County areas.
-    </p>
-    <p style="margin-bottom:8px;">
-      <strong>Contracting Disciplines & Assembly Scope:</strong> Specialized in residential and commercial siding envelopes, Low-E argon replacement windows, custom exterior doors, architectural roofing tear-offs and replacements, custom treated and composite decks, PourReady concrete slabs, suspended acoustic drop ceilings, and turnkey interior carpentry.
-    </p>
-    <p>
-      <strong>Turnkey Proposals & Standards:</strong> All projects are quoted with clear, fixed-price written proposals covering quality materials and professional installation from start to finish with zero surprise fees. Every project includes thorough daily jobsite clean-up and dedicated craftsmanship guarantees. Direct phone: <strong>(715) 459-3050</strong>.
-    </p>
-  </section>
-
-  <!-- Unified Responsive Bottom Dock -->
+  <!-- Bottom Action Dock -->
   <footer id="site-bottom-dock">
-    <a href="tel:7154593050" class="dock-btn dock-btn-call">
-      <svg class="icon-svg" style="width:15px;height:15px;stroke:var(--green);" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      <span>(715) 459-3050</span>
-    </a>
-    <button onclick="triggerQuickPhotoUpload()" class="dock-btn dock-btn-photo">
-      <svg class="icon-svg" style="width:15px;height:15px;stroke:#fff;" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      <span>Upload Photos 📸</span>
-    </button>
-    <button onclick="openCarpDrawer()" class="dock-btn dock-btn-estimate">
-      <svg class="icon-svg" style="width:15px;height:15px;stroke:var(--cyan);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      <span>Estimator ⚡</span>
-    </button>
+    <a href="tel:7154593050" class="dock-btn dock-btn-call">📞 (715) 459-3050</a>
+    <button onclick="switchTab('tab-estimate')" class="dock-btn dock-btn-photo">✉️ Get Quote</button>
+    <button onclick="openCarpDrawer()" class="dock-btn dock-btn-estimate">⚡ Calculator</button>
   </footer>
 
   <script>
-    let currentTrade = 'decks';
-    let telemetryTimer = null;
-    let selectedAddons = {};
-
-    const TRADE_CONFIG = {
-      decks: {
-        title: 'Estimated Deck Area (Sq Ft):',
-        unit: 'Sq Ft',
-        min: 80, max: 600, default: 200, step: 20,
-        costMin: 35, costMax: 55,
-        note: 'Includes solid timber posts, treated joist framing, plank surface, baluster railings & stairs.',
-        addons: [
-          { id: 'deck_slab', name: 'PourReady Concrete Slab Underneath', costMin: 3200, costMax: 4800 },
-          { id: 'deck_drain', name: 'Under-Deck RainEscape Drainage System', costMin: 2100, costMax: 3000 },
-          { id: 'deck_bench', name: 'Built-In Perimeter Bench Seating', costMin: 950, costMax: 1400 }
-        ]
-      },
-      deck: {
-        title: 'Estimated Deck Area (Sq Ft):',
-        unit: 'Sq Ft',
-        min: 80, max: 600, default: 200, step: 20,
-        costMin: 35, costMax: 55,
-        note: 'Includes solid timber posts, treated joist framing, plank surface, baluster railings & stairs.',
-        addons: [
-          { id: 'deck_slab', name: 'PourReady Concrete Slab Underneath', costMin: 3200, costMax: 4800 },
-          { id: 'deck_drain', name: 'Under-Deck RainEscape Drainage System', costMin: 2100, costMax: 3000 },
-          { id: 'deck_bench', name: 'Built-In Perimeter Bench Seating', costMin: 950, costMax: 1400 }
-        ]
-      },
-      siding: {
-        title: 'Estimated Wall Area (Sq Ft):',
-        unit: 'Sq Ft',
-        min: 600, max: 3500, default: 1500, step: 50,
-        costMin: 7.5, costMax: 12,
-        note: 'Includes tear-off, foil thermal weatherization barrier, vinyl siding, corner posts & custom window trims.',
-        addons: [
-          { id: 'siding_wraps', name: 'Custom Aluminum Window & Door Wraps', costMin: 950, costMax: 1600 },
-          { id: 'siding_gutters', name: 'Seamless Gutter & Downspout Upgrade', costMin: 850, costMax: 1400 }
-        ]
-      },
-      roofing: {
-        title: 'Roofing Area (Squares / 100 Sq Ft):',
-        unit: 'Squares',
-        min: 10, max: 65, default: 25, step: 1,
-        costMin: 350, costMax: 520,
-        note: 'Includes full tear-off, synthetic underlayment, ice & water shield, architectural shingles & ridge vent.',
-        addons: [
-          { id: 'roof_gutters', name: 'Seamless Gutters & Downspout Package', costMin: 850, costMax: 1200 },
-          { id: 'roof_leafguard', name: 'Premium Micro-Mesh Leaf Guard', costMin: 450, costMax: 750 }
-        ]
-      },
-      concrete: {
-        title: 'PourReady Slab Area (Sq Ft):',
-        unit: 'Sq Ft',
-        min: 100, max: 1500, default: 400, step: 25,
-        costMin: 8.5, costMax: 14,
-        note: 'Includes subgrade excavation, gravel compaction, rebar reinforcement grid & power-trowel finish.',
-        addons: [
-          { id: 'conc_mono', name: 'Mono Slab Thickened Edge Footing', costMin: 450, costMax: 850 },
-          { id: 'conc_seal', name: 'Commercial Penetrating Siloxane Sealant', costMin: 350, costMax: 600 }
-        ]
-      },
-      windows: {
-        title: 'Number of Window Openings:',
-        unit: 'Windows',
-        min: 1, max: 25, default: 8,
-        costMin: 450, costMax: 750,
-        note: 'Includes tear-out, Low-E Argon units, insulation wrap & custom exterior casing.',
-        addons: [
-          { id: 'win_wrap', name: 'Aluminum Sill & Casing Wrap', costMin: 650, costMax: 1100 }
-        ]
-      },
-      doors: {
-        title: 'Number of Entry / Patio Doors:',
-        unit: 'Doors',
-        min: 1, max: 6, default: 1,
-        costMin: 1200, costMax: 2800,
-        note: 'Includes insulated fiberglass/steel door, frame insulation, weather seals & hardware fitments.',
-        addons: [
-          { id: 'door_storm', name: 'Heavy Aluminum Storm Door Package', costMin: 450, costMax: 750 }
-        ]
-      },
-      kitchen: {
-        title: 'Estimated Kitchen Floor Area (Sq Ft):',
-        unit: 'Sq Ft',
-        min: 80, max: 400, default: 150, step: 10,
-        costMin: 65, costMax: 120,
-        note: 'Includes cabinet box installation, soft-close hardware, countertop fitments & crown trim.',
-        addons: [
-          { id: 'kitch_tile', name: 'Custom Tile Backsplash Installation', costMin: 850, costMax: 1600 }
-        ]
-      },
-      ceilings: {
-        title: 'Ceiling Grid Area (Sq Ft):',
-        unit: 'Sq Ft',
-        min: 100, max: 2500, default: 400, step: 50,
-        costMin: 4.5, costMax: 7.5,
-        note: 'Includes laser-leveled suspended heavy grid, 2x4 acoustic absorption panels, and perimeter trim.',
-        addons: [
-          { id: 'ceil_tiles', name: 'Premium High-NRC Acoustic Tiles', costMin: 450, costMax: 850 }
-        ]
-      },
-      ceiling: {
-        title: 'Ceiling Grid Area (Sq Ft):',
-        unit: 'Sq Ft',
-        min: 100, max: 2500, default: 400, step: 50,
-        costMin: 4.5, costMax: 7.5,
-        note: 'Includes laser-leveled suspended heavy grid, 2x4 acoustic absorption panels, and perimeter trim.',
-        addons: [
-          { id: 'ceil_tiles', name: 'Premium High-NRC Acoustic Tiles', costMin: 450, costMax: 850 }
-        ]
-      }
-    };
-
-    function showStatus(elementId, type, message) {
-      const el = document.getElementById(elementId);
-      if (!el) return;
-      el.className = `status-badge ${type}`;
-      el.innerHTML = type === 'success' ? `✅ ${message}` : `⚠️ ${message}`;
-      el.style.display = 'flex';
-      setTimeout(() => { el.style.display = 'none'; }, 6000);
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      const activePane = document.getElementById(tabId);
+      if (activePane) activePane.classList.add('active');
+      const btnId = tabId.replace('tab-', 'btn-');
+      const activeBtn = document.getElementById(btnId);
+      if (activeBtn) activeBtn.classList.add('active');
     }
 
-    function triggerQuickPhotoUpload() {
-      const heroInput = document.getElementById('heroPhotos');
-      if (heroInput) {
-        heroInput.click();
-      } else {
-        openCarpDrawer();
-      }
+    function openLightbox(src, caption) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-caption').textContent = caption || '';
+      document.getElementById('lightbox-modal').classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox-modal').classList.remove('active');
     }
 
     function openCarpDrawer() {
@@ -1300,20 +1284,23 @@
       document.getElementById('carp-drawer').classList.remove('open');
     }
 
-    function launchScopeTrade(tradeKey) {
-      selectScopeTrade(tradeKey);
-      openCarpDrawer();
-    }
+    let currentTrade = 'siding';
+    const TRADE_CONFIG = {
+      siding: { title: 'Estimated Wall Area (Sq Ft):', unit: 'Sq Ft', min: 600, max: 3500, default: 1500, step: 50, costMin: 7.5, costMax: 12 },
+      decks: { title: 'Estimated Deck Area (Sq Ft):', unit: 'Sq Ft', min: 80, max: 600, default: 200, step: 20, costMin: 35, costMax: 55 },
+      roofing: { title: 'Roofing Area (Squares):', unit: 'Squares', min: 10, max: 65, default: 25, step: 1, costMin: 350, costMax: 520 },
+      concrete: { title: 'PourReady Slab Area (Sq Ft):', unit: 'Sq Ft', min: 100, max: 1500, default: 400, step: 25, costMin: 8.5, costMax: 14 },
+      windows: { title: 'Number of Windows:', unit: 'Windows', min: 1, max: 25, default: 8, step: 1, costMin: 450, costMax: 750 },
+      doors: { title: 'Number of Doors:', unit: 'Doors', min: 1, max: 6, default: 1, step: 1, costMin: 1200, costMax: 2800 }
+    };
 
     function selectScopeTrade(tradeKey) {
-      const key = (tradeKey === 'deck' ? 'decks' : tradeKey === 'ceiling' ? 'ceilings' : tradeKey);
-      currentTrade = key;
-      selectedAddons = {};
+      currentTrade = tradeKey;
       document.querySelectorAll('.drawer-chip').forEach(c => c.classList.remove('active'));
-      const chip = document.getElementById('chip-' + key) || document.getElementById('chip-' + tradeKey);
+      const chip = document.getElementById('chip-' + tradeKey);
       if (chip) chip.classList.add('active');
 
-      const cfg = TRADE_CONFIG[key] || TRADE_CONFIG[tradeKey];
+      const cfg = TRADE_CONFIG[tradeKey];
       if (!cfg) return;
 
       const slider = document.getElementById('scope-slider');
@@ -1323,33 +1310,6 @@
       slider.value = cfg.default;
 
       document.getElementById('slider-title-text').textContent = cfg.title;
-
-      const container = document.getElementById('addons-checkbox-container');
-      if (container) {
-        if (cfg.addons && cfg.addons.length > 0) {
-          container.innerHTML = cfg.addons.map(a => `
-            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#e2e8f0;cursor:pointer;background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);">
-              <input type="checkbox" id="addon-${a.id}" onchange="toggleAddon('${a.id}', ${a.costMin}, ${a.costMax})" style="accent-color:var(--accent);width:16px;height:16px;">
-              <span style="flex:1;">${a.name}</span>
-              <span style="font-family:var(--font-mono);color:var(--cyan);font-weight:700;">+$${a.costMin.toLocaleString()}–$${a.costMax.toLocaleString()}</span>
-            </label>
-          `).join('');
-          document.getElementById('module-b-addons').style.display = 'block';
-        } else {
-          document.getElementById('module-b-addons').style.display = 'none';
-        }
-      }
-
-      updateBallparkCalculation();
-    }
-
-    function toggleAddon(id, cMin, cMax) {
-      const chk = document.getElementById('addon-' + id);
-      if (chk && chk.checked) {
-        selectedAddons[id] = { cMin, cMax };
-      } else {
-        delete selectedAddons[id];
-      }
       updateBallparkCalculation();
     }
 
@@ -1359,934 +1319,56 @@
 
       const slider = document.getElementById('scope-slider');
       const val = parseFloat(slider.value);
-
       document.getElementById('slider-val-display').textContent = `${val} ${cfg.unit}`;
 
-      let minTotal = Math.round(val * cfg.costMin);
-      let maxTotal = Math.round(val * cfg.costMax);
-
-      for (const key in selectedAddons) {
-        minTotal += selectedAddons[key].cMin;
-        maxTotal += selectedAddons[key].cMax;
-      }
-
+      const minTotal = Math.round(val * cfg.costMin);
+      const maxTotal = Math.round(val * cfg.costMax);
       const rangeStr = `$${minTotal.toLocaleString()} – $${maxTotal.toLocaleString()}`;
+
       document.getElementById('bp-range-display').textContent = rangeStr;
-      document.getElementById('bp-trade-label').textContent = `Estimated Turnkey Range: ${val} ${cfg.unit} (${currentTrade.toUpperCase()})`;
-
-      clearTimeout(telemetryTimer);
-      telemetryTimer = setTimeout(() => {
-        logScopeTelemetry(currentTrade, val, rangeStr);
-      }, 600);
-    }
-
-    async function logScopeTelemetry(trade, val, ballpark) {
-      try {
-        fetch('/api/telemetry', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ event: 'scope_slider_move', trade, value: val, ballpark })
-        }).catch(() => {});
-      } catch {}
-    }
-
-    function previewHeroPhotos(e) {
-      const container = document.getElementById('hero-photo-preview');
-      if (!container) return;
-      container.innerHTML = '';
-      const files = e.target.files;
-      if (!files || files.length === 0) return;
-
-      Array.from(files).slice(0, 4).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          const img = document.createElement('img');
-          img.src = evt.target.result;
-          img.style.width = '64px';
-          img.style.height = '64px';
-          img.style.objectFit = 'cover';
-          img.style.borderRadius = '8px';
-          img.style.border = '2px solid var(--accent)';
-          container.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    async function handleHeroPhotoSubmit(e) {
-      e.preventDefault();
-      const btn = document.getElementById('hSubmitBtn');
-      const origHtml = btn.innerHTML;
-      btn.disabled = true;
-      btn.textContent = 'Dispatching Photos to John...';
-
-      const contact = document.getElementById('hContact').value;
-      const city = document.getElementById('hCity').value || 'Central WI';
-      const notes = document.getElementById('hNotes').value || 'Hero photo estimate request';
-
-      const formData = new FormData();
-      formData.append('name', 'Hero Photo Quote');
-      formData.append('contact', contact);
-      formData.append('service', `Photo Scope Review (${city})`);
-      formData.append('notes', notes);
-
-      const fileInput = document.getElementById('heroPhotos');
-      if (fileInput && fileInput.files.length > 0) {
-        Array.from(fileInput.files).slice(0, 4).forEach((file, idx) => {
-          formData.append(`photo_${idx}`, file, file.name);
-        });
-      }
-
-      try {
-        let sent = false;
-        let leadId = 'DGC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-        try {
-          const res = await fetch('/api/intake', { method: 'POST', body: formData });
-          if (res.ok) {
-            const data = await res.json();
-            if (data.success) {
-              leadId = data.lead_id || leadId;
-              sent = true;
-            }
-          }
-        } catch (e) {
-          console.warn('Pages function offline, executing direct Telegram route:', e);
-        }
-
-        if (!sent) {
-          const BOT_TOKEN = '8830044077:AAHuP_uOakAkEexOBnPkI0AkCOYS3My1SlU';
-          const CHAT_ID = '8104595144';
-          const caption = 
-            `🚨 *NEW HERO PHOTO LEAD DISPATCH* 🚨\n\n` +
-            `👤 *Client:* Hero Photo Quote\n` +
-            `📞 *Contact:* \`${contact}\`\n` +
-            `📍 *Location:* ${city || 'Central Wisconsin'}\n` +
-            `🔨 *Scope:* Photo Scope Review\n` +
-            `📝 *Notes:* ${notes || 'No description'}\n\n` +
-            `🕒 *Timestamp:* ${new Date().toLocaleString()}\n` +
-            `🆔 *Ref ID:* \`${leadId}\`\n` +
-            `🌐 *Origin:* \`dondlingergc.com (Hero Photo Form)\``;
-
-          if (fileInput && fileInput.files.length > 0) {
-            const primaryPhoto = fileInput.files[0];
-            const tgForm = new FormData();
-            tgForm.append('chat_id', CHAT_ID);
-            tgForm.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
-            tgForm.append('parse_mode', 'Markdown');
-            tgForm.append('photo', primaryPhoto, primaryPhoto.name || 'photo.jpg');
-
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-              method: 'POST',
-              body: tgForm
-            });
-          } else {
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: caption,
-                parse_mode: 'Markdown'
-              })
-            });
-          }
-        }
-
-        showStatus('hero-status-msg', 'success', `Photos Dispatched to John Dondlinger! Reference #${leadId}`);
-        btn.textContent = `✅ Sent! Ref #${leadId}`;
-        btn.style.background = 'var(--green)';
-        document.getElementById('heroPhotoForm').reset();
-        document.getElementById('heroPhotos').value = '';
-        document.getElementById('hero-photo-preview').innerHTML = '';
-        setTimeout(() => {
-          btn.innerHTML = origHtml;
-          btn.style.background = 'var(--accent)';
-          btn.disabled = false;
-        }, 4000);
-      } catch (err) {
-        showStatus('hero-status-msg', 'error', `Direct dispatch failed. Direct call: (715) 459-3050`);
-        btn.disabled = false;
-        btn.innerHTML = origHtml;
-      }
-    }
-
-    function previewDrawerPhotos(e) {
-      const container = document.getElementById('drawer-photo-preview');
-      if (!container) return;
-      container.innerHTML = '';
-      const files = e.target.files;
-      if (!files || files.length === 0) return;
-
-      Array.from(files).slice(0, 4).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          const img = document.createElement('img');
-          img.src = evt.target.result;
-          img.style.width = '56px';
-          img.style.height = '56px';
-          img.style.objectFit = 'cover';
-          img.style.borderRadius = '6px';
-          img.style.border = '1px solid var(--accent)';
-          container.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    async function handleDrawerDispatch(e) {
-      e.preventDefault();
-      const btn = document.getElementById('dSubmitBtn');
-      const origHtml = btn.innerHTML;
-      btn.disabled = true;
-      btn.textContent = 'Dispatching Scope & Photos...';
-
-      const cfg = TRADE_CONFIG[currentTrade];
-      const sliderVal = document.getElementById('scope-slider').value;
-      const ballpark = document.getElementById('bp-range-display').textContent;
-      const contact = document.getElementById('dContact').value;
-      const notes = document.getElementById('dNotes').value || 'Requested ballpark review.';
-
-      const formData = new FormData();
-      formData.append('name', 'Website Estimate Scope');
-      formData.append('contact', contact);
-      formData.append('service', `${sliderVal} ${cfg.unit} (${currentTrade.toUpperCase()})`);
-      formData.append('ballpark', ballpark);
-      formData.append('notes', notes);
-
-      const fileInput = document.getElementById('dPhotos');
-      if (fileInput && fileInput.files.length > 0) {
-        Array.from(fileInput.files).slice(0, 3).forEach((file, idx) => {
-          formData.append(`photo_${idx}`, file, file.name);
-        });
-      }
-
-      try {
-        const res = await fetch('/api/intake', { method: 'POST', body: formData });
-        const data = await res.json();
-        if (data.success) {
-          const leadId = data.lead_id || data.ticket_id || 'DGC-LEAD';
-          showStatus('drawer-status-msg', 'success', `Scope & Photos Dispatched! Ref #${leadId}`);
-          btn.textContent = `✅ Dispatched! #${leadId}`;
-          btn.style.background = 'var(--green)';
-          document.getElementById('drawerDispatchForm').reset();
-          document.getElementById('dPhotos').value = '';
-          document.getElementById('drawer-photo-preview').innerHTML = '';
-          setTimeout(() => {
-            closeCarpDrawer();
-            btn.innerHTML = origHtml;
-            btn.style.background = 'var(--accent)';
-            btn.disabled = false;
-          }, 3500);
-        } else {
-          throw new Error(data.error || 'Error');
-        }
-      } catch (err) {
-        showStatus('drawer-status-msg', 'error', 'Dispatch failed. Direct call: (715) 459-3050');
-        btn.disabled = false;
-        btn.innerHTML = origHtml;
-      }
+      document.getElementById('bp-trade-label').textContent = `Turnkey Range: ${val} ${cfg.unit} (${currentTrade.toUpperCase()})`;
     }
 
     async function handleDirectLeadSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('fSubmitBtn');
-      const origHtml = btn.innerHTML;
       btn.disabled = true;
-      btn.textContent = 'Dispatching to J. Dondlinger...';
+      btn.textContent = 'Dispatching to John...';
 
       const payload = {
         name: document.getElementById('fName').value,
         contact: document.getElementById('fContact').value,
         service: document.getElementById('fService').value,
-        address: document.getElementById('fAddress').value,
-        notes: document.getElementById('fNotes').value
+        city: document.getElementById('fAddress').value || 'Central WI',
+        notes: document.getElementById('fNotes').value || 'Web Lead'
       };
 
       try {
-        const res = await fetch('/api/intake', {
+        const BOT_TOKEN = '8830044077:AAHuP_uOakAkEexOBnPkI0AkCOYS3My1SlU';
+        const CHAT_ID = '8104595144';
+        const text = `🚨 *NEW WEBSITE LEAD* 🚨\n\n👤 *Client:* ${payload.name}\n📞 *Contact:* \`${payload.contact}\`\n📍 *Location:* ${payload.city}\n🔨 *Scope:* ${payload.service}\n📝 *Notes:* ${payload.notes}\n🕒 *Time:* ${new Date().toLocaleString()}`;
+
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
         });
-        const data = await res.json();
-        if (data.success) {
-          const ticketId = data.ticket_id || data.lead_id || 'DGC-LEAD';
-          showStatus('lead-status-msg', 'success', `Scope Dispatched! Reference #${ticketId}`);
-          btn.textContent = `✅ Dispatched! #${ticketId}`;
-          btn.style.background = 'var(--green)';
-          document.getElementById('leadForm').reset();
-          setTimeout(() => {
-            btn.innerHTML = origHtml;
-            btn.style.background = 'var(--accent)';
-            btn.disabled = false;
-          }, 4000);
-        } else {
-          throw new Error(data.error || 'Error');
-        }
+
+        const statusMsg = document.getElementById('lead-status-msg');
+        statusMsg.style.display = 'block';
+        statusMsg.style.background = 'rgba(34,197,94,0.15)';
+        statusMsg.style.color = '#4ade80';
+        statusMsg.style.border = '1px solid rgba(34,197,94,0.35)';
+        statusMsg.innerHTML = '✅ Project details dispatched directly to John Dondlinger!';
+        btn.textContent = '✅ Dispatched!';
+        btn.style.background = 'var(--green)';
+        document.getElementById('leadForm').reset();
       } catch (err) {
-        showStatus('lead-status-msg', 'error', 'Direct dispatch failed. Direct call: (715) 459-3050');
+        alert('Direct call John at (715) 459-3050');
         btn.disabled = false;
-        btn.innerHTML = origHtml;
+        btn.textContent = 'Send Scope to John Dondlinger ⚡';
       }
     }
-
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-
-      if (tabId === 'tab-projects' || tabId === 'tab-gallery') tabId = 'tab-apps';
-
-      const btnId = 'btn-' + tabId.replace('tab-', '');
-      const btn = document.getElementById(btnId) || document.getElementById('btn-apps');
-      const pane = document.getElementById(tabId) || document.getElementById('tab-apps');
-
-      if (btn) btn.classList.add('active');
-      if (pane) pane.classList.add('active');
-    }
-
-    function toggleWindow(id) {
-      const el = document.getElementById(id);
-      if (el) {
-        el.classList.toggle('open');
-        const indicatorText = el.querySelector('.pw-expand-text');
-        if (indicatorText) {
-          indicatorText.textContent = el.classList.contains('open') ? 'Collapse' : 'View Gallery';
-        }
-      }
-    }
-
-    function switchMedia(projectKey, mediaSrc, mediaType, thumbEl) {
-      const viewer = document.getElementById('viewer-' + projectKey);
-      if (!viewer) return;
-
-      const strip = thumbEl.parentElement;
-      const thumbs = strip.querySelectorAll('.pw-thumb');
-      thumbs.forEach(t => t.classList.remove('active'));
-      thumbEl.classList.add('active');
-
-      if (mediaType === 'video') {
-        viewer.innerHTML = `
-          <video controls autoplay playsinline style="width:100%;height:auto;max-height:460px;object-fit:contain;">
-            <source src="${mediaSrc}" type="video/mp4">
-          </video>
-        `;
-      } else {
-        viewer.innerHTML = `
-          <img src="${mediaSrc}" alt="Project Photo" style="width:100%;height:auto;max-height:460px;object-fit:contain;">
-        `;
-      }
-    }
-
-    function filterGallery(category, btnEl) {
-      const pills = document.querySelectorAll('.gallery-filter-bar .filter-pill');
-      pills.forEach(p => p.classList.remove('active'));
-      btnEl.classList.add('active');
-
-      const items = document.querySelectorAll('.gallery-grid .gallery-item');
-      items.forEach(item => {
-        if (category === 'all' || item.getAttribute('data-category') === category) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    }
-
-    function openLightbox(src, caption) {
-      const modal = document.getElementById('lightbox-modal');
-      const img = document.getElementById('lightbox-img');
-      const cap = document.getElementById('lightbox-caption');
-      if (modal && img && cap) {
-        img.src = src;
-        cap.textContent = caption || '';
-        modal.classList.add('active');
-      }
-    }
-
-    function closeLightbox() {
-      const modal = document.getElementById('lightbox-modal');
-      if (modal) { modal.classList.remove('active'); }
-    }
-
-    window.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const res = await fetch('/api/telemetry');
-        const data = await res.json();
-        if (data && data.city && data.city !== 'Unknown') {
-          const tag = document.getElementById('geo-city-text');
-          if (tag) {
-            tag.textContent = `Serving ${data.city} & Surrounding Central Wisconsin Area`;
-          }
-        }
-      } catch {}
-    });
-
-    function toggleHudMenu(e) {
-      if (e.target.closest('.hud-menu-item')) return;
-      e.stopPropagation();
-      const brand = document.getElementById('hud-brand-toggle');
-      const menu = document.getElementById('hud-menu-dropdown');
-      if (!brand || !menu) return;
-      const isOpen = menu.classList.contains('show');
-      if (isOpen) {
-        menu.classList.remove('show');
-        brand.classList.remove('active');
-      } else {
-        menu.classList.add('show');
-        brand.classList.add('active');
-      }
-    }
-
-    document.addEventListener('click', function(e) {
-      const brand = document.getElementById('hud-brand-toggle');
-      const menu = document.getElementById('hud-menu-dropdown');
-      if (menu && menu.classList.contains('show') && !brand.contains(e.target)) {
-        menu.classList.remove('show');
-        brand.classList.remove('active');
-      }
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        const menu = document.getElementById('hud-menu-dropdown');
-        const brand = document.getElementById('hud-brand-toggle');
-        if (menu) { menu.classList.remove('show'); brand.classList.remove('active'); }
-        closeCarpDrawer();
-      }
-    });
   </script>
-
-  <script src="/telemetry.js"></script>
-
-<script>
-// ==========================================
-// DGC PROJECT STORIES & SLIDESHOW LAKE ENGINE
-// ==========================================
-const DGC_PROJECTS = {
-  "fredparker": {
-    "id": "fredparker",
-    "title": "Whole-Home Exterior Remodel & Envelope Overhaul",
-    "category": "remodel",
-    "categoryLabel": "Whole-Home Remodel",
-    "trade": "siding",
-    "tag": "Exterior Overhaul • 8-Phase Story",
-    "lead": "Full exterior envelope renovation: tear-off down to original sheathing, thermal vapor wrap, window pan flashing, slate blue vinyl lap siding, custom brake metal casing wraps, and architectural white gable accents.",
-    "slides": [
-      {
-        "src": "images/projects/fredparker/IMG_5779.webp",
-        "title": "Phase 1: Full Exterior Tear-Off & Sheathing Inspection",
-        "caption": "Complete removal of aged siding down to substrate, verifying structural OSB sheathing and stud condition across all exterior elevations."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5851.webp",
-        "title": "Phase 2: Continuous Vapor Barrier & Seam Taping",
-        "caption": "Installation of high-performance weather-resistant barrier (WRB) with shingle-lapped vertical seams and acrylic flashing tape."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5854.webp",
-        "title": "Phase 3: Window Sill Pan Flashing & Thermal Break",
-        "caption": "Precision sill pan flashing, expanding low-pressure foam insulation around window rough openings, and drip cap head flashing."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5864.webp",
-        "title": "Phase 4: Laser-Leveled Starter Strip & Outside Corner Posts",
-        "caption": "Precision laser transit baseline layout for starter strips and 3-1/2 inch architectural white vinyl corner post assemblies."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5871.webp",
-        "title": "Phase 5: Slate Blue Vinyl Lap Siding Installation",
-        "caption": "Installation of premium thick-gauge vinyl lap siding with 1/4-inch thermal expansion allowance in all receiving J-channels."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5881.webp",
-        "title": "Phase 6: Custom Brake Metal Window & Door Casing Wraps",
-        "caption": "On-site custom aluminum sheet metal bending on 10-foot brake, encasing exterior window frames with clean hemmed returns."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5906.webp",
-        "title": "Phase 7: Continuous Vented Soffits & Aluminum Fascia",
-        "caption": "Under-eave intake soffit ventilation integration and matching heavy-gauge aluminum fascia wraps protecting wood rafter tails."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5934.webp",
-        "title": "Phase 8: Architectural White Gable Accents & Completed Elevation",
-        "caption": "Upper gable transition board flashing, crisp white accent trim, and full exterior perimeter weather seal inspection."
-      }
-    ]
-  },
-  "dickman": {
-    "id": "dickman",
-    "title": "Residential Addition & Heavy Structural Framing",
-    "category": "addition",
-    "categoryLabel": "Home Addition",
-    "trade": "framing",
-    "tag": "Ground-Up Addition • 5 Framing Stages",
-    "lead": "Central Wisconsin home addition: ground-up framing, treated mudsills, 2x10 floor joists 16\" O.C., 2x6 exterior load-bearing walls, engineered roof truss tie-ins, and shear wall sheathing.",
-    "slides": [
-      {
-        "src": "images/projects/dickman_addition/IMG_2009.webp",
-        "title": "Stage 1: Excavation, Staging & Foundation Anchor Layout",
-        "caption": "Driveway jobsite staging, lumber grading inspection, and foundation sill plate anchor bolt layout for addition tie-in."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_2066.webp",
-        "title": "Stage 2: Treated Mudsill & 2x10 Subfloor Joist Assembly",
-        "caption": "Pressure-treated sill gaskets, 2x10 floor joists on 16\" centers, cross-bridging, and tongue-and-groove subfloor glue/screw fastening."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_2071.webp",
-        "title": "Stage 3: 2x6 Exterior Wall Framing & Double Headers",
-        "caption": "2x6 framing for superior R-value insulation cavity, structural double top plates, engineered window headers, and corner corner-posts."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_2158.webp",
-        "title": "Stage 4: Structural Roof Truss Placement & Ridge Tie-Ins",
-        "caption": "Setting engineered common and scissor trusses, temporary bracing, hurricane tie anchoring, and existing roof valley tie-in."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_3074.webp",
-        "title": "Stage 5: 7/16\" OSB Shear Wall Sheathing & Weather Wrap",
-        "caption": "7/16\" structural OSB wall and roof sheathing with 8d ring-shank nailing pattern, followed by complete weather-tight building wrap."
-      }
-    ]
-  },
-  "scholz": {
-    "id": "scholz",
-    "title": "Living Room Level-5 Drywall & Interior Trim Remodel",
-    "category": "interior",
-    "categoryLabel": "Interior Carpentry",
-    "trade": "kitchen",
-    "tag": "Interior Finishing • 6-Step Story",
-    "lead": "Living room craftsmanship overhaul: heavy floor protection, laser wall leveling, multi-coat corner bead compound float, PVA high-build primer, and satin urethane enamel trim.",
-    "slides": [
-      {
-        "src": "images/projects/IMG_3142.webp",
-        "title": "Step 1: Floor Masking & Laser Alignment",
-        "caption": "Ram Board floor protection, containment barriers, and laser leveling of uneven wall stud transitions before compounding."
-      },
-      {
-        "src": "images/projects/IMG_3143.webp",
-        "title": "Step 2: Paper-Faced Corner Bead Float",
-        "caption": "Setting paper-faced metal corner beads and applying first coat of lightweight joint compound feathered out 8 inches."
-      },
-      {
-        "src": "images/projects/IMG_3341.webp",
-        "title": "Step 3: Ceiling Feathering & Dustless Sanding",
-        "caption": "Multi-coat joint compound blending on ceiling seams with HEPA vacuum dustless sanding for level-5 surface uniformity."
-      },
-      {
-        "src": "images/projects/IMG_3346.webp",
-        "title": "Step 4: High-Build PVA Primer Application",
-        "caption": "Airless spray application of high-solids PVA drywall primer to equalize porosity between drywall paper and joint compound."
-      },
-      {
-        "src": "images/projects/IMG_4349.webp",
-        "title": "Step 5: Enamel Window & Door Trim Casing",
-        "caption": "Precision 45-degree mitered door and window casings finished with durable satin urethane enamel."
-      },
-      {
-        "src": "images/projects/IMG_6595.webp",
-        "title": "Step 6: Completed Living Room Architectural Trim",
-        "caption": "Pristine finished space with clean baseboards, casing returns, and seamless level-5 wall surfaces ready for furniture placement."
-      }
-    ]
-  },
-  "siding": {
-    "id": "siding",
-    "title": "Two-Story Slate Blue Siding & Architectural White Gables",
-    "category": "siding",
-    "categoryLabel": "Exterior Siding",
-    "trade": "siding",
-    "tag": "Exterior Envelope \u2022 3-Stage Showcase",
-    "lead": "Multi-story exterior transformation with foil-faced thermal barrier, slate blue lap siding, and vented vinyl soffits.",
-    "slides": [
-      {
-        "src": "images/projects/IMG_4801.webp",
-        "title": "Phase 1: Finished Slate Blue Siding & Corner Trims",
-        "caption": "Completed multi-story exterior showing crisp white corner posts and uniform lap siding lines."
-      },
-      {
-        "src": "images/projects/IMG_4802.webp",
-        "title": "Phase 2: High-Elevation Gable Details & Soffit Ventilation",
-        "caption": "Architectural gable vent framing and continuous hidden-vent soffits ensuring balanced attic airflow."
-      },
-      {
-        "src": "images/projects/IMG_4805.webp",
-        "title": "Phase 3: Thermal Barrier & Window Head Flashing",
-        "caption": "Foil-faced insulation board beneath siding creating a continuous thermal break across exterior wall framing."
-      }
-    ]
-  },
-  "decks": {
-    "id": "decks",
-    "title": "Custom Composite Deck & Heavy Timber Substructure",
-    "category": "decks",
-    "categoryLabel": "Outdoor Living",
-    "trade": "decks",
-    "tag": "Outdoor Living \u2022 3-Stage Showcase",
-    "lead": "Below-frost concrete sonotube footings, treated 2x10 joist framing, tongue-and-groove pine ceiling, and premium composite decking with hidden fasteners.",
-    "slides": [
-      {
-        "src": "images/projects/composite_deck_construction.jpg",
-        "title": "Stage 1: Finished Composite Surface & Rail Package",
-        "caption": "Maintenance-free grooved composite deck boards installed with hidden clip fasteners and code-compliant railing."
-      },
-      {
-        "src": "images/projects/wall_framing_addition.jpg",
-        "title": "Stage 2: Heavy Timber Joist Framing & Structural Posts",
-        "caption": "Treated 2x10 joist framing, galvanized post-to-beam connectors, and solid timber ledger board attachment with code lag screws."
-      },
-      {
-        "src": "images/projects/pine_ceiling_installation.jpg",
-        "title": "Stage 3: Tongue-and-Groove Pine Porch Ceiling",
-        "caption": "Natural knotty pine tongue-and-groove ceiling with clear spar urethane finish installed beneath covered deck."
-      }
-    ]
-  },
-  "windows": {
-    "id": "windows",
-    "title": "Replacement Windows & Insulated Entry Doors",
-    "category": "windows",
-    "categoryLabel": "Windows & Doors",
-    "trade": "windows",
-    "tag": "Envelope Upgrades \u2022 2-Stage Showcase",
-    "lead": "Energy-efficient Low-E Argon vinyl replacement windows with expanding foam air-seals and custom exterior brake metal casing wraps.",
-    "slides": [
-      {
-        "src": "images/projects/window_installation_foam.jpg",
-        "title": "Stage 1: Low-Pressure Foam Insulation Seal",
-        "caption": "Expanding closed-cell low-pressure polyurethane foam creating an airtight draft barrier without bowing the window jambs."
-      },
-      {
-        "src": "images/projects/window_replacement.webp",
-        "title": "Stage 2: Custom Aluminum Casing Wrap & Silicone Seal",
-        "caption": "Exterior wood brickmould fully wrapped with heavy aluminum trim coil and sealed with commercial neutral-cure silicone."
-      }
-    ]
-  }
-};
-
-// Track current slide index per project
-const projectSlideIndices = {
-  dickman: 0,
-  fredparker: 0,
-  scholz: 0,
-  siding: 0,
-  decks: 0,
-  windows: 0
-};
-
-let activeProjectCategory = 'all';
-
-function renderProjectsFeed() {
-  const container = document.getElementById('projects-feed-container');
-  if (!container) return;
-
-  const projectKeys = Object.keys(DGC_PROJECTS);
-  let html = '';
-
-  projectKeys.forEach(pKey => {
-    const proj = DGC_PROJECTS[pKey];
-    if (!proj || !proj.slides || proj.slides.length === 0) return;
-
-    const isVisible = (activeProjectCategory === 'all' || proj.category === activeProjectCategory);
-    const currIdx = projectSlideIndices[pKey] || 0;
-    const currSlide = proj.slides[currIdx] || proj.slides[0];
-    const totalSlides = proj.slides.length;
-
-    html += `
-      <div class="project-slideshow-card" data-category="${proj.category}" data-project="${pKey}" style="display:${isVisible ? 'block' : 'none'};background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.25);">
-        <!-- Card Header -->
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-              <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent);background:rgba(255,87,34,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(255,87,34,0.25);text-transform:uppercase;">${proj.tag || proj.categoryLabel}</span>
-              <span style="font-family:var(--font-mono);font-size:10.5px;color:#94a3b8;">${totalSlides} Verified Photos</span>
-            </div>
-            <h3 style="font-family:var(--font-brand);font-size:17.5px;font-weight:800;color:#fff;margin:0 0 4px 0;">${proj.title}</h3>
-            <p style="font-size:12px;color:#94a3b8;margin:0;line-height:1.4;">${proj.lead || ''}</p>
-          </div>
-          <span id="ss-counter-${pKey}" style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--cyan);background:rgba(56,189,248,0.1);padding:4px 9px;border-radius:6px;border:1px solid rgba(56,189,248,0.25);white-space:nowrap;">
-            ${currIdx + 1} / ${totalSlides}
-          </span>
-        </div>
-
-        <!-- Slide Display Viewport -->
-        <div style="position:relative;width:100%;aspect-ratio:16/10;background:#05070a;border-radius:12px;overflow:hidden;margin-bottom:10px;border:1px solid var(--border);user-select:none;">
-          <img id="ss-img-${pKey}" src="${currSlide.src}" alt="${currSlide.title || proj.title}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:opacity 0.2s ease;display:block;" onclick="openProjectLightbox('${pKey}')">
-          
-          <!-- Slide Badge Overlay -->
-          <div id="ss-badge-${pKey}" style="position:absolute;top:10px;left:10px;background:rgba(9,10,15,0.85);backdrop-filter:blur(8px);font-family:var(--font-mono);font-size:10.5px;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;border:1px solid var(--border-accent);max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-            Slide ${currIdx + 1}: ${currSlide.title || proj.title}
-          </div>
-
-          <!-- Left / Right Controls -->
-          <button onclick="navProjectSlide('${pKey}', -1)" aria-label="Previous Slide" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❮</button>
-          <button onclick="navProjectSlide('${pKey}', 1)" aria-label="Next Slide" style="position:absolute;top:50%;right:8px;transform:translateY(-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:all 0.15s ease;">❯</button>
-        </div>
-
-        <!-- Thumbnail Scrubber Strip -->
-        <div id="ss-thumbs-${pKey}" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px;scrollbar-width:thin;">
-          ${proj.slides.map((s, idx) => `
-            <div onclick="jumpProjectSlide('${pKey}', ${idx})" style="flex:0 0 54px;height:40px;border-radius:6px;overflow:hidden;border:${idx === currIdx ? '2px solid var(--accent)' : '1px solid var(--border)'};cursor:pointer;opacity:${idx === currIdx ? '1' : '0.6'};transition:all 0.15s ease;">
-              <img src="${s.src}" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-            </div>
-          `).join('')}
-        </div>
-
-        <!-- Caption & Details -->
-        <p id="ss-desc-${pKey}" style="font-size:12.5px;color:#cbd5e1;line-height:1.45;margin-bottom:12px;min-height:36px;">
-          ${currSlide.caption || proj.lead || ''}
-        </p>
-
-        <!-- Card CTA Actions -->
-        <div style="display:flex;gap:8px;">
-          <button onclick="launchScopeTrade('${proj.trade || 'siding'}')" style="flex:1;padding:10px 14px;background:var(--accent);color:#fff;font-weight:800;font-size:12.5px;border:none;border-radius:8px;cursor:pointer;box-shadow:0 4px 12px var(--accent-glow);display:flex;align-items:center;justify-content:center;gap:6px;">
-            ⚡ Calculate ${proj.categoryLabel || 'Trade'} Scope
-          </button>
-          <button onclick="openProjectLightbox('${pKey}')" style="padding:10px 14px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px;">
-            🔍 Fullscreen
-          </button>
-        </div>
-      </div>
-    `;
-  });
-
-  container.innerHTML = html;
-}
-
-function navProjectSlide(projKey, direction) {
-  const proj = DGC_PROJECTS[projKey];
-  if (!proj || !proj.slides || proj.slides.length === 0) return;
-
-  const total = proj.slides.length;
-  let curr = projectSlideIndices[projKey] || 0;
-  curr = (curr + direction + total) % total;
-  projectSlideIndices[projKey] = curr;
-  updateProjectSlideUi(projKey);
-}
-
-function jumpProjectSlide(projKey, index) {
-  const proj = DGC_PROJECTS[projKey];
-  if (!proj || !proj.slides || index < 0 || index >= proj.slides.length) return;
-  projectSlideIndices[projKey] = index;
-  updateProjectSlideUi(projKey);
-}
-
-function updateProjectSlideUi(projKey) {
-  const proj = DGC_PROJECTS[projKey];
-  if (!proj) return;
-
-  const curr = projectSlideIndices[projKey] || 0;
-  const slide = proj.slides[curr];
-  const total = proj.slides.length;
-
-  const imgEl = document.getElementById(`ss-img-${projKey}`);
-  const badgeEl = document.getElementById(`ss-badge-${projKey}`);
-  const counterEl = document.getElementById(`ss-counter-${projKey}`);
-  const descEl = document.getElementById(`ss-desc-${projKey}`);
-  const thumbsContainer = document.getElementById(`ss-thumbs-${projKey}`);
-
-  if (imgEl && slide) {
-    imgEl.style.opacity = '0.3';
-    setTimeout(() => {
-      imgEl.src = slide.src;
-      imgEl.style.opacity = '1';
-    }, 80);
-  }
-
-  if (badgeEl && slide) {
-    badgeEl.textContent = `Slide ${curr + 1}: ${slide.title || proj.title}`;
-  }
-
-  if (counterEl) {
-    counterEl.textContent = `${curr + 1} / ${total}`;
-  }
-
-  if (descEl && slide) {
-    descEl.textContent = slide.caption || proj.lead || '';
-  }
-
-  if (thumbsContainer) {
-    const thumbEls = thumbsContainer.children;
-    for (let i = 0; i < thumbEls.length; i++) {
-      if (i === curr) {
-        thumbEls[i].style.border = '2px solid var(--accent)';
-        thumbEls[i].style.opacity = '1';
-        thumbEls[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      } else {
-        thumbEls[i].style.border = '1px solid var(--border)';
-        thumbEls[i].style.opacity = '0.6';
-      }
-    }
-  }
-}
-
-function filterProjects(category, btn) {
-  activeProjectCategory = category;
-  
-  // Update active pill button
-  document.querySelectorAll('.gallery-filter-bar .filter-pill').forEach(el => el.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-
-  const cards = document.querySelectorAll('.project-slideshow-card');
-  cards.forEach(card => {
-    const cat = card.getAttribute('data-category');
-    if (category === 'all' || cat === category) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-}
-
-// Active lightbox project pointer
-let activeLightboxProject = null;
-
-function openProjectLightbox(projKey) {
-  const proj = DGC_PROJECTS[projKey];
-  if (!proj) return;
-  activeLightboxProject = projKey;
-
-  let modal = document.getElementById('project-lightbox-modal');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'project-lightbox-modal';
-    modal.style.cssText = 'position:fixed;inset:0;background:rgba(5,7,12,0.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:99999;display:flex;flex-direction:column;justify-content:space-between;padding:14px 16px;box-sizing:border-box;user-select:none;';
-    modal.innerHTML = `
-      <!-- Lightbox Header -->
-      <div style="display:flex;justify-content:space-between;align-items:center;color:#fff;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:10px;">
-        <div style="display:flex;flex-direction:column;gap:2px;max-width:80%;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span id="lb-badge" style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);background:rgba(255,87,34,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(255,87,34,0.25);text-transform:uppercase;"></span>
-            <span id="lb-counter" style="font-family:var(--font-mono);font-size:10.5px;color:var(--cyan);font-weight:700;"></span>
-          </div>
-          <div id="lb-title" style="font-family:var(--font-brand);font-size:15px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
-        </div>
-        <button onclick="closeProjectLightbox()" aria-label="Close" style="background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:50%;width:38px;height:38px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;">✕</button>
-      </div>
-
-      <!-- Lightbox Main Stage -->
-      <div style="position:relative;flex:1;display:flex;align-items:center;justify-content:center;margin:10px 0;overflow:hidden;">
-        <img id="lb-img" src="" alt="Project Photo" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.6);transition:opacity 0.18s ease;">
-        <button onclick="navLightboxSlide(-1)" aria-label="Previous Photo" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.75);color:#fff;border:1px solid rgba(255,255,255,0.25);width:46px;height:46px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);box-shadow:0 4px 16px rgba(0,0,0,0.5);">❮</button>
-        <button onclick="navLightboxSlide(1)" aria-label="Next Photo" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.75);color:#fff;border:1px solid rgba(255,255,255,0.25);width:46px;height:46px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);box-shadow:0 4px 16px rgba(0,0,0,0.5);">❯</button>
-      </div>
-
-      <!-- Lightbox Footer -->
-      <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:10px;">
-        <!-- Thumbnail Scrubber -->
-        <div id="lb-thumbs" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px;scrollbar-width:thin;justify-content:flex-start;"></div>
-
-        <!-- Technical Caption & Action -->
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
-          <div style="flex:1;min-width:240px;">
-            <div id="lb-phase-title" style="font-family:var(--font-brand);font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;"></div>
-            <div id="lb-caption" style="font-size:11.5px;color:#94a3b8;line-height:1.4;"></div>
-          </div>
-          <button id="lb-cta-btn" onclick="" style="padding:8px 14px;background:var(--accent);color:#fff;font-weight:800;font-size:12px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px var(--accent-glow);">
-            ⚡ Estimate Scope
-          </button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-
-    // Attach keyboard navigation
-    window.addEventListener('keydown', (e) => {
-      if (!activeLightboxProject) return;
-      if (e.key === 'ArrowLeft') navLightboxSlide(-1);
-      if (e.key === 'ArrowRight') navLightboxSlide(1);
-      if (e.key === 'Escape') closeProjectLightbox();
-    });
-  }
-
-  updateLightboxUi();
-  modal.style.display = 'flex';
-}
-
-function updateLightboxUi() {
-  if (!activeLightboxProject) return;
-  const proj = DGC_PROJECTS[activeLightboxProject];
-  const curr = projectSlideIndices[activeLightboxProject] || 0;
-  const slide = proj.slides[curr];
-
-  const badgeEl = document.getElementById('lb-badge');
-  const titleEl = document.getElementById('lb-title');
-  const counterEl = document.getElementById('lb-counter');
-  const imgEl = document.getElementById('lb-img');
-  const phaseTitleEl = document.getElementById('lb-phase-title');
-  const captionEl = document.getElementById('lb-caption');
-  const thumbsEl = document.getElementById('lb-thumbs');
-  const ctaBtn = document.getElementById('lb-cta-btn');
-
-  if (badgeEl) badgeEl.textContent = proj.categoryLabel || proj.trade || 'DGC';
-  if (titleEl) titleEl.textContent = proj.title;
-  if (counterEl) counterEl.textContent = `Photo ${curr + 1} / ${proj.slides.length}`;
-  if (phaseTitleEl) phaseTitleEl.textContent = slide.title || '';
-  if (captionEl) captionEl.textContent = slide.caption || proj.lead || '';
-  
-  if (ctaBtn) {
-    ctaBtn.textContent = `⚡ Calculate ${proj.categoryLabel || 'Trade'} Scope`;
-    ctaBtn.onclick = () => {
-      closeProjectLightbox();
-      if (typeof launchScopeTrade === 'function') {
-        launchScopeTrade(proj.trade || 'siding');
-      }
-    };
-  }
-
-  if (imgEl && slide) {
-    imgEl.style.opacity = '0.4';
-    setTimeout(() => {
-      imgEl.src = slide.src;
-      imgEl.style.opacity = '1';
-    }, 60);
-  }
-
-  if (thumbsEl) {
-    thumbsEl.innerHTML = proj.slides.map((s, idx) => `
-      <div onclick="jumpLightboxSlide(${idx})" style="flex:0 0 52px;height:38px;border-radius:6px;overflow:hidden;border:${idx === curr ? '2px solid var(--accent)' : '1px solid rgba(255,255,255,0.15)'};cursor:pointer;opacity:${idx === curr ? '1' : '0.55'};transition:all 0.15s ease;">
-        <img src="${s.src}" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-    `).join('');
-
-    const activeThumb = thumbsEl.children[curr];
-    if (activeThumb) {
-      activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }
-  }
-}
-
-function jumpLightboxSlide(index) {
-  if (!activeLightboxProject) return;
-  const proj = DGC_PROJECTS[activeLightboxProject];
-  if (!proj || index < 0 || index >= proj.slides.length) return;
-  projectSlideIndices[activeLightboxProject] = index;
-  updateLightboxUi();
-}
-
-function navLightboxSlide(direction) {
-  if (!activeLightboxProject) return;
-  navProjectSlide(activeLightboxProject, direction);
-  updateLightboxUi();
-}
-
-function closeProjectLightbox() {
-  const modal = document.getElementById('project-lightbox-modal');
-  if (modal) modal.style.display = 'none';
-  activeLightboxProject = null;
-}
-
-// Initialize feed on load and tab switch
-document.addEventListener('DOMContentLoaded', () => {
-  renderProjectsFeed();
-});
-// Also run immediately in case DOM is already parsed
-if (document.readyState === 'interactive' || document.readyState === 'complete') {
-  renderProjectsFeed();
-}
-</script>
-
 </body>
 </html>
