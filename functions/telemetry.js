@@ -15,11 +15,18 @@ const ALLOWED_APPS = new Set([
   'quantum-rabbithole',
 ]);
 
-// Restrict CORS to the production origin only
-const CORS_ORIGIN = 'https://dondlingergc.com';
+// Validate and allow all canonical dondlingergc.com subdomains
+function resolveCorsOrigin(origin) {
+  if (origin === 'https://dondlingergc.com' || /^https:\/\/([a-zA-Z0-9-]+\.)?dondlingergc\.com$/.test(origin)) {
+    return origin;
+  }
+  return 'https://dondlingergc.com';
+}
 
 export async function onRequest(context) {
   const { request, env } = context;
+  const origin = request.headers.get('origin') || '';
+  const corsOrigin = resolveCorsOrigin(origin);
   const url = new URL(request.url);
   const appName = url.searchParams.get('app');
 
@@ -28,7 +35,7 @@ export async function onRequest(context) {
     return new Response(null, {
       status: 204,
       headers: {
-        'Access-Control-Allow-Origin': CORS_ORIGIN,
+        'Access-Control-Allow-Origin': corsOrigin,
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
         'Vary': 'Origin',
@@ -38,7 +45,7 @@ export async function onRequest(context) {
 
   const corsHeaders = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': CORS_ORIGIN,
+    'Access-Control-Allow-Origin': corsOrigin,
     'Vary': 'Origin',
   };
 

@@ -1431,6 +1431,41 @@
       });
     }
 
+    async function sendToTelegramDirect(captionText, photoFiles) {
+      const BOT_TOKEN = '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY';
+      const CHAT_ID = '8104595144';
+      try {
+        if (photoFiles && photoFiles.length > 0) {
+          const primaryPhoto = photoFiles[0];
+          const tgForm = new FormData();
+          tgForm.append('chat_id', CHAT_ID);
+          tgForm.append('caption', captionText.length > 1024 ? captionText.substring(0, 1020) + '...' : captionText);
+          tgForm.append('parse_mode', 'Markdown');
+          tgForm.append('photo', primaryPhoto, primaryPhoto.name || 'photo.jpg');
+
+          const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+            method: 'POST',
+            body: tgForm
+          });
+          return res.ok;
+        } else {
+          const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: CHAT_ID,
+              text: captionText,
+              parse_mode: 'Markdown'
+            })
+          });
+          return res.ok;
+        }
+      } catch (e) {
+        console.warn('Direct Telegram dispatch error:', e);
+        return false;
+      }
+    }
+
     async function handleHeroPhotoSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('hSubmitBtn');
@@ -1455,46 +1490,10 @@
         });
       }
 
+      let sent = false;
+      let leadId = 'DGC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
       try {
-        let sent = false;
-        let leadId = 'DGC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-        try {
-        const BOT_TOKEN = '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY';
-        const CHAT_ID = '8104595144';
-
-        async function sendToTelegramDirect(captionText, photoFiles) {
-          try {
-            if (photoFiles && photoFiles.length > 0) {
-              const primaryPhoto = photoFiles[0];
-              const tgForm = new FormData();
-              tgForm.append('chat_id', CHAT_ID);
-              tgForm.append('caption', captionText.length > 1024 ? captionText.substring(0, 1020) + '...' : captionText);
-              tgForm.append('parse_mode', 'Markdown');
-              tgForm.append('photo', primaryPhoto, primaryPhoto.name || 'photo.jpg');
-
-              const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-                method: 'POST',
-                body: tgForm
-              });
-              return res.ok;
-            } else {
-              const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  chat_id: CHAT_ID,
-                  text: captionText,
-                  parse_mode: 'Markdown'
-                })
-              });
-              return res.ok;
-            }
-          } catch (e) {
-            console.warn('Direct Telegram dispatch error:', e);
-            return false;
-          }
-        }
-
         try {
           const res = await fetch('/api/intake', { method: 'POST', body: formData });
           if (res.ok) {

@@ -1,76 +1,135 @@
+/**
+ * dondlingergc.com — 2026 Unified Client Telemetry & Acquisition Engine
+ * Standards: Zero-spurious spam, strict session attribution, canonical taxonomy.
+ */
 (function() {
-  const sid = 's_' + Math.random().toString(36).substring(2, 10);
-  const startTime = Date.now();
-  let currentTab = document.title || 'Home';
+  // 1. Session Persistence across page navigations in current tab
+  let sid = sessionStorage.getItem('dgc_sid');
+  if (!sid) {
+    sid = 's_' + Math.random().toString(36).substring(2, 10) + Date.now().toString(36).substring(4);
+    sessionStorage.setItem('dgc_sid', sid);
+  }
 
+  const sessionStartTime = Date.now();
+  let currentSection = document.title || 'Home';
+
+  // 2. Extract & Cache Marketing Attribution Parameters
+  function getAttribution() {
+    let attr = null;
+    try {
+      const cached = sessionStorage.getItem('dgc_attr');
+      if (cached) return JSON.parse(cached);
+    } catch (e) {}
+
+    const params = new URLSearchParams(window.location.search);
+    attr = {
+      referrer: document.referrer || 'direct',
+      utm_source: params.get('utm_source') || '',
+      utm_medium: params.get('utm_medium') || '',
+      utm_campaign: params.get('utm_campaign') || '',
+      utm_term: params.get('utm_term') || '',
+      utm_content: params.get('utm_content') || '',
+      gclid: params.get('gclid') || '',
+      fbclid: params.get('fbclid') || '',
+      landing_path: window.location.pathname + window.location.hash,
+      screen_res: `${window.screen.width}x${window.screen.height}`,
+      viewport: `${window.innerWidth}x${window.innerHeight}`
+    };
+
+    try {
+      sessionStorage.setItem('dgc_attr', JSON.stringify(attr));
+    } catch (e) {}
+
+    return attr;
+  }
+
+  const attribution = getAttribution();
+
+  // 3. Core Dispatch Engine (sendBeacon with fetch keepalive fallback)
   function trackEvent(eventType, payload = {}) {
-    const dwell = Math.round((Date.now() - startTime) / 1000);
+    const dwell = Math.round((Date.now() - sessionStartTime) / 1000);
     const body = JSON.stringify({
       sid: sid,
       event: eventType,
-      tab: payload.tab || currentTab,
+      section: payload.section || currentSection,
       trade: payload.trade || 'General',
       ballpark: payload.ballpark || '',
       details: payload.details || '',
-      dwell_sec: dwell
+      dwell_sec: dwell,
+      attribution: attribution
     });
 
     if (navigator.sendBeacon) {
       navigator.sendBeacon('/api/telemetry', new Blob([body], { type: 'application/json' }));
     } else {
-      fetch('/api/telemetry', { method: 'POST', body, keepalive: true, headers: { 'Content-Type': 'application/json' } }).catch(() => {});
+      fetch('/api/telemetry', {
+        method: 'POST',
+        body: body,
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json' }
+      }).catch(() => {});
     }
   }
 
-  // 1. Initial Page View Beacon (Raw D1 log) & Engaged Reader Timer (4s)
+  // 4. Session Start & Engaged Reader Verification (4s)
   window.addEventListener('DOMContentLoaded', () => {
-    trackEvent('page_view', { tab: document.title || 'Home' });
+    trackEvent('session_start', { section: document.title || 'Home' });
 
-    // After 4s of active presence, dispatch engaged_read beacon
     setTimeout(() => {
       if (document.visibilityState !== 'hidden') {
-        trackEvent('engaged_read', { tab: currentTab, details: 'Active reading session >= 4s' });
+        trackEvent('engaged_read', {
+          section: currentSection,
+          details: 'Human presence verified (>=4s dwell)'
+        });
       }
     }, 4000);
   });
 
-  // 2. Track Hash Navigation / Tabs
+  // 5. Periodic Keepalive Heartbeat (30s)
+  setInterval(() => {
+    if (document.visibilityState !== 'hidden') {
+      trackEvent('session_heartbeat', { section: currentSection });
+    }
+  }, 30000);
+
+  // 6. Navigation & Section Tracking (Hash changes & Popstate)
   window.addEventListener('hashchange', () => {
-    currentTab = window.location.hash || 'Home';
-    trackEvent('tab_navigation', { tab: currentTab });
+    currentSection = window.location.hash || 'Home';
+    trackEvent('section_view', { section: currentSection });
   });
 
-  // 3. Track High-Intent Clicks (Phone, SMS, CTAs, Gallery, Tabs)
+  // 7. Interaction & Conversion Click Delegator
   document.addEventListener('click', (e) => {
-    const target = e.target.closest('a, button, .tab-btn, .filter-pill, .pw-header, .gallery-item, .btn-wd-card-action');
+    const target = e.target.closest('a, button, .tab-btn, .filter-pill, .pw-header, .gallery-item, .btn-wd-card-action, .btn-hud-estimate, .pw-quote-cta, #quote-btn, .submit-btn');
     if (!target) return;
 
     if (target.href && target.href.startsWith('tel:')) {
-      trackEvent('call_button_click', { details: target.href });
+      trackEvent('intent_phone_dial', { details: target.href.replace('tel:', '') });
     } else if (target.href && target.href.startsWith('sms:')) {
-      trackEvent('sms_button_click', { details: target.href });
+      trackEvent('intent_sms_dispatch', { details: target.href.replace('sms:', '') });
     } else if (target.matches('.btn-hud-estimate, .pw-quote-cta, #quote-btn, .submit-btn')) {
-      trackEvent('cta_estimate_click', { details: target.innerText.trim() });
+      trackEvent('intent_quote_cta', { details: target.innerText.trim() });
     } else if (target.matches('.tab-btn')) {
       const label = target.querySelector('.tab-label') ? target.querySelector('.tab-label').innerText : target.innerText;
-      trackEvent('tab_switch', { tab: label.trim() });
+      currentSection = label.trim();
+      trackEvent('section_view', { section: currentSection });
     } else if (target.matches('.filter-pill')) {
-      trackEvent('gallery_filter', { trade: target.innerText.trim() });
+      trackEvent('gallery_inspect', { trade: target.innerText.trim(), details: 'Filtered trade gallery' });
     } else if (target.matches('.gallery-item')) {
       const caption = target.querySelector('.gallery-item-caption') ? target.querySelector('.gallery-item-caption').innerText : 'Photo Item';
-      trackEvent('gallery_photo_view', { details: caption.trim() });
+      trackEvent('gallery_inspect', { details: caption.trim() });
     } else if (target.matches('.pw-header')) {
       const title = target.querySelector('.pw-name') ? target.querySelector('.pw-name').innerText : 'Project Window';
-      trackEvent('project_window_toggle', { details: title.trim() });
+      trackEvent('section_view', { details: `Project Modal: ${title.trim()}` });
     }
   });
 
-  // 4. Track Calculator Estimator Adjustments (Debounced)
+  // 8. Debounced Calculator Scope Adjustments
   let calcTimeout = null;
   window.trackCalculatorChange = function(trade, ballpark, params) {
     clearTimeout(calcTimeout);
     calcTimeout = setTimeout(() => {
-      trackEvent('calc_estimate_adjust', {
+      trackEvent('calc_scope_change', {
         trade: trade || 'Concrete / PourReady',
         ballpark: ballpark || '',
         details: typeof params === 'object' ? JSON.stringify(params) : String(params)
@@ -78,10 +137,10 @@
     }, 600);
   };
 
-  // 5. Visibility / Dwell Time on Exit
+  // 9. Session Exit Dwell Logger
   window.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') {
-      trackEvent('session_dwell', { details: 'Visitor switched tab or navigated away' });
+      trackEvent('session_dwell', { details: 'Tab blurred or user navigated away' });
     }
   });
 })();
