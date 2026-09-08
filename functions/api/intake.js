@@ -58,7 +58,7 @@ export async function onRequestPost(context) {
   const { request, env } = context;
 
   // Retrieve Telegram bot token & chat IDs: Supergroup forum target + personal chat fallback mirror
-  const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN || '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k';
+  const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN || '7955190883:AAHKiXEGIjos0QOH2PHRW0N6i6A4lN7XW3E';
   const GROUP_CHAT_ID = env.TELEGRAM_GROUP_CHAT_ID || '-1004418238851'; // Intake_Supergroup_DondlingerGC
   const PERSONAL_CHAT_ID = env.TELEGRAM_CHAT_ID || '8104595144';
 
@@ -198,7 +198,7 @@ export async function onRequestPost(context) {
     let threadId = null;
 
     const candidateTokens = [
-      '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k',
+      '7955190883:AAHKiXEGIjos0QOH2PHRW0N6i6A4lN7XW3E',
       BOT_TOKEN
     ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077') && !t.startsWith('8617758186'));
 
