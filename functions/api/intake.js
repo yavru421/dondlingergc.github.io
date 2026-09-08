@@ -57,8 +57,8 @@ async function sendAudioToTelegram(token, chatId, audioFile, caption, threadId =
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // Retrieve Telegram bot token & chat IDs: Supergroup forum target + personal chat fallback mirror
-  const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN || '7955190883:AAHKiXEGIjos0QOH2PHRW0N6i6A4lN7XW3E';
+  // Retrieve Telegram bot token & chat IDs strictly from environment secrets
+  const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN;
   const GROUP_CHAT_ID = env.TELEGRAM_GROUP_CHAT_ID || '-1004418238851'; // Intake_Supergroup_DondlingerGC
   const PERSONAL_CHAT_ID = env.TELEGRAM_CHAT_ID || '8104595144';
 
@@ -197,10 +197,7 @@ export async function onRequestPost(context) {
     let telegramResponse = null;
     let threadId = null;
 
-    const candidateTokens = [
-      '7955190883:AAHKiXEGIjos0QOH2PHRW0N6i6A4lN7XW3E',
-      BOT_TOKEN
-    ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077') && !t.startsWith('8617758186'));
+    const candidateTokens = [BOT_TOKEN].filter(Boolean);
 
     // Step 1: Attempt to spawn a dedicated Telegram Forum Topic Thread for this lead in the supergroup
     const cleanLead = (leadName && leadName !== 'General Inquiry' && leadName !== 'Hero Photo Quote')

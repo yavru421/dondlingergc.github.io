@@ -456,28 +456,7 @@
                 }
 
                 if (!sent) {
-                    const BOT_TOKEN = '7955190883:AAHKiXEGIjos0QOH2PHRW0N6i6A4lN7XW3E';
-                    const CHAT_ID = '8104595144';
-                    const leadId = 'DGC-VOICE-' + Math.random().toString(36).substring(2, 7).toUpperCase();
-                    const tgCaption = `🚨 *NEW VOICE FIELD SCOPE MEMO* 🚨\n\n` +
-                        `👤 *Client:* Voice Memo Recording\n` +
-                        `📞 *Contact:* Web Microphone\n` +
-                        `📍 *Location:* Central Wisconsin\n` +
-                        `📝 *Transcription:* ${transcribedText || 'No transcript generated'}\n\n` +
-                        `🕒 *Timestamp:* ${new Date().toLocaleString()}\n` +
-                        `🆔 *Ref ID:* \`${leadId}\`\n` +
-                        `🌐 *Origin:* \`dondlingergc.com/intake.html\``;
-
-                    const tgForm = new FormData();
-                    tgForm.append('chat_id', CHAT_ID);
-                    tgForm.append('caption', tgCaption.replace(/[*`_]/g, ''));
-                    tgForm.append('voice', blob, 'voice_memo.webm');
-                    const tgRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendVoice`, {
-                        method: 'POST',
-                        body: tgForm
-                    });
-                    const td = await tgRes.json();
-                    if (td.ok) sent = true;
+                    throw new Error('Intake dispatch unavailable');
                 }
 
                 statusEl.textContent = transcribedText
@@ -808,98 +787,7 @@
                 }
 
                 if (!sent) {
-                    const BOT_TOKEN = '7955190883:AAHKiXEGIjos0QOH2PHRW0N6i6A4lN7XW3E';
-                    const CHAT_ID = '8104595144';
-                    const leadId = 'DGC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-                    const caption = 
-                        `🚨 *FIELD SCOPE DISPATCH* 🚨\n\n` +
-                        `👤 *Contact:* ${document.getElementById('name').value}\n` +
-                        `📞 *Phone/Email:* \`${document.getElementById('contact').value}\`\n` +
-                        `📍 *Location:* ${document.getElementById('address').value || 'Central Wisconsin'}\n` +
-                        `🔨 *Service:* ${document.getElementById('service').value}\n` +
-                        `📝 *Notes:* ${document.getElementById('notes').value}\n` +
-                        `🎙️ *Voice Memo:* ${intakeRecordedVoiceBlob ? 'Attached' : 'None'}\n\n` +
-                        `🕒 *Timestamp:* ${new Date().toLocaleString()}\n` +
-                        `🆔 *Ref ID:* \`${leadId}\`\n` +
-                        `🌐 *Origin:* \`dondlingergc.com/intake.html\``;
-
-                    if (intakeAttachedPhotos.length > 0) {
-                        for (let i = 0; i < intakeAttachedPhotos.length; i++) {
-                            const photo = intakeAttachedPhotos[i];
-                            const comp = await compressIntakeImage(photo);
-                            const fileCaption = i === 0 ? caption : `📷 Additional Photo (${i + 1}/${intakeAttachedPhotos.length}) — Ref \`${leadId}\``;
-                            const safeCaption = fileCaption.length > 1024 ? fileCaption.substring(0, 1020) + '...' : fileCaption;
-                            const isHeic = (comp.name || '').toLowerCase().endsWith('.heic') || (comp.name || '').toLowerCase().endsWith('.heif');
-
-                            let dispatched = false;
-                            if (!isHeic) {
-                                try {
-                                    const tgForm = new FormData();
-                                    tgForm.append('chat_id', CHAT_ID);
-                                    tgForm.append('caption', safeCaption.replace(/[*`_]/g, ''));
-                                    tgForm.append('photo', comp, comp.name || `photo_${i}.jpg`);
-                                    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-                                        method: 'POST',
-                                        body: tgForm
-                                    });
-                                    const d = await res.json();
-                                    if (d.ok) dispatched = true;
-                                } catch (e) {
-                                    console.warn('Direct sendPhoto error:', e);
-                                }
-                            }
-
-                            if (!dispatched) {
-                                try {
-                                    const docForm = new FormData();
-                                    docForm.append('chat_id', CHAT_ID);
-                                    docForm.append('caption', safeCaption.replace(/[*`_]/g, ''));
-                                    docForm.append('document', comp, comp.name || `photo_${i}.jpg`);
-                                    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendDocument`, {
-                                        method: 'POST',
-                                        body: docForm
-                                    });
-                                    const d = await res.json();
-                                    if (d.ok) dispatched = true;
-                                } catch (e) {
-                                    console.warn('Direct sendDocument error:', e);
-                                }
-                            }
-                        }
-
-                        if (intakeRecordedVoiceBlob) {
-                            try {
-                                const vf = new FormData();
-                                vf.append('chat_id', CHAT_ID);
-                                vf.append('caption', '🎙️ Voice Scope Memo');
-                                vf.append('voice', intakeRecordedVoiceBlob, 'voice_intake.webm');
-                                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendVoice`, { method: 'POST', body: vf });
-                            } catch (ve) {
-                                console.warn('Direct voice fallback dispatch error:', ve);
-                            }
-                        }
-                    } else if (intakeRecordedVoiceBlob) {
-                        try {
-                            const vf = new FormData();
-                            vf.append('chat_id', CHAT_ID);
-                            vf.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
-                            vf.append('voice', intakeRecordedVoiceBlob, 'voice_intake.webm');
-                            const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendVoice`, { method: 'POST', body: vf });
-                            const d = await res.json();
-                            if (d.ok) sent = true;
-                        } catch (ve) {
-                            console.warn('Direct voice dispatch error:', ve);
-                        }
-                    } else {
-                        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                chat_id: CHAT_ID,
-                                text: caption.replace(/[*`_]/g, '')
-                            })
-                        });
-                    }
+                    throw new Error('Intake service unavailable');
                 }
 
                 submitBtn.textContent = '✅ DISPATCHED TO FIELD REVIEW!';

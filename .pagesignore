@@ -1,0 +1,8 @@
+videos/
+*.mp4
+*.mkv
+*.avi
+*.lnk
+inspect_photos.py
+build_projects_data.py
+list_all_images.py
