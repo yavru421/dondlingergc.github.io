@@ -27,9 +27,17 @@ export async function onRequestPost(context) {
       notes = formData.get('notes') || formData.get('description') || notes;
       origin = formData.get('origin') || origin;
 
-      // Extract any photo files
+      // Extract any photo files - robust check across Cloudflare Workers runtime (Blob / File / stream)
       for (const [key, value] of formData.entries()) {
-        if (value instanceof File && value.size > 0) {
+        const isPhotoKey = key.toLowerCase().includes('photo') || key.toLowerCase().includes('image') || key.toLowerCase().includes('file');
+        const hasBinaryPayload = value && typeof value === 'object' && (
+          (typeof File !== 'undefined' && value instanceof File) ||
+          (typeof Blob !== 'undefined' && value instanceof Blob) ||
+          (typeof value.arrayBuffer === 'function' && typeof value.size === 'number' && value.size > 0)
+        );
+        if (hasBinaryPayload && value.size > 0) {
+          photos.push(value);
+        } else if (isPhotoKey && value && typeof value.arrayBuffer === 'function' && value.size > 0) {
           photos.push(value);
         }
       }
@@ -110,36 +118,67 @@ export async function onRequestPost(context) {
     const candidateTokens = [
       '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k',
       BOT_TOKEN,
-      '8830044077:AAHZ-nb4twHY9GWl7wq_DCvyeKra1jXTi7E',
-      '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY'
-    ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077:AAHuP'));
+      '8830044077:AAHZ-nb4twHY9GWl7wq_DCvyeKra1jXTi7E'
+    ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077:AAHuP') && !t.startsWith('8617758186'));
 
     if (photos.length > 0) {
       for (const token of candidateTokens) {
         try {
           const primaryPhoto = photos[0];
-          const photoFormData = new FormData();
+          const primaryBuffer = await primaryPhoto.arrayBuffer();
+          const primaryBlob = new Blob([primaryBuffer], { type: primaryPhoto.type || 'image/jpeg' });
+          const primaryName = primaryPhoto.name || 'intake_photo_1.jpg';
+
+          // First attempt: with Markdown caption
+          let photoFormData = new FormData();
           photoFormData.append('chat_id', CHAT_ID);
           photoFormData.append('caption', telegramMessage.length > 1024 ? telegramMessage.substring(0, 1020) + '...' : telegramMessage);
           photoFormData.append('parse_mode', 'Markdown');
-          photoFormData.append('photo', primaryPhoto, primaryPhoto.name || 'intake_photo.jpg');
+          photoFormData.append('photo', primaryBlob, primaryName);
 
-          const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+          let tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
             method: 'POST',
             body: photoFormData
           });
           telegramResponse = await tgRes.json();
+
+          // Fallback attempt: if Markdown entity parsing failed, retry with plain text caption
+          if (!telegramResponse.ok) {
+            photoFormData = new FormData();
+            photoFormData.append('chat_id', CHAT_ID);
+            const plainCaption = telegramMessage.replace(/[*`_]/g, '');
+            photoFormData.append('caption', plainCaption.length > 1024 ? plainCaption.substring(0, 1020) + '...' : plainCaption);
+            photoFormData.append('photo', primaryBlob, primaryName);
+
+            tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+              method: 'POST',
+              body: photoFormData
+            });
+            telegramResponse = await tgRes.json();
+          }
+
           if (telegramResponse.ok) {
             telegramSuccess = true;
-            // Send remaining photos
+            // Send remaining photos sequentially
             for (let i = 1; i < photos.length; i++) {
-              const extraPhoto = photos[i];
-              const extraFormData = new FormData();
-              extraFormData.append('chat_id', CHAT_ID);
-              extraFormData.append('caption', `📷 Additional Photo (${i + 1}/${photos.length}) — Ref \`${leadId}\``);
-              extraFormData.append('parse_mode', 'Markdown');
-              extraFormData.append('photo', extraPhoto, extraPhoto.name || `photo_${i}.jpg`);
-              await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, { method: 'POST', body: extraFormData });
+              try {
+                const extraPhoto = photos[i];
+                const extraBuffer = await extraPhoto.arrayBuffer();
+                const extraBlob = new Blob([extraBuffer], { type: extraPhoto.type || 'image/jpeg' });
+                const extraName = extraPhoto.name || `photo_${i + 1}.jpg`;
+
+                const extraFormData = new FormData();
+                extraFormData.append('chat_id', CHAT_ID);
+                extraFormData.append('caption', `📷 Additional Photo (${i + 1}/${photos.length}) — Ref: ${leadId}`);
+                extraFormData.append('photo', extraBlob, extraName);
+
+                await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+                  method: 'POST',
+                  body: extraFormData
+                });
+              } catch (err) {
+                console.error('Error dispatching extra photo:', err);
+              }
             }
             break;
           }
@@ -147,8 +186,15 @@ export async function onRequestPost(context) {
           telegramResponse = { error: e.message };
         }
       }
-    } else {
-      // Text only dispatch with multi-token & entity fallback
+    }
+
+    // If photos failed or no photos were attached, fallback to text message
+    if (!telegramSuccess) {
+      const textNotice = photos.length > 0 
+        ? `\n\n⚠️ *Notice:* ${photos.length} photo(s) were submitted by the client (${photos.map((p, i) => p.name || `photo_${i+1}`).join(', ')}), but Telegram photo dispatch failed.` 
+        : '';
+      const fullTextMessage = telegramMessage + textNotice;
+
       for (const token of candidateTokens) {
         try {
           const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
@@ -156,7 +202,7 @@ export async function onRequestPost(context) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               chat_id: CHAT_ID,
-              text: telegramMessage,
+              text: fullTextMessage,
               parse_mode: 'Markdown'
             })
           });
@@ -171,7 +217,7 @@ export async function onRequestPost(context) {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 chat_id: CHAT_ID,
-                text: telegramMessage.replace(/[*`_]/g, '')
+                text: fullTextMessage.replace(/[*`_]/g, '')
               })
             });
             const rawJson = await rawRes.json();
