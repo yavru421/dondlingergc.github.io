@@ -107,48 +107,84 @@ export async function onRequestPost(context) {
     let telegramSuccess = false;
     let telegramResponse = null;
 
+    const candidateTokens = [
+      BOT_TOKEN,
+      '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY',
+      '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k',
+      '8830044077:AAHZ-nb4twHY9GWl7wq_DCvyeKra1jXTi7E'
+    ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077:AAHuP'));
+
     if (photos.length > 0) {
-      // Send first photo with full lead summary caption
-      const primaryPhoto = photos[0];
-      const photoFormData = new FormData();
-      photoFormData.append('chat_id', CHAT_ID);
-      photoFormData.append('caption', telegramMessage.length > 1024 ? telegramMessage.substring(0, 1020) + '...' : telegramMessage);
-      photoFormData.append('parse_mode', 'Markdown');
-      photoFormData.append('photo', primaryPhoto, primaryPhoto.name || 'intake_photo.jpg');
+      for (const token of candidateTokens) {
+        try {
+          const primaryPhoto = photos[0];
+          const photoFormData = new FormData();
+          photoFormData.append('chat_id', CHAT_ID);
+          photoFormData.append('caption', telegramMessage.length > 1024 ? telegramMessage.substring(0, 1020) + '...' : telegramMessage);
+          photoFormData.append('parse_mode', 'Markdown');
+          photoFormData.append('photo', primaryPhoto, primaryPhoto.name || 'intake_photo.jpg');
 
-      const tgRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-        method: 'POST',
-        body: photoFormData
-      });
-      telegramResponse = await tgRes.json();
-      telegramSuccess = telegramResponse.ok;
-
-      // Send any additional attached photos
-      for (let i = 1; i < photos.length; i++) {
-        const extraPhoto = photos[i];
-        const extraFormData = new FormData();
-        extraFormData.append('chat_id', CHAT_ID);
-        extraFormData.append('caption', `📷 Additional Photo (${i + 1}/${photos.length}) — Ref \`${leadId}\``);
-        extraFormData.append('parse_mode', 'Markdown');
-        extraFormData.append('photo', extraPhoto, extraPhoto.name || `photo_${i}.jpg`);
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-          method: 'POST',
-          body: extraFormData
-        });
+          const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+            method: 'POST',
+            body: photoFormData
+          });
+          telegramResponse = await tgRes.json();
+          if (telegramResponse.ok) {
+            telegramSuccess = true;
+            // Send remaining photos
+            for (let i = 1; i < photos.length; i++) {
+              const extraPhoto = photos[i];
+              const extraFormData = new FormData();
+              extraFormData.append('chat_id', CHAT_ID);
+              extraFormData.append('caption', `📷 Additional Photo (${i + 1}/${photos.length}) — Ref \`${leadId}\``);
+              extraFormData.append('parse_mode', 'Markdown');
+              extraFormData.append('photo', extraPhoto, extraPhoto.name || `photo_${i}.jpg`);
+              await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, { method: 'POST', body: extraFormData });
+            }
+            break;
+          }
+        } catch (e) {
+          telegramResponse = { error: e.message };
+        }
       }
     } else {
-      // Text only dispatch
-      const tgRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: telegramMessage,
-          parse_mode: 'Markdown'
-        })
-      });
-      telegramResponse = await tgRes.json();
-      telegramSuccess = telegramResponse.ok;
+      // Text only dispatch with multi-token & entity fallback
+      for (const token of candidateTokens) {
+        try {
+          const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: CHAT_ID,
+              text: telegramMessage,
+              parse_mode: 'Markdown'
+            })
+          });
+          telegramResponse = await tgRes.json();
+          if (telegramResponse.ok) {
+            telegramSuccess = true;
+            break;
+          } else {
+            // Unescaped Markdown retry without parse_mode
+            const rawRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: telegramMessage.replace(/[*`_]/g, '')
+              })
+            });
+            const rawJson = await rawRes.json();
+            if (rawJson.ok) {
+              telegramSuccess = true;
+              telegramResponse = rawJson;
+              break;
+            }
+          }
+        } catch (e) {
+          telegramResponse = { error: e.message };
+        }
+      }
     }
 
     return new Response(JSON.stringify({

@@ -12,7 +12,12 @@ export async function onRequest(context) {
 
   try {
     const data = await request.json().catch(() => ({}));
-    const botToken = env.TELEGRAM_BOT_TOKEN || '8830044077:AAHZ-nb4twHY9GWl7wq_DCvyeKra1jXTi7E';
+    const candidateTokens = [
+      env.TELEGRAM_BOT_TOKEN,
+      '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY',
+      '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k',
+      '8830044077:AAHZ-nb4twHY9GWl7wq_DCvyeKra1jXTi7E'
+    ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077:AAHuP'));
     const chatId = env.TELEGRAM_CHAT_ID || '8104595144';
 
     const eventType = data.event || 'interaction';
@@ -70,16 +75,24 @@ export async function onRequest(context) {
         `🆔 <code>${sid}</code>\n\n` +
         `<i>Filtered telemetry (bot probes suppressed).</i>`;
 
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message,
-          parse_mode: 'HTML',
-          disable_web_page_preview: true
-        })
-      }).catch(console.error);
+      for (const token of candidateTokens) {
+        try {
+          const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: message,
+              parse_mode: 'HTML',
+              disable_web_page_preview: true
+            })
+          });
+          const json = await res.json();
+          if (json.ok) break;
+        } catch (e) {
+          console.error(`Telegram send failed on token:`, e);
+        }
+      }
     }
 
     return new Response(JSON.stringify({ success: true, logged_to_d1: true }), { status: 200, headers: corsHeaders });
