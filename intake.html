@@ -283,7 +283,7 @@
         <form id="intakeForm" class="form-pane" onsubmit="submitForm(event)">
             <div class="form-group">
                 <label for="name">Your Name</label>
-                <input type="text" id="name" name="name" placeholder="John Doe" required>
+                <input type="text" id="name" name="name" placeholder="Name or Business" required>
             </div>
             <div class="form-group">
                 <label for="contact">Phone or Email</label>
@@ -308,21 +308,36 @@
             </div>
             <div class="form-group">
                 <label for="notes">Project Scope & Notes</label>
-                <textarea id="notes" name="notes" rows="3" placeholder="Approximate dimensions, materials, preferred timeline..."></textarea>
+                <textarea id="notes" name="notes" rows="3" placeholder="Approximate dimensions, materials, preferred timeline (or tap 🎙️ below to speak)..."></textarea>
             </div>
             <div class="form-group">
-                <label>Job Photos (Optional)</label>
-                <div class="photo-dropzone" onclick="document.getElementById('intakePhotosInput').click()">
-                    <input type="file" id="intakePhotosInput" accept="image/*" multiple style="display:none" onchange="handleIntakePhotos(event)">
-                    <div class="photo-drop-text">📷 Tap to attach photos or drop here</div>
+                <label>Job Photos & Voice Intake (Optional)</label>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+                    <div class="photo-dropzone" onclick="document.getElementById('intakePhotosInput').click()" style="margin:0;min-height:90px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                        <input type="file" id="intakePhotosInput" accept="image/*" multiple style="display:none" onchange="handleIntakePhotos(event)">
+                        <div class="photo-drop-text" style="font-size:13px;">📷 Snap / Photos</div>
+                    </div>
+                    <button type="button" id="intakeVoiceBtn" onclick="toggleIntakeVoice()" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px 10px;border:2px solid rgba(0,255,136,0.35);border-radius:12px;background:rgba(0,255,136,0.06);cursor:pointer;text-align:center;min-height:90px;transition:all 0.2s;color:#fff;width:100%;">
+                        <span id="intakeVoiceIcon" style="font-size:22px;">🎙️</span>
+                        <span id="intakeVoiceLabel" style="font-size:13px;font-weight:800;color:var(--accent-green, #00ff88);">[ 🎙️ Tap to Speak ]</span>
+                        <span id="intakeVoiceSub" style="font-size:10px;color:var(--text-dim, #999);font-family:var(--font-mono, monospace);">Whisper AI Auto-fill</span>
+                    </button>
                 </div>
+
+                <!-- Live Voice Status Feedback -->
+                <div id="intakeVoiceStatus" style="display:none;align-items:center;justify-content:center;gap:8px;padding:8px 12px;border-radius:8px;font-family:var(--font-mono, monospace);font-size:12px;margin-bottom:10px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);color:var(--accent-green, #00ff88);">
+                    <span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;"></span>
+                    <span id="intakeVoiceStatusText">Listening...</span>
+                </div>
+
+                <div id="intake-voice-preview" style="display:none;align-items:center;gap:8px;margin-bottom:10px;padding:8px 12px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);border-radius:8px;font-family:var(--font-mono, monospace);font-size:12px;color:var(--accent-green, #00ff88);"></div>
                 <div class="photo-preview-grid" id="intakePhotoPreviews"></div>
             </div>
             <button type="submit" id="submitFormBtn" class="submit-btn">SEND TO TELEGRAM DISPATCH ⚡</button>
         </form>
 
         <div class="footer-note">
-            Wisconsin DSPS Licensed Dwelling Contractor • 100% Zero-Liability Privacy
+            Dondlinger General Contracting • Central Wisconsin • Zero-Liability Privacy
         </div>
     </div>
 
@@ -347,7 +362,7 @@
             }
         }
 
-        // Voice Recorder Logic
+        // Voice Recorder Logic (Tab Voice Section)
         const recordBtn = document.getElementById('recordBtn');
         const statusEl = document.getElementById('status');
         let mediaRecorder;
@@ -358,20 +373,20 @@
             if (!isRecording) {
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder = new MediaRecorder(stream, { mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : '' });
                     
                     mediaRecorder.ondataavailable = event => {
                         if (event.data.size > 0) audioChunks.push(event.data);
                     };
 
                     mediaRecorder.onstop = async () => {
-                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const audioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
                         audioChunks = [];
                         stream.getTracks().forEach(track => track.stop());
                         await sendVoiceIntake(audioBlob);
                     };
 
-                    mediaRecorder.start();
+                    mediaRecorder.start(250);
                     isRecording = true;
                     recordBtn.textContent = 'STOP';
                     recordBtn.classList.add('recording');
@@ -385,36 +400,87 @@
             } else {
                 mediaRecorder.stop();
                 isRecording = false;
-                recordBtn.textContent = 'SENDING';
+                recordBtn.textContent = 'TRANSCRIBING...';
                 recordBtn.classList.remove('recording');
                 recordBtn.disabled = true;
-                statusEl.textContent = 'Transmitting to Telegram dispatch...';
-                statusEl.style.color = '#fff';
+                statusEl.textContent = 'Transcribing with Cloudflare Whisper AI...';
+                statusEl.style.color = 'var(--accent-green)';
             }
         });
 
         async function sendVoiceIntake(blob) {
             try {
-                // Post text lead record to /api/intake
-                const res = await fetch('/api/intake', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name: 'Voice Audio Message',
-                        contact: 'Recorded via Web Mic',
-                        service: 'Voice Vision Recording',
-                        notes: 'A voice memo was recorded via the Intake PWA.',
-                        address: 'Wisconsin Rapids Area'
-                    })
-                });
-
-                const data = await res.json();
-                if (data.success) {
-                    statusEl.textContent = '✅ Dispatched to John\'s Telegram!';
-                    statusEl.style.color = 'var(--accent-green)';
-                } else {
-                    throw new Error(data.error || 'Dispatch error');
+                let transcribedText = '';
+                try {
+                    const tfd = new FormData();
+                    tfd.append('audio', blob, 'voice_memo.webm');
+                    const tres = await fetch('/api/transcribe', { method: 'POST', body: tfd });
+                    if (tres.ok) {
+                        const tdata = await tres.json();
+                        if (tdata.success && tdata.text) {
+                            transcribedText = tdata.text.trim();
+                            const notesEl = document.getElementById('notes');
+                            if (notesEl && !notesEl.value) {
+                                notesEl.value = transcribedText;
+                            }
+                        }
+                    }
+                } catch (te) {
+                    console.warn('Tab transcription error:', te);
                 }
+
+                statusEl.textContent = 'Transmitting audio & scope to field review...';
+                const fd = new FormData();
+                fd.append('name', 'Voice Scope Memo');
+                fd.append('contact', 'Web Microphone');
+                fd.append('service', 'Voice Intake Recording');
+                fd.append('address', 'Central Wisconsin');
+                fd.append('notes', transcribedText ? `Voice Memo: "${transcribedText}"` : 'Voice memo recorded via Intake PWA.');
+                fd.append('voice_audio', blob, 'voice_memo.webm');
+
+                let sent = false;
+                try {
+                    const res = await fetch('/api/intake', {
+                        method: 'POST',
+                        body: fd
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.success) sent = true;
+                    }
+                } catch (pe) {
+                    console.warn('Pages function offline, falling back to direct Telegram route:', pe);
+                }
+
+                if (!sent) {
+                    const BOT_TOKEN = '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k';
+                    const CHAT_ID = '8104595144';
+                    const leadId = 'DGC-VOICE-' + Math.random().toString(36).substring(2, 7).toUpperCase();
+                    const tgCaption = `🚨 *NEW VOICE FIELD SCOPE MEMO* 🚨\n\n` +
+                        `👤 *Client:* Voice Memo Recording\n` +
+                        `📞 *Contact:* Web Microphone\n` +
+                        `📍 *Location:* Central Wisconsin\n` +
+                        `📝 *Transcription:* ${transcribedText || 'No transcript generated'}\n\n` +
+                        `🕒 *Timestamp:* ${new Date().toLocaleString()}\n` +
+                        `🆔 *Ref ID:* \`${leadId}\`\n` +
+                        `🌐 *Origin:* \`dondlingergc.com/intake.html\``;
+
+                    const tgForm = new FormData();
+                    tgForm.append('chat_id', CHAT_ID);
+                    tgForm.append('caption', tgCaption.replace(/[*`_]/g, ''));
+                    tgForm.append('voice', blob, 'voice_memo.webm');
+                    const tgRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendVoice`, {
+                        method: 'POST',
+                        body: tgForm
+                    });
+                    const td = await tgRes.json();
+                    if (td.ok) sent = true;
+                }
+
+                statusEl.textContent = transcribedText
+                    ? `✅ Dispatched: "${transcribedText.length > 40 ? transcribedText.substring(0, 40) + '...' : transcribedText}"`
+                    : '✅ Audio dispatched to field review!';
+                statusEl.style.color = 'var(--accent-green)';
             } catch (err) {
                 console.error("Transmission error:", err);
                 statusEl.textContent = 'Transmitted to dispatch queue.';
@@ -423,6 +489,158 @@
                 recordBtn.textContent = 'RECORD';
                 recordBtn.disabled = false;
             }
+        }
+
+        // Inline Form Voice Recording Logic
+        let intakeMediaRecorder = null;
+        let intakeAudioChunks = [];
+        let intakeIsRecording = false;
+        let intakeRecordedVoiceBlob = null;
+
+        async function toggleIntakeVoice() {
+            const btn = document.getElementById('intakeVoiceBtn');
+            const icon = document.getElementById('intakeVoiceIcon');
+            const label = document.getElementById('intakeVoiceLabel');
+            const sub = document.getElementById('intakeVoiceSub');
+            const statusWrap = document.getElementById('intakeVoiceStatus');
+            const statusText = document.getElementById('intakeVoiceStatusText');
+
+            if (!intakeIsRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    intakeAudioChunks = [];
+                    intakeMediaRecorder = new MediaRecorder(stream, { mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : '' });
+                    
+                    intakeMediaRecorder.ondataavailable = (e) => {
+                        if (e.data && e.data.size > 0) intakeAudioChunks.push(e.data);
+                    };
+
+                    intakeMediaRecorder.onstop = async () => {
+                        stream.getTracks().forEach(t => t.stop());
+                        const blob = new Blob(intakeAudioChunks, { type: intakeMediaRecorder.mimeType || 'audio/webm' });
+                        intakeRecordedVoiceBlob = blob;
+                        await transcribeAndFillIntake(blob);
+                    };
+
+                    intakeMediaRecorder.start(250);
+                    intakeIsRecording = true;
+
+                    btn.style.borderColor = 'var(--accent-color, #ff3333)';
+                    btn.style.background = 'rgba(255, 51, 51, 0.15)';
+                    icon.textContent = '⏹️';
+                    label.textContent = '[ ⏹️ Tap to Finish ]';
+                    label.style.color = '#ff4d4d';
+                    sub.textContent = 'Recording in progress...';
+
+                    statusWrap.style.display = 'flex';
+                    statusWrap.style.background = 'rgba(255,51,51,0.1)';
+                    statusWrap.style.borderColor = 'rgba(255,51,51,0.3)';
+                    statusWrap.style.color = '#ff4d4d';
+                    statusText.textContent = '🎙️ Recording speech... Tap finish when done';
+                } catch (err) {
+                    console.error('Microphone error:', err);
+                    alert('Microphone permission required: ' + err.message);
+                }
+            } else {
+                intakeIsRecording = false;
+                if (intakeMediaRecorder && intakeMediaRecorder.state !== 'inactive') {
+                    intakeMediaRecorder.stop();
+                }
+                btn.disabled = true;
+                btn.style.opacity = '0.7';
+                icon.textContent = '⚡';
+                label.textContent = '[ ⚡ Transcribing... ]';
+                label.style.color = 'var(--accent-green, #00ff88)';
+                sub.textContent = 'Whisper Turbo model';
+
+                statusWrap.style.display = 'flex';
+                statusWrap.style.background = 'rgba(0,255,136,0.1)';
+                statusWrap.style.borderColor = 'rgba(0,255,136,0.3)';
+                statusWrap.style.color = 'var(--accent-green, #00ff88)';
+                statusText.textContent = '⚡ Streaming audio to Cloudflare Whisper AI...';
+            }
+        }
+
+        async function transcribeAndFillIntake(blob) {
+            const btn = document.getElementById('intakeVoiceBtn');
+            const icon = document.getElementById('intakeVoiceIcon');
+            const label = document.getElementById('intakeVoiceLabel');
+            const sub = document.getElementById('intakeVoiceSub');
+            const statusWrap = document.getElementById('intakeVoiceStatus');
+            const statusText = document.getElementById('intakeVoiceStatusText');
+            const notesEl = document.getElementById('notes');
+            const preview = document.getElementById('intake-voice-preview');
+
+            try {
+                const fd = new FormData();
+                fd.append('audio', blob, 'voice_intake.webm');
+
+                const res = await fetch('/api/transcribe', {
+                    method: 'POST',
+                    body: fd
+                });
+
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.error || `HTTP ${res.status}`);
+                }
+
+                const data = await res.json();
+                if (data.success && data.text) {
+                    const text = data.text.trim();
+                    if (notesEl) {
+                        notesEl.value = notesEl.value && notesEl.value.trim().length > 0
+                            ? notesEl.value.trim() + ' ' + text
+                            : text;
+                        notesEl.style.borderColor = 'var(--accent-green)';
+                        setTimeout(() => { notesEl.style.borderColor = ''; }, 2500);
+                    }
+                    statusWrap.style.background = 'rgba(0,255,136,0.15)';
+                    statusWrap.style.borderColor = 'rgba(0,255,136,0.35)';
+                    statusWrap.style.color = 'var(--accent-green)';
+                    statusText.textContent = `✅ Transcribed: "${text.length > 50 ? text.substring(0, 50) + '...' : text}"`;
+
+                    if (preview) {
+                        preview.style.display = 'flex';
+                        preview.innerHTML = `<span>🎙️ Voice Memo Attached (${Math.round(blob.size / 1024)} KB)</span> <button type="button" onclick="clearIntakeVoice()" style="background:none;border:none;color:#ff4d4d;cursor:pointer;font-weight:bold;margin-left:auto;">✕</button>`;
+                    }
+                } else {
+                    statusText.textContent = '⚠️ Audio recorded. Voice memo attached for dispatch.';
+                    if (preview) {
+                        preview.style.display = 'flex';
+                        preview.innerHTML = `<span>🎙️ Voice Memo Attached (${Math.round(blob.size / 1024)} KB)</span> <button type="button" onclick="clearIntakeVoice()" style="background:none;border:none;color:#ff4d4d;cursor:pointer;font-weight:bold;margin-left:auto;">✕</button>`;
+                    }
+                }
+            } catch (err) {
+                console.warn('Transcription error:', err);
+                statusWrap.style.background = 'rgba(239,68,68,0.15)';
+                statusWrap.style.borderColor = 'rgba(239,68,68,0.35)';
+                statusWrap.style.color = '#ff4d4d';
+                statusText.textContent = `⚠️ Transcribe offline: ${err.message || 'Error'}. Audio saved for dispatch.`;
+                if (preview) {
+                    preview.style.display = 'flex';
+                    preview.innerHTML = `<span>🎙️ Voice Memo Attached (${Math.round(blob.size / 1024)} KB)</span> <button type="button" onclick="clearIntakeVoice()" style="background:none;border:none;color:#ff4d4d;cursor:pointer;font-weight:bold;margin-left:auto;">✕</button>`;
+                }
+            } finally {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.borderColor = 'rgba(0,255,136,0.35)';
+                btn.style.background = 'rgba(0,255,136,0.06)';
+                icon.textContent = '🎙️';
+                label.textContent = '[ 🎙️ Tap to Speak ]';
+                label.style.color = 'var(--accent-green, #00ff88)';
+                sub.textContent = intakeRecordedVoiceBlob ? 'Memo attached (tap to re-record)' : 'Whisper AI Auto-fill';
+            }
+        }
+
+        function clearIntakeVoice() {
+            intakeRecordedVoiceBlob = null;
+            const preview = document.getElementById('intake-voice-preview');
+            if (preview) preview.style.display = 'none';
+            const statusWrap = document.getElementById('intakeVoiceStatus');
+            if (statusWrap) statusWrap.style.display = 'none';
+            const sub = document.getElementById('intakeVoiceSub');
+            if (sub) sub.textContent = 'Whisper AI Auto-fill';
         }
 
         // Intake Form Image State & Compression Helpers
@@ -521,6 +739,10 @@
             formData.append('address', document.getElementById('address').value);
             formData.append('notes', document.getElementById('notes').value);
 
+            if (intakeRecordedVoiceBlob) {
+                formData.append('voice_audio', intakeRecordedVoiceBlob, 'voice_intake.webm');
+            }
+
             if (intakeAttachedPhotos.length > 0) {
                 for (let i = 0; i < intakeAttachedPhotos.length; i++) {
                     try {
@@ -541,7 +763,7 @@
                     });
                     if (res.ok) {
                         const data = await res.json();
-                        if (data.success && (intakeAttachedPhotos.length === 0 || data.photos_dispatched > 0)) {
+                        if (data.success && (intakeAttachedPhotos.length === 0 || data.photos_dispatched > 0 || data.telegram_dispatched)) {
                             sent = true;
                         }
                     }
@@ -554,12 +776,13 @@
                     const CHAT_ID = '8104595144';
                     const leadId = 'DGC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
                     const caption = 
-                        `🚨 *NEW CLIENT LEAD DISPATCH* 🚨\n\n` +
-                        `👤 *Client:* ${document.getElementById('name').value}\n` +
-                        `📞 *Contact:* \`${document.getElementById('contact').value}\`\n` +
+                        `🚨 *FIELD SCOPE DISPATCH* 🚨\n\n` +
+                        `👤 *Contact:* ${document.getElementById('name').value}\n` +
+                        `📞 *Phone/Email:* \`${document.getElementById('contact').value}\`\n` +
                         `📍 *Location:* ${document.getElementById('address').value || 'Central Wisconsin'}\n` +
                         `🔨 *Service:* ${document.getElementById('service').value}\n` +
-                        `📝 *Notes:* ${document.getElementById('notes').value}\n\n` +
+                        `📝 *Notes:* ${document.getElementById('notes').value}\n` +
+                        `🎙️ *Voice Memo:* ${intakeRecordedVoiceBlob ? 'Attached' : 'None'}\n\n` +
                         `🕒 *Timestamp:* ${new Date().toLocaleString()}\n` +
                         `🆔 *Ref ID:* \`${leadId}\`\n` +
                         `🌐 *Origin:* \`dondlingergc.com/intake.html\``;
@@ -590,7 +813,6 @@
                                 }
                             }
 
-                            // Fallback to sendDocument (supports HEIC, large raw images, any format up to 50MB)
                             if (!dispatched) {
                                 try {
                                     const docForm = new FormData();
@@ -608,6 +830,30 @@
                                 }
                             }
                         }
+
+                        if (intakeRecordedVoiceBlob) {
+                            try {
+                                const vf = new FormData();
+                                vf.append('chat_id', CHAT_ID);
+                                vf.append('caption', '🎙️ Voice Scope Memo');
+                                vf.append('voice', intakeRecordedVoiceBlob, 'voice_intake.webm');
+                                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendVoice`, { method: 'POST', body: vf });
+                            } catch (ve) {
+                                console.warn('Direct voice fallback dispatch error:', ve);
+                            }
+                        }
+                    } else if (intakeRecordedVoiceBlob) {
+                        try {
+                            const vf = new FormData();
+                            vf.append('chat_id', CHAT_ID);
+                            vf.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
+                            vf.append('voice', intakeRecordedVoiceBlob, 'voice_intake.webm');
+                            const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendVoice`, { method: 'POST', body: vf });
+                            const d = await res.json();
+                            if (d.ok) sent = true;
+                        } catch (ve) {
+                            console.warn('Direct voice dispatch error:', ve);
+                        }
                     } else {
                         await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                             method: 'POST',
@@ -620,10 +866,11 @@
                     }
                 }
 
-                submitBtn.textContent = '✅ DISPATCHED TO TELEGRAM!';
+                submitBtn.textContent = '✅ DISPATCHED TO FIELD REVIEW!';
                 submitBtn.style.background = 'var(--accent-green)';
                 document.getElementById('intakeForm').reset();
                 intakeAttachedPhotos = [];
+                clearIntakeVoice();
                 renderIntakePreviews();
                 setTimeout(() => {
                     submitBtn.textContent = origText;

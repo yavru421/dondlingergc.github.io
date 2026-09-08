@@ -497,7 +497,7 @@
       <img src="dondlinger_logo.png" alt="Dondlinger General Contracting" class="hud-logo">
       <div class="hud-brand-text">
         <span class="hud-name">DONDLINGER GENERAL CONTRACTING LLC <span class="hud-dropdown-icon">▼</span></span>
-        <span class="hud-sub"><span class="dot"></span> LICENSED DWELLING CONTRACTOR • INSURED</span>
+        <span class="hud-sub"><span class="dot"></span> RESIDENTIAL & COMMERCIAL CONTRACTING • INSURED</span>
       </div>
 
       <div class="hud-menu-dropdown" id="hud-menu-dropdown">
@@ -562,32 +562,46 @@
     <div id="hero-photo-card" style="background:linear-gradient(135deg, rgba(255,87,34,0.14) 0%, #12141c 100%);border:2px solid var(--accent);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 8px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,87,34,0.15);">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
         <span style="font-family:var(--font-brand);font-size:16px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;">
-          📸 Fast Estimate: Snap & Upload Project Photos
-        </span>
-        <span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--green);background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);padding:2px 8px;border-radius:4px;">
-          ⚡ 15-Min Response
+          📸 Direct Photo & Voice Scope Review
         </span>
       </div>
       <p style="font-size:12.5px;color:#cbd5e1;margin-bottom:12px;line-height:1.4;">
-        Snap or attach 1–3 photos of your deck, siding, roof, or project area for an instant ballpark estimate:
+        Attach job photos or tap 🎙️ to record your project scope. Dispatched directly to mobile field review:
       </p>
 
       <div id="hero-status-msg" class="status-badge"></div>
 
       <form id="heroPhotoForm" onsubmit="handleHeroPhotoSubmit(event)">
-        <label for="heroPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 12px;border:2px dashed rgba(255,87,34,0.5);border-radius:10px;background:rgba(255,87,34,0.05);cursor:pointer;margin-bottom:12px;text-align:center;">
-          <svg class="icon-svg" style="width:28px;height:28px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span style="font-size:13.5px;font-weight:800;color:#fff;">Tap Here to Select or Snap Photos 📸</span>
-          <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">Supports iPhone / Android Photos, JPG, PNG, HEIC</span>
-        </label>
-        <input type="file" id="heroPhotos" name="heroPhotos" accept="image/*" multiple onchange="previewHeroPhotos(event)" style="display:none;">
+        <!-- Inline Photo & Voice Intake Row -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+          <label for="heroPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 10px;border:2px dashed rgba(255,87,34,0.5);border-radius:10px;background:rgba(255,87,34,0.05);cursor:pointer;text-align:center;min-height:92px;transition:all 0.2s;">
+            <svg class="icon-svg" style="width:24px;height:24px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span style="font-size:13px;font-weight:800;color:#fff;">📸 Snap / Upload</span>
+            <span style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);">JPG, PNG, HEIC</span>
+          </label>
+          <input type="file" id="heroPhotos" name="heroPhotos" accept="image/*" multiple onchange="previewHeroPhotos(event)" style="display:none;">
+
+          <button type="button" id="heroVoiceBtn" onclick="toggleHeroVoiceRecording()" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 10px;border:2px solid rgba(0,255,136,0.35);border-radius:10px;background:rgba(0,255,136,0.06);cursor:pointer;text-align:center;min-height:92px;transition:all 0.2s;color:#fff;width:100%;">
+            <span id="heroVoiceIcon" style="font-size:22px;">🎙️</span>
+            <span id="heroVoiceLabel" style="font-size:13px;font-weight:800;color:var(--green);">[ 🎙️ Tap to Speak ]</span>
+            <span id="heroVoiceSub" style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);">Whisper AI Auto-fill</span>
+          </button>
+        </div>
+
+        <!-- Inline Voice Live Status Feedback -->
+        <div id="heroVoiceStatus" style="display:none;align-items:center;justify-content:center;gap:8px;padding:8px 12px;border-radius:8px;font-family:var(--font-mono);font-size:11.5px;margin-bottom:10px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);color:var(--green);">
+          <span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;"></span>
+          <span id="heroVoiceStatusText">Listening...</span>
+        </div>
+
         <div id="hero-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;"></div>
+        <div id="hero-voice-preview" style="display:none;align-items:center;gap:8px;margin-bottom:12px;padding:6px 12px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);border-radius:8px;font-family:var(--font-mono);font-size:11px;color:var(--green);"></div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
           <input type="text" id="hContact" class="form-input" placeholder="Your Phone or Email *" required style="font-size:13px;">
           <input type="text" id="hCity" class="form-input" placeholder="City (e.g. Wisconsin Rapids)..." style="font-size:13px;">
         </div>
-        <input type="text" id="hNotes" class="form-input" placeholder="Brief project description (e.g. 14x20 deck replacement)..." style="font-size:13px;margin-bottom:10px;">
+        <input type="text" id="hNotes" class="form-input" placeholder="Brief project description (or tap 🎙️ to speak)..." style="font-size:13px;margin-bottom:10px;">
         <div style="display:flex;gap:8px;">
           <button type="submit" id="hSubmitBtn" class="btn-submit-lead" style="flex:1.4;padding:12px;font-size:13.5px;font-weight:800;background:var(--accent);color:#fff;border:none;border-radius:8px;box-shadow:0 4px 16px var(--accent-glow);cursor:pointer;">
             🚀 Submit Estimate Request ⚡
@@ -1431,12 +1445,168 @@
       });
     }
 
-    async function sendToTelegramDirect(captionText, photoFiles) {
+    // Inline Voice Intake State & Logic
+    let heroMediaRecorder = null;
+    let heroAudioChunks = [];
+    let heroIsRecording = false;
+    let heroRecordedAudioBlob = null;
+
+    async function toggleHeroVoiceRecording() {
+      const btn = document.getElementById('heroVoiceBtn');
+      const icon = document.getElementById('heroVoiceIcon');
+      const label = document.getElementById('heroVoiceLabel');
+      const sub = document.getElementById('heroVoiceSub');
+      const statusWrap = document.getElementById('heroVoiceStatus');
+      const statusText = document.getElementById('heroVoiceStatusText');
+      const notesInput = document.getElementById('hNotes');
+
+      if (!heroIsRecording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          heroAudioChunks = [];
+          heroMediaRecorder = new MediaRecorder(stream, { mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : '' });
+
+          heroMediaRecorder.ondataavailable = (e) => {
+            if (e.data && e.data.size > 0) heroAudioChunks.push(e.data);
+          };
+
+          heroMediaRecorder.onstop = async () => {
+            stream.getTracks().forEach(t => t.stop());
+            const audioBlob = new Blob(heroAudioChunks, { type: heroMediaRecorder.mimeType || 'audio/webm' });
+            heroRecordedAudioBlob = audioBlob;
+            await transcribeAndFillHero(audioBlob);
+          };
+
+          heroMediaRecorder.start(250);
+          heroIsRecording = true;
+
+          btn.style.borderColor = '#ff3333';
+          btn.style.background = 'rgba(255, 51, 51, 0.15)';
+          icon.textContent = '⏹️';
+          label.textContent = '[ ⏹️ Tap to Finish ]';
+          label.style.color = '#ff4d4d';
+          sub.textContent = 'Recording in progress...';
+          
+          statusWrap.style.display = 'flex';
+          statusWrap.style.background = 'rgba(255,51,51,0.1)';
+          statusWrap.style.borderColor = 'rgba(255,51,51,0.3)';
+          statusWrap.style.color = '#ff4d4d';
+          statusText.textContent = '🎙️ Recording speech... Tap finish when done';
+        } catch (err) {
+          console.error('Microphone access error:', err);
+          alert('Microphone permission required for voice recording: ' + err.message);
+        }
+      } else {
+        heroIsRecording = false;
+        if (heroMediaRecorder && heroMediaRecorder.state !== 'inactive') {
+          heroMediaRecorder.stop();
+        }
+        btn.disabled = true;
+        btn.style.opacity = '0.7';
+        icon.textContent = '⚡';
+        label.textContent = '[ ⚡ Transcribing... ]';
+        label.style.color = 'var(--cyan)';
+        sub.textContent = 'Whisper Turbo model';
+
+        statusWrap.style.display = 'flex';
+        statusWrap.style.background = 'rgba(56,189,248,0.1)';
+        statusWrap.style.borderColor = 'rgba(56,189,248,0.3)';
+        statusWrap.style.color = 'var(--cyan)';
+        statusText.textContent = '⚡ Streaming audio to Cloudflare Whisper AI...';
+      }
+    }
+
+    async function transcribeAndFillHero(audioBlob) {
+      const btn = document.getElementById('heroVoiceBtn');
+      const icon = document.getElementById('heroVoiceIcon');
+      const label = document.getElementById('heroVoiceLabel');
+      const sub = document.getElementById('heroVoiceSub');
+      const statusWrap = document.getElementById('heroVoiceStatus');
+      const statusText = document.getElementById('heroVoiceStatusText');
+      const notesInput = document.getElementById('hNotes');
+      const preview = document.getElementById('hero-voice-preview');
+
+      try {
+        const fd = new FormData();
+        fd.append('audio', audioBlob, 'voice_hero.webm');
+
+        const res = await fetch('/api/transcribe', {
+          method: 'POST',
+          body: fd
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || `HTTP ${res.status}`);
+        }
+
+        const data = await res.json();
+        if (data.success && data.text) {
+          const transcribed = data.text.trim();
+          if (notesInput) {
+            if (notesInput.value && notesInput.value.trim().length > 0) {
+              notesInput.value = notesInput.value.trim() + ' ' + transcribed;
+            } else {
+              notesInput.value = transcribed;
+            }
+            notesInput.style.borderColor = 'var(--green)';
+            setTimeout(() => { notesInput.style.borderColor = ''; }, 2500);
+          }
+
+          statusWrap.style.background = 'rgba(34,197,94,0.15)';
+          statusWrap.style.borderColor = 'rgba(34,197,94,0.35)';
+          statusWrap.style.color = 'var(--green)';
+          statusText.textContent = `✅ Transcribed: "${transcribed.length > 50 ? transcribed.substring(0, 50) + '...' : transcribed}"`;
+
+          if (preview) {
+            preview.style.display = 'flex';
+            preview.innerHTML = `<span>🎙️ Voice Memo Attached (${Math.round(audioBlob.size / 1024)} KB)</span> <button type="button" onclick="clearHeroVoice()" style="background:none;border:none;color:#ff4d4d;cursor:pointer;font-weight:bold;margin-left:auto;">✕</button>`;
+          }
+        } else {
+          statusText.textContent = '⚠️ Silence or low audio detected. Voice memo saved.';
+          if (preview) {
+            preview.style.display = 'flex';
+            preview.innerHTML = `<span>🎙️ Voice Memo Attached (${Math.round(audioBlob.size / 1024)} KB)</span> <button type="button" onclick="clearHeroVoice()" style="background:none;border:none;color:#ff4d4d;cursor:pointer;font-weight:bold;margin-left:auto;">✕</button>`;
+          }
+        }
+      } catch (e) {
+        console.warn('Transcription error:', e);
+        statusWrap.style.background = 'rgba(239,68,68,0.15)';
+        statusWrap.style.borderColor = 'rgba(239,68,68,0.35)';
+        statusWrap.style.color = '#f87171';
+        statusText.textContent = `⚠️ Transcribe offline: ${e.message || 'Error'}. Audio saved for dispatch.`;
+        if (preview) {
+          preview.style.display = 'flex';
+          preview.innerHTML = `<span>🎙️ Voice Memo Attached (${Math.round(audioBlob.size / 1024)} KB)</span> <button type="button" onclick="clearHeroVoice()" style="background:none;border:none;color:#ff4d4d;cursor:pointer;font-weight:bold;margin-left:auto;">✕</button>`;
+        }
+      } finally {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.borderColor = 'rgba(0,255,136,0.35)';
+        btn.style.background = 'rgba(0,255,136,0.06)';
+        icon.textContent = '🎙️';
+        label.textContent = '[ 🎙️ Tap to Speak ]';
+        label.style.color = 'var(--green)';
+        sub.textContent = heroRecordedAudioBlob ? 'Memo attached (tap to re-record)' : 'Whisper AI Auto-fill';
+      }
+    }
+
+    function clearHeroVoice() {
+      heroRecordedAudioBlob = null;
+      const preview = document.getElementById('hero-voice-preview');
+      if (preview) preview.style.display = 'none';
+      const statusWrap = document.getElementById('heroVoiceStatus');
+      if (statusWrap) statusWrap.style.display = 'none';
+      const sub = document.getElementById('heroVoiceSub');
+      if (sub) sub.textContent = 'Whisper AI Auto-fill';
+    }
+
+    async function sendToTelegramDirect(captionText, photoFiles, voiceBlob) {
       const BOT_TOKEN = '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k';
       const CHAT_ID = '8104595144';
       try {
+        let anySent = false;
         if (photoFiles && photoFiles.length > 0) {
-          let anySent = false;
           for (let i = 0; i < photoFiles.length; i++) {
             const file = photoFiles[i];
             const caption = i === 0 ? captionText : `📷 Additional Photo (${i + 1}/${photoFiles.length})`;
@@ -1476,7 +1646,34 @@
             }
             if (dispatched) anySent = true;
           }
+
+          if (voiceBlob) {
+            try {
+              const vf = new FormData();
+              vf.append('chat_id', CHAT_ID);
+              vf.append('caption', '🎙️ Client Voice Intake Memo');
+              vf.append('voice', voiceBlob, 'voice_hero.webm');
+              await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendVoice`, { method: 'POST', body: vf });
+            } catch (vErr) {
+              console.warn('Direct voice fallback dispatch error:', vErr);
+            }
+          }
+
           return anySent;
+        } else if (voiceBlob) {
+          try {
+            const vf = new FormData();
+            vf.append('chat_id', CHAT_ID);
+            vf.append('caption', captionText.length > 1024 ? captionText.substring(0, 1020) + '...' : captionText);
+            vf.append('parse_mode', 'Markdown');
+            vf.append('voice', voiceBlob, 'voice_hero.webm');
+            const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendVoice`, { method: 'POST', body: vf });
+            const d = await res.json();
+            if (d.ok) return true;
+          } catch (e) {
+            console.warn('Direct voice dispatch error:', e);
+          }
+          return false;
         } else {
           const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
@@ -1500,7 +1697,7 @@
       const btn = document.getElementById('hSubmitBtn');
       const origHtml = btn.innerHTML;
       btn.disabled = true;
-      btn.textContent = 'Dispatching Photos to John...';
+      btn.textContent = 'Dispatching Photos & Voice...';
 
       const contact = document.getElementById('hContact').value;
       const city = document.getElementById('hCity').value || 'Central WI';
@@ -1511,6 +1708,10 @@
       formData.append('contact', contact);
       formData.append('service', `Photo Scope Review (${city})`);
       formData.append('notes', notes);
+
+      if (heroRecordedAudioBlob) {
+        formData.append('voice_audio', heroRecordedAudioBlob, 'voice_hero.webm');
+      }
 
       const fileInput = document.getElementById('heroPhotos');
       const files = (fileInput && fileInput.files.length > 0) ? Array.from(fileInput.files).slice(0, 4) : [];
@@ -1528,7 +1729,7 @@
           const res = await fetch('/api/intake', { method: 'POST', body: formData });
           if (res.ok) {
             const data = await res.json();
-            if (data.success && (files.length === 0 || data.photos_dispatched > 0)) {
+            if (data.success && (files.length === 0 || data.photos_dispatched > 0 || data.telegram_dispatched)) {
               leadId = data.lead_id || leadId;
               sent = true;
             }
@@ -1539,28 +1740,39 @@
 
         if (!sent) {
           const caption = 
-            `🚨 *NEW HERO PHOTO LEAD DISPATCH* 🚨\n\n` +
+            `🚨 *NEW HERO PHOTO & VOICE LEAD DISPATCH* 🚨\n\n` +
             `👤 *Client:* Hero Photo Quote\n` +
             `📞 *Contact:* \`${contact}\`\n` +
             `📍 *Location:* ${city || 'Central Wisconsin'}\n` +
-            `🔨 *Scope:* Photo Scope Review\n` +
+            `🔨 *Scope:* Photo & Voice Scope Review\n` +
             `📝 *Notes:* ${notes || 'No description'}\n\n` +
+            `🎙️ *Voice Memo:* ${heroRecordedAudioBlob ? 'Attached' : 'None'}\n` +
             `🕒 *Timestamp:* ${new Date().toLocaleString()}\n` +
             `🆔 *Ref ID:* \`${leadId}\`\n` +
             `🌐 *Origin:* \`dondlingergc.com (Hero Photo Form)\``;
 
           const files = (fileInput && fileInput.files.length > 0) ? Array.from(fileInput.files) : [];
-          sent = await sendToTelegramDirect(caption, files);
+          sent = await sendToTelegramDirect(caption, files, heroRecordedAudioBlob);
         }
 
-        showStatus('hero-status-msg', 'success', `Photos Dispatched to John Dondlinger! Reference #${leadId}`);
+        showStatus('hero-status-msg', 'success', `Photos & Voice Dispatched! Reference #${leadId}`);
         btn.textContent = `✅ Sent! Ref #${leadId}`;
         btn.style.background = 'var(--green)';
         document.getElementById('heroPhotoForm').reset();
         document.getElementById('heroPhotos').value = '';
         document.getElementById('hero-photo-preview').innerHTML = '';
+        clearHeroVoice();
         setTimeout(() => {
           btn.innerHTML = origHtml;
+          btn.style.background = 'var(--accent)';
+          btn.disabled = false;
+        }, 4000);
+      } catch (err) {
+        showStatus('hero-status-msg', 'error', `Direct dispatch failed. Direct call: (715) 459-3050`);
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+      }
+    }
           btn.style.background = 'var(--accent)';
           btn.disabled = false;
         }, 4000);
