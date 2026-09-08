@@ -572,36 +572,37 @@
       <div id="hero-status-msg" class="status-badge"></div>
 
       <form id="heroPhotoForm" onsubmit="handleHeroPhotoSubmit(event)">
-        <!-- Inline Photo & Voice Intake Row -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-          <label for="heroPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 10px;border:2px dashed rgba(255,87,34,0.5);border-radius:10px;background:rgba(255,87,34,0.05);cursor:pointer;text-align:center;min-height:92px;transition:all 0.2s;">
-            <svg class="icon-svg" style="width:24px;height:24px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-            <span style="font-size:13px;font-weight:800;color:#fff;">📸 Snap / Upload</span>
-            <span style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);">JPG, PNG, HEIC</span>
-          </label>
-          <input type="file" id="heroPhotos" name="heroPhotos" accept="image/*" multiple onchange="previewHeroPhotos(event)" style="display:none;">
-
-          <button type="button" id="heroVoiceBtn" onclick="toggleHeroVoiceRecording()" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 10px;border:2px solid rgba(0,255,136,0.35);border-radius:10px;background:rgba(0,255,136,0.06);cursor:pointer;text-align:center;min-height:92px;transition:all 0.2s;color:#fff;width:100%;">
-            <span id="heroVoiceIcon" style="font-size:22px;">🎙️</span>
-            <span id="heroVoiceLabel" style="font-size:13px;font-weight:800;color:var(--green);">[ 🎙️ Tap to Speak ]</span>
-            <span id="heroVoiceSub" style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);">Whisper AI Auto-fill</span>
-          </button>
-        </div>
-
-        <!-- Inline Voice Live Status Feedback -->
-        <div id="heroVoiceStatus" style="display:none;align-items:center;justify-content:center;gap:8px;padding:8px 12px;border-radius:8px;font-family:var(--font-mono);font-size:11.5px;margin-bottom:10px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);color:var(--green);">
-          <span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;"></span>
-          <span id="heroVoiceStatusText">Listening...</span>
-        </div>
-
-        <div id="hero-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;"></div>
-        <div id="hero-voice-preview" style="display:none;align-items:center;gap:8px;margin-bottom:12px;padding:6px 12px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);border-radius:8px;font-family:var(--font-mono);font-size:11px;color:var(--green);"></div>
+        <!-- Photo Upload Dropzone -->
+        <label for="heroPhotos" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;border:2px dashed rgba(255,87,34,0.4);border-radius:10px;background:rgba(255,87,34,0.05);cursor:pointer;text-align:center;margin-bottom:10px;transition:all 0.2s;">
+          <svg class="icon-svg" style="width:20px;height:20px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span style="font-size:13px;font-weight:700;color:#fff;">📷 Attach Job Photos (Optional)</span>
+          <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">JPG, PNG, HEIC</span>
+        </label>
+        <input type="file" id="heroPhotos" name="heroPhotos" accept="image/*" multiple onchange="previewHeroPhotos(event)" style="display:none;">
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
           <input type="text" id="hContact" class="form-input" placeholder="Your Phone or Email *" required style="font-size:13px;">
           <input type="text" id="hCity" class="form-input" placeholder="City (e.g. Wisconsin Rapids)..." style="font-size:13px;">
         </div>
-        <input type="text" id="hNotes" class="form-input" placeholder="Brief project description (or tap 🎙️ to speak)..." style="font-size:13px;margin-bottom:10px;">
+
+        <!-- Project Description with Voice Intake Button Directly Beside It -->
+        <div style="display:flex;gap:8px;margin-bottom:8px;align-items:stretch;">
+          <input type="text" id="hNotes" class="form-input" placeholder="Project description or dimensions..." style="flex:1;font-size:13px;margin-bottom:0;min-height:44px;">
+          <button type="button" id="heroVoiceBtn" onclick="toggleHeroVoiceRecording()" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 14px;border:1.5px solid rgba(0,255,136,0.5);border-radius:8px;background:rgba(0,255,136,0.12);cursor:pointer;color:var(--green);font-family:var(--font-mono);font-size:12.5px;font-weight:800;white-space:nowrap;transition:all 0.2s;min-height:44px;flex-shrink:0;">
+            <span id="heroVoiceIcon" style="font-size:18px;">🎙️</span>
+            <span id="heroVoiceLabel">[ 🎙️ Tap to Speak ]</span>
+            <span id="heroVoiceSub" style="display:none;">Whisper AI</span>
+          </button>
+        </div>
+
+        <!-- Inline Voice Live Status Feedback -->
+        <div id="heroVoiceStatus" style="display:none;align-items:center;justify-content:center;gap:8px;padding:8px 12px;border-radius:8px;font-family:var(--font-mono);font-size:11.5px;margin-bottom:8px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);color:var(--green);">
+          <span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;"></span>
+          <span id="heroVoiceStatusText">Listening...</span>
+        </div>
+
+        <div id="hero-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:8px;"></div>
+        <div id="hero-voice-preview" style="display:none;align-items:center;gap:8px;margin-bottom:8px;padding:6px 12px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);border-radius:8px;font-family:var(--font-mono);font-size:11px;color:var(--green);"></div>
         <div style="display:flex;gap:8px;">
           <button type="submit" id="hSubmitBtn" class="btn-submit-lead" style="flex:1.4;padding:12px;font-size:13.5px;font-weight:800;background:var(--accent);color:#fff;border:none;border-radius:8px;box-shadow:0 4px 16px var(--accent-glow);cursor:pointer;">
             🚀 Submit Estimate Request ⚡
