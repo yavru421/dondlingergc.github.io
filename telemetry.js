@@ -1,9 +1,24 @@
 /**
  * dondlingergc.com — 2026 Unified Client Telemetry & Acquisition Engine
- * Standards: Zero-spurious spam, strict session attribution, canonical taxonomy.
+ * Standards: Zero-spurious spam, strict session attribution, operator suppression,
+ * client-timezone hints, and high-intent qualified engagement gating.
  */
 (function() {
-  // 1. Session Persistence across page navigations in current tab
+  // 1. Operator Self-Traffic Detection (Prevents self-ping Telegram spam)
+  const isOperatorParam = window.location.search.includes('operator=1') || window.location.search.includes('admin=1');
+  if (isOperatorParam) {
+    try {
+      localStorage.setItem('dgc_operator', 'true');
+      sessionStorage.setItem('dgc_operator', 'true');
+    } catch (e) {}
+  }
+  const isOperator = (
+    isOperatorParam ||
+    localStorage.getItem('dgc_operator') === 'true' ||
+    sessionStorage.getItem('dgc_operator') === 'true'
+  );
+
+  // 2. Session Persistence across page navigations in current tab
   let sid = sessionStorage.getItem('dgc_sid');
   if (!sid) {
     sid = 's_' + Math.random().toString(36).substring(2, 10) + Date.now().toString(36).substring(4);
@@ -13,7 +28,7 @@
   const sessionStartTime = Date.now();
   let currentSection = document.title || 'Home';
 
-  // 2. Extract & Cache Marketing Attribution Parameters
+  // 3. Extract & Cache Marketing Attribution Parameters + Client Timezone Hints
   function getAttribution() {
     let attr = null;
     try {
@@ -22,6 +37,11 @@
     } catch (e) {}
 
     const params = new URLSearchParams(window.location.search);
+    let clientTz = 'America/Chicago';
+    try {
+      clientTz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Chicago';
+    } catch (e) {}
+
     attr = {
       referrer: document.referrer || 'direct',
       utm_source: params.get('utm_source') || '',
@@ -32,6 +52,8 @@
       gclid: params.get('gclid') || '',
       fbclid: params.get('fbclid') || '',
       landing_path: window.location.pathname + window.location.hash,
+      timezone: clientTz,
+      language: navigator.language || 'en-US',
       screen_res: `${window.screen.width}x${window.screen.height}`,
       viewport: `${window.innerWidth}x${window.innerHeight}`
     };
@@ -45,7 +67,7 @@
 
   const attribution = getAttribution();
 
-  // 3. Core Dispatch Engine (sendBeacon with fetch keepalive fallback)
+  // 4. Core Dispatch Engine (sendBeacon with fetch keepalive fallback)
   function trackEvent(eventType, payload = {}) {
     const dwell = Math.round((Date.now() - sessionStartTime) / 1000);
     const body = JSON.stringify({
@@ -56,6 +78,8 @@
       ballpark: payload.ballpark || '',
       details: payload.details || '',
       dwell_sec: dwell,
+      is_operator: isOperator,
+      timezone: attribution.timezone,
       attribution: attribution
     });
 
@@ -71,34 +95,36 @@
     }
   }
 
-  // 4. Session Start & Engaged Reader Verification (4s)
+  // 5. Session Start (D1 clickstream only) & Deep Engagement Timer (45s)
+  // Low-level 4s bounces are eliminated to kill Telegram false-positive noise.
   window.addEventListener('DOMContentLoaded', () => {
     trackEvent('session_start', { section: document.title || 'Home' });
 
+    // Qualified deep engagement timer (45 seconds active dwell)
     setTimeout(() => {
       if (document.visibilityState !== 'hidden') {
         trackEvent('engaged_read', {
           section: currentSection,
-          details: 'Human presence verified (>=4s dwell)'
+          details: 'Qualified deep inspection (>=45s active presence)'
         });
       }
-    }, 4000);
+    }, 45000);
   });
 
-  // 5. Periodic Keepalive Heartbeat (30s)
+  // 6. Periodic Keepalive Heartbeat (60s, D1 log only)
   setInterval(() => {
     if (document.visibilityState !== 'hidden') {
       trackEvent('session_heartbeat', { section: currentSection });
     }
-  }, 30000);
+  }, 60000);
 
-  // 6. Navigation & Section Tracking (Hash changes & Popstate)
+  // 7. Navigation & Section Tracking (Hash changes & Popstate)
   window.addEventListener('hashchange', () => {
     currentSection = window.location.hash || 'Home';
     trackEvent('section_view', { section: currentSection });
   });
 
-  // 7. Interaction & Conversion Click Delegator
+  // 8. Interaction & Conversion Click Delegator (High Intent Actions)
   document.addEventListener('click', (e) => {
     const target = e.target.closest('a, button, .tab-btn, .filter-pill, .pw-header, .gallery-item, .btn-wd-card-action, .btn-hud-estimate, .pw-quote-cta, #quote-btn, .submit-btn');
     if (!target) return;
@@ -124,7 +150,7 @@
     }
   });
 
-  // 8. Debounced Calculator Scope Adjustments
+  // 9. Debounced Calculator Scope Adjustments (Only fires when user adjusts real dimensions)
   let calcTimeout = null;
   window.trackCalculatorChange = function(trade, ballpark, params) {
     clearTimeout(calcTimeout);
@@ -134,10 +160,10 @@
         ballpark: ballpark || '',
         details: typeof params === 'object' ? JSON.stringify(params) : String(params)
       });
-    }, 600);
+    }, 1200);
   };
 
-  // 9. Session Exit Dwell Logger
+  // 10. Session Exit Dwell Logger
   window.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') {
       trackEvent('session_dwell', { details: 'Tab blurred or user navigated away' });
