@@ -92,38 +92,28 @@
     "category": "interior",
     "categoryLabel": "Interior Carpentry",
     "trade": "kitchen",
-    "tag": "Interior Finishing \u2022 6-Step Story",
+    "tag": "Interior Finishing \u2022 4-Step Story",
     "lead": "Living room craftsmanship overhaul: heavy floor protection, laser wall leveling, multi-coat corner bead compound float, PVA high-build primer, and satin urethane enamel trim.",
     "slides": [
       {
-        "src": "images/IMG_3142.webp",
+        "src": "images/projects/IMG_3142.webp",
         "title": "Step 1: Floor Masking & Laser Alignment",
         "caption": "Ram Board floor protection, containment barriers, and laser leveling of uneven wall stud transitions before compounding."
       },
       {
-        "src": "images/IMG_3143.webp",
+        "src": "images/projects/IMG_3143.webp",
         "title": "Step 2: Paper-Faced Corner Bead Float",
         "caption": "Setting paper-faced metal corner beads and applying first coat of lightweight joint compound feathered out 8 inches."
       },
       {
-        "src": "images/IMG_3341.webp",
+        "src": "images/projects/IMG_3341.webp",
         "title": "Step 3: Ceiling Feathering & Dustless Sanding",
         "caption": "Multi-coat joint compound blending on ceiling seams with HEPA vacuum dustless sanding for level-5 surface uniformity."
       },
       {
-        "src": "images/IMG_3346.webp",
+        "src": "images/projects/IMG_3346.webp",
         "title": "Step 4: High-Build PVA Primer Application",
         "caption": "Airless spray application of high-solids PVA drywall primer to equalize porosity between drywall paper and joint compound."
-      },
-      {
-        "src": "images/IMG_4349.webp",
-        "title": "Step 5: Enamel Window & Door Trim Casing",
-        "caption": "Precision 45-degree mitered door and window casings finished with durable satin urethane enamel."
-      },
-      {
-        "src": "images/IMG_6595.webp",
-        "title": "Step 6: Completed Living Room Architectural Trim",
-        "caption": "Pristine finished space with clean baseboards, casing returns, and seamless level-5 wall surfaces ready for furniture placement."
       }
     ]
   },
@@ -159,44 +149,64 @@
     "category": "decks",
     "categoryLabel": "Outdoor Living",
     "trade": "decks",
-    "tag": "Outdoor Living \u2022 3-Stage Showcase",
-    "lead": "Below-frost concrete sonotube footings, treated 2x10 joist framing, tongue-and-groove pine ceiling, and premium composite decking with hidden fasteners.",
+    "tag": "Outdoor Living \u2022 5-Stage Showcase",
+    "lead": "Treated structural framing, below-frost concrete footings, hidden fasteners, precision stair stringers, and premium composite decking with aluminum railing.",
     "slides": [
       {
         "src": "images/projects/composite_deck_construction.jpg",
-        "title": "Stage 1: Finished Composite Surface & Rail Package",
-        "caption": "Maintenance-free grooved composite deck boards installed with hidden clip fasteners and code-compliant railing."
+        "title": "Stage 1: Composite Decking Surface & Layout",
+        "caption": "Maintenance-free grooved composite deck boards installed with hidden clip fasteners and precise border framing."
       },
       {
-        "src": "images/projects/wall_framing_addition.jpg",
-        "title": "Stage 2: Heavy Timber Joist Framing & Structural Posts",
-        "caption": "Treated 2x10 joist framing, galvanized post-to-beam connectors, and solid timber ledger board attachment with code lag screws."
+        "src": "images/projects/deck_corner_railing.webp",
+        "title": "Stage 2: Heavy-Duty Corner Post & Railing Integration",
+        "caption": "Code-compliant structural railing posts anchored directly to rim joists with heavy-duty structural screws."
       },
       {
-        "src": "images/projects/pine_ceiling_installation.jpg",
-        "title": "Stage 3: Tongue-and-Groove Pine Porch Ceiling",
-        "caption": "Natural knotty pine tongue-and-groove ceiling with clear spar urethane finish installed beneath covered deck."
+        "src": "images/projects/deck_stair_install.webp",
+        "title": "Stage 3: Precision Stair Stringer Framing & Riser Geometry",
+        "caption": "Custom cut pressure-treated 2x12 stair stringers with uniform 7-inch rise and 11-inch run geometry."
+      },
+      {
+        "src": "images/projects/deck_finished_stairs.webp",
+        "title": "Stage 4: Finished Composite Stair Treads & Risers",
+        "caption": "Finished composite stair treads with clean mitered fascia returns and integrated safety grip rails."
+      },
+      {
+        "src": "images/projects/deck_wide_elevation.webp",
+        "title": "Stage 5: Complete Elevation & Structural Perimeter",
+        "caption": "Full structural elevation displaying continuous beam bearing, joist hangers, and seamless ground transitions."
       }
     ]
   },
   "windows": {
     "id": "windows",
-    "title": "Replacement Windows & Insulated Entry Doors",
+    "title": "Replacement Windows, Exterior Doors & Custom Metal Wraps",
     "category": "windows",
     "categoryLabel": "Windows & Doors",
     "trade": "windows",
-    "tag": "Envelope Upgrades \u2022 2-Stage Showcase",
-    "lead": "Energy-efficient Low-E Argon vinyl replacement windows with expanding foam air-seals and custom exterior brake metal casing wraps.",
+    "tag": "Envelope Upgrades \u2022 4-Stage Showcase",
+    "lead": "Energy-efficient Low-E vinyl replacement windows, insulated exterior doors, rough-opening pan flashing, low-pressure foam seals, and custom on-site 10-foot brake metal casing wraps.",
     "slides": [
       {
-        "src": "images/projects/window_installation_foam.jpg",
-        "title": "Stage 1: Low-Pressure Foam Insulation Seal",
-        "caption": "Expanding closed-cell low-pressure polyurethane foam creating an airtight draft barrier without bowing the window jambs."
+        "src": "images/projects/fredparker/IMG_5854.webp",
+        "title": "Stage 1: Window Pan Flashing & Low-Pressure Foam",
+        "caption": "Sloped rough-opening sill pan flashing and expanding low-pressure polyurethane foam preventing water and air infiltration."
       },
       {
-        "src": "images/projects/window_replacement.webp",
-        "title": "Stage 2: Custom Aluminum Casing Wrap & Silicone Seal",
-        "caption": "Exterior wood brickmould fully wrapped with heavy aluminum trim coil and sealed with commercial neutral-cure silicone."
+        "src": "images/projects/fredparker/IMG_5881.webp",
+        "title": "Stage 2: On-Site 10-ft Brake Metal Window Casing",
+        "caption": "On-site custom aluminum sheet metal bending on 10-foot brake, encasing exterior window frames with clean hemmed returns."
+      },
+      {
+        "src": "images/projects/IMG_4805.webp",
+        "title": "Stage 3: Thermal Barrier & Head Flashing Wrap",
+        "caption": "Foil-faced exterior insulation integration and rigid Z-metal head flashing directing water away from window heads."
+      },
+      {
+        "src": "images/projects/fredparker/IMG_5884.webp",
+        "title": "Stage 4: Exterior Door Casing Wrap & Weather Seal",
+        "caption": "Custom brake-metal casing wraps around exterior entry door jambs with industrial neutral-cure silicone perimeter sealant."
       }
     ]
   }
