@@ -54,8 +54,29 @@ async function sendAudioToTelegram(token, chatId, audioFile, caption, threadId =
   }
 }
 
-export async function onRequestPost(context) {
+export async function onRequest(context) {
   const { request, env } = context;
+
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS, GET',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With'
+      }
+    });
+  }
+
+  if (request.method !== 'POST') {
+    return new Response(JSON.stringify({ status: 'ready', service: 'dgc-dispatch-gateway' }), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    });
+  }
 
   // Retrieve Telegram bot token & chat IDs strictly from environment secrets
   const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN;
