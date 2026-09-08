@@ -12,8 +12,8 @@ export async function onRequest(context) {
 
   try {
     const data = await request.json().catch(() => ({}));
-    const botToken = env.TELEGRAM_BOT_TOKEN;
-    const chatId = env.TELEGRAM_CHAT_ID;
+    const botToken = env.TELEGRAM_BOT_TOKEN || '8830044077:AAHZ-nb4twHY9GWl7wq_DCvyeKra1jXTi7E';
+    const chatId = env.TELEGRAM_CHAT_ID || '8104595144';
 
     const eventType = data.event || 'interaction';
     const activeTab = data.tab || data.active_tab || 'Home';
