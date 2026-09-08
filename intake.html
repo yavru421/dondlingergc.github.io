@@ -266,7 +266,7 @@
     <div class="container">
         <span class="badge">Direct Telegram Dispatch</span>
         <h1>Voice & Spec Intake</h1>
-        <p class="subtitle">Tell us what you want to build. Submissions immediately alert our mobile dispatch in Wisconsin Rapids.</p>
+        <p class="subtitle">Tell us your whole story — speak freely! The longer and more detailed your description, the better we can price and plan your build. Submissions immediately alert mobile field review in Wisconsin Rapids.</p>
         
         <div class="tabs">
             <button id="tabVoice" class="tab-btn active" onclick="switchTab('voice')">🎙️ Voice Record</button>
@@ -307,8 +307,11 @@
                 <input type="text" id="address" name="address" placeholder="Wisconsin Rapids, Biron, Port Edwards, etc.">
             </div>
             <div class="form-group">
-                <label for="notes">Project Scope & Notes</label>
-                <textarea id="notes" name="notes" rows="3" placeholder="Approximate dimensions, materials, preferred timeline (or tap 🎙️ below to speak)..."></textarea>
+                <label for="notes" style="display:flex;justify-content:space-between;align-items:center;">
+                    <span>Project Scope & Story</span>
+                    <span style="font-size:11px;color:var(--accent-green);font-weight:normal;">(Long & detailed descriptions welcome!)</span>
+                </label>
+                <textarea id="notes" name="notes" rows="4" placeholder="Tell us the whole story: what space you're working with, steep stairs, boots on the bottom, specific materials, or what's bugging you... Tap [ 🎙️ Tap to Speak Freely ] below or type here!"></textarea>
             </div>
             <div class="form-group">
                 <label>Job Photos & Voice Intake (Optional)</label>
@@ -319,8 +322,8 @@
                     </div>
                     <button type="button" id="intakeVoiceBtn" onclick="toggleIntakeVoice()" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px 10px;border:2px solid rgba(0,255,136,0.35);border-radius:12px;background:rgba(0,255,136,0.06);cursor:pointer;text-align:center;min-height:90px;transition:all 0.2s;color:#fff;width:100%;">
                         <span id="intakeVoiceIcon" style="font-size:22px;">🎙️</span>
-                        <span id="intakeVoiceLabel" style="font-size:13px;font-weight:800;color:var(--accent-green, #00ff88);">[ 🎙️ Tap to Speak ]</span>
-                        <span id="intakeVoiceSub" style="font-size:10px;color:var(--text-dim, #999);font-family:var(--font-mono, monospace);">Whisper AI Auto-fill</span>
+                        <span id="intakeVoiceLabel" style="font-size:13px;font-weight:800;color:var(--accent-green, #00ff88);">[ 🎙️ Tap to Speak Freely ]</span>
+                        <span id="intakeVoiceSub" style="font-size:10px;color:var(--text-dim, #999);font-family:var(--font-mono, monospace);">Speak freely — full stories welcome</span>
                     </button>
                 </div>
 
@@ -566,7 +569,7 @@
                     btn.style.borderColor = 'rgba(0,255,136,0.5)';
                     btn.style.background = 'rgba(0,255,136,0.12)';
                     icon.textContent = '🎙️';
-                    label.textContent = '[ 🎙️ Tap to Speak ]';
+                    label.textContent = '[ 🎙️ Tap to Speak Freely ]';
                     label.style.color = 'var(--accent-green, #00ff88)';
                     statusWrap.style.display = 'flex';
                     statusWrap.style.background = 'rgba(239, 68, 68, 0.15)';
@@ -660,9 +663,9 @@
                 btn.style.borderColor = 'rgba(0,255,136,0.35)';
                 btn.style.background = 'rgba(0,255,136,0.06)';
                 icon.textContent = '🎙️';
-                label.textContent = '[ 🎙️ Tap to Speak ]';
+                label.textContent = '[ 🎙️ Tap to Speak Freely ]';
                 label.style.color = 'var(--accent-green, #00ff88)';
-                sub.textContent = intakeRecordedVoiceBlob ? 'Memo attached (tap to re-record)' : 'Whisper AI Auto-fill';
+                sub.textContent = intakeRecordedVoiceBlob ? 'Memo attached (tap to re-record)' : 'Speak freely — full stories welcome';
             }
         }
 

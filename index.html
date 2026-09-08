@@ -562,11 +562,11 @@
     <div id="hero-photo-card" style="background:linear-gradient(135deg, rgba(255,87,34,0.14) 0%, #12141c 100%);border:2px solid var(--accent);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 8px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,87,34,0.15);">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
         <span style="font-family:var(--font-brand);font-size:16px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;">
-          📸 Direct Photo & Voice Scope Review
+          🎙️ Speak Freely — Direct Voice & Photo Scope Review
         </span>
       </div>
-      <p style="font-size:12.5px;color:#cbd5e1;margin-bottom:12px;line-height:1.4;">
-        Attach job photos or tap 🎙️ to record your project scope. Dispatched directly to mobile field review:
+      <p style="font-size:12.5px;color:#cbd5e1;margin-bottom:12px;line-height:1.45;">
+        No construction jargon needed. Hit the mic and talk naturally — explain what you have, what's bugging you, and what you envision. <strong>The longer and more detailed your story, the better!</strong> Our AI Whisper engine transcribes every nuance directly for field review:
       </p>
 
       <div id="hero-status-msg" class="status-badge"></div>
@@ -585,14 +585,20 @@
           <input type="text" id="hCity" class="form-input" placeholder="City (e.g. Wisconsin Rapids)..." style="font-size:13px;">
         </div>
 
-        <!-- Project Description with Voice Intake Button Directly Beside It -->
-        <div style="display:flex;gap:8px;margin-bottom:8px;align-items:stretch;">
-          <input type="text" id="hNotes" class="form-input" placeholder="Project description or dimensions..." style="flex:1;font-size:13px;margin-bottom:0;min-height:44px;">
-          <button type="button" id="heroVoiceBtn" onclick="toggleHeroVoiceRecording()" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 14px;border:1.5px solid rgba(0,255,136,0.5);border-radius:8px;background:rgba(0,255,136,0.12);cursor:pointer;color:var(--green);font-family:var(--font-mono);font-size:12.5px;font-weight:800;white-space:nowrap;transition:all 0.2s;min-height:44px;flex-shrink:0;">
-            <span id="heroVoiceIcon" style="font-size:18px;">🎙️</span>
-            <span id="heroVoiceLabel">[ 🎙️ Tap to Speak ]</span>
-            <span id="heroVoiceSub" style="display:none;">Whisper AI</span>
-          </button>
+        <!-- Project Description & Voice Intake (Comfortable Multiline Area) -->
+        <div style="margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;flex-wrap:wrap;">
+            <label for="hNotes" style="font-size:12px;font-weight:700;color:#e2e8f0;display:flex;align-items:center;gap:6px;">
+              <span>📝 Project Story & Scope</span>
+              <span style="font-size:10.5px;color:var(--cyan);font-family:var(--font-mono);">(Long, detailed stories encouraged!)</span>
+            </label>
+            <button type="button" id="heroVoiceBtn" onclick="toggleHeroVoiceRecording()" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;border:1.5px solid rgba(0,255,136,0.5);border-radius:8px;background:rgba(0,255,136,0.12);cursor:pointer;color:var(--green);font-family:var(--font-mono);font-size:12px;font-weight:800;white-space:nowrap;transition:all 0.2s;">
+              <span id="heroVoiceIcon" style="font-size:16px;">🎙️</span>
+              <span id="heroVoiceLabel">[ 🎙️ Tap to Speak Freely ]</span>
+              <span id="heroVoiceSub" style="display:none;">Whisper AI</span>
+            </button>
+          </div>
+          <textarea id="hNotes" class="form-input" rows="3" placeholder="Tell us the whole story: what you have now, what you want built, dimensions, quirks, materials, or challenges... Speak freely or type here!" style="width:100%;font-size:13px;line-height:1.45;resize:vertical;min-height:74px;margin-bottom:0;"></textarea>
         </div>
 
         <!-- Inline Voice Live Status Feedback -->
@@ -1522,7 +1528,7 @@
           btn.style.borderColor = 'rgba(0,255,136,0.5)';
           btn.style.background = 'rgba(0,255,136,0.12)';
           icon.textContent = '🎙️';
-          label.textContent = '[ 🎙️ Tap to Speak ]';
+          label.textContent = '[ 🎙️ Tap to Speak Freely ]';
           label.style.color = 'var(--green)';
           statusWrap.style.display = 'flex';
           statusWrap.style.background = 'rgba(239, 68, 68, 0.15)';
@@ -1619,7 +1625,7 @@
         btn.style.borderColor = 'rgba(0,255,136,0.35)';
         btn.style.background = 'rgba(0,255,136,0.06)';
         icon.textContent = '🎙️';
-        label.textContent = '[ 🎙️ Tap to Speak ]';
+        label.textContent = '[ 🎙️ Tap to Speak Freely ]';
         label.style.color = 'var(--green)';
         sub.textContent = heroRecordedAudioBlob ? 'Memo attached (tap to re-record)' : 'Whisper AI Auto-fill';
       }
