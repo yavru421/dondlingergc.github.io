@@ -4,8 +4,8 @@
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // Resilient Telegram Binding with DPAPI Vault Live Fallbacks
-  const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN || '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k';
+  // Retrieve Telegram bot token & chat ID from env or fallback to verified constants
+  const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN || '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY';
   const CHAT_ID = env.TELEGRAM_CHAT_ID || '8104595144';
 
   const contentType = request.headers.get('content-type') || '';
