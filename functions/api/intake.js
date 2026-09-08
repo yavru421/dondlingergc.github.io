@@ -117,9 +117,8 @@ export async function onRequestPost(context) {
 
     const candidateTokens = [
       '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k',
-      BOT_TOKEN,
-      '8830044077:AAHZ-nb4twHY9GWl7wq_DCvyeKra1jXTi7E'
-    ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077:AAHuP') && !t.startsWith('8617758186'));
+      BOT_TOKEN
+    ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077') && !t.startsWith('8617758186'));
 
     if (photos.length > 0) {
       for (const token of candidateTokens) {
