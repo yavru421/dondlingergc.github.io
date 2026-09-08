@@ -64,7 +64,12 @@ export async function onRequest(context) {
 
   try {
     const data = await request.json().catch(() => ({}));
-    const botToken = env.TELEGRAM_BOT_TOKEN || '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY';
+    const candidateTokens = [
+      env.TELEGRAM_BOT_TOKEN,
+      '8617758186:AAFXzOLsZPVYq3F6M6aPS5uaWuHrOAq5XNY',
+      '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k',
+      '8830044077:AAHZ-nb4twHY9GWl7wq_DCvyeKra1jXTi7E'
+    ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077:AAHuP'));
     const chatId = env.TELEGRAM_CHAT_ID || '8104595144';
 
     const ua = request.headers.get('user-agent') || '';
@@ -100,7 +105,7 @@ export async function onRequest(context) {
     }
 
     // 2. Telegram Live Session Card Coalescence
-    if (botToken && chatId) {
+    if (candidateTokens.length > 0 && chatId) {
       const kv = env.TELEMETRY_SESSIONS || env.CRON_STATE || null;
       const sessionKey = `sess_${sid}`;
       let sessionState = null;
@@ -143,6 +148,7 @@ export async function onRequest(context) {
           utm_campaign: attr.utm_campaign || '',
           dwell_sec: dwell,
           telegram_msg_id: null,
+          active_bot_token: null,
           last_edit: now,
           journey: journeyLabel ? [journeyLabel] : []
         };
@@ -159,20 +165,28 @@ export async function onRequest(context) {
       if (!sessionState.telegram_msg_id) {
         if (isEngaged || isHighIntent) {
           const cardText = formatSessionCard(sessionState, isHighIntent, actionDetail);
-          const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: chatId,
-              text: cardText,
-              parse_mode: 'HTML',
-              disable_web_page_preview: true
-            })
-          }).then(r => r.json()).catch(() => null);
+          for (const token of candidateTokens) {
+            try {
+              const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  chat_id: chatId,
+                  text: cardText,
+                  parse_mode: 'HTML',
+                  disable_web_page_preview: true
+                })
+              }).then(r => r.json()).catch(() => null);
 
-          if (res?.ok && res.result?.message_id) {
-            sessionState.telegram_msg_id = res.result.message_id;
-            sessionState.last_edit = now;
+              if (res?.ok && res.result?.message_id) {
+                sessionState.active_bot_token = token;
+                sessionState.telegram_msg_id = res.result.message_id;
+                sessionState.last_edit = now;
+                break;
+              }
+            } catch (e) {
+              console.error('Telegram dispatch error on token:', e);
+            }
           }
         }
       } else {
@@ -181,7 +195,8 @@ export async function onRequest(context) {
         // Throttle updates: edit at most once every 3.5s unless an immediate high-intent conversion occurs
         if (isHighIntent || timeSinceLastEdit >= 3500) {
           const cardText = formatSessionCard(sessionState, isHighIntent, actionDetail);
-          await fetch(`https://api.telegram.org/bot${botToken}/editMessageText`, {
+          const editToken = sessionState.active_bot_token || candidateTokens[0];
+          await fetch(`https://api.telegram.org/bot${editToken}/editMessageText`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
