@@ -1,7 +1,7 @@
 // Cloudflare Pages Function: /api/intake
 // Universal Polymorphic Telegram Lead, Photo & Voice Audio Dispatch Pipeline for Dondlinger General Contracting
 
-async function sendAudioToTelegram(token, chatId, audioFile, caption) {
+async function sendAudioToTelegram(token, chatId, audioFile, caption, threadId = null) {
   try {
     const ab = await audioFile.arrayBuffer();
     const mime = audioFile.type || 'audio/webm';
@@ -12,6 +12,7 @@ async function sendAudioToTelegram(token, chatId, audioFile, caption) {
     try {
       const fd = new FormData();
       fd.append('chat_id', chatId);
+      if (threadId) fd.append('message_thread_id', threadId);
       if (caption) fd.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
       fd.append('parse_mode', 'Markdown');
       fd.append('voice', blob, name);
@@ -26,6 +27,7 @@ async function sendAudioToTelegram(token, chatId, audioFile, caption) {
     try {
       const fd = new FormData();
       fd.append('chat_id', chatId);
+      if (threadId) fd.append('message_thread_id', threadId);
       if (caption) fd.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
       fd.append('parse_mode', 'Markdown');
       fd.append('audio', blob, name);
@@ -39,6 +41,7 @@ async function sendAudioToTelegram(token, chatId, audioFile, caption) {
     // 3. Fallback attempt: sendDocument (guaranteed binary file delivery)
     const fd = new FormData();
     fd.append('chat_id', chatId);
+    if (threadId) fd.append('message_thread_id', threadId);
     if (caption) fd.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
     fd.append('parse_mode', 'Markdown');
     fd.append('document', blob, name);
@@ -54,9 +57,10 @@ async function sendAudioToTelegram(token, chatId, audioFile, caption) {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // Retrieve Telegram bot token & chat ID from env or fallback to verified constants
+  // Retrieve Telegram bot token & chat IDs: Supergroup forum target + personal chat fallback mirror
   const BOT_TOKEN = env.TELEGRAM_BOT_TOKEN || '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k';
-  const CHAT_ID = env.TELEGRAM_CHAT_ID || '8104595144';
+  const GROUP_CHAT_ID = env.TELEGRAM_GROUP_CHAT_ID || '-1004418238851'; // Intake_Supergroup_DondlingerGC
+  const PERSONAL_CHAT_ID = env.TELEGRAM_CHAT_ID || '8104595144';
 
   const contentType = request.headers.get('content-type') || '';
   let leadName = 'General Inquiry';
@@ -190,13 +194,42 @@ export async function onRequestPost(context) {
 
     let telegramSuccess = false;
     let telegramResponse = null;
+    let threadId = null;
 
     const candidateTokens = [
       '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k',
       BOT_TOKEN
     ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077') && !t.startsWith('8617758186'));
 
-    // 1. If Photos are present, dispatch photo stream
+    // Step 1: Attempt to spawn a dedicated Telegram Forum Topic Thread for this lead in the supergroup
+    const cleanLead = (leadName && leadName !== 'General Inquiry' && leadName !== 'Hero Photo Quote')
+      ? leadName
+      : (contact && contact !== 'Not provided' ? contact : 'Direct Intake');
+    const topicTitle = `🏗️ ${cleanLead} — Ref #${leadId}`;
+
+    for (const token of candidateTokens) {
+      try {
+        const topicRes = await fetch(`https://api.telegram.org/bot${token}/createForumTopic`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: GROUP_CHAT_ID,
+            name: topicTitle.substring(0, 128)
+          })
+        });
+        const topicJson = await topicRes.json();
+        if (topicJson.ok && topicJson.result && topicJson.result.message_thread_id) {
+          threadId = topicJson.result.message_thread_id;
+          break;
+        }
+      } catch (tErr) {
+        console.warn('Telegram createForumTopic attempt failed:', tErr);
+      }
+    }
+
+    const targetChatId = GROUP_CHAT_ID;
+
+    // Step 2: Dispatch Attached Photos into the supergroup forum thread
     if (photos.length > 0) {
       for (const token of candidateTokens) {
         try {
@@ -207,7 +240,8 @@ export async function onRequestPost(context) {
 
           // First attempt: with Markdown caption
           let photoFormData = new FormData();
-          photoFormData.append('chat_id', CHAT_ID);
+          photoFormData.append('chat_id', targetChatId);
+          if (threadId) photoFormData.append('message_thread_id', threadId);
           photoFormData.append('caption', telegramMessage.length > 1024 ? telegramMessage.substring(0, 1020) + '...' : telegramMessage);
           photoFormData.append('parse_mode', 'Markdown');
           photoFormData.append('photo', primaryBlob, primaryName);
@@ -218,12 +252,27 @@ export async function onRequestPost(context) {
           });
           telegramResponse = await tgRes.json();
 
-          // Fallback attempt: if Markdown entity parsing failed, retry with plain text caption
+          // Fallback attempt: plain text caption
           if (!telegramResponse.ok) {
             photoFormData = new FormData();
-            photoFormData.append('chat_id', CHAT_ID);
+            photoFormData.append('chat_id', targetChatId);
+            if (threadId) photoFormData.append('message_thread_id', threadId);
             const plainCaption = telegramMessage.replace(/[*`_]/g, '');
             photoFormData.append('caption', plainCaption.length > 1024 ? plainCaption.substring(0, 1020) + '...' : plainCaption);
+            photoFormData.append('photo', primaryBlob, primaryName);
+
+            tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+              method: 'POST',
+              body: photoFormData
+            });
+            telegramResponse = await tgRes.json();
+          }
+
+          // Fallback to personal chat if group dispatch was rejected
+          if (!telegramResponse.ok && targetChatId !== PERSONAL_CHAT_ID) {
+            photoFormData = new FormData();
+            photoFormData.append('chat_id', PERSONAL_CHAT_ID);
+            photoFormData.append('caption', telegramMessage.length > 1024 ? telegramMessage.substring(0, 1020) + '...' : telegramMessage);
             photoFormData.append('photo', primaryBlob, primaryName);
 
             tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
@@ -244,7 +293,8 @@ export async function onRequestPost(context) {
                 const extraName = extraPhoto.name || `photo_${i + 1}.jpg`;
 
                 const extraFormData = new FormData();
-                extraFormData.append('chat_id', CHAT_ID);
+                extraFormData.append('chat_id', targetChatId);
+                if (threadId) extraFormData.append('message_thread_id', threadId);
                 extraFormData.append('caption', `📷 Additional Photo (${i + 1}/${photos.length}) — Ref: ${leadId}`);
                 extraFormData.append('photo', extraBlob, extraName);
 
@@ -257,10 +307,10 @@ export async function onRequestPost(context) {
               }
             }
 
-            // If voice audio is also included alongside photos, dispatch voice memo
+            // If voice audio is present alongside photos, dispatch voice memo directly into the topic thread
             if (voiceAudio) {
               const audioCaption = `🎙️ *Client Voice Intake Memo* — Ref: \`${leadId}\` (${leadName})`;
-              await sendAudioToTelegram(token, CHAT_ID, voiceAudio, audioCaption);
+              await sendAudioToTelegram(token, targetChatId, voiceAudio, audioCaption, threadId);
             }
 
             break;
@@ -271,58 +321,20 @@ export async function onRequestPost(context) {
       }
     }
 
-    // 2. If no photos were attached but voice audio IS present, dispatch voice directly as primary payload
+    // Step 3: If no photos attached but voice audio IS present, dispatch voice directly into the topic thread
     if (!telegramSuccess && voiceAudio) {
       for (const token of candidateTokens) {
         try {
-          const audioRes = await sendAudioToTelegram(token, CHAT_ID, voiceAudio, telegramMessage);
+          const audioRes = await sendAudioToTelegram(token, targetChatId, voiceAudio, telegramMessage, threadId);
           if (audioRes.ok) {
             telegramSuccess = true;
             telegramResponse = audioRes.res;
             break;
-          }
-        } catch (e) {
-          telegramResponse = { error: e.message };
-        }
-      }
-    }
-
-    // 3. Fallback: text message if photos & voice failed or were absent
-    if (!telegramSuccess) {
-      const attachmentsNotice = (photos.length > 0 || voiceAudio)
-        ? `\n\n⚠️ *Notice:* Attachments (${photos.length} photo(s), ${voiceAudio ? '1 voice memo' : '0 audio'}) were submitted but media dispatch failed.`
-        : '';
-      const fullTextMessage = telegramMessage + attachmentsNotice;
-
-      for (const token of candidateTokens) {
-        try {
-          const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: CHAT_ID,
-              text: fullTextMessage,
-              parse_mode: 'Markdown'
-            })
-          });
-          telegramResponse = await tgRes.json();
-          if (telegramResponse.ok) {
-            telegramSuccess = true;
-            break;
-          } else {
-            // Unescaped Markdown retry without parse_mode
-            const rawRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: fullTextMessage.replace(/[*`_]/g, '')
-              })
-            });
-            const rawJson = await rawRes.json();
-            if (rawJson.ok) {
+          } else if (targetChatId !== PERSONAL_CHAT_ID) {
+            const fallbackRes = await sendAudioToTelegram(token, PERSONAL_CHAT_ID, voiceAudio, telegramMessage, null);
+            if (fallbackRes.ok) {
               telegramSuccess = true;
-              telegramResponse = rawJson;
+              telegramResponse = fallbackRes.res;
               break;
             }
           }
@@ -332,9 +344,93 @@ export async function onRequestPost(context) {
       }
     }
 
+    // Step 4: Fallback text message if photos & voice failed or were absent
+    if (!telegramSuccess) {
+      const attachmentsNotice = (photos.length > 0 || voiceAudio)
+        ? `\n\n⚠️ *Notice:* Attachments (${photos.length} photo(s), ${voiceAudio ? '1 voice memo' : '0 audio'}) were submitted but media dispatch failed.`
+        : '';
+      const fullTextMessage = telegramMessage + attachmentsNotice;
+
+      for (const token of candidateTokens) {
+        try {
+          const bodyPayload = {
+            chat_id: targetChatId,
+            text: fullTextMessage,
+            parse_mode: 'Markdown'
+          };
+          if (threadId) bodyPayload.message_thread_id = threadId;
+
+          const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(bodyPayload)
+          });
+          telegramResponse = await tgRes.json();
+          if (telegramResponse.ok) {
+            telegramSuccess = true;
+            break;
+          } else {
+            // Unescaped retry
+            bodyPayload.text = fullTextMessage.replace(/[*`_]/g, '');
+            delete bodyPayload.parse_mode;
+            const rawRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(bodyPayload)
+            });
+            const rawJson = await rawRes.json();
+            if (rawJson.ok) {
+              telegramSuccess = true;
+              telegramResponse = rawJson;
+              break;
+            } else if (targetChatId !== PERSONAL_CHAT_ID) {
+              // Direct fallback to personal chat
+              const dmRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: PERSONAL_CHAT_ID, text: fullTextMessage.replace(/[*`_]/g, '') })
+              });
+              const dmJson = await dmRes.json();
+              if (dmJson.ok) {
+                telegramSuccess = true;
+                telegramResponse = dmJson;
+                break;
+              }
+            }
+          }
+        } catch (e) {
+          telegramResponse = { error: e.message };
+        }
+      }
+    }
+
+    // Step 5: Mirror notification to personal chat so John gets immediate mobile notification
+    if (telegramSuccess && targetChatId !== PERSONAL_CHAT_ID) {
+      try {
+        const mirrorText = `🔔 *New Intake Lead Dispatch* [${leadId}]\n` +
+          `👤 *Client:* ${leadName}\n` +
+          `📞 *Contact:* \`${contact}\`\n` +
+          `🔨 *Scope:* ${typeof service === 'string' && service.length > 60 ? service.substring(0, 60) + '...' : service}\n` +
+          `${threadId ? `🧵 *Supergroup Topic:* Thread ID #${threadId} created` : '💬 *Supergroup Channel:* Posted in main feed'}`;
+
+        await fetch(`https://api.telegram.org/bot${candidateTokens[0]}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: PERSONAL_CHAT_ID,
+            text: mirrorText,
+            parse_mode: 'Markdown'
+          })
+        });
+      } catch (mErr) {
+        console.warn('Personal chat mirror notice failed:', mErr);
+      }
+    }
+
     return new Response(JSON.stringify({
       success: true,
       lead_id: leadId,
+      thread_id: threadId,
       telegram_dispatched: telegramSuccess,
       photos_count: photos.length,
       has_voice_audio: !!voiceAudio,

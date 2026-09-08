@@ -78,3 +78,8 @@ TestScript/
 # Runtime state cache
 cooldown.json
 
+# Media & Videos (exceeds 25MiB Cloudflare Pages limit)
+videos/
+*.mp4
+*.mkv
+*.avi
