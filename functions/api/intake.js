@@ -179,6 +179,7 @@ export async function onRequestPost(context) {
 
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
     const leadId = 'DGC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const tagLead = '#' + leadId.replace(/-/g, '_');
 
     const telegramMessage = 
       `🚨 *NEW CLIENT INTAKE DISPATCH* 🚨\n\n` +
@@ -189,7 +190,7 @@ export async function onRequestPost(context) {
       `📝 *Scope & Requirements:*\n${notes}\n\n` +
       `🎙️ *Voice Memo:* ${voiceAudio ? 'Attached (Playable below)' : 'None'}\n` +
       `🕒 *Timestamp:* ${timestamp}\n` +
-      `🆔 *Ref ID:* \`${leadId}\`\n` +
+      `🆔 *Ref ID:* \`${leadId}\`  ${tagLead}\n` +
       `🌐 *Origin:* \`${origin}\``;
 
     let telegramSuccess = false;
@@ -404,14 +405,16 @@ export async function onRequestPost(context) {
       }
     }
 
-    // Step 5: Mirror notification to personal chat so John gets immediate mobile notification
+    const threadUrl = threadId ? `https://t.me/c/4418238851/${threadId}` : null;
+
+    // Step 5: Mirror notification to personal chat so John gets immediate mobile notification with direct 1-tap topic link
     if (telegramSuccess && targetChatId !== PERSONAL_CHAT_ID) {
       try {
-        const mirrorText = `🔔 *New Intake Lead Dispatch* [${leadId}]\n` +
+        const mirrorText = `🔔 *New Intake Lead Dispatch* [\`${leadId}\`]\n` +
           `👤 *Client:* ${leadName}\n` +
           `📞 *Contact:* \`${contact}\`\n` +
           `🔨 *Scope:* ${typeof service === 'string' && service.length > 60 ? service.substring(0, 60) + '...' : service}\n` +
-          `${threadId ? `🧵 *Supergroup Topic:* Thread ID #${threadId} created` : '💬 *Supergroup Channel:* Posted in main feed'}`;
+          (threadUrl ? `🧵 *Topic Thread:* [Open #${leadId} in Telegram](${threadUrl})` : `💬 *Supergroup Channel:* Posted in main feed`);
 
         await fetch(`https://api.telegram.org/bot${candidateTokens[0]}/sendMessage`, {
           method: 'POST',
@@ -431,6 +434,7 @@ export async function onRequestPost(context) {
       success: true,
       lead_id: leadId,
       thread_id: threadId,
+      thread_url: threadUrl,
       telegram_dispatched: telegramSuccess,
       photos_count: photos.length,
       has_voice_audio: !!voiceAudio,
