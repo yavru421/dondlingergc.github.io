@@ -1,6 +1,6 @@
-[build]
-  command = "dotnet publish -c Release -o output"
-  publish = "output/wwwroot"
+name = "dondlingergc-github-io"
+pages_build_output_dir = "."
+compatibility_date = "2024-09-01"
 
 [ai]
 binding = "AI"
@@ -16,6 +16,8 @@ bucket_name = "jdondlingermedia"
 
 [env.production]
 name = "dondlingergc-github-io"
+pages_build_output_dir = "."
+compatibility_date = "2024-09-01"
 
 [env.production.ai]
 binding = "AI"
@@ -31,6 +33,8 @@ bucket_name = "jdondlingermedia"
 
 [env.preview]
 name = "dondlingergc-pages-staging"
+pages_build_output_dir = "."
+compatibility_date = "2024-09-01"
 
 [env.preview.ai]
 binding = "AI"
