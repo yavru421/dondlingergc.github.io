@@ -1436,29 +1436,58 @@
       const CHAT_ID = '8104595144';
       try {
         if (photoFiles && photoFiles.length > 0) {
-          const primaryPhoto = photoFiles[0];
-          const tgForm = new FormData();
-          tgForm.append('chat_id', CHAT_ID);
-          tgForm.append('caption', captionText.length > 1024 ? captionText.substring(0, 1020) + '...' : captionText);
-          tgForm.append('parse_mode', 'Markdown');
-          tgForm.append('photo', primaryPhoto, primaryPhoto.name || 'photo.jpg');
+          let anySent = false;
+          for (let i = 0; i < photoFiles.length; i++) {
+            const file = photoFiles[i];
+            const caption = i === 0 ? captionText : `📷 Additional Photo (${i + 1}/${photoFiles.length})`;
+            const safeCaption = caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption;
+            const plainCaption = safeCaption.replace(/[*`_]/g, '');
+            const isHeic = (file.name || '').toLowerCase().endsWith('.heic') || (file.name || '').toLowerCase().endsWith('.heif');
 
-          const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-            method: 'POST',
-            body: tgForm
-          });
-          return res.ok;
+            let dispatched = false;
+            if (!isHeic) {
+              try {
+                const tgForm = new FormData();
+                tgForm.append('chat_id', CHAT_ID);
+                tgForm.append('caption', safeCaption);
+                tgForm.append('parse_mode', 'Markdown');
+                tgForm.append('photo', file, file.name || `photo_${i}.jpg`);
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: tgForm });
+                const d = await res.json();
+                if (d.ok) dispatched = true;
+              } catch (e) {
+                console.warn('Direct sendPhoto error:', e);
+              }
+            }
+
+            // Fallback to sendDocument (supports HEIC, large raw images, any format up to 50MB)
+            if (!dispatched) {
+              try {
+                const docForm = new FormData();
+                docForm.append('chat_id', CHAT_ID);
+                docForm.append('caption', plainCaption);
+                docForm.append('document', file, file.name || `photo_${i}.jpg`);
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendDocument`, { method: 'POST', body: docForm });
+                const d = await res.json();
+                if (d.ok) dispatched = true;
+              } catch (e) {
+                console.warn('Direct sendDocument error:', e);
+              }
+            }
+            if (dispatched) anySent = true;
+          }
+          return anySent;
         } else {
           const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               chat_id: CHAT_ID,
-              text: captionText,
-              parse_mode: 'Markdown'
+              text: captionText.replace(/[*`_]/g, '')
             })
           });
-          return res.ok;
+          const d = await res.json();
+          return d.ok;
         }
       } catch (e) {
         console.warn('Direct Telegram dispatch error:', e);
@@ -1484,8 +1513,9 @@
       formData.append('notes', notes);
 
       const fileInput = document.getElementById('heroPhotos');
-      if (fileInput && fileInput.files.length > 0) {
-        Array.from(fileInput.files).slice(0, 4).forEach((file, idx) => {
+      const files = (fileInput && fileInput.files.length > 0) ? Array.from(fileInput.files).slice(0, 4) : [];
+      if (files.length > 0) {
+        files.forEach((file, idx) => {
           formData.append(`photo_${idx}`, file, file.name);
         });
       }
@@ -1498,7 +1528,7 @@
           const res = await fetch('/api/intake', { method: 'POST', body: formData });
           if (res.ok) {
             const data = await res.json();
-            if (data.success) {
+            if (data.success && (files.length === 0 || data.photos_dispatched > 0)) {
               leadId = data.lead_id || leadId;
               sent = true;
             }
@@ -1597,7 +1627,7 @@
           const res = await fetch('/api/intake', { method: 'POST', body: formData });
           if (res.ok) {
             const data = await res.json();
-            if (data.success) {
+            if (data.success && (files.length === 0 || data.photos_dispatched > 0)) {
               leadId = data.lead_id || data.ticket_id || leadId;
               sent = true;
             }
@@ -1607,8 +1637,6 @@
         }
 
         if (!sent) {
-          const BOT_TOKEN = '7955190883:AAE1H6OWcno17yeEoPABRdOqYcpovHSVY6k';
-          const CHAT_ID = '8104595144';
           const caption = 
             `🚨 *NEW ESTIMATOR DRAWER DISPATCH* 🚨\n\n` +
             `👤 *Client:* Website Ballpark Lead\n` +
@@ -1620,21 +1648,7 @@
             `🆔 *Ref ID:* \`${leadId}\`\n` +
             `🌐 *Origin:* \`dondlingergc.com (Estimator Drawer)\``;
 
-          if (files.length > 0) {
-            const tgForm = new FormData();
-            tgForm.append('chat_id', CHAT_ID);
-            tgForm.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
-            tgForm.append('parse_mode', 'Markdown');
-            tgForm.append('photo', files[0], files[0].name || 'photo.jpg');
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: tgForm });
-          } else {
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ chat_id: CHAT_ID, text: caption, parse_mode: 'Markdown' })
-            });
-          }
-          sent = true;
+          sent = await sendToTelegramDirect(caption, files);
         }
 
         showStatus('drawer-status-msg', 'success', `Scope & Photos Dispatched! Ref #${leadId}`);

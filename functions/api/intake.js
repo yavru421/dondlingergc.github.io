@@ -1,5 +1,55 @@
 // Cloudflare Pages Function: /api/intake
-// Universal Polymorphic Telegram Lead & Photo Dispatch Pipeline for Dondlinger General Contracting
+// Universal Polymorphic Telegram Lead, Photo & Voice Audio Dispatch Pipeline for Dondlinger General Contracting
+
+async function sendAudioToTelegram(token, chatId, audioFile, caption) {
+  try {
+    const ab = await audioFile.arrayBuffer();
+    const mime = audioFile.type || 'audio/webm';
+    const blob = new Blob([ab], { type: mime });
+    const name = audioFile.name || 'voice_intake.webm';
+
+    // 1. Primary attempt: sendVoice (rendered as native inline voice message in Telegram)
+    try {
+      const fd = new FormData();
+      fd.append('chat_id', chatId);
+      if (caption) fd.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
+      fd.append('parse_mode', 'Markdown');
+      fd.append('voice', blob, name);
+      const res = await fetch(`https://api.telegram.org/bot${token}/sendVoice`, { method: 'POST', body: fd });
+      const json = await res.json();
+      if (json.ok) return { ok: true, res: json };
+    } catch (e) {
+      console.warn('Telegram sendVoice attempt failed:', e);
+    }
+
+    // 2. Secondary attempt: sendAudio (rendered as playable audio track)
+    try {
+      const fd = new FormData();
+      fd.append('chat_id', chatId);
+      if (caption) fd.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
+      fd.append('parse_mode', 'Markdown');
+      fd.append('audio', blob, name);
+      const res = await fetch(`https://api.telegram.org/bot${token}/sendAudio`, { method: 'POST', body: fd });
+      const json = await res.json();
+      if (json.ok) return { ok: true, res: json };
+    } catch (e) {
+      console.warn('Telegram sendAudio attempt failed:', e);
+    }
+
+    // 3. Fallback attempt: sendDocument (guaranteed binary file delivery)
+    const fd = new FormData();
+    fd.append('chat_id', chatId);
+    if (caption) fd.append('caption', caption.length > 1024 ? caption.substring(0, 1020) + '...' : caption);
+    fd.append('parse_mode', 'Markdown');
+    fd.append('document', blob, name);
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, { method: 'POST', body: fd });
+    const json = await res.json();
+    return { ok: json.ok, res: json };
+  } catch (err) {
+    console.error('Audio dispatch error:', err);
+    return { ok: false, error: err.message };
+  }
+}
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -16,6 +66,7 @@ export async function onRequestPost(context) {
   let notes = 'No additional notes';
   let origin = 'dondlingergc.com';
   let photos = [];
+  let voiceAudio = null;
 
   try {
     if (contentType.includes('multipart/form-data')) {
@@ -27,16 +78,25 @@ export async function onRequestPost(context) {
       notes = formData.get('notes') || formData.get('description') || notes;
       origin = formData.get('origin') || origin;
 
-      // Extract any photo files - robust check across Cloudflare Workers runtime (Blob / File / stream)
+      // Extract photos AND voice audio files across Cloudflare Workers runtime
       for (const [key, value] of formData.entries()) {
-        const isPhotoKey = key.toLowerCase().includes('photo') || key.toLowerCase().includes('image') || key.toLowerCase().includes('file');
+        const lowerKey = key.toLowerCase();
+        const isVoiceKey = lowerKey.includes('voice') || lowerKey.includes('audio') || lowerKey.includes('recording') || lowerKey.includes('speech');
+        const isPhotoKey = lowerKey.includes('photo') || lowerKey.includes('image') || lowerKey.includes('file');
         const hasBinaryPayload = value && typeof value === 'object' && (
           (typeof File !== 'undefined' && value instanceof File) ||
           (typeof Blob !== 'undefined' && value instanceof Blob) ||
           (typeof value.arrayBuffer === 'function' && typeof value.size === 'number' && value.size > 0)
         );
+
         if (hasBinaryPayload && value.size > 0) {
-          photos.push(value);
+          if (isVoiceKey || (value.type && value.type.startsWith('audio/'))) {
+            voiceAudio = value;
+          } else {
+            photos.push(value);
+          }
+        } else if (isVoiceKey && value && typeof value.arrayBuffer === 'function' && value.size > 0) {
+          voiceAudio = value;
         } else if (isPhotoKey && value && typeof value.arrayBuffer === 'function' && value.size > 0) {
           photos.push(value);
         }
@@ -93,6 +153,21 @@ export async function onRequestPost(context) {
           }
         }
       }
+
+      // Support base64 voice audio if passed in JSON
+      if (json.voice || json.audio) {
+        const voiceData = json.voice || json.audio;
+        if (typeof voiceData === 'string' && voiceData.includes(',')) {
+          const parts = voiceData.split(',');
+          const mime = parts[0].match(/:(.*?);/)?.[1] || 'audio/webm';
+          const byteString = atob(parts[1]);
+          const ab = new ArrayBuffer(byteString.length);
+          const ia = new Uint8Array(ab);
+          for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+          const blob = new Blob([ab], { type: mime });
+          voiceAudio = new File([blob], json.voiceName || 'voice_memo.webm', { type: mime });
+        }
+      }
     } else {
       const text = await request.text();
       notes = text || notes;
@@ -108,6 +183,7 @@ export async function onRequestPost(context) {
       `📍 *Location / Timeline:* ${city}\n` +
       `🔨 *Primary Trade / Service:* ${typeof service === 'string' && service.length > 80 ? service.substring(0, 80) + '...' : service}\n\n` +
       `📝 *Scope & Requirements:*\n${notes}\n\n` +
+      `🎙️ *Voice Memo:* ${voiceAudio ? 'Attached (Playable below)' : 'None'}\n` +
       `🕒 *Timestamp:* ${timestamp}\n` +
       `🆔 *Ref ID:* \`${leadId}\`\n` +
       `🌐 *Origin:* \`${origin}\``;
@@ -120,6 +196,7 @@ export async function onRequestPost(context) {
       BOT_TOKEN
     ].filter((t, i, arr) => t && arr.indexOf(t) === i && !t.startsWith('8830044077') && !t.startsWith('8617758186'));
 
+    // 1. If Photos are present, dispatch photo stream
     if (photos.length > 0) {
       for (const token of candidateTokens) {
         try {
@@ -179,6 +256,13 @@ export async function onRequestPost(context) {
                 console.error('Error dispatching extra photo:', err);
               }
             }
+
+            // If voice audio is also included alongside photos, dispatch voice memo
+            if (voiceAudio) {
+              const audioCaption = `🎙️ *Client Voice Intake Memo* — Ref: \`${leadId}\` (${leadName})`;
+              await sendAudioToTelegram(token, CHAT_ID, voiceAudio, audioCaption);
+            }
+
             break;
           }
         } catch (e) {
@@ -187,12 +271,28 @@ export async function onRequestPost(context) {
       }
     }
 
-    // If photos failed or no photos were attached, fallback to text message
+    // 2. If no photos were attached but voice audio IS present, dispatch voice directly as primary payload
+    if (!telegramSuccess && voiceAudio) {
+      for (const token of candidateTokens) {
+        try {
+          const audioRes = await sendAudioToTelegram(token, CHAT_ID, voiceAudio, telegramMessage);
+          if (audioRes.ok) {
+            telegramSuccess = true;
+            telegramResponse = audioRes.res;
+            break;
+          }
+        } catch (e) {
+          telegramResponse = { error: e.message };
+        }
+      }
+    }
+
+    // 3. Fallback: text message if photos & voice failed or were absent
     if (!telegramSuccess) {
-      const textNotice = photos.length > 0 
-        ? `\n\n⚠️ *Notice:* ${photos.length} photo(s) were submitted by the client (${photos.map((p, i) => p.name || `photo_${i+1}`).join(', ')}), but Telegram photo dispatch failed.` 
+      const attachmentsNotice = (photos.length > 0 || voiceAudio)
+        ? `\n\n⚠️ *Notice:* Attachments (${photos.length} photo(s), ${voiceAudio ? '1 voice memo' : '0 audio'}) were submitted but media dispatch failed.`
         : '';
-      const fullTextMessage = telegramMessage + textNotice;
+      const fullTextMessage = telegramMessage + attachmentsNotice;
 
       for (const token of candidateTokens) {
         try {
@@ -237,6 +337,7 @@ export async function onRequestPost(context) {
       lead_id: leadId,
       telegram_dispatched: telegramSuccess,
       photos_count: photos.length,
+      has_voice_audio: !!voiceAudio,
       message: 'Intake lead processed and forwarded to J. Dondlinger mobile dispatch.'
     }), {
       status: 200,
