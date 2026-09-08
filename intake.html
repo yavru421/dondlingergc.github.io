@@ -506,10 +506,33 @@
             const statusText = document.getElementById('intakeVoiceStatusText');
 
             if (!intakeIsRecording) {
+                // Optimistic UI Transition at t=0
+                btn.style.borderColor = 'var(--accent, #ff5722)';
+                btn.style.background = 'rgba(255, 87, 34, 0.15)';
+                icon.textContent = '⏳';
+                label.textContent = '[ ⏳ Requesting Mic... ]';
+                label.style.color = 'var(--accent, #ff5722)';
+                statusWrap.style.display = 'flex';
+                statusWrap.style.background = 'rgba(255, 87, 34, 0.1)';
+                statusWrap.style.borderColor = 'rgba(255, 87, 34, 0.3)';
+                statusWrap.style.color = 'var(--accent, #ff5722)';
+                statusText.textContent = '🎙️ Requesting microphone permission...';
+
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     intakeAudioChunks = [];
-                    intakeMediaRecorder = new MediaRecorder(stream, { mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : '' });
+
+                    let options = {};
+                    if (typeof MediaRecorder.isTypeSupported === 'function') {
+                        if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+                            options = { mimeType: 'audio/webm;codecs=opus' };
+                        } else if (MediaRecorder.isTypeSupported('audio/webm')) {
+                            options = { mimeType: 'audio/webm' };
+                        } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+                            options = { mimeType: 'audio/mp4' };
+                        }
+                    }
+                    intakeMediaRecorder = options.mimeType ? new MediaRecorder(stream, options) : new MediaRecorder(stream);
                     
                     intakeMediaRecorder.ondataavailable = (e) => {
                         if (e.data && e.data.size > 0) intakeAudioChunks.push(e.data);
@@ -526,7 +549,7 @@
                     intakeIsRecording = true;
 
                     btn.style.borderColor = 'var(--accent-color, #ff3333)';
-                    btn.style.background = 'rgba(255, 51, 51, 0.15)';
+                    btn.style.background = 'rgba(255, 51, 51, 0.18)';
                     icon.textContent = '⏹️';
                     label.textContent = '[ ⏹️ Tap to Finish ]';
                     label.style.color = '#ff4d4d';
@@ -539,7 +562,17 @@
                     statusText.textContent = '🎙️ Recording speech... Tap finish when done';
                 } catch (err) {
                     console.error('Microphone error:', err);
-                    alert('Microphone permission required: ' + err.message);
+                    intakeIsRecording = false;
+                    btn.style.borderColor = 'rgba(0,255,136,0.5)';
+                    btn.style.background = 'rgba(0,255,136,0.12)';
+                    icon.textContent = '🎙️';
+                    label.textContent = '[ 🎙️ Tap to Speak ]';
+                    label.style.color = 'var(--accent-green, #00ff88)';
+                    statusWrap.style.display = 'flex';
+                    statusWrap.style.background = 'rgba(239, 68, 68, 0.15)';
+                    statusWrap.style.borderColor = 'rgba(239, 68, 68, 0.35)';
+                    statusWrap.style.color = '#f87171';
+                    statusText.textContent = '⚠️ Mic error: ' + (err.message || 'Permission denied. Please allow microphone access.');
                 }
             } else {
                 intakeIsRecording = false;
