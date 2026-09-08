@@ -443,7 +443,7 @@
 
                 let sent = false;
                 try {
-                    const res = await fetch('/api/intake', {
+                    const res = await fetch('/api/dispatch', {
                         method: 'POST',
                         body: fd
                     });
@@ -772,7 +772,7 @@
             try {
                 let sent = false;
                 try {
-                    const res = await fetch('/api/intake', {
+                    const res = await fetch('/api/dispatch', {
                         method: 'POST',
                         body: formData
                     });

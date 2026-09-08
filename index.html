@@ -1681,7 +1681,7 @@
 
       try {
         try {
-          const res = await fetch('/api/intake', { method: 'POST', body: formData });
+          const res = await fetch('/api/dispatch', { method: 'POST', body: formData });
           if (res.ok) {
             const data = await res.json();
             if (data.success && (files.length === 0 || data.photos_dispatched > 0 || data.telegram_dispatched)) {
@@ -1782,7 +1782,7 @@
 
       try {
         try {
-          const res = await fetch('/api/intake', { method: 'POST', body: formData });
+          const res = await fetch('/api/dispatch', { method: 'POST', body: formData });
           if (res.ok) {
             const data = await res.json();
             if (data.success && (files.length === 0 || data.photos_dispatched > 0)) {
@@ -1847,7 +1847,7 @@
 
       try {
         try {
-          const res = await fetch('/api/intake', {
+          const res = await fetch('/api/dispatch', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
