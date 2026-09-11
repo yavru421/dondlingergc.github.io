@@ -108,7 +108,7 @@ export async function onRequest(context) {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "HomeAndConstructionBusiness",
+          "@type": ["LocalBusiness", "GeneralContractor"],
           "@id": "https://dondlingergc.com/#business",
           "name": "Dondlinger GC",
           "alternateName": "Dondlinger General Contracting & Digital Database",
@@ -116,11 +116,12 @@ export async function onRequest(context) {
           "logo": "https://dondlingergc.com/assets/hero-contracting.jpg",
           "image": "https://dondlingergc.com/assets/hero-contracting.jpg",
           "description": "Wisconsin DSPS Licensed Dwelling Contractor & Zero-Liability Software Engineering. Specializing in high-precision doors, replacement windows, vinyl & steel siding, architectural roofing shingles, custom shop cabinetry, acoustical drop ceilings, and serverless WebAssembly PWA applications.",
-          "telephone": "+1-715-000-0000",
+          "telephone": "+1-715-459-3050",
           "email": "johndondlinger21@gmail.com",
           "priceRange": "$$",
           "address": {
             "@type": "PostalAddress",
+            "streetAddress": "Central Wisconsin",
             "addressLocality": "Wisconsin Rapids",
             "addressRegion": "WI",
             "postalCode": "54494",
@@ -133,9 +134,21 @@ export async function onRequest(context) {
           },
           "areaServed": [
             { "@type": "AdministrativeArea", "name": "Wisconsin Rapids, WI" },
+            { "@type": "AdministrativeArea", "name": "Stevens Point, WI" },
+            { "@type": "AdministrativeArea", "name": "Plover, WI" },
+            { "@type": "AdministrativeArea", "name": "Marshfield, WI" },
+            { "@type": "AdministrativeArea", "name": "Nekoosa, WI" },
+            { "@type": "AdministrativeArea", "name": "Port Edwards, WI" },
             { "@type": "AdministrativeArea", "name": "Wood County, WI" },
+            { "@type": "AdministrativeArea", "name": "Portage County, WI" },
             { "@type": "State", "name": "Wisconsin" }
           ],
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            "opens": "07:00",
+            "closes": "18:00"
+          },
           "knowsAbout": [
             "Residential Dwelling Construction",
             "Interior & Exterior Door Installation",
