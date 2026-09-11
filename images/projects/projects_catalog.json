@@ -1,212 +1,218 @@
 {
   "fredparker": {
     "id": "fredparker",
-    "title": "Fred Parker Whole-Home Remodel & Exterior Envelope Overhaul",
+    "title": "Front Porch Structural Rot Teardown & Portico Rebuild",
     "category": "remodel",
-    "categoryLabel": "Whole-Home Remodel",
-    "trade": "siding",
-    "tag": "Exterior Overhaul \u2022 8-Phase Story",
-    "lead": "Full exterior envelope renovation: tear-off down to original sheathing, thermal vapor wrap, window pan flashing, slate blue vinyl lap siding, custom brake metal casing wraps, and architectural white gable accents.",
+    "categoryLabel": "Structural Carpentry & Portico",
+    "trade": "framing",
+    "tag": "Winter Structural Overhaul • 8 Verified Captures",
+    "lead": "Winter entry overhaul: tearing out water-damaged load-bearing porch overhang beams, temporary shoring, installing new treated structural posts, rafter collar ties, R-Matte Plus-3 rigid foam insulation board, and rebuilt pediment framing.",
     "slides": [
       {
         "src": "images/projects/fredparker/IMG_5779.webp",
-        "title": "Phase 1: Full Exterior Tear-Off & Sheathing Inspection",
-        "caption": "Complete removal of aged siding down to substrate, verifying structural OSB sheathing and stud condition across all exterior elevations."
+        "title": "Substrate & Soffit Rot Inspection",
+        "caption": "Severe moisture rot and wood decay uncovered on the load-bearing front porch overhang header beam beneath deteriorated vinyl soffit."
       },
       {
         "src": "images/projects/fredparker/IMG_5851.webp",
-        "title": "Phase 2: Continuous Vapor Barrier & Seam Taping",
-        "caption": "Installation of high-performance weather-resistant barrier (WRB) with shingle-lapped vertical seams and acrylic flashing tape."
+        "title": "Structural Overhang Demolition",
+        "caption": "Close-up inspection of rotted timber beam requiring complete removal and structural replacement back to sound framing."
       },
       {
         "src": "images/projects/fredparker/IMG_5854.webp",
-        "title": "Phase 3: Window Sill Pan Flashing & Thermal Break",
-        "caption": "Precision sill pan flashing, expanding low-pressure foam insulation around window rough openings, and drip cap head flashing."
+        "title": "Timber Rafter Assessment",
+        "caption": "Detailed evaluation of decayed eave rafter connections before erecting temporary shoring and demolition staging."
       },
       {
         "src": "images/projects/fredparker/IMG_5864.webp",
-        "title": "Phase 4: Laser-Leveled Starter Strip & Outside Corner Posts",
-        "caption": "Precision laser transit baseline layout for starter strips and 3-1/2 inch architectural white vinyl corner post assemblies."
+        "title": "Winter Staging & Shoring Setup",
+        "caption": "Pipe scaffolding, extension ladders, and protective poly tarp containment erected across front porch steps during winter freeze."
       },
       {
         "src": "images/projects/fredparker/IMG_5871.webp",
-        "title": "Phase 5: Slate Blue Vinyl Lap Siding Installation",
-        "caption": "Installation of premium thick-gauge vinyl lap siding with 1/4-inch thermal expansion allowance in all receiving J-channels."
+        "title": "Site Access & Trailer Staging",
+        "caption": "Sure-Trac dump trailer, pipe scaffolding, and ladder jack access staging on the front elevation of the split-level residence."
       },
       {
         "src": "images/projects/fredparker/IMG_5881.webp",
-        "title": "Phase 6: Custom Brake Metal Window & Door Casing Wraps",
-        "caption": "On-site custom aluminum sheet metal bending on 10-foot brake, encasing exterior window frames with clean hemmed returns."
+        "title": "Rafter & Collar Tie Framing",
+        "caption": "Attic-level structural roof framing and dimensional rafter ties securing the front entry portico gable."
       },
       {
         "src": "images/projects/fredparker/IMG_5906.webp",
-        "title": "Phase 7: Continuous Vented Soffits & Aluminum Fascia",
-        "caption": "Under-eave intake soffit ventilation integration and matching heavy-gauge aluminum fascia wraps protecting wood rafter tails."
+        "title": "Fascia & Rafter Tail Teardown",
+        "caption": "Removing rotted rafter tails and sub-fascia beneath the snow-covered roofline to prepare for replacement lumber."
       },
       {
         "src": "images/projects/fredparker/IMG_5934.webp",
-        "title": "Phase 8: Architectural White Gable Accents & Completed Elevation",
-        "caption": "Upper gable transition board flashing, crisp white accent trim, and full exterior perimeter weather seal inspection."
+        "title": "Reconstructed Portico & R-Matte Insulation",
+        "caption": "New treated structural posts, rebuilt gable header framing, R-Matte Plus-3 rigid foam insulation board, and staging planks."
       }
     ]
   },
   "dickman": {
     "id": "dickman",
-    "title": "Dickman Residential Addition & Heavy Structural Framing",
+    "title": "Dickman 2-Story Residential Addition & Shell Framing",
     "category": "addition",
     "categoryLabel": "Home Addition",
     "trade": "framing",
-    "tag": "Ground-Up Addition \u2022 5 Framing Stages",
-    "lead": "Wisconsin Rapids home addition (JOB-DICKMAN-003): ground-up framing, treated mudsills, 2x10 floor joists 16\" O.C., 2x6 exterior load-bearing walls, engineered roof truss tie-ins, and shear wall sheathing.",
+    "tag": "Ground-Up Addition • 4 Framing Stages",
+    "lead": "Two-story home addition: mudsill tie-in, full 2-story exterior wall framing, LP WeatherLogic air & water barrier sheathing, spider boom lift staging, and Alliance double-hung windows.",
     "slides": [
       {
         "src": "images/projects/dickman_addition/IMG_2009.webp",
-        "title": "Stage 1: Excavation, Staging & Foundation Anchor Layout",
-        "caption": "Driveway jobsite staging, lumber grading inspection, and foundation sill plate anchor bolt layout for addition tie-in."
+        "title": "First-Floor Framing & LP WeatherLogic",
+        "caption": "Ground-up addition framing with blue LP WeatherLogic air and water barrier sheathing and floor joist tie-in."
       },
       {
         "src": "images/projects/dickman_addition/IMG_2066.webp",
-        "title": "Stage 2: Treated Mudsill & 2x10 Subfloor Joist Assembly",
-        "caption": "Pressure-treated sill gaskets, 2x10 floor joists on 16\" centers, cross-bridging, and tongue-and-groove subfloor glue/screw fastening."
+        "title": "Two-Story Shell with Boom Lift Staging",
+        "caption": "Full two-story addition enclosed in LP WeatherLogic sheathing with towable boom lift staged in yard."
       },
       {
         "src": "images/projects/dickman_addition/IMG_2071.webp",
-        "title": "Stage 3: 2x6 Exterior Wall Framing & Double Headers",
-        "caption": "2x6 framing for superior R-value insulation cavity, structural double top plates, engineered window headers, and corner corner-posts."
+        "title": "Two-Story Exterior Elevation",
+        "caption": "Alliance double-hung windows installed, taped weather barrier seams, and tie-in to original two-story roofline."
       },
       {
         "src": "images/projects/dickman_addition/IMG_2158.webp",
-        "title": "Stage 4: Structural Roof Truss Placement & Ridge Tie-Ins",
-        "caption": "Setting engineered common and scissor trusses, temporary bracing, hurricane tie anchoring, and existing roof valley tie-in."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_3074.webp",
-        "title": "Stage 5: 7/16\" OSB Shear Wall Sheathing & Weather Wrap",
-        "caption": "7/16\" structural OSB wall and roof sheathing with 8d ring-shank nailing pattern, followed by complete weather-tight building wrap."
-      }
-    ]
-  },
-  "scholz": {
-    "id": "scholz",
-    "title": "Scholz Living Room Level-5 Drywall & Interior Trim Remodel",
-    "category": "interior",
-    "categoryLabel": "Interior Carpentry",
-    "trade": "kitchen",
-    "tag": "Interior Finishing \u2022 4-Step Story",
-    "lead": "Living room craftsmanship overhaul: heavy floor protection, laser wall leveling, multi-coat corner bead compound float, PVA high-build primer, and satin urethane enamel trim.",
-    "slides": [
-      {
-        "src": "images/projects/IMG_3142.webp",
-        "title": "Step 1: Floor Masking & Laser Alignment",
-        "caption": "Ram Board floor protection, containment barriers, and laser leveling of uneven wall stud transitions before compounding."
-      },
-      {
-        "src": "images/projects/IMG_3143.webp",
-        "title": "Step 2: Paper-Faced Corner Bead Float",
-        "caption": "Setting paper-faced metal corner beads and applying first coat of lightweight joint compound feathered out 8 inches."
-      },
-      {
-        "src": "images/projects/IMG_3341.webp",
-        "title": "Step 3: Ceiling Feathering & Dustless Sanding",
-        "caption": "Multi-coat joint compound blending on ceiling seams with HEPA vacuum dustless sanding for level-5 surface uniformity."
-      },
-      {
-        "src": "images/projects/IMG_3346.webp",
-        "title": "Step 4: High-Build PVA Primer Application",
-        "caption": "Airless spray application of high-solids PVA drywall primer to equalize porosity between drywall paper and joint compound."
+        "title": "Roof Truss Placement & Ridge Tie-In",
+        "caption": "Engineered roof truss installation, hurricane ties, structural bracing, and valley tie-in to existing structure."
       }
     ]
   },
   "siding": {
     "id": "siding",
-    "title": "Two-Story Slate Blue Siding & Architectural White Gables",
+    "title": "610 Residence: Two-Story Siding Overhaul & Scalloped Gables",
     "category": "siding",
     "categoryLabel": "Exterior Siding",
     "trade": "siding",
-    "tag": "Exterior Envelope \u2022 3-Stage Showcase",
-    "lead": "Multi-story exterior transformation with foil-faced thermal barrier, slate blue lap siding, and vented vinyl soffits.",
+    "tag": "Exterior Overhaul • Before & After",
+    "lead": "Full exterior siding replacement: tear-off down to silver foil-faced foam insulation, finished in slate blue lap siding with crisp white corner posts and scalloped white gable accents.",
     "slides": [
       {
+        "src": "images/projects/IMG_4349.webp",
+        "title": "Before / Tear-Off: Foil Insulation Substrate",
+        "caption": "Complete exterior siding stripped down to silver foil-faced foam insulation board at 610 residence prior to siding install."
+      },
+      {
         "src": "images/projects/IMG_4801.webp",
-        "title": "Phase 1: Finished Slate Blue Siding & Corner Trims",
-        "caption": "Completed multi-story exterior showing crisp white corner posts and uniform lap siding lines."
+        "title": "Finished Slate Blue Lap Siding",
+        "caption": "Completed exterior showing dark slate blue lap siding, wide white corner posts, and white window casing trim."
       },
       {
         "src": "images/projects/IMG_4802.webp",
-        "title": "Phase 2: High-Elevation Gable Details & Soffit Ventilation",
-        "caption": "Architectural gable vent framing and continuous hidden-vent soffits ensuring balanced attic airflow."
+        "title": "Architectural Gable & Soffit Ventilation",
+        "caption": "Upper gable detail showing white scalloped decorative shake siding, continuous vented soffits, and aluminum fascia wraps."
       },
       {
         "src": "images/projects/IMG_4805.webp",
-        "title": "Phase 3: Thermal Barrier & Window Head Flashing",
-        "caption": "Foil-faced insulation board beneath siding creating a continuous thermal break across exterior wall framing."
+        "title": "Thermal Barrier & Head Flashing Detail",
+        "caption": "Foil-faced exterior insulation integration with precision window head flashing directing water away from openings."
+      }
+    ]
+  },
+  "navy_residence": {
+    "id": "navy_residence",
+    "title": "Navy Multi-Gable Exterior & Stone Water Table",
+    "category": "remodel",
+    "categoryLabel": "Exterior Craftsmanship",
+    "trade": "siding",
+    "tag": "Custom Exterior • 2 Elevations",
+    "lead": "Custom multi-gable residence featuring navy blue horizontal lap siding, vertical board-and-batten, manufactured stone veneer water table, and double garage.",
+    "slides": [
+      {
+        "src": "images/projects/IMG_3142.webp",
+        "title": "Full Elevation & Stone Water Table",
+        "caption": "Completed multi-gable exterior with navy blue siding, vertical board-and-batten accents, and stone veneer wainscoting."
+      },
+      {
+        "src": "images/projects/IMG_3143.webp",
+        "title": "Architectural Gables & Garage Elevation",
+        "caption": "Winter view showing garage wing, shake gable accents, white casing trim, and dark brown panel garage doors."
+      }
+    ]
+  },
+  "kitchen": {
+    "id": "kitchen",
+    "title": "Modern White Shaker Kitchen Renovation",
+    "category": "interior",
+    "categoryLabel": "Kitchen Remodel",
+    "trade": "kitchen",
+    "tag": "Interior Finishing • 2 Stages",
+    "lead": "Complete kitchen upgrade: white shaker cabinetry, faux marble countertops, undermount stainless steel sink, gooseneck faucet, and dark luxury vinyl plank flooring.",
+    "slides": [
+      {
+        "src": "images/projects/IMG_3341.webp",
+        "title": "White Shaker Cabinets & Undermount Sink",
+        "caption": "Custom white shaker cabinet layout with laminate marble countertops, undermount stainless sink, and dark LVP flooring."
+      },
+      {
+        "src": "images/projects/IMG_3346.webp",
+        "title": "Range Run & Cabinetry Integration",
+        "caption": "Appliance rough-in, subway tile backsplash prep, and upper shaker cabinet installation."
       }
     ]
   },
   "decks": {
     "id": "decks",
-    "title": "Custom Composite Deck & Heavy Timber Substructure",
+    "title": "Custom Composite Deck, Stairs & Heavy Timber Substructure",
     "category": "decks",
     "categoryLabel": "Outdoor Living",
     "trade": "decks",
-    "tag": "Outdoor Living \u2022 5-Stage Showcase",
-    "lead": "Treated structural framing, below-frost concrete footings, hidden fasteners, precision stair stringers, and premium composite decking with aluminum railing.",
+    "tag": "Outdoor Living • 5-Stage Showcase",
+    "lead": "Below-frost concrete footings, treated timber carrying beams, custom-cut stair stringers, low-maintenance composite surface, and rigid railing.",
     "slides": [
       {
         "src": "images/projects/composite_deck_construction.jpg",
-        "title": "Stage 1: Composite Decking Surface & Layout",
-        "caption": "Maintenance-free grooved composite deck boards installed with hidden clip fasteners and precise border framing."
+        "title": "Composite Decking & Hidden Fasteners",
+        "caption": "Maintenance-free grooved composite deck boards installed with hidden clip fasteners and clean border picture framing."
       },
       {
         "src": "images/projects/deck_corner_railing.webp",
-        "title": "Stage 2: Heavy-Duty Corner Post & Railing Integration",
-        "caption": "Code-compliant structural railing posts anchored directly to rim joists with heavy-duty structural screws."
+        "title": "Structural Corner Posts & Railing Integration",
+        "caption": "Rigid aluminum and composite railing posts through-bolted to exterior rim joists for code-compliant strength."
       },
       {
         "src": "images/projects/deck_stair_install.webp",
-        "title": "Stage 3: Precision Stair Stringer Framing & Riser Geometry",
-        "caption": "Custom cut pressure-treated 2x12 stair stringers with uniform 7-inch rise and 11-inch run geometry."
+        "title": "Treated 2x12 Stair Stringer Framing",
+        "caption": "Custom-cut pressure-treated 2x12 stair stringers with uniform 7-inch rise and 11-inch run geometry."
       },
       {
         "src": "images/projects/deck_finished_stairs.webp",
-        "title": "Stage 4: Finished Composite Stair Treads & Risers",
-        "caption": "Finished composite stair treads with clean mitered fascia returns and integrated safety grip rails."
+        "title": "Finished Composite Treads & Wrapped Risers",
+        "caption": "Enclosed composite stair treads with clean mitered fascia returns and integrated safety grip rails."
       },
       {
         "src": "images/projects/deck_wide_elevation.webp",
-        "title": "Stage 5: Complete Elevation & Structural Perimeter",
-        "caption": "Full structural elevation displaying continuous beam bearing, joist hangers, and seamless ground transitions."
+        "title": "Full Elevation & Structural Perimeter",
+        "caption": "Continuous beam bearing, galvanized joist hangers, and seamless yard access transitions."
       }
     ]
   },
   "windows": {
     "id": "windows",
-    "title": "Replacement Windows, Exterior Doors & Custom Metal Wraps",
+    "title": "Alliance Windows, Custom Brake Metal & Siding Staging",
     "category": "windows",
-    "categoryLabel": "Windows & Doors",
+    "categoryLabel": "Windows & Siding Staging",
     "trade": "windows",
-    "tag": "Envelope Upgrades \u2022 4-Stage Showcase",
-    "lead": "Energy-efficient Low-E vinyl replacement windows, insulated exterior doors, rough-opening pan flashing, low-pressure foam seals, and custom on-site 10-foot brake metal casing wraps.",
+    "tag": "Envelope Upgrades • 3 Key Features",
+    "lead": "Alliance vinyl replacement windows, on-site 10-foot brake metal casing wraps, and ladder staging for upper elevation siding installation.",
     "slides": [
       {
-        "src": "images/projects/fredparker/IMG_5854.webp",
-        "title": "Stage 1: Window Pan Flashing & Low-Pressure Foam",
-        "caption": "Sloped rough-opening sill pan flashing and expanding low-pressure polyurethane foam preventing water and air infiltration."
+        "src": "images/projects/IMG_3074.webp",
+        "title": "Alliance Window Install & Upper Siding Staging",
+        "caption": "Alliance replacement window installation and upper gable siding from 32-ft extension ladder with Delta Cruzer miter saw on site."
       },
       {
-        "src": "images/projects/fredparker/IMG_5881.webp",
-        "title": "Stage 2: On-Site 10-ft Brake Metal Window Casing",
-        "caption": "On-site custom aluminum sheet metal bending on 10-foot brake, encasing exterior window frames with clean hemmed returns."
+        "src": "images/projects/custom_brake_metal_5881.webp",
+        "title": "On-Site 10-ft Brake Metal Casing Wraps",
+        "caption": "Precision aluminum sheet metal bending on 10-foot brake, encasing exterior window frames with clean hemmed returns."
       },
       {
-        "src": "images/projects/IMG_4805.webp",
-        "title": "Stage 3: Thermal Barrier & Head Flashing Wrap",
-        "caption": "Foil-faced exterior insulation integration and rigid Z-metal head flashing directing water away from window heads."
-      },
-      {
-        "src": "images/projects/fredparker/IMG_5884.webp",
-        "title": "Stage 4: Exterior Door Casing Wrap & Weather Seal",
-        "caption": "Custom brake-metal casing wraps around exterior entry door jambs with industrial neutral-cure silicone perimeter sealant."
+        "src": "images/projects/window_replacement.webp",
+        "title": "Custom Brake Metal Wrap & Perimeter Seal",
+        "caption": "Clean hemmed aluminum casing wrap around replacement window with industrial polyurethane weather seal."
       }
     ]
   }

@@ -83,3 +83,7 @@ videos/
 *.mp4
 *.mkv
 *.avi
+
+# Build & scratch artifacts
+_worker.bundle
+scratch/

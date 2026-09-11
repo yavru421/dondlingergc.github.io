@@ -231,86 +231,121 @@ export async function onRequestPost(context) {
     if (photos.length > 0) {
       for (const token of candidateTokens) {
         try {
-          const primaryPhoto = photos[0];
-          const primaryBuffer = await primaryPhoto.arrayBuffer();
-          const primaryBlob = new Blob([primaryBuffer], { type: primaryPhoto.type || 'image/jpeg' });
-          const primaryName = primaryPhoto.name || 'intake_photo_1.jpg';
+          if (photos.length > 1) {
+            // Atomic Photo Album via sendMediaGroup
+            const mgFormData = new FormData();
+            mgFormData.append('chat_id', targetChatId);
+            if (threadId) mgFormData.append('message_thread_id', threadId);
 
-          // First attempt: with Markdown caption
-          let photoFormData = new FormData();
-          photoFormData.append('chat_id', targetChatId);
-          if (threadId) photoFormData.append('message_thread_id', threadId);
-          photoFormData.append('caption', telegramMessage.length > 1024 ? telegramMessage.substring(0, 1020) + '...' : telegramMessage);
-          photoFormData.append('parse_mode', 'Markdown');
-          photoFormData.append('photo', primaryBlob, primaryName);
+            const mediaList = [];
+            for (let i = 0; i < photos.length && i < 10; i++) {
+              const pBuffer = await photos[i].arrayBuffer();
+              const pBlob = new Blob([pBuffer], { type: photos[i].type || 'image/jpeg' });
+              const pKey = `photo_${i}`;
+              mgFormData.append(pKey, pBlob, photos[i].name || `${pKey}.jpg`);
+              const item = { type: 'photo', media: `attach://${pKey}` };
+              if (i === 0) {
+                item.caption = telegramMessage.length > 1024 ? telegramMessage.substring(0, 1020) + '...' : telegramMessage;
+                item.parse_mode = 'Markdown';
+              }
+              mediaList.push(item);
+            }
+            mgFormData.append('media', JSON.stringify(mediaList));
 
-          let tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
-            method: 'POST',
-            body: photoFormData
-          });
-          telegramResponse = await tgRes.json();
+            let tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMediaGroup`, {
+              method: 'POST',
+              body: mgFormData
+            });
+            telegramResponse = await tgRes.json();
+            if (telegramResponse.ok) {
+              telegramSuccess = true;
+            }
+          }
 
-          // Fallback attempt: plain text caption
-          if (!telegramResponse.ok) {
-            photoFormData = new FormData();
+          // Single Photo or fallback if sendMediaGroup was not used or failed
+          if (!telegramSuccess) {
+            const primaryPhoto = photos[0];
+            const primaryBuffer = await primaryPhoto.arrayBuffer();
+            const primaryBlob = new Blob([primaryBuffer], { type: primaryPhoto.type || 'image/jpeg' });
+            const primaryName = primaryPhoto.name || 'intake_photo_1.jpg';
+
+            // First attempt: with Markdown caption
+            let photoFormData = new FormData();
             photoFormData.append('chat_id', targetChatId);
             if (threadId) photoFormData.append('message_thread_id', threadId);
-            const plainCaption = telegramMessage.replace(/[*`_]/g, '');
-            photoFormData.append('caption', plainCaption.length > 1024 ? plainCaption.substring(0, 1020) + '...' : plainCaption);
-            photoFormData.append('photo', primaryBlob, primaryName);
-
-            tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
-              method: 'POST',
-              body: photoFormData
-            });
-            telegramResponse = await tgRes.json();
-          }
-
-          // Fallback to personal chat if group dispatch was rejected
-          if (!telegramResponse.ok && targetChatId !== PERSONAL_CHAT_ID) {
-            photoFormData = new FormData();
-            photoFormData.append('chat_id', PERSONAL_CHAT_ID);
             photoFormData.append('caption', telegramMessage.length > 1024 ? telegramMessage.substring(0, 1020) + '...' : telegramMessage);
+            photoFormData.append('parse_mode', 'Markdown');
             photoFormData.append('photo', primaryBlob, primaryName);
 
-            tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+            let tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
               method: 'POST',
               body: photoFormData
             });
             telegramResponse = await tgRes.json();
-          }
 
-          if (telegramResponse.ok) {
-            telegramSuccess = true;
-            // Send remaining photos sequentially
-            for (let i = 1; i < photos.length; i++) {
-              try {
-                const extraPhoto = photos[i];
-                const extraBuffer = await extraPhoto.arrayBuffer();
-                const extraBlob = new Blob([extraBuffer], { type: extraPhoto.type || 'image/jpeg' });
-                const extraName = extraPhoto.name || `photo_${i + 1}.jpg`;
+            // Fallback attempt: plain text caption
+            if (!telegramResponse.ok) {
+              photoFormData = new FormData();
+              photoFormData.append('chat_id', targetChatId);
+              if (threadId) photoFormData.append('message_thread_id', threadId);
+              const plainCaption = telegramMessage.replace(/[*`_]/g, '');
+              photoFormData.append('caption', plainCaption.length > 1024 ? plainCaption.substring(0, 1020) + '...' : plainCaption);
+              photoFormData.append('photo', primaryBlob, primaryName);
 
-                const extraFormData = new FormData();
-                extraFormData.append('chat_id', targetChatId);
-                if (threadId) extraFormData.append('message_thread_id', threadId);
-                extraFormData.append('caption', `📷 Additional Photo (${i + 1}/${photos.length}) — Ref: ${leadId}`);
-                extraFormData.append('photo', extraBlob, extraName);
-
-                await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
-                  method: 'POST',
-                  body: extraFormData
-                });
-              } catch (err) {
-                console.error('Error dispatching extra photo:', err);
-              }
+              tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+                method: 'POST',
+                body: photoFormData
+              });
+              telegramResponse = await tgRes.json();
             }
 
+            // Fallback to personal chat if group dispatch was rejected
+            if (!telegramResponse.ok && targetChatId !== PERSONAL_CHAT_ID) {
+              photoFormData = new FormData();
+              photoFormData.append('chat_id', PERSONAL_CHAT_ID);
+              photoFormData.append('caption', telegramMessage.length > 1024 ? telegramMessage.substring(0, 1020) + '...' : telegramMessage);
+              photoFormData.append('photo', primaryBlob, primaryName);
+
+              tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+                method: 'POST',
+                body: photoFormData
+              });
+              telegramResponse = await tgRes.json();
+            }
+
+            if (telegramResponse.ok) {
+              telegramSuccess = true;
+              // Send remaining photos sequentially if not grouped
+              for (let i = 1; i < photos.length; i++) {
+                try {
+                  const extraPhoto = photos[i];
+                  const extraBuffer = await extraPhoto.arrayBuffer();
+                  const extraBlob = new Blob([extraBuffer], { type: extraPhoto.type || 'image/jpeg' });
+                  const extraName = extraPhoto.name || `photo_${i + 1}.jpg`;
+
+                  const extraFormData = new FormData();
+                  extraFormData.append('chat_id', targetChatId);
+                  if (threadId) extraFormData.append('message_thread_id', threadId);
+                  extraFormData.append('caption', `📷 Additional Photo (${i + 1}/${photos.length}) — Ref: ${leadId}`);
+                  extraFormData.append('photo', extraBlob, extraName);
+
+                  await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+                    method: 'POST',
+                    body: extraFormData
+                  });
+                } catch (err) {
+                  console.error('Error dispatching extra photo:', err);
+                }
+              }
+            }
+          }
+
+          if (telegramSuccess) {
             // If voice audio is present alongside photos, dispatch voice memo directly into the topic thread
             if (voiceAudio) {
               const audioCaption = `🎙️ *Client Voice Intake Memo* — Ref: \`${leadId}\` (${leadName})`;
               await sendAudioToTelegram(token, targetChatId, voiceAudio, audioCaption, threadId);
             }
-
             break;
           }
         } catch (e) {
@@ -402,7 +437,27 @@ export async function onRequestPost(context) {
       }
     }
 
-    const threadUrl = threadId ? `https://t.me/c/4418238851/${threadId}` : null;
+    // Two-Stage Topic Dispatch: If full dictated notes exceeded caption truncation bounds, send complete text in topic thread
+    if (telegramSuccess && (telegramMessage.length > 1000 || (notes && notes.length > 300 && notes !== 'No additional notes'))) {
+      try {
+        const fullScopeHeader = `📋 *Full Client Project Scope & Detailed Dictation:*\n\n${notes}`;
+        await fetch(`https://api.telegram.org/bot${candidateTokens[0]}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: targetChatId,
+            message_thread_id: threadId || undefined,
+            text: fullScopeHeader.length > 4096 ? fullScopeHeader.substring(0, 4090) + '...' : fullScopeHeader,
+            parse_mode: 'Markdown'
+          })
+        });
+      } catch (scopeErr) {
+        console.warn('Full scope topic follow-up notice failed:', scopeErr);
+      }
+    }
+
+    const cleanChannelId = GROUP_CHAT_ID.toString().replace(/^-100/, '');
+    const threadUrl = threadId ? `https://t.me/c/${cleanChannelId}/${threadId}` : null;
 
     // Step 5: Mirror notification to personal chat so John gets immediate mobile notification with direct 1-tap topic link
     if (telegramSuccess && targetChatId !== PERSONAL_CHAT_ID) {

@@ -254,20 +254,181 @@
       margin-bottom: 6px;
     }
     .hero-subtext { font-size: 14px; color: var(--text-muted); max-width: 680px; line-height: 1.5; margin-bottom: 16px; }
-    .hero-visual-reel { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 4px; }
-    .hero-visual-card {
-      position: relative;
-      aspect-ratio: 4/3;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #000;
-      border: 1px solid var(--border);
+    /* New Project CTA Button */
+    .btn-hero-new-project {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--accent) 0%, #ff7043 100%);
+      color: #fff;
+      text-decoration: none;
+      font-family: var(--font-brand);
+      font-size: 15px;
+      font-weight: 800;
+      padding: 14px 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(255, 87, 34, 0.45);
+      transition: all 0.22s ease;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
     }
-    .hero-visual-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: transform 0.2s, opacity 0.2s; }
-    .hero-visual-card:hover img { transform: scale(1.05); opacity: 1; }
+    .btn-hero-new-project:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255, 87, 34, 0.65);
+      background: linear-gradient(135deg, #ff6434 0%, #ff8a65 100%);
+    }
+
+    /* Craftsmanship Changing Carousel */
+    .hero-carousel {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      aspect-ratio: 16 / 9;
+      max-height: 460px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+      margin-bottom: 16px;
+    }
+    @media (max-width: 600px) {
+      .hero-carousel { aspect-ratio: 4 / 3; }
+    }
+    .carousel-slide {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+      pointer-events: none;
+    }
+    .carousel-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .carousel-slide img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .carousel-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(9, 10, 15, 0.85) 60%, rgba(9, 10, 15, 0.98) 100%);
+      padding: 22px 20px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .carousel-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .carousel-title {
+      font-family: var(--font-brand);
+      font-size: clamp(16px, 3.5vw, 22px);
+      font-weight: 800;
+      color: #fff;
+    }
+    .carousel-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .carousel-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.2s;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+    .carousel-nav-btn:hover {
+      background: rgba(255, 87, 34, 0.85);
+      border-color: var(--accent);
+    }
+    .carousel-nav-btn.prev { left: 12px; }
+    .carousel-nav-btn.next { right: 12px; }
+    .carousel-dots {
+      position: absolute;
+      bottom: 12px; right: 16px;
+      display: flex; gap: 6px;
+      z-index: 10;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .carousel-dot.active {
+      background: var(--accent);
+      width: 22px;
+      border-radius: 10px;
+    }
+
+    /* Interactive Explore & Do Grid */
+    .hero-interactive-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
     @media (max-width: 768px) {
-      .hero-visual-reel { grid-template-columns: repeat(3, 1fr); gap: 6px; }
-      .hero-visual-card:nth-child(4), .hero-visual-card:nth-child(5) { display: none; }
+      .hero-interactive-grid { grid-template-columns: 1fr; }
+    }
+    .interactive-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 15px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+    .interactive-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 87, 34, 0.35);
+      transform: translateY(-2px);
+    }
+    .interactive-card-icon { font-size: 18px; }
+    .interactive-card-title {
+      font-family: var(--font-brand);
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .interactive-card-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .interactive-card-action {
+      margin-top: auto;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     /* Tabs */
@@ -559,7 +720,7 @@
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         (715) 459-3050
       </a>
-      <button onclick="openCarpDrawer()" class="btn-hud-estimate">INSTANT ESTIMATE</button>
+      <a href="/intake.html" class="btn-hud-estimate" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;">+ NEW PROJECT / JOB</a>
     </div>
   </header>
 
@@ -569,312 +730,285 @@
       <svg class="icon-svg" style="width:13px;height:13px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
       <span id="geo-city-text">Wisconsin Rapids, Nekoosa, Port Edwards & Wood County</span>
     </div>
-    <h1 class="hero-headline">Quality Work. Straightforward Contracting.</h1>
-    <p class="hero-subtext">
-      DondlingerGC — Certified journeyman residential & commercial contracting in Central Wisconsin. Siding envelopes, replacement windows & doors, custom decks, roofing, and PourReady concrete flatwork.
-    </p>
-
-    <!-- Priority Hero Card: Direct Photo Upload -->
-    <div id="hero-photo-card" style="background:linear-gradient(135deg, rgba(255,87,34,0.14) 0%, #12141c 100%);border:2px solid var(--accent);border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 8px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,87,34,0.15);">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-        <span style="font-family:var(--font-brand);font-size:16px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;">
-          🎙️ Speak Freely — Direct Voice & Photo Scope Review
-        </span>
+    
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:14px;">
+      <div style="flex:1;min-width:280px;">
+        <h1 class="hero-headline">Quality Work. Straightforward Contracting.</h1>
+        <p class="hero-subtext" style="margin-bottom:0;">
+          Certified journeyman residential & commercial contracting in Central Wisconsin. Siding envelopes, replacement windows & doors, custom decks, roofing, and PourReady concrete flatwork.
+        </p>
       </div>
-      <p style="font-size:12.5px;color:#cbd5e1;margin-bottom:12px;line-height:1.45;">
-        No construction jargon needed. Hit the mic and talk naturally — explain what you have, what's bugging you, and what you envision. <strong>The longer and more detailed your story, the better!</strong> Our AI Whisper engine transcribes every nuance directly for field review:
-      </p>
-
-      <div id="hero-status-msg" class="status-badge"></div>
-
-      <form id="heroPhotoForm" onsubmit="handleHeroPhotoSubmit(event)">
-        <!-- Photo Upload Dropzone -->
-        <label for="heroPhotos" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;border:2px dashed rgba(255,87,34,0.4);border-radius:10px;background:rgba(255,87,34,0.05);cursor:pointer;text-align:center;margin-bottom:10px;transition:all 0.2s;">
-          <svg class="icon-svg" style="width:20px;height:20px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span style="font-size:13px;font-weight:700;color:#fff;">📷 Attach Job Photos (Optional)</span>
-          <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">JPG, PNG, HEIC</span>
-        </label>
-        <input type="file" id="heroPhotos" name="heroPhotos" accept="image/*" multiple onchange="previewHeroPhotos(event)" style="display:none;">
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
-          <input type="text" id="hContact" class="form-input" placeholder="Your Phone or Email *" required style="font-size:13px;">
-          <input type="text" id="hCity" class="form-input" placeholder="City (e.g. Wisconsin Rapids)..." style="font-size:13px;">
-        </div>
-
-        <!-- Project Description & Voice Intake (Comfortable Multiline Area) -->
-        <div style="margin-bottom:8px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;flex-wrap:wrap;">
-            <label for="hNotes" style="font-size:12px;font-weight:700;color:#e2e8f0;display:flex;align-items:center;gap:6px;">
-              <span>📝 Project Story & Scope</span>
-              <span style="font-size:10.5px;color:var(--cyan);font-family:var(--font-mono);">(Long, detailed stories encouraged!)</span>
-            </label>
-            <button type="button" id="heroVoiceBtn" onclick="toggleHeroVoiceRecording()" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:6px 14px;border:1.5px solid rgba(0,255,136,0.5);border-radius:8px;background:rgba(0,255,136,0.12);cursor:pointer;color:var(--green);font-family:var(--font-mono);font-size:12px;font-weight:800;white-space:nowrap;transition:all 0.2s;">
-              <span id="heroVoiceIcon" style="font-size:16px;">🎙️</span>
-              <span id="heroVoiceLabel">[ 🎙️ Tap to Speak Freely ]</span>
-              <span id="heroVoiceSub" style="display:none;">Whisper AI</span>
-            </button>
-          </div>
-          <textarea id="hNotes" class="form-input" rows="3" placeholder="Tell us the whole story: what you have now, what you want built, dimensions, quirks, materials, or challenges... Speak freely or type here!" style="width:100%;font-size:13px;line-height:1.45;resize:vertical;min-height:74px;margin-bottom:0;"></textarea>
-        </div>
-
-        <!-- Inline Voice Live Status Feedback -->
-        <div id="heroVoiceStatus" style="display:none;align-items:center;justify-content:center;gap:8px;padding:8px 12px;border-radius:8px;font-family:var(--font-mono);font-size:11.5px;margin-bottom:8px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);color:var(--green);">
-          <span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;"></span>
-          <span id="heroVoiceStatusText">Listening...</span>
-        </div>
-
-        <div id="hero-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:8px;"></div>
-        <div id="hero-voice-preview" style="display:none;align-items:center;gap:8px;margin-bottom:8px;padding:6px 12px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);border-radius:8px;font-family:var(--font-mono);font-size:11px;color:var(--green);"></div>
-        <div style="display:flex;gap:8px;">
-          <button type="submit" id="hSubmitBtn" class="btn-submit-lead" style="flex:1.4;padding:12px;font-size:13.5px;font-weight:800;background:var(--accent);color:#fff;border:none;border-radius:8px;box-shadow:0 4px 16px var(--accent-glow);cursor:pointer;">
-            🚀 Submit Estimate Request ⚡
-          </button>
-          <button type="button" onclick="openCarpDrawer()" style="flex:1;padding:12px;font-size:12.5px;font-weight:700;background:rgba(56,189,248,0.12);color:var(--cyan);border:1px solid rgba(56,189,248,0.3);border-radius:8px;cursor:pointer;">
-            Open Calculator 📊
-          </button>
-        </div>
-      </form>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <a href="/intake.html" class="btn-hero-new-project">
+          <span>🚀 NEW PROJECT / JOB</span>
+          <span style="font-size:18px;">→</span>
+        </a>
+      </div>
     </div>
 
-    <div class="hero-visual-reel">
-      <div class="hero-visual-card"><img src="images/projects/wall_framing_addition.jpg" alt="Structural Framing" loading="lazy"></div>
-      <div class="hero-visual-card"><img src="images/projects/weather_sheathing_siding.jpg" alt="Weather Envelopes" loading="lazy"></div>
-      <div class="hero-visual-card"><img src="images/projects/composite_deck_construction.jpg" alt="Custom Decks" loading="lazy"></div>
-      <div class="hero-visual-card"><img src="images/projects/pine_ceiling_installation.jpg" alt="Interior Trim" loading="lazy"></div>
-      <div class="hero-visual-card"><img src="images/projects/window_installation_foam.jpg" alt="Window Installations" loading="lazy"></div>
+    <!-- Craftsmanship Changing Carousel -->
+    <div class="hero-carousel" id="heroCarousel" aria-label="DGC Craftsmanship Showcase">
+      <div class="carousel-slide active" data-index="0">
+        <img src="images/projects/deck_wide_elevation.webp" alt="Elevated Treated Wood Deck and Railing System">
+        <div class="carousel-overlay">
+          <span class="carousel-tag">Custom Carpentry • Outdoor Living</span>
+          <h3 class="carousel-title">Elevated Treated Wood Deck & Railing System</h3>
+          <p class="carousel-desc">Custom dimensional lumber deck construction with continuous support beams, perimeter safety rail with wood balusters, and direct patio walk-out.</p>
+        </div>
+      </div>
+
+      <div class="carousel-slide" data-index="1">
+        <img src="images/projects/exterior_remodel_5934.webp" alt="Front Entry Portico Structural Restoration">
+        <div class="carousel-overlay">
+          <span class="carousel-tag">Structural Renovation • Port Edwards, WI</span>
+          <h3 class="carousel-title">Front Entry Portico Structural Restoration</h3>
+          <p class="carousel-desc">Reconstruction of water-damaged portico header, installation of treated support posts, R-Matte rigid foam insulation, and finished pediment trim.</p>
+        </div>
+      </div>
+
+      <div class="carousel-slide" data-index="2">
+        <img src="images/projects/IMG_2071.webp" alt="Two-Story Residential Framing and WeatherLogic Sheathing">
+        <div class="carousel-overlay">
+          <span class="carousel-tag">Ground-Up Addition • Wisconsin Rapids</span>
+          <h3 class="carousel-title">Two-Story Framing & WeatherLogic Sheathing</h3>
+          <p class="carousel-desc">Full two-story addition structural framing, engineered headers, LP WeatherLogic moisture barrier installation, and boom-lift roof tie-in.</p>
+        </div>
+      </div>
+
+      <div class="carousel-slide" data-index="3">
+        <img src="images/projects/IMG_4801.webp" alt="Two-Story Slate Blue Lap Siding and Scalloped Gables">
+        <div class="carousel-overlay">
+          <span class="carousel-tag">Exterior Siding • Wood County</span>
+          <h3 class="carousel-title">Two-Story Slate Blue Lap Siding & Scalloped Gables</h3>
+          <p class="carousel-desc">Full exterior siding overhaul featuring deep slate blue vinyl lap siding, crisp white corner boards, and architectural white scallop gable accents.</p>
+        </div>
+      </div>
+
+      <div class="carousel-slide" data-index="4">
+        <img src="images/projects/IMG_3142.webp" alt="Two-Story Navy Craftsman Residence and Stone Veneer Water Table">
+        <div class="carousel-overlay">
+          <span class="carousel-tag">Exterior Craftsman • Central Wisconsin</span>
+          <h3 class="carousel-title">Two-Story Navy Craftsman & Stone Veneer</h3>
+          <p class="carousel-desc">Completed multi-gable residential exterior with navy lap siding, crisp white trim package, and masonry stone veneer water table.</p>
+        </div>
+      </div>
+
+      <button type="button" class="carousel-nav-btn prev" onclick="prevCarouselSlide()" aria-label="Previous Project">⟨</button>
+      <button type="button" class="carousel-nav-btn next" onclick="nextCarouselSlide()" aria-label="Next Project">⟩</button>
+
+      <div class="carousel-dots" id="carouselDots">
+        <span class="carousel-dot active" onclick="setCarouselSlide(0)"></span>
+        <span class="carousel-dot" onclick="setCarouselSlide(1)"></span>
+        <span class="carousel-dot" onclick="setCarouselSlide(2)"></span>
+        <span class="carousel-dot" onclick="setCarouselSlide(3)"></span>
+        <span class="carousel-dot" onclick="setCarouselSlide(4)"></span>
+      </div>
     </div>
+
   </section>
 
   <!-- Multi-Tab App Hub -->
   <main class="hub-container">
     <div class="tab-bar-wrap">
-      <nav class="tab-bar" aria-label="Main Navigation Hub" style="grid-template-columns: repeat(3, 1fr);">
+      <nav class="tab-bar" aria-label="Main Navigation Hub" style="grid-template-columns: repeat(2, 1fr);">
         <button class="tab-btn active" id="btn-projects" onclick="switchTab('tab-projects')">
-          <svg class="tab-svg" viewBox="0 0 24 24"><path d="M3 3v18h18L3 3z"/><path d="M7 17l2-2M10 14l2-2M13 11l2-2"/></svg>
-          <span class="tab-label">Projects</span>
+          <svg class="tab-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span class="tab-label">📸 Photo Lake</span>
         </button>
-        <button class="tab-btn" id="btn-windows" onclick="switchTab('tab-windows')">
-          <svg class="tab-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18M3 12h18"/></svg>
-          <span class="tab-label">Windows & Doors</span>
-        </button>
-        <button class="tab-btn" id="btn-estimate" onclick="switchTab('tab-estimate')">
+        <button class="tab-btn" id="btn-estimators" onclick="switchTab('tab-estimators')">
           <svg class="tab-svg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span class="tab-label">Get Estimate</span>
+          <span class="tab-label">⚡ Auto Project Cost Estimators</span>
         </button>
       </nav>
     </div>
 
-    <!-- TAB 1: DGC CRAFTSMANSHIP PHOTO LAKE & PROJECT STORIES -->
+    <!-- TAB 1: CRAFTSMANSHIP PHOTO LAKE -->
     <section class="tab-pane active" id="tab-projects">
-      <!-- Banner Header -->
-      <div style="background:linear-gradient(135deg, rgba(255,87,34,0.14) 0%, rgba(56,189,248,0.09) 100%);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:14px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-          <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);"></span>
-          <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;">Ground-Truth Jobsite Telemetry</span>
-        </div>
-        <h2 style="font-family:var(--font-brand);font-size:20px;font-weight:900;color:#fff;margin:0 0 4px 0;">DGC Craftsmanship Photo Lake</h2>
-        <p style="font-size:13px;color:#94a3b8;margin:0;line-height:1.45;">
-          Tap any project tile below to launch its interactive step-by-step slideshow with full photo scrubbers and line-item scope calculators.
-        </p>
+      <!-- Category Filter Pills -->
+      <div class="gallery-filter-bar" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:16px;scrollbar-width:none;">
+        <button class="filter-pill active" onclick="filterGallery('all', this)">All Photos</button>
+        <button class="filter-pill" onclick="filterGallery('remodel', this)">Remodels</button>
+        <button class="filter-pill" onclick="filterGallery('addition', this)">Structural Additions</button>
+        <button class="filter-pill" onclick="filterGallery('siding', this)">Siding & Trim</button>
+        <button class="filter-pill" onclick="filterGallery('decks', this)">Custom Decks</button>
+        <button class="filter-pill" onclick="filterGallery('interior', this)">Drywall & Trim</button>
+        <button class="filter-pill" onclick="filterGallery('windows', this)">Windows & Doors</button>
       </div>
 
-      <!-- Project Category Filter Pills -->
-      <div class="gallery-filter-bar" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:16px;scrollbar-width:none;">
-        <button class="filter-pill active" onclick="filterProjects('all', this)">All Projects (6)</button>
-        <button class="filter-pill" onclick="filterProjects('remodel', this)">Whole-Home Remodels</button>
-        <button class="filter-pill" onclick="filterProjects('addition', this)">Structural Additions</button>
-        <button class="filter-pill" onclick="filterProjects('interior', this)">Drywall & Trim</button>
-        <button class="filter-pill" onclick="filterProjects('decks', this)">Custom Decks</button>
-        <button class="filter-pill" onclick="filterProjects('siding', this)">Siding Envelopes</button>
-        <button class="filter-pill" onclick="filterProjects('windows', this)">Windows & Doors</button>
-      </div>
+      <!-- Photo Lake Grid (Active & Visible) -->
+      <div class="gallery-grid" id="photolake-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:12px;margin-bottom:24px;">
 
-      <!-- Unified Project Showcases: Projects That Belong Together -->
-      <div id="projects-feed-container" style="display:flex;flex-direction:column;gap:18px;margin-bottom:24px;"></div>
-
-      <!-- Raw Jobsite Photo Lake Archive (100% Preserved) -->
-      <div style="margin: 24px 0 12px; display:flex; align-items:center; justify-content:space-between; border-top: 1px solid var(--border); padding-top: 16px; flex-wrap:wrap; gap:8px;">
-        <div>
-          <div style="font-family:var(--font-brand); font-size:14px; font-weight:800; color:#fff;">Individual Jobsite Photo Archive (27 Photos)</div>
-          <div style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">All raw verified jobsite captures across Central Wisconsin</div>
-        </div>
-        <button type="button" onclick="toggleRawGrid()" id="raw-grid-toggle-btn" style="background:rgba(255,255,255,0.06); border:1px solid var(--border); color:var(--cyan); font-size:11px; font-family:var(--font-mono); font-weight:700; padding:6px 12px; border-radius:6px; cursor:pointer;">Expand Raw Photos ▾</button>
-      </div>
-
-      <!-- The 2-Column (Mobile) / 3-Column (Desktop) Visual Photo Lake Grid -->
-      <div class="gallery-grid" id="photolake-grid" style="display:none;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:12px;margin-bottom:24px;">
-
-        <!-- EXTERIOR ENVELOPE REMODEL (8 PHOTOS) -->
+        <!-- FRONT PORCH OVERHANG ROT REBUILD (8 PHOTOS) -->
         <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5779.webp" alt="Substrate Prep & Sheathing Inspection" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <img src="images/projects/fredparker/IMG_5779.webp" alt="Substrate & Soffit Rot Inspection" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Substrate</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Substrate Prep & Sheathing Inspection</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Porch Overhang Structural Rot</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Substrate & Soffit Rot Inspection</div>
           </div>
         </div>
 
         <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5851.webp" alt="Continuous Weather Barrier & Seam Taping" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Barrier</span>
+          <img src="images/projects/fredparker/IMG_5851.webp" alt="Structural Overhang Demolition" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Teardown</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Continuous Weather Barrier & Seam Taping</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Porch Overhang Structural Rot</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Structural Overhang Demolition</div>
           </div>
         </div>
 
         <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5854.webp" alt="Window Sill Pan Flashing & Thermal Seal" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Flashing</span>
+          <img src="images/projects/fredparker/IMG_5854.webp" alt="Timber Rafter Assessment" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Assessment</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Window Sill Pan Flashing & Thermal Seal</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Porch Overhang Structural Rot</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Timber Rafter Assessment</div>
           </div>
         </div>
 
         <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5864.webp" alt="Laser Starter Strip & Outside Corner Posts" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Layout</span>
+          <img src="images/projects/fredparker/IMG_5864.webp" alt="Winter Staging & Shoring Setup" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Shoring</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Laser Starter Strip & Outside Corner Posts</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Porch Overhang Structural Rot</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Winter Staging & Shoring Setup</div>
           </div>
         </div>
 
         <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5871.webp" alt="Slate Blue Vinyl Lap Siding Installation" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Siding</span>
+          <img src="images/projects/fredparker/IMG_5871.webp" alt="Site Access & Trailer Staging" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Staging</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Slate Blue Vinyl Lap Siding Installation</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Porch Overhang Structural Rot</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Site Access & Trailer Staging</div>
           </div>
         </div>
 
         <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5881.webp" alt="Custom Brake Metal Window & Door Casing Wraps" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Casing</span>
+          <img src="images/projects/fredparker/IMG_5881.webp" alt="Rafter & Collar Tie Framing" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Framing</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Custom Aluminum Brake Metal Wraps</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Porch Overhang Structural Rot</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Rafter & Collar Tie Framing</div>
           </div>
         </div>
 
         <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5906.webp" alt="Continuous Vented Soffits & Aluminum Fascia" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Soffits</span>
+          <img src="images/projects/fredparker/IMG_5906.webp" alt="Fascia & Rafter Tail Teardown" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Fascia</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Continuous Vented Soffits & Fascia</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Porch Overhang Structural Rot</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Fascia & Rafter Tail Teardown</div>
           </div>
         </div>
 
         <div class="gallery-item" data-category="remodel" data-project="fredparker" onclick="openProjectLightbox('fredparker')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/fredparker/IMG_5934.webp" alt="Architectural White Gable Accents & Completed Elevation" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Elevation</span>
+          <img src="images/projects/fredparker/IMG_5934.webp" alt="Reconstructed Portico & R-Matte Insulation" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Envelope • Rebuild</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Exterior Siding & Remodel</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Architectural White Gable Accents</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Porch Overhang Structural Rot</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Reconstructed Portico & R-Matte Insulation</div>
           </div>
         </div>
 
         <!-- STRUCTURAL ADDITION (5 PHOTOS) -->
         <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/dickman_addition/IMG_2009.webp" alt="Foundation Anchor Bolt & Sill Layout" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Staging</span>
+          <img src="images/projects/dickman_addition/IMG_2009.webp" alt="First-Floor Framing & LP WeatherLogic" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • First-Floor</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Structural Home Addition</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Foundation Anchor Bolt & Sill Layout</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Dickman 2-Story Addition</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">First-Floor Framing & LP WeatherLogic</div>
           </div>
         </div>
 
         <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/dickman_addition/IMG_2066.webp" alt="Treated Mudsill & 2x10 Subfloor Assembly" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Subfloor</span>
+          <img src="images/projects/dickman_addition/IMG_2066.webp" alt="Two-Story Shell with Boom Lift Staging" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Two-Story Shell</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Structural Home Addition</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Treated Mudsill & 2x10 Subfloor Assembly</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Dickman 2-Story Addition</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Two-Story Shell with Boom Lift Staging</div>
           </div>
         </div>
 
         <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/dickman_addition/IMG_2071.webp" alt="2x6 Exterior Wall Framing & Double Headers" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Framing</span>
+          <img src="images/projects/dickman_addition/IMG_2071.webp" alt="Two-Story Exterior Elevation" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Elevation</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Structural Home Addition</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">2x6 Exterior Wall Framing & Double Headers</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Dickman 2-Story Addition</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Two-Story Exterior Elevation</div>
           </div>
         </div>
 
         <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/dickman_addition/IMG_2158.webp" alt="Engineered Roof Truss Placement & Tie-Ins" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <img src="images/projects/dickman_addition/IMG_2158.webp" alt="Roof Truss Placement & Ridge Tie-In" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Trusses</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Structural Home Addition</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Engineered Roof Truss Placement & Tie-Ins</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Dickman 2-Story Addition</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Roof Truss Placement & Ridge Tie-In</div>
           </div>
         </div>
 
-        <div class="gallery-item" data-category="addition" data-project="dickman" onclick="openProjectLightbox('dickman')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/dickman_addition/IMG_3074.webp" alt="Structural OSB Shear Sheathing & Building Wrap" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Addition • Sheathing</span>
+        <div class="gallery-item" data-category="windows" data-project="windows" onclick="openProjectLightbox('windows')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/dickman_addition/IMG_3074.webp" alt="Alliance Window Install & Upper Siding Staging" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Windows • Siding Staging</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Structural Home Addition</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Structural OSB Shear Sheathing & Building Wrap</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Alliance Windows & Siding</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Alliance Window Install & Siding Staging</div>
           </div>
         </div>
 
-        <!-- INTERIOR DRYWALL & TRIM (6 PHOTOS) -->
-        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_3142.webp" alt="Floor Protection & Laser Level Alignment" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Finish • Prep</span>
+        <!-- EXTERIOR CRAFTSMANSHIP & INTERIOR FINISHING -->
+        <div class="gallery-item" data-category="remodel" data-project="navy_residence" onclick="openProjectLightbox('navy_residence')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_3142.webp" alt="Navy Multi-Gable Full Elevation & Stone Water Table" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Exterior • Multi-Gable</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Floor Protection & Laser Level Alignment</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Navy Multi-Gable Residence</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Full Elevation & Stone Water Table</div>
           </div>
         </div>
 
-        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_3143.webp" alt="Paper-Faced Corner Bead Joint Float" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Finish • Bead</span>
+        <div class="gallery-item" data-category="remodel" data-project="navy_residence" onclick="openProjectLightbox('navy_residence')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_3143.webp" alt="Architectural Gables & Garage Elevation" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Exterior • Garage</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Paper-Faced Corner Bead Joint Float</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Navy Multi-Gable Residence</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Architectural Gables & Garage Elevation</div>
           </div>
         </div>
 
-        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_3341.webp" alt="Ceiling Feathering & Dustless Sanding" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Finish • Sanding</span>
+        <div class="gallery-item" data-category="interior" data-project="kitchen" onclick="openProjectLightbox('kitchen')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_3341.webp" alt="White Shaker Cabinets & Undermount Sink" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Kitchen • Cabinets</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Ceiling Feathering & Dustless Sanding</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Modern Kitchen Renovation</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">White Shaker Cabinets & Undermount Sink</div>
           </div>
         </div>
 
-        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_3346.webp" alt="High-Build PVA Primer Application" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Finish • Primer</span>
+        <div class="gallery-item" data-category="interior" data-project="kitchen" onclick="openProjectLightbox('kitchen')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_3346.webp" alt="Range Run & Backsplash Prep" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Kitchen • Range</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">High-Build PVA Primer Application</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Modern Kitchen Renovation</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Range Run & Backsplash Prep</div>
           </div>
         </div>
 
-        <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_4349.webp" alt="Enamel Window & Door Trim Casing" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Finish • Casing</span>
+        <div class="gallery-item" data-category="siding" data-project="siding" onclick="openProjectLightbox('siding')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
+          <img src="images/projects/IMG_4349.webp" alt="Before / Tear-Off: Foil Insulation Substrate" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Siding • Tear-Off</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Enamel Window & Door Trim Casing</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">610 Residence Siding</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Before / Tear-Off: Foil Insulation Substrate</div>
           </div>
         </div>
 
         <div class="gallery-item" data-category="interior" data-project="scholz" onclick="openProjectLightbox('scholz')" style="cursor:pointer;position:relative;border-radius:12px;overflow:hidden;background:#0d1017;border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:transform 0.2s ease, border-color 0.2s ease;">
-          <img src="images/projects/IMG_6595.webp" alt="Completed Living Room Architectural Trim" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <img src="images/projects/IMG_6595.webp" alt="Finished Living Room Trim & Baseboards" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           <span class="gallery-item-tag" style="position:absolute;top:8px;left:8px;background:rgba(9,10,15,0.88);backdrop-filter:blur(6px);font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,87,34,0.3);text-transform:uppercase;">Finish • Completed</span>
           <div class="gallery-item-caption" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 60%, transparent 100%);padding:24px 10px 10px 10px;color:#fff;">
-            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Drywall & Trim</div>
-            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Completed Living Room Architectural Trim</div>
+            <div style="font-family:var(--font-brand);font-size:13px;font-weight:800;line-height:1.25;margin-bottom:2px;">Interior Finish Carpentry</div>
+            <div style="font-size:11px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Finished Living Room Trim & Baseboards</div>
           </div>
         </div>
 
@@ -954,220 +1088,119 @@
         </div>
 
       </div>
-
-      <!-- Compact Digital Estimator Bar -->
-      <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:18px;">🏗️</span>
-          <div>
-            <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;">PourReady Concrete Estimator</div>
-            <div style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">Instant Slab & Footing Volume Takeoffs • Wisconsin Rapids</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <a href="https://calc.dondlingergc.com" target="_blank" rel="noopener noreferrer" style="padding:6px 12px;background:rgba(255,87,34,0.15);color:var(--accent);border:1px solid rgba(255,87,34,0.3);font-size:11.5px;font-weight:700;border-radius:6px;text-decoration:none;">Launch PourReady PWA ↗</a>
-        </div>
-      </div>
     </section>
 
-
-    <!-- TAB 2: WINDOWS & DOORS -->
-    <section class="tab-pane" id="tab-windows">
-      <div class="wd-hero-banner">
-        <span class="wd-badge">Precision Envelope Upgrades</span>
-        <h2 class="wd-title">Replacement Windows & Custom Exterior Doors</h2>
-        <p class="wd-desc">Energy-efficient Low-E Argon vinyl, composite, and wood windows with custom exterior aluminum casing wraps.</p>
+    <!-- TAB 2: AUTO PROJECT COST ESTIMATORS -->
+    <section class="tab-pane" id="tab-estimators">
+      <div style="background:linear-gradient(135deg, rgba(255,87,34,0.12) 0%, rgba(18,20,28,0.95) 100%);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <span style="font-size:16px;">⚡</span>
+          <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;">Turnkey Estimating Engine</span>
+        </div>
+        <h2 style="font-family:var(--font-brand);font-size:20px;font-weight:900;color:#fff;margin:0 0 4px 0;">Auto Project Cost Estimators</h2>
+        <p style="font-size:13px;color:var(--text-muted);margin:0;line-height:1.45;">
+          Select a trade discipline and adjust your square footage for instant Central Wisconsin turnkey ballpark pricing.
+        </p>
       </div>
 
-      <div class="wd-showcase-grid">
-        <div class="wd-card">
-          <div class="wd-card-media"><img src="images/projects/window_installation_foam.jpg" alt="Replacement Window Insulated"></div>
-          <div class="wd-card-content">
-            <div class="wd-card-title">Low-E Argon Windows</div>
-            <div class="wd-card-sub">Double-hung & casement retrofits with expanding low-pressure foam insulation.</div>
-            <ul class="wd-specs-list">
-              <li>✓ Low-E Argon Glass</li>
-              <li>✓ Custom Aluminum Casing</li>
-            </ul>
-            <button onclick="launchScopeTrade('windows')" class="btn-wd-card-action">Estimate Windows ↗</button>
-          </div>
-        </div>
+      <!-- Trade Selector Chips -->
+      <div class="drawer-trade-chips" style="margin-bottom:14px;">
+        <button class="drawer-chip active" id="chip-decks" onclick="selectScopeTrade('decks')">🪵 Custom Decks</button>
+        <button class="drawer-chip" id="chip-siding" onclick="selectScopeTrade('siding')">🏠 Siding Envelopes</button>
+        <button class="drawer-chip" id="chip-roofing" onclick="selectScopeTrade('roofing')">🔨 Roofing</button>
+        <button class="drawer-chip" id="chip-concrete" onclick="selectScopeTrade('concrete')">🧱 PourReady Concrete</button>
+        <button class="drawer-chip" id="chip-windows" onclick="selectScopeTrade('windows')">🪟 Windows & Doors</button>
+        <button class="drawer-chip" id="chip-kitchen" onclick="selectScopeTrade('kitchen')">🍳 Kitchen</button>
+        <button class="drawer-chip" id="chip-ceilings" onclick="selectScopeTrade('ceilings')">🏢 Drop Ceilings</button>
+      </div>
 
-        <div class="wd-card">
-          <div class="wd-card-media"><img src="images/projects/entry_door.webp" alt="Fiberglass Entry Door"></div>
-          <div class="wd-card-content">
-            <div class="wd-card-title">Custom Entry Doors</div>
-            <div class="wd-card-sub">Heavy insulated fiberglass and steel doors with magnetic weather seals.</div>
-            <ul class="wd-specs-list">
-              <li>✓ Multi-Point Locking</li>
-              <li>✓ Rot-Proof Composite Frame</li>
-            </ul>
-            <button onclick="launchScopeTrade('doors')" class="btn-wd-card-action">Estimate Doors ↗</button>
-          </div>
+      <!-- Dynamic Slider -->
+      <div class="slider-group" id="slider-container">
+        <div class="slider-header">
+          <span id="slider-title-text">Estimated Deck Area (Sq Ft):</span>
+          <span class="slider-val-tag" id="slider-val-display">200 Sq Ft</span>
         </div>
+        <input type="range" id="scope-slider" class="scope-range-input" min="80" max="600" value="200" step="20" oninput="updateBallparkCalculation()">
+      </div>
 
-        <div class="wd-card">
-          <div class="wd-card-media"><img src="images/projects/window_replacement.webp" alt="Sliding Patio Door"></div>
-          <div class="wd-card-content">
-            <div class="wd-card-title">Sliding Patio Doors</div>
-            <div class="wd-card-sub">Smooth rolling multi-chamber vinyl patio doors with integrated foot locks.</div>
-            <ul class="wd-specs-list">
-              <li>✓ Tempered Safety Glass</li>
-              <li>✓ Heavy-Duty Ball Bearings</li>
-            </ul>
-            <button onclick="launchScopeTrade('doors')" class="btn-wd-card-action">Estimate Patio Door ↗</button>
+      <!-- MODULE A: THE BALLPARK QUOTE -->
+      <div class="ballpark-box" style="background:linear-gradient(135deg, rgba(255,87,34,0.12) 0%, rgba(18,20,28,0.95) 100%);border:1px solid var(--accent);border-radius:12px;padding:16px;margin-bottom:14px;">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:4px;" id="bp-trade-label">Estimated Turnkey Range:</div>
+        <div class="ballpark-range" id="bp-range-display" style="font-size:28px;font-weight:900;color:#fff;font-family:var(--font-brand);letter-spacing:-0.5px;margin-bottom:8px;">$7,000 – $11,000</div>
+        <ul style="list-style:none;font-size:11.5px;color:#cbd5e1;line-height:1.6;margin-bottom:4px;">
+          <li style="display:flex;align-items:center;gap:6px;">✓ <span>Turnkey pricing: Premium materials & certified installation</span></li>
+          <li style="display:flex;align-items:center;gap:6px;">✓ <span>Daily jobsite clean-up & full debris disposal included</span></li>
+          <li style="display:flex;align-items:center;gap:6px;">✓ <span>Central Wisconsin municipal building code compliance</span></li>
+        </ul>
+        <div style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);margin-top:6px;">*Instant ballpark based on Central Wisconsin historical project averages.</div>
+      </div>
+
+      <!-- MODULE B: CROSS-CATEGORY SPILLOVER (Interactive Add-ons) -->
+      <div id="module-b-addons" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
+        <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;margin-bottom:4px;">💡 Enhance Your Project (Optional Add-ons)</div>
+        <div style="font-size:11.5px;color:var(--text-muted);margin-bottom:10px;">Homeowners frequently pair this scope with:</div>
+        <div id="addons-checkbox-container" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+
+      <!-- MODULE C: VISUAL BEFORE/AFTER STORIES -->
+      <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
+        <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;margin-bottom:8px;">📸 Real Central WI Project Proof</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="background:#090a0f;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:11px;">
+            <div style="font-weight:700;color:#fff;margin-bottom:2px;">Living Room & Trim</div>
+            <div style="color:var(--text-muted);font-size:10px;margin-bottom:4px;">Wisconsin Rapids, WI</div>
+            <div style="color:var(--green);font-family:var(--font-mono);font-size:9.5px;">✓ Level-5 Drywall & Casing</div>
+          </div>
+          <div style="background:#090a0f;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:11px;">
+            <div style="font-weight:700;color:#fff;margin-bottom:2px;">Timber Pavilion</div>
+            <div style="color:var(--text-muted);font-size:10px;margin-bottom:4px;">Nekoosa, WI</div>
+            <div style="color:var(--cyan);font-family:var(--font-mono);font-size:9.5px;">✓ Heavy Structural Timber</div>
           </div>
         </div>
       </div>
-    </section>
-    <section class="tab-pane" id="tab-estimate">
-      <div class="intake-card">
-        <div class="intake-header">
-          <h2>Direct Dispatch to J. Dondlinger</h2>
-          <p>Send project notes directly to J. Dondlinger's mobile dispatch. Typical reply in 15–30 mins.</p>
-        </div>
 
-        <div id="lead-status-msg" class="status-badge"></div>
+      <!-- MODULE D: PROGRESSIVE DISCLOSURE & PHOTO DISPATCH -->
+      <div style="background:rgba(255,87,34,0.08);border:1px solid rgba(255,87,34,0.3);border-radius:12px;padding:16px;margin-bottom:14px;">
+        <div style="font-family:var(--font-brand);font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;">📸 Snap / Attach Project Photos for Fast Quote</div>
+        <div style="font-size:11.5px;color:#cbd5e1;margin-bottom:10px;">Attach 1–3 photos of your deck, siding, roof, or project area for an exact review:</div>
+        
+        <div id="drawer-status-msg" class="status-badge"></div>
 
-        <form id="leadForm" onsubmit="handleDirectLeadSubmit(event)">
-          <div class="form-row">
-            <label for="fName">Your Name *</label>
-            <input type="text" id="fName" class="form-input" placeholder="e.g. Dave Madsen" required>
+        <label for="dPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;border:2px dashed rgba(255,87,34,0.4);border-radius:8px;background:rgba(255,87,34,0.04);cursor:pointer;margin-bottom:10px;text-align:center;">
+          <svg class="icon-svg" style="width:24px;height:24px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span style="font-size:12px;font-weight:700;color:#fff;">Tap to Snap or Upload Photos (1–3)</span>
+          <span style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);">JPG, PNG, HEIC from iPhone/Android</span>
+        </label>
+        <input type="file" id="dPhotos" accept="image/*" multiple onchange="previewDrawerPhotos(event)" style="display:none;">
+        <div id="drawer-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:10px;"></div>
+
+        <form id="drawerDispatchForm" onsubmit="handleDrawerDispatch(event)">
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+            <input type="text" id="dContact" class="form-input" placeholder="Your Phone or Email (Required) *" style="font-size:12px;" required>
+            <input type="text" id="dNotes" class="form-input" placeholder="Quick note / city (e.g. Wisconsin Rapids, 12x16 deck)..." style="font-size:12px;">
+            <button type="submit" id="dSubmitBtn" class="btn-submit-lead" style="width:100%;padding:12px;font-size:13.5px;font-weight:800;background:var(--accent);color:#fff;border:none;border-radius:8px;box-shadow:0 4px 16px var(--accent-glow);cursor:pointer;">
+              🚀 Dispatch Scope & Photos to John ⚡
+            </button>
           </div>
-
-          <div class="form-row">
-            <label for="fContact">Phone or Email *</label>
-            <input type="text" id="fContact" class="form-input" placeholder="(715) 555-0199 or name@email.com" required>
-          </div>
-
-          <div class="form-row">
-            <label for="fService">Project Scope *</label>
-            <select id="fService" class="form-select" required>
-              <option value="Custom Decks & Outdoor Living">Custom Decks & Outdoor Living</option>
-              <option value="Exterior Siding & Envelopes">Exterior Siding & Envelopes</option>
-              <option value="Architectural Roofing">Architectural Roofing</option>
-              <option value="PourReady Concrete Flatwork">PourReady Concrete Flatwork</option>
-              <option value="High-Efficiency Windows & Doors">High-Efficiency Windows & Doors</option>
-              <option value="Custom Kitchen & Cabinetry">Custom Kitchen & Cabinetry</option>
-              <option value="Commercial Drop Ceilings">Commercial Drop Ceilings</option>
-              <option value="Other Scope">Other Construction Scope</option>
-            </select>
-          </div>
-
-          <div class="form-row">
-            <label for="fAddress">City / Location</label>
-            <input type="text" id="fAddress" class="form-input" placeholder="Wisconsin Rapids, Nekoosa, Port Edwards, Stevens Point...">
-          </div>
-
-          <div class="form-row">
-            <label for="fNotes">Project Scope Notes</label>
-            <textarea id="fNotes" class="form-textarea" rows="3" placeholder="Approximate dimensions, materials, or target timeline..."></textarea>
-          </div>
-
-          <button type="submit" id="fSubmitBtn" class="btn-submit-lead">
-            <svg class="icon-svg" style="width:16px;height:16px;stroke:#fff;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            Send Scope to J. Dondlinger
-          </button>
         </form>
+
+        <div style="text-align:center;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08);">
+          <a href="./intake.html" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--font-brand);font-size:13px;font-weight:800;color:var(--cyan);text-decoration:none;">
+            <span>Prefer a guided walkthrough? Launch Voice & Step-by-Step Intake Wizard</span>
+            <span>→</span>
+          </a>
+        </div>
       </div>
     </section>
 
+    <!-- Dondlinger Digital Database Hub Link -->
+    <div style="margin: 28px 0 16px; text-align: center;">
+      <a href="https://dondlingergc.com" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:12px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);color:var(--cyan);font-family:var(--font-brand);font-size:13px;font-weight:800;text-decoration:none;transition:all 0.2s ease;">
+        <span>🌐 Dondlinger Digital Database & 15-App Ecosystem</span>
+        <span style="font-family:var(--font-mono);font-size:12px;">→</span>
+      </a>
+    </div>
   </main>
-
-  <!-- DONDLINGERGC 4-MODULE BALLPARK ESTIMATOR DRAWER -->
-  <div id="carp-drawer-overlay" onclick="closeCarpDrawer()"></div>
-  <div id="carp-drawer" role="dialog" aria-modal="true">
-    <div class="drawer-handle"></div>
-    <div class="drawer-header">
-      <div>
-        <div class="drawer-title">Instant Ballpark Estimator</div>
-        <div class="drawer-sub">⚡ Step 1: Select Trade & Scope ➔ Step 2: Instant Turnkey Range</div>
-      </div>
-      <div class="drawer-close-btn" onclick="closeCarpDrawer()">✕</div>
-    </div>
-
-    <!-- Trade Selector Chips -->
-    <div class="drawer-trade-chips">
-      <button class="drawer-chip active" id="chip-decks" onclick="selectScopeTrade('decks')">🪵 Custom Decks</button>
-      <button class="drawer-chip" id="chip-siding" onclick="selectScopeTrade('siding')">🏠 Siding Envelopes</button>
-      <button class="drawer-chip" id="chip-roofing" onclick="selectScopeTrade('roofing')">🔨 Roofing</button>
-      <button class="drawer-chip" id="chip-concrete" onclick="selectScopeTrade('concrete')">🧱 PourReady Concrete</button>
-      <button class="drawer-chip" id="chip-windows" onclick="selectScopeTrade('windows')">🪟 Windows & Doors</button>
-      <button class="drawer-chip" id="chip-kitchen" onclick="selectScopeTrade('kitchen')">🍳 Kitchen</button>
-      <button class="drawer-chip" id="chip-ceilings" onclick="selectScopeTrade('ceilings')">🏢 Drop Ceilings</button>
-    </div>
-
-    <!-- Dynamic Slider -->
-    <div class="slider-group" id="slider-container">
-      <div class="slider-header">
-        <span id="slider-title-text">Estimated Deck Area (Sq Ft):</span>
-        <span class="slider-val-tag" id="slider-val-display">200 Sq Ft</span>
-      </div>
-      <input type="range" id="scope-slider" class="scope-range-input" min="80" max="600" value="200" step="20" oninput="updateBallparkCalculation()">
-    </div>
-
-    <!-- MODULE A: THE BALLPARK QUOTE -->
-    <div class="ballpark-box" style="background:linear-gradient(135deg, rgba(255,87,34,0.12) 0%, rgba(18,20,28,0.95) 100%);border:1px solid var(--accent);border-radius:12px;padding:16px;margin-bottom:14px;">
-      <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:4px;" id="bp-trade-label">Estimated Turnkey Range:</div>
-      <div class="ballpark-range" id="bp-range-display" style="font-size:28px;font-weight:900;color:#fff;font-family:var(--font-brand);letter-spacing:-0.5px;margin-bottom:8px;">$7,000 – $11,000</div>
-      <ul style="list-style:none;font-size:11.5px;color:#cbd5e1;line-height:1.6;margin-bottom:4px;">
-        <li style="display:flex;align-items:center;gap:6px;">✓ <span>Turnkey pricing: Premium materials & certified installation</span></li>
-        <li style="display:flex;align-items:center;gap:6px;">✓ <span>Daily jobsite clean-up & full debris disposal included</span></li>
-        <li style="display:flex;align-items:center;gap:6px;">✓ <span>Central Wisconsin municipal building code compliance</span></li>
-      </ul>
-      <div style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);margin-top:6px;">*Instant ballpark based on Central Wisconsin historical project averages.</div>
-    </div>
-
-    <!-- MODULE B: CROSS-CATEGORY SPILLOVER (Interactive Add-ons) -->
-    <div id="module-b-addons" style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
-      <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;margin-bottom:4px;">💡 Enhance Your Project (Optional Add-ons)</div>
-      <div style="font-size:11.5px;color:var(--text-muted);margin-bottom:10px;">Homeowners frequently pair this scope with:</div>
-      <div id="addons-checkbox-container" style="display:flex;flex-direction:column;gap:8px;"></div>
-    </div>
-
-    <!-- MODULE C: VISUAL BEFORE/AFTER STORIES -->
-    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
-      <div style="font-family:var(--font-brand);font-size:13.5px;font-weight:800;color:#fff;margin-bottom:8px;">📸 Real Central WI Project Proof</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div style="background:#090a0f;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:11px;">
-          <div style="font-weight:700;color:#fff;margin-bottom:2px;">Living Room & Trim</div>
-          <div style="color:var(--text-muted);font-size:10px;margin-bottom:4px;">Wisconsin Rapids, WI</div>
-          <div style="color:var(--green);font-family:var(--font-mono);font-size:9.5px;">✓ Level-5 Drywall & Casing</div>
-        </div>
-        <div style="background:#090a0f;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:11px;">
-          <div style="font-weight:700;color:#fff;margin-bottom:2px;">Timber Pavilion</div>
-          <div style="color:var(--text-muted);font-size:10px;margin-bottom:4px;">Nekoosa, WI</div>
-          <div style="color:var(--cyan);font-family:var(--font-mono);font-size:9.5px;">✓ Heavy Structural Timber</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODULE D: PROGRESSIVE DISCLOSURE & PHOTO DISPATCH -->
-    <div style="background:rgba(255,87,34,0.08);border:1px solid rgba(255,87,34,0.3);border-radius:12px;padding:14px;margin-bottom:10px;">
-      <div style="font-family:var(--font-brand);font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;">📸 Snap / Attach Project Photos for Fast Quote</div>
-      <div style="font-size:11.5px;color:#cbd5e1;margin-bottom:10px;">Attach 1–3 photos of your deck, siding, roof, or project area for an exact review:</div>
-      
-      <div id="drawer-status-msg" class="status-badge"></div>
-
-      <label for="dPhotos" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;border:2px dashed rgba(255,87,34,0.4);border-radius:8px;background:rgba(255,87,34,0.04);cursor:pointer;margin-bottom:10px;text-align:center;">
-        <svg class="icon-svg" style="width:24px;height:24px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span style="font-size:12px;font-weight:700;color:#fff;">Tap to Snap or Upload Photos (1–3)</span>
-        <span style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);">JPG, PNG, HEIC from iPhone/Android</span>
-      </label>
-      <input type="file" id="dPhotos" accept="image/*" multiple onchange="previewDrawerPhotos(event)" style="display:none;">
-      <div id="drawer-photo-preview" style="display:flex;gap:8px;overflow-x:auto;margin-bottom:10px;"></div>
-
-      <form id="drawerDispatchForm" onsubmit="handleDrawerDispatch(event)">
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <input type="text" id="dContact" class="form-input" placeholder="Your Phone or Email (Required) *" style="font-size:12px;" required>
-          <input type="text" id="dNotes" class="form-input" placeholder="Quick note / city (e.g. Wisconsin Rapids, 12x16 deck)..." style="font-size:12px;">
-          <button type="submit" id="dSubmitBtn" class="btn-submit-lead" style="width:100%;padding:12px;font-size:13.5px;font-weight:800;background:var(--accent);color:#fff;border:none;border-radius:8px;box-shadow:0 4px 16px var(--accent-glow);cursor:pointer;">
-            🚀 Dispatch Scope & Photos to John ⚡
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
 
   <!-- Fullscreen Lightbox Modal -->
   <div id="lightbox-modal" onclick="closeLightbox()">
@@ -1248,7 +1281,6 @@
       </div>
     </div>
   </footer>
-
   <!-- Unified Responsive Bottom Dock -->
   <footer id="site-bottom-dock">
     <a href="tel:7154593050" class="dock-btn dock-btn-call">
@@ -1259,13 +1291,26 @@
       <svg class="icon-svg" style="width:15px;height:15px;stroke:#fff;" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       <span>Upload Photos 📸</span>
     </button>
-    <button onclick="openCarpDrawer()" class="dock-btn dock-btn-estimate">
+    <button onclick="switchTab('tab-estimators'); window.scrollTo({top: (document.getElementById('tab-estimators') ? document.getElementById('tab-estimators').offsetTop - 80 : 0), behavior: 'smooth'});" class="dock-btn dock-btn-estimate">
       <svg class="icon-svg" style="width:15px;height:15px;stroke:var(--cyan);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
       <span>Estimator ⚡</span>
     </button>
   </footer>
 
   <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      const cleanId = tabId.startsWith('tab-') ? tabId : 'tab-' + tabId;
+      const btnId = 'btn-' + cleanId.replace('tab-', '');
+      const btn = document.getElementById(btnId) || document.getElementById('btn-projects');
+      const pane = document.getElementById(cleanId) || document.getElementById('tab-projects');
+
+      if (btn) btn.classList.add('active');
+      if (pane) pane.classList.add('active');
+    }
+
     let currentTrade = 'decks';
     let telemetryTimer = null;
     let selectedAddons = {};
@@ -2087,217 +2132,218 @@
 const DGC_PROJECTS = {
   "fredparker": {
     "id": "fredparker",
-    "title": "Exterior Envelope Overhaul & Custom Siding",
+    "title": "Front Porch Structural Rot Teardown & Portico Rebuild",
     "category": "remodel",
-    "categoryLabel": "Whole-Home Remodel",
-    "trade": "siding",
-    "tag": "Exterior Overhaul • 8 Verified Captures",
-    "lead": "Full exterior envelope renovation: tear-off down to original sheathing, continuous thermal vapor wrap, window pan flashing, slate blue vinyl lap siding, custom-bent aluminum casing wraps, and crisp architectural white gable accents.",
+    "categoryLabel": "Structural Carpentry & Portico",
+    "trade": "framing",
+    "tag": "Winter Structural Overhaul • 8 Verified Captures",
+    "lead": "Winter entry overhaul: tearing out water-damaged load-bearing porch overhang beams, temporary shoring, installing new treated structural posts, rafter collar ties, R-Matte Plus-3 rigid foam insulation board, and rebuilt pediment framing.",
     "slides": [
       {
         "src": "images/projects/fredparker/IMG_5779.webp",
-        "title": "Substrate Prep & Sheathing Inspection",
-        "caption": "Complete removal of aged siding down to substrate, verifying structural OSB sheathing and stud condition across all exterior elevations."
+        "title": "Substrate & Soffit Rot Inspection",
+        "caption": "Severe moisture rot and wood decay uncovered on the load-bearing front porch overhang header beam beneath deteriorated vinyl soffit."
       },
       {
         "src": "images/projects/fredparker/IMG_5851.webp",
-        "title": "Continuous Weather Barrier & Seam Taping",
-        "caption": "Installation of high-performance weather-resistant barrier (WRB) with shingle-lapped vertical seams and acrylic flashing tape."
+        "title": "Structural Overhang Demolition",
+        "caption": "Close-up inspection of rotted timber beam requiring complete removal and structural replacement back to sound framing."
       },
       {
         "src": "images/projects/fredparker/IMG_5854.webp",
-        "title": "Window Sill Pan Flashing & Thermal Seal",
-        "caption": "Precision sill pan flashing, expanding low-pressure foam insulation around window rough openings, and drip cap head flashing."
+        "title": "Timber Rafter Assessment",
+        "caption": "Detailed evaluation of decayed eave rafter connections before erecting temporary shoring and demolition staging."
       },
       {
         "src": "images/projects/fredparker/IMG_5864.webp",
-        "title": "Laser Starter Strip & Outside Corner Posts",
-        "caption": "Precision laser transit baseline layout for starter strips and 3-1/2 inch architectural white vinyl corner post assemblies."
+        "title": "Winter Staging & Shoring Setup",
+        "caption": "Pipe scaffolding, extension ladders, and protective poly tarp containment erected across front porch steps during winter freeze."
       },
       {
         "src": "images/projects/fredparker/IMG_5871.webp",
-        "title": "Slate Blue Vinyl Lap Siding Installation",
-        "caption": "Installation of premium thick-gauge vinyl lap siding with 1/4-inch thermal expansion allowance in all receiving J-channels."
+        "title": "Site Access & Trailer Staging",
+        "caption": "Sure-Trac dump trailer, pipe scaffolding, and ladder jack access staging on the front elevation of the split-level residence."
       },
       {
         "src": "images/projects/fredparker/IMG_5881.webp",
-        "title": "Custom Aluminum Brake Metal Window Wraps",
-        "caption": "On-site custom aluminum sheet metal bending on 10-foot brake, encasing exterior window frames with clean hemmed returns."
+        "title": "Rafter & Collar Tie Framing",
+        "caption": "Attic-level structural roof framing and dimensional rafter ties securing the front entry portico gable."
       },
       {
         "src": "images/projects/fredparker/IMG_5906.webp",
-        "title": "Continuous Vented Soffits & Aluminum Fascia",
-        "caption": "Under-eave intake soffit ventilation integration and matching heavy-gauge aluminum fascia wraps protecting wood rafter tails."
+        "title": "Fascia & Rafter Tail Teardown",
+        "caption": "Removing rotted rafter tails and sub-fascia beneath the snow-covered roofline to prepare for replacement lumber."
       },
       {
         "src": "images/projects/fredparker/IMG_5934.webp",
-        "title": "Architectural Gable Details & Completed Elevation",
-        "caption": "Upper gable transition board flashing, crisp white accent trim, and full exterior perimeter weather seal inspection."
+        "title": "Reconstructed Portico & R-Matte Insulation",
+        "caption": "New treated structural posts, rebuilt gable header framing, R-Matte Plus-3 rigid foam insulation board, and staging planks."
       }
     ]
   },
   "dickman": {
     "id": "dickman",
-    "title": "Residential Addition & Heavy Structural Framing",
+    "title": "Dickman 2-Story Residential Addition & Shell Framing",
     "category": "addition",
     "categoryLabel": "Home Addition",
     "trade": "framing",
-    "tag": "Structural Addition • 5 Framing Stages",
-    "lead": "Central Wisconsin home addition: ground-up framing, treated mudsills, 2x10 floor joists 16\" O.C., 2x6 exterior load-bearing walls, engineered roof truss tie-ins, and shear wall sheathing.",
+    "tag": "Ground-Up Addition • 4 Framing Stages",
+    "lead": "Two-story home addition: mudsill tie-in, full 2-story exterior wall framing, LP WeatherLogic air & water barrier sheathing, spider boom lift staging, and Alliance double-hung windows.",
     "slides": [
       {
         "src": "images/projects/dickman_addition/IMG_2009.webp",
-        "title": "Jobsite Staging & Foundation Anchor Layout",
-        "caption": "Driveway jobsite staging, lumber grading inspection, and foundation sill plate anchor bolt layout for addition tie-in."
+        "title": "First-Floor Framing & LP WeatherLogic",
+        "caption": "Ground-up addition framing with blue LP WeatherLogic air and water barrier sheathing and floor joist tie-in."
       },
       {
         "src": "images/projects/dickman_addition/IMG_2066.webp",
-        "title": "Treated Mudsill & 2x10 Subfloor Assembly",
-        "caption": "Pressure-treated sill gaskets, 2x10 floor joists on 16\" centers, cross-bridging, and tongue-and-groove subfloor glue/screw fastening."
+        "title": "Two-Story Shell with Boom Lift Staging",
+        "caption": "Full two-story addition enclosed in LP WeatherLogic sheathing with towable boom lift staged in yard."
       },
       {
         "src": "images/projects/dickman_addition/IMG_2071.webp",
-        "title": "2x6 Exterior Wall Framing & Double Headers",
-        "caption": "2x6 framing for superior R-value insulation cavity, structural double top plates, engineered window headers, and corner posts."
+        "title": "Two-Story Exterior Elevation",
+        "caption": "Alliance double-hung windows installed, taped weather barrier seams, and tie-in to original two-story roofline."
       },
       {
         "src": "images/projects/dickman_addition/IMG_2158.webp",
-        "title": "Engineered Roof Truss Placement & Tie-Ins",
-        "caption": "Setting engineered common and scissor trusses, temporary bracing, hurricane tie anchoring, and existing roof valley tie-in."
-      },
-      {
-        "src": "images/projects/dickman_addition/IMG_3074.webp",
-        "title": "Structural OSB Shear Sheathing & Building Wrap",
-        "caption": "7/16\" structural OSB wall and roof sheathing with 8d ring-shank nailing pattern, followed by complete weather-tight building wrap."
-      }
-    ]
-  },
-  "scholz": {
-    "id": "scholz",
-    "title": "Living Room & Architectural Finish Carpentry",
-    "category": "interior",
-    "categoryLabel": "Interior Carpentry",
-    "trade": "kitchen",
-    "tag": "Interior Finishing • 6 Craftsmanship Steps",
-    "lead": "Living room craftsmanship overhaul: heavy floor protection, laser wall leveling, multi-coat corner bead compound float, PVA high-build primer, and satin urethane enamel trim.",
-    "slides": [
-      {
-        "src": "images/projects/IMG_3142.webp",
-        "title": "Floor Protection & Laser Wall Alignment",
-        "caption": "Ram Board floor protection, containment barriers, and laser leveling of uneven wall stud transitions before compounding."
-      },
-      {
-        "src": "images/projects/IMG_3143.webp",
-        "title": "Paper-Faced Corner Bead Bedding",
-        "caption": "Setting paper-faced metal corner beads and applying first coat of lightweight joint compound feathered out 8 inches."
-      },
-      {
-        "src": "images/projects/IMG_3341.webp",
-        "title": "Ceiling Seam Feathering & Dustless Sanding",
-        "caption": "Multi-coat joint compound blending on ceiling seams with HEPA vacuum dustless sanding for level-5 surface uniformity."
-      },
-      {
-        "src": "images/projects/IMG_3346.webp",
-        "title": "High-Build PVA Primer Application",
-        "caption": "Airless spray application of high-solids PVA drywall primer to equalize porosity between drywall paper and joint compound."
-      },
-      {
-        "src": "images/projects/IMG_4349.webp",
-        "title": "Custom Window & Door Casing Installation",
-        "caption": "Precision 45-degree mitered door and window casings finished with durable satin urethane enamel."
-      },
-      {
-        "src": "images/projects/IMG_6595.webp",
-        "title": "Completed Architectural Trim & Baseboards",
-        "caption": "Pristine finished space with clean baseboards, casing returns, and seamless level-5 wall surfaces ready for furniture placement."
+        "title": "Roof Truss Placement & Ridge Tie-In",
+        "caption": "Engineered roof truss installation, hurricane ties, structural bracing, and valley tie-in to existing structure."
       }
     ]
   },
   "siding": {
     "id": "siding",
-    "title": "Multi-Story Slate Blue Siding & Architectural Gables",
+    "title": "610 Residence: Two-Story Siding Overhaul & Scalloped Gables",
     "category": "siding",
     "categoryLabel": "Exterior Siding",
     "trade": "siding",
-    "tag": "Exterior Envelope • 3 Verified Elevations",
-    "lead": "Multi-story exterior transformation with foil-faced thermal barrier, slate blue lap siding, and vented vinyl soffits.",
+    "tag": "Exterior Overhaul • Before & After",
+    "lead": "Full exterior siding replacement: tear-off down to silver foil-faced foam insulation, finished in slate blue lap siding with crisp white corner posts and scalloped white gable accents.",
     "slides": [
       {
+        "src": "images/projects/IMG_4349.webp",
+        "title": "Before / Tear-Off: Foil Insulation Substrate",
+        "caption": "Complete exterior siding stripped down to silver foil-faced foam insulation board at 610 residence prior to siding install."
+      },
+      {
         "src": "images/projects/IMG_4801.webp",
-        "title": "Slate Blue Siding & Wide Corner Posts",
-        "caption": "Completed multi-story exterior showing crisp white corner posts and uniform lap siding lines."
+        "title": "Finished Slate Blue Lap Siding",
+        "caption": "Completed exterior showing dark slate blue lap siding, wide white corner posts, and white window casing trim."
       },
       {
         "src": "images/projects/IMG_4802.webp",
-        "title": "Upper Gable Details & Soffit Ventilation",
-        "caption": "Architectural gable vent framing and continuous hidden-vent soffits ensuring balanced attic airflow."
+        "title": "Architectural Gable & Soffit Ventilation",
+        "caption": "Upper gable detail showing white scalloped decorative shake siding, continuous vented soffits, and aluminum fascia wraps."
       },
       {
         "src": "images/projects/IMG_4805.webp",
-        "title": "Foil-Faced Thermal Barrier & Head Flashing",
-        "caption": "Foil-faced insulation board beneath siding creating a continuous thermal break across exterior wall framing."
+        "title": "Thermal Barrier & Head Flashing Detail",
+        "caption": "Foil-faced exterior insulation integration with precision window head flashing directing water away from openings."
+      }
+    ]
+  },
+  "navy_residence": {
+    "id": "navy_residence",
+    "title": "Navy Multi-Gable Exterior & Stone Water Table",
+    "category": "remodel",
+    "categoryLabel": "Exterior Craftsmanship",
+    "trade": "siding",
+    "tag": "Custom Exterior • 2 Elevations",
+    "lead": "Custom multi-gable residence featuring navy blue horizontal lap siding, vertical board-and-batten, manufactured stone veneer water table, and double garage.",
+    "slides": [
+      {
+        "src": "images/projects/IMG_3142.webp",
+        "title": "Full Elevation & Stone Water Table",
+        "caption": "Completed multi-gable exterior with navy blue siding, vertical board-and-batten accents, and stone veneer wainscoting."
+      },
+      {
+        "src": "images/projects/IMG_3143.webp",
+        "title": "Architectural Gables & Garage Elevation",
+        "caption": "Winter view showing garage wing, shake gable accents, white casing trim, and dark brown panel garage doors."
+      }
+    ]
+  },
+  "kitchen": {
+    "id": "kitchen",
+    "title": "Modern White Shaker Kitchen Renovation",
+    "category": "interior",
+    "categoryLabel": "Kitchen Remodel",
+    "trade": "kitchen",
+    "tag": "Interior Finishing • 2 Stages",
+    "lead": "Complete kitchen upgrade: white shaker cabinetry, faux marble countertops, undermount stainless steel sink, gooseneck faucet, and dark luxury vinyl plank flooring.",
+    "slides": [
+      {
+        "src": "images/projects/IMG_3341.webp",
+        "title": "White Shaker Cabinets & Undermount Sink",
+        "caption": "Custom white shaker cabinet layout with laminate marble countertops, undermount stainless sink, and dark LVP flooring."
+      },
+      {
+        "src": "images/projects/IMG_3346.webp",
+        "title": "Range Run & Cabinetry Integration",
+        "caption": "Appliance rough-in, subway tile backsplash prep, and upper shaker cabinet installation."
       }
     ]
   },
   "decks": {
     "id": "decks",
-    "title": "Custom Composite Deck, Stairs & Covered Porch",
+    "title": "Custom Composite Deck, Stairs & Heavy Timber Substructure",
     "category": "decks",
     "categoryLabel": "Outdoor Living",
     "trade": "decks",
-    "tag": "Outdoor Living • 6 Craftsmanship Steps",
-    "lead": "Below-frost concrete footings, treated framing, custom stair stringers, low-maintenance composite surface, and knotty pine porch ceiling.",
+    "tag": "Outdoor Living • 5-Stage Showcase",
+    "lead": "Below-frost concrete footings, treated timber carrying beams, custom-cut stair stringers, low-maintenance composite surface, and rigid railing.",
     "slides": [
       {
         "src": "images/projects/composite_deck_construction.jpg",
-        "title": "Maintenance-Free Composite Decking",
-        "caption": "Maintenance-free grooved composite deck boards installed with hidden clip fasteners and code-compliant railing."
+        "title": "Composite Decking & Hidden Fasteners",
+        "caption": "Maintenance-free grooved composite deck boards installed with hidden clip fasteners and clean border picture framing."
       },
       {
         "src": "images/projects/deck_corner_railing.webp",
-        "title": "Precision Corner Posts & Baluster Assembly",
-        "caption": "Rigid aluminum and composite baluster system anchored with heavy lag bolts to exterior rim joists."
+        "title": "Structural Corner Posts & Railing Integration",
+        "caption": "Rigid aluminum and composite railing posts through-bolted to exterior rim joists for code-compliant strength."
       },
       {
         "src": "images/projects/deck_stair_install.webp",
-        "title": "Heavy Timber Treated Stair Stringers",
-        "caption": "Custom-cut treated 2x12 stair stringers anchored to concrete landing pad with code-compliant rise and run."
+        "title": "Treated 2x12 Stair Stringer Framing",
+        "caption": "Custom-cut pressure-treated 2x12 stair stringers with uniform 7-inch rise and 11-inch run geometry."
       },
       {
         "src": "images/projects/deck_finished_stairs.webp",
-        "title": "Enclosed Composite Stairs & Safe Handrail",
-        "caption": "Wrapped stair risers and graspable code handrail providing safe, maintenance-free yard access."
+        "title": "Finished Composite Treads & Wrapped Risers",
+        "caption": "Enclosed composite stair treads with clean mitered fascia returns and integrated safety grip rails."
       },
       {
         "src": "images/projects/deck_wide_elevation.webp",
-        "title": "Full Deck Elevation & Timber Support Posts",
-        "caption": "Laser-leveled heavy timber support posts with galvanized hardware connectors to structural carry beams."
-      },
-      {
-        "src": "images/projects/pine_ceiling_installation.jpg",
-        "title": "Tongue-and-Groove Pine Porch Ceiling",
-        "caption": "Natural knotty pine tongue-and-groove ceiling with clear spar urethane finish installed beneath covered deck."
+        "title": "Full Elevation & Structural Perimeter",
+        "caption": "Continuous beam bearing, galvanized joist hangers, and seamless yard access transitions."
       }
     ]
   },
   "windows": {
     "id": "windows",
-    "title": "Energy-Efficient Windows & Insulated Entry Doors",
+    "title": "Alliance Windows, Custom Brake Metal & Siding Staging",
     "category": "windows",
-    "categoryLabel": "Windows & Doors",
+    "categoryLabel": "Windows & Siding Staging",
     "trade": "windows",
-    "tag": "Envelope Upgrades • 2-Stage Detail",
-    "lead": "Energy-efficient Low-E Argon vinyl replacement windows with expanding foam air-seals and custom exterior brake metal casing wraps.",
+    "tag": "Envelope Upgrades • 3 Key Features",
+    "lead": "Alliance vinyl replacement windows, on-site 10-foot brake metal casing wraps, and ladder staging for upper elevation siding installation.",
     "slides": [
       {
-        "src": "images/projects/window_installation_foam.jpg",
-        "title": "Low-Pressure Polyurethane Foam Air Seal",
-        "caption": "Expanding closed-cell low-pressure polyurethane foam creating an airtight draft barrier without bowing the window jambs."
+        "src": "images/projects/IMG_3074.webp",
+        "title": "Alliance Window Install & Upper Siding Staging",
+        "caption": "Alliance replacement window installation and upper gable siding from 32-ft extension ladder with Delta Cruzer miter saw on site."
+      },
+      {
+        "src": "images/projects/custom_brake_metal_5881.webp",
+        "title": "On-Site 10-ft Brake Metal Casing Wraps",
+        "caption": "Precision aluminum sheet metal bending on 10-foot brake, encasing exterior window frames with clean hemmed returns."
       },
       {
         "src": "images/projects/window_replacement.webp",
-        "title": "Custom Aluminum Trim Coil Brickmould Wrap",
-        "caption": "Exterior wood brickmould fully wrapped with heavy aluminum trim coil and sealed with commercial neutral-cure silicone."
+        "title": "Custom Brake Metal Wrap & Perimeter Seal",
+        "caption": "Clean hemmed aluminum casing wrap around replacement window with industrial polyurethane weather seal."
       }
     ]
   }
@@ -2631,10 +2677,53 @@ function toggleRawGrid() {
 // Initialize feed on load and tab switch
 document.addEventListener('DOMContentLoaded', () => {
   renderProjectsFeed();
+  initHeroCarousel();
 });
 // Also run immediately in case DOM is already parsed
 if (document.readyState === 'interactive' || document.readyState === 'complete') {
   renderProjectsFeed();
+  initHeroCarousel();
+}
+
+// Craftsmanship Changing Carousel Controller
+let currentCarouselIndex = 0;
+let carouselInterval = null;
+
+function initHeroCarousel() {
+  const slides = document.querySelectorAll('.carousel-slide');
+  if (!slides.length) return;
+  setCarouselSlide(0);
+  resetCarouselTimer();
+}
+
+function setCarouselSlide(index) {
+  const slides = document.querySelectorAll('.carousel-slide');
+  const dots = document.querySelectorAll('.carousel-dot');
+  if (!slides.length) return;
+  currentCarouselIndex = (index + slides.length) % slides.length;
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === currentCarouselIndex);
+  });
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentCarouselIndex);
+  });
+}
+
+function nextCarouselSlide() {
+  setCarouselSlide(currentCarouselIndex + 1);
+  resetCarouselTimer();
+}
+
+function prevCarouselSlide() {
+  setCarouselSlide(currentCarouselIndex - 1);
+  resetCarouselTimer();
+}
+
+function resetCarouselTimer() {
+  clearInterval(carouselInterval);
+  carouselInterval = setInterval(() => {
+    setCarouselSlide(currentCarouselIndex + 1);
+  }, 4200);
 }
 </script>
 

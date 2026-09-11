@@ -2,23 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Instant Project Intake | Dondlinger General Contracting</title>
-    <meta name="description" content="Instant quote and project intake for Dondlinger General Contracting. Record your vision hands-free or submit your construction specs directly to our mobile dispatch.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
+    <title>Project Intake Wizard | Dondlinger General Contracting</title>
+    <meta name="description" content="Step-by-step project intake wizard for Dondlinger General Contracting in Wisconsin Rapids. Select your project type, speak or type your scope, attach photos, and get direct pricing from John Dondlinger.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #080808;
-            --panel-bg: rgba(20, 20, 20, 0.7);
+            --panel-bg: rgba(18, 20, 26, 0.92);
             --border-color: rgba(255, 255, 255, 0.1);
+            --border-highlight: rgba(0, 255, 136, 0.35);
             --text-color: #ffffff;
-            --text-dim: #999999;
-            --accent-color: #ff3333;
+            --text-dim: #94a3b8;
+            --text-subtle: #64748b;
+            --accent-orange: #ff5722;
             --accent-green: #00ff88;
-            --btn-hover: #ff4d4d;
-            --font-sans: 'Outfit', sans-serif;
+            --accent-amber: #ffaa00;
+            --accent-cyan: #38bdf8;
+            --font-brand: 'Syne', sans-serif;
+            --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,565 +34,1501 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            background-image: radial-gradient(circle at 50% 20%, rgba(255, 51, 51, 0.08) 0%, transparent 60%);
+            justify-content: flex-start;
+            padding: 1.2rem 1rem 3rem;
+            background-image: radial-gradient(circle at 50% 10%, rgba(0, 255, 136, 0.08) 0%, transparent 60%);
         }
-        .container {
+        .wizard-container {
             width: 100%;
-            max-width: 580px;
-            padding: 2.2rem;
+            max-width: 640px;
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
-            text-align: center;
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 22px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+            padding: 1.8rem;
+            position: relative;
         }
-        .badge {
-            display: inline-block;
+        @media (max-width: 540px) {
+            body { padding: 0.6rem 0.4rem 2rem; }
+            .wizard-container { padding: 1.2rem 1rem; border-radius: 16px; }
+        }
+
+        /* Top Bar & Brand */
+        .wizard-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .back-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.82rem;
             font-family: var(--font-mono);
-            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .back-home-link:hover { color: #fff; }
+        .top-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 0.5px;
             color: var(--accent-green);
             background: rgba(0, 255, 136, 0.1);
             border: 1px solid rgba(0, 255, 136, 0.25);
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin-bottom: 1rem;
-        }
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-        p.subtitle {
-            color: var(--text-dim);
-            margin-bottom: 1.8rem;
-            font-size: 1rem;
-            line-height: 1.5;
-        }
-        
-        .tabs {
-            display: flex;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 4px;
+            padding: 4px 10px;
             border-radius: 12px;
-            margin-bottom: 1.8rem;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 10px;
-            background: transparent;
-            border: none;
-            color: var(--text-dim);
-            font-family: var(--font-sans);
-            font-weight: 600;
-            font-size: 0.95rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .tab-btn.active {
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
+            font-weight: 700;
         }
 
-        /* Voice Pane */
-        .voice-pane {
-            display: block;
+        /* Wizard Progress Bar */
+        .progress-section {
+            margin-bottom: 1.5rem;
         }
-        .record-btn {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 110px;
-            height: 110px;
-            font-size: 1.1rem;
-            font-weight: 800;
+        .step-indicators {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            gap: 4px;
+        }
+        .step-pill {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            text-align: center;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.45;
+            transition: all 0.25s ease;
+        }
+        .step-pill.active { opacity: 1; }
+        .step-pill.completed { opacity: 0.9; }
+        .step-num-bubble {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 25px rgba(255, 51, 51, 0.45);
-            margin: 1.5rem auto;
+            font-size: 0.76rem;
+            font-weight: 800;
             font-family: var(--font-mono);
+            color: var(--text-dim);
+            transition: all 0.2s;
         }
-        .record-btn:hover {
-            transform: scale(1.06);
-            background-color: var(--btn-hover);
+        .step-pill.active .step-num-bubble {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+            color: #000;
+            box-shadow: 0 0 14px rgba(0, 255, 136, 0.5);
         }
-        .record-btn.recording {
-            animation: pulse 1.5s infinite;
-            background-color: #ff0000;
+        .step-pill.completed .step-num-bubble {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
         }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); transform: scale(1); }
-            70% { box-shadow: 0 0 0 25px rgba(255, 0, 0, 0); transform: scale(1.08); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); transform: scale(1); }
-        }
-
-        /* Form Pane */
-        .form-pane {
-            display: none;
-            text-align: left;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        label {
-            display: block;
-            font-size: 0.82rem;
+        .step-label {
+            font-size: 0.72rem;
             font-weight: 600;
             color: var(--text-dim);
-            margin-bottom: 4px;
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
-        input, select, textarea {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border-color);
-            color: #ffffff;
-            padding: 12px 14px;
-            border-radius: 10px;
-            font-family: var(--font-sans);
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--accent-green);
-        }
-        select option {
-            background: #111;
+        .step-pill.active .step-label {
             color: #fff;
+            font-weight: 700;
         }
-        .submit-btn {
+        @media (max-width: 440px) {
+            .step-label { display: none; }
+        }
+        .progress-track {
             width: 100%;
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            padding: 14px;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 0.5rem;
-            font-family: var(--font-sans);
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 6px;
         }
-        .submit-btn:hover {
-            background: var(--accent-green);
-            transform: translateY(-1px);
+        .progress-fill {
+            height: 100%;
+            width: 25%;
+            background: linear-gradient(90deg, var(--accent-green) 0%, #1aff96 100%);
+            transition: width 0.3s ease;
         }
 
-        /* Photo Upload Dropzone & Previews */
-        .photo-dropzone {
-            border: 1px dashed var(--border-color);
-            border-radius: 12px;
-            padding: 14px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.02);
+        /* Wizard Step Wrapper */
+        .wizard-step {
+            display: none;
+            animation: fadeInStep 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .wizard-step.active { display: block; }
+        @keyframes fadeInStep {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-header {
+            margin-bottom: 1.3rem;
+        }
+        .step-tagline {
+            font-size: 0.76rem;
+            font-family: var(--font-mono);
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .step-title {
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.25;
+            letter-spacing: -0.3px;
+        }
+        .step-desc {
+            font-size: 0.92rem;
+            color: var(--text-dim);
+            margin-top: 5px;
+            line-height: 1.45;
+        }
+
+        /* STEP 1: Trade Selection Cards Grid */
+        .trade-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 440px) {
+            .trade-cards-grid { grid-template-columns: 1fr; }
+        }
+        .trade-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px 12px;
             cursor: pointer;
             transition: all 0.2s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            position: relative;
+            text-align: left;
+        }
+        .trade-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        .trade-card.selected {
+            background: rgba(0, 255, 136, 0.09);
+            border-color: var(--accent-green);
+            box-shadow: 0 0 18px rgba(0, 255, 136, 0.22);
+        }
+        .trade-card-icon {
+            font-size: 1.6rem;
+            line-height: 1;
+            flex-shrink: 0;
+            padding-top: 2px;
+        }
+        .trade-card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+        .trade-card-desc {
+            font-size: 0.76rem;
+            color: var(--text-dim);
+            line-height: 1.35;
+        }
+        .trade-card-check {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            color: #000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.68rem;
+            font-weight: 900;
+        }
+        .trade-card.selected .trade-card-check { display: flex; }
+
+        /* STEP 2: Unified Voice & Project Story Studio */
+        .story-studio-card {
+            background: rgba(18, 22, 31, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 1.2rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .story-studio-card.recording {
+            border-color: #ff3333;
+            box-shadow: 0 0 25px rgba(255, 51, 51, 0.35);
+        }
+
+        .studio-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .studio-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .studio-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .studio-char-badge {
+            font-size: 0.72rem;
+            font-family: var(--font-mono);
+            color: var(--text-dim);
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 7px;
+            border-radius: 6px;
+        }
+
+        .studio-mic-btn {
+            background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 7px 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: var(--font-sans);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(255, 87, 34, 0.35);
+            transition: all 0.2s ease;
+        }
+        .studio-mic-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 16px rgba(255, 87, 34, 0.5);
+        }
+        .studio-mic-btn.recording {
+            background: linear-gradient(135deg, #ff1744 0%, #d50000 100%);
+            box-shadow: 0 0 18px rgba(255, 23, 68, 0.7);
+            animation: pulseRec 1.2s infinite;
+        }
+        @keyframes pulseRec {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+            100% { transform: scale(1); }
+        }
+        .live-timer-badge {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 800;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+
+        /* Audio Audition Bar Inside Studio */
+        .audio-player-card {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 255, 136, 0.08);
+            border: 1px solid rgba(0, 255, 136, 0.35);
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+        }
+        .audio-play-btn {
+            background: var(--accent-green);
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .audio-info { flex: 1; min-width: 0; }
+        .audio-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+        }
+        .audio-progress-bar {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+        .audio-progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--accent-green);
+            transition: width 0.1s linear;
+        }
+        .audio-actions { display: flex; align-items: center; gap: 6px; }
+        .rerecord-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-family: var(--font-mono);
+            cursor: pointer;
+        }
+        .clear-audio-btn {
+            background: none;
+            border: none;
+            color: #ff4d4d;
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 2px 5px;
+        }
+
+        /* Live Status Strip */
+        .studio-status-strip {
+            font-size: 0.78rem;
+            font-family: var(--font-mono);
+            color: var(--text-dim);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 10px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-orange);
+            margin-bottom: 10px;
+            min-height: 28px;
+            display: flex;
+            align-items: center;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .studio-textarea-wrap {
+            margin-bottom: 10px;
+        }
+        .studio-textarea-wrap textarea {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 12px;
+            color: #fff;
+            font-size: 16px; /* Prevents iOS auto-zoom */
+            font-family: var(--font-sans);
+            line-height: 1.5;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.2s;
+        }
+        .studio-textarea-wrap textarea:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
+
+        /* Starter Chips */
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .chip {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.76rem;
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+        .chip:hover {
+            background: rgba(0, 255, 136, 0.12);
+            border-color: var(--accent-green);
+            color: #fff;
+        }
+
+        /* Form Inputs - Enforce 16px to prevent iOS auto-zoom */
+        .form-group { margin-bottom: 1rem; }
+        label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 6px;
+        }
+        input[type="text"], input[type="tel"], input[type="email"], textarea, select {
+            width: 100%;
+            padding: 13px 15px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-color);
+            font-family: var(--font-sans);
+            font-size: 16px !important;
+            transition: all 0.2s;
+            outline: none;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 12px rgba(0, 255, 136, 0.25);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* AI Polish Trigger & Preview Card */
+        .polish-action-bar {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+            margin-bottom: 6px;
+        }
+        .polish-trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 255, 136, 0.12);
+            color: var(--accent-green);
+            border: 1px solid rgba(0, 255, 136, 0.35);
+            padding: 7px 13px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-sans);
+        }
+        .polish-trigger-btn:hover {
+            background: rgba(0, 255, 136, 0.22);
+            border-color: var(--accent-green);
+        }
+        .polish-preview-card {
+            display: none;
+            background: rgba(0, 255, 136, 0.04);
+            border: 1px solid rgba(0, 255, 136, 0.28);
+            border-radius: 14px;
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 12px;
+        }
+        .polish-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .polish-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--accent-green);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .polish-body {
+            white-space: pre-wrap;
+            font-size: 0.85rem;
+            line-height: 1.45;
+            color: #eee;
+            max-height: 240px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 10px;
+            font-family: var(--font-sans);
+        }
+        .polish-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .apply-polish-btn {
+            flex: 1;
+            background: var(--accent-green);
+            color: #000;
+            font-weight: 700;
+            font-size: 0.84rem;
+            border: none;
+            padding: 9px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .dismiss-polish-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-dim);
+            font-weight: 600;
+            font-size: 0.84rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 9px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* STEP 3: Photo Upload Dropzone */
+        .photo-dropzone {
+            border: 2px dashed rgba(255, 255, 255, 0.18);
+            border-radius: 14px;
+            padding: 2rem 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.2s ease;
+            margin-bottom: 1rem;
         }
         .photo-dropzone:hover {
             border-color: var(--accent-green);
             background: rgba(0, 255, 136, 0.04);
         }
         .photo-drop-text {
-            font-size: 0.88rem;
-            color: var(--text-dim);
-            font-family: var(--font-mono);
-        }
-        .photo-preview-grid {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #fff;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .photo-drop-icon { font-size: 2.2rem; }
+        .photo-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 8px;
             margin-top: 10px;
         }
         .preview-thumb-box {
             position: relative;
-            width: 70px;
-            height: 70px;
-            border-radius: 8px;
+            aspect-ratio: 1;
+            border-radius: 10px;
             overflow: hidden;
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             background: #000;
         }
-        .preview-thumb-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .preview-thumb-box img { width: 100%; height: 100%; object-fit: cover; }
         .preview-remove-btn {
             position: absolute;
-            top: 2px;
-            right: 2px;
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
+            top: 4px; right: 4px;
+            background: rgba(0, 0, 0, 0.75);
+            color: #ff4d4d;
             border: none;
+            width: 24px; height: 24px;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 11px;
             cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900;
+        }
+
+        /* STEP 4: Summary Pill & Trust */
+        .summary-badge-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.84rem;
+        }
+        .summary-badge-box strong { color: var(--accent-green); }
+
+        .trust-shield {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 1.2rem;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            line-height: 1.4;
+        }
+
+        /* Wizard Navigation Bottom Bar */
+        .wizard-nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 1.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .btn-wizard-back {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-dim);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-sans);
+        }
+        .btn-wizard-back:hover {
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff;
+        }
+        .btn-wizard-next {
+            flex: 1;
+            background: var(--accent-green);
+            color: #000000;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.98rem;
+            cursor: pointer;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.3);
+            font-family: var(--font-sans);
+        }
+        .btn-wizard-next:hover {
+            background: #1aff96;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(0, 255, 136, 0.45);
+        }
+        .btn-wizard-next:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        #status {
-            margin-top: 1.2rem;
+        /* STEP 5: Sticky Post-Submission Confirmation Card */
+        .confirmation-card {
+            display: none;
+            text-align: center;
+            padding: 2rem 1rem;
+            background: rgba(0, 255, 136, 0.06);
+            border: 2px solid var(--accent-green);
+            border-radius: 20px;
+            margin: 1rem 0;
+            animation: fadeInStep 0.3s ease-out;
+        }
+        .confirmation-card .check-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+        }
+        .confirmation-card h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        .confirmation-card p.lead-msg {
             font-size: 0.95rem;
             color: var(--text-dim);
-            font-family: var(--font-mono);
-            min-height: 24px;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
         }
-        .footer-note {
-            margin-top: 1.5rem;
-            font-size: 0.8rem;
-            color: #666;
+        .receipt-table {
+            width: 100%;
+            max-width: 440px;
+            margin: 0 auto 1.5rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+            padding: 12px 16px;
             font-family: var(--font-mono);
+            font-size: 0.86rem;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .receipt-row:last-child { border-bottom: none; }
+        .receipt-label { color: var(--text-dim); }
+        .receipt-val { color: #fff; font-weight: 700; }
+        .call-john-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            font-weight: 800;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .call-john-btn:hover { background: var(--accent-green); }
+
+        /* Draft Auto-Restore Notice */
+        .draft-banner {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 10px;
+            font-size: 0.78rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1.2rem;
+            font-family: var(--font-mono);
+        }
+        .draft-clear-btn {
+            background: none; border: none; color: #fff; cursor: pointer; text-decoration: underline; font-size: 0.78rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <span class="badge">Direct Telegram Dispatch</span>
-        <h1>Voice & Spec Intake</h1>
-        <p class="subtitle">Tell us your whole story — speak freely! The longer and more detailed your description, the better we can price and plan your build. Submissions immediately alert mobile field review in Wisconsin Rapids.</p>
-        
-        <div class="tabs">
-            <button id="tabVoice" class="tab-btn active" onclick="switchTab('voice')">🎙️ Voice Record</button>
-            <button id="tabForm" class="tab-btn" onclick="switchTab('form')">✍️ Quick Form</button>
+    <div class="wizard-container">
+        <!-- Top Bar -->
+        <div class="wizard-top-bar">
+            <a href="/" class="back-home-link">
+                <span>←</span>
+                <span>DondlingerGC.com</span>
+            </a>
+            <span class="top-badge">⚡ Zero-Obligation Preliminary Review</span>
         </div>
 
-        <!-- Voice Section -->
-        <div id="voiceSection" class="voice-pane">
-            <button id="recordBtn" class="record-btn">RECORD</button>
-            <div id="status">Ready when you are. Tap to speak.</div>
+        <!-- Progress Tracker -->
+        <div class="progress-section" id="progressSection">
+            <div class="step-indicators">
+                <div class="step-pill active" id="stepPill-1" onclick="jumpToStep(1)">
+                    <div class="step-num-bubble">1</div>
+                    <span class="step-label">Project Type</span>
+                </div>
+                <div class="step-pill" id="stepPill-2" onclick="jumpToStep(2)">
+                    <div class="step-num-bubble">2</div>
+                    <span class="step-label">Your Story</span>
+                </div>
+                <div class="step-pill" id="stepPill-3" onclick="jumpToStep(3)">
+                    <div class="step-num-bubble">3</div>
+                    <span class="step-label">Photos</span>
+                </div>
+                <div class="step-pill" id="stepPill-4" onclick="jumpToStep(4)">
+                    <div class="step-num-bubble">4</div>
+                    <span class="step-label">Contact</span>
+                </div>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
         </div>
 
-        <!-- Quick Form Section -->
-        <form id="intakeForm" class="form-pane" onsubmit="submitForm(event)">
-            <div class="form-group">
-                <label for="name">Your Name</label>
-                <input type="text" id="name" name="name" placeholder="Name or Business" required>
-            </div>
-            <div class="form-group">
-                <label for="contact">Phone or Email</label>
-                <input type="text" id="contact" name="contact" placeholder="(715) 555-0199 or name@domain.com" required>
-            </div>
-            <div class="form-group">
-                <label for="service">Trade / Project Type</label>
-                <select id="service" name="service">
-                    <option value="Replacement Windows">Replacement Windows</option>
-                    <option value="Interior & Exterior Doors">Interior & Exterior Doors</option>
-                    <option value="Exterior Siding, Soffit & Fascia">Exterior Siding, Soffit & Fascia</option>
-                    <option value="Architectural Roofing Shingles">Architectural Roofing Shingles</option>
-                    <option value="Custom Shop & Kitchen Cabinetry">Custom Shop & Kitchen Cabinetry</option>
-                    <option value="Basement & Drop Ceilings">Basement & Drop Ceilings</option>
-                    <option value="Concrete / PourReady Work">Concrete / PourReady Volume</option>
-                    <option value="Other Construction / Carpentry">Other Construction / Carpentry</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="address">Jobsite Address / City</label>
-                <input type="text" id="address" name="address" placeholder="Wisconsin Rapids, Biron, Port Edwards, etc.">
-            </div>
-            <div class="form-group">
-                <label for="notes" style="display:flex;justify-content:space-between;align-items:center;">
-                    <span>Project Scope & Story</span>
-                    <span style="font-size:11px;color:var(--accent-green);font-weight:normal;">(Long & detailed descriptions welcome!)</span>
-                </label>
-                <textarea id="notes" name="notes" rows="4" placeholder="Tell us the whole story: what space you're working with, steep stairs, boots on the bottom, specific materials, or what's bugging you... Tap [ 🎙️ Tap to Speak Freely ] below or type here!"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Job Photos & Voice Intake (Optional)</label>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-                    <div class="photo-dropzone" onclick="document.getElementById('intakePhotosInput').click()" style="margin:0;min-height:90px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
-                        <input type="file" id="intakePhotosInput" accept="image/*" multiple style="display:none" onchange="handleIntakePhotos(event)">
-                        <div class="photo-drop-text" style="font-size:13px;">📷 Snap / Photos</div>
+        <!-- Draft Auto-Restore Notice -->
+        <div id="draftBanner" class="draft-banner">
+            <span>📄 Restored your unfinished project notes</span>
+            <button type="button" class="draft-clear-btn" onclick="clearSavedDraft()">Clear</button>
+        </div>
+
+        <!-- Form Wrapper -->
+        <form id="intakeForm" onsubmit="submitIntakeForm(event)">
+
+            <!-- STEP 1: Trade / Space Selection -->
+            <div class="wizard-step active" id="wizardStep-1">
+                <div class="step-header">
+                    <div class="step-tagline">Step 1 of 4 • Project Category</div>
+                    <h1 class="step-title">What are we building or fixing?</h1>
+                    <p class="step-desc">Tap the category that best matches your project. John will tailor the questions and materials to your trade.</p>
+                </div>
+
+                <div class="trade-cards-grid">
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Replacement Windows')">
+                        <span class="trade-card-icon">🪟</span>
+                        <div>
+                            <div class="trade-card-title">Replacement Windows</div>
+                            <div class="trade-card-desc">Vinyl, double-hung, sliders, bay windows, draft seals</div>
+                        </div>
+                        <span class="trade-card-check">✓</span>
                     </div>
-                    <button type="button" id="intakeVoiceBtn" onclick="toggleIntakeVoice()" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px 10px;border:2px solid rgba(0,255,136,0.35);border-radius:12px;background:rgba(0,255,136,0.06);cursor:pointer;text-align:center;min-height:90px;transition:all 0.2s;color:#fff;width:100%;">
-                        <span id="intakeVoiceIcon" style="font-size:22px;">🎙️</span>
-                        <span id="intakeVoiceLabel" style="font-size:13px;font-weight:800;color:var(--accent-green, #00ff88);">[ 🎙️ Tap to Speak Freely ]</span>
-                        <span id="intakeVoiceSub" style="font-size:10px;color:var(--text-dim, #999);font-family:var(--font-mono, monospace);">Speak freely — full stories welcome</span>
-                    </button>
+
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Interior & Exterior Doors')">
+                        <span class="trade-card-icon">🚪</span>
+                        <div>
+                            <div class="trade-card-title">Doors & Jambs</div>
+                            <div class="trade-card-desc">Entry, patio sliders, storm doors, sticking doors, rot repair</div>
+                        </div>
+                        <span class="trade-card-check">✓</span>
+                    </div>
+
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Exterior Siding, Soffit & Fascia')">
+                        <span class="trade-card-icon">🏡</span>
+                        <div>
+                            <div class="trade-card-title">Siding & Trim Wrap</div>
+                            <div class="trade-card-desc">LP SmartSide, vinyl siding, soffit, fascia & custom aluminum trim</div>
+                        </div>
+                        <span class="trade-card-check">✓</span>
+                    </div>
+
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Architectural Roofing Shingles')">
+                        <span class="trade-card-icon">🏠</span>
+                        <div>
+                            <div class="trade-card-title">Architectural Roofing</div>
+                            <div class="trade-card-desc">Tear-offs, dimensional shingles, leak remediation, valleys</div>
+                        </div>
+                        <span class="trade-card-check">✓</span>
+                    </div>
+
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Custom Shop & Kitchen Cabinetry')">
+                        <span class="trade-card-icon">🍳</span>
+                        <div>
+                            <div class="trade-card-title">Kitchen & Cabinetry</div>
+                            <div class="trade-card-desc">Custom shop cabinetry, pantry builds, countertop installs</div>
+                        </div>
+                        <span class="trade-card-check">✓</span>
+                    </div>
+
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Basement & Drop Ceilings')">
+                        <span class="trade-card-icon">🔨</span>
+                        <div>
+                            <div class="trade-card-title">Basement & Drop Ceilings</div>
+                            <div class="trade-card-desc">Acoustical grid systems, 2x2 tiles, basement finish carpentry</div>
+                        </div>
+                        <span class="trade-card-check">✓</span>
+                    </div>
+
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Concrete / PourReady Work')">
+                        <span class="trade-card-icon">🧱</span>
+                        <div>
+                            <div class="trade-card-title">Concrete / PourReady</div>
+                            <div class="trade-card-desc">Patios, walkways, garage aprons, slab replacement</div>
+                        </div>
+                        <span class="trade-card-check">✓</span>
+                    </div>
+
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Other Construction / Carpentry')">
+                        <span class="trade-card-icon">🛠️</span>
+                        <div>
+                            <div class="trade-card-title">Other Carpentry & Repairs</div>
+                            <div class="trade-card-desc">Custom framing, decks, wall removal, general home repairs</div>
+                        </div>
+                        <span class="trade-card-check">✓</span>
+                    </div>
                 </div>
 
-                <!-- Live Voice Status Feedback -->
-                <div id="intakeVoiceStatus" style="display:none;align-items:center;justify-content:center;gap:8px;padding:8px 12px;border-radius:8px;font-family:var(--font-mono, monospace);font-size:12px;margin-bottom:10px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);color:var(--accent-green, #00ff88);">
-                    <span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;"></span>
-                    <span id="intakeVoiceStatusText">Listening...</span>
-                </div>
-
-                <div id="intake-voice-preview" style="display:none;align-items:center;gap:8px;margin-bottom:10px;padding:8px 12px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);border-radius:8px;font-family:var(--font-mono, monospace);font-size:12px;color:var(--accent-green, #00ff88);"></div>
-                <div class="photo-preview-grid" id="intakePhotoPreviews"></div>
+                <input type="hidden" id="service" name="service" value="">
             </div>
-            <button type="submit" id="submitFormBtn" class="submit-btn">SEND TO TELEGRAM DISPATCH ⚡</button>
+
+            <!-- STEP 2: Unified Voice & Project Story Studio -->
+            <div class="wizard-step" id="wizardStep-2">
+                <div class="step-header">
+                    <div class="step-tagline">Step 2 of 4 • Project Story</div>
+                    <h2 class="step-title">Tell John What's Going On</h2>
+                    <p class="step-desc">Speak naturally or type your notes. The voice memo and live Whisper AI transcription integrate directly into your project story below.</p>
+                </div>
+
+                <!-- Combined Voice Memo, Audio Player, & Story Studio Card -->
+                <div class="story-studio-card" id="voiceCard">
+                    <!-- Top Action Bar: Header + Voice Recording Control -->
+                    <div class="studio-header">
+                        <div class="studio-title-wrap">
+                            <span class="studio-title">🎙️ Scope Notes & Voice Story</span>
+                            <span id="wordCountLabel" class="studio-char-badge">0 chars</span>
+                        </div>
+                        <button type="button" class="studio-mic-btn" id="micBtn" onclick="toggleVoiceRecording()" title="Tap to record voice">
+                            <span id="micBtnIcon">🎙️</span>
+                            <span id="micBtnText">Tap to Speak</span>
+                            <span class="live-timer-badge" id="liveTimer" style="display:none;">00:00</span>
+                        </button>
+                    </div>
+
+                    <!-- Inline Audio Player (Appears when voice memo recorded) -->
+                    <div class="audio-player-card" id="audioPlayerCard">
+                        <button type="button" class="audio-play-btn" id="audioPlayBtn" onclick="toggleAudioPlayback()">▶</button>
+                        <div class="audio-info">
+                            <div class="audio-label">
+                                <span>🎙️ Attached Voice Memo</span>
+                                <span id="audioDurationText" style="font-family:var(--font-mono);color:var(--accent-green);font-size:0.78rem;">0:00</span>
+                            </div>
+                            <div class="audio-progress-bar">
+                                <div class="audio-progress-fill" id="audioProgressFill"></div>
+                            </div>
+                        </div>
+                        <div class="audio-actions">
+                            <button type="button" class="rerecord-btn" onclick="reRecordVoice()">🔄 Re-record</button>
+                            <button type="button" class="clear-audio-btn" onclick="clearRecordedAudio()" title="Remove audio">✕</button>
+                        </div>
+                    </div>
+
+                    <!-- Live Transcription & Mic Status Ribbon -->
+                    <div class="studio-status-strip" id="micStatusNote">
+                        Ready to listen. Tap mic to speak freely, or type your notes below.
+                    </div>
+
+                    <!-- The Unified Story Textarea (Whisper AI transcribes directly here) -->
+                    <div class="studio-textarea-wrap">
+                        <textarea id="notes" name="notes" rows="5" placeholder="Speak into the mic above, tap an idea chip below, or type your project story here..." oninput="handleNotesInput()"></textarea>
+                    </div>
+
+                    <!-- Quick Starter Idea Chips -->
+                    <div class="chips-container" id="promptChipsContainer">
+                        <span class="chip" onclick="applyPromptChip('Looking to replace 4 drafty windows on the south side of our house before winter.')">🪟 4 Drafty Windows</span>
+                        <span class="chip" onclick="applyPromptChip('Front entry door sticks in humid weather and bottom brickmould casing has soft rot.')">🚪 Sticking Entry Door</span>
+                        <span class="chip" onclick="applyPromptChip('Need aluminum trim wrap on our garage jambs and LP SmartSide repair.')">🏡 Siding & Wrap</span>
+                        <span class="chip" onclick="applyPromptChip('Roughly 18x24 basement space. Looking for an acoustical drop ceiling grid.')">🔨 Basement Ceiling</span>
+                    </div>
+
+                    <!-- AI Polish Action Bar -->
+                    <div class="polish-action-bar" id="polishActionBar">
+                        <button type="button" class="polish-trigger-btn" id="polishTriggerBtn" onclick="polishProjectScope()">
+                            <span id="polishBtnIcon">✨</span>
+                            <span id="polishBtnText">Organize & Clarify Scope with AI</span>
+                        </button>
+                        <div id="polishStatus" style="font-size:0.76rem;font-family:var(--font-mono);color:var(--text-dim);display:none;"></div>
+                    </div>
+
+                    <!-- AI Polish Preview Card -->
+                    <div id="polishCard" class="polish-preview-card">
+                        <div class="polish-header">
+                            <span class="polish-title">
+                                <span>✨</span> AI-Structured Scope Draft
+                            </span>
+                            <span style="font-size:0.72rem;color:var(--text-dim);font-family:var(--font-mono);">Zero-Pricing Jobsite Checklist</span>
+                        </div>
+                        <div id="polishedContent" class="polish-body"></div>
+                        <div class="polish-actions">
+                            <button type="button" class="apply-polish-btn" onclick="applyPolishedScope()">
+                                <span>✓</span> Use This Clean Scope
+                            </button>
+                            <button type="button" class="dismiss-polish-btn" onclick="dismissPolishedScope()">
+                                ✕ Keep Original Notes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: Job Photos -->
+            <div class="wizard-step" id="wizardStep-3">
+                <div class="step-header">
+                    <div class="step-tagline">Step 3 of 4 • Visual Context</div>
+                    <h2 class="step-title">Attach Photos of Your Space</h2>
+                    <p class="step-desc">Photos help John measure, detect rot, and price your project sight-unseen. <em>Completely optional — you can skip if you don't have photos ready!</em></p>
+                </div>
+
+                <div class="photo-dropzone" onclick="document.getElementById('intakePhotosInput').click()">
+                    <input type="file" id="intakePhotosInput" accept="image/*" multiple style="display:none" onchange="handleIntakePhotos(event)">
+                    <div class="photo-drop-text">
+                        <span class="photo-drop-icon">📷</span>
+                        <span>Tap to Snap Photos or Upload from Gallery</span>
+                        <span style="font-size:0.8rem;color:var(--text-dim);font-weight:400;">Attach multiple photos of the area, doors, windows, or damage</span>
+                    </div>
+                </div>
+
+                <div class="photo-preview-grid" id="intakePhotoPreviews"></div>
+
+                <div class="trust-shield" style="margin-top:1.2rem;">
+                    <span style="font-size:1.2rem;">🔒</span>
+                    <div>
+                        <strong style="color:#fff;">100% Private Jobsite Vault:</strong> Photos stream directly to John Dondlinger's phone for estimation. We never share, sell, or publish photos of your home.
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: Contact & Final Dispatch -->
+            <div class="wizard-step" id="wizardStep-4">
+                <div class="step-header">
+                    <div class="step-tagline">Step 4 of 4 • Where to Reach You</div>
+                    <h2 class="step-title">Where Should John Reply?</h2>
+                    <p class="step-desc">Provide your contact info so John can text or email your estimate review.</p>
+                </div>
+
+                <!-- Quick Summary Badge -->
+                <div class="summary-badge-box">
+                    <span>Project: <strong id="summaryTradeText">Not Selected</strong></span>
+                    <span id="summaryMemoText" style="color:var(--accent-green);font-family:var(--font-mono);font-size:0.78rem;">Voice: None</span>
+                    <span id="summaryPhotosText" style="color:var(--accent-cyan);font-family:var(--font-mono);font-size:0.78rem;">Photos: 0</span>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" placeholder="First & Last Name" required oninput="saveDraft()">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">Phone or Email *</label>
+                        <input type="text" id="contact" name="contact" placeholder="(715) 555-0199 or email" required oninput="saveDraft()">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Jobsite City or Address (Optional)</label>
+                    <input type="text" id="address" name="address" placeholder="Wisconsin Rapids, Biron, Port Edwards, Nekoosa, Plover..." oninput="saveDraft()">
+                </div>
+
+                <div class="trust-shield">
+                    <span style="font-size:1.2rem;">⚡</span>
+                    <div>
+                        <strong style="color:#fff;">Direct to John's Truck:</strong> Submitting sends your project specs for non-binding contractor review. Zero obligation. John follows up as soon as he is off the tools or back at the truck.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sticky Wizard Bottom Navigation Bar -->
+            <div class="wizard-nav-bar" id="wizardNavBar">
+                <button type="button" class="btn-wizard-back" id="btnWizardBack" onclick="navigateStep(-1)" style="display:none;">
+                    ← Back
+                </button>
+                <button type="button" class="btn-wizard-next" id="btnWizardNext" onclick="handleNextClick()">
+                    <span>Continue to Project Story</span>
+                    <span>→</span>
+                </button>
+            </div>
         </form>
 
-        <div class="footer-note">
-            Dondlinger General Contracting • Central Wisconsin • Zero-Liability Privacy
+        <!-- STEP 5: Sticky Post-Submission Confirmation Card -->
+        <div id="confirmationCard" class="confirmation-card">
+            <span class="check-icon">✅</span>
+            <h2>Specs Received by John!</h2>
+            <p class="lead-msg">Your project specs, photos, and voice memo have been dispatched directly to John Dondlinger's mobile review in Wisconsin Rapids.</p>
+
+            <div class="receipt-table">
+                <div class="receipt-row">
+                    <span class="receipt-label">Dispatch Ref #:</span>
+                    <span class="receipt-val" id="receiptRef">DGC-XXXX</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Client Name:</span>
+                    <span class="receipt-val" id="receiptName">—</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Primary Trade:</span>
+                    <span class="receipt-val" id="receiptTrade">—</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Voice Memo:</span>
+                    <span class="receipt-val" id="receiptAudio">Attached</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Photos Included:</span>
+                    <span class="receipt-val" id="receiptPhotos">0 Attached</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Review Status:</span>
+                    <span class="receipt-val" style="color:var(--accent-green);">Preliminary (Non-Binding)</span>
+                </div>
+            </div>
+
+            <a href="tel:7154593050" class="call-john-btn">
+                <span>📞</span>
+                <span>Call John Directly: (715) 459-3050</span>
+            </a>
+
+            <div style="margin-top:1.4rem;">
+                <a href="/" style="color:var(--text-dim);font-size:0.85rem;text-decoration:none;">← Return to DondlingerGC.com</a>
+            </div>
         </div>
     </div>
 
     <script>
-        function switchTab(tab) {
-            const tabVoice = document.getElementById('tabVoice');
-            const tabForm = document.getElementById('tabForm');
-            const voiceSection = document.getElementById('voiceSection');
-            const intakeForm = document.getElementById('intakeForm');
-            const statusEl = document.getElementById('status');
+        // --- Wizard Step Controller ---
+        let currentStep = 1;
+        const totalSteps = 4;
+        let selectedTrade = '';
 
-            if (tab === 'voice') {
-                tabVoice.classList.add('active');
-                tabForm.classList.remove('active');
-                voiceSection.style.display = 'block';
-                intakeForm.style.display = 'none';
-            } else {
-                tabForm.classList.add('active');
-                tabVoice.classList.remove('active');
-                voiceSection.style.display = 'none';
-                intakeForm.style.display = 'block';
+        function selectTradeCard(el, tradeName) {
+            document.querySelectorAll('.trade-card').forEach(card => card.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedTrade = tradeName;
+            document.getElementById('service').value = tradeName;
+            updateStepNavButtons();
+            saveDraft();
+
+            // Smoothly advance to Step 2 after brief tactile delay
+            setTimeout(() => {
+                if (currentStep === 1) {
+                    goToStep(2);
+                }
+            }, 260);
+        }
+
+        function goToStep(step) {
+            if (step < 1 || step > totalSteps) return;
+
+            // Validate before leaving step 1
+            if (step > 1 && !selectedTrade) {
+                alert('Please select a project category first!');
+                return;
+            }
+
+            currentStep = step;
+
+            // Update Wizard Steps Visibility
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepEl = document.getElementById(`wizardStep-${i}`);
+                if (stepEl) {
+                    stepEl.classList.toggle('active', i === currentStep);
+                }
+                const pillEl = document.getElementById(`stepPill-${i}`);
+                if (pillEl) {
+                    pillEl.classList.toggle('active', i === currentStep);
+                    pillEl.classList.toggle('completed', i < currentStep);
+                }
+            }
+
+            // Update Progress Bar
+            const progressPercent = (currentStep / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercent}%`;
+
+            // Update Nav Buttons
+            updateStepNavButtons();
+
+            // Update Summary Badges if on step 4
+            if (currentStep === 4) {
+                updateSummaryBadge();
+            }
+
+            // Scroll container smoothly to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            saveDraft();
+        }
+
+        function jumpToStep(step) {
+            if (step > currentStep) {
+                if (currentStep === 1 && !selectedTrade) return;
+            }
+            goToStep(step);
+        }
+
+        function navigateStep(direction) {
+            goToStep(currentStep + direction);
+        }
+
+        async function handleNextClick() {
+            if (currentStep === 1) {
+                if (!selectedTrade) {
+                    alert('Please select a project category to continue.');
+                    return;
+                }
+                goToStep(2);
+                return;
+            }
+
+            if (currentStep === 2) {
+                const notesEl = document.getElementById('notes');
+                const rawNotes = notesEl.value.trim();
+                if (rawNotes.length < 15) {
+                    notesEl.focus();
+                    notesEl.style.borderColor = '#ff4d4d';
+                    alert('Please describe your project or tap the mic to speak before continuing.');
+                    return;
+                }
+
+                // AI Polish is AUTOMATIC and REQUIRED
+                if (!activePolishedScope) {
+                    const nextBtn = document.getElementById('btnWizardNext');
+                    nextBtn.disabled = true;
+                    nextBtn.innerHTML = `<span>⏳ Auto-Structuring Scope with AI...</span>`;
+                    const success = await polishProjectScope();
+                    nextBtn.disabled = false;
+                    if (success) {
+                        goToStep(3);
+                    }
+                    return;
+                }
+
+                goToStep(3);
+                return;
+            }
+
+            if (currentStep < totalSteps) {
+                goToStep(currentStep + 1);
+            } else if (currentStep === totalSteps) {
+                document.getElementById('intakeForm').requestSubmit();
             }
         }
 
-        // Voice Recorder Logic (Tab Voice Section)
-        const recordBtn = document.getElementById('recordBtn');
-        const statusEl = document.getElementById('status');
-        let mediaRecorder;
+        function updateStepNavButtons() {
+            const backBtn = document.getElementById('btnWizardBack');
+            const nextBtn = document.getElementById('btnWizardNext');
+
+            backBtn.style.display = currentStep > 1 ? 'inline-block' : 'none';
+
+            if (currentStep === 1) {
+                nextBtn.innerHTML = `<span>Continue to Project Story</span> <span>→</span>`;
+                nextBtn.disabled = !selectedTrade;
+                nextBtn.style.background = 'var(--accent-green)';
+            } else if (currentStep === 2) {
+                nextBtn.innerHTML = `<span>Continue to Photos</span> <span>→</span>`;
+                nextBtn.disabled = false;
+                nextBtn.style.background = 'var(--accent-green)';
+            } else if (currentStep === 3) {
+                const photoCount = attachedPhotos.length;
+                nextBtn.innerHTML = photoCount > 0 
+                    ? `<span>Continue to Contact Details (${photoCount} Photo${photoCount > 1 ? 's' : ''})</span> <span>→</span>`
+                    : `<span>Continue to Contact Details (Skip Photos)</span> <span>→</span>`;
+                nextBtn.disabled = false;
+                nextBtn.style.background = 'var(--accent-green)';
+            } else if (currentStep === 4) {
+                nextBtn.innerHTML = `<span>⚡ DISPATCH TO JOHN'S TRUCK</span>`;
+                nextBtn.disabled = false;
+                nextBtn.style.background = 'var(--accent-green)';
+            }
+        }
+
+        function updateSummaryBadge() {
+            document.getElementById('summaryTradeText').textContent = selectedTrade || 'General Carpentry';
+            document.getElementById('summaryMemoText').textContent = recordedVoiceBlob ? 'Voice: 1 Memo' : 'Voice: None';
+            document.getElementById('summaryPhotosText').textContent = `Photos: ${attachedPhotos.length}`;
+        }
+
+        function applyPromptChip(text) {
+            const notesEl = document.getElementById('notes');
+            if (notesEl.value.trim().length === 0) {
+                notesEl.value = text;
+            } else {
+                notesEl.value = notesEl.value.trim() + '\n\n' + text;
+            }
+            handleNotesInput();
+            notesEl.focus();
+        }
+
+        // --- Voice Recording Subsystem (Whisper AI Cloudflare Edge) ---
+        let mediaRecorder = null;
         let audioChunks = [];
         let isRecording = false;
+        let recordTimerInterval = null;
+        let recordingSeconds = 0;
+        let recordedVoiceBlob = null;
+        let recordedAudioPlayer = null;
 
-        recordBtn.addEventListener('click', async () => {
+        async function toggleVoiceRecording() {
             if (!isRecording) {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream, { mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : '' });
-                    
-                    mediaRecorder.ondataavailable = event => {
-                        if (event.data.size > 0) audioChunks.push(event.data);
-                    };
-
-                    mediaRecorder.onstop = async () => {
-                        const audioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
-                        audioChunks = [];
-                        stream.getTracks().forEach(track => track.stop());
-                        await sendVoiceIntake(audioBlob);
-                    };
-
-                    mediaRecorder.start(250);
-                    isRecording = true;
-                    recordBtn.textContent = 'STOP';
-                    recordBtn.classList.add('recording');
-                    statusEl.textContent = 'Listening... (Tap STOP when done)';
-                    statusEl.style.color = '#ff4d4d';
-                } catch (err) {
-                    console.error("Mic access error:", err);
-                    statusEl.textContent = 'Microphone access denied or unavailable.';
-                    statusEl.style.color = '#ff4d4d';
-                }
+                await startRecording();
             } else {
-                mediaRecorder.stop();
-                isRecording = false;
-                recordBtn.textContent = 'TRANSCRIBING...';
-                recordBtn.classList.remove('recording');
-                recordBtn.disabled = true;
-                statusEl.textContent = 'Transcribing with Cloudflare Whisper AI...';
-                statusEl.style.color = 'var(--accent-green)';
+                await stopRecording();
             }
-        });
+        }
 
-        async function sendVoiceIntake(blob) {
+        async function startRecording() {
+            const micBtn = document.getElementById('micBtn');
+            const micIcon = document.getElementById('micBtnIcon');
+            const micTitle = document.getElementById('micTitle');
+            const micDesc = document.getElementById('micDesc');
+            const micNote = document.getElementById('micStatusNote');
+            const liveTimer = document.getElementById('liveTimer');
+            const voiceCard = document.getElementById('voiceCard');
+
+            micNote.textContent = 'Requesting microphone permission...';
+            micNote.style.color = 'var(--accent-amber)';
+
             try {
-                let transcribedText = '';
-                try {
-                    const tfd = new FormData();
-                    tfd.append('audio', blob, 'voice_memo.webm');
-                    const tres = await fetch('/api/transcribe', { method: 'POST', body: tfd });
-                    if (tres.ok) {
-                        const tdata = await tres.json();
-                        if (tdata.success && tdata.text) {
-                            transcribedText = tdata.text.trim();
-                            const notesEl = document.getElementById('notes');
-                            if (notesEl && !notesEl.value) {
-                                notesEl.value = transcribedText;
-                            }
-                        }
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioChunks = [];
+
+                let options = {};
+                if (typeof MediaRecorder.isTypeSupported === 'function') {
+                    if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+                        options = { mimeType: 'audio/webm;codecs=opus' };
+                    } else if (MediaRecorder.isTypeSupported('audio/webm')) {
+                        options = { mimeType: 'audio/webm' };
+                    } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+                        options = { mimeType: 'audio/mp4' };
                     }
-                } catch (te) {
-                    console.warn('Tab transcription error:', te);
                 }
 
-                statusEl.textContent = 'Transmitting audio & scope to field review...';
-                const fd = new FormData();
-                fd.append('name', 'Voice Scope Memo');
-                fd.append('contact', 'Web Microphone');
-                fd.append('service', 'Voice Intake Recording');
-                fd.append('address', 'Central Wisconsin');
-                fd.append('notes', transcribedText ? `Voice Memo: "${transcribedText}"` : 'Voice memo recorded via Intake PWA.');
-                fd.append('voice_audio', blob, 'voice_memo.webm');
+                mediaRecorder = options.mimeType ? new MediaRecorder(stream, options) : new MediaRecorder(stream);
 
-                let sent = false;
-                try {
-                    const res = await fetch('/api/dispatch', {
-                        method: 'POST',
-                        body: fd
-                    });
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data.success) sent = true;
-                    }
-                } catch (pe) {
-                    console.warn('Pages function offline, falling back to direct Telegram route:', pe);
-                }
+                mediaRecorder.ondataavailable = (e) => {
+                    if (e.data && e.data.size > 0) audioChunks.push(e.data);
+                };
 
-                if (!sent) {
-                    throw new Error('Intake dispatch unavailable');
-                }
+                mediaRecorder.onstop = async () => {
+                    stream.getTracks().forEach(t => t.stop());
+                    const mime = mediaRecorder.mimeType || (options.mimeType || 'audio/webm');
+                    recordedVoiceBlob = new Blob(audioChunks, { type: mime });
+                    setupAudioPlayer(recordedVoiceBlob);
+                    await transcribeAudio(recordedVoiceBlob);
+                };
 
-                statusEl.textContent = transcribedText
-                    ? `✅ Dispatched: "${transcribedText.length > 40 ? transcribedText.substring(0, 40) + '...' : transcribedText}"`
-                    : '✅ Audio dispatched to field review!';
-                statusEl.style.color = 'var(--accent-green)';
+                mediaRecorder.start(250);
+                isRecording = true;
+
+                voiceCard.classList.add('recording');
+                micBtn.classList.add('recording');
+                micIcon.textContent = '⏹️';
+                const micBtnText = document.getElementById('micBtnText');
+                if (micBtnText) micBtnText.textContent = 'Stop Recording';
+                liveTimer.style.display = 'inline-block';
+                recordingSeconds = 0;
+                liveTimer.textContent = '00:00';
+
+                recordTimerInterval = setInterval(() => {
+                    recordingSeconds++;
+                    const m = String(Math.floor(recordingSeconds / 60)).padStart(2, '0');
+                    const s = String(recordingSeconds % 60).padStart(2, '0');
+                    liveTimer.textContent = `${m}:${s}`;
+                }, 1000);
+
+                micNote.textContent = '🎙️ Recording... speak naturally about your space, needs & timeline';
+                micNote.style.color = '#ff4d4d';
             } catch (err) {
-                console.error("Transmission error:", err);
-                statusEl.textContent = 'Transmitted to dispatch queue.';
-                statusEl.style.color = 'var(--accent-green)';
-            } finally {
-                recordBtn.textContent = 'RECORD';
-                recordBtn.disabled = false;
+                console.error('Microphone error:', err);
+                isRecording = false;
+                micNote.textContent = '⚠️ Mic access denied. Check browser/device settings.';
+                micNote.style.color = '#ff4d4d';
             }
         }
 
-        // Inline Form Voice Recording Logic
-        let intakeMediaRecorder = null;
-        let intakeAudioChunks = [];
-        let intakeIsRecording = false;
-        let intakeRecordedVoiceBlob = null;
+        async function stopRecording() {
+            isRecording = false;
+            clearInterval(recordTimerInterval);
+            const liveTimer = document.getElementById('liveTimer');
+            if (liveTimer) liveTimer.style.display = 'none';
 
-        async function toggleIntakeVoice() {
-            const btn = document.getElementById('intakeVoiceBtn');
-            const icon = document.getElementById('intakeVoiceIcon');
-            const label = document.getElementById('intakeVoiceLabel');
-            const sub = document.getElementById('intakeVoiceSub');
-            const statusWrap = document.getElementById('intakeVoiceStatus');
-            const statusText = document.getElementById('intakeVoiceStatusText');
+            const micBtn = document.getElementById('micBtn');
+            const micIcon = document.getElementById('micBtnIcon');
+            const micBtnText = document.getElementById('micBtnText');
+            const micNote = document.getElementById('micStatusNote');
+            const voiceCard = document.getElementById('voiceCard');
 
-            if (!intakeIsRecording) {
-                // Optimistic UI Transition at t=0
-                btn.style.borderColor = 'var(--accent, #ff5722)';
-                btn.style.background = 'rgba(255, 87, 34, 0.15)';
-                icon.textContent = '⏳';
-                label.textContent = '[ ⏳ Requesting Mic... ]';
-                label.style.color = 'var(--accent, #ff5722)';
-                statusWrap.style.display = 'flex';
-                statusWrap.style.background = 'rgba(255, 87, 34, 0.1)';
-                statusWrap.style.borderColor = 'rgba(255, 87, 34, 0.3)';
-                statusWrap.style.color = 'var(--accent, #ff5722)';
-                statusText.textContent = '🎙️ Requesting microphone permission...';
+            voiceCard.classList.remove('recording');
+            micBtn.classList.remove('recording');
+            micBtn.disabled = true;
+            micIcon.textContent = '⚡';
+            if (micBtnText) micBtnText.textContent = 'Transcribing...';
+            micNote.textContent = '⚡ Whisper AI transcribing spoken audio into your scope notes...';
+            micNote.style.color = 'var(--accent-green)';
 
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    intakeAudioChunks = [];
-
-                    let options = {};
-                    if (typeof MediaRecorder.isTypeSupported === 'function') {
-                        if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
-                            options = { mimeType: 'audio/webm;codecs=opus' };
-                        } else if (MediaRecorder.isTypeSupported('audio/webm')) {
-                            options = { mimeType: 'audio/webm' };
-                        } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
-                            options = { mimeType: 'audio/mp4' };
-                        }
-                    }
-                    intakeMediaRecorder = options.mimeType ? new MediaRecorder(stream, options) : new MediaRecorder(stream);
-                    
-                    intakeMediaRecorder.ondataavailable = (e) => {
-                        if (e.data && e.data.size > 0) intakeAudioChunks.push(e.data);
-                    };
-
-                    intakeMediaRecorder.onstop = async () => {
-                        stream.getTracks().forEach(t => t.stop());
-                        const blob = new Blob(intakeAudioChunks, { type: intakeMediaRecorder.mimeType || 'audio/webm' });
-                        intakeRecordedVoiceBlob = blob;
-                        await transcribeAndFillIntake(blob);
-                    };
-
-                    intakeMediaRecorder.start(250);
-                    intakeIsRecording = true;
-
-                    btn.style.borderColor = 'var(--accent-color, #ff3333)';
-                    btn.style.background = 'rgba(255, 51, 51, 0.18)';
-                    icon.textContent = '⏹️';
-                    label.textContent = '[ ⏹️ Tap to Finish ]';
-                    label.style.color = '#ff4d4d';
-                    sub.textContent = 'Recording in progress...';
-
-                    statusWrap.style.display = 'flex';
-                    statusWrap.style.background = 'rgba(255,51,51,0.1)';
-                    statusWrap.style.borderColor = 'rgba(255,51,51,0.3)';
-                    statusWrap.style.color = '#ff4d4d';
-                    statusText.textContent = '🎙️ Recording speech... Tap finish when done';
-                } catch (err) {
-                    console.error('Microphone error:', err);
-                    intakeIsRecording = false;
-                    btn.style.borderColor = 'rgba(0,255,136,0.5)';
-                    btn.style.background = 'rgba(0,255,136,0.12)';
-                    icon.textContent = '🎙️';
-                    label.textContent = '[ 🎙️ Tap to Speak Freely ]';
-                    label.style.color = 'var(--accent-green, #00ff88)';
-                    statusWrap.style.display = 'flex';
-                    statusWrap.style.background = 'rgba(239, 68, 68, 0.15)';
-                    statusWrap.style.borderColor = 'rgba(239, 68, 68, 0.35)';
-                    statusWrap.style.color = '#f87171';
-                    statusText.textContent = '⚠️ Mic error: ' + (err.message || 'Permission denied. Please allow microphone access.');
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                if (typeof mediaRecorder.requestData === 'function') {
+                    try { mediaRecorder.requestData(); } catch (e) {}
                 }
+                mediaRecorder.stop();
+            }
+        }
+
+        function reRecordVoice() {
+            clearRecordedAudio();
+            startRecording();
+        }
+
+        function clearRecordedAudio() {
+            if (recordedAudioPlayer) {
+                recordedAudioPlayer.pause();
+                recordedAudioPlayer = null;
+            }
+            recordedVoiceBlob = null;
+            const playerCard = document.getElementById('audioPlayerCard');
+            if (playerCard) playerCard.style.display = 'none';
+            const micBtn = document.getElementById('micBtn');
+            if (micBtn) {
+                micBtn.disabled = false;
+                micBtn.classList.remove('recording');
+            }
+            const micIcon = document.getElementById('micBtnIcon');
+            if (micIcon) micIcon.textContent = '🎙️';
+            const micBtnText = document.getElementById('micBtnText');
+            if (micBtnText) micBtnText.textContent = 'Tap to Speak';
+            const micNote = document.getElementById('micStatusNote');
+            if (micNote) {
+                micNote.textContent = 'Ready when you are. Tap mic to speak freely, or type your notes below.';
+                micNote.style.color = 'var(--text-dim)';
+            }
+        }
+
+        function setupAudioPlayer(blob) {
+            const playerCard = document.getElementById('audioPlayerCard');
+            const playBtn = document.getElementById('audioPlayBtn');
+            const durationEl = document.getElementById('audioDurationText');
+            const progressFill = document.getElementById('audioProgressFill');
+
+            const audioUrl = URL.createObjectURL(blob);
+            recordedAudioPlayer = new Audio(audioUrl);
+
+            recordedAudioPlayer.onloadedmetadata = () => {
+                const dur = Math.round(recordedAudioPlayer.duration || recordingSeconds);
+                const m = Math.floor(dur / 60);
+                const s = String(dur % 60).padStart(2, '0');
+                durationEl.textContent = `${m}:${s}`;
+            };
+
+            recordedAudioPlayer.ontimeupdate = () => {
+                if (!recordedAudioPlayer.duration) return;
+                const pct = (recordedAudioPlayer.currentTime / recordedAudioPlayer.duration) * 100;
+                progressFill.style.width = `${pct}%`;
+            };
+
+            recordedAudioPlayer.onended = () => {
+                playBtn.textContent = '▶';
+                progressFill.style.width = '0%';
+            };
+
+            playerCard.style.display = 'flex';
+        }
+
+        function toggleAudioPlayback() {
+            if (!recordedAudioPlayer) return;
+            const playBtn = document.getElementById('audioPlayBtn');
+            if (recordedAudioPlayer.paused) {
+                recordedAudioPlayer.play();
+                playBtn.textContent = '⏸';
             } else {
-                intakeIsRecording = false;
-                if (intakeMediaRecorder && intakeMediaRecorder.state !== 'inactive') {
-                    intakeMediaRecorder.stop();
-                }
-                btn.disabled = true;
-                btn.style.opacity = '0.7';
-                icon.textContent = '⚡';
-                label.textContent = '[ ⚡ Transcribing... ]';
-                label.style.color = 'var(--accent-green, #00ff88)';
-                sub.textContent = 'Whisper Turbo model';
-
-                statusWrap.style.display = 'flex';
-                statusWrap.style.background = 'rgba(0,255,136,0.1)';
-                statusWrap.style.borderColor = 'rgba(0,255,136,0.3)';
-                statusWrap.style.color = 'var(--accent-green, #00ff88)';
-                statusText.textContent = '⚡ Streaming audio to Cloudflare Whisper AI...';
+                recordedAudioPlayer.pause();
+                playBtn.textContent = '▶';
             }
         }
 
-        async function transcribeAndFillIntake(blob) {
-            const btn = document.getElementById('intakeVoiceBtn');
-            const icon = document.getElementById('intakeVoiceIcon');
-            const label = document.getElementById('intakeVoiceLabel');
-            const sub = document.getElementById('intakeVoiceSub');
-            const statusWrap = document.getElementById('intakeVoiceStatus');
-            const statusText = document.getElementById('intakeVoiceStatusText');
+        async function transcribeAudio(blob) {
+            const micBtn = document.getElementById('micBtn');
+            const micIcon = document.getElementById('micBtnIcon');
+            const micBtnText = document.getElementById('micBtnText');
+            const micNote = document.getElementById('micStatusNote');
             const notesEl = document.getElementById('notes');
-            const preview = document.getElementById('intake-voice-preview');
 
             try {
                 const fd = new FormData();
-                fd.append('audio', blob, 'voice_intake.webm');
+                const isMp4 = blob.type.includes('mp4');
+                const filename = isMp4 ? 'voice_intake.mp4' : 'voice_intake.webm';
+                fd.append('audio', blob, filename);
 
                 const res = await fetch('/api/transcribe', {
                     method: 'POST',
@@ -602,86 +1542,165 @@
 
                 const data = await res.json();
                 if (data.success && data.text) {
-                    const text = data.text.trim();
-                    if (notesEl) {
-                        notesEl.value = notesEl.value && notesEl.value.trim().length > 0
-                            ? notesEl.value.trim() + ' ' + text
-                            : text;
-                        notesEl.style.borderColor = 'var(--accent-green)';
-                        setTimeout(() => { notesEl.style.borderColor = ''; }, 2500);
+                    const transcribedText = data.text.trim();
+                    if (notesEl.value.trim().length === 0) {
+                        notesEl.value = transcribedText;
+                    } else {
+                        notesEl.value = notesEl.value.trim() + ' ' + transcribedText;
                     }
-                    statusWrap.style.background = 'rgba(0,255,136,0.15)';
-                    statusWrap.style.borderColor = 'rgba(0,255,136,0.35)';
-                    statusWrap.style.color = 'var(--accent-green)';
-                    statusText.textContent = `✅ Transcribed: "${text.length > 50 ? text.substring(0, 50) + '...' : text}"`;
+                    handleNotesInput();
 
-                    if (preview) {
-                        preview.style.display = 'flex';
-                        preview.innerHTML = `<span>🎙️ Voice Memo Attached (${Math.round(blob.size / 1024)} KB)</span> <button type="button" onclick="clearIntakeVoice()" style="background:none;border:none;color:#ff4d4d;cursor:pointer;font-weight:bold;margin-left:auto;">✕</button>`;
+                    micNote.textContent = `✅ Transcribed: "${transcribedText.length > 55 ? transcribedText.substring(0, 52) + '...' : transcribedText}"`;
+                    micNote.style.color = 'var(--accent-green)';
+
+                    // Automatically trigger Polish once voice memo is transcribed
+                    if (notesEl.value.trim().length >= 15) {
+                        setTimeout(() => { polishProjectScope(); }, 350);
                     }
                 } else {
-                    statusText.textContent = '⚠️ Audio recorded. Voice memo attached for dispatch.';
-                    if (preview) {
-                        preview.style.display = 'flex';
-                        preview.innerHTML = `<span>🎙️ Voice Memo Attached (${Math.round(blob.size / 1024)} KB)</span> <button type="button" onclick="clearIntakeVoice()" style="background:none;border:none;color:#ff4d4d;cursor:pointer;font-weight:bold;margin-left:auto;">✕</button>`;
-                    }
+                    micNote.textContent = '✅ Audio memo attached. No speech detected.';
+                    micNote.style.color = 'var(--text-dim)';
                 }
             } catch (err) {
-                console.warn('Transcription error:', err);
-                statusWrap.style.background = 'rgba(239,68,68,0.15)';
-                statusWrap.style.borderColor = 'rgba(239,68,68,0.35)';
-                statusWrap.style.color = '#ff4d4d';
-                statusText.textContent = `⚠️ Transcribe offline: ${err.message || 'Error'}. Audio saved for dispatch.`;
-                if (preview) {
-                    preview.style.display = 'flex';
-                    preview.innerHTML = `<span>🎙️ Voice Memo Attached (${Math.round(blob.size / 1024)} KB)</span> <button type="button" onclick="clearIntakeVoice()" style="background:none;border:none;color:#ff4d4d;cursor:pointer;font-weight:bold;margin-left:auto;">✕</button>`;
-                }
+                console.error('Transcription error:', err);
+                micNote.textContent = `⚠️ Transcription failed: ${err.message || err}`;
+                micNote.style.color = '#ff4d4d';
             } finally {
-                btn.disabled = false;
-                btn.style.opacity = '1';
-                btn.style.borderColor = 'rgba(0,255,136,0.35)';
-                btn.style.background = 'rgba(0,255,136,0.06)';
-                icon.textContent = '🎙️';
-                label.textContent = '[ 🎙️ Tap to Speak Freely ]';
-                label.style.color = 'var(--accent-green, #00ff88)';
-                sub.textContent = intakeRecordedVoiceBlob ? 'Memo attached (tap to re-record)' : 'Speak freely — full stories welcome';
+                micBtn.disabled = false;
+                micIcon.textContent = '🎙️';
+                if (micBtnText) micBtnText.textContent = 'Record More';
             }
         }
 
-        function clearIntakeVoice() {
-            intakeRecordedVoiceBlob = null;
-            const preview = document.getElementById('intake-voice-preview');
-            if (preview) preview.style.display = 'none';
-            const statusWrap = document.getElementById('intakeVoiceStatus');
-            if (statusWrap) statusWrap.style.display = 'none';
-            const sub = document.getElementById('intakeVoiceSub');
-            if (sub) sub.textContent = 'Whisper AI Auto-fill';
+        function handleNotesInput() {
+            const notesEl = document.getElementById('notes');
+            const text = notesEl.value;
+            const countLabel = document.getElementById('wordCountLabel');
+            countLabel.textContent = `${text.length} chars`;
+
+            const polishBar = document.getElementById('polishActionBar');
+            if (polishBar) {
+                polishBar.style.display = text.trim().length >= 15 ? 'flex' : 'none';
+            }
+            saveDraft();
         }
 
-        // Intake Form Image State & Compression Helpers
-        let intakeAttachedPhotos = [];
+        // --- AI Scope Polish (Llama 3.3 70B Foreman Checklist) ---
+        let activePolishedScope = '';
+
+        async function polishProjectScope() {
+            const notesEl = document.getElementById('notes');
+            const triggerBtn = document.getElementById('polishTriggerBtn');
+            const btnIcon = document.getElementById('polishBtnIcon');
+            const btnText = document.getElementById('polishBtnText');
+            const statusEl = document.getElementById('polishStatus');
+            const polishCard = document.getElementById('polishCard');
+            const contentEl = document.getElementById('polishedContent');
+
+            const rawNotes = notesEl.value.trim();
+            if (rawNotes.length < 15) {
+                alert('Please speak or type a little more detail first before polishing!');
+                return false;
+            }
+
+            if (triggerBtn) triggerBtn.disabled = true;
+            if (btnIcon) btnIcon.textContent = '⏳';
+            if (btnText) btnText.textContent = 'Organizing scope with AI...';
+            if (statusEl) {
+                statusEl.style.display = 'inline';
+                statusEl.textContent = 'Structuring into trade checklist...';
+                statusEl.style.color = 'var(--text-dim)';
+            }
+
+            try {
+                const res = await fetch('/api/polish', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        notes: rawNotes,
+                        trade: selectedTrade || 'General Carpentry',
+                        service: selectedTrade || 'General Carpentry'
+                    })
+                });
+
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.error || `HTTP ${res.status}`);
+                }
+
+                const data = await res.json();
+                const cleanScope = data.polishedScope || data.polished_scope;
+                if (data.success && cleanScope) {
+                    activePolishedScope = cleanScope;
+                    contentEl.textContent = activePolishedScope;
+                    notesEl.value = activePolishedScope;
+                    handleNotesInput();
+
+                    polishCard.style.display = 'block';
+                    polishCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    if (statusEl) {
+                        statusEl.textContent = '✓ Scope Organized by AI';
+                        statusEl.style.color = 'var(--accent-green)';
+                    }
+                    return true;
+                } else {
+                    throw new Error(data.error || 'Could not generate polished scope.');
+                }
+            } catch (err) {
+                console.error('Polish error:', err);
+                if (statusEl) {
+                    statusEl.textContent = `⚠️ ${err.message || 'Polish failed'}`;
+                    statusEl.style.color = '#ff4d4d';
+                }
+                return false;
+            } finally {
+                if (triggerBtn) {
+                    triggerBtn.disabled = false;
+                    if (btnIcon) btnIcon.textContent = '✨';
+                    if (btnText) btnText.textContent = 'Re-organize with AI';
+                }
+            }
+        }
+
+        function applyPolishedScope() {
+            if (!activePolishedScope) return;
+            const notesEl = document.getElementById('notes');
+            notesEl.value = activePolishedScope;
+            handleNotesInput();
+            document.getElementById('polishCard').style.display = 'none';
+            notesEl.focus();
+            notesEl.style.borderColor = 'var(--accent-green)';
+            setTimeout(() => { notesEl.style.borderColor = ''; }, 1500);
+        }
+
+        function dismissPolishedScope() {
+            document.getElementById('polishCard').style.display = 'none';
+        }
+
+        // --- Photo Upload & Compression Subsystem ---
+        let attachedPhotos = [];
 
         function handleIntakePhotos(e) {
             const files = Array.from(e.target.files || []);
             if (!files.length) return;
-            files.forEach(file => {
-                if (!file.type.startsWith('image/')) return;
-                intakeAttachedPhotos.push(file);
+            files.forEach(f => {
+                if (f.type.startsWith('image/')) attachedPhotos.push(f);
             });
-            renderIntakePreviews();
+            renderPhotoPreviews();
+            updateStepNavButtons();
             e.target.value = '';
         }
 
-        function removeIntakePhoto(idx) {
-            intakeAttachedPhotos.splice(idx, 1);
-            renderIntakePreviews();
+        function removePhoto(idx) {
+            attachedPhotos.splice(idx, 1);
+            renderPhotoPreviews();
+            updateStepNavButtons();
         }
 
-        function renderIntakePreviews() {
+        function renderPhotoPreviews() {
             const container = document.getElementById('intakePhotoPreviews');
-            if (!container) return;
             container.innerHTML = '';
-            intakeAttachedPhotos.forEach((file, idx) => {
+            attachedPhotos.forEach((file, idx) => {
                 const box = document.createElement('div');
                 box.className = 'preview-thumb-box';
 
@@ -689,19 +1708,19 @@
                 img.src = URL.createObjectURL(file);
                 img.onload = () => URL.revokeObjectURL(img.src);
 
-                const removeBtn = document.createElement('button');
-                removeBtn.type = 'button';
-                removeBtn.className = 'preview-remove-btn';
-                removeBtn.innerHTML = '✕';
-                removeBtn.onclick = () => removeIntakePhoto(idx);
+                const rm = document.createElement('button');
+                rm.type = 'button';
+                rm.className = 'preview-remove-btn';
+                rm.innerHTML = '✕';
+                rm.onclick = () => removePhoto(idx);
 
                 box.appendChild(img);
-                box.appendChild(removeBtn);
+                box.appendChild(rm);
                 container.appendChild(box);
             });
         }
 
-        async function compressIntakeImage(file, maxDim = 1920, quality = 0.85) {
+        async function compressImage(file, maxDim = 1920, quality = 0.82) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -739,75 +1758,179 @@
             });
         }
 
-        // Form Submit Logic
-        async function submitForm(e) {
+        // --- Draft Storage Subsystem ---
+        const DRAFT_KEY = 'dgc_wizard_draft_v3';
+
+        function saveDraft() {
+            try {
+                const draft = {
+                    currentStep,
+                    selectedTrade,
+                    notes: document.getElementById('notes').value,
+                    name: document.getElementById('name').value,
+                    contact: document.getElementById('contact').value,
+                    address: document.getElementById('address').value,
+                    savedAt: Date.now()
+                };
+                localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+            } catch (e) {}
+        }
+
+        function restoreDraft() {
+            try {
+                const raw = localStorage.getItem(DRAFT_KEY);
+                if (!raw) return;
+                const draft = JSON.parse(raw);
+                if (Date.now() - draft.savedAt > 86400000) {
+                    localStorage.removeItem(DRAFT_KEY);
+                    return;
+                }
+
+                let restoredAny = false;
+                if (draft.selectedTrade) {
+                    selectedTrade = draft.selectedTrade;
+                    document.getElementById('service').value = selectedTrade;
+                    document.querySelectorAll('.trade-card').forEach(card => {
+                        if (card.textContent.includes(selectedTrade)) {
+                            card.classList.add('selected');
+                        }
+                    });
+                    restoredAny = true;
+                }
+                if (draft.notes) {
+                    document.getElementById('notes').value = draft.notes;
+                    handleNotesInput();
+                    restoredAny = true;
+                }
+                if (draft.name) { document.getElementById('name').value = draft.name; restoredAny = true; }
+                if (draft.contact) { document.getElementById('contact').value = draft.contact; restoredAny = true; }
+                if (draft.address) { document.getElementById('address').value = draft.address; restoredAny = true; }
+
+                if (restoredAny) {
+                    document.getElementById('draftBanner').style.display = 'flex';
+                    if (draft.currentStep && draft.currentStep > 1) {
+                        goToStep(draft.currentStep);
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function clearSavedDraft() {
+            try {
+                localStorage.removeItem(DRAFT_KEY);
+                document.getElementById('draftBanner').style.display = 'none';
+            } catch (e) {}
+        }
+
+        // --- Final Form Submission Pipeline ---
+        async function submitIntakeForm(e) {
             e.preventDefault();
-            const submitBtn = document.getElementById('submitFormBtn');
-            const origText = submitBtn.textContent;
-            submitBtn.disabled = true;
-            submitBtn.textContent = intakeAttachedPhotos.length > 0 ? 'COMPRESSING & DISPATCHING...' : 'DISPATCHING TO TELEGRAM...';
+            const submitBtn = document.getElementById('btnWizardNext');
+            const origHtml = submitBtn.innerHTML;
 
-            const formData = new FormData();
-            formData.append('name', document.getElementById('name').value);
-            formData.append('contact', document.getElementById('contact').value);
-            formData.append('service', document.getElementById('service').value);
-            formData.append('address', document.getElementById('address').value);
-            formData.append('notes', document.getElementById('notes').value);
+            const name = document.getElementById('name').value.trim();
+            const contact = document.getElementById('contact').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const notes = document.getElementById('notes').value.trim();
 
-            if (intakeRecordedVoiceBlob) {
-                formData.append('voice_audio', intakeRecordedVoiceBlob, 'voice_intake.webm');
+            if (!name || !contact) {
+                alert('Please provide your name and a phone number or email so John can reply!');
+                goToStep(4);
+                return;
             }
 
-            if (intakeAttachedPhotos.length > 0) {
-                for (let i = 0; i < intakeAttachedPhotos.length; i++) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = attachedPhotos.length > 0 
+                ? '<span>COMPRESSING & DISPATCHING TO JOHN...</span> <span>⏳</span>'
+                : '<span>DISPATCHING TO JOHN...</span> <span>⏳</span>';
+
+            const fd = new FormData();
+            fd.append('name', name);
+            fd.append('contact', contact);
+            fd.append('service', selectedTrade || 'General Construction');
+            fd.append('address', address || 'Central Wisconsin');
+            fd.append('notes', notes || (recordedVoiceBlob ? 'Voice memo recorded via Project Intake Wizard' : 'General inquiry'));
+
+            if (recordedVoiceBlob) {
+                const isMp4 = recordedVoiceBlob.type.includes('mp4');
+                const ext = isMp4 ? 'mp4' : 'webm';
+                fd.append('voice_audio', recordedVoiceBlob, `voice_memo.${ext}`);
+            }
+
+            if (attachedPhotos.length > 0) {
+                for (let i = 0; i < attachedPhotos.length; i++) {
                     try {
-                        const compressed = await compressIntakeImage(intakeAttachedPhotos[i]);
-                        formData.append(`photo_${i}`, compressed, compressed.name);
+                        const compressed = await compressImage(attachedPhotos[i]);
+                        fd.append(`photo_${i}`, compressed, compressed.name);
                     } catch {
-                        formData.append(`photo_${i}`, intakeAttachedPhotos[i], intakeAttachedPhotos[i].name);
+                        fd.append(`photo_${i}`, attachedPhotos[i], attachedPhotos[i].name);
                     }
                 }
             }
 
             try {
                 let sent = false;
+                let resData = null;
+
                 try {
                     const res = await fetch('/api/dispatch', {
                         method: 'POST',
-                        body: formData
+                        body: fd
                     });
                     if (res.ok) {
-                        const data = await res.json();
-                        if (data.success && (intakeAttachedPhotos.length === 0 || data.photos_dispatched > 0 || data.telegram_dispatched)) {
-                            sent = true;
-                        }
+                        resData = await res.json();
+                        if (resData.success) sent = true;
                     }
-                } catch (e) {
-                    console.warn('Pages function offline, falling back to direct Telegram route:', e);
+                } catch (pe) {
+                    console.warn('Dispatch route notice:', pe);
                 }
 
                 if (!sent) {
-                    throw new Error('Intake service unavailable');
+                    throw new Error('Dispatch service momentarily busy. Please call or retry.');
                 }
 
-                submitBtn.textContent = '✅ DISPATCHED TO FIELD REVIEW!';
-                submitBtn.style.background = 'var(--accent-green)';
-                document.getElementById('intakeForm').reset();
-                intakeAttachedPhotos = [];
-                clearIntakeVoice();
-                renderIntakePreviews();
-                setTimeout(() => {
-                    submitBtn.textContent = origText;
-                    submitBtn.style.background = '#ffffff';
-                    submitBtn.disabled = false;
-                }, 4000);
+                // Clear draft
+                clearSavedDraft();
+
+                // Hide Form & Progress, Show Confirmation Card
+                document.getElementById('intakeForm').style.display = 'none';
+                document.getElementById('progressSection').style.display = 'none';
+                document.getElementById('draftBanner').style.display = 'none';
+
+                const confirmCard = document.getElementById('confirmationCard');
+                document.getElementById('receiptRef').textContent = resData.lead_id ? `#${resData.lead_id}` : 'DGC-' + Math.floor(1000 + Math.random() * 9000);
+                document.getElementById('receiptName').textContent = name;
+                document.getElementById('receiptTrade').textContent = selectedTrade || 'General Construction';
+                document.getElementById('receiptAudio').textContent = recordedVoiceBlob ? '1 Playable Memo' : 'None';
+                document.getElementById('receiptPhotos').textContent = attachedPhotos.length > 0 ? `${attachedPhotos.length} Photo(s)` : 'None';
+                
+                confirmCard.style.display = 'block';
+                confirmCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
             } catch (err) {
-                console.error("Form error:", err);
+                console.error('Submission error:', err);
                 alert('Submission error: ' + err.message);
                 submitBtn.disabled = false;
-                submitBtn.textContent = origText;
+                submitBtn.innerHTML = origHtml;
             }
         }
+
+        // Initialize on boot
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tradeParam = urlParams.get('trade');
+            if (tradeParam) {
+                const targetText = tradeParam.toLowerCase();
+                document.querySelectorAll('.trade-card').forEach(card => {
+                    if (card.textContent.toLowerCase().includes(targetText)) {
+                        card.click();
+                    }
+                });
+            }
+
+            restoreDraft();
+            updateStepNavButtons();
+        });
     </script>
     <script src="/telemetry.js"></script>
 </body>

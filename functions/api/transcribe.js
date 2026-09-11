@@ -3,7 +3,8 @@
 // Tailored for Dondlinger General Contracting (DGC) Contractor Voice Intake
 
 const CONTRACTOR_VOCABULARY_PROMPT = 
-  "Dondlinger General Contracting (DGC), Central Wisconsin, general contractor construction intake: " +
+  "Dondlinger General Contracting (DGC), Central Wisconsin, Wisconsin Rapids, Biron, Port Edwards, Nekoosa, general contractor construction intake: " +
+  "drafty window, rotting wood, water pooling, sticking door, spongy floor, sagging tiles, water stains, " +
   "LP SmartSide lap siding, cedar siding, board and batten, soffit, fascia, aluminum brake metal wrap, trim coil, " +
   "joists, rim joist, 2x4, 2x6, 2x8, 2x10, 2x12, subfloor, framing, rafters, trusses, OSB sheathing, Tyvek housewrap, " +
   "replacement windows, casement, double-hung, vinyl sliders, Low-E argon, sill pan flashing, door headers, interior trim, casing, " +
@@ -123,41 +124,36 @@ export async function onRequestPost(context) {
       });
     }
 
-    // Workers AI expects an array of numbers representing binary bytes
+    // Cloudflare Workers AI expects audio as an array of numbers or Base64
     const audioArray = Array.from(new Uint8Array(audioBuffer));
-    let modelUsed = "@cf/openai/whisper-large-v3-turbo";
+    let modelUsed = "@cf/openai/whisper";
     let response = null;
 
-    // 1. Primary: Whisper Large v3 Turbo with contractor vocabulary biasing
     try {
-      response = await Promise.race([
-        env.AI.run("@cf/openai/whisper-large-v3-turbo", {
-          audio: audioArray,
-          initial_prompt: CONTRACTOR_VOCABULARY_PROMPT
-        }),
-        new Promise((_, reject) => setTimeout(() => reject(new Error("AI_TURBO_TIMEOUT")), 9000))
-      ]);
-    } catch (turboErr) {
-      console.warn("Whisper Large v3 Turbo error / timeout, falling back to Whisper base:", turboErr.message || turboErr);
-      // 2. Fallback: Standard Whisper model
-      modelUsed = "@cf/openai/whisper";
+      response = await env.AI.run("@cf/openai/whisper", {
+        audio: audioArray
+      });
+    } catch (whisperErr) {
+      console.warn("Standard Whisper error, attempting Deepgram Nova-3 fallback:", whisperErr.message || whisperErr);
+      modelUsed = "@cf/deepgram/nova-3";
       try {
-        response = await env.AI.run("@cf/openai/whisper", {
-          audio: audioArray,
-          initial_prompt: CONTRACTOR_VOCABULARY_PROMPT
+        response = await env.AI.run("@cf/deepgram/nova-3", {
+          audio: audioArray
         });
       } catch (fallbackErr) {
-        console.error("Standard Whisper fallback failed:", fallbackErr.message || fallbackErr);
+        console.error("All Workers AI speech recognition models failed:", fallbackErr.message || fallbackErr);
         throw fallbackErr;
       }
     }
 
-    const rawText = response && (response.text || response.transcription) ? (response.text || response.transcription).trim() : "";
+    const rawText = response && (response.text || response.transcription || (response.results && response.results.channels && response.results.channels[0] && response.results.channels[0].alternatives && response.results.channels[0].alternatives[0] && response.results.channels[0].alternatives[0].transcript))
+      ? (response.text || response.transcription || response.results.channels[0].alternatives[0].transcript).trim()
+      : "";
     const cleanText = cleanTranscript(rawText);
 
     return new Response(JSON.stringify({
       success: true,
-      text: cleanText,
+      text: cleanText || rawText,
       raw: rawText,
       model: modelUsed,
       bytesReceived: audioBuffer.byteLength
