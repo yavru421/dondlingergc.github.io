@@ -1736,7 +1736,7 @@
 
         <div style="text-align:center;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08);">
           <a href="./intake.html" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--font-brand);font-size:13px;font-weight:800;color:var(--cyan);text-decoration:none;">
-            <span>Prefer a guided walkthrough? Launch Voice & Step-by-Step Intake Wizard</span>
+            <span>Are you a builder or contractor? Outsource GVSM™ Modeling & Takeoffs</span>
             <span>→</span>
           </a>
         </div>
@@ -2433,6 +2433,8 @@
       let sent = false;
 
       const formData = new FormData();
+      formData.append('lead_type', 'client');
+      formData.append('origin', 'dondlingergc.com (Client Quick Estimate)');
       formData.append('name', 'Website Estimate Scope');
       formData.append('contact', contact);
       formData.append('service', `${sliderVal} ${cfg.unit} (${currentTrade.toUpperCase()})`);

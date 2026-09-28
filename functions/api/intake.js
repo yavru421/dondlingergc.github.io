@@ -81,6 +81,7 @@ export async function onRequestPost(context) {
       city = formData.get('city') || formData.get('address') || city;
       notes = formData.get('notes') || formData.get('description') || notes;
       origin = formData.get('origin') || origin;
+      var leadType = formData.get('lead_type') || (origin.toLowerCase().includes('contractor') ? 'contractor' : 'client');
 
       // Extract photos AND voice audio files across Cloudflare Workers runtime
       for (const [key, value] of formData.entries()) {
@@ -177,21 +178,36 @@ export async function onRequestPost(context) {
       notes = text || notes;
     }
 
+    const isContractor = leadType.toLowerCase().includes('contractor') || leadType.toLowerCase().includes('b2b');
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
-    const leadId = 'DGC-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const leadId = (isContractor ? 'B2B-' : 'DGC-') + Math.random().toString(36).substring(2, 8).toUpperCase();
     const tagLead = '#' + leadId.replace(/-/g, '_');
 
-    const telegramMessage = 
-      `🚨 *NEW CLIENT INTAKE DISPATCH* 🚨\n\n` +
+    const telegramMessage = isContractor ? (
+      `🏗️ *NEW CONTRACTOR B2B INTAKE (GVSM OUTSOURCE)* 📐\n\n` +
+      `🏢 *Company / Contractor:* ${leadName}\n` +
+      `📞 *Contact:* \`${contact}\`\n` +
+      `📍 *Jobsite / Location:* ${city}\n` +
+      `🔨 *Requested Scope / Trade:* ${service}\n\n` +
+      `📋 *Framing Specs & Project Notes:*\n${notes}\n\n` +
+      `🎙️ *Voice Memo:* ${voiceAudio ? 'Attached below' : 'None'}\n` +
+      `📸 *Blueprints / Site Photos:* ${photos.length > 0 ? photos.length + ' Attached' : 'None'}\n` +
+      `🕒 *Timestamp:* ${timestamp}\n` +
+      `🆔 *Ref ID:* \`${leadId}\`  ${tagLead} #CONTRACTOR_B2B\n` +
+      `🌐 *Origin:* \`${origin}\``
+    ) : (
+      `🏡 *NEW HOMEOWNER / CLIENT ESTIMATE* ⚡\n\n` +
       `👤 *Client:* ${leadName}\n` +
       `📞 *Contact:* \`${contact}\`\n` +
-      `📍 *Location / Timeline:* ${city}\n` +
+      `📍 *Location:* ${city}\n` +
       `🔨 *Primary Trade / Service:* ${typeof service === 'string' && service.length > 80 ? service.substring(0, 80) + '...' : service}\n\n` +
       `📝 *Scope & Requirements:*\n${notes}\n\n` +
       `🎙️ *Voice Memo:* ${voiceAudio ? 'Attached (Playable below)' : 'None'}\n` +
+      `📸 *Site Photos:* ${photos.length > 0 ? photos.length + ' Attached' : 'None'}\n` +
       `🕒 *Timestamp:* ${timestamp}\n` +
-      `🆔 *Ref ID:* \`${leadId}\`  ${tagLead}\n` +
-      `🌐 *Origin:* \`${origin}\``;
+      `🆔 *Ref ID:* \`${leadId}\`  ${tagLead} #CLIENT_LEAD\n` +
+      `🌐 *Origin:* \`${origin}\``
+    );
 
     let telegramSuccess = false;
     let telegramResponse = null;
@@ -203,7 +219,8 @@ export async function onRequestPost(context) {
     const cleanLead = (leadName && leadName !== 'General Inquiry' && leadName !== 'Hero Photo Quote')
       ? leadName
       : (contact && contact !== 'Not provided' ? contact : 'Direct Intake');
-    const topicTitle = `🏗️ ${cleanLead} — Ref #${leadId}`;
+    const topicPrefix = isContractor ? '📐 [B2B CONTRACTOR]' : '🏡 [CLIENT ESTIMATE]';
+    const topicTitle = `${topicPrefix} ${cleanLead} — Ref #${leadId}`;
 
     for (const token of candidateTokens) {
       try {

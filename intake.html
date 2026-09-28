@@ -835,7 +835,7 @@
                 <span>←</span>
                 <span>DondlingerGC.com</span>
             </a>
-            <span class="top-badge">⚡ Zero-Obligation Preliminary Review</span>
+            <span class="top-badge">📐 Contractor B2B GVSM™ Modeling Portal</span>
         </div>
 
         <!-- Progress Tracker -->
@@ -843,19 +843,19 @@
             <div class="step-indicators">
                 <div class="step-pill active" id="stepPill-1" onclick="jumpToStep(1)">
                     <div class="step-num-bubble">1</div>
-                    <span class="step-label">Project Type</span>
+                    <span class="step-label">Trade Scope</span>
                 </div>
                 <div class="step-pill" id="stepPill-2" onclick="jumpToStep(2)">
                     <div class="step-num-bubble">2</div>
-                    <span class="step-label">Your Story</span>
+                    <span class="step-label">Specs & Audio</span>
                 </div>
                 <div class="step-pill" id="stepPill-3" onclick="jumpToStep(3)">
                     <div class="step-num-bubble">3</div>
-                    <span class="step-label">Photos</span>
+                    <span class="step-label">Blueprints / Photos</span>
                 </div>
                 <div class="step-pill" id="stepPill-4" onclick="jumpToStep(4)">
                     <div class="step-num-bubble">4</div>
-                    <span class="step-label">Contact</span>
+                    <span class="step-label">Contractor Info</span>
                 </div>
             </div>
             <div class="progress-track">
@@ -875,9 +875,9 @@
             <!-- STEP 1: Trade / Space Selection -->
             <div class="wizard-step active" id="wizardStep-1">
                 <div class="step-header">
-                    <div class="step-tagline">Step 1 of 4 • Project Category</div>
-                    <h1 class="step-title">What are we building or fixing?</h1>
-                    <p class="step-desc">Tap the category that best matches your project. John will tailor the questions and materials to your trade.</p>
+                    <div class="step-tagline">Step 1 of 4 • Trade Scope & Modeling Request</div>
+                    <h1 class="step-title">Outsource GVSM™ Modeling & Takeoffs</h1>
+                    <p class="step-desc">Partner with DGC. Select the trade scope you need modeled. John will engineer millimeter-accurate 3D cutaways and carpenter cut schedules for your job.</p>
                 </div>
 
                 <div class="trade-cards-grid">
@@ -1845,11 +1845,13 @@
                 : '<span>DISPATCHING TO JOHN...</span> <span>⏳</span>';
 
             const fd = new FormData();
+            fd.append('lead_type', 'contractor_b2b');
+            fd.append('origin', 'dondlingergc.com/intake.html (Contractor B2B Portal)');
             fd.append('name', name);
             fd.append('contact', contact);
             fd.append('service', selectedTrade || 'General Construction');
             fd.append('address', address || 'Central Wisconsin');
-            fd.append('notes', notes || (recordedVoiceBlob ? 'Voice memo recorded via Project Intake Wizard' : 'General inquiry'));
+            fd.append('notes', notes || (recordedVoiceBlob ? 'Voice memo recorded via Contractor B2B Portal' : 'Contractor outsourcing inquiry'));
 
             if (recordedVoiceBlob) {
                 const isMp4 = recordedVoiceBlob.type.includes('mp4');
