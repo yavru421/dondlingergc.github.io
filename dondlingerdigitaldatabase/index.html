@@ -1,318 +1,551 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Metropolis Neural Oracle 20Q — AI 20 Questions Terminal</title>
-    <meta name="description" content="Challenge the Metropolis Neural Oracle in the 20-Neuron AI Challenge! Interactive 20 Questions AI game.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5.0.0">
-    <style>
-      :root {
-        --dark-bg: #090d16;
-        --card-bg: #111827;
-        --card-border: #1e293b;
-        --accent-blue: #2563eb;
-        --accent-cyan: #38bdf8;
-        --accent-emerald: #22c55e;
-      }
-      body {
-        background-color: var(--dark-bg);
-        color: #f8fafc;
-        font-family: 'Inter', sans-serif;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        margin: 0;
-      }
-      .oracle-header-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px 32px;
-        background: #0f172a;
-        border-bottom: 2px solid var(--accent-blue);
-      }
-      .oracle-brand {
-        font-weight: 800;
-        font-size: 1.2rem;
-        color: #ffffff;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .oracle-badge {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.72rem;
-        background: rgba(37, 99, 235, 0.2);
-        color: var(--accent-cyan);
-        padding: 3px 8px;
-        border-radius: 4px;
-        border: 1px solid rgba(37, 99, 235, 0.4);
-      }
-      .btn-back-home {
-        color: #94a3b8;
-        text-decoration: none;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.82rem;
-        padding: 6px 14px;
-        border-radius: 6px;
-        background: #1e293b;
-        transition: all 0.2s ease;
-      }
-      .btn-back-home:hover {
-        color: #ffffff;
-        background: #334155;
-      }
-      .oracle-main-stage {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 30px 20px;
-      }
-      .oracle-console-card {
-        width: 100%;
-        max-width: 760px;
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 16px;
-        padding: 28px;
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-        display: flex;
-        flex-direction: column;
-      }
-      .oracle-avatar-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid var(--card-border);
-      }
-      .oracle-avatar {
-        font-size: 2.2rem;
-        filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.5));
-      }
-      .oracle-title {
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: #ffffff;
-      }
-      .fuel-container {
-        text-align: right;
-        min-width: 160px;
-      }
-      .fuel-label {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.78rem;
-        color: #94a3b8;
-        margin-bottom: 6px;
-      }
-      .fuel-bar-track {
-        height: 8px;
-        background: #1e293b;
-        border-radius: 4px;
-        overflow: hidden;
-      }
-      .fuel-bar-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan));
-        transition: width 0.3s ease;
-      }
-      /* Chat Thread Box */
-      .chat-thread-container {
-        background: #0f172a;
-        border: 1px solid #334155;
-        border-radius: 12px;
-        padding: 20px;
-        height: 340px;
-        overflow-y: auto;
-        margin-bottom: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        scroll-behavior: smooth;
-      }
-      .chat-thread-container::-webkit-scrollbar {
-        width: 6px;
-      }
-      .chat-thread-container::-webkit-scrollbar-thumb {
-        background: #334155;
-        border-radius: 3px;
-      }
-      .chat-bubble {
-        max-width: 85%;
-        padding: 12px 18px;
-        border-radius: 12px;
-        font-size: 0.98rem;
-        line-height: 1.5;
-        animation: fadeIn 0.25s ease;
-      }
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(6px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      .chat-bubble.oracle {
-        align-self: flex-start;
-        background: #1e293b;
-        border: 1px solid #334155;
-        color: #f8fafc;
-        border-top-left-radius: 2px;
-      }
-      .chat-bubble.user {
-        align-self: flex-end;
-        background: #2563eb;
-        color: #ffffff;
-        font-weight: 600;
-        border-top-right-radius: 2px;
-      }
-      .choice-buttons {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 14px;
-      }
-      .btn-choice {
-        flex: 1;
-        padding: 12px;
-        background: #1e293b;
-        border: 1px solid #334155;
-        color: #ffffff;
-        font-family: 'Inter', sans-serif;
-        font-weight: 700;
-        font-size: 0.9rem;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-      .btn-choice:hover {
-        background: #2563eb;
-        border-color: #3b82f6;
-        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
-      }
-      .chat-input-bar {
-        display: flex;
-        gap: 10px;
-      }
-      .chat-input-field {
-        flex: 1;
-        padding: 12px 18px;
-        background: #0f172a;
-        border: 1px solid #334155;
-        border-radius: 8px;
-        color: #ffffff;
-        font-family: 'Inter', sans-serif;
-        font-size: 0.95rem;
-        outline: none;
-        transition: border-color 0.2s;
-      }
-      .chat-input-field:focus {
-        border-color: #2563eb;
-      }
-      .btn-send-chat {
-        padding: 12px 24px;
-        background: #2563eb;
-        border: 1px solid #3b82f6;
-        color: #ffffff;
-        font-weight: 700;
-        font-size: 0.95rem;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-      .btn-send-chat:hover {
-        background: #1d4ed8;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Dondlinger Digital Database & Subdomain Ecosystem Hub</title>
+  <meta name="description" content="Official directory of all live subdomains, Blazor WebAssembly apps, 3D GVSM portals, and Zero-Liability tools across the Dondlinger General Contracting LLC ecosystem.">
+  <link rel="canonical" href="https://dondlingergc.com/dondlingerdigitaldatabase/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=6.0.0">
+  <style>
+    .search-filter-bar {
+      max-width: 900px;
+      margin: 0 auto 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .search-box-wrap {
+      position: relative;
+      width: 100%;
+    }
+    .search-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px 20px 14px 48px;
+      background: rgba(16, 22, 34, 0.85);
+      border: 1px solid var(--border-glow);
+      border-radius: 12px;
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .search-input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
+    }
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+    .filter-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .filter-chip:hover, .filter-chip.active {
+      background: rgba(0, 229, 255, 0.15);
+      border-color: var(--accent-cyan);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+    }
+    .card-url {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      margin-bottom: 0.75rem;
+      word-break: break-all;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-actions {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .launch-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-cyan);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .launch-link:hover {
+      color: #fff;
+      transform: translateX(3px);
+    }
+    .status-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+    }
+  </style>
 </head>
 <body>
+  <div class="bg-grid"></div>
 
-    <!-- Header Navigation -->
-    <header class="oracle-header-nav">
-        <a href="/" class="oracle-brand">
-            <span>🔮 Metropolis Neural Oracle</span>
-            <span class="oracle-badge">20-Neuron AI Chat</span>
-        </a>
-        <a href="/" class="btn-back-home">← Back to Main Portal</a>
-    </header>
+  <!-- Header Navbar -->
+  <header class="navbar">
+    <a href="/" class="brand">
+      <span>🌐 Dondlinger Digital Database</span>
+      <span class="brand-badge">METROPOLIS SUITE</span>
+    </a>
+    <div class="nav-links">
+      <div style="display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:0.8rem;color:var(--accent-emerald);">
+        <span class="status-dot"></span>
+        <span id="node-count-badge">18 Fleet Nodes Online</span>
+      </div>
+      <a href="/" class="nav-link">← Back to Dondlinger GC</a>
+    </div>
+  </header>
 
-    <!-- Main Game Stage -->
-    <main class="oracle-main-stage">
-        <div class="oracle-console-card">
-            
-            <div class="oracle-avatar-row">
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div class="oracle-avatar" id="oracle-avatar">🔮</div>
-                    <div>
-                        <div class="oracle-title">Metropolis Neural Oracle v2.4</div>
-                        <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 2px;">Think of any software tool or concept. I will guess it in 20 questions!</div>
-                    </div>
-                </div>
-                <div class="fuel-container">
-                    <div class="fuel-label">NEURON FUEL: <span id="fuel-count" style="color: var(--accent-cyan); font-weight: 800;">20/20</span></div>
-                    <div class="fuel-bar-track">
-                        <div class="fuel-bar-fill" id="fuel-fill" style="width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-pill">
+      <span class="pulse-dot"></span>
+      Canonical Subdomain & Application Ecosystem Hub
+    </div>
+    <h1 class="hero-title">
+      Dondlinger Digital Database & <span>App Fleet</span>
+    </h1>
+    <p class="hero-subtitle">
+      The authoritative registry and launchpad for all live subdomains, MudBlazor WebAssembly consoles, 3D Grounded Visual Site Modeling (GVSM™) portals, and Zero-Liability tools across Dondlinger General Contracting LLC.
+    </p>
 
-            <!-- Confidence Bar -->
-            <div class="confidence-bar-wrap" id="confidence-wrap" style="margin-bottom: 16px;">
-                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: #94a3b8; margin-bottom: 4px;">
-                    <span>ORACLE DEDUCTION CONFIDENCE</span>
-                    <span id="confidence-val" style="color: var(--accent-cyan); font-weight: 700;">12%</span>
-                </div>
-                <div style="height: 6px; background: #1e293b; border-radius: 4px; overflow: hidden;">
-                    <div id="confidence-fill" style="width: 12%; height: 100%; background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan)); transition: width 0.3s ease;"></div>
-                </div>
-            </div>
+    <!-- Search & Category Filters -->
+    <div class="search-filter-bar">
+      <div class="search-box-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="app-search" class="search-input" placeholder="Search by name, subdomain, tech stack, or feature..." autocomplete="off">
+      </div>
+      <div class="filter-chips" id="filter-chips">
+        <span class="filter-chip active" data-filter="all">All Fleet Nodes (18)</span>
+        <span class="filter-chip" data-filter="contracting">Contracting & 3D</span>
+        <span class="filter-chip" data-filter="wasm">WASM & Telemetry</span>
+        <span class="filter-chip" data-filter="p2p">P2P & Hardware</span>
+        <span class="filter-chip" data-filter="emergency">Specialty & Rescue</span>
+      </div>
+    </div>
+  </section>
 
-            <!-- Interactive Chat Thread -->
-            <div class="chat-thread-container" id="chat-thread">
-                <div class="chat-bubble oracle">
-                    <strong>🔮 Oracle:</strong> GREETINGS HUMAN! Think of any software application or concept in your mind (e.g. <i>'WaZ Weather'</i>, <i>'DuckDB'</i>, <i>'WebRTC'</i>, or <i>'PourReady'</i>). Click a button or type your answer below to begin!
-                </div>
-            </div>
+  <!-- Applications & Subdomains Grid -->
+  <main class="section-container">
+    <div class="features-grid" id="apps-grid">
 
-            <!-- Quick Choice Buttons -->
-            <div id="choice-buttons" class="choice-buttons">
-                <button class="btn-choice" data-answer="yes">YES 👍</button>
-                <button class="btn-choice" data-answer="no">NO 👎</button>
-                <button class="btn-choice" data-answer="maybe">MAYBE / UNSURE 🤔</button>
-            </div>
-
-            <!-- Chat Input Form -->
-            <form id="chat-input-form" class="chat-input-bar">
-                <input type="text" id="chat-input-field" class="chat-input-field" placeholder="Type your answer or response to the Oracle..." autocomplete="off">
-                <button type="submit" class="btn-send-chat">SEND ↗</button>
-            </form>
-
-            <!-- Victory / Defeat Overlay Boxes -->
-            <div id="oracle-wish-box" style="display: none; margin-top: 20px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent-cyan); padding: 20px; border-radius: 12px;">
-                <h3 style="color: var(--accent-cyan); margin-bottom: 8px; font-size: 1.2rem;">🎉 YOU VICTORY! You Outsmarted the Oracle!</h3>
-                <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 14px;">The Oracle burned all 20 Neurons without discovering your secret thought. Ask any question below:</p>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <input type="text" id="wish-input" placeholder="Ask the Oracle any question..." style="flex: 1; min-width: 240px; padding: 10px 14px; background: #090d16; border: 1px solid #334155; border-radius: 8px; color: #ffffff; outline: none;">
-                    <button class="btn-choice" id="btn-grant-wish" style="background: #2563eb; border-color: #3b82f6; flex: 0 0 auto; padding: 10px 20px;">Extract Oracle Wisdom 🔮</button>
-                </div>
-                <div id="wish-output" style="margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; color: var(--accent-emerald); background: #090d16; padding: 14px; border-radius: 8px; border: 1px solid #334155; display: none;"></div>
-            </div>
-
-            <div id="oracle-win-box" style="display: none; margin-top: 20px; background: rgba(34, 197, 94, 0.1); border: 1px solid var(--accent-emerald); padding: 20px; border-radius: 12px; text-align: center;">
-                <h3 style="color: var(--accent-emerald); margin-bottom: 8px; font-size: 1.2rem;">🎯 DEDUCTION COMPLETE! The Oracle Guessed It!</h3>
-                <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 16px;">The Oracle successfully synthesized your thought matrix in under 20 Neurons.</p>
-                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                    <button class="btn-send-chat" onclick="location.reload()" style="background: #1e293b; border-color: #334155;">Play Again 🔄</button>
-                    <a href="/" class="btn-send-chat" style="text-decoration: none;">Return to Main Portal ↗</a>
-                </div>
-            </div>
-
+      <!-- 1. Dondlinger GC Canonical Web Portal -->
+      <div class="feature-box" data-category="contracting" data-search="dondlinger general contracting commercial residential roofing siding decks home central wisconsin">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">🔨</div>
+          <span class="app-badge">ROOT COMMERCIAL HUB</span>
         </div>
-    </main>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">Dondlinger GC Commercial Portal</h2>
+        <p class="feature-desc">
+          Official contracting hub for Wisconsin Rapids & Central Wisconsin. Turnkey proposals, structural carpentry, roofing tear-offs, Low-E argon window replacements, siding envelopes, and PourReady concrete slabs.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Production Live</span>
+          <a href="https://dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Launch Portal ↗</a>
+        </div>
+      </div>
 
-    <script src="app.js?v=5.0.0"></script>
+      <!-- 2. GVSM 3D Modeling Portal -->
+      <div class="feature-box" data-category="contracting" data-search="gvsm grounded visual site modeling 3d cutaway architectural photorealistic blueprints framing">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">📐</div>
+          <span class="app-badge" style="color:#38bdf8;border-color:rgba(56,189,248,0.4);background:rgba(56,189,248,0.1);">3D SPATIAL GVSM™</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://gvsm.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">GVSM™ 3D Modeling Portal</h2>
+        <p class="feature-desc">
+          Proprietary Grounded Visual Site Modeling engine. Generates photorealistic architectural cutaways and millimeter-accurate SVG fabrication drawings anchored directly to physical jobsite framing photos.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Client & Crew Suite</span>
+          <a href="https://gvsm.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Launch GVSM™ ↗</a>
+        </div>
+      </div>
+
+      <!-- 3. Universal Fleet Telemetry Command Deck -->
+      <div class="feature-box" data-category="wasm" data-search="traffic fleet telemetry command deck live monitoring cloudflare edge subdomains crawlers humans">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">🛰️</div>
+          <span class="app-badge" style="color:#a855f7;border-color:rgba(168,85,247,0.4);background:rgba(168,85,247,0.1);">FLEET TELEMETRY</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://traffic.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">Universal Fleet Telemetry Deck</h2>
+        <p class="feature-desc">
+          Live edge telemetry and traffic inspection console monitoring all fleet subdomains (*.dondlingergc.com). Tracks human sessions, search crawlers, request latency, and edge compute health in real time.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Live Edge Analytics</span>
+          <a href="https://traffic.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Open Command Deck ↗</a>
+        </div>
+      </div>
+
+      <!-- 4. TAP Client -->
+      <div class="feature-box" data-category="wasm" data-search="tap touch action plan mudblazor blazor wasm project execution schedule field tickets">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">⚡</div>
+          <span class="app-badge">MUDBLAZOR WASM</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://tap.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">TAP Client (Touch Action Plan)</h2>
+        <p class="feature-desc">
+          MudBlazor WebAssembly jobsite execution console. Delivers rapid task scheduling, field ticket progress tracking, crew punch lists, and offline-first reactive state management on mobile and desktop.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Blazor WASM App</span>
+          <a href="https://tap.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Launch TAP ↗</a>
+        </div>
+      </div>
+
+      <!-- 5. Contractor B2B Modeling & Takeoff Portal -->
+      <div class="feature-box" data-category="contracting" data-search="contractor b2b intake modeling takeoffs builders general contractors framing blueprints">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">🏗️</div>
+          <span class="app-badge" style="color:#f59e0b;border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.1);">B2B PARTNER HUB</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://dondlingergc.com/intake.html</span>
+        </div>
+        <h2 class="feature-title">Contractor B2B Takeoff Portal</h2>
+        <p class="feature-desc">
+          Dedicated B2B workflow intake wizard for builders and general contractors outsourcing 3D GVSM visual modeling, trade cut lists, and single-supplier material takeoffs.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">B2B Workflow Wizard</span>
+          <a href="/intake.html" class="launch-link" target="_blank" rel="noopener noreferrer">Launch B2B Intake ↗</a>
+        </div>
+      </div>
+
+      <!-- 6. Client Quick Estimate & Photo Dispatch -->
+      <div class="feature-box" data-category="contracting" data-search="homeowner estimate photo dispatch instant quote camera telegram bot">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">📸</div>
+          <span class="app-badge">TELEGRAM PIPELINE</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://dondlingergc.com/#estimate</span>
+        </div>
+        <h2 class="feature-title">Homeowner Quote & Photo Dispatch</h2>
+        <p class="feature-desc">
+          Direct client project intake form. Allows homeowners to describe job requirements and upload camera photos, automatically dispatching high-priority leads to the DGC Telegram field coordination bot.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Real-Time Dispatch</span>
+          <a href="/#estimate" class="launch-link" target="_blank" rel="noopener noreferrer">Open Dispatch Form ↗</a>
+        </div>
+      </div>
+
+      <!-- 7. Anytime Animal Control (AAC) -->
+      <div class="feature-box" data-category="emergency" data-search="aac anytime animal control wildlife removal emergency trapping bats raccoons squirrels exclusion">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">🦝</div>
+          <span class="app-badge" style="color:#ef4444;border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.1);">24/7 WILDLIFE RESCUE</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://aac.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">Anytime Animal Control (AAC)</h2>
+        <p class="feature-desc">
+          24/7 Central Wisconsin emergency wildlife removal, attic decontamination, structural exclusion repairs, and humane nuisance animal trapping (bats, raccoons, squirrels, skunks).
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Live Emergency Service</span>
+          <a href="https://aac.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Launch AAC ↗</a>
+        </div>
+      </div>
+
+      <!-- 8. Skydrop P2P File Transfer -->
+      <div class="feature-box" data-category="p2p" data-search="skydrop peerjs webrtc p2p encrypted file transfer qr code mobile photo sharing zero liability">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">📡</div>
+          <span class="app-badge" style="color:#00e5ff;border-color:rgba(0,229,255,0.4);background:rgba(0,229,255,0.1);">P2P WEBRTC</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://skydrop.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">Skydrop Encrypted File Transfer</h2>
+        <p class="feature-desc">
+          PeerJS WebRTC encrypted peer-to-peer file and photo exchange. Connects desktop and phone directly via instant QR code scanning with zero cloud storage, zero liability, and zero size limits.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Zero Cloud Storage</span>
+          <a href="https://skydrop.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Open Skydrop ↗</a>
+        </div>
+      </div>
+
+      <!-- 9. Timeline ZLA Engine -->
+      <div class="feature-box" data-category="wasm" data-search="timeline zla webrtc sync milestone pdf export client tracking project schedule">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">⏱️</div>
+          <span class="app-badge">ZLA TIME ENGINE</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://timelinezla.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">Timeline ZLA Engine</h2>
+        <p class="feature-desc">
+          High-precision project milestone timeline and progress tracking engine. Features peer-to-peer WebRTC state synchronization, ZLA file sharing, and clean client-facing PDF summary exports.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Milestone & PDF Sync</span>
+          <a href="https://timelinezla.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Open Timeline ↗</a>
+        </div>
+      </div>
+
+      <!-- 10. WaZ Weather Dashboard -->
+      <div class="feature-box" data-category="wasm" data-search="waz weather radar atmospheric telemetry nws national weather service rain storm hydrology river">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">⛈️</div>
+          <span class="app-badge" style="color:#38bdf8;border-color:rgba(56,189,248,0.4);background:rgba(56,189,248,0.1);">ATMOSPHERIC RADAR</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://wazweather.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">WaZ Weather & Telemetry</h2>
+        <p class="feature-desc">
+          Blazor WebAssembly weather dashboard pulling direct National Weather Service (NWS) radar, Wisconsin River hydrological telemetry, storm warnings, and field dispatch forecasts.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Live NOAA / NWS Feed</span>
+          <a href="https://wazweather.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Launch Weather ↗</a>
+        </div>
+      </div>
+
+      <!-- 11. Heckler Audio Soundboard -->
+      <div class="feature-box" data-category="wasm" data-search="heckler audio soundboard blazor wasm webaudio synthesizers tactical sound fx">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">🔊</div>
+          <span class="app-badge">WEBAUDIO WASM</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://heckler.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">Heckler Audio Soundboard</h2>
+        <p class="feature-desc">
+          Ultra-low-latency Blazor WebAssembly audio engine. Delivers hardware-accelerated sound effects, tactical notifications, WebAudio DSP synthesis, and desktop sound playback.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">WebAudio Engine</span>
+          <a href="https://heckler.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Launch Heckler ↗</a>
+        </div>
+      </div>
+
+      <!-- 12. CG Music Composition & Sound Player -->
+      <div class="feature-box" data-category="wasm" data-search="cgmusiccomp audio music composition wurlitzer player webaudio synthesis sound generator">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">🎵</div>
+          <span class="app-badge">AUDIO ENGINE</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://cgmusiccomp.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">CG Music Composition Engine</h2>
+        <p class="feature-desc">
+          Audio synthesizer, music composition playground, and Wurlitzer scream player. Features zero-latency WebAudio oscillators and algorithmic sequence generation.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Interactive WebAudio</span>
+          <a href="https://cgmusiccomp.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Launch Music Comp ↗</a>
+        </div>
+      </div>
+
+      <!-- 13. Metropolis Personalization Engine -->
+      <div class="feature-box" data-category="p2p" data-search="personalization metropolis taskbar theme customizer hud desktop client preferences">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">🎛️</div>
+          <span class="app-badge">METROPOLIS HUD</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://personalization.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">Personalization Engine</h2>
+        <p class="feature-desc">
+          Persistent client interface and desktop personalization engine. Manages Metropolis taskbar states, visual theme overrides, sound profiles, and operator workspace preferences.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">UI Configuration</span>
+          <a href="https://personalization.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Open Preferences ↗</a>
+        </div>
+      </div>
+
+      <!-- 13. PourReady Concrete Calculator -->
+      <div class="feature-box" data-category="contracting" data-search="calc concrete pourready cubic yards slab thickness gravel subbase estimator calculator">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">🧱</div>
+          <span class="app-badge">POURREADY CALC</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://dondlingergc.com/calc/index.html</span>
+        </div>
+        <h2 class="feature-title">PourReady™ Concrete Calculator</h2>
+        <p class="feature-desc">
+          High-accuracy concrete yardage and slab estimator. Computes cubic yards for 4000 PSI air-entrained pours, frost-heave footing depths, and crushed stone subbase requirements with safety margins.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Jobsite Tool</span>
+          <a href="/calc/index.html" class="launch-link" target="_blank" rel="noopener noreferrer">Open Calculator ↗</a>
+        </div>
+      </div>
+
+      <!-- 14. Metropolis 4K Interactive Theater -->
+      <div class="feature-box" data-category="contracting" data-search="theater 4k interactive media presentation drone flythrough project walkthrough gallery">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">🎬</div>
+          <span class="app-badge">4K MEDIA THEATER</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://dondlingergc.com/theater.html</span>
+        </div>
+        <h2 class="feature-title">Metropolis 4K Interactive Theater</h2>
+        <p class="feature-desc">
+          Cinematic media presentation engine for finished architectural builds, high-resolution aerial drone walkthroughs, and 4K commercial jobsite inspection galleries.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">High-Dynamic Gallery</span>
+          <a href="/theater.html" class="launch-link" target="_blank" rel="noopener noreferrer">Enter Theater ↗</a>
+        </div>
+      </div>
+
+      <!-- 15. Touchscreen & Input Latency Tester -->
+      <div class="feature-box" data-category="p2p" data-search="touchscreen tester multi-touch latency pointer tracking digitizer display diagnostic hardware">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">📱</div>
+          <span class="app-badge">HARDWARE DIAGNOSTIC</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://dondlingergc.com/touchscreen-tester.html</span>
+        </div>
+        <h2 class="feature-title">Touchscreen & Pointer Tester</h2>
+        <p class="feature-desc">
+          Zero-overhead hardware diagnostic tool for multi-touch display calibration, touch point polling rate inspection, digitizer ghost-touch detection, and pointer response analysis.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Device Diagnostics</span>
+          <a href="/touchscreen-tester.html" class="launch-link" target="_blank" rel="noopener noreferrer">Run Test Suite ↗</a>
+        </div>
+      </div>
+
+      <!-- 16. Inspect Allamado Structural Inspection -->
+      <div class="feature-box" data-category="emergency" data-search="inspect allamado structural damage inspection telemetry property evaluation framing">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">🔍</div>
+          <span class="app-badge">STRUCTURAL INSPECT</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://inspectallamado.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">Inspect Allamado Service</h2>
+        <p class="feature-desc">
+          Dedicated damage assessment and structural inspection service. Records framing integrity, water ingress, and structural remediation metrics with verifiable photo logs.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Structural Service</span>
+          <a href="https://inspectallamado.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">Launch Inspection ↗</a>
+        </div>
+      </div>
+
+      <!-- 17. Zero-Liability Architecture (ZLA) Specification -->
+      <div class="feature-box" data-category="p2p" data-search="zla zero liability architecture specification edge boundaries cryptographic contracts privacy security">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+          <div class="feature-icon">🛡️</div>
+          <span class="app-badge">ZLA SPECIFICATION</span>
+        </div>
+        <div class="card-url">
+          <span class="status-dot"></span>
+          <span>https://zla.dondlingergc.com</span>
+        </div>
+        <h2 class="feature-title">Zero-Liability Architecture (ZLA)</h2>
+        <p class="feature-desc">
+          Canonical architecture specification and edge contract documentation. Defines stateless edge computing boundaries, client-side encryption, and zero-liability data storage principles.
+        </p>
+        <div class="card-actions">
+          <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">Architectural Spec</span>
+          <a href="https://zla.dondlingergc.com" class="launch-link" target="_blank" rel="noopener noreferrer">View ZLA Spec ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Clean Standalone Footer -->
+  <footer style="margin-top:4rem;">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;">
+      <div>
+        <p style="color:#fff;font-weight:700;margin-bottom:4px;">© 2026 Dondlinger General Contracting LLC</p>
+        <p style="font-size:0.8rem;color:var(--text-dim);">Central Wisconsin Certified Journeyman Contracting & Digital Ecosystem</p>
+      </div>
+      <div style="display:flex;gap:16px;font-family:var(--font-mono);font-size:0.85rem;">
+        <a href="/">Main Portal</a>
+        <a href="/intake.html">B2B Intake</a>
+        <a href="/calc/index.html">Concrete Calc</a>
+        <a href="https://traffic.dondlingergc.com">Fleet Telemetry</a>
+        <a href="https://gvsm.dondlingergc.com">GVSM™ 3D</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js?v=6.0.0"></script>
 </body>
 </html>
