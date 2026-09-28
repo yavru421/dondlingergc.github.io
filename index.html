@@ -230,6 +230,416 @@
       cursor: pointer;
       border: none;
     }
+    .btn-hud-gvsm {
+      background: linear-gradient(135deg, rgba(255, 170, 0, 0.18) 0%, rgba(255, 87, 34, 0.22) 100%);
+      color: #ffaa00;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid rgba(255, 170, 0, 0.45);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      letter-spacing: 0.2px;
+      box-shadow: 0 0 14px rgba(255, 170, 0, 0.2);
+      transition: all 0.2s ease;
+    }
+    .btn-hud-gvsm:hover {
+      background: linear-gradient(135deg, rgba(255, 170, 0, 0.3) 0%, rgba(255, 87, 34, 0.35) 100%);
+      border-color: #ffaa00;
+      box-shadow: 0 0 20px rgba(255, 170, 0, 0.4);
+      transform: translateY(-1px);
+      color: #fff;
+    }
+    .gvsm-pulse-ring {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ffaa00;
+      box-shadow: 0 0 8px #ffaa00;
+      animation: gvsmPulse 2s infinite;
+    }
+    @keyframes gvsmPulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 170, 0, 0.7); }
+      70% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(255, 170, 0, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 170, 0, 0); }
+    }
+    @media (max-width: 768px) {
+      .btn-hud-gvsm .gvsm-label-full { display: none; }
+    }
+
+    /* Front & Center GVSM Showcase Section */
+    .gvsm-showcase-section {
+      max-width: 960px;
+      margin: 0 auto 20px;
+      padding: 0 16px;
+    }
+    .gvsm-showcase-card {
+      background: linear-gradient(135deg, rgba(24, 20, 15, 0.95) 0%, rgba(14, 18, 28, 0.98) 100%);
+      border: 2px solid rgba(255, 170, 0, 0.45);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 170, 0, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    .gvsm-showcase-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(255, 170, 0, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .gvsm-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .gvsm-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 170, 0, 0.12);
+      border: 1px solid rgba(255, 170, 0, 0.35);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: #ffaa00;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    .gvsm-headline {
+      font-family: var(--font-brand);
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+    .gvsm-subtext {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      line-height: 1.55;
+      margin-bottom: 18px;
+      max-width: 840px;
+    }
+    .gvsm-dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 720px) {
+      .gvsm-dual-grid { grid-template-columns: 1fr; }
+    }
+    .gvsm-feature-tile {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+      transition: all 0.2s ease;
+    }
+    .gvsm-feature-tile:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 170, 0, 0.3);
+    }
+    .gvsm-tile-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: #ffaa00;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .gvsm-tile-title {
+      font-family: var(--font-brand);
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .gvsm-tile-desc {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+    .gvsm-actions-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-gvsm-primary {
+      background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+      color: #fff;
+      font-family: var(--font-brand);
+      font-size: 13.5px;
+      font-weight: 800;
+      padding: 12px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(255, 110, 0, 0.35);
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn-gvsm-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(255, 110, 0, 0.5);
+    }
+    .btn-gvsm-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #f8fafc;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 11px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s ease;
+    }
+    .btn-gvsm-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 170, 0, 0.3);
+      color: #ffaa00;
+    }
+
+    /* Interactive Split-Screen Curtain Slider */
+    .slider-viewport {
+      position: relative;
+      width: 100%;
+      height: 480px;
+      border-radius: 12px;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+      background: #000;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(0, 0, 0, 0.8);
+      margin-bottom: 16px;
+      border: 1.5px solid rgba(255, 170, 0, 0.4);
+      cursor: ew-resize;
+      touch-action: pan-y;
+    }
+    @media (max-width: 768px) {
+      .slider-viewport { height: 320px; }
+    }
+    .slider-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    .slider-before-img {
+      clip-path: inset(0 calc(100% - var(--slider-pos, 50%)) 0 0);
+      z-index: 2;
+    }
+    .slider-after-img {
+      z-index: 1;
+    }
+    .slider-handle {
+      position: absolute;
+      top: 0;
+      left: var(--slider-pos, 50%);
+      width: 4px;
+      height: 100%;
+      background: #ffaa00;
+      box-shadow: 0 0 14px rgba(255, 170, 0, 0.9);
+      cursor: ew-resize;
+      z-index: 10;
+      transform: translateX(-50%);
+    }
+    .slider-handle-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      background: #ff9800;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-weight: 900;
+      font-size: 17px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7), 0 0 14px rgba(255, 170, 0, 0.6);
+      user-select: none;
+    }
+    .slider-pill-label {
+      position: absolute;
+      bottom: 12px;
+      padding: 5px 12px;
+      background: rgba(9, 10, 15, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      font-family: var(--font-brand);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      z-index: 5;
+      backdrop-filter: blur(6px);
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    .slider-pill-left { left: 12px; color: #ffaa00; border-color: rgba(255, 170, 0, 0.45); }
+    .slider-pill-right { right: 12px; color: #38bdf8; border-color: rgba(56, 189, 248, 0.45); }
+    
+    /* On-Stage Carousel Chevrons */
+    .slider-nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(9, 10, 15, 0.85);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 8;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.8);
+      user-select: none;
+    }
+    .slider-nav-arrow:hover {
+      background: rgba(255, 170, 0, 0.35);
+      border-color: #ffaa00;
+      color: #ffaa00;
+      transform: translateY(-50%) scale(1.1);
+    }
+    .slider-nav-arrow.prev { left: 12px; }
+    .slider-nav-arrow.next { right: 12px; }
+
+    /* Visual Carousel Rail */
+    .gvsm-carousel-rail {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin-bottom: 14px;
+      padding: 4px 2px 10px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .gvsm-carousel-rail::-webkit-scrollbar { display: none; }
+
+    .gvsm-carousel-card {
+      flex: 0 0 175px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 6px;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      text-align: left;
+      position: relative;
+    }
+    @media (max-width: 768px) {
+      .gvsm-carousel-card { flex: 0 0 148px; }
+    }
+    .gvsm-carousel-card:hover {
+      background: rgba(255, 170, 0, 0.08);
+      border-color: rgba(255, 170, 0, 0.4);
+      transform: translateY(-2px);
+    }
+    .gvsm-carousel-card.active {
+      background: rgba(255, 170, 0, 0.15);
+      border-color: #ffaa00;
+      box-shadow: 0 0 16px rgba(255, 170, 0, 0.35);
+      transform: translateY(-2px);
+    }
+    .gvsm-card-split-thumb {
+      width: 100%;
+      height: 70px;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      margin-bottom: 6px;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .gvsm-thumb-half {
+      width: 50%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .gvsm-thumb-divider {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: #ffaa00;
+      box-shadow: 0 0 6px rgba(255, 170, 0, 0.8);
+      transform: translateX(-50%);
+    }
+    .gvsm-card-label {
+      font-family: var(--font-brand);
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .gvsm-carousel-card.active .gvsm-card-label {
+      color: #ffaa00;
+    }
+    .gvsm-card-scope {
+      font-size: 10px;
+      color: #cbd5e1;
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .gvsm-card-active-dot {
+      display: none;
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffaa00;
+      box-shadow: 0 0 8px #ffaa00;
+    }
+    .gvsm-carousel-card.active .gvsm-card-active-dot {
+      display: block;
+    }
 
     /* Hero Section */
     .hero-compact { padding: 18px 16px 12px; max-width: 960px; margin: 0 auto; }
@@ -674,7 +1084,6 @@
       <img src="dondlinger_logo.png" alt="Dondlinger General Contracting" class="hud-logo">
       <div class="hud-brand-text">
         <span class="hud-name">DONDLINGER GENERAL CONTRACTING LLC <span class="hud-dropdown-icon">▼</span></span>
-        <span class="hud-sub"><span class="dot"></span> RESIDENTIAL & COMMERCIAL CONTRACTING • INSURED</span>
       </div>
 
       <div class="hud-menu-dropdown" id="hud-menu-dropdown">
@@ -716,6 +1125,10 @@
       </div>
     </div>
     <div class="hud-actions">
+      <a href="#gvsm-moat" class="btn-hud-gvsm">
+        <svg class="icon-svg" style="width:14px;height:14px;stroke:#ffaa00;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>GVSM™ <span class="gvsm-label-full">3D Studio</span></span>
+      </a>
       <a href="tel:7154593050" class="btn-hud-call">
         <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         (715) 459-3050
@@ -724,25 +1137,162 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Section: Grounded Visual Site Modeling (GVSM) Moat -->
   <section class="hero-compact">
-    <div class="hero-tagline" id="geo-location-tag">
-      <svg class="icon-svg" style="width:13px;height:13px;stroke:var(--accent);" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <span id="geo-city-text">Wisconsin Rapids, Nekoosa, Port Edwards & Wood County</span>
-    </div>
-    
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;margin-bottom:14px;">
-      <div style="flex:1;min-width:280px;">
-        <h1 class="hero-headline">Quality Work. Straightforward Contracting.</h1>
-        <p class="hero-subtext" style="margin-bottom:0;">
-          Certified journeyman residential & commercial contracting in Central Wisconsin. Siding envelopes, replacement windows & doors, custom decks, roofing, and PourReady concrete flatwork.
+    <!-- FRONT & CENTER: DGC GROUNDED VISUAL SITE MODELING (GVSM) MOAT -->
+    <div class="gvsm-showcase-section" id="gvsm-moat" style="padding:0;margin:0 0 20px 0;max-width:100%;">
+      <div class="gvsm-showcase-card">
+        <div class="gvsm-card-header">
+          <div class="gvsm-pill">
+            <span class="gvsm-pulse-ring"></span>
+            <span>DGC PROPRIETARY TRADE TECHNOLOGY</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <img src="images/gvsm/logo/gvsm_seal.svg" alt="DGC GVSM Seal" style="width:38px;height:38px;filter:drop-shadow(0 0 10px rgba(255,170,0,0.5));">
+            <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-muted);">WISCONSIN SPS 321.28 COMPLIANT</span>
+          </div>
+        </div>
+
+        <h2 class="gvsm-headline">See Your Remodel in Your Exact Space Before We Cut a Single Board.</h2>
+        <p class="gvsm-subtext">
+          Drag the interactive comparison curtain below to see real jobsite substrate photos against photorealistic <strong>DGC Grounded Visual Site Models (GVSM™)</strong>. We anchor millimeter-accurate framing and cut schedules directly to your actual home:
         </p>
-      </div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <a href="/intake.html" class="btn-hero-new-project">
-          <span>🚀 NEW PROJECT / JOB</span>
-          <span style="font-size:18px;">→</span>
-        </a>
+
+        <!-- Interactive Split-Screen Curtain Slider Stage -->
+        <div class="slider-viewport" id="gvsmSliderViewport">
+          <!-- Background: Proposed Cutaway / GVSM Visual -->
+          <img id="gvsmImgAfter" class="slider-img slider-after-img" src="images/gvsm/client_soffit/gvsm_soffit_cutaway.jpg" alt="Proposed GVSM Cutaway">
+          
+          <!-- Foreground Clipped: Existing Site Photo -->
+          <img id="gvsmImgBefore" class="slider-img slider-before-img" src="images/gvsm/client_soffit/before_hvac_cradle.jpg" alt="Existing Site Condition">
+
+          <!-- Draggable Curtain Handle -->
+          <div class="slider-handle" id="gvsmSliderHandle">
+            <div class="slider-handle-circle">↔</div>
+          </div>
+
+          <!-- Carousel Stage Arrows -->
+          <button type="button" class="slider-nav-arrow prev" onclick="cycleGvsmSlide(-1)" title="Previous Project">‹</button>
+          <button type="button" class="slider-nav-arrow next" onclick="cycleGvsmSlide(1)" title="Next Project">›</button>
+
+          <!-- Badges -->
+          <div class="slider-pill-label slider-pill-left">📷 EXISTING SUBSTRATE</div>
+          <div class="slider-pill-label slider-pill-right">✨ PROPOSED GVSM™ MODEL</div>
+        </div>
+
+        <!-- Under-Stage HUD & Material Specifications -->
+        <div id="gvsmActiveDesc" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+          <div style="flex:1;min-width:240px;">
+            <div id="gvsmActiveTitle" style="font-weight:800;font-size:15px;color:#ffaa00;margin-bottom:2px;">HVAC Return Air Soffit Cradle</div>
+            <div id="gvsmActiveSub" style="font-size:12.5px;color:#cbd5e1;line-height:1.35;">Raw overhead ductwork transformed into flush drywall chase with integrated recessed lighting</div>
+            <div id="gvsmActiveSpec" style="font-family:var(--font-mono);font-size:11px;color:#94a3b8;margin-top:4px;">Wisconsin SPS 321 Framing | 2x2 SPF Cradle | 5/8" Drywall Return</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <button type="button" onclick="peekGvsmBefore()" style="font-size:11px;font-family:var(--font-brand);font-weight:700;padding:6px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:6px;cursor:pointer;transition:all 0.15s;">👁️ Quick Peek</button>
+            <button type="button" onclick="centerGvsmSlider()" style="font-size:11px;font-family:var(--font-brand);font-weight:700;padding:6px 12px;background:rgba(255,170,0,0.15);border:1px solid rgba(255,170,0,0.3);color:#ffaa00;border-radius:6px;cursor:pointer;transition:all 0.15s;">↔ 50/50 Split</button>
+          </div>
+        </div>
+
+        <!-- Visual Project Carousel Filmstrip -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">SELECT REAL-WORLD PROJECT CAROUSEL (5 ACTIVE)</span>
+          <span id="gvsmSlideCounter" style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:#ffaa00;">1 / 5</span>
+        </div>
+        <div class="gvsm-carousel-rail" id="gvsmCarouselRail">
+          <!-- Card 0: HVAC Soffit -->
+          <div class="gvsm-carousel-card active" onclick="selectGvsmSlide(0)" id="gvsmCard-0">
+            <div class="gvsm-card-active-dot"></div>
+            <div class="gvsm-card-split-thumb">
+              <img src="images/gvsm/client_soffit/before_hvac_cradle.jpg" class="gvsm-thumb-half" alt="Before">
+              <div class="gvsm-thumb-divider"></div>
+              <img src="images/gvsm/client_soffit/gvsm_soffit_cutaway.jpg" class="gvsm-thumb-half" alt="After">
+            </div>
+            <div class="gvsm-card-label">HVAC Soffit Cradle</div>
+            <div class="gvsm-card-scope">2x2 Framing & Flush Return</div>
+          </div>
+
+          <!-- Card 1: Basement Stairs -->
+          <div class="gvsm-carousel-card" onclick="selectGvsmSlide(1)" id="gvsmCard-1">
+            <div class="gvsm-card-active-dot"></div>
+            <div class="gvsm-card-split-thumb">
+              <img src="images/gvsm/client_stairs/before_framing.jpg" class="gvsm-thumb-half" alt="Before">
+              <div class="gvsm-thumb-divider"></div>
+              <img src="images/gvsm/client_stairs/gvsm_framing_cutaway.jpg" class="gvsm-thumb-half" alt="After">
+            </div>
+            <div class="gvsm-card-label">Basement Stairwell</div>
+            <div class="gvsm-card-scope">Enclosure & Storage Nook</div>
+          </div>
+
+          <!-- Card 2: Deck Landing -->
+          <div class="gvsm-carousel-card" onclick="selectGvsmSlide(2)" id="gvsmCard-2">
+            <div class="gvsm-card-active-dot"></div>
+            <div class="gvsm-card-split-thumb">
+              <img src="images/gvsm/client_landing/before_landing.jpg" class="gvsm-thumb-half" alt="Before">
+              <div class="gvsm-thumb-divider"></div>
+              <img src="images/gvsm/client_landing/gvsm_landing_cutaway.jpg" class="gvsm-thumb-half" alt="After">
+            </div>
+            <div class="gvsm-card-label">Entry Deck Landing</div>
+            <div class="gvsm-card-scope">Heavy Timber & Composite</div>
+          </div>
+
+          <!-- Card 3: Chimney Flashing -->
+          <div class="gvsm-carousel-card" onclick="selectGvsmSlide(3)" id="gvsmCard-3">
+            <div class="gvsm-card-active-dot"></div>
+            <div class="gvsm-card-split-thumb">
+              <img src="images/gvsm/client_roof_chimney/before_chimney_slope.jpg" class="gvsm-thumb-half" alt="Before">
+              <div class="gvsm-thumb-divider"></div>
+              <img src="images/gvsm/client_roof_chimney/gvsm_chimney_slope_cutaway.jpg" class="gvsm-thumb-half" alt="After">
+            </div>
+            <div class="gvsm-card-label">Chimney Saddle</div>
+            <div class="gvsm-card-scope">Cricket & Step Flashing</div>
+          </div>
+
+          <!-- Card 4: Timber Patio Pavilion -->
+          <div class="gvsm-carousel-card" onclick="selectGvsmSlide(4)" id="gvsmCard-4">
+            <div class="gvsm-card-active-dot"></div>
+            <div class="gvsm-card-split-thumb">
+              <img src="images/gvsm/client_patio/before_patio.jpg" class="gvsm-thumb-half" alt="Before">
+              <div class="gvsm-thumb-divider"></div>
+              <img src="images/gvsm/client_patio/gvsm_work_pavilion.jpg" class="gvsm-thumb-half" alt="After">
+            </div>
+            <div class="gvsm-card-label">Covered Timber Patio</div>
+            <div class="gvsm-card-scope">6x6 Cedar Posts & Roof</div>
+          </div>
+        </div>
+
+        <div class="gvsm-dual-grid">
+          <div class="gvsm-feature-tile">
+            <div class="gvsm-tile-tag">
+              <span>✨</span>
+              <span>Client Excitement & Visualization</span>
+            </div>
+            <div class="gvsm-tile-title">Photorealistic Substrate Cutaways</div>
+            <div class="gvsm-tile-desc">
+              See exactly how custom framing, LP SmartSide envelopes, timber decking, and acoustical drop ceilings integrate into your home's real structure with genuine lighting and textures.
+            </div>
+          </div>
+
+          <div class="gvsm-feature-tile">
+            <div class="gvsm-tile-tag">
+              <span>📐</span>
+              <span>Deterministic Fabrication Truth</span>
+            </div>
+            <div class="gvsm-tile-title">Millimeter-Accurate Carpenter Cut Schedules</div>
+            <div class="gvsm-tile-desc">
+              Every 3D visual is backed by real trade material SKUs (Menards / Home Depot) and millimeter joist spans. What you see is engineered directly into our field chop-saw cuts.
+            </div>
+          </div>
+        </div>
+
+        <div class="gvsm-actions-bar">
+          <a href="/intake.html" class="btn-gvsm-primary">
+            <span>📷 See Your Remodel Modeled — Request Intake ▾</span>
+          </a>
+          <a href="https://gvsm.dondlingergc.com" target="_blank" class="btn-gvsm-secondary">
+            <span>🚀 Launch Live GVSM™ 3D Studio</span>
+            <svg class="icon-svg" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -2674,15 +3224,181 @@ function toggleRawGrid() {
   }
 }
 
+// GVSM Interactive Slider & Project Carousel Engine
+const GVSM_CAROUSEL_DATA = [
+  {
+    title: "HVAC Return Air Soffit Cradle",
+    sub: "Raw overhead ductwork transformed into flush drywall chase with integrated recessed lighting",
+    spec: "Wisconsin SPS 321 Framing | 2x2 SPF Cradle | 5/8\" Drywall Return",
+    before: "images/gvsm/client_soffit/before_hvac_cradle.jpg",
+    after: "images/gvsm/client_soffit/gvsm_soffit_cutaway.jpg"
+  },
+  {
+    title: "Basement Stairwell Enclosure & Storage",
+    sub: "Open dangerous drop transformed into sound-deadened drywall enclosure with hidden access door",
+    spec: "2x4 Structural Studs | R-13 Sound Batt | 1/2\" Drywall Finish",
+    before: "images/gvsm/client_stairs/before_framing.jpg",
+    after: "images/gvsm/client_stairs/gvsm_framing_cutaway.jpg"
+  },
+  {
+    title: "Heavy Timber Entry Deck Landing",
+    sub: "Aging concrete steps replaced with elevated composite landing and aluminum baluster system",
+    spec: "Ground-Contact PT Joists | Composite Decking | Aluminum Balusters",
+    before: "images/gvsm/client_landing/before_landing.jpg",
+    after: "images/gvsm/client_landing/gvsm_landing_cutaway.jpg"
+  },
+  {
+    title: "Roof Chimney Saddle & Step Flashing",
+    sub: "Water-damaged roof penetration resolved with custom cricket and stepped metal counter-flashing",
+    spec: "26-ga Metal Cricket | Ice & Water Shield | Step Flashing Interlock",
+    before: "images/gvsm/client_roof_chimney/before_chimney_slope.jpg",
+    after: "images/gvsm/client_roof_chimney/gvsm_chimney_slope_cutaway.jpg"
+  },
+  {
+    title: "Outdoor Timber Pavilion & Patio Canopy",
+    sub: "Bare concrete slab elevated to vaulted tongue-and-groove cedar outdoor pavilion",
+    spec: "6x6 Cedar Posts | Heavy Rafters | Standing Seam Metal Roof",
+    before: "images/gvsm/client_patio/before_patio.jpg",
+    after: "images/gvsm/client_patio/gvsm_work_pavilion.jpg"
+  }
+];
+
+let activeGvsmIndex = 0;
+let isGvsmDragging = false;
+let gvsmBreatheTimer = null;
+
+function updateGvsmSlide(index) {
+  if (index < 0) index = GVSM_CAROUSEL_DATA.length - 1;
+  if (index >= GVSM_CAROUSEL_DATA.length) index = 0;
+  activeGvsmIndex = index;
+
+  const data = GVSM_CAROUSEL_DATA[activeGvsmIndex];
+  const beforeImg = document.getElementById('gvsmImgBefore');
+  const afterImg = document.getElementById('gvsmImgAfter');
+  const titleEl = document.getElementById('gvsmActiveTitle');
+  const subEl = document.getElementById('gvsmActiveSub');
+  const specEl = document.getElementById('gvsmActiveSpec');
+  const counterEl = document.getElementById('gvsmSlideCounter');
+
+  if (beforeImg) beforeImg.src = data.before;
+  if (afterImg) afterImg.src = data.after;
+  if (titleEl) titleEl.textContent = data.title;
+  if (subEl) subEl.textContent = data.sub;
+  if (specEl) specEl.textContent = data.spec;
+  if (counterEl) counterEl.textContent = `${activeGvsmIndex + 1} / ${GVSM_CAROUSEL_DATA.length}`;
+
+  // Update active card styling in rail
+  document.querySelectorAll('.gvsm-carousel-card').forEach((card, idx) => {
+    if (idx === activeGvsmIndex) {
+      card.classList.add('active');
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    } else {
+      card.classList.remove('active');
+    }
+  });
+
+  triggerGvsmBreathe();
+}
+
+function selectGvsmSlide(index) {
+  updateGvsmSlide(index);
+}
+
+function cycleGvsmSlide(dir) {
+  updateGvsmSlide(activeGvsmIndex + dir);
+}
+
+function setGvsmSliderPosition(pct) {
+  pct = Math.max(0, Math.min(100, pct));
+  const viewport = document.getElementById('gvsmSliderViewport');
+  if (viewport) {
+    viewport.style.setProperty('--slider-pos', pct + '%');
+  }
+}
+
+function centerGvsmSlider() {
+  setGvsmSliderPosition(50);
+}
+
+function peekGvsmBefore() {
+  const viewport = document.getElementById('gvsmSliderViewport');
+  if (!viewport) return;
+  const current = parseFloat(viewport.style.getPropertyValue('--slider-pos')) || 50;
+  if (current > 70) {
+    setGvsmSliderPosition(20);
+  } else {
+    setGvsmSliderPosition(85);
+  }
+}
+
+function triggerGvsmBreathe() {
+  if (isGvsmDragging) return;
+  if (gvsmBreatheTimer) clearInterval(gvsmBreatheTimer);
+  
+  let step = 0;
+  const steps = [50, 46, 42, 38, 35, 38, 44, 52, 60, 65, 62, 56, 50];
+  gvsmBreatheTimer = setInterval(() => {
+    if (isGvsmDragging || step >= steps.length) {
+      clearInterval(gvsmBreatheTimer);
+      gvsmBreatheTimer = null;
+      return;
+    }
+    setGvsmSliderPosition(steps[step]);
+    step++;
+  }, 60);
+}
+
+function initGvsmSliderListeners() {
+  const viewport = document.getElementById('gvsmSliderViewport');
+  if (!viewport) return;
+
+  function handlePointerMove(e) {
+    if (!isGvsmDragging) return;
+    if (gvsmBreatheTimer) {
+      clearInterval(gvsmBreatheTimer);
+      gvsmBreatheTimer = null;
+    }
+    const rect = viewport.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const x = clientX - rect.left;
+    const pct = (x / rect.width) * 100;
+    setGvsmSliderPosition(pct);
+  }
+
+  viewport.addEventListener('mousedown', (e) => {
+    if (e.target.closest('.slider-nav-arrow')) return;
+    isGvsmDragging = true;
+    handlePointerMove(e);
+  });
+
+  window.addEventListener('mousemove', handlePointerMove);
+  window.addEventListener('mouseup', () => { isGvsmDragging = false; });
+
+  viewport.addEventListener('touchstart', (e) => {
+    if (e.target.closest('.slider-nav-arrow')) return;
+    isGvsmDragging = true;
+    handlePointerMove(e);
+  }, { passive: true });
+
+  window.addEventListener('touchmove', handlePointerMove, { passive: true });
+  window.addEventListener('touchend', () => { isGvsmDragging = false; });
+
+  // Initial position & breathe demo
+  centerGvsmSlider();
+  setTimeout(triggerGvsmBreathe, 700);
+}
+
 // Initialize feed on load and tab switch
 document.addEventListener('DOMContentLoaded', () => {
   renderProjectsFeed();
   initHeroCarousel();
+  initGvsmSliderListeners();
 });
 // Also run immediately in case DOM is already parsed
 if (document.readyState === 'interactive' || document.readyState === 'complete') {
   renderProjectsFeed();
   initHeroCarousel();
+  initGvsmSliderListeners();
 }
 
 // Craftsmanship Changing Carousel Controller
