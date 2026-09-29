@@ -203,11 +203,14 @@ export async function onRequest(context) {
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
     const leadId = (isContractor ? 'B2B-' : 'DGC-') + Math.random().toString(36).substring(2, 8).toUpperCase();
     const tagLead = '#' + leadId.replace(/-/g, '_');
+    const cleanDigits = (contact || '').replace(/[^0-9]/g, '');
+    const cleanPhone = cleanDigits.length >= 10 ? cleanDigits.slice(-10) : cleanDigits;
 
     const telegramMessage = isContractor ? (
       `🏗️ *NEW CONTRACTOR B2B INTAKE (GVSM OUTSOURCE)* 📐\n\n` +
       `🏢 *Company / Contractor:* ${leadName}\n` +
       `📞 *Contact:* \`${contact}\`\n` +
+      (cleanPhone ? `📲 *Quick Action:* \`tel://${cleanPhone}\` • \`sms://${cleanPhone}\`\n` : '') +
       `📍 *Jobsite / Location:* ${city}\n` +
       `🔨 *Requested Scope / Trade:* ${service}\n\n` +
       `📋 *Framing Specs & Project Notes:*\n${notes}\n\n` +
@@ -217,11 +220,13 @@ export async function onRequest(context) {
       `🆔 *Ref ID:* \`${leadId}\`  ${tagLead} #CONTRACTOR_B2B\n` +
       `🌐 *Origin:* \`${origin}\``
     ) : (
-      `🏡 *NEW HOMEOWNER / CLIENT ESTIMATE* ⚡\n\n` +
+      `🏡 *NEW CLIENT ESTIMATE REQUEST* ⚡\n` +
+      `🏢 *Dondlinger General Contracting LLC*\n\n` +
       `👤 *Client:* ${leadName}\n` +
       `📞 *Contact:* \`${contact}\`\n` +
+      (cleanPhone ? `📲 *Quick Action:* \`tel://${cleanPhone}\` • \`sms://${cleanPhone}\`\n` : '') +
       `📍 *Location:* ${city}\n` +
-      `🔨 *Primary Trade / Service:* ${typeof service === 'string' && service.length > 80 ? service.substring(0, 80) + '...' : service}\n\n` +
+      `🔨 *Primary Trade:* ${typeof service === 'string' && service.length > 80 ? service.substring(0, 80) + '...' : service}\n\n` +
       `📝 *Scope & Requirements:*\n${notes}\n\n` +
       `🎙️ *Voice Memo:* ${voiceAudio ? 'Attached (Playable below)' : 'None'}\n` +
       `📸 *Site Photos:* ${photos.length > 0 ? photos.length + ' Attached' : 'None'}\n` +

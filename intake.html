@@ -835,7 +835,7 @@
                 <span>←</span>
                 <span>DondlingerGC.com</span>
             </a>
-            <span class="top-badge">📐 Contractor B2B GVSM™ Modeling Portal</span>
+            <span class="top-badge">📋 DONDLINGER GENERAL CONTRACTING LLC • ESTIMATE WIZARD</span>
         </div>
 
         <!-- Progress Tracker -->
@@ -843,19 +843,19 @@
             <div class="step-indicators">
                 <div class="step-pill active" id="stepPill-1" onclick="jumpToStep(1)">
                     <div class="step-num-bubble">1</div>
-                    <span class="step-label">Trade Scope</span>
+                    <span class="step-label">Project Scope</span>
                 </div>
                 <div class="step-pill" id="stepPill-2" onclick="jumpToStep(2)">
                     <div class="step-num-bubble">2</div>
-                    <span class="step-label">Specs & Audio</span>
+                    <span class="step-label">Scope Notes & Voice</span>
                 </div>
                 <div class="step-pill" id="stepPill-3" onclick="jumpToStep(3)">
                     <div class="step-num-bubble">3</div>
-                    <span class="step-label">Blueprints / Photos</span>
+                    <span class="step-label">Site Photos & Plans</span>
                 </div>
                 <div class="step-pill" id="stepPill-4" onclick="jumpToStep(4)">
                     <div class="step-num-bubble">4</div>
-                    <span class="step-label">Contractor Info</span>
+                    <span class="step-label">Contact Details</span>
                 </div>
             </div>
             <div class="progress-track">
@@ -875,31 +875,49 @@
             <!-- STEP 1: Trade / Space Selection -->
             <div class="wizard-step active" id="wizardStep-1">
                 <div class="step-header">
-                    <div class="step-tagline">Step 1 of 4 • Trade Scope & Modeling Request</div>
-                    <h1 class="step-title">Outsource GVSM™ Modeling & Takeoffs</h1>
-                    <p class="step-desc">Partner with DGC. Select the trade scope you need modeled. John will engineer millimeter-accurate 3D cutaways and carpenter cut schedules for your job.</p>
+                    <div class="step-tagline">Step 1 of 4 • Project Category & Scope</div>
+                    <h1 class="step-title">Select Your Project Category</h1>
+                    <p class="step-desc">Choose the primary trade or scope for your project. Dondlinger General Contracting LLC provides turnkey proposals and certified craftsmanship across Wood and Portage counties.</p>
                 </div>
 
                 <div class="trade-cards-grid">
-                    <div class="trade-card" onclick="selectTradeCard(this, 'Replacement Windows')">
-                        <span class="trade-card-icon">🪟</span>
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Drywall & Finishes')">
+                        <span class="trade-card-icon">🪚</span>
                         <div>
-                            <div class="trade-card-title">Replacement Windows</div>
-                            <div class="trade-card-desc">Vinyl, double-hung, sliders, bay windows, draft seals</div>
+                            <div class="trade-card-title">Drywall & Finishes</div>
+                            <div class="trade-card-desc">Hanging, taping, Level 5 finish, ceiling repair & textures</div>
                         </div>
                         <span class="trade-card-check">✓</span>
                     </div>
 
-                    <div class="trade-card" onclick="selectTradeCard(this, 'Interior & Exterior Doors')">
-                        <span class="trade-card-icon">🚪</span>
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Concrete Work')">
+                        <span class="trade-card-icon">🧱</span>
                         <div>
-                            <div class="trade-card-title">Doors & Jambs</div>
-                            <div class="trade-card-desc">Entry, patio sliders, storm doors, sticking doors, rot repair</div>
+                            <div class="trade-card-title">Concrete Work</div>
+                            <div class="trade-card-desc">Patios, walkways, garage aprons, slab replacement & flatwork</div>
                         </div>
                         <span class="trade-card-check">✓</span>
                     </div>
 
-                    <div class="trade-card" onclick="selectTradeCard(this, 'Exterior Siding, Soffit & Fascia')">
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Structural Framing')">
+                        <span class="trade-card-icon">📐</span>
+                        <div>
+                            <div class="trade-card-title">Structural Framing</div>
+                            <div class="trade-card-desc">Additions, load-bearing walls, basement finishing & rough framing</div>
+                        </div>
+                        <span class="trade-card-check">✓</span>
+                    </div>
+
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Full Remodels')">
+                        <span class="trade-card-icon">🏠</span>
+                        <div>
+                            <div class="trade-card-title">Full Remodels</div>
+                            <div class="trade-card-desc">Kitchen, bath, basement finish & whole-home renovations</div>
+                        </div>
+                        <span class="trade-card-check">✓</span>
+                    </div>
+
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Exterior Siding & Trim Wrap')">
                         <span class="trade-card-icon">🏡</span>
                         <div>
                             <div class="trade-card-title">Siding & Trim Wrap</div>
@@ -908,47 +926,29 @@
                         <span class="trade-card-check">✓</span>
                     </div>
 
-                    <div class="trade-card" onclick="selectTradeCard(this, 'Architectural Roofing Shingles')">
-                        <span class="trade-card-icon">🏠</span>
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Replacement Windows')">
+                        <span class="trade-card-icon">🪟</span>
                         <div>
-                            <div class="trade-card-title">Architectural Roofing</div>
-                            <div class="trade-card-desc">Tear-offs, dimensional shingles, leak remediation, valleys</div>
+                            <div class="trade-card-title">Replacement Windows</div>
+                            <div class="trade-card-desc">Vinyl, double-hung, sliders, casement & energy draft seals</div>
                         </div>
                         <span class="trade-card-check">✓</span>
                     </div>
 
-                    <div class="trade-card" onclick="selectTradeCard(this, 'Custom Shop & Kitchen Cabinetry')">
-                        <span class="trade-card-icon">🍳</span>
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Custom Decks & Railings')">
+                        <span class="trade-card-icon">🪵</span>
                         <div>
-                            <div class="trade-card-title">Kitchen & Cabinetry</div>
-                            <div class="trade-card-desc">Custom shop cabinetry, pantry builds, countertop installs</div>
+                            <div class="trade-card-title">Custom Decks</div>
+                            <div class="trade-card-desc">Treated lumber, composite decking, railings, landings & stairs</div>
                         </div>
                         <span class="trade-card-check">✓</span>
                     </div>
 
-                    <div class="trade-card" onclick="selectTradeCard(this, 'Basement & Drop Ceilings')">
-                        <span class="trade-card-icon">🔨</span>
+                    <div class="trade-card" onclick="selectTradeCard(this, 'Doors & Finish Carpentry')">
+                        <span class="trade-card-icon">🚪</span>
                         <div>
-                            <div class="trade-card-title">Basement & Drop Ceilings</div>
-                            <div class="trade-card-desc">Acoustical grid systems, 2x2 tiles, basement finish carpentry</div>
-                        </div>
-                        <span class="trade-card-check">✓</span>
-                    </div>
-
-                    <div class="trade-card" onclick="selectTradeCard(this, 'Concrete / PourReady Work')">
-                        <span class="trade-card-icon">🧱</span>
-                        <div>
-                            <div class="trade-card-title">Concrete / PourReady</div>
-                            <div class="trade-card-desc">Patios, walkways, garage aprons, slab replacement</div>
-                        </div>
-                        <span class="trade-card-check">✓</span>
-                    </div>
-
-                    <div class="trade-card" onclick="selectTradeCard(this, 'Other Construction / Carpentry')">
-                        <span class="trade-card-icon">🛠️</span>
-                        <div>
-                            <div class="trade-card-title">Other Carpentry & Repairs</div>
-                            <div class="trade-card-desc">Custom framing, decks, wall removal, general home repairs</div>
+                            <div class="trade-card-title">Doors & Finish Carpentry</div>
+                            <div class="trade-card-desc">Entry doors, patio sliders, interior doors, drop ceilings & trim</div>
                         </div>
                         <span class="trade-card-check">✓</span>
                     </div>
@@ -960,9 +960,9 @@
             <!-- STEP 2: Unified Voice & Project Story Studio -->
             <div class="wizard-step" id="wizardStep-2">
                 <div class="step-header">
-                    <div class="step-tagline">Step 2 of 4 • Project Story</div>
-                    <h2 class="step-title">Tell John What's Going On</h2>
-                    <p class="step-desc">Speak naturally or type your notes. The voice memo and live Whisper AI transcription integrate directly into your project story below.</p>
+                    <div class="step-tagline">Step 2 of 4 • Project Details</div>
+                    <h2 class="step-title">Describe Your Project</h2>
+                    <p class="step-desc">Speak naturally or type your notes. Record a voice memo or describe your scope, dimensions, and desired timeline below.</p>
                 </div>
 
                 <!-- Combined Voice Memo, Audio Player, & Story Studio Card -->
@@ -970,7 +970,7 @@
                     <!-- Top Action Bar: Header + Voice Recording Control -->
                     <div class="studio-header">
                         <div class="studio-title-wrap">
-                            <span class="studio-title">🎙️ Scope Notes & Voice Story</span>
+                            <span class="studio-title">🎙️ Scope Notes & Voice Memo</span>
                             <span id="wordCountLabel" class="studio-char-badge">0 chars</span>
                         </div>
                         <button type="button" class="studio-mic-btn" id="micBtn" onclick="toggleVoiceRecording()" title="Tap to record voice">
@@ -1005,15 +1005,16 @@
 
                     <!-- The Unified Story Textarea (Whisper AI transcribes directly here) -->
                     <div class="studio-textarea-wrap">
-                        <textarea id="notes" name="notes" rows="5" placeholder="Speak into the mic above, tap an idea chip below, or type your project story here..." oninput="handleNotesInput()"></textarea>
+                        <textarea id="notes" name="notes" rows="5" placeholder="Speak into the mic above, tap an idea chip below, or type your project details here..." oninput="handleNotesInput()"></textarea>
                     </div>
 
                     <!-- Quick Starter Idea Chips -->
                     <div class="chips-container" id="promptChipsContainer">
-                        <span class="chip" onclick="applyPromptChip('Looking to replace 4 drafty windows on the south side of our house before winter.')">🪟 4 Drafty Windows</span>
-                        <span class="chip" onclick="applyPromptChip('Front entry door sticks in humid weather and bottom brickmould casing has soft rot.')">🚪 Sticking Entry Door</span>
-                        <span class="chip" onclick="applyPromptChip('Need aluminum trim wrap on our garage jambs and LP SmartSide repair.')">🏡 Siding & Wrap</span>
-                        <span class="chip" onclick="applyPromptChip('Roughly 18x24 basement space. Looking for an acoustical drop ceiling grid.')">🔨 Basement Ceiling</span>
+                        <span class="chip" onclick="applyPromptChip('Looking to replace drafty windows before winter.')">🪟 Replacement Windows</span>
+                        <span class="chip" onclick="applyPromptChip('Front entry door sticks and casing needs repair.')">🚪 Entry Door & Trim</span>
+                        <span class="chip" onclick="applyPromptChip('Need aluminum trim wrap on garage jambs and LP SmartSide siding repair.')">🏡 Siding & Trim Wrap</span>
+                        <span class="chip" onclick="applyPromptChip('Need concrete patio/walkway poured with proper grade and drainage.')">🧱 Concrete Flatwork</span>
+                        <span class="chip" onclick="applyPromptChip('Finishing basement space with structural framing, drywall, and drop ceiling.')">🔨 Basement Finish & Framing</span>
                     </div>
 
                     <!-- AI Polish Action Bar -->
@@ -1050,8 +1051,8 @@
             <div class="wizard-step" id="wizardStep-3">
                 <div class="step-header">
                     <div class="step-tagline">Step 3 of 4 • Visual Context</div>
-                    <h2 class="step-title">Attach Photos of Your Space</h2>
-                    <p class="step-desc">Photos help John measure, detect rot, and price your project sight-unseen. <em>Completely optional — you can skip if you don't have photos ready!</em></p>
+                    <h2 class="step-title">Attach Photos or Plans of Your Space</h2>
+                    <p class="step-desc">Photos help us measure, assess conditions, and provide an accurate written proposal. <em>Completely optional — you can proceed if you don't have photos ready!</em></p>
                 </div>
 
                 <div class="photo-dropzone" onclick="document.getElementById('intakePhotosInput').click()">
@@ -1068,7 +1069,7 @@
                 <div class="trust-shield" style="margin-top:1.2rem;">
                     <span style="font-size:1.2rem;">🔒</span>
                     <div>
-                        <strong style="color:#fff;">100% Private Jobsite Vault:</strong> Photos stream directly to John Dondlinger's phone for estimation. We never share, sell, or publish photos of your home.
+                        <strong style="color:#fff;">100% Private Jobsite Vault:</strong> Photos are transmitted securely to Dondlinger General Contracting LLC for estimation. We never share, sell, or publish photos of your property.
                     </div>
                 </div>
             </div>
@@ -1076,9 +1077,9 @@
             <!-- STEP 4: Contact & Final Dispatch -->
             <div class="wizard-step" id="wizardStep-4">
                 <div class="step-header">
-                    <div class="step-tagline">Step 4 of 4 • Where to Reach You</div>
-                    <h2 class="step-title">Where Should John Reply?</h2>
-                    <p class="step-desc">Provide your contact info so John can text or email your estimate review.</p>
+                    <div class="step-tagline">Step 4 of 4 • Contact Details</div>
+                    <h2 class="step-title">Where Should We Send Your Estimate?</h2>
+                    <p class="step-desc">Provide your contact details so Dondlinger General Contracting LLC can review your scope and follow up promptly.</p>
                 </div>
 
                 <!-- Quick Summary Badge -->
@@ -1101,13 +1102,13 @@
 
                 <div class="form-group">
                     <label for="address">Jobsite City or Address (Optional)</label>
-                    <input type="text" id="address" name="address" placeholder="Wisconsin Rapids, Biron, Port Edwards, Nekoosa, Plover..." oninput="saveDraft()">
+                    <input type="text" id="address" name="address" placeholder="Wisconsin Rapids, Biron, Port Edwards, Nekoosa, Plover, Stevens Point..." oninput="saveDraft()">
                 </div>
 
                 <div class="trust-shield">
                     <span style="font-size:1.2rem;">⚡</span>
                     <div>
-                        <strong style="color:#fff;">Direct to John's Truck:</strong> Submitting sends your project specs for non-binding contractor review. Zero obligation. John follows up as soon as he is off the tools or back at the truck.
+                        <strong style="color:#fff;">Prompt Professional Review:</strong> Submitting sends your project specs for prompt review by Dondlinger General Contracting LLC. Zero obligation. We follow up directly with your written estimate review.
                     </div>
                 </div>
             </div>
@@ -1118,7 +1119,7 @@
                     ← Back
                 </button>
                 <button type="button" class="btn-wizard-next" id="btnWizardNext" onclick="handleNextClick()">
-                    <span>Continue to Project Story</span>
+                    <span>Continue to Project Details</span>
                     <span>→</span>
                 </button>
             </div>
@@ -1127,8 +1128,8 @@
         <!-- STEP 5: Sticky Post-Submission Confirmation Card -->
         <div id="confirmationCard" class="confirmation-card">
             <span class="check-icon">✅</span>
-            <h2>Specs Received by John!</h2>
-            <p class="lead-msg">Your project specs, photos, and voice memo have been dispatched directly to John Dondlinger's mobile review in Wisconsin Rapids.</p>
+            <h2>Project Specifications Received!</h2>
+            <p class="lead-msg">Your project specs, photos, and voice memo have been dispatched directly to Dondlinger General Contracting LLC in Wisconsin Rapids.</p>
 
             <div class="receipt-table">
                 <div class="receipt-row">
@@ -1159,7 +1160,7 @@
 
             <a href="tel:7154593050" class="call-john-btn">
                 <span>📞</span>
-                <span>Call John Directly: (715) 459-3050</span>
+                <span>Call Dondlinger GC Directly: (715) 459-3050</span>
             </a>
 
             <div style="margin-top:1.4rem;">
@@ -1293,7 +1294,7 @@
             backBtn.style.display = currentStep > 1 ? 'inline-block' : 'none';
 
             if (currentStep === 1) {
-                nextBtn.innerHTML = `<span>Continue to Project Story</span> <span>→</span>`;
+                nextBtn.innerHTML = `<span>Continue to Project Details</span> <span>→</span>`;
                 nextBtn.disabled = !selectedTrade;
                 nextBtn.style.background = 'var(--accent-green)';
             } else if (currentStep === 2) {
@@ -1308,7 +1309,7 @@
                 nextBtn.disabled = false;
                 nextBtn.style.background = 'var(--accent-green)';
             } else if (currentStep === 4) {
-                nextBtn.innerHTML = `<span>⚡ DISPATCH TO JOHN'S TRUCK</span>`;
+                nextBtn.innerHTML = `<span>⚡ SUBMIT PROJECT FOR ESTIMATE REVIEW</span>`;
                 nextBtn.disabled = false;
                 nextBtn.style.background = 'var(--accent-green)';
             }
@@ -1834,24 +1835,24 @@
             const notes = document.getElementById('notes').value.trim();
 
             if (!name || !contact) {
-                alert('Please provide your name and a phone number or email so John can reply!');
+                alert('Please provide your name and a phone number or email so we can deliver your estimate!');
                 goToStep(4);
                 return;
             }
 
             submitBtn.disabled = true;
             submitBtn.innerHTML = attachedPhotos.length > 0 
-                ? '<span>COMPRESSING & DISPATCHING TO JOHN...</span> <span>⏳</span>'
-                : '<span>DISPATCHING TO JOHN...</span> <span>⏳</span>';
+                ? '<span>COMPRESSING & TRANSMITTING PROJECT...</span> <span>⏳</span>'
+                : '<span>TRANSMITTING PROJECT...</span> <span>⏳</span>';
 
             const fd = new FormData();
-            fd.append('lead_type', 'contractor_b2b');
-            fd.append('origin', 'dondlingergc.com/intake.html (Contractor B2B Portal)');
+            fd.append('lead_type', 'client_estimate');
+            fd.append('origin', 'dondlingergc.com/intake.html (Client Estimate Wizard)');
             fd.append('name', name);
             fd.append('contact', contact);
-            fd.append('service', selectedTrade || 'General Construction');
+            fd.append('service', selectedTrade || 'General Contracting');
             fd.append('address', address || 'Central Wisconsin');
-            fd.append('notes', notes || (recordedVoiceBlob ? 'Voice memo recorded via Contractor B2B Portal' : 'Contractor outsourcing inquiry'));
+            fd.append('notes', notes || (recordedVoiceBlob ? 'Voice memo recorded via Client Estimate Wizard' : 'General contracting estimate request'));
 
             if (recordedVoiceBlob) {
                 const isMp4 = recordedVoiceBlob.type.includes('mp4');
