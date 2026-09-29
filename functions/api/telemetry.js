@@ -1,7 +1,8 @@
 /**
- * dondlingergc.com — 2026 Edge Telemetry & High-Intent Alert Engine
- * Standards: In-place Telegram card updates (editMessageText), zero alert spam,
- * operator traffic silencing, WARP/proxy geo normalization, and D1 clickstream logging.
+ * dondlingergc.com — 2026 Edge Telemetry & High-Conviction Contractor Intelligence Engine
+ * Standards: In-place Telegram card updates (editMessageText), intent heat scoring (0-100),
+ * inline_keyboard action buttons, datacenter bot suppression, entity/ISP classification,
+ * granular project & calculator telemetry, operator traffic silencing, and D1 clickstream logging.
  */
 
 function resolveCorsOrigin(origin) {
@@ -20,43 +21,115 @@ function parseDevice(ua) {
   return 'Web Client';
 }
 
+function classifyNetwork(asOrg, isWarp) {
+  if (isWarp) return '🛡️ Cloudflare WARP / VPN';
+  if (!asOrg) return 'Residential / Mobile';
+  const org = asOrg.toLowerCase();
+  if (/charter|spectrum|tds|frontier|centurylink|comcast|brightspeed/i.test(org)) {
+    return `🏡 Residential (${asOrg})`;
+  }
+  if (/verizon|t-mobile|at&t|uscellular|sprint/i.test(org)) {
+    return `📱 Mobile 5G/LTE (${asOrg})`;
+  }
+  if (/wood county|wisconsin rapids|stevens point|marshfield|wausau|consolidated|mid-state|school|hospital|clinic/i.test(org)) {
+    return `🏢 Commercial / Institutional (${asOrg})`;
+  }
+  if (/amazon|aws|google cloud|microsoft|azure|digitalocean|hetzner|ovh|linode|oracle/i.test(org)) {
+    return `🤖 Cloud / Datacenter (${asOrg})`;
+  }
+  return asOrg;
+}
+
+function calculateHeatScore(session) {
+  let score = 0;
+  if (session.is_lead) score += 60;
+  if (session.has_phone_tap || session.has_sms_tap) score += 50;
+  if (session.ballpark) score += 35;
+  if (session.contact_hesitation) score += 25;
+  if (session.photo_scrubs > 1) score += 25;
+  if (session.project_viewed) score += 20;
+  if (session.form_engaged) score += 20;
+  if ((session.scroll_depth || 0) >= 75) score += 15;
+  if ((session.dwell_sec || 0) >= 90) score += 15;
+  else if ((session.dwell_sec || 0) >= 45) score += 10;
+  if (session.network_type && session.network_type.includes('Commercial')) score += 15;
+  return Math.min(100, score);
+}
+
+function buildInlineKeyboard(session) {
+  const buttons = [];
+  const row1 = [];
+
+  if (session.contact && /[\d]{7,}/.test(session.contact.replace(/\D/g, ''))) {
+    const rawNum = session.contact.replace(/\D/g, '');
+    row1.push({ text: '📞 Call Lead', url: `tel:${rawNum}` });
+    row1.push({ text: '💬 Text Lead', url: `sms:${rawNum}` });
+  }
+
+  const row2 = [
+    { text: '📐 Calc Estimator', url: 'https://calc.dondlingergc.com' },
+    { text: '🔨 DGC Hub', url: 'https://dondlingergc.com/#projects' }
+  ];
+
+  if (row1.length > 0) buttons.push(row1);
+  buttons.push(row2);
+  return { inline_keyboard: buttons };
+}
+
 function formatSessionCard(session, intentType = 'engaged', actionDetail = '') {
-  const geo = `${session.city || 'Central Wisconsin'}, ${session.region || 'WI'}`;
-  const ispTag = session.is_warp ? ' 🛡️ [WARP/VPN]' : (session.isp ? ` (${session.isp})` : '');
+  const geo = `${session.city || 'Central Wisconsin'}, ${session.region || 'WI'}${session.postal ? ' ' + session.postal : ''}`;
   const ref = session.referrer && session.referrer !== 'direct' ? session.referrer : 'Direct / Organic';
   const campaign = session.utm_campaign ? `\n🎯 <b>Campaign:</b> <code>${session.utm_campaign}</code>` : '';
+  const score = calculateHeatScore(session);
 
-  let header = '🟢 <b>LIVE VISITOR</b> [ACTIVE]';
+  let badge = '🟢';
+  let header = `<b>LIVE VISITOR</b> [Score: ${score}/100]`;
+  if (score >= 70 || session.is_lead) {
+    badge = '🔥';
+    header = `<b>HOT PROSPECT DISPATCH</b> [Score: ${score}/100]`;
+  } else if (intentType === 'call' || intentType === 'sms') {
+    badge = '📞';
+    header = `<b>PHONE / SMS TAP</b> [Score: ${score}/100]`;
+  } else if (intentType === 'calc') {
+    badge = '💰';
+    header = `<b>ESTIMATOR SCOPE CALCULATION</b> [Score: ${score}/100]`;
+  } else if (session.network_type && session.network_type.includes('Commercial')) {
+    badge = '🏢';
+    header = `<b>COMMERCIAL / MUNICIPAL INQUIRY</b> [Score: ${score}/100]`;
+  } else if (intentType === 'deep_dwell') {
+    badge = '👀';
+    header = `<b>QUALIFIED PROJECT SCRUTINY</b> [Score: ${score}/100]`;
+  }
+
   let banner = '';
-
   if (session.is_lead) {
-    header = '🚨 <b>NEW CLIENT LEAD DISPATCH</b> [HIGH PRIORITY]';
     banner = `\n👤 <b>Client:</b> ${session.client_name || 'Website Lead'}\n` +
              `📞 <b>Contact:</b> <code>${session.contact || 'Not provided'}</code>\n` +
              `🔨 <b>Scope:</b> ${session.trade || 'General Contracting'}\n` +
              (session.notes ? `📝 <b>Notes:</b> ${session.notes}\n` : '') +
              `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   } else if (intentType === 'call' || intentType === 'sms') {
-    header = '📞 <b>HIGH INTENT: PHONE / SMS TAP</b>';
     banner = `\n⚡ <b>ACTION:</b> Visitor tapped to call/text: <code>${actionDetail}</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   } else if (intentType === 'calc') {
-    header = '💰 <b>ESTIMATOR SCOPE CALCULATION</b>';
     banner = `\n🔨 <b>Trade:</b> ${session.trade || 'Scope Calculation'}\n` +
              `💵 <b>Ballpark:</b> <b>${session.ballpark || 'Custom'}</b>\n` +
-             `📐 <b>Scope Details:</b> ${actionDetail}\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  } else if (intentType === 'deep_dwell') {
-    header = '🔍 <b>QUALIFIED DEEP INSPECTION</b>';
-    banner = `\n⏱️ <b>Verified Dwell:</b> ${session.dwell_sec}s active inspection on <b>${session.section}</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+             (actionDetail ? `📐 <b>Specs:</b> <code>${actionDetail}</code>\n` : '') +
+             `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  } else if (session.project_viewed) {
+    banner = `\n🔨 <b>Project Inspected:</b> <b>${session.project_viewed}</b>\n` +
+             (session.photo_scrubs > 0 ? `🖼️ <b>Photos Scrubbed:</b> ${session.photo_scrubs} views\n` : '') +
+             `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   }
 
-  const journeyLines = (session.journey || []).slice(-4).map(item => ` • ${item}`).join('\n');
+  const journeyLines = (session.journey || []).slice(-5).map(item => ` • ${item}`).join('\n');
+  const scrollText = session.scroll_depth ? ` | 📜 ${session.scroll_depth}% Depth` : '';
 
-  return `${header}\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+  return `${badge} ${header}\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
     banner +
-    `📍 <b>Location:</b> ${geo}${ispTag}\n` +
-    `🌐 <b>Source:</b> ${ref}${campaign}\n` +
-    `📱 <b>Device:</b> ${session.device}\n` +
-    `⏱️ <b>Time on Site:</b> ${session.dwell_sec || 0}s\n\n` +
+    `📍 <b>Location:</b> ${geo}\n` +
+    `🌐 <b>Network:</b> ${session.network_type || 'Residential'}\n` +
+    `🔗 <b>Source:</b> ${ref}${campaign}\n` +
+    `📱 <b>Device:</b> ${session.device} • ⏱️ ${session.dwell_sec || 0}s${scrollText}\n\n` +
     `📋 <b>Activity Path:</b>\n${journeyLines || ' • Engaged on site'}\n\n` +
     `🆔 <code>${session.sid}</code> • <i>DGC Live Edge Telemetry</i>`;
 }
@@ -75,12 +148,13 @@ export async function onRequest(context) {
   };
 
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: corsHeaders });
-  if (request.method !== 'POST') return new Response(JSON.stringify({ status: 'ready', engine: '2026-high-signal' }), { status: 200, headers: corsHeaders });
+  if (request.method !== 'POST') return new Response(JSON.stringify({ status: 'ready', engine: '2026-high-conviction' }), { status: 200, headers: corsHeaders });
 
   try {
     const data = await request.json().catch(() => ({}));
     const candidateTokens = [env.TELEGRAM_BOT_TOKEN].filter(Boolean);
     const chatId = env.TELEGRAM_CHAT_ID || '8104595144';
+    const threadId = env.TELEGRAM_THREAD_ID ? parseInt(env.TELEGRAM_THREAD_ID, 10) : null;
 
     const ua = request.headers.get('user-agent') || '';
     const isBot = /bot|crawl|spider|slurp|censys|shodan|masscan|bytespider|gptbot|claudebot|headless|python-requests|aiohttp|wget|curl/i.test(ua);
@@ -91,21 +165,22 @@ export async function onRequest(context) {
     const sid = data.sid || (request.headers.get('cf-ray') ? request.headers.get('cf-ray').split('-')[0] : 'anon');
     const eventType = data.event || 'session_start';
     const section = data.section || data.tab || 'Home';
+    const project = data.project || '';
     const trade = data.trade || 'General';
     const ballpark = data.ballpark || '';
     const details = data.details || '';
     const dwell = data.dwell_sec || 0;
+    const scrollDepth = data.scroll_depth || 0;
     const attr = data.attribution || {};
     const tz = data.timezone || attr.timezone || '';
 
     // 1. OPERATOR TRAFFIC SUPPRESSION
-    // If operator visits the site, log to D1 clickstream silently but NEVER send Telegram alerts
     const isOperator = Boolean(data.is_operator || attr.is_operator);
 
-    // 2. GEOLOCATION & CLOUDFLARE WARP / PROXY NORMALIZATION
-    // Fixes false "London, Cloudflare" output when John or visitors browse via Cloudflare WARP/Anycast
+    // 2. GEOLOCATION & NETWORK CLASSIFICATION
     let cfCity = request.cf?.city || 'Central Wisconsin';
     let cfRegion = request.cf?.region || 'WI';
+    const cfPostal = request.cf?.postalCode || '';
     const cfIsp = request.cf?.asOrganization || '';
     let isWarp = false;
 
@@ -125,10 +200,18 @@ export async function onRequest(context) {
       }
     }
 
+    const networkType = classifyNetwork(cfIsp, isWarp);
+
+    // Filter out pure cloud/datacenter bots that bypass UA check
+    if (networkType.includes('🤖 Cloud / Datacenter') && !isOperator) {
+      return new Response(JSON.stringify({ success: true, suppressed_datacenter: true }), { status: 200, headers: corsHeaders });
+    }
+
     const device = parseDevice(ua);
 
     // Scrub sensitive bid/proposal/client PII
     const scrubbedSection = String(section).replace(/proposal[_-]?[a-f0-9-]+/gi, 'proposal_[MASKED]').slice(0, 120);
+    const scrubbedProject = String(project).slice(0, 100);
     const scrubbedDetails = String(details).replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, '[EMAIL_REDACTED]').slice(0, 500);
 
     // 3. Monotonic Append-Only Log to Cloudflare D1
@@ -136,12 +219,11 @@ export async function onRequest(context) {
       await env.DB.prepare(`
         INSERT INTO visitor_traffic (sid, event_type, path, trade_viewed, ballpark_val, time_on_site_sec, device, city, region)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `).bind(sid, eventType, scrubbedSection, trade, ballpark, dwell, isOperator ? 'Operator Console' : device, cfCity, cfRegion).run().catch(console.error);
+      `).bind(sid, eventType, scrubbedProject || scrubbedSection, trade, ballpark, dwell, isOperator ? 'Operator Console' : device, cfCity, cfRegion).run().catch(console.error);
     }
 
-    // 4. ZERO-SPAM NOTIFICATION GATING (Only alert on real customer intent)
+    // 4. ZERO-SPAM NOTIFICATION GATING
     if (isOperator) {
-      // Operator activity is logged to D1 only — zero Telegram spam
       return new Response(JSON.stringify({ success: true, operator_suppressed: true, logged_to_d1: true }), { status: 200, headers: corsHeaders });
     }
 
@@ -149,10 +231,13 @@ export async function onRequest(context) {
     const isSmsIntent = (eventType === 'intent_sms_dispatch' || eventType === 'sms_button_click');
     const isLeadIntake = (eventType === 'lead_intake' || eventType === 'intent_quote_cta' || eventType === 'cta_estimate_click' || Boolean(data.lead_name || data.contact));
     const isScopeCalc = (eventType === 'calc_scope_change' && (ballpark || (details && details.length > 5)));
+    const isProjectInspect = (eventType === 'project_inspect' || eventType === 'photo_scrub');
+    const isHesitation = (eventType === 'contact_hesitation');
+    const isFormEngage = (eventType === 'form_engage');
     const isDeepEngaged = (eventType === 'engaged_read' && dwell >= 45);
 
-    // Filter out low-level noise (tab switches, 4-second bounces, casual gallery clicks)
-    const shouldAlertTelegram = isCallIntent || isSmsIntent || isLeadIntake || isScopeCalc || isDeepEngaged;
+    // High-Signal Alert Gating
+    const shouldAlertTelegram = isCallIntent || isSmsIntent || isLeadIntake || isScopeCalc || isProjectInspect || isHesitation || isFormEngage || isDeepEngaged;
 
     if (!shouldAlertTelegram) {
       return new Response(JSON.stringify({ success: true, logged_to_d1: true }), { status: 200, headers: corsHeaders });
@@ -186,6 +271,12 @@ export async function onRequest(context) {
       } else if (isScopeCalc) {
         intentCategory = 'calc';
         actionDetail = scrubbedDetails || `${trade} (${ballpark})`;
+      } else if (isProjectInspect) {
+        intentCategory = 'project';
+        actionDetail = scrubbedProject || scrubbedDetails;
+      } else if (isHesitation) {
+        intentCategory = 'hesitation';
+        actionDetail = scrubbedDetails || 'Hovered on contact';
       } else if (isDeepEngaged) {
         intentCategory = 'deep_dwell';
         actionDetail = `Active presence for ${dwell}s`;
@@ -196,6 +287,11 @@ export async function onRequest(context) {
       else if (isCallIntent) journeyLabel = `📞 Phone Tap: ${actionDetail}`;
       else if (isSmsIntent) journeyLabel = `💬 SMS Tap: ${actionDetail}`;
       else if (isScopeCalc) journeyLabel = `💰 Estimator: ${trade} ${ballpark ? '(' + ballpark + ')' : ''}`.trim();
+      else if (eventType === 'project_inspect') journeyLabel = `🔨 Inspected: ${scrubbedProject}`;
+      else if (eventType === 'photo_scrub') journeyLabel = `🖼️ Photo Scrub: ${scrubbedProject}`;
+      else if (eventType === 'contact_hesitation') journeyLabel = `⏳ Hesitation: Hovered contact drawer`;
+      else if (eventType === 'form_engage') journeyLabel = `✍️ Started input in form`;
+      else if (eventType === 'scroll_milestone') journeyLabel = `📜 Scrolled to ${scrollDepth}%`;
       else if (isDeepEngaged) journeyLabel = `⏱️ Qualified Dwell (${dwell}s)`;
 
       if (!sessionState) {
@@ -203,15 +299,24 @@ export async function onRequest(context) {
           sid: sid,
           city: cfCity,
           region: cfRegion,
+          postal: cfPostal,
           isp: cfIsp,
           is_warp: isWarp,
+          network_type: networkType,
           device: device,
           referrer: attr.referrer || 'direct',
           utm_campaign: attr.utm_campaign || '',
           dwell_sec: dwell,
+          scroll_depth: scrollDepth,
           section: scrubbedSection,
+          project_viewed: scrubbedProject,
           trade: trade,
           ballpark: ballpark,
+          has_phone_tap: isCallIntent,
+          has_sms_tap: isSmsIntent,
+          contact_hesitation: isHesitation,
+          form_engaged: isFormEngage,
+          photo_scrubs: eventType === 'photo_scrub' ? 1 : 0,
           is_lead: isLeadIntake,
           client_name: data.name || data.lead_name || '',
           contact: data.contact || data.phone || data.email || '',
@@ -223,17 +328,28 @@ export async function onRequest(context) {
         };
       } else {
         sessionState.dwell_sec = Math.max(sessionState.dwell_sec || 0, dwell);
+        sessionState.scroll_depth = Math.max(sessionState.scroll_depth || 0, scrollDepth);
         sessionState.city = cfCity;
         sessionState.region = cfRegion;
+        if (cfPostal) sessionState.postal = cfPostal;
         sessionState.is_warp = isWarp;
+        sessionState.network_type = networkType;
+        if (scrubbedProject) sessionState.project_viewed = scrubbedProject;
         if (trade && trade !== 'General') sessionState.trade = trade;
         if (ballpark) sessionState.ballpark = ballpark;
+        if (isCallIntent) sessionState.has_phone_tap = true;
+        if (isSmsIntent) sessionState.has_sms_tap = true;
+        if (isHesitation) sessionState.contact_hesitation = true;
+        if (isFormEngage) sessionState.form_engaged = true;
+        if (eventType === 'photo_scrub') sessionState.photo_scrubs = (sessionState.photo_scrubs || 0) + 1;
+
         if (isLeadIntake) {
           sessionState.is_lead = true;
           sessionState.client_name = data.name || data.lead_name || sessionState.client_name;
           sessionState.contact = data.contact || data.phone || data.email || sessionState.contact;
           sessionState.notes = data.notes || sessionState.notes;
         }
+
         if (journeyLabel && !(sessionState.journey || []).includes(journeyLabel)) {
           sessionState.journey = sessionState.journey || [];
           sessionState.journey.push(journeyLabel);
@@ -241,20 +357,26 @@ export async function onRequest(context) {
         }
       }
 
+      const cardText = formatSessionCard(sessionState, intentCategory, actionDetail);
+      const replyMarkup = buildInlineKeyboard(sessionState);
+
       // First alert creation: Send live session card on real high-intent event
       if (!sessionState.telegram_msg_id) {
-        const cardText = formatSessionCard(sessionState, intentCategory, actionDetail);
         for (const token of candidateTokens) {
           try {
+            const payload = {
+              chat_id: chatId,
+              text: cardText,
+              parse_mode: 'HTML',
+              disable_web_page_preview: true,
+              reply_markup: replyMarkup
+            };
+            if (threadId) payload.message_thread_id = threadId;
+
             const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                chat_id: chatId,
-                text: cardText,
-                parse_mode: 'HTML',
-                disable_web_page_preview: true
-              })
+              body: JSON.stringify(payload)
             }).then(r => r.json()).catch(() => null);
 
             if (res?.ok && res.result?.message_id) {
@@ -272,18 +394,20 @@ export async function onRequest(context) {
         const timeSinceLastEdit = now - (sessionState.last_edit || 0);
         const isImmediate = isLeadIntake || isCallIntent || isSmsIntent;
         if (isImmediate || timeSinceLastEdit >= 4000) {
-          const cardText = formatSessionCard(sessionState, intentCategory, actionDetail);
           const editToken = sessionState.active_bot_token || candidateTokens[0];
+          const editPayload = {
+            chat_id: chatId,
+            message_id: sessionState.telegram_msg_id,
+            text: cardText,
+            parse_mode: 'HTML',
+            disable_web_page_preview: true,
+            reply_markup: replyMarkup
+          };
+
           await fetch(`https://api.telegram.org/bot${editToken}/editMessageText`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: chatId,
-              message_id: sessionState.telegram_msg_id,
-              text: cardText,
-              parse_mode: 'HTML',
-              disable_web_page_preview: true
-            })
+            body: JSON.stringify(editPayload)
           }).catch(console.error);
 
           sessionState.last_edit = now;

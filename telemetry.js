@@ -1,7 +1,8 @@
 /**
- * dondlingergc.com — 2026 Unified Client Telemetry & Acquisition Engine
+ * dondlingergc.com — 2026 Unified Client Telemetry & High-Intent Acquisition Engine
  * Standards: Zero-spurious spam, strict session attribution, operator suppression,
- * client-timezone hints, and high-intent qualified engagement gating.
+ * granular project & photo inspection, calculator tracking, scroll milestones,
+ * contact hesitation detection, and real-time heat telemetry.
  */
 (function() {
   // 1. Operator Self-Traffic Detection (Prevents self-ping Telegram spam)
@@ -27,6 +28,7 @@
 
   const sessionStartTime = Date.now();
   let currentSection = document.title || 'Home';
+  const trackedScrollMilestones = new Set();
 
   // 3. Extract & Cache Marketing Attribution Parameters + Client Timezone Hints
   function getAttribution() {
@@ -74,9 +76,12 @@
       sid: sid,
       event: eventType,
       section: payload.section || currentSection,
+      project: payload.project || '',
       trade: payload.trade || 'General',
       ballpark: payload.ballpark || '',
       details: payload.details || '',
+      scroll_depth: payload.scroll_depth || 0,
+      photo_index: payload.photo_index ?? null,
       dwell_sec: dwell,
       is_operator: isOperator,
       timezone: attribution.timezone,
@@ -95,8 +100,7 @@
     }
   }
 
-  // 5. Session Start (D1 clickstream only) & Deep Engagement Timer (45s)
-  // Low-level 4s bounces are eliminated to kill Telegram false-positive noise.
+  // 5. Session Start & Deep Engagement Timer (45s)
   window.addEventListener('DOMContentLoaded', () => {
     trackEvent('session_start', { section: document.title || 'Home' });
 
@@ -118,15 +122,37 @@
     }
   }, 60000);
 
-  // 7. Navigation & Section Tracking (Hash changes & Popstate)
+  // 7. Navigation & Section Tracking
   window.addEventListener('hashchange', () => {
     currentSection = window.location.hash || 'Home';
     trackEvent('section_view', { section: currentSection });
   });
 
-  // 8. Interaction & Conversion Click Delegator (High Intent Actions)
+  // 8. Scroll Depth Milestone Tracking (25%, 50%, 75%, 90%)
+  let scrollTimeout = null;
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollHeight <= 0) return;
+      const pct = Math.min(100, Math.round((window.scrollY / scrollHeight) * 100));
+
+      const milestones = [25, 50, 75, 90];
+      for (const m of milestones) {
+        if (pct >= m && !trackedScrollMilestones.has(m)) {
+          trackedScrollMilestones.add(m);
+          trackEvent('scroll_milestone', {
+            scroll_depth: m,
+            details: `Scrolled to ${m}% of landing page`
+          });
+        }
+      }
+    }, 300);
+  }, { passive: true });
+
+  // 9. Interaction & Conversion Click Delegator (High Intent Actions)
   document.addEventListener('click', (e) => {
-    const target = e.target.closest('a, button, .tab-btn, .filter-pill, .pw-header, .gallery-item, .btn-wd-card-action, .btn-hud-estimate, .pw-quote-cta, #quote-btn, .submit-btn');
+    const target = e.target.closest('a, button, .tab-btn, .filter-pill, .pw-header, .gallery-item, .project-card, .btn-wd-card-action, .btn-hud-estimate, .pw-quote-cta, #quote-btn, .submit-btn, .scrubber-btn, .nav-chip');
     if (!target) return;
 
     if (target.href && target.href.startsWith('tel:')) {
@@ -135,7 +161,7 @@
       trackEvent('intent_sms_dispatch', { details: target.href.replace('sms:', '') });
     } else if (target.matches('.btn-hud-estimate, .pw-quote-cta, #quote-btn, .submit-btn')) {
       trackEvent('intent_quote_cta', { details: target.innerText.trim() });
-    } else if (target.matches('.tab-btn')) {
+    } else if (target.matches('.tab-btn, .nav-chip')) {
       const label = target.querySelector('.tab-label') ? target.querySelector('.tab-label').innerText : target.innerText;
       currentSection = label.trim();
       trackEvent('section_view', { section: currentSection });
@@ -144,13 +170,40 @@
     } else if (target.matches('.gallery-item')) {
       const caption = target.querySelector('.gallery-item-caption') ? target.querySelector('.gallery-item-caption').innerText : 'Photo Item';
       trackEvent('gallery_inspect', { details: caption.trim() });
+    } else if (target.matches('.project-card')) {
+      const title = target.querySelector('.project-title, .card-title, h3') ? target.querySelector('.project-title, .card-title, h3').innerText : 'Project Card';
+      trackEvent('project_inspect', { project: title.trim(), details: `Inspected ${title.trim()}` });
+    } else if (target.matches('.scrubber-btn')) {
+      const parentCard = target.closest('.project-card, .showcase-card');
+      const title = parentCard ? (parentCard.querySelector('.project-title, .card-title, h3')?.innerText || 'Project') : 'Project Showcase';
+      trackEvent('photo_scrub', { project: title.trim(), details: `Scrubbed photo on ${title.trim()}` });
     } else if (target.matches('.pw-header')) {
       const title = target.querySelector('.pw-name') ? target.querySelector('.pw-name').innerText : 'Project Window';
       trackEvent('section_view', { details: `Project Modal: ${title.trim()}` });
     }
   });
 
-  // 9. Debounced Calculator Scope Adjustments (Only fires when user adjusts real dimensions)
+  // 10. Contact Hesitation / Dwell Detection (Hovering on phone/intake > 3s)
+  let contactHoverTimer = null;
+  document.addEventListener('mouseover', (e) => {
+    const contactTarget = e.target.closest('a[href^="tel:"], a[href^="sms:"], .contact-card, #quote-btn, .btn-hud-estimate');
+    if (contactTarget && !contactHoverTimer) {
+      contactHoverTimer = setTimeout(() => {
+        trackEvent('contact_hesitation', {
+          details: `Hovered over contact trigger for 3s (${contactTarget.innerText.trim() || 'Contact'})`
+        });
+        contactHoverTimer = null;
+      }, 3000);
+    }
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (contactHoverTimer && e.target.closest('a[href^="tel:"], a[href^="sms:"], .contact-card, #quote-btn, .btn-hud-estimate')) {
+      clearTimeout(contactHoverTimer);
+      contactHoverTimer = null;
+    }
+  });
+
+  // 11. Debounced Calculator Scope Adjustments
   let calcTimeout = null;
   window.trackCalculatorChange = function(trade, ballpark, params) {
     clearTimeout(calcTimeout);
@@ -163,7 +216,18 @@
     }, 1200);
   };
 
-  // 10. Session Exit Dwell Logger
+  // 12. Form Field Engagement (Near-Miss Lead Detection)
+  let formEngaged = false;
+  document.addEventListener('focusin', (e) => {
+    if (e.target.matches('input, textarea, select') && !formEngaged) {
+      formEngaged = true;
+      const form = e.target.closest('form');
+      const formName = form ? (form.id || form.getAttribute('name') || 'Intake Form') : 'Input Field';
+      trackEvent('form_engage', { details: `Started interacting with ${formName}` });
+    }
+  });
+
+  // 13. Session Exit Dwell Logger
   window.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') {
       trackEvent('session_dwell', { details: 'Tab blurred or user navigated away' });
