@@ -84,7 +84,10 @@ function formatSessionCard(session, intentType = 'engaged', actionDetail = '') {
 
   let badge = '🟢';
   let header = `<b>LIVE VISITOR</b> [Score: ${score}/100]`;
-  if (score >= 70 || session.is_lead) {
+  if (session.is_operator) {
+    badge = '🔧';
+    header = `<b>OPERATOR TEST TRAFFIC</b> [Score: ${score}/100]`;
+  } else if (score >= 70 || session.is_lead) {
     badge = '🔥';
     header = `<b>HOT PROSPECT DISPATCH</b> [Score: ${score}/100]`;
   } else if (intentType === 'call' || intentType === 'sms') {
@@ -119,6 +122,10 @@ function formatSessionCard(session, intentType = 'engaged', actionDetail = '') {
     banner = `\n🔨 <b>Project Inspected:</b> <b>${session.project_viewed}</b>\n` +
              (session.photo_scrubs > 0 ? `🖼️ <b>Photos Scrubbed:</b> ${session.photo_scrubs} views\n` : '') +
              `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  } else if (session.section && session.section !== 'Home') {
+    banner = `\n👀 <b>Browsing Section:</b> <b>${session.section}</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  } else {
+    banner = `\n🚀 <b>Site Entry:</b> Exploring dondlingergc.com\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   }
 
   const journeyLines = (session.journey || []).slice(-5).map(item => ` • ${item}`).join('\n');
@@ -152,16 +159,13 @@ export async function onRequest(context) {
 
   try {
     const data = await request.json().catch(() => ({}));
-    const candidateTokens = [env.TELEGRAM_BOT_TOKEN].filter(Boolean);
-    const chatId = env.TELEGRAM_GROUP_CHAT_ID || '-1004418238851';
-    const threadId = env.TELEGRAM_THREAD_ID ? parseInt(env.TELEGRAM_THREAD_ID, 10) : 2;
+    const candidateTokens = [env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_APP_BOT_TOKEN].filter(Boolean);
+    const PERSONAL_CHAT_ID = env.TELEGRAM_CHAT_ID || '8104595144';
+    const GROUP_CHAT_ID = env.TELEGRAM_GROUP_CHAT_ID || '-1004418238851';
+    const targets = [PERSONAL_CHAT_ID, GROUP_CHAT_ID].filter(Boolean);
+    const configuredThreadId = env.TELEGRAM_THREAD_ID ? parseInt(env.TELEGRAM_THREAD_ID, 10) : null;
 
     const ua = request.headers.get('user-agent') || '';
-    const isBot = /bot|crawl|spider|slurp|censys|shodan|masscan|bytespider|gptbot|claudebot|headless|python-requests|aiohttp|wget|curl/i.test(ua);
-    if (isBot) {
-      return new Response(JSON.stringify({ success: true, bot: true }), { status: 200, headers: corsHeaders });
-    }
-
     const sid = data.sid || (request.headers.get('cf-ray') ? request.headers.get('cf-ray').split('-')[0] : 'anon');
     const eventType = data.event || 'session_start';
     const section = data.section || data.tab || 'Home';
@@ -174,8 +178,14 @@ export async function onRequest(context) {
     const attr = data.attribution || {};
     const tz = data.timezone || attr.timezone || '';
 
-    // 1. OPERATOR TRAFFIC SUPPRESSION
+    // 1. OPERATOR TRAFFIC & TEST FLAGS
     const isOperator = Boolean(data.is_operator || attr.is_operator);
+    const isTestDispatch = Boolean(data.test_dispatch || attr.test_dispatch);
+
+    const isBot = /bot|crawl|spider|slurp|censys|shodan|masscan|bytespider|gptbot|claudebot|headless|python-requests|aiohttp|wget/i.test(ua);
+    if (isBot && !isOperator && !isTestDispatch) {
+      return new Response(JSON.stringify({ success: true, bot: true }), { status: 200, headers: corsHeaders });
+    }
 
     // 2. GEOLOCATION & NETWORK CLASSIFICATION
     let cfCity = request.cf?.city || 'Central Wisconsin';
@@ -222,30 +232,28 @@ export async function onRequest(context) {
       `).bind(sid, eventType, scrubbedProject || scrubbedSection, trade, ballpark, dwell, isOperator ? 'Operator Console' : device, cfCity, cfRegion).run().catch(console.error);
     }
 
-    // 4. ZERO-SPAM NOTIFICATION GATING
-    const isTestDispatch = Boolean(data.test_dispatch || attr.test_dispatch);
-    if (isOperator && !isTestDispatch) {
-      return new Response(JSON.stringify({ success: true, operator_suppressed: true, logged_to_d1: true }), { status: 200, headers: corsHeaders });
-    }
-
+    // 4. HIGH-SIGNAL NOTIFICATION GATING
+    const isSessionStart = (eventType === 'session_start');
+    const isSectionView = (eventType === 'section_view');
+    const isScrollMilestone = (eventType === 'scroll_milestone' && (scrollDepth === 50 || scrollDepth === 90));
     const isCallIntent = (eventType === 'intent_phone_dial' || eventType === 'call_button_click');
     const isSmsIntent = (eventType === 'intent_sms_dispatch' || eventType === 'sms_button_click');
     const isLeadIntake = (eventType === 'lead_intake' || eventType === 'intent_quote_cta' || eventType === 'cta_estimate_click' || Boolean(data.lead_name || data.contact));
     const isScopeCalc = (eventType === 'calc_scope_change' && (ballpark || (details && details.length > 5)));
-    const isProjectInspect = (eventType === 'project_inspect' || eventType === 'photo_scrub');
+    const isProjectInspect = (eventType === 'project_inspect' || eventType === 'photo_scrub' || eventType === 'gallery_inspect');
     const isHesitation = (eventType === 'contact_hesitation');
     const isFormEngage = (eventType === 'form_engage');
     const isDeepEngaged = (eventType === 'engaged_read' && dwell >= 45);
 
-    // High-Signal Alert Gating
-    const shouldAlertTelegram = isCallIntent || isSmsIntent || isLeadIntake || isScopeCalc || isProjectInspect || isHesitation || isFormEngage || isDeepEngaged;
+    // Alert on all real visitor milestones, contractor estimator changes, and leads
+    const shouldAlertTelegram = isSessionStart || isSectionView || isScrollMilestone || isCallIntent || isSmsIntent || isLeadIntake || isScopeCalc || isProjectInspect || isHesitation || isFormEngage || isDeepEngaged || isTestDispatch || isOperator;
 
     if (!shouldAlertTelegram) {
       return new Response(JSON.stringify({ success: true, logged_to_d1: true }), { status: 200, headers: corsHeaders });
     }
 
-    // 5. Telegram Live Session Card Coalescence
-    if (candidateTokens.length > 0 && chatId) {
+    // 5. Telegram Live Session Card Coalescence & Dual-Target Delivery
+    if (candidateTokens.length > 0 && targets.length > 0) {
       const kv = env.TELEMETRY_SESSIONS || env.CRON_STATE || null;
       const sessionKey = `sess_${sid}`;
       let sessionState = null;
@@ -281,6 +289,12 @@ export async function onRequest(context) {
       } else if (isDeepEngaged) {
         intentCategory = 'deep_dwell';
         actionDetail = `Active presence for ${dwell}s`;
+      } else if (isSectionView) {
+        intentCategory = 'section';
+        actionDetail = scrubbedSection;
+      } else if (isSessionStart) {
+        intentCategory = 'session_start';
+        actionDetail = scrubbedSection || 'Home';
       }
 
       let journeyLabel = '';
@@ -288,16 +302,20 @@ export async function onRequest(context) {
       else if (isCallIntent) journeyLabel = `📞 Phone Tap: ${actionDetail}`;
       else if (isSmsIntent) journeyLabel = `💬 SMS Tap: ${actionDetail}`;
       else if (isScopeCalc) journeyLabel = `💰 Estimator: ${trade} ${ballpark ? '(' + ballpark + ')' : ''}`.trim();
-      else if (eventType === 'project_inspect') journeyLabel = `🔨 Inspected: ${scrubbedProject}`;
-      else if (eventType === 'photo_scrub') journeyLabel = `🖼️ Photo Scrub: ${scrubbedProject}`;
+      else if (eventType === 'project_inspect') journeyLabel = `🔨 Inspected: ${scrubbedProject || scrubbedDetails}`;
+      else if (eventType === 'gallery_inspect') journeyLabel = `🖼️ Gallery: ${trade || scrubbedDetails}`;
+      else if (eventType === 'photo_scrub') journeyLabel = `🖼️ Photo Scrub: ${scrubbedProject || scrubbedDetails}`;
       else if (eventType === 'contact_hesitation') journeyLabel = `⏳ Hesitation: Hovered contact drawer`;
       else if (eventType === 'form_engage') journeyLabel = `✍️ Started input in form`;
       else if (eventType === 'scroll_milestone') journeyLabel = `📜 Scrolled to ${scrollDepth}%`;
       else if (isDeepEngaged) journeyLabel = `⏱️ Qualified Dwell (${dwell}s)`;
+      else if (isSectionView) journeyLabel = `👀 Viewed section: ${scrubbedSection}`;
+      else if (isSessionStart) journeyLabel = `🚀 Landed on site: ${scrubbedSection || 'Home'}`;
 
       if (!sessionState) {
         sessionState = {
           sid: sid,
+          is_operator: isOperator,
           city: cfCity,
           region: cfRegion,
           postal: cfPostal,
@@ -317,17 +335,18 @@ export async function onRequest(context) {
           has_sms_tap: isSmsIntent,
           contact_hesitation: isHesitation,
           form_engaged: isFormEngage,
-          photo_scrubs: eventType === 'photo_scrub' ? 1 : 0,
+          photo_scrubs: (eventType === 'photo_scrub' || eventType === 'project_inspect') ? 1 : 0,
           is_lead: isLeadIntake,
           client_name: data.name || data.lead_name || '',
           contact: data.contact || data.phone || data.email || '',
           notes: data.notes || '',
-          telegram_msg_id: null,
+          msg_ids: {},
           active_bot_token: null,
           last_edit: now,
           journey: journeyLabel ? [journeyLabel] : []
         };
       } else {
+        if (isOperator) sessionState.is_operator = true;
         sessionState.dwell_sec = Math.max(sessionState.dwell_sec || 0, dwell);
         sessionState.scroll_depth = Math.max(sessionState.scroll_depth || 0, scrollDepth);
         sessionState.city = cfCity;
@@ -336,13 +355,16 @@ export async function onRequest(context) {
         sessionState.is_warp = isWarp;
         sessionState.network_type = networkType;
         if (scrubbedProject) sessionState.project_viewed = scrubbedProject;
+        if (scrubbedSection && scrubbedSection !== 'Home') sessionState.section = scrubbedSection;
         if (trade && trade !== 'General') sessionState.trade = trade;
         if (ballpark) sessionState.ballpark = ballpark;
         if (isCallIntent) sessionState.has_phone_tap = true;
         if (isSmsIntent) sessionState.has_sms_tap = true;
         if (isHesitation) sessionState.contact_hesitation = true;
         if (isFormEngage) sessionState.form_engaged = true;
-        if (eventType === 'photo_scrub') sessionState.photo_scrubs = (sessionState.photo_scrubs || 0) + 1;
+        if (eventType === 'photo_scrub' || eventType === 'project_inspect') {
+          sessionState.photo_scrubs = (sessionState.photo_scrubs || 0) + 1;
+        }
 
         if (isLeadIntake) {
           sessionState.is_lead = true;
@@ -358,61 +380,106 @@ export async function onRequest(context) {
         }
       }
 
+      sessionState.msg_ids = sessionState.msg_ids || {};
+      if (sessionState.telegram_msg_id && !sessionState.msg_ids[GROUP_CHAT_ID]) {
+        sessionState.msg_ids[GROUP_CHAT_ID] = sessionState.telegram_msg_id;
+      }
+
       const cardText = formatSessionCard(sessionState, intentCategory, actionDetail);
       const replyMarkup = buildInlineKeyboard(sessionState);
+      const botToken = candidateTokens[0];
 
-      // First alert creation: Send live session card on real high-intent event
-      if (!sessionState.telegram_msg_id) {
-        for (const token of candidateTokens) {
-          try {
-            const payload = {
-              chat_id: chatId,
-              text: cardText,
-              parse_mode: 'HTML',
-              disable_web_page_preview: true,
-              reply_markup: replyMarkup
-            };
-            if (threadId) payload.message_thread_id = threadId;
+      if (botToken) {
+        for (const targetChatId of targets) {
+          const existingMsgId = sessionState.msg_ids[targetChatId];
 
-            const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            }).then(r => r.json()).catch(() => null);
+          if (!existingMsgId) {
+            let msgId = null;
+            // If supergroup and threadId configured, attempt thread delivery first
+            if (targetChatId === GROUP_CHAT_ID && configuredThreadId) {
+              try {
+                const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    chat_id: targetChatId,
+                    message_thread_id: configuredThreadId,
+                    text: cardText,
+                    parse_mode: 'HTML',
+                    disable_web_page_preview: true,
+                    reply_markup: replyMarkup
+                  })
+                }).then(r => r.json());
 
-            if (res?.ok && res.result?.message_id) {
-              sessionState.active_bot_token = token;
-              sessionState.telegram_msg_id = res.result.message_id;
-              sessionState.last_edit = now;
-              break;
+                if (res?.ok && res.result?.message_id) {
+                  msgId = res.result.message_id;
+                }
+              } catch (e) {
+                console.warn('Telegram thread dispatch attempt error:', e);
+              }
             }
-          } catch (e) {
-            console.error('Telegram dispatch error on token:', e);
+
+            // Fallback or direct delivery without threadId
+            if (!msgId) {
+              try {
+                const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    chat_id: targetChatId,
+                    text: cardText,
+                    parse_mode: 'HTML',
+                    disable_web_page_preview: true,
+                    reply_markup: replyMarkup
+                  })
+                }).then(r => r.json());
+
+                if (res?.ok && res.result?.message_id) {
+                  msgId = res.result.message_id;
+                } else {
+                  console.error('Telegram dispatch failed for', targetChatId, res);
+                }
+              } catch (e) {
+                console.error('Telegram dispatch exception for', targetChatId, e);
+              }
+            }
+
+            if (msgId) {
+              sessionState.msg_ids[targetChatId] = msgId;
+              sessionState.active_bot_token = botToken;
+            }
+          } else {
+            // In-place update of existing card
+            const timeSinceLastEdit = now - (sessionState.last_edit || 0);
+            const isImmediate = isLeadIntake || isCallIntent || isSmsIntent || isScopeCalc;
+            if (isImmediate || timeSinceLastEdit >= 3000) {
+              try {
+                const editRes = await fetch(`https://api.telegram.org/bot${botToken}/editMessageText`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    chat_id: targetChatId,
+                    message_id: existingMsgId,
+                    text: cardText,
+                    parse_mode: 'HTML',
+                    disable_web_page_preview: true,
+                    reply_markup: replyMarkup
+                  })
+                }).then(r => r.json());
+
+                if (!editRes?.ok) {
+                  const desc = editRes?.description || '';
+                  if (desc.includes('message to edit not found')) {
+                    delete sessionState.msg_ids[targetChatId];
+                  }
+                }
+              } catch (e) {
+                console.error('Telegram editMessageText exception for', targetChatId, e);
+              }
+            }
           }
         }
-      } else {
-        // In-place mutation: Update existing message card (throttled)
-        const timeSinceLastEdit = now - (sessionState.last_edit || 0);
-        const isImmediate = isLeadIntake || isCallIntent || isSmsIntent;
-        if (isImmediate || timeSinceLastEdit >= 4000) {
-          const editToken = sessionState.active_bot_token || candidateTokens[0];
-          const editPayload = {
-            chat_id: chatId,
-            message_id: sessionState.telegram_msg_id,
-            text: cardText,
-            parse_mode: 'HTML',
-            disable_web_page_preview: true,
-            reply_markup: replyMarkup
-          };
-
-          await fetch(`https://api.telegram.org/bot${editToken}/editMessageText`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(editPayload)
-          }).catch(console.error);
-
-          sessionState.last_edit = now;
-        }
+        sessionState.last_edit = now;
       }
 
       // Persist session state into KV with 30-minute rolling TTL

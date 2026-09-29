@@ -111,7 +111,7 @@
   }
 
   // 5. Session Start & Deep Engagement Timer (45s)
-  window.addEventListener('DOMContentLoaded', () => {
+  function initSession() {
     trackEvent('session_start', { section: document.title || 'Home' });
 
     // Qualified deep engagement timer (45 seconds active dwell)
@@ -123,7 +123,13 @@
         });
       }
     }, 45000);
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', initSession);
+  } else {
+    initSession();
+  }
 
   // 6. Periodic Keepalive Heartbeat (60s, D1 log only)
   setInterval(() => {
