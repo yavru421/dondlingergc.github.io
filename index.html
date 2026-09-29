@@ -726,218 +726,6 @@
       line-height: 1.45;
     }
 
-    /* Filter Pills */
-    .gallery-filter-bar {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 16px;
-      scrollbar-width: none;
-    }
-    .filter-pill {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.18s;
-    }
-    .filter-pill:hover { border-color: rgba(255, 255, 255, 0.2); color: #fff; }
-    .filter-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 2px 10px var(--accent-glow); }
-
-    /* Projects Grid */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-    @media (min-width: 680px) {
-      .projects-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    .project-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-      transition: border-color 0.2s ease, transform 0.2s ease;
-    }
-    .project-card:hover {
-      border-color: rgba(255, 87, 34, 0.35);
-      transform: translateY(-2px);
-    }
-    .project-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 10px;
-      gap: 8px;
-    }
-    .project-card-tag {
-      font-family: var(--font-mono);
-      font-size: 9.5px;
-      font-weight: 700;
-      color: var(--accent);
-      background: rgba(255, 87, 34, 0.12);
-      padding: 2px 7px;
-      border-radius: 4px;
-      border: 1px solid rgba(255, 87, 34, 0.25);
-      text-transform: uppercase;
-      margin-bottom: 3px;
-      display: inline-block;
-    }
-    .project-card-title {
-      font-family: var(--font-brand);
-      font-size: 15px;
-      font-weight: 800;
-      color: #fff;
-      line-height: 1.25;
-    }
-    .project-slide-counter {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      font-weight: 700;
-      color: var(--cyan);
-      background: rgba(56, 189, 248, 0.1);
-      padding: 3px 8px;
-      border-radius: 6px;
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      white-space: nowrap;
-    }
-    .project-viewport {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      background: #05070a;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 8px;
-      border: 1px solid var(--border);
-      user-select: none;
-      cursor: pointer;
-    }
-    .project-viewport img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: opacity 0.18s ease;
-    }
-    .project-stage-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(6px);
-      z-index: 4;
-      transition: all 0.15s ease;
-    }
-    .project-stage-nav:hover { background: var(--accent); border-color: var(--accent); }
-    .project-stage-nav.prev { left: 6px; }
-    .project-stage-nav.next { right: 6px; }
-    .project-stage-pill {
-      position: absolute;
-      top: 8px; left: 8px;
-      background: rgba(9, 10, 15, 0.88);
-      backdrop-filter: blur(6px);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      color: #fff;
-      padding: 3px 8px;
-      border-radius: 5px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      max-width: 80%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* Thumbnail Scrubber */
-    .project-thumbs-rail {
-      display: flex;
-      gap: 5px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 8px;
-      scrollbar-width: thin;
-    }
-    .project-thumb {
-      flex: 0 0 48px;
-      height: 34px;
-      border-radius: 5px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      opacity: 0.6;
-      transition: all 0.15s ease;
-    }
-    .project-thumb.active {
-      border: 2px solid var(--accent);
-      opacity: 1;
-    }
-    .project-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .project-caption {
-      font-size: 12px;
-      color: #cbd5e1;
-      line-height: 1.4;
-      margin-bottom: 10px;
-      min-height: 34px;
-    }
-    .project-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: auto;
-    }
-    .btn-card-calc {
-      flex: 1;
-      padding: 8px 12px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 800;
-      font-size: 11.5px;
-      border: none;
-      border-radius: 7px;
-      cursor: pointer;
-      box-shadow: 0 2px 10px var(--accent-glow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: all 0.15s;
-    }
-    .btn-card-calc:hover { background: var(--accent-hover); }
-    .btn-card-zoom {
-      padding: 8px 10px;
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .btn-card-zoom:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
 
     /* =========================================
        4. ESTIMATE & PHOTO QUOTE (HOW DO I GET A PRICE?)
@@ -1323,6 +1111,13 @@
             <span class="hud-menu-desc">Turnkey Estimate Wizard & Scope Notes</span>
           </div>
         </a>
+        <a href="projects.html" class="hud-menu-item">
+          <span class="hud-menu-icon">🔨</span>
+          <div class="hud-menu-text">
+            <span class="hud-menu-title">Recent Projects Portfolio</span>
+            <span class="hud-menu-desc">Verified Jobsite Captures & Builds</span>
+          </div>
+        </a>
         <a href="#gvsm-moat" class="hud-menu-item">
           <span class="hud-menu-icon">📐</span>
           <div class="hud-menu-text">
@@ -1549,28 +1344,27 @@
     </section>
 
     <!-- =========================================
-         3. CRAFTSMANSHIP SHOWCASE (CAN I TRUST YOU?)
+         3. CRAFTSMANSHIP & RECENT PROJECTS GATEWAY
          ========================================= -->
-    <section class="projects-section" id="projects">
-      <div class="section-header">
-        <span class="section-badge">Authentic Central WI Jobsite Captures</span>
-        <h2 class="section-title">Recent Projects & Real Transformations</h2>
-        <p class="section-subtext">No stock photos. Every image is an authentic local jobsite framed, enclosed, and finished by certified journeyman John Dondlinger.</p>
+    <section class="projects-section" id="projects" style="margin: 20px 0 28px;">
+      <div class="ecosystem-gateway" style="border: 1.5px solid rgba(255, 87, 34, 0.35); background: linear-gradient(135deg, rgba(255, 87, 34, 0.08) 0%, rgba(18, 20, 28, 0.98) 100%); padding: 22px; border-radius: 16px; margin: 0;">
+        <div class="ecosystem-gateway-text">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span class="section-badge" style="margin:0;">Jobsite Craftsmanship Portfolio</span>
+            <span style="font-family:var(--font-mono);font-size:10.5px;color:var(--green);display:flex;align-items:center;gap:4px;"><span class="dot" style="width:5px;height:5px;background:var(--green);border-radius:50%;display:inline-block;"></span> 7 Verified Local Builds</span>
+          </div>
+          <h2 style="font-family:var(--font-brand);font-size:clamp(18px, 3.5vw, 24px);font-weight:900;color:#fff;line-height:1.25;margin-bottom:6px;">
+            Recent Projects & Real Transformations
+          </h2>
+          <p style="font-size:12.5px;color:#cbd5e1;line-height:1.45;max-width:680px;">
+            Zero stock photos. Explore authentic local siding overhauls, structural two-story additions, custom composite decks, replacement windows, and interior remodels executed by certified journeyman John Dondlinger.
+          </p>
+        </div>
+        <a href="projects.html" class="btn-hero-primary" style="font-size:13px;padding:12px 20px;white-space:nowrap;">
+          <span>Explore Projects Gallery</span>
+          <span>→</span>
+        </a>
       </div>
-
-      <!-- Category Filter Pills -->
-      <div class="gallery-filter-bar">
-        <button class="filter-pill active" onclick="filterProjects('all', this)">All Projects</button>
-        <button class="filter-pill" onclick="filterProjects('siding', this)">Siding & Trim</button>
-        <button class="filter-pill" onclick="filterProjects('decks', this)">Custom Decks</button>
-        <button class="filter-pill" onclick="filterProjects('addition', this)">Structural Additions</button>
-        <button class="filter-pill" onclick="filterProjects('windows', this)">Windows & Doors</button>
-        <button class="filter-pill" onclick="filterProjects('remodel', this)">Remodels</button>
-        <button class="filter-pill" onclick="filterProjects('interior', this)">Kitchen & Trim</button>
-      </div>
-
-      <!-- Dynamic Projects Grid (Rendered from DGC_PROJECTS) -->
-      <div class="projects-grid" id="projects-feed-container"></div>
     </section>
 
     <!-- =========================================
@@ -1717,6 +1511,7 @@
     <footer id="site-footer">
       <span>© 2026 Dondlinger General Contracting LLC • Wisconsin Rapids, WI 54494</span>
       <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="projects.html">Projects</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
         <a href="./intake.html">Project Intake</a>
@@ -1743,38 +1538,7 @@
     </a>
   </footer>
 
-  <!-- Lightbox Modal -->
-  <div id="project-lightbox-modal">
-    <div style="display:flex;justify-content:space-between;align-items:center;color:#fff;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:10px;">
-      <div style="display:flex;flex-direction:column;gap:2px;max-width:80%;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span id="lb-badge" style="font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--accent);background:rgba(255,87,34,0.12);padding:2px 8px;border-radius:4px;border:1px solid rgba(255,87,34,0.25);text-transform:uppercase;"></span>
-          <span id="lb-counter" style="font-family:var(--font-mono);font-size:10.5px;color:var(--cyan);font-weight:700;"></span>
-        </div>
-        <div id="lb-title" style="font-family:var(--font-brand);font-size:15px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
-      </div>
-      <button onclick="closeProjectLightbox()" aria-label="Close" style="background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:50%;width:38px;height:38px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;">✕</button>
-    </div>
 
-    <div style="position:relative;flex:1;display:flex;align-items:center;justify-content:center;margin:10px 0;overflow:hidden;">
-      <img id="lb-img" src="" alt="Project Photo" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.6);transition:opacity 0.18s ease;">
-      <button onclick="navLightboxSlide(-1)" aria-label="Previous Photo" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.75);color:#fff;border:1px solid rgba(255,255,255,0.25);width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);box-shadow:0 4px 16px rgba(0,0,0,0.5);">❮</button>
-      <button onclick="navLightboxSlide(1)" aria-label="Next Photo" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.75);color:#fff;border:1px solid rgba(255,255,255,0.25);width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);box-shadow:0 4px 16px rgba(0,0,0,0.5);">❯</button>
-    </div>
-
-    <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:10px;">
-      <div id="lb-thumbs" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px;scrollbar-width:thin;justify-content:flex-start;"></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:240px;">
-          <div id="lb-phase-title" style="font-family:var(--font-brand);font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;"></div>
-          <div id="lb-caption" style="font-size:11.5px;color:#94a3b8;line-height:1.4;"></div>
-        </div>
-        <button id="lb-cta-btn" onclick="" style="padding:8px 14px;background:var(--accent);color:#fff;font-weight:800;font-size:12px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px var(--accent-glow);">
-          ⚡ Estimate Scope
-        </button>
-      </div>
-    </div>
-  </div>
 
   <script>
     // ==========================================
@@ -2062,448 +1826,7 @@
       if (e.key === 'Escape') {
         const menu = document.getElementById('hud-menu-dropdown');
         const brand = document.getElementById('hud-brand-toggle');
-        if (menu) { menu.classList.remove('show'); brand.classList.remove('active'); }
-        closeProjectLightbox();
       }
-    });
-
-    // ==========================================
-    // DGC PROJECTS DATA DICTIONARY
-    // ==========================================
-    const DGC_PROJECTS = {
-      "siding": {
-        "id": "siding",
-        "title": "610 Residence: Slate Blue Siding Overhaul & Scalloped Gables",
-        "category": "siding",
-        "categoryLabel": "Exterior Siding",
-        "trade": "siding",
-        "tag": "Siding Overhaul • 4 Stages",
-        "lead": "Full exterior siding replacement: tear-off down to silver foil-faced foam insulation, finished in slate blue lap siding with crisp white corner posts and scalloped white gable accents.",
-        "slides": [
-          {
-            "src": "images/projects/IMG_4801.webp",
-            "title": "Finished Slate Blue Lap Siding",
-            "caption": "Completed exterior showing dark slate blue lap siding, wide white corner posts, and custom window casing trim."
-          },
-          {
-            "src": "images/projects/IMG_4349.webp",
-            "title": "Before / Tear-Off: Foil Insulation Substrate",
-            "caption": "Complete exterior siding stripped down to silver foil-faced foam insulation board at 610 residence prior to siding install."
-          },
-          {
-            "src": "images/projects/IMG_4802.webp",
-            "title": "Architectural Gable & Soffit Ventilation",
-            "caption": "Upper gable detail showing white scalloped decorative shake siding, continuous vented soffits, and aluminum fascia wraps."
-          },
-          {
-            "src": "images/projects/IMG_4805.webp",
-            "title": "Thermal Barrier & Head Flashing Detail",
-            "caption": "Foil-faced exterior insulation integration with precision window head flashing directing water away from openings."
-          }
-        ]
-      },
-      "dickman": {
-        "id": "dickman",
-        "title": "Dickman 2-Story Residential Addition & Shell Framing",
-        "category": "addition",
-        "categoryLabel": "Home Addition",
-        "trade": "framing",
-        "tag": "Ground-Up Addition • 4 Stages",
-        "lead": "Two-story home addition: mudsill tie-in, full 2-story exterior wall framing, LP WeatherLogic air & water barrier sheathing, spider boom lift staging, and Alliance double-hung windows.",
-        "slides": [
-          {
-            "src": "images/projects/dickman_addition/IMG_2071.webp",
-            "title": "Two-Story Exterior Elevation",
-            "caption": "Alliance double-hung windows installed, taped weather barrier seams, and tie-in to original two-story roofline."
-          },
-          {
-            "src": "images/projects/dickman_addition/IMG_2009.webp",
-            "title": "First-Floor Framing & LP WeatherLogic",
-            "caption": "Ground-up addition framing with blue LP WeatherLogic air and water barrier sheathing and floor joist tie-in."
-          },
-          {
-            "src": "images/projects/dickman_addition/IMG_2066.webp",
-            "title": "Two-Story Shell with Boom Lift Staging",
-            "caption": "Full two-story addition enclosed in LP WeatherLogic sheathing with towable boom lift staged in yard."
-          },
-          {
-            "src": "images/projects/dickman_addition/IMG_2158.webp",
-            "title": "Roof Truss Placement & Ridge Tie-In",
-            "caption": "Engineered roof truss installation, hurricane ties, structural bracing, and valley tie-in to existing structure."
-          }
-        ]
-      },
-      "fredparker": {
-        "id": "fredparker",
-        "title": "Front Porch Structural Rot Teardown & Portico Rebuild",
-        "category": "remodel",
-        "categoryLabel": "Structural Carpentry",
-        "trade": "framing",
-        "tag": "Winter Structural Overhaul • 8 Captures",
-        "lead": "Winter entry overhaul: tearing out water-damaged load-bearing porch overhang beams, temporary shoring, installing new treated structural posts, rafter collar ties, R-Matte Plus-3 rigid foam insulation board, and rebuilt pediment framing.",
-        "slides": [
-          {
-            "src": "images/projects/fredparker/IMG_5934.webp",
-            "title": "Reconstructed Portico & R-Matte Insulation",
-            "caption": "New treated structural posts, rebuilt gable header framing, R-Matte Plus-3 rigid foam insulation board, and staging planks."
-          },
-          {
-            "src": "images/projects/fredparker/IMG_5779.webp",
-            "title": "Substrate & Soffit Rot Inspection",
-            "caption": "Severe moisture rot and wood decay uncovered on the load-bearing front porch overhang header beam beneath deteriorated vinyl soffit."
-          },
-          {
-            "src": "images/projects/fredparker/IMG_5851.webp",
-            "title": "Structural Overhang Demolition",
-            "caption": "Close-up inspection of rotted timber beam requiring complete removal and structural replacement back to sound framing."
-          },
-          {
-            "src": "images/projects/fredparker/IMG_5864.webp",
-            "title": "Winter Staging & Shoring Setup",
-            "caption": "Pipe scaffolding, extension ladders, and protective poly tarp containment erected across front porch steps during winter freeze."
-          },
-          {
-            "src": "images/projects/fredparker/IMG_5881.webp",
-            "title": "Rafter & Collar Tie Framing",
-            "caption": "Attic-level structural roof framing and dimensional rafter ties securing the front entry portico gable."
-          }
-        ]
-      },
-      "decks": {
-        "id": "decks",
-        "title": "Custom Composite Deck, Stairs & Heavy Timber Substructure",
-        "category": "decks",
-        "categoryLabel": "Outdoor Living",
-        "trade": "decks",
-        "tag": "Outdoor Living • 5 Stages",
-        "lead": "Below-frost concrete footings, treated timber carrying beams, custom-cut stair stringers, low-maintenance composite surface, and rigid railing.",
-        "slides": [
-          {
-            "src": "images/projects/composite_deck_construction.jpg",
-            "title": "Composite Decking & Hidden Fasteners",
-            "caption": "Maintenance-free grooved composite deck boards installed with hidden clip fasteners and clean border picture framing."
-          },
-          {
-            "src": "images/projects/deck_wide_elevation.webp",
-            "title": "Elevated Deck Full Elevation",
-            "caption": "Continuous beam bearing, galvanized joist hangers, and seamless yard access transitions."
-          },
-          {
-            "src": "images/projects/deck_corner_railing.webp",
-            "title": "Structural Corner Posts & Railing Integration",
-            "caption": "Rigid aluminum and composite railing posts through-bolted to exterior rim joists for code-compliant strength."
-          },
-          {
-            "src": "images/projects/deck_stair_install.webp",
-            "title": "Treated 2x12 Stair Stringer Framing",
-            "caption": "Custom-cut pressure-treated 2x12 stair stringers with uniform 7-inch rise and 11-inch run geometry."
-          },
-          {
-            "src": "images/projects/deck_finished_stairs.webp",
-            "title": "Finished Composite Treads & Wrapped Risers",
-            "caption": "Enclosed composite stair treads with clean mitered fascia returns and integrated safety grip rails."
-          }
-        ]
-      },
-      "windows": {
-        "id": "windows",
-        "title": "Alliance Windows, Custom Brake Metal & Siding Staging",
-        "category": "windows",
-        "categoryLabel": "Windows & Siding",
-        "trade": "windows",
-        "tag": "Envelope Upgrades • 3 Features",
-        "lead": "Alliance vinyl replacement windows, on-site 10-foot brake metal casing wraps, and ladder staging for upper elevation siding installation.",
-        "slides": [
-          {
-            "src": "images/projects/custom_brake_metal_5881.webp",
-            "title": "On-Site 10-ft Brake Metal Casing Wraps",
-            "caption": "Precision aluminum sheet metal bending on 10-foot brake, encasing exterior window frames with clean hemmed returns."
-          },
-          {
-            "src": "images/projects/window_replacement.webp",
-            "title": "Custom Brake Metal Wrap & Perimeter Seal",
-            "caption": "Clean hemmed aluminum casing wrap around replacement window with industrial polyurethane weather seal."
-          },
-          {
-            "src": "images/projects/IMG_3074.webp",
-            "title": "Alliance Window Install & Upper Siding Staging",
-            "caption": "Alliance replacement window installation and upper gable siding from 32-ft extension ladder with Delta Cruzer miter saw on site."
-          }
-        ]
-      },
-      "navy_residence": {
-        "id": "navy_residence",
-        "title": "Navy Multi-Gable Craftsman & Stone Veneer Water Table",
-        "category": "remodel",
-        "categoryLabel": "Exterior Craftsmanship",
-        "trade": "siding",
-        "tag": "Custom Exterior • 2 Elevations",
-        "lead": "Custom multi-gable residence featuring navy blue horizontal lap siding, vertical board-and-batten, manufactured stone veneer water table, and double garage.",
-        "slides": [
-          {
-            "src": "images/projects/IMG_3142.webp",
-            "title": "Full Elevation & Stone Water Table",
-            "caption": "Completed multi-gable exterior with navy blue siding, vertical board-and-batten accents, and stone veneer wainscoting."
-          },
-          {
-            "src": "images/projects/IMG_3143.webp",
-            "title": "Architectural Gables & Garage Elevation",
-            "caption": "Winter view showing garage wing, shake gable accents, white casing trim, and dark brown panel garage doors."
-          }
-        ]
-      }
-    };
-
-    const projectSlideIndices = {
-      siding: 0,
-      dickman: 0,
-      fredparker: 0,
-      decks: 0,
-      windows: 0,
-      navy_residence: 0
-    };
-
-    let activeProjectCategory = 'all';
-
-    function renderProjectsFeed() {
-      const container = document.getElementById('projects-feed-container');
-      if (!container) return;
-
-      const projectKeys = Object.keys(DGC_PROJECTS);
-      let html = '';
-
-      projectKeys.forEach(pKey => {
-        const proj = DGC_PROJECTS[pKey];
-        if (!proj || !proj.slides || proj.slides.length === 0) return;
-
-        const isVisible = (activeProjectCategory === 'all' || proj.category === activeProjectCategory);
-        const currIdx = projectSlideIndices[pKey] || 0;
-        const currSlide = proj.slides[currIdx] || proj.slides[0];
-        const totalSlides = proj.slides.length;
-
-        html += `
-          <div class="project-card" data-category="${proj.category}" data-project="${pKey}" style="display:${isVisible ? 'flex' : 'none'};">
-            <div class="project-card-header">
-              <div>
-                <span class="project-card-tag">${proj.tag || proj.categoryLabel}</span>
-                <h3 class="project-card-title">${proj.title}</h3>
-              </div>
-              <span id="ss-counter-${pKey}" class="project-slide-counter">
-                ${currIdx + 1} / ${totalSlides}
-              </span>
-            </div>
-
-            <div class="project-viewport">
-              <img id="ss-img-${pKey}" src="${currSlide.src}" alt="${currSlide.title || proj.title}" loading="lazy" onclick="openProjectLightbox('${pKey}')">
-              <div id="ss-badge-${pKey}" class="project-stage-pill">
-                Slide ${currIdx + 1}: ${currSlide.title || proj.title}
-              </div>
-              <button onclick="event.stopPropagation(); navProjectSlide('${pKey}', -1)" aria-label="Previous Slide" class="project-stage-nav prev">❮</button>
-              <button onclick="event.stopPropagation(); navProjectSlide('${pKey}', 1)" aria-label="Next Slide" class="project-stage-nav next">❯</button>
-            </div>
-
-            <div id="ss-thumbs-${pKey}" class="project-thumbs-rail">
-              ${proj.slides.map((s, idx) => `
-                <div class="project-thumb ${idx === currIdx ? 'active' : ''}" onclick="jumpProjectSlide('${pKey}', ${idx})">
-                  <img src="${s.src}" alt="thumb" loading="lazy">
-                </div>
-              `).join('')}
-            </div>
-
-            <p id="ss-desc-${pKey}" class="project-caption">
-              ${currSlide.caption || proj.lead || ''}
-            </p>
-
-            <div class="project-actions">
-              <button onclick="launchScopeTrade('${proj.trade || 'siding'}')" class="btn-card-calc">
-                ⚡ Estimate This Trade
-              </button>
-              <button onclick="openProjectLightbox('${pKey}')" class="btn-card-zoom">
-                🔍 Full Gallery
-              </button>
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-    }
-
-    function navProjectSlide(projKey, direction) {
-      const proj = DGC_PROJECTS[projKey];
-      if (!proj || !proj.slides || proj.slides.length === 0) return;
-
-      const total = proj.slides.length;
-      let curr = projectSlideIndices[projKey] || 0;
-      curr = (curr + direction + total) % total;
-      projectSlideIndices[projKey] = curr;
-      updateProjectSlideUi(projKey);
-    }
-
-    function jumpProjectSlide(projKey, index) {
-      const proj = DGC_PROJECTS[projKey];
-      if (!proj || !proj.slides || index < 0 || index >= proj.slides.length) return;
-      projectSlideIndices[projKey] = index;
-      updateProjectSlideUi(projKey);
-    }
-
-    function updateProjectSlideUi(projKey) {
-      const proj = DGC_PROJECTS[projKey];
-      if (!proj) return;
-
-      const curr = projectSlideIndices[projKey] || 0;
-      const slide = proj.slides[curr];
-      const total = proj.slides.length;
-
-      const imgEl = document.getElementById(`ss-img-${projKey}`);
-      const badgeEl = document.getElementById(`ss-badge-${projKey}`);
-      const counterEl = document.getElementById(`ss-counter-${projKey}`);
-      const descEl = document.getElementById(`ss-desc-${projKey}`);
-      const thumbsContainer = document.getElementById(`ss-thumbs-${projKey}`);
-
-      if (imgEl && slide) {
-        imgEl.style.opacity = '0.3';
-        setTimeout(() => {
-          imgEl.src = slide.src;
-          imgEl.style.opacity = '1';
-        }, 60);
-      }
-
-      if (badgeEl && slide) badgeEl.textContent = `Slide ${curr + 1}: ${slide.title || proj.title}`;
-      if (counterEl) counterEl.textContent = `${curr + 1} / ${total}`;
-      if (descEl && slide) descEl.textContent = slide.caption || proj.lead || '';
-
-      if (thumbsContainer) {
-        const thumbEls = thumbsContainer.children;
-        for (let i = 0; i < thumbEls.length; i++) {
-          if (i === curr) {
-            thumbEls[i].classList.add('active');
-            thumbEls[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-          } else {
-            thumbEls[i].classList.remove('active');
-          }
-        }
-      }
-    }
-
-    function filterProjects(category, btn) {
-      activeProjectCategory = category;
-      document.querySelectorAll('.gallery-filter-bar .filter-pill').forEach(el => el.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-
-      const cards = document.querySelectorAll('.project-card');
-      cards.forEach(card => {
-        const cat = card.getAttribute('data-category');
-        if (category === 'all' || cat === category) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    function launchScopeTrade(tradeKey) {
-      selectScopeTrade(tradeKey);
-      const estimateSec = document.getElementById('estimate');
-      if (estimateSec) {
-        estimateSec.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-
-    // ==========================================
-    // LIGHTBOX CONTROLLER
-    // ==========================================
-    let activeLightboxProject = null;
-
-    function openProjectLightbox(projKey) {
-      const proj = DGC_PROJECTS[projKey];
-      if (!proj) return;
-      activeLightboxProject = projKey;
-
-      const modal = document.getElementById('project-lightbox-modal');
-      if (!modal) return;
-
-      updateLightboxUi();
-      modal.style.display = 'flex';
-    }
-
-    function updateLightboxUi() {
-      if (!activeLightboxProject) return;
-      const proj = DGC_PROJECTS[activeLightboxProject];
-      const curr = projectSlideIndices[activeLightboxProject] || 0;
-      const slide = proj.slides[curr];
-
-      const badgeEl = document.getElementById('lb-badge');
-      const titleEl = document.getElementById('lb-title');
-      const counterEl = document.getElementById('lb-counter');
-      const imgEl = document.getElementById('lb-img');
-      const phaseTitleEl = document.getElementById('lb-phase-title');
-      const captionEl = document.getElementById('lb-caption');
-      const thumbsEl = document.getElementById('lb-thumbs');
-      const ctaBtn = document.getElementById('lb-cta-btn');
-
-      if (badgeEl) badgeEl.textContent = proj.categoryLabel || proj.trade || 'DGC';
-      if (titleEl) titleEl.textContent = proj.title;
-      if (counterEl) counterEl.textContent = `Photo ${curr + 1} / ${proj.slides.length}`;
-      if (phaseTitleEl) phaseTitleEl.textContent = slide.title || '';
-      if (captionEl) captionEl.textContent = slide.caption || proj.lead || '';
-      
-      if (ctaBtn) {
-        ctaBtn.textContent = `⚡ Estimate ${proj.categoryLabel || 'Trade'} Scope`;
-        ctaBtn.onclick = () => {
-          closeProjectLightbox();
-          launchScopeTrade(proj.trade || 'siding');
-        };
-      }
-
-      if (imgEl && slide) {
-        imgEl.style.opacity = '0.3';
-        setTimeout(() => {
-          imgEl.src = slide.src;
-          imgEl.style.opacity = '1';
-        }, 50);
-      }
-
-      if (thumbsEl) {
-        thumbsEl.innerHTML = proj.slides.map((s, idx) => `
-          <div onclick="jumpLightboxSlide(${idx})" style="flex:0 0 52px;height:38px;border-radius:6px;overflow:hidden;border:${idx === curr ? '2px solid var(--accent)' : '1px solid rgba(255,255,255,0.15)'};cursor:pointer;opacity:${idx === curr ? '1' : '0.55'};transition:all 0.15s ease;">
-            <img src="${s.src}" alt="thumb" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-          </div>
-        `).join('');
-
-        const activeThumb = thumbsEl.children[curr];
-        if (activeThumb) {
-          activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
-      }
-    }
-
-    function jumpLightboxSlide(index) {
-      if (!activeLightboxProject) return;
-      const proj = DGC_PROJECTS[activeLightboxProject];
-      if (!proj || index < 0 || index >= proj.slides.length) return;
-      projectSlideIndices[activeLightboxProject] = index;
-      updateLightboxUi();
-      updateProjectSlideUi(activeLightboxProject);
-    }
-
-    function navLightboxSlide(direction) {
-      if (!activeLightboxProject) return;
-      navProjectSlide(activeLightboxProject, direction);
-      updateLightboxUi();
-    }
-
-    function closeProjectLightbox() {
-      const modal = document.getElementById('project-lightbox-modal');
-      if (modal) modal.style.display = 'none';
-      activeLightboxProject = null;
-    }
-
-    window.addEventListener('keydown', (e) => {
-      if (!activeLightboxProject) return;
-      if (e.key === 'ArrowLeft') navLightboxSlide(-1);
-      if (e.key === 'ArrowRight') navLightboxSlide(1);
-      if (e.key === 'Escape') closeProjectLightbox();
     });
 
     // ==========================================
@@ -2667,13 +1990,11 @@
     // INITIALIZATION ON DOM READY
     // ==========================================
     document.addEventListener('DOMContentLoaded', () => {
-      renderProjectsFeed();
       initGvsmSliderListeners();
       selectScopeTrade('decks');
     });
 
     if (document.readyState === 'interactive' || document.readyState === 'complete') {
-      renderProjectsFeed();
       initGvsmSliderListeners();
       selectScopeTrade('decks');
     }

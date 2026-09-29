@@ -1,6 +1,6 @@
 {
-  "fredparker": {
-    "id": "fredparker",
+  "porch_rebuild": {
+    "id": "porch_rebuild",
     "title": "Front Porch Structural Rot Teardown & Portico Rebuild",
     "category": "remodel",
     "categoryLabel": "Structural Carpentry & Portico",
@@ -9,50 +9,50 @@
     "lead": "Winter entry overhaul: tearing out water-damaged load-bearing porch overhang beams, temporary shoring, installing new treated structural posts, rafter collar ties, R-Matte Plus-3 rigid foam insulation board, and rebuilt pediment framing.",
     "slides": [
       {
-        "src": "images/projects/fredparker/IMG_5779.webp",
+        "src": "images/projects/portico_rebuild/IMG_5779.webp",
         "title": "Substrate & Soffit Rot Inspection",
         "caption": "Severe moisture rot and wood decay uncovered on the load-bearing front porch overhang header beam beneath deteriorated vinyl soffit."
       },
       {
-        "src": "images/projects/fredparker/IMG_5851.webp",
+        "src": "images/projects/portico_rebuild/IMG_5851.webp",
         "title": "Structural Overhang Demolition",
         "caption": "Close-up inspection of rotted timber beam requiring complete removal and structural replacement back to sound framing."
       },
       {
-        "src": "images/projects/fredparker/IMG_5854.webp",
+        "src": "images/projects/portico_rebuild/IMG_5854.webp",
         "title": "Timber Rafter Assessment",
         "caption": "Detailed evaluation of decayed eave rafter connections before erecting temporary shoring and demolition staging."
       },
       {
-        "src": "images/projects/fredparker/IMG_5864.webp",
+        "src": "images/projects/portico_rebuild/IMG_5864.webp",
         "title": "Winter Staging & Shoring Setup",
         "caption": "Pipe scaffolding, extension ladders, and protective poly tarp containment erected across front porch steps during winter freeze."
       },
       {
-        "src": "images/projects/fredparker/IMG_5871.webp",
+        "src": "images/projects/portico_rebuild/IMG_5871.webp",
         "title": "Site Access & Trailer Staging",
         "caption": "Sure-Trac dump trailer, pipe scaffolding, and ladder jack access staging on the front elevation of the split-level residence."
       },
       {
-        "src": "images/projects/fredparker/IMG_5881.webp",
+        "src": "images/projects/portico_rebuild/IMG_5881.webp",
         "title": "Rafter & Collar Tie Framing",
         "caption": "Attic-level structural roof framing and dimensional rafter ties securing the front entry portico gable."
       },
       {
-        "src": "images/projects/fredparker/IMG_5906.webp",
+        "src": "images/projects/portico_rebuild/IMG_5906.webp",
         "title": "Fascia & Rafter Tail Teardown",
         "caption": "Removing rotted rafter tails and sub-fascia beneath the snow-covered roofline to prepare for replacement lumber."
       },
       {
-        "src": "images/projects/fredparker/IMG_5934.webp",
+        "src": "images/projects/portico_rebuild/IMG_5934.webp",
         "title": "Reconstructed Portico & R-Matte Insulation",
         "caption": "New treated structural posts, rebuilt gable header framing, R-Matte Plus-3 rigid foam insulation board, and staging planks."
       }
     ]
   },
-  "dickman": {
-    "id": "dickman",
-    "title": "Dickman 2-Story Residential Addition & Shell Framing",
+  "two_story_addition": {
+    "id": "two_story_addition",
+    "title": "Two-Story Residential Addition & Shell Framing",
     "category": "addition",
     "categoryLabel": "Home Addition",
     "trade": "framing",
@@ -60,22 +60,22 @@
     "lead": "Two-story home addition: mudsill tie-in, full 2-story exterior wall framing, LP WeatherLogic air & water barrier sheathing, spider boom lift staging, and Alliance double-hung windows.",
     "slides": [
       {
-        "src": "images/projects/dickman_addition/IMG_2009.webp",
+        "src": "images/projects/two_story_addition/IMG_2009.webp",
         "title": "First-Floor Framing & LP WeatherLogic",
         "caption": "Ground-up addition framing with blue LP WeatherLogic air and water barrier sheathing and floor joist tie-in."
       },
       {
-        "src": "images/projects/dickman_addition/IMG_2066.webp",
+        "src": "images/projects/two_story_addition/IMG_2066.webp",
         "title": "Two-Story Shell with Boom Lift Staging",
         "caption": "Full two-story addition enclosed in LP WeatherLogic sheathing with towable boom lift staged in yard."
       },
       {
-        "src": "images/projects/dickman_addition/IMG_2071.webp",
+        "src": "images/projects/two_story_addition/IMG_2071.webp",
         "title": "Two-Story Exterior Elevation",
         "caption": "Alliance double-hung windows installed, taped weather barrier seams, and tie-in to original two-story roofline."
       },
       {
-        "src": "images/projects/dickman_addition/IMG_2158.webp",
+        "src": "images/projects/two_story_addition/IMG_2158.webp",
         "title": "Roof Truss Placement & Ridge Tie-In",
         "caption": "Engineered roof truss installation, hurricane ties, structural bracing, and valley tie-in to existing structure."
       }
@@ -83,7 +83,7 @@
   },
   "siding": {
     "id": "siding",
-    "title": "610 Residence: Two-Story Siding Overhaul & Scalloped Gables",
+    "title": "Two-Story Siding Overhaul & Scalloped Gables",
     "category": "siding",
     "categoryLabel": "Exterior Siding",
     "trade": "siding",
@@ -93,7 +93,7 @@
       {
         "src": "images/projects/IMG_4349.webp",
         "title": "Before / Tear-Off: Foil Insulation Substrate",
-        "caption": "Complete exterior siding stripped down to silver foil-faced foam insulation board at 610 residence prior to siding install."
+        "caption": "Complete exterior siding stripped down to silver foil-faced foam insulation board substrate prior to siding install."
       },
       {
         "src": "images/projects/IMG_4801.webp",
