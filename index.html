@@ -1125,14 +1125,14 @@
             <span class="hud-menu-desc">Visual Cutaways & Cut Schedules</span>
           </div>
         </a>
-        <a href="about.html" class="hud-menu-item">
+        <a href="#ai-truth-layer" class="hud-menu-item">
           <span class="hud-menu-icon">🔨</span>
           <div class="hud-menu-text">
             <span class="hud-menu-title">About John Dondlinger</span>
             <span class="hud-menu-desc">Owner & Journeyman Carpenter</span>
           </div>
         </a>
-        <a href="contact.html" class="hud-menu-item">
+        <a href="#scope-drawer" class="hud-menu-item">
           <span class="hud-menu-icon">📍</span>
           <div class="hud-menu-text">
             <span class="hud-menu-title">Contact & Service Territory</span>
@@ -1512,8 +1512,8 @@
       <span>© 2026 Dondlinger General Contracting LLC • Wisconsin Rapids, WI 54494</span>
       <div style="display:flex;gap:12px;flex-wrap:wrap;">
         <a href="projects.html">Projects</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
+        <a href="#ai-truth-layer">About</a>
+        <a href="#scope-drawer">Contact</a>
         <a href="./intake.html">Project Intake</a>
         <a href="https://hub.dondlingergc.com" target="_blank" rel="noopener noreferrer">Digital Hub</a>
         <a href="schema.json">Schema</a>
@@ -1716,6 +1716,10 @@
       const rangeStr = `$${minTotal.toLocaleString()} – $${maxTotal.toLocaleString()}`;
       document.getElementById('bp-range-display').textContent = rangeStr;
       document.getElementById('bp-trade-label').textContent = `Estimated Turnkey Range: ${val} ${cfg.unit} (${currentTrade.toUpperCase()})`;
+
+      if (typeof window.trackCalculatorChange === 'function') {
+        window.trackCalculatorChange(currentTrade, rangeStr, { size: val, unit: cfg.unit });
+      }
     }
 
     function previewDrawerPhotos(e) {
@@ -1999,5 +2003,6 @@
       selectScopeTrade('decks');
     }
   </script>
+  <script src="/telemetry.js"></script>
 </body>
 </html>

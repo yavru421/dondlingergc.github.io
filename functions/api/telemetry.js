@@ -153,8 +153,8 @@ export async function onRequest(context) {
   try {
     const data = await request.json().catch(() => ({}));
     const candidateTokens = [env.TELEGRAM_BOT_TOKEN].filter(Boolean);
-    const chatId = env.TELEGRAM_CHAT_ID || '8104595144';
-    const threadId = env.TELEGRAM_THREAD_ID ? parseInt(env.TELEGRAM_THREAD_ID, 10) : null;
+    const chatId = env.TELEGRAM_GROUP_CHAT_ID || '-1004418238851';
+    const threadId = env.TELEGRAM_THREAD_ID ? parseInt(env.TELEGRAM_THREAD_ID, 10) : 2;
 
     const ua = request.headers.get('user-agent') || '';
     const isBot = /bot|crawl|spider|slurp|censys|shodan|masscan|bytespider|gptbot|claudebot|headless|python-requests|aiohttp|wget|curl/i.test(ua);
@@ -223,7 +223,8 @@ export async function onRequest(context) {
     }
 
     // 4. ZERO-SPAM NOTIFICATION GATING
-    if (isOperator) {
+    const isTestDispatch = Boolean(data.test_dispatch || attr.test_dispatch);
+    if (isOperator && !isTestDispatch) {
       return new Response(JSON.stringify({ success: true, operator_suppressed: true, logged_to_d1: true }), { status: 200, headers: corsHeaders });
     }
 

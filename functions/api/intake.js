@@ -69,6 +69,7 @@ export async function onRequestPost(context) {
   let city = 'Central Wisconsin';
   let notes = 'No additional notes';
   let origin = 'dondlingergc.com';
+  let leadType = 'client';
   let photos = [];
   let voiceAudio = null;
 
@@ -81,7 +82,7 @@ export async function onRequestPost(context) {
       city = formData.get('city') || formData.get('address') || city;
       notes = formData.get('notes') || formData.get('description') || notes;
       origin = formData.get('origin') || origin;
-      var leadType = formData.get('lead_type') || (origin.toLowerCase().includes('contractor') ? 'contractor' : 'client');
+      leadType = formData.get('lead_type') || (origin.toLowerCase().includes('contractor') ? 'contractor' : 'client');
 
       // Extract photos AND voice audio files across Cloudflare Workers runtime
       for (const [key, value] of formData.entries()) {
@@ -122,6 +123,7 @@ export async function onRequestPost(context) {
       service = json.service || json.projectScope || (json.keyRequirements ? json.keyRequirements.join(', ') : service);
       city = json.city || json.address || (json.timeline ? `Timeline: ${json.timeline}` : city);
       origin = json.source || json.origin || 'voice-intake-app.dondlingergc.com';
+      leadType = json.lead_type || json.leadType || (origin.toLowerCase().includes('contractor') ? 'contractor' : 'client');
 
       // Build rich Markdown notes if structured payload
       if (json.projectScope || json.keyRequirements) {
@@ -178,7 +180,7 @@ export async function onRequestPost(context) {
       notes = text || notes;
     }
 
-    const isContractor = leadType.toLowerCase().includes('contractor') || leadType.toLowerCase().includes('b2b');
+    const isContractor = String(leadType || '').toLowerCase().includes('contractor') || String(leadType || '').toLowerCase().includes('b2b');
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
     const leadId = (isContractor ? 'B2B-' : 'DGC-') + Math.random().toString(36).substring(2, 8).toUpperCase();
     const tagLead = '#' + leadId.replace(/-/g, '_');

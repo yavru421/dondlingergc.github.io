@@ -6,6 +6,15 @@
  */
 (function() {
   // 1. Operator Self-Traffic Detection (Prevents self-ping Telegram spam)
+  const isResetOperator = window.location.search.includes('reset_operator=1');
+  if (isResetOperator) {
+    try {
+      localStorage.removeItem('dgc_operator');
+      sessionStorage.removeItem('dgc_operator');
+    } catch (e) {}
+  }
+
+  const isTestDispatch = window.location.search.includes('test_dispatch=1') || window.location.search.includes('test_telemetry=1');
   const isOperatorParam = window.location.search.includes('operator=1') || window.location.search.includes('admin=1');
   if (isOperatorParam) {
     try {
@@ -13,7 +22,7 @@
       sessionStorage.setItem('dgc_operator', 'true');
     } catch (e) {}
   }
-  const isOperator = (
+  const isOperator = !isTestDispatch && (
     isOperatorParam ||
     localStorage.getItem('dgc_operator') === 'true' ||
     sessionStorage.getItem('dgc_operator') === 'true'
@@ -84,6 +93,7 @@
       photo_index: payload.photo_index ?? null,
       dwell_sec: dwell,
       is_operator: isOperator,
+      test_dispatch: isTestDispatch,
       timezone: attribution.timezone,
       attribution: attribution
     });
@@ -152,15 +162,23 @@
 
   // 9. Interaction & Conversion Click Delegator (High Intent Actions)
   document.addEventListener('click', (e) => {
-    const target = e.target.closest('a, button, .tab-btn, .filter-pill, .pw-header, .gallery-item, .project-card, .btn-wd-card-action, .btn-hud-estimate, .pw-quote-cta, #quote-btn, .submit-btn, .scrubber-btn, .nav-chip');
+    const target = e.target.closest('a, button, .tab-btn, .filter-pill, .pw-header, .gallery-item, .project-card, .btn-wd-card-action, .btn-hud-estimate, .btn-hud-call, .dock-btn-call, .dock-btn-photo, .dock-btn-estimate, .btn-hero-primary, .btn-hero-secondary, .drawer-chip, .gvsm-carousel-card, .slider-nav-arrow, .pw-quote-cta, #quote-btn, .submit-btn, .btn-submit-lead, .scrubber-btn, .nav-chip');
     if (!target) return;
 
     if (target.href && target.href.startsWith('tel:')) {
       trackEvent('intent_phone_dial', { details: target.href.replace('tel:', '') });
     } else if (target.href && target.href.startsWith('sms:')) {
       trackEvent('intent_sms_dispatch', { details: target.href.replace('sms:', '') });
-    } else if (target.matches('.btn-hud-estimate, .pw-quote-cta, #quote-btn, .submit-btn')) {
+    } else if (target.matches('.btn-hud-estimate, .dock-btn-estimate, .pw-quote-cta, #quote-btn, .submit-btn, .btn-submit-lead')) {
       trackEvent('intent_quote_cta', { details: target.innerText.trim() });
+    } else if (target.matches('.drawer-chip')) {
+      const chipText = target.innerText.trim();
+      trackEvent('calc_scope_change', { trade: chipText, details: `Selected trade chip: ${chipText}` });
+    } else if (target.matches('.gvsm-carousel-card')) {
+      const slideTitle = target.querySelector('.gvsm-card-title')?.innerText || target.innerText;
+      trackEvent('project_inspect', { project: slideTitle.trim(), details: `Selected GVSM showcase slide: ${slideTitle.trim()}` });
+    } else if (target.matches('.slider-nav-arrow')) {
+      trackEvent('photo_scrub', { details: `Navigated GVSM slider: ${target.innerText.trim()}` });
     } else if (target.matches('.tab-btn, .nav-chip')) {
       const label = target.querySelector('.tab-label') ? target.querySelector('.tab-label').innerText : target.innerText;
       currentSection = label.trim();
