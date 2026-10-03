@@ -10,6 +10,11 @@ binding = "DB"
 database_name = "dgc"
 database_id = "f473414a-c9d7-4595-996c-1afaa8691ef0"
 
+[[d1_databases]]
+binding = "TRAFFIC_DB"
+database_name = "dgc-traffic-db"
+database_id = "5432c152-dea5-40cb-af66-edfad45f0dbd"
+
 [[r2_buckets]]
 binding = "MEDIA"
 bucket_name = "jdondlingermedia"
@@ -26,6 +31,11 @@ binding = "AI"
 binding = "DB"
 database_name = "dgc"
 database_id = "f473414a-c9d7-4595-996c-1afaa8691ef0"
+
+[[env.production.d1_databases]]
+binding = "TRAFFIC_DB"
+database_name = "dgc-traffic-db"
+database_id = "5432c152-dea5-40cb-af66-edfad45f0dbd"
 
 [[env.production.r2_buckets]]
 binding = "MEDIA"

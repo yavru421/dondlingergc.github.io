@@ -229,7 +229,8 @@ export async function onRequest(context) {
     const scrubbedDetails = String(details).replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, '[EMAIL_REDACTED]').slice(0, 500);
 
     // 3. Monotonic Append-Only Log to Cloudflare D1 (Unified Fleet Persistence)
-    if (env.DB) {
+    const trafficDb = env.TRAFFIC_DB || env.DB;
+    if (trafficDb) {
       const nowIso = new Date().toISOString();
       const clientIp = request.headers.get('cf-connecting-ip') || 'Unknown';
       const clientCountry = request.cf?.country || 'US';
@@ -238,7 +239,7 @@ export async function onRequest(context) {
 
       // 3a. Primary write to unified site_traffic_events
       try {
-        await env.DB.prepare(`
+        await trafficDb.prepare(`
           INSERT INTO site_traffic_events (
             session_id, visitor_id, event_type, domain, page_path, page_title,
             track_name, asset_name, details_json, dwell_sec, active_dwell_sec,
@@ -257,7 +258,7 @@ export async function onRequest(context) {
         ).run();
 
         // 3b. Upsert into site_sessions for cross-domain retention and duration tracking
-        await env.DB.prepare(`
+        await trafficDb.prepare(`
           INSERT INTO site_sessions (
             session_id, visitor_id, domain, ip, country, region, city, asn, isp_org, colo,
             device_type, user_agent, referrer, landing_page, identified_contact,
@@ -280,7 +281,7 @@ export async function onRequest(context) {
 
       // 3c. Legacy visitor_traffic write for compatibility
       try {
-        await env.DB.prepare(`
+        await trafficDb.prepare(`
           INSERT INTO visitor_traffic (sid, event_type, path, trade_viewed, ballpark_val, time_on_site_sec, device, city, region)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `).bind(sid, eventType, scrubbedProject || scrubbedSection, trade, ballpark, dwell, isOperator ? 'Operator Console' : device, cfCity, cfRegion).run();
