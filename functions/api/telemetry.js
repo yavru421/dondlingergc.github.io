@@ -67,8 +67,8 @@ function buildInlineKeyboard(session) {
   }
 
   const row2 = [
-    { text: '📐 Calc Estimator', url: 'https://calc.dondlingergc.com' },
-    { text: '🔨 DGC Hub', url: 'https://dondlingergc.com/#projects' }
+    { text: '🔨 View Projects', url: 'https://dondlingergc.com/#projects' },
+    { text: '📋 DGC Hub', url: 'https://dondlingergc.com/' }
   ];
 
   if (row1.length > 0) buttons.push(row1);

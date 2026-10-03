@@ -1426,9 +1426,6 @@
                 <button type="button" onclick="openQuickQuoteModal()" class="btn-hero-secondary" style="font-size:12px;padding:9px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;">
                   <span>📋 Lock In This Scope</span>
                 </button>
-                <a id="pourready-bridge-btn" href="https://calc.dondlingergc.com/calc/" target="_blank" rel="noopener noreferrer" class="btn-hero-secondary" style="font-size:11.5px;padding:8px 12px;display:none;align-items:center;gap:6px;border-color:rgba(56,189,248,0.4);color:#38bdf8;text-decoration:none;">
-                  <span>🧱 PourReady™ Concrete Takeoff ↗</span>
-                </a>
               </div>
             </div>
 
@@ -1744,17 +1741,6 @@
       if (smsBtn) {
         const smsMsg = encodeURIComponent(`Hi John, I got an estimate on dondlingergc.com for ${currentTrade.toUpperCase()} (${val} ${cfg.unit}): ${rangeStr}. Can we discuss?`);
         smsBtn.href = `sms:+17154593050?body=${smsMsg}`;
-      }
-
-      // Update PourReady concrete bridge
-      const pourreadyBtn = document.getElementById('pourready-bridge-btn');
-      if (pourreadyBtn) {
-        if (currentTrade === 'concrete') {
-          pourreadyBtn.style.display = 'inline-flex';
-          pourreadyBtn.href = `https://calc.dondlingergc.com/calc/?sqft=${val}&source=dondlingergc`;
-        } else {
-          pourreadyBtn.style.display = 'none';
-        }
       }
 
       if (typeof window.trackCalculatorChange === 'function') {
