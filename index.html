@@ -1419,6 +1419,17 @@
                 <li><span class="check">✓</span> <span>Daily jobsite clean-up & full construction debris disposal</span></li>
                 <li><span class="check">✓</span> <span>Central Wisconsin municipal building code compliance</span></li>
               </ul>
+              <div class="bp-action-row" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08);">
+                <a id="sms-estimate-btn" href="sms:+17154593050?body=Hi%20John%2C%20I%20got%20an%20estimate%20on%20dondlingergc.com%20for%20DECKS%20(200%20Sq%20Ft)%3A%20%247%2C000%20%E2%80%93%20%2411%2C000.%20Can%20we%20discuss%3F" class="btn-hero-primary" style="font-size:12px;padding:9px 14px;background:#22c55e;border-color:#16a34a;color:#000;font-weight:800;display:inline-flex;align-items:center;gap:6px;text-decoration:none;">
+                  <span>💬 Text Estimate to John</span>
+                </a>
+                <button type="button" onclick="openQuickQuoteModal()" class="btn-hero-secondary" style="font-size:12px;padding:9px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;">
+                  <span>📋 Lock In This Scope</span>
+                </button>
+                <a id="pourready-bridge-btn" href="https://calc.dondlingergc.com/calc/" target="_blank" rel="noopener noreferrer" class="btn-hero-secondary" style="font-size:11.5px;padding:8px 12px;display:none;align-items:center;gap:6px;border-color:rgba(56,189,248,0.4);color:#38bdf8;text-decoration:none;">
+                  <span>🧱 PourReady™ Concrete Takeoff ↗</span>
+                </a>
+              </div>
             </div>
 
             <!-- Addons -->
@@ -1717,6 +1728,35 @@
       document.getElementById('bp-range-display').textContent = rangeStr;
       document.getElementById('bp-trade-label').textContent = `Estimated Turnkey Range: ${val} ${cfg.unit} (${currentTrade.toUpperCase()})`;
 
+      // Persist latest estimate to localStorage
+      try {
+        localStorage.setItem('dgc_last_estimate', JSON.stringify({
+          trade: currentTrade,
+          size: val,
+          unit: cfg.unit,
+          range: rangeStr,
+          timestamp: Date.now()
+        }));
+      } catch (e) {}
+
+      // Update SMS button href
+      const smsBtn = document.getElementById('sms-estimate-btn');
+      if (smsBtn) {
+        const smsMsg = encodeURIComponent(`Hi John, I got an estimate on dondlingergc.com for ${currentTrade.toUpperCase()} (${val} ${cfg.unit}): ${rangeStr}. Can we discuss?`);
+        smsBtn.href = `sms:+17154593050?body=${smsMsg}`;
+      }
+
+      // Update PourReady concrete bridge
+      const pourreadyBtn = document.getElementById('pourready-bridge-btn');
+      if (pourreadyBtn) {
+        if (currentTrade === 'concrete') {
+          pourreadyBtn.style.display = 'inline-flex';
+          pourreadyBtn.href = `https://calc.dondlingergc.com/calc/?sqft=${val}&source=dondlingergc`;
+        } else {
+          pourreadyBtn.style.display = 'none';
+        }
+      }
+
       if (typeof window.trackCalculatorChange === 'function') {
         window.trackCalculatorChange(currentTrade, rangeStr, { size: val, unit: cfg.unit });
       }
@@ -2002,7 +2042,149 @@
       initGvsmSliderListeners();
       selectScopeTrade('decks');
     }
+
+    // ==========================================
+    // QUICK QUOTE MODAL & DEEP DWELL CONVERSION
+    // ==========================================
+    function openQuickQuoteModal() {
+      const modal = document.getElementById('quickQuoteModal');
+      if (!modal) return;
+      const bpLabel = document.getElementById('bp-trade-label')?.textContent || '';
+      const bpRange = document.getElementById('bp-range-display')?.textContent || '';
+      const previewTag = document.getElementById('qqEstimatePreview');
+      if (previewTag && bpRange) {
+        previewTag.textContent = `${bpLabel}: ${bpRange}`;
+        previewTag.style.display = 'block';
+      }
+      modal.style.display = 'flex';
+      if (typeof window.dgcTrackEvent === 'function') {
+        window.dgcTrackEvent('intent_quote_cta', { details: 'Opened quick quote modal' });
+      }
+    }
+
+    function closeQuickQuoteModal() {
+      const modal = document.getElementById('quickQuoteModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    async function submitQuickQuote(e) {
+      e.preventDefault();
+      const btn = document.getElementById('qqSubmitBtn');
+      const origText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Submitting Scope...';
+
+      const name = document.getElementById('qqName').value.trim();
+      const contact = document.getElementById('qqContact').value.trim();
+      const details = document.getElementById('qqDetails').value.trim();
+      const ballpark = document.getElementById('bp-range-display')?.textContent || '';
+      const trade = currentTrade || 'General';
+
+      const payload = {
+        name: name,
+        contact: contact,
+        details: `${trade.toUpperCase()} (${ballpark}) - ${details}`,
+        trade: trade,
+        ballpark: ballpark,
+        event: 'lead_intake'
+      };
+
+      // 1. Dispatch through telemetry for immediate Telegram Hot Prospect Alert
+      if (typeof window.dgcTrackEvent === 'function') {
+        window.dgcTrackEvent('lead_intake', payload);
+      }
+
+      // 2. Also dispatch to /api/dispatch for backend routing
+      try {
+        const fd = new FormData();
+        fd.append('name', name);
+        fd.append('contact', contact);
+        fd.append('service', `${trade.toUpperCase()} (${ballpark})`);
+        fd.append('notes', details);
+        fd.append('origin', 'dondlingergc.com (Quick Quote Modal)');
+        await fetch('/api/dispatch', { method: 'POST', body: fd }).catch(() => {});
+      } catch (err) {}
+
+      btn.textContent = '✅ Quote Request Sent!';
+      btn.style.background = 'var(--green)';
+      setTimeout(() => {
+        closeQuickQuoteModal();
+        btn.textContent = origText;
+        btn.style.background = 'var(--accent)';
+        btn.disabled = false;
+        document.getElementById('quickQuoteForm').reset();
+      }, 2000);
+    }
+
+    // 180s Deep Dwell Trigger Handler (called by telemetry.js)
+    window.onDgcDeepDwell = function() {
+      if (sessionStorage.getItem('dgc_dwell_dismissed') === 'true') return;
+      const drawer = document.getElementById('deepDwellDrawer');
+      if (!drawer) return;
+      drawer.style.display = 'block';
+    };
+
+    function dismissDeepDwell() {
+      const drawer = document.getElementById('deepDwellDrawer');
+      if (drawer) drawer.style.display = 'none';
+      try { sessionStorage.setItem('dgc_dwell_dismissed', 'true'); } catch (e) {}
+    }
   </script>
+
+  <!-- Quick Quote Modal Overlay -->
+  <div id="quickQuoteModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(6px); z-index:9999; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#12141c; border:1.5px solid rgba(255,87,34,0.45); border-radius:16px; max-width:440px; width:100%; box-shadow:0 24px 60px rgba(0,0,0,0.9); padding:24px; position:relative;">
+      <button type="button" onclick="closeQuickQuoteModal()" style="position:absolute; top:14px; right:16px; background:none; border:none; color:var(--text-muted); font-size:22px; cursor:pointer; line-height:1;">&times;</button>
+      
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <span class="section-badge" style="margin:0; font-size:10px; color:var(--accent); background:rgba(255,87,34,0.12); border-color:rgba(255,87,34,0.3);">Priority Contractor Intake</span>
+      </div>
+      <h3 style="font-family:var(--font-brand); font-size:18px; font-weight:800; color:#fff; margin-bottom:6px;">Lock In Your Scope & Pricing</h3>
+      <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:12px;">
+        Direct review by journeyman John Dondlinger. Get an itemized estimate or schedule a jobsite inspection in Central Wisconsin.
+      </p>
+
+      <div id="qqEstimatePreview" style="display:none; padding:8px 12px; background:rgba(255,87,34,0.08); border:1px solid rgba(255,87,34,0.25); border-radius:8px; font-family:var(--font-mono); font-size:11.5px; color:#ffaa00; margin-bottom:14px;"></div>
+
+      <form id="quickQuoteForm" onsubmit="submitQuickQuote(event)" style="display:flex; flex-direction:column; gap:10px;">
+        <input type="text" id="qqName" placeholder="Your Name *" class="form-input" style="width:100%; background:#090a0f; border:1px solid rgba(255,255,255,0.12); padding:10px 12px; border-radius:8px; color:#fff; font-size:13.5px;" required>
+        <input type="text" id="qqContact" placeholder="Your Phone Number (or Email) *" class="form-input" style="width:100%; background:#090a0f; border:1px solid rgba(255,255,255,0.12); padding:10px 12px; border-radius:8px; color:#fff; font-size:13.5px;" required>
+        <input type="text" id="qqDetails" placeholder="City & Project Notes (e.g. Wisconsin Rapids, 12x16 deck)" class="form-input" style="width:100%; background:#090a0f; border:1px solid rgba(255,255,255,0.12); padding:10px 12px; border-radius:8px; color:#fff; font-size:13.5px;">
+
+        <button type="submit" id="qqSubmitBtn" class="btn-hero-primary" style="width:100%; padding:12px; font-size:13.5px; font-weight:800; border-radius:8px; margin-top:4px; cursor:pointer;">
+          <span>🔒 Request Free Jobsite Quote</span>
+        </button>
+      </form>
+
+      <div style="display:flex; justify-content:center; align-items:center; gap:12px; margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.08); font-size:12px; color:var(--text-muted);">
+        <span>Prefer direct contact?</span>
+        <a href="tel:+17154593050" style="color:var(--accent); font-weight:700; text-decoration:none;">📞 (715) 459-3050</a>
+        <span>•</span>
+        <a href="sms:+17154593050" style="color:var(--green); font-weight:700; text-decoration:none;">💬 Text</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deep Dwell Slide-Over Drawer (3-minute engagement trigger) -->
+  <div id="deepDwellDrawer" style="display:none; position:fixed; bottom:24px; right:24px; z-index:9998; max-width:380px; width:calc(100% - 48px); background:#12141c; border:1.5px solid rgba(255,170,0,0.5); border-radius:14px; box-shadow:0 16px 40px rgba(0,0,0,0.85); padding:16px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+      <span style="font-family:var(--font-brand); font-size:10px; font-weight:800; color:#ffaa00; text-transform:uppercase; letter-spacing:0.5px;">Central Wisconsin General Contracting</span>
+      <button type="button" onclick="dismissDeepDwell()" style="background:none; border:none; color:var(--text-muted); font-size:18px; cursor:pointer; line-height:1;">&times;</button>
+    </div>
+    <div style="font-family:var(--font-brand); font-size:14px; font-weight:800; color:#fff; margin-bottom:4px;">Planning a project in Wood or Portage County?</div>
+    <p style="font-size:11.5px; color:#cbd5e1; line-height:1.4; margin-bottom:12px;">
+      Explore our certified craftsmanship or lock in a turnkey ballpark before peak contractor scheduling fills up.
+    </p>
+    <div style="display:flex; gap:8px;">
+      <button type="button" onclick="openQuickQuoteModal(); dismissDeepDwell();" class="btn-hero-primary" style="flex:1; font-size:11.5px; padding:8px 12px; font-weight:800; border-radius:6px; cursor:pointer;">
+        <span>📋 Get Free Quote</span>
+      </button>
+      <a href="sms:+17154593050?body=Hi%20John%2C%20I%20was%20reviewing%20projects%20on%20dondlingergc.com%20and%20would%20like%20to%20discuss%20an%20estimate." class="btn-hero-secondary" style="font-size:11.5px; padding:8px 12px; text-decoration:none; display:inline-flex; align-items:center; border-color:#22c55e; color:#22c55e;">
+        <span>💬 Text John</span>
+      </a>
+    </div>
+  </div>
+
   <script src="/telemetry.js"></script>
 </body>
 </html>

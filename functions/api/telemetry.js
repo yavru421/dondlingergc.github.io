@@ -166,7 +166,11 @@ export async function onRequest(context) {
     const configuredThreadId = env.TELEGRAM_THREAD_ID ? parseInt(env.TELEGRAM_THREAD_ID, 10) : null;
 
     const ua = request.headers.get('user-agent') || '';
-    const sid = data.sid || (request.headers.get('cf-ray') ? request.headers.get('cf-ray').split('-')[0] : 'anon');
+    const cookieHeader = request.headers.get('cookie') || '';
+    const vidCookieMatch = cookieHeader.match(/dgc_vid=([^;]+)/);
+    const sidCookieMatch = cookieHeader.match(/dgc_sid=([^;]+)/);
+    const vid = data.vid || (vidCookieMatch ? decodeURIComponent(vidCookieMatch[1]) : 'v_' + Math.random().toString(36).substring(2, 10) + Date.now().toString(36).substring(4));
+    const sid = data.sid || (sidCookieMatch ? decodeURIComponent(sidCookieMatch[1]) : (request.headers.get('cf-ray') ? request.headers.get('cf-ray').split('-')[0] : 's_' + Math.random().toString(36).substring(2, 10)));
     const eventType = data.event || 'session_start';
     const section = data.section || data.tab || 'Home';
     const project = data.project || '';
@@ -224,12 +228,63 @@ export async function onRequest(context) {
     const scrubbedProject = String(project).slice(0, 100);
     const scrubbedDetails = String(details).replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, '[EMAIL_REDACTED]').slice(0, 500);
 
-    // 3. Monotonic Append-Only Log to Cloudflare D1
+    // 3. Monotonic Append-Only Log to Cloudflare D1 (Unified Fleet Persistence)
     if (env.DB) {
-      await env.DB.prepare(`
-        INSERT INTO visitor_traffic (sid, event_type, path, trade_viewed, ballpark_val, time_on_site_sec, device, city, region)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `).bind(sid, eventType, scrubbedProject || scrubbedSection, trade, ballpark, dwell, isOperator ? 'Operator Console' : device, cfCity, cfRegion).run().catch(console.error);
+      const nowIso = new Date().toISOString();
+      const clientIp = request.headers.get('cf-connecting-ip') || 'Unknown';
+      const clientCountry = request.cf?.country || 'US';
+      const clientAsn = cfIsp ? ('AS' + (request.cf?.asn || '')) : '';
+      const clientColo = request.cf?.colo || 'ORD';
+
+      // 3a. Primary write to unified site_traffic_events
+      try {
+        await env.DB.prepare(`
+          INSERT INTO site_traffic_events (
+            session_id, visitor_id, event_type, domain, page_path, page_title,
+            track_name, asset_name, details_json, dwell_sec, active_dwell_sec,
+            scroll_depth_pct, listen_pct, ip, country, region, city, postal_code,
+            timezone, asn, isp_org, colo, device_type, user_agent, referrer,
+            utm_source, utm_campaign, created_at, trade_viewed, ballpark_val,
+            project_name, network_type, is_operator
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `).bind(
+          sid, vid, eventType, 'dondlingergc.com', scrubbedProject || scrubbedSection, scrubbedSection,
+          null, null, scrubbedDetails ? JSON.stringify({ details: scrubbedDetails }) : null, dwell, dwell,
+          scrollDepth, 0, clientIp, clientCountry, cfRegion, cfCity, cfPostal,
+          tz, clientAsn, cfIsp, clientColo, device, ua, attr.referrer || 'direct',
+          attr.utm_source || '', attr.utm_campaign || '', nowIso,
+          trade, ballpark, scrubbedProject, networkType, isOperator ? 1 : 0
+        ).run();
+
+        // 3b. Upsert into site_sessions for cross-domain retention and duration tracking
+        await env.DB.prepare(`
+          INSERT INTO site_sessions (
+            session_id, visitor_id, domain, ip, country, region, city, asn, isp_org, colo,
+            device_type, user_agent, referrer, landing_page, identified_contact,
+            first_seen, last_seen, duration_seconds, pageviews_count, plays_count, downloads_count
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ON CONFLICT(session_id) DO UPDATE SET
+            last_seen = excluded.last_seen,
+            duration_seconds = MAX(site_sessions.duration_seconds, excluded.duration_seconds),
+            pageviews_count = site_sessions.pageviews_count + excluded.pageviews_count,
+            identified_contact = COALESCE(excluded.identified_contact, site_sessions.identified_contact),
+            isp_org = COALESCE(site_sessions.isp_org, excluded.isp_org)
+        `).bind(
+          sid, vid, 'dondlingergc.com', clientIp, clientCountry, cfRegion, cfCity, clientAsn, cfIsp, clientColo,
+          device, ua, attr.referrer || 'direct', scrubbedSection, (data.contact || '').trim() || null,
+          nowIso, nowIso, dwell, (eventType === 'session_start' || eventType === 'section_view') ? 1 : 0, 0, 0
+        ).run().catch(() => {});
+      } catch (errEvents) {
+        console.error('Error writing to site_traffic_events:', errEvents);
+      }
+
+      // 3c. Legacy visitor_traffic write for compatibility
+      try {
+        await env.DB.prepare(`
+          INSERT INTO visitor_traffic (sid, event_type, path, trade_viewed, ballpark_val, time_on_site_sec, device, city, region)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `).bind(sid, eventType, scrubbedProject || scrubbedSection, trade, ballpark, dwell, isOperator ? 'Operator Console' : device, cfCity, cfRegion).run();
+      } catch (errVt) {}
     }
 
     // 4. HIGH-SIGNAL NOTIFICATION GATING
@@ -248,8 +303,17 @@ export async function onRequest(context) {
     // Alert on all real visitor milestones, contractor estimator changes, and leads
     const shouldAlertTelegram = isSessionStart || isSectionView || isScrollMilestone || isCallIntent || isSmsIntent || isLeadIntake || isScopeCalc || isProjectInspect || isHesitation || isFormEngage || isDeepEngaged || isTestDispatch || isOperator;
 
+    function makeTelemetryResponse(bodyObj, status = 200) {
+      const respHeaders = new Headers(corsHeaders);
+      const isDgcDomain = origin.includes('dondlingergc.com');
+      const domainAttr = isDgcDomain ? '; Domain=.dondlingergc.com' : '';
+      respHeaders.append('Set-Cookie', `dgc_vid=${encodeURIComponent(vid)}${domainAttr}; Path=/; SameSite=Lax; Secure; Max-Age=31536000`);
+      respHeaders.append('Set-Cookie', `dgc_sid=${encodeURIComponent(sid)}${domainAttr}; Path=/; SameSite=Lax; Secure; Max-Age=1800`);
+      return new Response(JSON.stringify(bodyObj), { status, headers: respHeaders });
+    }
+
     if (!shouldAlertTelegram) {
-      return new Response(JSON.stringify({ success: true, logged_to_d1: true }), { status: 200, headers: corsHeaders });
+      return makeTelemetryResponse({ success: true, logged_to_d1: true, vid, sid });
     }
 
     // 5. Telegram Live Session Card Coalescence & Dual-Target Delivery
@@ -488,7 +552,7 @@ export async function onRequest(context) {
       }
     }
 
-    return new Response(JSON.stringify({ success: true, logged_to_d1: true }), { status: 200, headers: corsHeaders });
+    return makeTelemetryResponse({ success: true, logged_to_d1: true, vid, sid });
   } catch (err) {
     return new Response(JSON.stringify({ success: false, error: err.message }), { status: 500, headers: corsHeaders });
   }

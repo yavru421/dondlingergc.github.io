@@ -28,12 +28,31 @@
     sessionStorage.getItem('dgc_operator') === 'true'
   );
 
-  // 2. Session Persistence across page navigations in current tab
-  let sid = sessionStorage.getItem('dgc_sid');
+  // 2. Cross-Subdomain Session & Visitor Identity Persistence
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^|;\\s*)' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  function setCookie(name, val, maxAgeSec) {
+    const isDgc = window.location.hostname.endsWith('dondlingergc.com');
+    const domainStr = isDgc ? '; Domain=.dondlingergc.com' : '';
+    document.cookie = `${name}=${encodeURIComponent(val)}${domainStr}; Path=/; SameSite=Lax; Secure; Max-Age=${maxAgeSec}`;
+  }
+
+  let vid = getCookie('dgc_vid') || localStorage.getItem('dgc_vid');
+  if (!vid) {
+    vid = 'v_' + Math.random().toString(36).substring(2, 10) + Date.now().toString(36).substring(4);
+  }
+  setCookie('dgc_vid', vid, 31536000);
+  try { localStorage.setItem('dgc_vid', vid); } catch (e) {}
+
+  let sid = getCookie('dgc_sid') || sessionStorage.getItem('dgc_sid');
   if (!sid) {
     sid = 's_' + Math.random().toString(36).substring(2, 10) + Date.now().toString(36).substring(4);
-    sessionStorage.setItem('dgc_sid', sid);
   }
+  setCookie('dgc_sid', sid, 1800);
+  try { sessionStorage.setItem('dgc_sid', sid); } catch (e) {}
 
   const sessionStartTime = Date.now();
   let currentSection = document.title || 'Home';
@@ -83,6 +102,7 @@
     const dwell = Math.round((Date.now() - sessionStartTime) / 1000);
     const body = JSON.stringify({
       sid: sid,
+      vid: vid,
       event: eventType,
       section: payload.section || currentSection,
       project: payload.project || '',
@@ -110,7 +130,10 @@
     }
   }
 
-  // 5. Session Start & Deep Engagement Timer (45s)
+  window.dgcTrackEvent = trackEvent;
+  window.dgcGetIdentity = () => ({ vid, sid });
+
+  // 5. Session Start & Deep Engagement Timers (45s & 180s)
   function initSession() {
     trackEvent('session_start', { section: document.title || 'Home' });
 
@@ -123,6 +146,19 @@
         });
       }
     }, 45000);
+
+    // High-conviction 180s milestone (like yesterday's 12m Madison visitor)
+    setTimeout(() => {
+      if (document.visibilityState !== 'hidden') {
+        trackEvent('deep_dwell_180s', {
+          section: currentSection,
+          details: 'High-conviction deep scrutiny (>=180s active dwell)'
+        });
+        if (typeof window.onDgcDeepDwell === 'function') {
+          window.onDgcDeepDwell();
+        }
+      }
+    }, 180000);
   }
 
   if (document.readyState === 'loading') {
