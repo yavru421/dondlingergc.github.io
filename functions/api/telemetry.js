@@ -223,10 +223,10 @@ export async function onRequest(context) {
 
     const device = parseDevice(ua);
 
-    // Scrub sensitive bid/proposal/client PII
-    const scrubbedSection = String(section).replace(/proposal[_-]?[a-f0-9-]+/gi, 'proposal_[MASKED]').slice(0, 120);
-    const scrubbedProject = String(project).slice(0, 100);
-    const scrubbedDetails = String(details).replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, '[EMAIL_REDACTED]').slice(0, 500);
+    // 100% Raw Telemetry Ingestion (No Masking / Zero Redaction)
+    const rawSection = String(section || 'Home').slice(0, 255);
+    const rawProject = String(project || '').slice(0, 255);
+    const rawDetails = String(details || '').slice(0, 2000);
 
     // 3. Monotonic Append-Only Log to Cloudflare D1 (Unified Fleet Persistence)
     const trafficDb = env.TRAFFIC_DB || env.DB;
@@ -249,12 +249,12 @@ export async function onRequest(context) {
             project_name, network_type, is_operator
           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `).bind(
-          sid, vid, eventType, 'dondlingergc.com', scrubbedProject || scrubbedSection, scrubbedSection,
-          null, null, scrubbedDetails ? JSON.stringify({ details: scrubbedDetails }) : null, dwell, dwell,
+          sid, vid, eventType, 'dondlingergc.com', rawProject || rawSection, rawSection,
+          null, null, rawDetails ? JSON.stringify({ details: rawDetails }) : null, dwell, dwell,
           scrollDepth, 0, clientIp, clientCountry, cfRegion, cfCity, cfPostal,
           tz, clientAsn, cfIsp, clientColo, device, ua, attr.referrer || 'direct',
           attr.utm_source || '', attr.utm_campaign || '', nowIso,
-          trade, ballpark, scrubbedProject, networkType, isOperator ? 1 : 0
+          trade, ballpark, rawProject, networkType, isOperator ? 1 : 0
         ).run();
 
         // 3b. Upsert into site_sessions for cross-domain retention and duration tracking
@@ -272,7 +272,7 @@ export async function onRequest(context) {
             isp_org = COALESCE(site_sessions.isp_org, excluded.isp_org)
         `).bind(
           sid, vid, 'dondlingergc.com', clientIp, clientCountry, cfRegion, cfCity, clientAsn, cfIsp, clientColo,
-          device, ua, attr.referrer || 'direct', scrubbedSection, (data.contact || '').trim() || null,
+          device, ua, attr.referrer || 'direct', rawSection, (data.contact || '').trim() || null,
           nowIso, nowIso, dwell, (eventType === 'session_start' || eventType === 'section_view') ? 1 : 0, 0, 0
         ).run().catch(() => {});
       } catch (errEvents) {
@@ -284,7 +284,7 @@ export async function onRequest(context) {
         await trafficDb.prepare(`
           INSERT INTO visitor_traffic (sid, event_type, path, trade_viewed, ballpark_val, time_on_site_sec, device, city, region)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).bind(sid, eventType, scrubbedProject || scrubbedSection, trade, ballpark, dwell, isOperator ? 'Operator Console' : device, cfCity, cfRegion).run();
+        `).bind(sid, eventType, rawProject || rawSection, trade, ballpark, dwell, isOperator ? 'Operator Console' : device, cfCity, cfRegion).run();
       } catch (errVt) {}
     }
 
@@ -335,31 +335,31 @@ export async function onRequest(context) {
 
       if (isLeadIntake) {
         intentCategory = 'lead';
-        actionDetail = scrubbedDetails || 'Quote Form Submission';
+        actionDetail = rawDetails || 'Quote Form Submission';
       } else if (isCallIntent) {
         intentCategory = 'call';
-        actionDetail = scrubbedDetails || '(715) 459-3050';
+        actionDetail = rawDetails || '(715) 459-3050';
       } else if (isSmsIntent) {
         intentCategory = 'sms';
-        actionDetail = scrubbedDetails || '(715) 459-3050';
+        actionDetail = rawDetails || '(715) 459-3050';
       } else if (isScopeCalc) {
         intentCategory = 'calc';
-        actionDetail = scrubbedDetails || `${trade} (${ballpark})`;
+        actionDetail = rawDetails || `${trade} (${ballpark})`;
       } else if (isProjectInspect) {
         intentCategory = 'project';
-        actionDetail = scrubbedProject || scrubbedDetails;
+        actionDetail = rawProject || rawDetails;
       } else if (isHesitation) {
         intentCategory = 'hesitation';
-        actionDetail = scrubbedDetails || 'Hovered on contact';
+        actionDetail = rawDetails || 'Hovered on contact';
       } else if (isDeepEngaged) {
         intentCategory = 'deep_dwell';
         actionDetail = `Active presence for ${dwell}s`;
       } else if (isSectionView) {
         intentCategory = 'section';
-        actionDetail = scrubbedSection;
+        actionDetail = rawSection;
       } else if (isSessionStart) {
         intentCategory = 'session_start';
-        actionDetail = scrubbedSection || 'Home';
+        actionDetail = rawSection || 'Home';
       }
 
       let journeyLabel = '';
@@ -367,15 +367,15 @@ export async function onRequest(context) {
       else if (isCallIntent) journeyLabel = `📞 Phone Tap: ${actionDetail}`;
       else if (isSmsIntent) journeyLabel = `💬 SMS Tap: ${actionDetail}`;
       else if (isScopeCalc) journeyLabel = `💰 Estimator: ${trade} ${ballpark ? '(' + ballpark + ')' : ''}`.trim();
-      else if (eventType === 'project_inspect') journeyLabel = `🔨 Inspected: ${scrubbedProject || scrubbedDetails}`;
-      else if (eventType === 'gallery_inspect') journeyLabel = `🖼️ Gallery: ${trade || scrubbedDetails}`;
-      else if (eventType === 'photo_scrub') journeyLabel = `🖼️ Photo Scrub: ${scrubbedProject || scrubbedDetails}`;
+      else if (eventType === 'project_inspect') journeyLabel = `🔨 Inspected: ${rawProject || rawDetails}`;
+      else if (eventType === 'gallery_inspect') journeyLabel = `🖼️ Gallery: ${trade || rawDetails}`;
+      else if (eventType === 'photo_scrub') journeyLabel = `🖼️ Photo Scrub: ${rawProject || rawDetails}`;
       else if (eventType === 'contact_hesitation') journeyLabel = `⏳ Hesitation: Hovered contact drawer`;
       else if (eventType === 'form_engage') journeyLabel = `✍️ Started input in form`;
       else if (eventType === 'scroll_milestone') journeyLabel = `📜 Scrolled to ${scrollDepth}%`;
       else if (isDeepEngaged) journeyLabel = `⏱️ Qualified Dwell (${dwell}s)`;
-      else if (isSectionView) journeyLabel = `👀 Viewed section: ${scrubbedSection}`;
-      else if (isSessionStart) journeyLabel = `🚀 Landed on site: ${scrubbedSection || 'Home'}`;
+      else if (isSectionView) journeyLabel = `👀 Viewed section: ${rawSection}`;
+      else if (isSessionStart) journeyLabel = `🚀 Landed on site: ${rawSection || 'Home'}`;
 
       if (!sessionState) {
         sessionState = {
@@ -392,8 +392,8 @@ export async function onRequest(context) {
           utm_campaign: attr.utm_campaign || '',
           dwell_sec: dwell,
           scroll_depth: scrollDepth,
-          section: scrubbedSection,
-          project_viewed: scrubbedProject,
+          section: rawSection,
+          project_viewed: rawProject,
           trade: trade,
           ballpark: ballpark,
           has_phone_tap: isCallIntent,
@@ -419,8 +419,8 @@ export async function onRequest(context) {
         if (cfPostal) sessionState.postal = cfPostal;
         sessionState.is_warp = isWarp;
         sessionState.network_type = networkType;
-        if (scrubbedProject) sessionState.project_viewed = scrubbedProject;
-        if (scrubbedSection && scrubbedSection !== 'Home') sessionState.section = scrubbedSection;
+        if (rawProject) sessionState.project_viewed = rawProject;
+        if (rawSection && rawSection !== 'Home') sessionState.section = rawSection;
         if (trade && trade !== 'General') sessionState.trade = trade;
         if (ballpark) sessionState.ballpark = ballpark;
         if (isCallIntent) sessionState.has_phone_tap = true;
