@@ -82,6 +82,18 @@ function formatSessionCard(session, intentType = 'engaged', actionDetail = '') {
   const campaign = session.utm_campaign ? `\n🎯 <b>Campaign:</b> <code>${session.utm_campaign}</code>` : '';
   const score = calculateHeatScore(session);
 
+  let propertyLabel = '🔨 General Contracting (dondlingergc.com)';
+  if (session.domain) {
+    if (session.domain.includes('calc.')) propertyLabel = '🧱 PourReady Concrete Estimator (calc.dondlingergc.com)';
+    else if (session.domain.includes('cgmusiccomp.') || session.domain.includes('snaptempo')) propertyLabel = '🎵 snaptempo Studio / Jukebox';
+    else if (session.domain.includes('tap.')) propertyLabel = '📱 TAP Client (tap.dondlingergc.com)';
+    else if (session.domain.includes('skydrop.')) propertyLabel = '📦 Skydrop Peer Transfer';
+    else if (session.domain.includes('timelinezla.')) propertyLabel = '📑 Timeline ZLA Engine';
+    else if (session.domain.includes('wazweather.')) propertyLabel = '⛈️ WaZ Weather Dashboard';
+    else if (session.domain.includes('heckler.')) propertyLabel = '🔊 Heckler Soundboard';
+    else if (session.domain !== 'dondlingergc.com') propertyLabel = `🌐 ${session.domain}`;
+  }
+
   let badge = '🟢';
   let header = `<b>LIVE VISITOR</b> [Score: ${score}/100]`;
   if (session.is_operator) {
@@ -93,15 +105,18 @@ function formatSessionCard(session, intentType = 'engaged', actionDetail = '') {
   } else if (intentType === 'call' || intentType === 'sms') {
     badge = '📞';
     header = `<b>PHONE / SMS TAP</b> [Score: ${score}/100]`;
+  } else if (session.project_viewed) {
+    badge = '🔨';
+    header = `<b>PORTFOLIO PROJECT SCRUTINY</b> [Score: ${score}/100]`;
+  } else if (intentType === 'deep_dwell') {
+    badge = '⏱️';
+    header = `<b>HIGH-INTENT QUALIFIED DWELL</b> [Score: ${score}/100]`;
   } else if (intentType === 'calc') {
     badge = '💰';
-    header = `<b>ESTIMATOR SCOPE CALCULATION</b> [Score: ${score}/100]`;
+    header = `<b>MANUAL ESTIMATOR CALCULATION</b> [Score: ${score}/100]`;
   } else if (session.network_type && session.network_type.includes('Commercial')) {
     badge = '🏢';
     header = `<b>COMMERCIAL / MUNICIPAL INQUIRY</b> [Score: ${score}/100]`;
-  } else if (intentType === 'deep_dwell') {
-    badge = '👀';
-    header = `<b>QUALIFIED PROJECT SCRUTINY</b> [Score: ${score}/100]`;
   }
 
   let banner = '';
@@ -113,19 +128,21 @@ function formatSessionCard(session, intentType = 'engaged', actionDetail = '') {
              `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   } else if (intentType === 'call' || intentType === 'sms') {
     banner = `\n⚡ <b>ACTION:</b> Visitor tapped to call/text: <code>${actionDetail}</code>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  } else if (session.project_viewed) {
+    banner = `\n🔨 <b>Project Inspected:</b> <b>${session.project_viewed}</b>\n` +
+             (session.photo_scrubs > 0 ? `🖼️ <b>Photos Scrubbed:</b> ${session.photo_scrubs} views\n` : '') +
+             `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  } else if (intentType === 'deep_dwell') {
+    banner = `\n⏱️ <b>QUALIFIED DWELL:</b> Actively scrutinizing page for <b>${session.dwell_sec}s</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   } else if (intentType === 'calc') {
     banner = `\n🔨 <b>Trade:</b> ${session.trade || 'Scope Calculation'}\n` +
              `💵 <b>Ballpark:</b> <b>${session.ballpark || 'Custom'}</b>\n` +
              (actionDetail ? `📐 <b>Specs:</b> <code>${actionDetail}</code>\n` : '') +
              `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  } else if (session.project_viewed) {
-    banner = `\n🔨 <b>Project Inspected:</b> <b>${session.project_viewed}</b>\n` +
-             (session.photo_scrubs > 0 ? `🖼️ <b>Photos Scrubbed:</b> ${session.photo_scrubs} views\n` : '') +
-             `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   } else if (session.section && session.section !== 'Home') {
     banner = `\n👀 <b>Browsing Section:</b> <b>${session.section}</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   } else {
-    banner = `\n🚀 <b>Site Entry:</b> Exploring dondlingergc.com\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    banner = `\n🚀 <b>Site Entry:</b> Exploring ${session.domain || 'dondlingergc.com'}\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   }
 
   const journeyLines = (session.journey || []).slice(-5).map(item => ` • ${item}`).join('\n');
@@ -133,8 +150,9 @@ function formatSessionCard(session, intentType = 'engaged', actionDetail = '') {
 
   return `${badge} ${header}\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
     banner +
+    `🌐 <b>Property:</b> ${propertyLabel}\n` +
     `📍 <b>Location:</b> ${geo}\n` +
-    `🌐 <b>Network:</b> ${session.network_type || 'Residential'}\n` +
+    `🏢 <b>Network:</b> ${session.network_type || 'Residential'}\n` +
     `🔗 <b>Source:</b> ${ref}${campaign}\n` +
     `📱 <b>Device:</b> ${session.device} • ⏱️ ${session.dwell_sec || 0}s${scrollText}\n\n` +
     `📋 <b>Activity Path:</b>\n${journeyLines || ' • Engaged on site'}\n\n` +
@@ -181,6 +199,14 @@ export async function onRequest(context) {
     const scrollDepth = data.scroll_depth || 0;
     const attr = data.attribution || {};
     const tz = data.timezone || attr.timezone || '';
+
+    let eventDomain = data.domain || '';
+    if (!eventDomain && origin) {
+      try { eventDomain = new URL(origin).hostname; } catch (e) {}
+    }
+    if (!eventDomain) {
+      eventDomain = request.headers.get('host') || 'dondlingergc.com';
+    }
 
     // 1. OPERATOR TRAFFIC & TEST FLAGS
     const isOperator = Boolean(data.is_operator || attr.is_operator);
@@ -249,7 +275,7 @@ export async function onRequest(context) {
             project_name, network_type, is_operator
           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `).bind(
-          sid, vid, eventType, 'dondlingergc.com', rawProject || rawSection, rawSection,
+          sid, vid, eventType, eventDomain, rawProject || rawSection, rawSection,
           null, null, rawDetails ? JSON.stringify({ details: rawDetails }) : null, dwell, dwell,
           scrollDepth, 0, clientIp, clientCountry, cfRegion, cfCity, cfPostal,
           tz, clientAsn, cfIsp, clientColo, device, ua, attr.referrer || 'direct',
@@ -271,7 +297,7 @@ export async function onRequest(context) {
             identified_contact = COALESCE(excluded.identified_contact, site_sessions.identified_contact),
             isp_org = COALESCE(site_sessions.isp_org, excluded.isp_org)
         `).bind(
-          sid, vid, 'dondlingergc.com', clientIp, clientCountry, cfRegion, cfCity, clientAsn, cfIsp, clientColo,
+          sid, vid, eventDomain, clientIp, clientCountry, cfRegion, cfCity, clientAsn, cfIsp, clientColo,
           device, ua, attr.referrer || 'direct', rawSection, (data.contact || '').trim() || null,
           nowIso, nowIso, dwell, (eventType === 'session_start' || eventType === 'section_view') ? 1 : 0, 0, 0
         ).run().catch(() => {});
@@ -380,6 +406,7 @@ export async function onRequest(context) {
       if (!sessionState) {
         sessionState = {
           sid: sid,
+          domain: eventDomain,
           is_operator: isOperator,
           city: cfCity,
           region: cfRegion,
@@ -412,6 +439,7 @@ export async function onRequest(context) {
         };
       } else {
         if (isOperator) sessionState.is_operator = true;
+        if (eventDomain) sessionState.domain = eventDomain;
         sessionState.dwell_sec = Math.max(sessionState.dwell_sec || 0, dwell);
         sessionState.scroll_depth = Math.max(sessionState.scroll_depth || 0, scrollDepth);
         sessionState.city = cfCity;

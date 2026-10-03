@@ -1392,13 +1392,13 @@
             </div>
             <!-- Trade Chips -->
             <div class="drawer-trade-chips">
-              <button class="drawer-chip active" id="chip-decks" onclick="selectScopeTrade('decks')">🪵 Custom Decks</button>
-              <button class="drawer-chip" id="chip-siding" onclick="selectScopeTrade('siding')">🏠 Siding Envelopes</button>
-              <button class="drawer-chip" id="chip-roofing" onclick="selectScopeTrade('roofing')">🔨 Roofing</button>
-              <button class="drawer-chip" id="chip-concrete" onclick="selectScopeTrade('concrete')">🧱 Concrete</button>
-              <button class="drawer-chip" id="chip-windows" onclick="selectScopeTrade('windows')">🪟 Windows & Doors</button>
-              <button class="drawer-chip" id="chip-kitchen" onclick="selectScopeTrade('kitchen')">🍳 Kitchen</button>
-              <button class="drawer-chip" id="chip-ceilings" onclick="selectScopeTrade('ceilings')">🏢 Drop Ceilings</button>
+              <button class="drawer-chip active" id="chip-decks" onclick="selectScopeTrade('decks', true)">🪵 Custom Decks</button>
+              <button class="drawer-chip" id="chip-siding" onclick="selectScopeTrade('siding', true)">🏠 Siding Envelopes</button>
+              <button class="drawer-chip" id="chip-roofing" onclick="selectScopeTrade('roofing', true)">🔨 Roofing</button>
+              <button class="drawer-chip" id="chip-concrete" onclick="selectScopeTrade('concrete', true)">🧱 Concrete</button>
+              <button class="drawer-chip" id="chip-windows" onclick="selectScopeTrade('windows', true)">🪟 Windows & Doors</button>
+              <button class="drawer-chip" id="chip-kitchen" onclick="selectScopeTrade('kitchen', true)">🍳 Kitchen</button>
+              <button class="drawer-chip" id="chip-ceilings" onclick="selectScopeTrade('ceilings', true)">🏢 Drop Ceilings</button>
             </div>
 
             <!-- Dynamic Slider -->
@@ -1407,7 +1407,7 @@
                 <span id="slider-title-text">Estimated Deck Area (Sq Ft):</span>
                 <span class="slider-val-tag" id="slider-val-display">200 Sq Ft</span>
               </div>
-              <input type="range" id="scope-slider" class="scope-range-input" min="80" max="600" value="200" step="20" oninput="updateBallparkCalculation()">
+              <input type="range" id="scope-slider" class="scope-range-input" min="80" max="600" value="200" step="20" oninput="updateBallparkCalculation(true)">
             </div>
 
             <!-- Turnkey Ballpark Box -->
@@ -1654,7 +1654,7 @@
       }, 400);
     }
 
-    function selectScopeTrade(tradeKey) {
+    function selectScopeTrade(tradeKey, isUserInteraction = false) {
       const key = (tradeKey === 'deck' ? 'decks' : tradeKey === 'ceiling' ? 'ceilings' : tradeKey);
       currentTrade = key;
       selectedAddons = {};
@@ -1691,7 +1691,7 @@
         }
       }
 
-      updateBallparkCalculation();
+      updateBallparkCalculation(isUserInteraction);
     }
 
     function toggleAddon(id, cMin, cMax) {
@@ -1701,10 +1701,10 @@
       } else {
         delete selectedAddons[id];
       }
-      updateBallparkCalculation();
+      updateBallparkCalculation(true);
     }
 
-    function updateBallparkCalculation() {
+    function updateBallparkCalculation(isUserInteraction = false) {
       const cfg = TRADE_CONFIG[currentTrade];
       if (!cfg) return;
 
@@ -1743,7 +1743,8 @@
         smsBtn.href = `sms:+17154593050?body=${smsMsg}`;
       }
 
-      if (typeof window.trackCalculatorChange === 'function') {
+      // ONLY dispatch calculator telemetry if the visitor actually engaged with the UI
+      if (isUserInteraction && typeof window.trackCalculatorChange === 'function') {
         window.trackCalculatorChange(currentTrade, rangeStr, { size: val, unit: cfg.unit });
       }
     }
@@ -2017,16 +2018,19 @@
     }
 
     // ==========================================
-    // INITIALIZATION ON DOM READY
+    // INITIALIZATION ON DOM READY (Idempotent Bootstrap)
     // ==========================================
-    document.addEventListener('DOMContentLoaded', () => {
+    let isAppBootstrapped = false;
+    function bootstrapApp() {
+      if (isAppBootstrapped) return;
+      isAppBootstrapped = true;
       initGvsmSliderListeners();
-      selectScopeTrade('decks');
-    });
+      selectScopeTrade('decks', false);
+    }
 
+    document.addEventListener('DOMContentLoaded', bootstrapApp);
     if (document.readyState === 'interactive' || document.readyState === 'complete') {
-      initGvsmSliderListeners();
-      selectScopeTrade('decks');
+      bootstrapApp();
     }
 
     // ==========================================
