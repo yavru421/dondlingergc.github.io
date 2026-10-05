@@ -1,9 +1,9 @@
 {
   "name": "PourReady",
   "short_name": "PourReady",
-  "id": "/calc/",
-  "start_url": "/calc/",
-  "scope": "/calc/",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#11161d",
   "theme_color": "#11161d",
