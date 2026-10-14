@@ -1091,12 +1091,12 @@
 
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                     <div class="form-group">
-                        <label for="name">Your Name *</label>
-                        <input type="text" id="name" name="name" placeholder="First & Last Name" required oninput="saveDraft()">
+                        <label for="contact">Phone or Email (Required) *</label>
+                        <input type="text" id="contact" name="contact" placeholder="(715) 555-0199 or email" required oninput="saveDraft()">
                     </div>
                     <div class="form-group">
-                        <label for="contact">Phone or Email *</label>
-                        <input type="text" id="contact" name="contact" placeholder="(715) 555-0199 or email" required oninput="saveDraft()">
+                        <label for="name">Your Name (Optional)</label>
+                        <input type="text" id="name" name="name" placeholder="First & Last Name" oninput="saveDraft()">
                     </div>
                 </div>
 
@@ -1108,7 +1108,7 @@
                 <div class="trust-shield">
                     <span style="font-size:1.2rem;">⚡</span>
                     <div>
-                        <strong style="color:#fff;">Prompt Professional Review:</strong> Submitting sends your project specs for prompt review by Dondlinger General Contracting LLC. Zero obligation. We follow up directly with your written estimate review.
+                        <strong style="color:#fff;">Prompt Professional Review:</strong> Submitting sends your project specs for prompt review by Dondlinger General Contracting LLC. Or <a href="sms:+17154593050?body=Hi%20Dondlinger%20GC%2C%20I%27d%20like%20to%20get%20an%20estimate%20on%20a%20project." style="color:var(--accent-green);font-weight:700;">tap here to text (715) 459-3050 directly</a>.
                     </div>
                 </div>
             </div>
@@ -1194,10 +1194,10 @@
         function goToStep(step) {
             if (step < 1 || step > totalSteps) return;
 
-            // Validate before leaving step 1
             if (step > 1 && !selectedTrade) {
-                alert('Please select a project category first!');
-                return;
+                selectedTrade = 'General Contracting';
+                const svcEl = document.getElementById('service');
+                if (svcEl) svcEl.value = selectedTrade;
             }
 
             currentStep = step;
@@ -1233,9 +1233,6 @@
         }
 
         function jumpToStep(step) {
-            if (step > currentStep) {
-                if (currentStep === 1 && !selectedTrade) return;
-            }
             goToStep(step);
         }
 
@@ -1246,36 +1243,14 @@
         async function handleNextClick() {
             if (currentStep === 1) {
                 if (!selectedTrade) {
-                    alert('Please select a project category to continue.');
-                    return;
+                    selectedTrade = 'General Contracting';
+                    document.getElementById('service').value = selectedTrade;
                 }
                 goToStep(2);
                 return;
             }
 
             if (currentStep === 2) {
-                const notesEl = document.getElementById('notes');
-                const rawNotes = notesEl.value.trim();
-                if (rawNotes.length < 15) {
-                    notesEl.focus();
-                    notesEl.style.borderColor = '#ff4d4d';
-                    alert('Please describe your project or tap the mic to speak before continuing.');
-                    return;
-                }
-
-                // AI Polish is AUTOMATIC and REQUIRED
-                if (!activePolishedScope) {
-                    const nextBtn = document.getElementById('btnWizardNext');
-                    nextBtn.disabled = true;
-                    nextBtn.innerHTML = `<span>⏳ Auto-Structuring Scope with AI...</span>`;
-                    const success = await polishProjectScope();
-                    nextBtn.disabled = false;
-                    if (success) {
-                        goToStep(3);
-                    }
-                    return;
-                }
-
                 goToStep(3);
                 return;
             }
@@ -1829,15 +1804,25 @@
             const submitBtn = document.getElementById('btnWizardNext');
             const origHtml = submitBtn.innerHTML;
 
-            const name = document.getElementById('name').value.trim();
+            const name = document.getElementById('name').value.trim() || 'Website Intake Lead';
             const contact = document.getElementById('contact').value.trim();
             const address = document.getElementById('address').value.trim();
             const notes = document.getElementById('notes').value.trim();
 
-            if (!name || !contact) {
-                alert('Please provide your name and a phone number or email so we can deliver your estimate!');
+            if (!contact) {
+                alert('Please provide a phone number or email so we can deliver your estimate!');
                 goToStep(4);
                 return;
+            }
+
+            // Fire live telemetry lead_intake event for D1 + In-Place Telegram Session Card upgrade
+            if (typeof window.dgcTrackEvent === 'function') {
+                window.dgcTrackEvent('lead_intake', {
+                    name: name,
+                    contact: contact,
+                    trade: selectedTrade || 'General Contracting',
+                    details: `${selectedTrade || 'General Contracting'} (${address || 'Central WI'}) — ${notes || 'Intake Wizard Submission'}`
+                });
             }
 
             submitBtn.disabled = true;

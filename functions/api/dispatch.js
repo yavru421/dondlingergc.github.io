@@ -93,6 +93,9 @@ export async function onRequest(context) {
   let leadType = 'client';
   let photos = [];
   let voiceAudio = null;
+  const cookieHeader = request.headers.get('cookie') || '';
+  const sidCookieMatch = cookieHeader.match(/(?:^|;\s*)dgc_sid=([^;]+)/);
+  let formSid = sidCookieMatch ? decodeURIComponent(sidCookieMatch[1]) : '';
 
   try {
     if (contentType.includes('multipart/form-data')) {
@@ -103,6 +106,7 @@ export async function onRequest(context) {
       city = formData.get('city') || formData.get('address') || city;
       notes = formData.get('notes') || formData.get('description') || notes;
       origin = formData.get('origin') || origin;
+      formSid = formData.get('sid') || formSid;
       leadType = formData.get('lead_type') || (origin.toLowerCase().includes('contractor') ? 'contractor' : 'client');
 
       // Extract photos AND voice audio files across Cloudflare Workers runtime
@@ -203,10 +207,84 @@ export async function onRequest(context) {
 
     const isContractor = String(leadType || '').toLowerCase().includes('contractor') || String(leadType || '').toLowerCase().includes('b2b');
     const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
+    const nowIso = new Date().toISOString();
     const leadId = (isContractor ? 'B2B-' : 'DGC-') + Math.random().toString(36).substring(2, 8).toUpperCase();
     const tagLead = '#' + leadId.replace(/-/g, '_');
     const cleanDigits = (contact || '').replace(/[^0-9]/g, '');
     const cleanPhone = cleanDigits.length >= 10 ? cleanDigits.slice(-10) : cleanDigits;
+
+    // 0. Persist Lead Immutably to Cloudflare D1 (Unified Traffic & Lead Lake)
+    const trafficDb = env.TRAFFIC_DB || env.DB;
+    let d1Logged = false;
+    if (trafficDb) {
+      const clientIp = request.headers.get('cf-connecting-ip') || 'Unknown';
+      const cfCity = request.cf?.city || city || 'Central WI';
+      const cfRegion = request.cf?.regionCode || request.cf?.region || 'WI';
+      const ua = request.headers.get('user-agent') || '';
+      const sid = formSid || ('lead_' + leadId);
+
+      try {
+        await trafficDb.prepare(`
+          CREATE TABLE IF NOT EXISTS client_leads (
+            lead_id TEXT PRIMARY KEY,
+            lead_type TEXT,
+            client_name TEXT,
+            contact TEXT,
+            clean_phone TEXT,
+            city TEXT,
+            service TEXT,
+            notes TEXT,
+            origin TEXT,
+            photos_count INTEGER DEFAULT 0,
+            has_voice INTEGER DEFAULT 0,
+            ip TEXT,
+            cf_city TEXT,
+            cf_region TEXT,
+            created_at TEXT
+          )
+        `).run();
+
+        await trafficDb.prepare(`
+          INSERT INTO client_leads (
+            lead_id, lead_type, client_name, contact, clean_phone, city, service,
+            notes, origin, photos_count, has_voice, ip, cf_city, cf_region, created_at
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `).bind(
+          leadId, isContractor ? 'contractor_b2b' : 'client', leadName, contact, cleanPhone,
+          city, String(service || ''), String(notes || ''), String(origin || 'dondlingergc.com'),
+          photos.length, voiceAudio ? 1 : 0, clientIp, cfCity, cfRegion, nowIso
+        ).run();
+
+        await trafficDb.prepare(`
+          INSERT INTO site_traffic_events (
+            session_id, visitor_id, event_type, domain, page_path, page_title,
+            details_json, ip, country, region, city, user_agent, created_at,
+            trade_viewed, project_name, is_operator
+          ) VALUES (?, ?, 'lead_intake', 'dondlingergc.com', ?, 'Lead Submission', ?, ?, 'US', ?, ?, ?, ?, ?, ?, 0)
+        `).bind(
+          sid, sid, String(origin || '/'),
+          JSON.stringify({ lead_id: leadId, name: leadName, contact, service, notes, photos: photos.length, voice: !!voiceAudio }),
+          clientIp, cfRegion, cfCity, ua, nowIso, String(service || 'General'), leadName
+        ).run().catch(() => {});
+
+        await trafficDb.prepare(`
+          INSERT INTO site_sessions (
+            session_id, visitor_id, domain, ip, country, region, city,
+            user_agent, landing_page, identified_contact, first_seen, last_seen, duration_seconds, pageviews_count
+          ) VALUES (?, ?, 'dondlingergc.com', ?, 'US', ?, ?, ?, ?, ?, ?, ?, 0, 1)
+          ON CONFLICT(session_id) DO UPDATE SET
+            last_seen = excluded.last_seen,
+            identified_contact = COALESCE(excluded.identified_contact, site_sessions.identified_contact)
+        `).bind(
+          sid, sid, clientIp, cfRegion, cfCity, ua, String(origin || '/'),
+          `${leadName} (${contact})`, nowIso, nowIso
+        ).run().catch(() => {});
+
+        d1Logged = true;
+      } catch (d1Err) {
+        console.error('D1 lead persistence notice:', d1Err);
+      }
+    }
 
     const telegramMessage = isContractor ? (
       `🏗️ *NEW CONTRACTOR B2B INTAKE (GVSM OUTSOURCE)* 📐\n\n` +
@@ -533,7 +611,9 @@ export async function onRequest(context) {
       thread_id: threadId,
       thread_url: threadUrl,
       telegram_dispatched: telegramSuccess,
+      d1_logged: d1Logged,
       photos_count: photos.length,
+      photos_dispatched: photos.length,
       has_voice_audio: !!voiceAudio,
       message: 'Intake lead processed and forwarded to J. Dondlinger mobile dispatch.'
     }), {
