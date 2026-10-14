@@ -91,7 +91,7 @@ export async function onRequest(context) {
 
   // Direct llms.txt standard route handler
   if (url.pathname === '/llms.txt') {
-    const llmsTxt = `# Dondlinger Digital Database & General Contracting (Dondlinger GC)\n\n> Wisconsin DSPS Licensed Dwelling Contractor & Zero-Liability Software Engineering.\n> Main Hub: https://dondlingergc.com\n> Primary Ingestion Endpoint: https://dondlingergc.com/openapi.json\n> Agent Registration: https://dondlingergc.com/auth.md\n\n## Core Capabilities & Services\n\n- **Field Contracting (Residential & Commercial)**: Doors, Windows, Exterior Siding, Roofing Shingles, Custom Kitchen & Shop Cabinets, Acoustical Drop Ceilings, On-Site Diagnostic Structural Scans.\n- **Zero-Liability Architecture (ZLA)**: Serverless, offline-first WebAssembly (Blazor WASM) utilities, encrypted WebRTC peer-to-peer data transport, edge telemetry, zero recurring cloud database hosting costs.\n\n## Authoritative Subdomain & Application Index\n\n- [PourReady Concrete Estimator](https://dondlingergc.com/calc/): Jobsite concrete volume, slab, footing, wall, and column estimator with custom waste safety margins.\n- [WaZ Weather Telemetry & Radar](https://wazweather.dondlingergc.com): Real-time atmospheric telemetry, live NEXRAD radar mapping, USGS river hydrology flow rates, and rain outlook dispatch for Wisconsin Rapids.\n- [TAP: Time & Place Field Verification](https://tap.dondlingergc.com): Minimal MudBlazor WASM location & field jobsite verification tracker providing cryptographic activity proofs.\n- [SkyDrop Encrypted P2P File Transfer](https://skydrop.dondlingergc.com): Direct browser-to-browser WebRTC encrypted zero-cloud file transport with QR pairing.\n- [Timeline ZLA Daily Log Builder](https://timelinezla.dondlingergc.com): Local-first construction timeline builder, peer-to-peer 6-digit sync, and vector PDF export engine.\n- [Voice Intake Portal](https://voice-intake-app.dondlingergc.com): Voice-first AI client intake engine for instant residential contracting quote requests and audio vision recording.\n- [On My Way (OMW) Field Broadcast](https://omw.dondlingergc.com): Real-time GPS coordinates and ETA arrival broadcast utility for active field crews.\n- [ShotStack Studio PWA](https://shotstackstudio.dondlingergc.com): Storyboard compiler, time calculator, and media assembly engine for directors and video editors.\n- [AmpliLoop Studio PWA](https://blazorpwa.dondlingergc.com): Blazor WebAssembly algorithmic rap beat generator, metronome, and instrument tuner.\n- [Zero Liability Architecture Showcase](https://zla.dondlingergc.com): Architectural technical whitepaper, compliance proof, and zero-liability software engineering principles.\n- [Heckler Audio Synth](https://heckler.dondlingergc.com): Blazor WASM tone synthesis, soundboard trigger engine, and diagnostic alerts.\n- [Personalization Hub](https://personalization.dondlingergc.com): Metropolis taskbar, identity synchronization, and desktop interface customizer.\n- [Touchscreen Diagnostic PWA](https://dondlingergc.com/touchscreen.html): Client-side touchscreen hardware deadzone tester and ghost-touch diagnostic.\n- [Neural Cinema & Theater](https://dondlingergc.com/theater.html): Multi-speaker neural radio theater, vertical screenplays, and audio dramas.\n\n## Machine-Readable Specifications\n\n- **OpenAPI 3.1 Specification**: https://dondlingergc.com/openapi.json\n- **RFC 9727 API Catalog**: https://dondlingergc.com/.well-known/api-catalog\n- **OAuth / Protected Resource Metadata**: https://dondlingergc.com/.well-known/oauth-protected-resource\n- **Content Signals Directive**: search=yes, ai-train=no, ai-input=yes\n`;
+    const llmsTxt = `# Dondlinger General Contracting LLC (Dondlinger GC)\n\n> Central Wisconsin Residential General Contracting — Drywall, Concrete, Structural Framing, Remodels, Custom Decks, Exterior Siding, Windows & Doors.\n> Main Website: https://dondlingergc.com\n> Instant Ballpark Estimator & 1-Step Quote Request: https://dondlingergc.com/#estimate\n> Recent Projects Portfolio: https://dondlingergc.com/projects.html\n> Phone / Text: (715) 459-3050\n> Email: dondlingergeneralcontracting@gmail.com\n\n## Core Residential Contracting Services (Wood & Portage Counties, WI)\n\n- **Drywall & Finishes**: Sheetrock hanging, taping, mudding, Level 5 smooth finish, ceiling patch & texture repair.\n- **Concrete Flatwork**: Patios, walkways, garage aprons, monolithic slabs, and stoop replacements.\n- **Structural Framing & Home Additions**: Two-story additions, load-bearing wall removals, header beams, porch & portico structural rot rebuilds, basement framing.\n- **Full Remodels & Basements**: Turnkey kitchen, bathroom, and basement finishing from studs to trim.\n- **Custom Decks & Stairs**: Below-frost concrete footings, treated timber substructures, composite decking, hidden fasteners, aluminum & composite railings.\n- **Exterior Siding, Soffit & Fascia**: Vinyl siding, LP SmartSide engineered wood, insulated sheathing, vented soffits, and custom 10-ft aluminum brake metal trim wraps.\n- **Replacement Windows & Doors**: Alliance energy-efficient vinyl windows, entry doors, patio sliders, weathersealing, and interior/exterior casing.\n\n## Service Territory\n\n- Wisconsin Rapids, WI (54494)\n- Stevens Point, WI (54481)\n- Plover, WI (54467)\n- Nekoosa, WI (54457)\n- Port Edwards, WI (54469)\n- Biron, Rudolph, Grand Rapids & Marshfield, WI\n`;
     return new Response(request.method === 'HEAD' ? null : llmsTxt, {
       status: 200,
       headers: {
@@ -108,16 +108,16 @@ export async function onRequest(context) {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": ["LocalBusiness", "GeneralContractor"],
+          "@type": ["LocalBusiness", "GeneralContractor", "HomeAndConstructionBusiness"],
           "@id": "https://dondlingergc.com/#business",
-          "name": "Dondlinger GC",
-          "alternateName": "Dondlinger General Contracting & Digital Database",
+          "name": "Dondlinger General Contracting LLC",
+          "alternateName": "Dondlinger GC",
           "url": "https://dondlingergc.com",
-          "logo": "https://dondlingergc.com/assets/hero-contracting.jpg",
-          "image": "https://dondlingergc.com/assets/hero-contracting.jpg",
-          "description": "Wisconsin DSPS Licensed Dwelling Contractor & Zero-Liability Software Engineering. Specializing in high-precision doors, replacement windows, vinyl & steel siding, architectural roofing shingles, custom shop cabinetry, acoustical drop ceilings, and serverless WebAssembly PWA applications.",
+          "logo": "https://dondlingergc.com/dondlinger_logo.png",
+          "image": "https://dondlingergc.com/images/projects/IMG_4801.webp",
+          "description": "Central Wisconsin residential general contractor specializing in drywall & finishes, concrete flatwork, structural framing, full remodels, custom composite decks, exterior siding & brake metal trim, and replacement windows & doors across Wisconsin Rapids, Stevens Point, Plover, Nekoosa, and Port Edwards.",
           "telephone": "+1-715-459-3050",
-          "email": "johndondlinger21@gmail.com",
+          "email": "dondlingergeneralcontracting@gmail.com",
           "priceRange": "$$",
           "address": {
             "@type": "PostalAddress",
@@ -133,15 +133,14 @@ export async function onRequest(context) {
             "longitude": -89.8173
           },
           "areaServed": [
-            { "@type": "AdministrativeArea", "name": "Wisconsin Rapids, WI" },
-            { "@type": "AdministrativeArea", "name": "Stevens Point, WI" },
-            { "@type": "AdministrativeArea", "name": "Plover, WI" },
-            { "@type": "AdministrativeArea", "name": "Marshfield, WI" },
-            { "@type": "AdministrativeArea", "name": "Nekoosa, WI" },
-            { "@type": "AdministrativeArea", "name": "Port Edwards, WI" },
+            { "@type": "City", "name": "Wisconsin Rapids, WI" },
+            { "@type": "City", "name": "Stevens Point, WI" },
+            { "@type": "City", "name": "Plover, WI" },
+            { "@type": "City", "name": "Marshfield, WI" },
+            { "@type": "City", "name": "Nekoosa, WI" },
+            { "@type": "City", "name": "Port Edwards, WI" },
             { "@type": "AdministrativeArea", "name": "Wood County, WI" },
-            { "@type": "AdministrativeArea", "name": "Portage County, WI" },
-            { "@type": "State", "name": "Wisconsin" }
+            { "@type": "AdministrativeArea", "name": "Portage County, WI" }
           ],
           "openingHoursSpecification": {
             "@type": "OpeningHoursSpecification",
@@ -150,41 +149,27 @@ export async function onRequest(context) {
             "closes": "18:00"
           },
           "knowsAbout": [
-            "Residential Dwelling Construction",
-            "Interior & Exterior Door Installation",
-            "Energy-Efficient Replacement Windows",
-            "Exterior Siding, Soffit & Fascia",
-            "Architectural Roofing Shingles",
-            "Custom Shop & Kitchen Cabinetry",
-            "Acoustical Drop Ceilings",
-            "Zero-Liability Architecture (ZLA)",
-            "Offline-First Progressive Web Applications (PWA)",
-            "WebAssembly Blazor Engineering",
-            "WebRTC Peer-to-Peer Data Synchronization"
+            "Drywall Hanging, Taping & Level 5 Finishing",
+            "Concrete Patios, Walkways, Aprons & Slabs",
+            "Structural Framing & Home Additions",
+            "Kitchen, Bathroom & Basement Remodeling",
+            "Custom Composite & Treated Lumber Decks",
+            "Exterior Siding, Soffit, Fascia & Brake Metal Trim",
+            "Replacement Windows & Entry Doors"
           ],
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
-            "name": "Dondlinger General Contracting & Digital Services",
+            "name": "Dondlinger General Contracting Residential Trade Services",
             "itemListElement": [
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Interior & Exterior Door Systems", "description": "High-precision entry doors, interior pre-hung sets, French patio doors, and custom hardware installations." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Window Installations & Casing", "description": "Energy-efficient double-hung, casement, and slider windows. Framing, insulation, and exterior flashing." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exterior Siding & Soffit/Fascia", "description": "Vinyl, engineered wood, and metal siding installations. Weather-resistant barrier wraps and trim cladding." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Roofing Shingle Systems", "description": "Architectural shingles, ice & water shield installation, ridge venting, and drip edge protection." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Shop & Kitchen Cabinets", "description": "Precision-milled shop cabinetry, kitchen storage, and tailored built-ins designed for durability." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Basement & Acoustical Drop Ceilings", "description": "Residential basement ceiling grid installation, acoustical ceiling tiles, and recessed lighting." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Roof & Structure Diagnostic Scans", "description": "Paid on-site diagnostic structural scans and CAD roof analysis reports." } },
-              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Spatial Carpentry & 3D Fabrication", "description": "High-precision CAD drafting, custom milled cabinetry jigs, and specialized trim fabrication." } }
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Drywall & Finishes", "description": "Sheetrock hanging, taping, mudding, Level 5 smooth finish, ceiling repair, and texture matching." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Concrete Patios, Walkways & Slabs", "description": "Residential concrete flatwork, patios, walkways, garage aprons, and stoop replacements." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Structural Framing & Additions", "description": "Home additions, load-bearing wall framing, porch structural rot repair, and basement framing." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Full Home, Kitchen & Basement Remodels", "description": "Turnkey residential remodeling, kitchen cabinetry, flooring, and basement finishing." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Decks & Stairs", "description": "Composite and treated wood decks, below-frost footings, stair stringers, and railing systems." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Exterior Siding & Brake Metal Trim", "description": "Vinyl and LP SmartSide siding, insulated sheathing, vented soffits, and 10-ft custom aluminum trim wraps." } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Replacement Windows & Doors", "description": "Energy-efficient replacement windows, exterior entry doors, patio sliders, and weatherproof flashing." } }
             ]
           }
-        },
-        {
-          "@type": "SoftwareApplication",
-          "@id": "https://dondlingergc.com/#software-suite",
-          "name": "Dondlinger Digital Zero-Liability Architecture Suite",
-          "applicationCategory": "BusinessApplication",
-          "operatingSystem": "All (WebAssembly / PWA / Offline-First)",
-          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-          "url": "https://dondlingergc.com"
         }
       ]
     };

@@ -835,7 +835,24 @@
                 <span>←</span>
                 <span>DondlingerGC.com</span>
             </a>
-            <span class="top-badge">📋 DONDLINGER GENERAL CONTRACTING LLC • ESTIMATE WIZARD</span>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                <a href="sms:+17154593050?body=Hi%20Dondlinger%20GC%2C%20I%27d%20like%20to%20get%20an%20estimate%20on%20a%20project." onclick="if(window.dgcTrackEvent) window.dgcTrackEvent('sms_button_click', {location:'intake_top_bar'})" style="text-decoration:none;font-family:var(--font-mono);font-size:0.76rem;font-weight:800;color:#00ff88;background:rgba(0,255,136,0.12);border:1px solid rgba(0,255,136,0.4);padding:5px 10px;border-radius:8px;">💬 Text (715) 459-3050</a>
+                <a href="tel:7154593050" onclick="if(window.dgcTrackEvent) window.dgcTrackEvent('call_button_click', {location:'intake_top_bar'})" style="text-decoration:none;font-family:var(--font-mono);font-size:0.76rem;font-weight:800;color:#fff;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);padding:5px 10px;border-radius:8px;">📞 Call</a>
+            </div>
+        </div>
+
+        <!-- Express 1-Step Fast Callback Bar (Always Visible Above Wizard) -->
+        <div id="expressIntakeBar" style="background:linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(18, 22, 31, 0.96) 100%);border:1.5px solid rgba(0, 255, 136, 0.45);border-radius:14px;padding:12px 14px;margin-bottom:1.1rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                <span style="font-size:0.85rem;font-weight:800;color:#fff;">⚡ In a hurry? Enter your phone or email for a fast callback — or continue below to attach voice/photos:</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <input type="text" id="expressContactInput" placeholder="Your Phone # or Email *" style="flex:1;min-width:190px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.55);color:#fff;font-size:16px !important;">
+                <input type="text" id="expressNoteInput" placeholder="Project / Trade (Optional)" style="flex:1;min-width:160px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.45);color:#fff;font-size:16px !important;">
+                <button type="button" id="expressSubmitBtn" onclick="submitExpressIntake()" style="padding:10px 16px;border-radius:10px;border:none;background:var(--accent-green);color:#000;font-weight:900;font-size:0.88rem;cursor:pointer;white-space:nowrap;">
+                    ⚡ Send Now
+                </button>
+            </div>
         </div>
 
         <!-- Progress Tracker -->
@@ -877,7 +894,7 @@
                 <div class="step-header">
                     <div class="step-tagline">Step 1 of 4 • Project Category & Scope</div>
                     <h1 class="step-title">Select Your Project Category</h1>
-                    <p class="step-desc">Choose the primary trade or scope for your project. Dondlinger General Contracting LLC provides turnkey proposals and certified craftsmanship across Wood and Portage counties.</p>
+                    <p class="step-desc">Choose the primary trade or scope for your project. Dondlinger General Contracting LLC provides turnkey proposals and dependable residential contracting across Wood and Portage counties.</p>
                 </div>
 
                 <div class="trade-cards-grid">
@@ -1175,11 +1192,47 @@
         const totalSteps = 4;
         let selectedTrade = '';
 
+        async function submitExpressIntake() {
+            const expressContact = (document.getElementById('expressContactInput')?.value || '').trim();
+            const expressNote = (document.getElementById('expressNoteInput')?.value || '').trim();
+            if (!expressContact) {
+                const inp = document.getElementById('expressContactInput');
+                if (inp) {
+                    inp.style.borderColor = '#ff4d4d';
+                    inp.focus();
+                }
+                return;
+            }
+            const contactEl = document.getElementById('contact');
+            if (contactEl) contactEl.value = expressContact;
+            if (!selectedTrade) {
+                selectedTrade = expressNote || 'General Contracting';
+                const svcEl = document.getElementById('service');
+                if (svcEl) svcEl.value = selectedTrade;
+            }
+            const notesEl = document.getElementById('notes');
+            if (notesEl && expressNote && !notesEl.value.trim()) {
+                notesEl.value = expressNote;
+            }
+            const expressBtn = document.getElementById('expressSubmitBtn');
+            if (expressBtn) {
+                expressBtn.disabled = true;
+                expressBtn.textContent = '⚡ Sending...';
+            }
+            await submitIntakeForm({ preventDefault: () => {} });
+            const expressBar = document.getElementById('expressIntakeBar');
+            if (expressBar) expressBar.style.display = 'none';
+        }
+
         function selectTradeCard(el, tradeName) {
             document.querySelectorAll('.trade-card').forEach(card => card.classList.remove('selected'));
             el.classList.add('selected');
             selectedTrade = tradeName;
             document.getElementById('service').value = tradeName;
+            const expressNote = document.getElementById('expressNoteInput');
+            if (expressNote && !expressNote.value.trim()) {
+                expressNote.value = tradeName;
+            }
             updateStepNavButtons();
             saveDraft();
 
