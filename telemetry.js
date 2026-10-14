@@ -203,43 +203,52 @@
   }, { passive: true });
 
   // 9. Interaction & Conversion Click Delegator (High Intent Actions)
+  let lastClickEventKey = '';
+  let lastClickEventTime = 0;
+  function trackClickOnce(eventType, payload) {
+    const now = Date.now();
+    const key = `${eventType}:${payload.details || payload.project || payload.trade || ''}`;
+    if (key === lastClickEventKey && (now - lastClickEventTime) < 1500) return;
+    lastClickEventKey = key;
+    lastClickEventTime = now;
+    trackEvent(eventType, payload);
+  }
+
   document.addEventListener('click', (e) => {
-    const target = e.target.closest('a, button, .tab-btn, .filter-pill, .pw-header, .gallery-item, .project-card, .btn-wd-card-action, .btn-hud-estimate, .btn-hud-call, .dock-btn-call, .dock-btn-photo, .dock-btn-estimate, .btn-hero-primary, .btn-hero-secondary, .drawer-chip, .gvsm-carousel-card, .slider-nav-arrow, .pw-quote-cta, #quote-btn, .submit-btn, .btn-submit-lead, .scrubber-btn, .nav-chip');
+    const target = e.target.closest('a, button, .tab-btn, .filter-pill, .pw-header, .gallery-item, .project-card, .btn-wd-card-action, .btn-hud-estimate, .btn-hud-call, .dock-btn-call, .dock-btn-photo, .dock-btn-estimate, .btn-hero-primary, .btn-hero-secondary, .gvsm-carousel-card, .slider-nav-arrow, .pw-quote-cta, #quote-btn, .submit-btn, .btn-submit-lead, .scrubber-btn, .nav-chip');
     if (!target) return;
 
     if (target.href && target.href.startsWith('tel:')) {
-      trackEvent('intent_phone_dial', { details: target.href.replace('tel:', '') });
+      trackClickOnce('intent_phone_dial', { details: `Tapped Call ${target.innerText.trim() || '(715) 459-3050'}` });
     } else if (target.href && target.href.startsWith('sms:')) {
-      trackEvent('intent_sms_dispatch', { details: target.href.replace('sms:', '') });
-    } else if (target.matches('.btn-hud-estimate, .dock-btn-estimate, .pw-quote-cta, #quote-btn, .submit-btn, .btn-submit-lead')) {
-      trackEvent('intent_quote_cta', { details: target.innerText.trim() });
-    } else if (target.matches('.drawer-chip')) {
-      const chipText = target.innerText.trim();
-      trackEvent('calc_scope_change', { trade: chipText, details: `Selected trade chip: ${chipText}` });
+      trackClickOnce('intent_sms_dispatch', { details: `Tapped Text ${target.innerText.trim() || '(715) 459-3050'}` });
+    } else if (target.matches('.btn-hud-estimate, .dock-btn-estimate, .pw-quote-cta, #quote-btn')) {
+      trackClickOnce('intent_quote_cta', { details: `Clicked "${target.innerText.trim()}"` });
     } else if (target.matches('.gvsm-carousel-card')) {
       const slideTitle = target.querySelector('.gvsm-card-title')?.innerText || target.innerText;
-      trackEvent('project_inspect', { project: slideTitle.trim(), details: `Selected GVSM showcase slide: ${slideTitle.trim()}` });
+      trackClickOnce('project_inspect', { project: slideTitle.trim(), details: `Viewed 3D Cutaway: ${slideTitle.trim()}` });
     } else if (target.matches('.slider-nav-arrow')) {
-      trackEvent('photo_scrub', { details: `Navigated GVSM slider: ${target.innerText.trim()}` });
+      const activeTitle = document.getElementById('gvsmActiveTitle')?.innerText || '3D Cutaway';
+      trackClickOnce('photo_scrub', { project: activeTitle.trim(), details: `Scrubbed 3D Cutaway: ${activeTitle.trim()}` });
     } else if (target.matches('.tab-btn, .nav-chip')) {
       const label = target.querySelector('.tab-label') ? target.querySelector('.tab-label').innerText : target.innerText;
       currentSection = label.trim();
-      trackEvent('section_view', { section: currentSection });
+      trackClickOnce('section_view', { section: currentSection });
     } else if (target.matches('.filter-pill')) {
-      trackEvent('gallery_inspect', { trade: target.innerText.trim(), details: 'Filtered trade gallery' });
+      trackClickOnce('gallery_inspect', { trade: target.innerText.trim(), details: `Filtered portfolio by: ${target.innerText.trim()}` });
     } else if (target.matches('.gallery-item')) {
       const caption = target.querySelector('.gallery-item-caption') ? target.querySelector('.gallery-item-caption').innerText : 'Photo Item';
-      trackEvent('gallery_inspect', { details: caption.trim() });
+      trackClickOnce('gallery_inspect', { details: caption.trim() });
     } else if (target.matches('.project-card')) {
-      const title = target.querySelector('.project-title, .card-title, h3') ? target.querySelector('.project-title, .card-title, h3').innerText : 'Project Card';
-      trackEvent('project_inspect', { project: title.trim(), details: `Inspected ${title.trim()}` });
+      const title = target.querySelector('.project-card-title, .project-title, .card-title, h3') ? target.querySelector('.project-card-title, .project-title, .card-title, h3').innerText : 'Project Card';
+      trackClickOnce('project_inspect', { project: title.trim(), details: `Inspected project: ${title.trim()}` });
     } else if (target.matches('.scrubber-btn')) {
       const parentCard = target.closest('.project-card, .showcase-card');
-      const title = parentCard ? (parentCard.querySelector('.project-title, .card-title, h3')?.innerText || 'Project') : 'Project Showcase';
-      trackEvent('photo_scrub', { project: title.trim(), details: `Scrubbed photo on ${title.trim()}` });
+      const title = parentCard ? (parentCard.querySelector('.project-card-title, .project-title, .card-title, h3')?.innerText || 'Project') : 'Project Showcase';
+      trackClickOnce('photo_scrub', { project: title.trim(), details: `Viewed photos on ${title.trim()}` });
     } else if (target.matches('.pw-header')) {
       const title = target.querySelector('.pw-name') ? target.querySelector('.pw-name').innerText : 'Project Window';
-      trackEvent('section_view', { details: `Project Modal: ${title.trim()}` });
+      trackClickOnce('section_view', { details: `Project Modal: ${title.trim()}` });
     }
   });
 
@@ -268,22 +277,28 @@
   window.trackCalculatorChange = function(trade, ballpark, params) {
     clearTimeout(calcTimeout);
     calcTimeout = setTimeout(() => {
+      let readableSpecs = '';
+      if (params && typeof params === 'object') {
+        if (params.size && params.unit) readableSpecs = `${params.size} ${params.unit}`;
+        else readableSpecs = Object.entries(params).map(([k, v]) => `${k}: ${v}`).join(', ');
+      } else if (params) {
+        readableSpecs = String(params);
+      }
       trackEvent('calc_scope_change', {
-        trade: trade || 'Concrete / PourReady',
+        trade: (trade || 'General').toUpperCase(),
         ballpark: ballpark || '',
-        details: typeof params === 'object' ? JSON.stringify(params) : String(params)
+        details: readableSpecs
       });
-    }, 1200);
+    }, 1500);
   };
 
-  // 12. Form Field Engagement (Near-Miss Lead Detection)
+  // 12. Form Field Engagement (Only real text/contact inputs, NOT range sliders or checkboxes)
   let formEngaged = false;
   document.addEventListener('focusin', (e) => {
-    if (e.target.matches('input, textarea, select') && !formEngaged) {
+    if (e.target.matches('input[type="text"], input[type="tel"], input[type="email"], textarea') && !formEngaged) {
       formEngaged = true;
-      const form = e.target.closest('form');
-      const formName = form ? (form.id || form.getAttribute('name') || 'Intake Form') : 'Input Field';
-      trackEvent('form_engage', { details: `Started interacting with ${formName}` });
+      const placeholder = e.target.getAttribute('placeholder') || e.target.id || 'Quote Form';
+      trackEvent('form_engage', { details: `Started typing in "${placeholder}"` });
     }
   });
 
