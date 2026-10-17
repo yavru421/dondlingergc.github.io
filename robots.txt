@@ -1,20 +1,33 @@
-# Dondlinger General Contracting & Digital Systems Robots Configuration
+# Dondlinger General Contracting LLC — Public Crawler & AI Ingestion Policy
 User-agent: *
 Allow: /
-Allow: /calc/
-Allow: /theater.html
-Allow: /intake.html
-Allow: /touchscreen-tester.html
-Allow: /data/
+Allow: /hive/
 Allow: /llms.txt
-Allow: /llms-full.txt
-Allow: /.well-known/mcp.json
+Allow: /hive/llms-full.txt
+Allow: /calc/
 
-# AI and Agent Crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Google-CloudVertexBot
+Allow: /
+
 User-agent: GPTBot
 Allow: /
 
 User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
 Allow: /
 
 User-agent: Claude-Web
@@ -26,13 +39,20 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: Google-Extended
+User-agent: Bingbot
 Allow: /
 
 User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Meta-ExternalAgent
 Allow: /
 
 User-agent: CCBot
 Allow: /
 
 Sitemap: https://dondlingergc.com/sitemap.xml
+Sitemap: https://dondlingergc.com/hive/sitemap.xml
