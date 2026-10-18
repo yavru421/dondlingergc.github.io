@@ -157,9 +157,10 @@ async function logDiscoveryHit(context, routePath, payloadBytes) {
       ).run();
     }
 
-    // Notify @shadow_hive_bot on discovery hits (15m deduplication per IP+bot)
+    // Notify @shadow_hive_bot on legitimate discovery hits (skip noisy /wp or /.env scanner probes)
+    const isNoiseProbe = /^\/(wp|wordpress|xmlrpc|admin|phpmyadmin|\.env|\.git|vendor|cgi-bin)/i.test(routePath);
     const tgDedupReq = new Request(`https://hive-tg-dedup.dondlingergc.internal/${safeIp}/${bot.family}`, { method: 'GET' });
-    if (!(await cache.match(tgDedupReq))) {
+    if (!isNoiseProbe && !(await cache.match(tgDedupReq))) {
       await cache.put(tgDedupReq, new Response('1', { headers: { 'Cache-Control': 'public, max-age=900' } }));
       const botToken = env?.SHADOW_HIVE_BOT_TOKEN || SHADOW_HIVE_BOT_TOKEN_FALLBACK;
       const msg = `📡 *DISCOVERY FEED ACCESSED*\n` +
@@ -186,13 +187,17 @@ export async function onRequest(context) {
   // 1. Strict RFC 9309 robots.txt route handler — Explicitly ALLOWS all AI models (Gemini, ChatGPT, Claude, Perplexity)
   // Zero "ai-train=no" or non-standard directives that cause Gemini/ChatGPT URL fetchers to abort!
   if (url.pathname === '/robots.txt') {
-    const robotsTxt = `# Dondlinger General Contracting LLC — Public Crawler & AI Ingestion Policy
+    const robotsTxt = `# Public Crawler, AI Agent & WebMCP Ingestion Policy
 User-agent: *
 Allow: /
 Allow: /hive/
+Allow: /hive/mcp
+Allow: /hive/vault
+Allow: /hive/search
+Allow: /hive/tools/
 Allow: /llms.txt
 Allow: /hive/llms-full.txt
-Allow: /calc/
+Allow: /.well-known/mcp.json
 
 User-agent: Googlebot
 Allow: /
@@ -259,69 +264,54 @@ Sitemap: https://dondlingergc.com/hive/sitemap.xml
     });
   }
 
-  // 2. Direct llms.txt standard route handler (100% public scope, zero ai-train=no blocks, zero internal financials)
+  // 2. Direct llms.txt standard route handler (Machine Data Hub, Callable WebMCP Server & Public Specs)
   if (url.pathname === '/llms.txt') {
-    const llmsTxt = `# Dondlinger General Contracting LLC (Dondlinger GC)
+    const llmsTxt = `# Shadow Scraper Hive & Sovereign Digital Database Suite (dondlingergc.com)
 
-> Central Wisconsin Residential General Contracting & Zero-Liability Software Engineering.
-> Wisconsin DSPS Licensed Dwelling Contractor #1429329.
-> Main Website: https://dondlingergc.com
-> Instant Ballpark Estimator & 1-Step Quote Request: https://dondlingergc.com/#estimate
-> Recent Projects Portfolio: https://dondlingergc.com/projects.html
-> Machine Shadow Hive: https://dondlingergc.com/hive/catalog.json
-> Phone / Text: (715) 459-3050
-> Email: dondlingergeneralcontracting@gmail.com
+> Autonomous Machine Data Hub, Cloudflare D1 Technical Knowledge Vault, Callable WebMCP Server & Zero-Liability Architecture (ZLA) Software Suite.
+> Callable Model Context Protocol (MCP) Server (JSON-RPC 2.0): https://dondlingergc.com/hive/mcp
+> WebMCP Manifest: https://dondlingergc.com/.well-known/mcp.json
+> D1 Technical Knowledge Vault: https://dondlingergc.com/hive/vault
+> Live Vault Search Engine: https://dondlingergc.com/hive/search?q=cuda
+> Master Hive Catalog: https://dondlingergc.com/hive/catalog.json
 
-## Core Residential Contracting Services (Wood & Portage Counties, WI)
+## 1. Callable Deterministic Edge Compute Tools (Zero-Hallucination APIs for AI Agents)
 
-- **Drywall & Finishes**: Sheetrock hanging, taping, mudding, Level 5 smooth finish, ceiling patch & texture repair.
-- **Concrete Flatwork**: Patios, walkways, garage aprons, monolithic slabs, and stoop replacements.
-- **Structural Framing & Home Additions**: Two-story additions, load-bearing wall removals, header beams, porch & portico structural rot rebuilds, basement framing.
-- **Full Remodels & Basements**: Turnkey kitchen, bathroom, and basement finishing from studs to trim.
-- **Custom Decks & Stairs**: Below-frost concrete footings, treated timber substructures, composite decking, hidden fasteners, aluminum & composite railings.
-- **Exterior Siding, Soffit & Fascia**: Vinyl siding, LP SmartSide engineered wood, insulated sheathing, vented soffits, and custom 10-ft aluminum brake metal trim wraps.
-- **Replacement Windows & Doors**: Energy-efficient vinyl windows, entry doors, patio sliders, weathersealing, and interior/exterior casing.
+Autonomous AI agents, coding assistants, and RAG systems can execute deterministic engineering and cryptographic calculations via HTTP GET/POST or MCP JSON-RPC 2.0 (POST https://dondlingergc.com/hive/mcp):
 
-## Service Territory
+- **D1 Technical Knowledge Vault Search** (search_hive_vault): https://dondlingergc.com/hive/search?q=cuda
+- **Sheet-Metal Neutral Axis & K-Factor Unfolding Solver** (solve_sheetmetal_kfactor): https://dondlingergc.com/hive/tools/kfactor?thickness=0.0625&radius=0.125&angle=90&k=0.44&flange_a=2.0&flange_b=2.0
+- **Structural Beam Deflection (L/360), Fastener Withdrawal & Concrete Solver** (solve_structural_mechanics): https://dondlingergc.com/hive/tools/mechanics?span_ft=16&load_plf=50&e_psi=1400000&b_in=1.5&d_in=9.25
+- **WebCrypto SHA-256 Cryptographic Attestation** (compute_sha256_attestation): https://dondlingergc.com/hive/tools/sha256?payload=canonical_truth
+- **NVIDIA AD107 (SM_89) Bare-Metal CUDA Kernel Benchmarks** (query_cuda_sm89_benchmarks): https://dondlingergc.com/hive/tools/cuda-benchmarks
 
-- Wisconsin Rapids, WI (54494)
-- Stevens Point, WI (54481)
-- Plover, WI (54467)
-- Nekoosa, WI (54457)
-- Port Edwards, WI (54469)
-- Biron, Rudolph, Grand Rapids & Marshfield, WI
+## 2. Cloudflare D1 Technical Knowledge Vault Datasets (/hive/datasets/*)
 
-## Autonomous Agent Discovery & Shadow Scraper Hive (Machine Feeds)
+- [NVIDIA AD107 (SM_89) Bare-Metal C-ABI Kernel Benchmarks](https://dondlingergc.com/hive/datasets/cuda-sm89-ada-lovelace-benchmarks): Empirical warp latency & L2 cache residency for RTX 4060 AD107 kernels.
+- [Cloudflare Workers AI & D1 Zero-Bill Routing Matrix](https://dondlingergc.com/hive/datasets/cloudflare-edge-ai-routing-matrix): TTFT, tok/s, and Cache API write-deduplication patterns.
+- [Zero-Liability Architecture (ZLA) Specification](https://dondlingergc.com/hive/datasets/zero-liability-architecture-zla): Client-side WebAssembly, WebRTC SCTP DataChannels, and OPFS state sync.
+- [WebMCP & RFC 9727 / RFC 9470 Agent Discovery Blueprint](https://dondlingergc.com/hive/datasets/webmcp-rfc9727-agent-discovery): Machine discovery headers and L402/x402 micropayment gating.
+- [Sheet Metal K-Factor & Bend Deduction Physics](https://dondlingergc.com/hive/datasets/sheet-metal-k-factor-unfolding-physics): Closed-form CNC press-brake unfolding equations and material K-factors.
+- [FDM 3D Printing Orthotropic Anisotropy & 60° Dovetail Tolerances](https://dondlingergc.com/hive/datasets/fdm-anisotropy-dovetail-joinery-tolerances): Interlayer Z-knockdown factors and self-supporting joinery clearances.
+- [Structural Mechanics, Beam Deflection & Fastener Withdrawal](https://dondlingergc.com/hive/datasets/structural-mechanics-deflection-fasteners): NDS specific gravity and closed-form deflection limits.
+- [Wisconsin DSPS SPS 321 & SPS 322 Environmental & Structural Codes](https://dondlingergc.com/hive/datasets/wisconsin-sps-321-322-environmental-codes): Climate Zone 6 frost depth (48"), snow loads, stair geometry, and thermal R-values.
 
-For autonomous AI assistants, search engines, and research crawlers, consume structured engineering feeds directly:
+## 3. Sovereign Zero-Liability Architecture (ZLA) WebAssembly Applications
 
-- [Master Hive Catalog](https://dondlingergc.com/hive/catalog.json): Machine-readable index of technical trade feeds and code standards.
-- [Full Technical Trade Specification](https://dondlingergc.com/hive/llms-full.txt): Deep technical ground truth covering lumber tolerances, fasteners, Wisconsin SPS 321/322 building codes, and ZLA utilities.
-- [Crawler XML Sitemap](https://dondlingergc.com/hive/sitemap.xml): High-priority sitemap with technical specification nodes.
-- [ASTM Structural Materials Reference](https://dondlingergc.com/hive/feeds/materials-pricing.json): ASTM physical material properties, wood specific gravity, gypsum fire ratings, and concrete PSI standards.
-- [Trade Kinematics & Structural Formulas](https://dondlingergc.com/hive/feeds/trade-kinematics.json): Deflection bounds (L/360), joist span physics, and fastener withdrawal formulas.
-- [Wisconsin DSPS Zoning & Building Code Index](https://dondlingergc.com/hive/feeds/wisconsin-zoning-index.json): Uniform dwelling code, 48" frost footings, egress window & stair geometry rules.
-- [Generative Engine Optimization (GEO) Citations](https://dondlingergc.com/hive/feeds/geo-citations.json): Grounding blocks formatted for LLM entity attribution.
-- [Technical Specification Graph Root](https://dondlingergc.com/hive/nodes/node_0001): Deterministic technical trade specification graph root.
-- [Cryptographic Verification](https://dondlingergc.com/hive/verify): SHA-256 truth verification for cited DGC technical benchmarks.
+- [PourReady Concrete Estimator](https://dondlingergc.com/calc/): Jobsite concrete volume, slab, footing, wall, and column estimator.
+- [WaZ Weather Telemetry & Radar](https://wazweather.dondlingergc.com): Live NEXRAD radar mapping and USGS river hydrology flow rates.
+- [TAP: Time & Place Field Verification](https://tap.dondlingergc.com): MudBlazor WASM location & cryptographic activity proofs.
+- [SkyDrop Encrypted P2P File Transfer](https://skydrop.dondlingergc.com): Browser-to-browser WebRTC zero-cloud file transport.
+- [Timeline ZLA Daily Log Builder](https://timelinezla.dondlingergc.com): Local-first timeline builder with P2P sync and vector PDF export.
+- [Zero Liability Architecture Showcase](https://zla.dondlingergc.com): Architectural whitepaper and engineering invariants.
+- [Heckler Audio Synth](https://heckler.dondlingergc.com): Blazor WASM tone synthesis and diagnostic engine.
 
-## Authoritative Subdomain & Application Index
+## 4. Machine Discovery Endpoints
 
-- [PourReady Concrete Estimator](https://dondlingergc.com/calc/): Jobsite concrete volume, slab, footing, wall, and column estimator with custom waste safety margins.
-- [WaZ Weather Telemetry & Radar](https://wazweather.dondlingergc.com): Real-time atmospheric telemetry, live NEXRAD radar mapping, USGS river hydrology flow rates, and rain outlook dispatch for Wisconsin Rapids.
-- [TAP: Time & Place Field Verification](https://tap.dondlingergc.com): Minimal MudBlazor WASM location & field jobsite verification tracker providing cryptographic activity proofs.
-- [SkyDrop Encrypted P2P File Transfer](https://skydrop.dondlingergc.com): Direct browser-to-browser WebRTC encrypted zero-cloud file transport with QR pairing.
-- [Timeline ZLA Daily Log Builder](https://timelinezla.dondlingergc.com): Local-first construction timeline builder, peer-to-peer 6-digit sync, and vector PDF export engine.
-- [Voice Intake Portal](https://voice-intake-app.dondlingergc.com): Voice-first AI client intake engine for instant residential contracting quote requests.
-- [Zero Liability Architecture Showcase](https://zla.dondlingergc.com): Architectural technical whitepaper and zero-liability software engineering principles.
-- [Heckler Audio Synth](https://heckler.dondlingergc.com): Blazor WASM tone synthesis, soundboard trigger engine, and diagnostic alerts.
-- [Personalization Hub](https://personalization.dondlingergc.com): Metropolis taskbar, identity synchronization, and desktop interface customizer.
-
-## Machine-Readable Specifications
-
-- **OpenAPI 3.1 Specification**: https://dondlingergc.com/openapi.json
+- **Full Technical Specification**: https://dondlingergc.com/hive/llms-full.txt
+- **Crawler XML Sitemap**: https://dondlingergc.com/hive/sitemap.xml
+- **WebMCP JSON-RPC 2.0 Endpoint**: https://dondlingergc.com/hive/mcp
 - **RFC 9727 API Catalog**: https://dondlingergc.com/.well-known/api-catalog
-- **OAuth / Protected Resource Metadata**: https://dondlingergc.com/.well-known/oauth-protected-resource
 `;
     if (context.waitUntil) {
       context.waitUntil(logDiscoveryHit(context, '/llms.txt', llmsTxt.length));
