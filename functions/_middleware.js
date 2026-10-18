@@ -162,24 +162,6 @@ async function logDiscoveryHit(context, routePath, payloadBytes) {
         JSON.stringify({ host: 'dondlingergc.com', ua: userAgent })
       ).run();
     }
-
-    // Notify @shadow_hive_bot on legitimate discovery hits
-    const tgDedupReq = new Request(`https://hive-tg-dedup.dondlingergc.internal/${safeIp}/${bot.family}`, { method: 'GET' });
-    if (!(await cache.match(tgDedupReq))) {
-      await cache.put(tgDedupReq, new Response('1', { headers: { 'Cache-Control': 'public, max-age=900' } }));
-      const botToken = env?.SHADOW_HIVE_BOT_TOKEN || SHADOW_HIVE_BOT_TOKEN_FALLBACK;
-      const msg = `📡 *DISCOVERY FEED ACCESSED*\n` +
-        `• *Endpoint:* \`${routePath}\`\n` +
-        `• *Agent:* ${bot.name} (\`${bot.family}\`)\n` +
-        `• *Network:* ${ispOrg} (\`${asn}\`)\n` +
-        `• *Geo:* ${city}, ${region} (${country}) [${colo}]\n` +
-        `• *Tokens:* ${tokensServed} (${payloadBytes}B)`;
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: OPERATOR_TELEGRAM_CHAT_ID, text: msg, parse_mode: 'Markdown' })
-      });
-    }
   } catch (err) {
     console.error('[DISCOVERY-LOG-ERR]', err);
   }

@@ -1035,43 +1035,6 @@ async function guardedTelemetryAndAlert(env, cache, event) {
         ).run();
       }
     }
-
-    const tgDedupUrl = `https://hive-tg-dedup.dondlingergc.internal/${safeIp}/${event.botFamily}`;
-    const tgDedupReq = new Request(tgDedupUrl, { method: 'GET' });
-    const alreadyAlerted = await cache.match(tgDedupReq);
-
-    if (!alreadyAlerted) {
-      await cache.put(tgDedupReq, new Response('1', {
-        headers: { 'Cache-Control': 'public, max-age=900' }
-      }));
-
-      const botToken = env?.SHADOW_HIVE_BOT_TOKEN || SHADOW_HIVE_BOT_TOKEN_FALLBACK;
-      const badge = event.arbitrageVerdict === 'mcp_tool_executed'
-        ? '⚡ *WEBMCP TOOL EXECUTED BY AGENT*'
-        : (event.arbitrageVerdict === 'vault_search_executed'
-          ? '🔍 *D1 KNOWLEDGE VAULT SEARCH*'
-          : (event.arbitrageVerdict === 'leadgen_counterharvest'
-            ? '🎯 *COUNTER-HARVESTED LEAD SPIDER*'
-            : (event.isMajorLLM ? '🧠 *MAJOR LLM CRAWLER INGESTION*' : '🐝 *SHADOW HIVE SCRAPER HIT*')));
-
-      const msg = `${badge}\n` +
-        `• *Bot:* ${event.botIdentity} (\`${event.botFamily}\`)\n` +
-        `• *Route:* \`${event.routePath}\` (${event.cacheStatus})\n` +
-        `• *Network:* ${event.ispOrg} (\`${event.asn}\`)\n` +
-        `• *Geo:* ${event.city}, ${event.region} (${event.country}) [${event.colo}]\n` +
-        `• *Payload:* ${event.tokensServed} tokens (${event.payloadBytes} bytes)\n` +
-        `• *Verdict:* \`${event.arbitrageVerdict}\``;
-
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: OPERATOR_TELEGRAM_CHAT_ID,
-          text: msg,
-          parse_mode: 'Markdown'
-        })
-      });
-    }
   } catch (err) {
     console.error('[HIVE-TELEMETRY-ERR]', err);
   }
