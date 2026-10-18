@@ -98,8 +98,14 @@ function classifyDiscoveryBot(userAgent) {
   return { family: 'browser_or_agent', name: 'Direct Discovery Fetch', isBot: false, isMajorLLM: false };
 }
 
+function isExploitScannerProbe(routePath) {
+  return /(^\/(wp|wordpress|xmlrpc|admin|phpmyadmin|vendor|cgi-bin|userfiles|controlpanel|\.env|\.git|\.aws|\.next|\.github|\.gitlab|proc\/self|__vite|@fs))|(\.(env|yml|yaml|ini|log|sql|bak)$)|(secrets\.|serviceaccountkey|key\.json|debug-trigger)/i.test(routePath || '');
+}
+
 async function logDiscoveryHit(context, routePath, payloadBytes) {
   try {
+    if (isExploitScannerProbe(routePath)) return;
+
     const { request, env } = context;
     const cf = request.cf || {};
     const userAgent = request.headers.get('user-agent') || 'Unknown';
@@ -157,10 +163,9 @@ async function logDiscoveryHit(context, routePath, payloadBytes) {
       ).run();
     }
 
-    // Notify @shadow_hive_bot on legitimate discovery hits (skip noisy /wp or /.env scanner probes)
-    const isNoiseProbe = /^\/(wp|wordpress|xmlrpc|admin|phpmyadmin|\.env|\.git|vendor|cgi-bin)/i.test(routePath);
+    // Notify @shadow_hive_bot on legitimate discovery hits
     const tgDedupReq = new Request(`https://hive-tg-dedup.dondlingergc.internal/${safeIp}/${bot.family}`, { method: 'GET' });
-    if (!isNoiseProbe && !(await cache.match(tgDedupReq))) {
+    if (!(await cache.match(tgDedupReq))) {
       await cache.put(tgDedupReq, new Response('1', { headers: { 'Cache-Control': 'public, max-age=900' } }));
       const botToken = env?.SHADOW_HIVE_BOT_TOKEN || SHADOW_HIVE_BOT_TOKEN_FALLBACK;
       const msg = `📡 *DISCOVERY FEED ACCESSED*\n` +
@@ -502,9 +507,11 @@ Autonomous AI agents, coding assistants, and RAG systems can execute determinist
   const response = await next();
   const linkHeaderVal = '</.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json", </openapi.json>; rel="service-desc"; type="application/json", <https://zla.dondlingergc.com>; rel="service-doc"; type="text/html", </auth.md>; rel="describedby"; type="text/markdown", </llms.txt>; rel="describedby"; type="text/plain", </hive/catalog.json>; rel="service-desc"; type="application/json", </hive/llms-full.txt>; rel="alternate"; type="text/plain"';
 
-  // If a known AI crawler or scraper fetches any page on dondlingergc.com, log it to scraper_hive_events
-  if (botCheck.isBot && context.waitUntil) {
-    context.waitUntil(logDiscoveryHit(context, url.pathname, 12000));
+  // If a known AI crawler or scraper fetches any non-Hive 200 OK page on dondlingergc.com, log it to scraper_hive_events
+  // (/hive/* routes are already logged with exact byte counts by functions/hive/[[catchall]].js)
+  if (botCheck.isBot && response.status === 200 && !url.pathname.startsWith('/hive') && context.waitUntil) {
+    const contentLength = parseInt(response.headers.get('content-length') || '12000', 10) || 12000;
+    context.waitUntil(logDiscoveryHit(context, url.pathname, contentLength));
   }
 
   // If response is HTML and markdown requested, convert to text/markdown
