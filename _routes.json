@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/images/*",
+    "/img/*",
+    "/css/*",
+    "/js/*",
+    "/lib/*",
+    "/_framework/*",
+    "/blueprints/*",
+    "/data/*",
+    "/.well-known/mcp.json",
+    "/*.png",
+    "/*.webp",
+    "/*.jpg",
+    "/*.jpeg",
+    "/*.svg",
+    "/*.ico",
+    "/*.css",
+    "/*.js",
+    "/*.woff",
+    "/*.woff2"
+  ]
+}

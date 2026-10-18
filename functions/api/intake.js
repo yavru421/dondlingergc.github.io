@@ -76,6 +76,17 @@ export async function onRequestPost(context) {
   try {
     if (contentType.includes('multipart/form-data')) {
       const formData = await request.formData();
+
+      // Honeypot check for automated spambots
+      const honeypot = formData.get('website') || formData.get('company_url') || formData.get('bot_field') || '';
+      if (honeypot && String(honeypot).trim().length > 0) {
+        console.warn('[INTAKE-SPAM-BLOCKED] Honeypot triggered:', honeypot);
+        return new Response(JSON.stringify({ success: true, lead_id: 'SPAM-FILTERED' }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      }
+
       leadName = formData.get('name') || leadName;
       contact = formData.get('contact') || formData.get('phone') || formData.get('email') || contact;
       service = formData.get('service') || formData.get('trade') || service;
@@ -109,6 +120,16 @@ export async function onRequestPost(context) {
       }
     } else if (contentType.includes('application/json')) {
       const json = await request.json();
+
+      // Honeypot check for automated bots
+      const honeypot = json.website || json.company_url || json.bot_field || '';
+      if (honeypot && String(honeypot).trim().length > 0) {
+        console.warn('[INTAKE-SPAM-BLOCKED] Honeypot triggered in JSON:', honeypot);
+        return new Response(JSON.stringify({ success: true, lead_id: 'SPAM-FILTERED' }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      }
 
       // Handle nested VoiceIntake PWA payload ({ clientInfo, projectScope, timeline, keyRequirements, actionItems })
       if (json.clientInfo) {
@@ -178,6 +199,25 @@ export async function onRequestPost(context) {
     } else {
       const text = await request.text();
       notes = text || notes;
+    }
+
+    // Block automated commercial spam and link scrapers
+    const spamRegex = /dayside|apollo|seo audit|backlink|web design package|guest post|ranking service|ranking on google|increase traffic/i;
+    const combinedPayload = `${leadName} ${contact} ${notes} ${city}`;
+    if (spamRegex.test(combinedPayload)) {
+      console.warn('[INTAKE-SPAM-FILTERED] Blocked automated spam signature:', leadName, contact);
+      return new Response(JSON.stringify({ success: true, lead_id: 'SPAM-FILTERED' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+      });
+    }
+
+    // Require valid contact info
+    if (!contact || contact === 'Not provided' || contact.trim().length < 5) {
+      return new Response(JSON.stringify({ success: false, error: 'A valid phone number or email address is required.' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+      });
     }
 
     const isContractor = String(leadType || '').toLowerCase().includes('contractor') || String(leadType || '').toLowerCase().includes('b2b');
