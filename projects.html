@@ -719,17 +719,18 @@
       <span class="hero-pill">Verified Central Wisconsin Builds</span>
       <h1 class="page-title">Recent Projects & Craftsmanship Portfolio</h1>
       <p class="page-subtext">
-        Zero stock photography. Every build below was completed by John Dondlinger across Wood and Portage counties. Browse our two-story additions, siding overhauls, custom composite decks, replacement windows, and structural framing.
+        Zero stock photography. Every build below was completed by John Dondlinger across Wood and Portage counties. Browse our concrete flatwork, two-story additions, siding overhauls, custom composite decks, replacement windows, and structural framing.
       </p>
 
       <!-- Category Filter Tabs -->
       <div class="filter-tabs-bar">
-        <button class="filter-tab active" onclick="filterCategory('all', this)">⭐ All Projects (7)</button>
-        <button class="filter-tab" onclick="filterCategory('decks', this)">🪵 Custom Decks</button>
-        <button class="filter-tab" onclick="filterCategory('siding', this)">🏠 Siding & Trim</button>
-        <button class="filter-tab" onclick="filterCategory('addition', this)">🏗️ Additions & Framing</button>
-        <button class="filter-tab" onclick="filterCategory('remodel', this)">🔨 Structural & Remodels</button>
-        <button class="filter-tab" onclick="filterCategory('windows', this)">🪟 Windows & Envelope</button>
+        <button class="filter-tab active" data-cat="all" onclick="filterCategory('all', this)">⭐ All Projects</button>
+        <button class="filter-tab" data-cat="concrete" onclick="filterCategory('concrete', this)">🧱 Concrete Flatwork</button>
+        <button class="filter-tab" data-cat="decks" onclick="filterCategory('decks', this)">🪵 Custom Decks</button>
+        <button class="filter-tab" data-cat="siding" onclick="filterCategory('siding', this)">🏠 Siding & Trim</button>
+        <button class="filter-tab" data-cat="addition" onclick="filterCategory('addition', this)">🏗️ Additions & Framing</button>
+        <button class="filter-tab" data-cat="remodel" onclick="filterCategory('remodel', this)">🔨 Structural & Remodels</button>
+        <button class="filter-tab" data-cat="windows" onclick="filterCategory('windows', this)">🪟 Windows & Envelope</button>
       </div>
     </div>
   </section>
@@ -775,12 +776,12 @@
         <div>
           <div class="footer-links-title">Services</div>
           <ul class="footer-links-list">
-            <li><a href="/#services">Custom Decks & Outdoor Living</a></li>
-            <li><a href="/#services">Drywall & Drop Ceilings</a></li>
-            <li><a href="/#services">Structural Framing & Additions</a></li>
-            <li><a href="/#services">Basement & Interior Remodeling</a></li>
-            <li><a href="/#services">Siding, Windows & Trim</a></li>
-            <li><a href="/#services">Concrete Flatwork & Slabs</a></li>
+            <li><a href="#decks" onclick="applyHashFilter('decks')">Custom Decks & Outdoor Living</a></li>
+            <li><a href="#remodel" onclick="applyHashFilter('remodel')">Drywall & Drop Ceilings</a></li>
+            <li><a href="#addition" onclick="applyHashFilter('addition')">Structural Framing & Additions</a></li>
+            <li><a href="#remodel" onclick="applyHashFilter('remodel')">Basement & Interior Remodeling</a></li>
+            <li><a href="#siding" onclick="applyHashFilter('siding')">Siding, Windows & Trim</a></li>
+            <li><a href="#concrete" onclick="applyHashFilter('concrete')">Concrete Flatwork & Slabs</a></li>
           </ul>
         </div>
 
@@ -826,6 +827,42 @@
     // AUTHENTIC DGC PROJECTS DATA CATALOG
     // ==========================================
     const DGC_PROJECTS = {
+      "concrete_flatwork": {
+        id: "concrete_flatwork",
+        title: "4,000 PSI Concrete Walkways, Patios & Aprons",
+        category: "concrete",
+        categoryLabel: "Concrete Flatwork",
+        trade: "concrete",
+        tag: "Concrete Flatwork • 5 Captures",
+        lead: "Precision residential concrete flatwork: laser-graded subgrade, 4-inch compacted dense-graded base (DGB), epoxied #4 rebar pins, 4,000 PSI air-entrained mix, diamond saw-cut control joints, and uniform non-slip brushed broom finish.",
+        slides: [
+          {
+            src: "images/projects/concrete_porch_brushed.jpg",
+            title: "Finished 4,000 PSI Brushed Broom Porch & Apron",
+            caption: "Freshly poured and finished porch entrance with uniform non-slip brushed broom texture, clean hand-tooled edges, and tight joint lines."
+          },
+          {
+            src: "images/projects/concrete_curved_wall_walkway.jpg",
+            title: "Poured Curved Walkway & Dry-Stack Wall Reset",
+            caption: "Curved front entryway walkway poured and cured, tying into a fully reset stone retaining wall and landscape grade."
+          },
+          {
+            src: "images/projects/concrete_walkway_forms.jpg",
+            title: "Excavation, Compacted DGB Base & Step Formwork",
+            caption: "Excavated subgrade, compacted granular base, rigid formwork, and drilled structural dowel pins prior to concrete placement."
+          },
+          {
+            src: "images/projects/fresh_concrete_cuts_proof.jpg",
+            title: "Diamond Saw-Cut Expansion Control Joints",
+            caption: "Early-entry diamond saw-cut control joints cut at proper depth and spacing to control shrinkage cracking across the slab."
+          },
+          {
+            src: "images/projects/pure_concrete_cuts_overview.jpg",
+            title: "Full Slab Overview Post-Cut & Cure",
+            caption: "Overview of expansive finished flatwork showing consistent grade slope away from foundation, crisp geometric cut lines, and uniform cure."
+          }
+        ]
+      },
       "siding": {
         id: "siding",
         title: "Two-Story Siding Overhaul & Scalloped Gables",
@@ -1201,8 +1238,27 @@
       }
     });
 
+    function applyHashFilter(explicitCat) {
+      let target = explicitCat || (window.location.hash || '').replace('#', '').toLowerCase();
+      if (!target) return;
+      if (target === 'additions' || target === 'framing') target = 'addition';
+      if (target === 'drywall' || target === 'remodels' || target === 'remodel') target = 'remodel';
+      const btn = document.querySelector(`.filter-tab[data-cat="${target}"]`);
+      if (btn) {
+        filterCategory(target, btn);
+        const topEl = document.querySelector('.filter-tabs-bar');
+        if (topEl) topEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
     // Initialize Feed
     renderProjects();
+    if (window.location.hash) {
+      applyHashFilter();
+    }
+    window.addEventListener('hashchange', () => {
+      applyHashFilter();
+    });
   </script>
 </body>
 </html>

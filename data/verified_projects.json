@@ -1,0 +1,214 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-11-03T14:45:00-06:00",
+  "contractor": "Dondlinger General Contracting LLC",
+  "license": "Wisconsin SPS 321 Uniform Dwelling Code Compliant",
+  "projects": [
+    {
+      "id": "concrete_flatwork",
+      "title": "4,000 PSI Concrete Walkways, Patios & Aprons",
+      "category": "concrete",
+      "categoryLabel": "Concrete Flatwork",
+      "trade": "concrete",
+      "tag": "Concrete Flatwork • 5 Captures",
+      "lead": "Precision residential concrete flatwork: laser-graded subgrade, 4-inch compacted dense-graded base (DGB), epoxied #4 rebar pins, 4,000 PSI air-entrained mix, diamond saw-cut control joints, and uniform non-slip brushed broom finish.",
+      "slides": [
+        {
+          "src": "images/projects/concrete_porch_brushed.jpg",
+          "title": "Finished 4,000 PSI Brushed Broom Porch & Apron",
+          "caption": "Freshly poured and finished porch entrance with uniform non-slip brushed broom texture, clean hand-tooled edges, and tight joint lines."
+        },
+        {
+          "src": "images/projects/concrete_curved_wall_walkway.jpg",
+          "title": "Poured Curved Walkway & Dry-Stack Wall Reset",
+          "caption": "Curved front entryway walkway poured and cured, tying into a fully reset stone retaining wall and landscape grade."
+        },
+        {
+          "src": "images/projects/concrete_walkway_forms.jpg",
+          "title": "Excavation, Compacted DGB Base & Step Formwork",
+          "caption": "Excavated subgrade, compacted granular base, rigid formwork, and drilled structural dowel pins prior to concrete placement."
+        },
+        {
+          "src": "images/projects/fresh_concrete_cuts_proof.jpg",
+          "title": "Diamond Saw-Cut Expansion Control Joints",
+          "caption": "Early-entry diamond saw-cut control joints cut at proper depth and spacing to control shrinkage cracking across the slab."
+        },
+        {
+          "src": "images/projects/pure_concrete_cuts_overview.jpg",
+          "title": "Full Slab Overview Post-Cut & Cure",
+          "caption": "Overview of expansive finished flatwork showing consistent grade slope away from foundation, crisp geometric cut lines, and uniform cure."
+        }
+      ]
+    },
+    {
+      "id": "two_story_addition",
+      "title": "Two-Story Residential Addition & Shell Framing",
+      "category": "addition",
+      "categoryLabel": "Home Addition",
+      "trade": "framing",
+      "tag": "Ground-Up Addition • 5 Captures",
+      "lead": "Two-story home addition: mudsill tie-in, full two-story exterior wall framing, LP WeatherLogic air & water barrier sheathing, spider boom lift staging, and Alliance double-hung windows.",
+      "slides": [
+        {
+          "src": "images/projects/IMG_2009.webp",
+          "title": "First-Floor Framing & LP WeatherLogic",
+          "caption": "Ground-up addition framing with blue LP WeatherLogic air and water barrier sheathing and floor joist tie-in."
+        },
+        {
+          "src": "images/projects/IMG_2071.webp",
+          "title": "Two-Story Exterior Elevation",
+          "caption": "Alliance double-hung windows installed, taped weather barrier seams, and tie-in to original two-story roofline."
+        },
+        {
+          "src": "images/projects/IMG_2066.webp",
+          "title": "Two-Story Shell with Boom Lift Staging",
+          "caption": "Full two-story addition enclosed in LP WeatherLogic sheathing with towable boom lift staged in yard."
+        },
+        {
+          "src": "images/projects/IMG_2158.webp",
+          "title": "Roof Truss Placement & Ridge Tie-In",
+          "caption": "Engineered roof truss installation, hurricane ties, structural bracing, and valley tie-in to existing structure."
+        },
+        {
+          "src": "images/projects/IMG_2159.webp",
+          "title": "Second-Story Wall Studs & Header Framing",
+          "caption": "Engineered LVL headers and double top plates framing second-story window rough openings."
+        }
+      ]
+    },
+    {
+      "id": "siding",
+      "title": "Two-Story Siding Overhaul & Scalloped Gables",
+      "category": "siding",
+      "categoryLabel": "Exterior Siding",
+      "trade": "siding",
+      "tag": "Siding Overhaul • 5 Captures",
+      "lead": "Complete exterior siding replacement: tear-off down to silver foil-faced foam insulation, finished in rich slate blue lap siding with crisp white corner posts and scalloped white gable accents.",
+      "slides": [
+        {
+          "src": "images/projects/IMG_4801.webp",
+          "title": "Finished Slate Blue Lap Siding",
+          "caption": "Completed exterior showing dark slate blue lap siding, wide white corner posts, and custom window casing trim."
+        },
+        {
+          "src": "images/projects/IMG_4349.webp",
+          "title": "Before / Tear-Off: Foil Insulation Substrate",
+          "caption": "Complete exterior siding stripped down to silver foil-faced foam insulation board substrate prior to siding install."
+        },
+        {
+          "src": "images/projects/IMG_4802.webp",
+          "title": "Architectural Gable & Soffit Ventilation",
+          "caption": "Upper gable detail showing white scalloped decorative shake siding, continuous vented soffits, and aluminum fascia wraps."
+        },
+        {
+          "src": "images/projects/IMG_4805.webp",
+          "title": "Thermal Barrier & Head Flashing Detail",
+          "caption": "Foil-faced exterior insulation integration with precision window head flashing directing water away from openings."
+        },
+        {
+          "src": "images/projects/custom_brake_metal_5881.webp",
+          "title": "On-Site Custom Brake-Metal Aluminum Trim",
+          "caption": "Custom bent aluminum coil stock fabricated on site for maintenance-free window and door casing wraps."
+        }
+      ]
+    },
+    {
+      "id": "porch_rebuild",
+      "title": "Front Porch Structural Rot Teardown & Portico Rebuild",
+      "category": "remodel",
+      "categoryLabel": "Structural Carpentry",
+      "trade": "framing",
+      "tag": "Structural Overhaul • 6 Captures",
+      "lead": "Winter entry overhaul: tearing out water-damaged load-bearing porch overhang beams, temporary shoring, installing new treated structural posts, rafter collar ties, and rebuilt pediment framing.",
+      "slides": [
+        {
+          "src": "images/projects/IMG_5934.webp",
+          "title": "Reconstructed Portico & Rigid Foam Insulation",
+          "caption": "New treated structural posts, rebuilt gable header framing, R-Matte Plus-3 rigid foam insulation board, and staging planks."
+        },
+        {
+          "src": "images/projects/IMG_5779.webp",
+          "title": "Substrate & Soffit Rot Inspection",
+          "caption": "Severe moisture rot and wood decay uncovered on the load-bearing front porch overhang header beam beneath deteriorated vinyl soffit."
+        },
+        {
+          "src": "images/projects/IMG_5851.webp",
+          "title": "Structural Overhang Demolition",
+          "caption": "Close-up inspection of rotted timber beam requiring complete removal and structural replacement back to sound framing."
+        },
+        {
+          "src": "images/projects/IMG_5864.webp",
+          "title": "Winter Staging & Shoring Setup",
+          "caption": "Pipe scaffolding, extension ladders, and protective containment erected across front porch steps during winter freeze."
+        },
+        {
+          "src": "images/projects/IMG_5881.webp",
+          "title": "Rafter & Collar Tie Framing",
+          "caption": "Attic-level structural roof framing and dimensional rafter ties securing the front entry portico gable."
+        },
+        {
+          "src": "images/projects/exterior_remodel_5934.webp",
+          "title": "Exterior Entry Portico Complete",
+          "caption": "Finished portico overhang with rigid weather barrier, structural timber ties, and complete water redirection."
+        }
+      ]
+    },
+    {
+      "id": "decks",
+      "title": "Custom Composite Deck, Stairs & Heavy Timber Substructure",
+      "category": "decks",
+      "categoryLabel": "Outdoor Living",
+      "trade": "decks",
+      "tag": "Outdoor Living • 5 Captures",
+      "lead": "Below-frost concrete footings, treated timber carrying beams, custom-cut stair stringers, low-maintenance composite surface, and rigid code-compliant railing.",
+      "slides": [
+        {
+          "src": "images/projects/composite_deck_construction.jpg",
+          "title": "Composite Decking & Hidden Fasteners",
+          "caption": "Maintenance-free grooved composite deck boards installed with hidden clip fasteners and clean border picture framing."
+        },
+        {
+          "src": "images/projects/deck_wide_elevation.webp",
+          "title": "Elevated Deck Full Elevation",
+          "caption": "Continuous beam bearing, galvanized joist hangers, and seamless yard access transitions."
+        },
+        {
+          "src": "images/projects/deck_corner_railing.webp",
+          "title": "Structural Corner Posts & Railing Integration",
+          "caption": "Rigid aluminum and composite railing posts through-bolted to exterior rim joists for code-compliant strength."
+        },
+        {
+          "src": "images/projects/deck_stair_install.webp",
+          "title": "Treated 2x12 Stair Stringer Framing",
+          "caption": "Custom-cut pressure-treated 2x12 stair stringers with uniform 7-inch rise and 11-inch run geometry."
+        },
+        {
+          "src": "images/projects/deck_finished_stairs.webp",
+          "title": "Finished Composite Treads & Wrapped Risers",
+          "caption": "Enclosed composite stair treads with clean mitered fascia returns and integrated safety grip rails."
+        }
+      ]
+    },
+    {
+      "id": "navy_residence",
+      "title": "Navy Multi-Gable Craftsman & Stone Veneer Water Table",
+      "category": "siding",
+      "categoryLabel": "Exterior Craftsmanship",
+      "trade": "siding",
+      "tag": "Custom Exterior • 2 Captures",
+      "lead": "Custom multi-gable residence featuring navy blue horizontal lap siding, vertical board-and-batten, manufactured stone veneer water table, and double garage.",
+      "slides": [
+        {
+          "src": "images/projects/IMG_3142.webp",
+          "title": "Full Elevation & Stone Water Table",
+          "caption": "Completed multi-gable exterior with navy blue siding, vertical board-and-batten accents, and stone veneer wainscoting."
+        },
+        {
+          "src": "images/projects/IMG_3143.webp",
+          "title": "Architectural Gables & Garage Elevation",
+          "caption": "Winter view showing garage wing, shake gable accents, white casing trim, and dark brown panel garage doors."
+        }
+      ]
+    }
+  ]
+}
