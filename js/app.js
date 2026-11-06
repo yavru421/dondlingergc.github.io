@@ -1046,8 +1046,12 @@ function initChatSession() {
   return sid;
 }
 
+function toggleChatDropdown() {
+  toggleChatWindow();
+}
+
 function toggleChatWindow() {
-  const modal = document.getElementById('chat-modal');
+  const modal = document.getElementById('chat-dropdown') || document.getElementById('chat-modal');
   if (!modal) return;
 
   const isOpen = modal.style.display !== 'none';

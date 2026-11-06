@@ -15,11 +15,11 @@
   <meta property="og:image" content="images/projects/concrete_cooper_finished.webp">
 
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="css/style.css?v=3.0.0">
-  <script src="js/app.js?v=3.0.0" defer></script>
+  <link rel="stylesheet" href="css/style.css?v=3.1.0">
+  <script src="js/app.js?v=3.1.0" defer></script>
 </head>
 <body>
-  <div class="app-container">
+  <div class="app-container" style="position:relative;">
     <!-- Sticky App Header -->
     <header class="app-header">
       <div class="brand-wrap">
@@ -31,39 +31,29 @@
       </div>
 
       <div style="display:flex;align-items:center;gap:8px;">
-        <button class="trade-pill" style="padding:5px 10px;font-size:11px;" onclick="toggleChatWindow()" aria-label="Open Live Dispatch Chat">
-          <span>💬 Chat</span>
+        <!-- Prominent In-Your-Face Header Chat Trigger -->
+        <button id="header-chat-btn" class="btn-header-chat" onclick="toggleChatDropdown()" aria-label="Open Live Dispatch Chat">
+          <span class="chat-live-pulse"></span>
+          <span class="chat-btn-label">💬 Live Chat</span>
         </button>
+
         <a href="tel:7154593050" class="btn-header-call" aria-label="Call Dondlinger General Contracting">
           <span>📞 (715) 459-3050</span>
         </a>
       </div>
     </header>
 
-    <!-- Dynamic Breadcrumb Navigation Bar -->
-    <nav id="breadcrumb-bar" class="breadcrumb-bar" style="display:none;" aria-label="Breadcrumb Navigation"></nav>
-
-    <!-- Main Dynamic Interactive Stage -->
-    <main id="stage-view" role="main"></main>
-
-    <!-- 3-Way Floating Dispatch Chat Launcher -->
-    <div id="chat-launcher" class="chat-launcher" onclick="toggleChatWindow()" aria-label="Open 3-Way Live Dispatch Chat">
-      <span class="chat-icon">💬</span>
-      <span class="chat-launcher-text">Live Chat</span>
-      <span class="chat-pulse-dot"></span>
-    </div>
-
-    <!-- 3-Way Live Dispatch Chat Modal / Drawer -->
-    <div id="chat-modal" class="chat-modal" style="display:none;" role="dialog" aria-label="3-Way Live Dispatch Chat">
-      <div class="chat-modal-header">
+    <!-- Header Dropdown Chat Panel (Smooth Slide-Down Drawer) -->
+    <div id="chat-dropdown" class="chat-dropdown-panel" style="display:none;" role="dialog" aria-label="3-Way Live Dispatch Chat">
+      <div class="chat-dropdown-header">
         <div class="chat-header-info">
           <div class="chat-header-title">
             <span>DGC 3-Way Dispatch</span>
             <span class="chat-live-badge">🟢 LIVE</span>
           </div>
-          <div class="chat-header-sub">Client • DGC Dispatch • John Dondlinger (Owner)</div>
+          <div class="chat-header-sub">Client • Worker AI • John Dondlinger (Owner)</div>
         </div>
-        <button class="chat-close-btn" onclick="toggleChatWindow()" aria-label="Close Chat">✕</button>
+        <button class="chat-close-btn" onclick="toggleChatDropdown()" aria-label="Close Chat">✕</button>
       </div>
 
       <div id="chat-messages-container" class="chat-messages-container">
@@ -71,12 +61,18 @@
       </div>
 
       <form id="chat-input-form" class="chat-input-form" onsubmit="handleChatSend(event)">
-        <input type="text" id="chat-input-field" class="chat-input-field" placeholder="Ask John or team about your project..." autocomplete="off" required>
+        <input type="text" id="chat-input-field" class="chat-input-field" placeholder="Ask John or crew about your project..." autocomplete="off" required>
         <button type="submit" id="chat-send-btn" class="chat-send-btn" aria-label="Send Message">
           <span>➤</span>
         </button>
       </form>
     </div>
+
+    <!-- Dynamic Breadcrumb Navigation Bar -->
+    <nav id="breadcrumb-bar" class="breadcrumb-bar" style="display:none;" aria-label="Breadcrumb Navigation"></nav>
+
+    <!-- Main Dynamic Interactive Stage -->
+    <main id="stage-view" role="main"></main>
   </div>
 </body>
 </html>
