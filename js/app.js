@@ -150,8 +150,69 @@ function showRootView(updateHash = true) {
   const stage = document.getElementById('stage-view');
   stage.innerHTML = `
     <div class="view-stage">
-      <div class="menu-prompt">
-        <span>⚡ Quick Access Gateway</span>
+      <!-- High-Signal Contractor Hero Card -->
+      <section class="contractor-hero-card" aria-label="Contractor Overview">
+        <div class="hero-status-pill">
+          <span class="live-pulse"></span>
+          <span>WISCONSIN SPS 321 CERTIFIED DWELLING CONTRACTOR</span>
+        </div>
+        
+        <h1 class="hero-main-title">
+          Built for Central Wisconsin.<br>
+          <span class="text-green">Grounded in Physical Proof.</span>
+        </h1>
+        
+        <p class="hero-body-text">
+          Owner-operated contracting by <strong>John Dondlinger</strong>. We deliver commercial & residential <strong>4,000 PSI concrete flatwork</strong>, <strong>structural framing & additions</strong>, <strong>Level 4/5 drywall</strong>, <strong>remodels</strong>, and <strong>exterior envelope builds</strong> across Wisconsin Rapids, Stevens Point, and Wood County.
+        </p>
+
+        <div class="hero-trust-grid">
+          <div class="trust-badge">
+            <span class="trust-icon">📍</span>
+            <span>Wood & Portage Counties</span>
+          </div>
+          <div class="trust-badge">
+            <span class="trust-icon">📐</span>
+            <span>100% Authentic Photos</span>
+          </div>
+          <div class="trust-badge">
+            <span class="trust-icon">⚡</span>
+            <span>Direct Owner Access</span>
+          </div>
+          <div class="trust-badge">
+            <span class="trust-icon">🛡️</span>
+            <span>Zero Sales Middlemen</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5-Trade Quick Jump Strip -->
+      <section class="trades-jump-section" aria-label="Trade Disciplines Quick Access">
+        <div class="section-label-strip">
+          <span>Jump Directly to Trade Proof:</span>
+        </div>
+        <div class="trade-pills-scroll">
+          <a href="#work/concrete" class="trade-pill" onclick="showTradeView('concrete')">
+            <span>🧱</span> Concrete
+          </a>
+          <a href="#work/drywall" class="trade-pill" onclick="showTradeView('drywall')">
+            <span>📐</span> Drywall
+          </a>
+          <a href="#work/framing" class="trade-pill" onclick="showTradeView('framing')">
+            <span>🏗️</span> Framing
+          </a>
+          <a href="#work/remodels" class="trade-pill" onclick="showTradeView('remodels')">
+            <span>🔨</span> Remodels
+          </a>
+          <a href="#work/roofing" class="trade-pill" onclick="showTradeView('roofing')">
+            <span>🛡️</span> Roofing
+          </a>
+        </div>
+      </section>
+
+      <!-- 3-Gateway Action Pathways -->
+      <div class="menu-prompt" style="margin-top:4px;">
+        <span>⚡ Action Pathways</span>
       </div>
 
       <a href="#work" class="tactile-card-btn" onclick="showWorkCategoriesView()">
@@ -159,7 +220,7 @@ function showRootView(updateHash = true) {
           <div class="card-icon">🔨</div>
           <div class="card-info">
             <span class="card-title">Work & Projects</span>
-            <span class="card-sub">Browse real before/after proof across our 5 core trades</span>
+            <span class="card-sub">Browse authentic before/after proof & job specs across our 5 trades</span>
           </div>
         </div>
         <span class="card-arrow">→</span>
@@ -170,7 +231,7 @@ function showRootView(updateHash = true) {
           <div class="card-icon">💰</div>
           <div class="card-info">
             <span class="card-title">Estimations</span>
-            <span class="card-sub">Instant Central WI ballpark sliders & 1-step written quotes</span>
+            <span class="card-sub">Interactive square footage sliders & transparent ballpark pricing</span>
           </div>
         </div>
         <span class="card-arrow">→</span>
@@ -180,17 +241,22 @@ function showRootView(updateHash = true) {
         <div class="btn-left">
           <div class="card-icon">📞</div>
           <div class="card-info">
-            <span class="card-title">Contact</span>
-            <span class="card-sub">Direct phone, text, service area & instant dispatch</span>
+            <span class="card-title">Contact & Dispatch</span>
+            <span class="card-sub">Direct call, text, or instant plan & photo submission to John's phone</span>
           </div>
         </div>
         <span class="card-arrow">→</span>
       </a>
 
       <!-- Quick Call Direct Strip -->
-      <div style="margin-top:10px;padding:14px;background:#0d0d0d;border:1px solid var(--border-subtle);border-radius:var(--radius-md);text-align:center;">
-        <span style="font-size:12px;color:var(--text-muted);">Ready to talk now? </span>
-        <a href="tel:7154593050" style="font-size:13px;font-weight:800;color:var(--accent-green);text-decoration:none;">Call John at (715) 459-3050</a>
+      <div class="quick-call-strip">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Have a project starting in Central Wisconsin?</div>
+        <a href="tel:7154593050" class="btn-direct-dial">
+          <span>📞 Call or Text John Directly: (715) 459-3050</span>
+        </a>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:10px;line-height:1.4;">
+          🛡️ Licensed, insured & personally built on every jobsite. Zero sales reps, zero middleman markups.
+        </div>
       </div>
     </div>
   `;
