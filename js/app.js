@@ -77,7 +77,7 @@ const ESTIMATE_CONFIGS = {
 // Initialize App
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const res = await fetch('data/projects.json');
+    const res = await fetch('data/projects.json?v=2.1.0');
     appData = await res.json();
   } catch (e) {
     console.warn('Projects data fallback notice:', e);
