@@ -1,83 +1,251 @@
 // ==========================================================================
-// DONDLINGER GENERAL CONTRACTING — 3-GATEWAY DECISION TREE ENGINE
+// DONDLINGER GENERAL CONTRACTING — 3-GATEWAY DECISION TREE ENGINE (v3.0.0)
+// Authentic Proof, Turnkey Packages, and 3-Way Telegram Dispatch Bridge
 // ==========================================================================
 
 let appData = null;
 let currentView = 'root'; // 'root' | 'work' | 'trade' | 'estimations' | 'contact'
 let selectedTradeId = null;
-let currentSliderTrade = 'concrete';
+let currentPackageTrade = 'concrete';
 let selectedPhotos = [];
 const slideIndices = {}; // projectId -> currentSlideIndex
 
-// Trade Ballpark Configurations for Estimator
-const ESTIMATE_CONFIGS = {
+// 3-Way Live Chat State
+let chatPollingInterval = null;
+let lastChatTimestamp = 0;
+let chatMessagesList = [];
+
+// ==========================================================================
+// TURNKEY PACKAGES REPLACING GENERIC SLIDERS (A : B :: C : D*)
+// Grounded in Central Wisconsin Historical Takeoffs and Supplier Economics
+// ==========================================================================
+const TURNKEY_PACKAGES = {
   concrete: {
-    tag: '4,000 PSI Concrete Flatwork',
-    unit: 'Sq Ft',
-    min: 150, max: 2500, step: 25, defaultVal: 450,
-    rateMin: 9.00, rateMax: 14.50,
-    notes: [
-      '4,000 PSI Badgerland ready-mix with 6% air-entrainment',
-      '4" compacted dense-graded granular base (DGB)',
-      'Epoxied #4 rebar pinning into foundation & diamond saw-cut joints',
-      'Site excavation, forming, and non-slip brushed broom finish'
+    tradeName: 'Concrete Flatwork',
+    packages: [
+      {
+        id: 'curved-walkway-retaining',
+        title: 'Curved Entry Walkway & Dry-Stack Stone Wall Reset',
+        tag: 'Authentic Cooper Job Baseline',
+        price: '$3,200 – $5,400 turnkey',
+        featured: true,
+        specs: [
+          '4,000 PSI Badgerland ready-mix with 6% air-entrainment',
+          '4" mechanically compacted dense-graded granular base (DGB)',
+          'Epoxied #4 structural rebar dowels pinned directly into foundation',
+          'Hand-tooled control joints grooved during the pour (zero saw cuts)',
+          'Uniform non-slip brushed broom texture with clean edged border margins',
+          'Landscape retaining wall dismantled and rebuilt plumb to new grade'
+        ]
+      },
+      {
+        id: 'garage-apron-patio',
+        title: '2-Car Garage Apron & Patio Repour (400–550 sq ft)',
+        tag: 'Central Wisconsin Standard',
+        price: '$4,500 – $7,200 turnkey',
+        featured: false,
+        specs: [
+          'Tear-out and haul-away of cracked, heaved existing slab',
+          'Laser subgrade leveling with compacted crushed rock base',
+          'Heavy #4 rebar grid pinned into garage foundation stem wall',
+          '4,000 PSI exterior mix with fiber reinforcement and air entrainment',
+          'Deep hand-tooled relief grooves cut wet to prevent frost heave fractures'
+        ]
+      },
+      {
+        id: 'full-driveway-replacement',
+        title: 'Complete 2-Car Driveway Replacement (700–1,100 sq ft)',
+        tag: 'Heavy Vehicle Loading',
+        price: '$8,500 – $14,500 turnkey',
+        featured: false,
+        specs: [
+          'Full mechanical excavation down to stable subgrade',
+          'Heavy 5" compacted gravel substrate with drainage pitch away from structure',
+          'Expansion isolation joints along garage slab and sidewalk interfaces',
+          'Continuous steel rebar grid tied on chairs for mid-slab placement',
+          'Architectural broom finish with sealed edges and curing protection'
+        ]
+      }
     ]
   },
   decks: {
-    tag: 'Custom Decks & Heavy Stairs',
-    unit: 'Sq Ft',
-    min: 100, max: 800, step: 20, defaultVal: 240,
-    rateMin: 38.00, rateMax: 75.00,
-    notes: [
-      '48" below-frost concrete footings with galvanized Simpson anchors',
-      'Treated 2x10 joists on heavy 6x6 post carrying beams',
-      'Trex / TimberTech composite decking with hidden clip fasteners',
-      'Rigid code-compliant railings and custom 2x12 stair stringers'
+    tradeName: 'Custom Decks & Heavy Stairs',
+    packages: [
+      {
+        id: 'stair-stringer-rebuild',
+        title: 'Custom 2x12 Treated Stair Stringers & Landings',
+        tag: '8820 Lake Road Baseline',
+        price: '$2,400 – $4,200 turnkey',
+        featured: true,
+        specs: [
+          'Precision-cut pressure-treated 2x12 stair stringers',
+          'Uniform 7-inch rise and 11-inch run code-compliant geometry',
+          'Composite treads with concealed clip fasteners (no surface screws)',
+          'Enclosed weather-resistant risers and solid timber support blocking',
+          'Rigid through-bolted 4x4 railing posts with continuous graspable handrail'
+        ]
+      },
+      {
+        id: 'turnkey-composite-deck',
+        title: 'Turnkey 12x16 Composite Deck with Railings',
+        tag: 'Low-Maintenance Outdoor Living',
+        price: '$11,000 – $18,000 turnkey',
+        featured: false,
+        specs: [
+          '48" below-frost concrete piers with galvanized Simpson post anchors',
+          'Treated 2x10 joist framing supported on heavy 6x6 carrying beams',
+          'Trex or TimberTech capped composite surface decking in choice of finish',
+          'Hidden clip fastening system with picture-frame perimeter border',
+          'Powder-coated aluminum or composite railing system with code spacing'
+        ]
+      },
+      {
+        id: 'deck-reface-posts',
+        title: 'Substructure Audit, Deck Board Reface & New Railings',
+        tag: 'Substructure Preservation',
+        price: '$6,500 – $11,500 turnkey',
+        featured: false,
+        specs: [
+          'Structural inspection of existing joists, ledger board, and flashing',
+          'Replacement of failing timber members and added joist tape protection',
+          'New composite or treated surface decking installed with hidden fasteners',
+          'Heavy railing post upgrades and custom stair tie-in'
+        ]
+      }
     ]
   },
   framing: {
-    tag: 'Additions & Garages Shell Framing',
-    unit: 'Sq Ft',
-    min: 200, max: 1500, step: 50, defaultVal: 400,
-    rateMin: 180.00, rateMax: 290.00,
-    notes: [
-      'Wisconsin SPS 321 Uniform Dwelling Code structural compliance',
-      'LP WeatherLogic air and water barrier sheathing with taped seams',
-      'Engineered LVL floor carrying beams and window/door headers',
-      'Factory-engineered roof truss system with hurricane ties'
-    ]
-  },
-  roofing: {
-    tag: 'Steep-Slope Shingle Tear-Off & Reshingle',
-    unit: 'Squares (100 Sq Ft)',
-    min: 8, max: 40, step: 1, defaultVal: 15,
-    rateMin: 450.00, rateMax: 650.00,
-    notes: [
-      'Complete tear-off down to sound decking with nail inspection',
-      'Owens Corning Duration SureNail architectural shingles',
-      'Self-adhering ice & water shield at eaves, valleys, and sidewalls',
-      'High-performance synthetic underlayment & new drip edge'
+    tradeName: 'Structural Framing & Additions',
+    packages: [
+      {
+        id: 'two-story-addition-shell',
+        title: 'Two-Story Residential Addition & Shell Enclosure',
+        tag: 'Dickman Addition Baseline',
+        price: '$180 – $310 / sq ft turnkey shell',
+        featured: true,
+        specs: [
+          'Wisconsin SPS 321 Uniform Dwelling Code structural compliance',
+          'Treated mudsill tie-in with engineered sill seal into foundation',
+          'Engineered multi-ply LVL floor carrying beams and heavy door headers',
+          '2x6 exterior wall framing at 16" O.C. for maximum insulation cavity',
+          'LP WeatherLogic air and water barrier sheathing with taped seams',
+          'Towable spider boom lift staging for safe two-story access'
+        ]
+      },
+      {
+        id: 'roof-truss-valley-tiein',
+        title: 'Engineered Roof Truss System & Valley Framing Tie-In',
+        tag: 'Roof Geometry Tie-In',
+        price: '$15 – $28 / sq ft framing package',
+        featured: false,
+        specs: [
+          'Factory-engineered clear-span roof trusses stamped for Central WI snow loads',
+          'Simpson Strong-Tie hurricane ties at every plate connection',
+          'Gable ladder framing and engineered valley layover tied into existing roofline',
+          'Heavy 5/8" CDX roof decking with H-clips and edge spacing'
+        ]
+      },
+      {
+        id: 'detached-garage-shell',
+        title: 'Detached 24x24 2-Car Garage Shell Framing',
+        tag: 'Turnkey Outbuilding Shell',
+        price: '$26,000 – $44,000 turnkey shell',
+        featured: false,
+        specs: [
+          'Anchor bolted treated sole plates onto cured concrete slab',
+          '2x4 exterior wall framing with double top plates and corner bracing',
+          'Engineered 24-ft span storage trusses with 4/12 pitch',
+          'Weather-resistant wall and roof sheathing ready for siding and shingles'
+        ]
+      }
     ]
   },
   remodels: {
-    tag: 'Kitchen & Bath Overhauls',
-    unit: 'Project Scale',
-    min: 1, max: 4, step: 1, defaultVal: 1,
-    customLabels: { 1: 'Half Bath / Vanity', 2: 'Full Bath Overhaul', 3: 'Master Suite', 4: 'Kitchen Remodel' },
-    customRanges: { 1: '$1,800 – $3,500', 2: '$6,500 – $12,000', 3: '$12,000 – $22,000', 4: '$18,000 – $35,000' },
-    notes: [
-      'In-wall plumbing relocation, GFCI electrical, and subfloor prep',
-      'Moisture-resistant Sheetrock with 3-coat paint-ready finish',
-      'Turnkey vanity, shower/tub, and fixture trim-out',
-      'Dynamic high-pressure leak testing prior to close-out'
+    tradeName: 'Remodels & Carpentry',
+    packages: [
+      {
+        id: 'portico-rot-rebuild',
+        title: 'Front Porch Rot Teardown & Portico Rebuild',
+        tag: 'Winter Overhaul Baseline',
+        price: '$3,800 – $7,200 turnkey',
+        featured: true,
+        specs: [
+          'Structural temporary shoring installed during winter freeze',
+          'Surgical demolition of rotted load-bearing overhang beams and decayed rafters',
+          'Treated structural support posts and rebuilt gable pediment framing',
+          'R-Matte Plus-3 rigid foam continuous insulation barrier',
+          'Rafter collar ties, fascia wraps, and sealed weather envelope'
+        ]
+      },
+      {
+        id: 'bathroom-complete-overhaul',
+        title: 'Complete Bathroom Overhaul & Tile/Tub Trim-Out',
+        tag: 'Turnkey Plumbing & Finishes',
+        price: '$6,500 – $14,000 turnkey',
+        featured: false,
+        specs: [
+          'Subfloor demolition, leveling, and structural moisture inspection',
+          'Plumbing rough-ins and GFCI electrical relocation',
+          'Moisture-resistant Sheetrock with smooth Level 4 paint-ready skim',
+          'Custom walk-in shower or tub surround with waterproof membrane',
+          'Turnkey vanity, faucet, toilet, and fixture installation'
+        ]
+      },
+      {
+        id: 'commercial-interior-remodel',
+        title: 'Commercial Interior Framing & Demolition',
+        tag: 'Elks Club Baseline',
+        price: '$6,500 – $18,000 commercial package',
+        featured: false,
+        specs: [
+          'Dust-containment barriers and safety barricades',
+          'Interior partition demolition down to structural frame',
+          'Heavy commercial steel and timber stud modifications',
+          'Subfloor leveling and mechanical rough-in coordination'
+        ]
+      }
+    ]
+  },
+  siding: {
+    tradeName: 'Siding, Windows & Trim',
+    packages: [
+      {
+        id: 'two-story-siding-envelope',
+        title: 'Two-Story Siding Tear-Off & Exterior Envelope Wrap',
+        tag: 'Central Wisconsin Whole-House',
+        price: '$14,000 – $24,000 turnkey',
+        featured: true,
+        specs: [
+          'Complete exterior siding stripped down to sound substrate',
+          'Continuous silver foil-faced rigid insulation or housewrap barrier',
+          'Durable lap siding with wide corner trim posts',
+          'On-site precision 10-ft aluminum brake-metal window casing wraps',
+          'Continuous perforated vinyl soffit panels and aluminum fascia wraps'
+        ]
+      },
+      {
+        id: 'brake-metal-scalloped-gables',
+        title: 'On-Site 10-ft Brake Metal & Scalloped Shake Gables',
+        tag: 'Custom Architectural Trim',
+        price: '$3,500 – $6,500 gable & trim overhaul',
+        featured: false,
+        specs: [
+          'On-site aluminum sheet metal bending on 10-foot brake',
+          'Hemmed casing wrap around replacement windows with polyurethane weather seal',
+          'Decorative scalloped shake siding accenting upper gables',
+          'Integrated J-channel trim and drip edge protection'
+        ]
+      }
     ]
   }
 };
 
-// Initialize App
+// ==========================================================================
+// APP INITIALIZATION
+// ==========================================================================
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const res = await fetch('data/projects.json?v=2.1.0');
+    const res = await fetch('data/projects.json?v=3.0.0');
     appData = await res.json();
   } catch (e) {
     console.warn('Projects data fallback notice:', e);
@@ -86,6 +254,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Handle URL hash navigation
   window.addEventListener('hashchange', handleHashRouting);
   handleHashRouting();
+
+  // Initialize Chat Session ID
+  initChatSession();
 });
 
 // Hash Routing
@@ -109,9 +280,8 @@ function handleHashRouting() {
 }
 
 // --------------------------------------------------------------------------
-// VIEW RENDERERS
+// BREADCRUMBS
 // --------------------------------------------------------------------------
-
 function renderBreadcrumb(crumbs) {
   const bar = document.getElementById('breadcrumb-bar');
   if (!crumbs || crumbs.length === 0) {
@@ -141,7 +311,9 @@ function goBackCrumb() {
   }
 }
 
-// 1. Root Gateway View
+// ==========================================================================
+// 1. ROOT GATEWAY VIEW
+// ==========================================================================
 function showRootView(updateHash = true) {
   currentView = 'root';
   if (updateHash) window.location.hash = '#root';
@@ -163,10 +335,19 @@ function showRootView(updateHash = true) {
         </h1>
         
         <p class="hero-body-text">
-          Owner-operated contracting by <strong>John Dondlinger</strong>. We deliver commercial & residential <strong>4,000 PSI concrete flatwork</strong>, <strong>structural framing & additions</strong>, <strong>Level 4/5 drywall</strong>, <strong>remodels</strong>, and <strong>exterior envelope builds</strong> across Wisconsin Rapids, Stevens Point, and Wood County.
+          Owner-operated contracting by <strong>John Dondlinger</strong>. We deliver commercial & residential <strong>4,000 PSI concrete flatwork</strong> (hand-tooled joints, zero saw cuts), <strong>structural framing & additions</strong>, <strong>Level 4/5 drywall & soffits</strong>, <strong>custom decks</strong>, and <strong>remodels</strong> across Wisconsin Rapids, Stevens Point, and Wood County.
         </p>
 
-        <div class="hero-trust-grid">
+        <!-- Authentic Jobsite Featured Image -->
+        <div class="hero-media-wrapper">
+          <img src="images/projects/concrete_cooper_finished.webp" alt="Poured Curved Walkway and Retaining Wall - Wisconsin Rapids" class="hero-featured-image" loading="eager">
+          <div class="hero-image-overlay">
+            <span class="hero-badge-tag">AUTHENTIC CRAFTSMANSHIP PROOF</span>
+            <span class="hero-badge-loc">📍 Wisconsin Rapids • 4,000 PSI Poured Walkway & Reset Wall</span>
+          </div>
+        </div>
+
+        <div class="hero-trust-grid" style="margin-top:10px;">
           <div class="trust-badge">
             <span class="trust-icon">📍</span>
             <span>Wood & Portage Counties</span>
@@ -186,6 +367,78 @@ function showRootView(updateHash = true) {
         </div>
       </section>
 
+      <!-- Inline Service Area Map -->
+      <section class="service-map-card" aria-label="Central Wisconsin Service Territory">
+        <div class="service-map-header">
+          <span>Service Area Coverage:</span>
+          <span class="service-map-badge">Wood & Portage Counties • 0 Trip Fees</span>
+        </div>
+        
+        <!-- Deterministic SVG Map -->
+        <svg class="service-area-svg" viewBox="0 0 500 240" xmlns="http://www.w3.org/2000/svg">
+          <rect width="500" height="240" fill="#09090b" rx="8"/>
+          
+          <!-- County Boundaries (Subtle Grid) -->
+          <path d="M 50 20 L 250 20 L 250 220 L 50 220 Z" fill="none" stroke="#222" stroke-width="1.5" stroke-dasharray="4,4"/>
+          <text x="60" y="38" fill="#52525b" font-size="10" font-family="sans-serif" font-weight="700">WOOD COUNTY</text>
+          
+          <path d="M 250 20 L 450 20 L 450 220 L 250 220 Z" fill="none" stroke="#222" stroke-width="1.5" stroke-dasharray="4,4"/>
+          <text x="260" y="38" fill="#52525b" font-size="10" font-family="sans-serif" font-weight="700">PORTAGE COUNTY</text>
+
+          <!-- Primary Operating Radius Ring (Centered on Rapids) -->
+          <circle cx="210" cy="120" r="95" fill="rgba(34, 197, 94, 0.05)" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+          <!-- Wisconsin River Corridor -->
+          <path d="M 360 30 Q 300 80 230 110 T 190 170 T 180 230" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 360 30 Q 300 80 230 110 T 190 170 T 180 230" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="8,4" opacity="0.6"/>
+
+          <!-- Town Markers -->
+          <!-- Marshfield -->
+          <circle cx="100" cy="65" r="4.5" fill="#a1a1aa"/>
+          <text x="110" y="69" fill="#e4e4e7" font-size="11" font-weight="600" font-family="sans-serif">Marshfield</text>
+
+          <!-- Wisconsin Rapids (HQ HUB) -->
+          <circle cx="210" cy="120" r="7" fill="#22c55e"/>
+          <circle cx="210" cy="120" r="14" fill="none" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
+          <text x="135" y="142" fill="#22c55e" font-size="12" font-weight="800" font-family="sans-serif">★ Wisconsin Rapids (HQ)</text>
+
+          <!-- Port Edwards -->
+          <circle cx="185" cy="150" r="4" fill="#a1a1aa"/>
+          <text x="95" y="154" fill="#a1a1aa" font-size="10" font-family="sans-serif">Port Edwards</text>
+
+          <!-- Nekoosa -->
+          <circle cx="170" cy="180" r="4" fill="#a1a1aa"/>
+          <text x="115" y="184" fill="#a1a1aa" font-size="10" font-family="sans-serif">Nekoosa</text>
+
+          <!-- Stevens Point -->
+          <circle cx="340" cy="85" r="5.5" fill="#22c55e"/>
+          <text x="352" y="89" fill="#f4f4f5" font-size="12" font-weight="700" font-family="sans-serif">Stevens Point</text>
+
+          <!-- Plover -->
+          <circle cx="330" cy="115" r="4.5" fill="#a1a1aa"/>
+          <text x="342" y="119" fill="#e4e4e7" font-size="11" font-family="sans-serif">Plover</text>
+
+          <!-- Lake Wazeecha / Biron -->
+          <circle cx="245" cy="115" r="3.5" fill="#38bdf8"/>
+          <text x="254" y="119" fill="#38bdf8" font-size="9" font-family="sans-serif">Lk Wazeecha</text>
+
+          <!-- Rome / Lake Petenwell -->
+          <circle cx="190" cy="215" r="4" fill="#a1a1aa"/>
+          <text x="202" y="219" fill="#a1a1aa" font-size="10" font-family="sans-serif">Rome / Petenwell</text>
+        </svg>
+
+        <!-- Quick 1-Tap Town Selection Chips -->
+        <div class="town-chips-grid">
+          <span class="town-chip active" onclick="selectTownChip('Wisconsin Rapids')">📍 Wisconsin Rapids</span>
+          <span class="town-chip" onclick="selectTownChip('Stevens Point')">📍 Stevens Point</span>
+          <span class="town-chip" onclick="selectTownChip('Plover')">📍 Plover</span>
+          <span class="town-chip" onclick="selectTownChip('Port Edwards')">📍 Port Edwards</span>
+          <span class="town-chip" onclick="selectTownChip('Nekoosa')">📍 Nekoosa</span>
+          <span class="town-chip" onclick="selectTownChip('Marshfield')">📍 Marshfield</span>
+          <span class="town-chip" onclick="selectTownChip('Rome / Lakes')">📍 Rome / Lakes</span>
+        </div>
+      </section>
+
       <!-- 5-Trade Quick Jump Strip -->
       <section class="trades-jump-section" aria-label="Trade Disciplines Quick Access">
         <div class="section-label-strip">
@@ -201,18 +454,21 @@ function showRootView(updateHash = true) {
           <a href="#work/framing" class="trade-pill" onclick="showTradeView('framing')">
             <span>🏗️</span> Framing
           </a>
+          <a href="#work/decks" class="trade-pill" onclick="showTradeView('decks')">
+            <span>🪵</span> Decks
+          </a>
           <a href="#work/remodels" class="trade-pill" onclick="showTradeView('remodels')">
             <span>🔨</span> Remodels
           </a>
-          <a href="#work/roofing" class="trade-pill" onclick="showTradeView('roofing')">
-            <span>🛡️</span> Roofing
+          <a href="#work/siding" class="trade-pill" onclick="showTradeView('siding')">
+            <span>🏠</span> Siding
           </a>
         </div>
       </section>
 
       <!-- 3-Gateway Action Pathways -->
-      <div class="menu-prompt" style="margin-top:4px;">
-        <span>⚡ Action Pathways</span>
+      <div class="menu-prompt" style="margin-top:6px;">
+        <span>⚡ Action Gateways</span>
       </div>
 
       <a href="#work" class="tactile-card-btn" onclick="showWorkCategoriesView()">
@@ -220,7 +476,7 @@ function showRootView(updateHash = true) {
           <div class="card-icon">🔨</div>
           <div class="card-info">
             <span class="card-title">Work & Projects</span>
-            <span class="card-sub">Browse authentic before/after proof & job specs across our 5 trades</span>
+            <span class="card-sub">Real before/after photos & authentic jobsite video recordings</span>
           </div>
         </div>
         <span class="card-arrow">→</span>
@@ -230,8 +486,8 @@ function showRootView(updateHash = true) {
         <div class="btn-left">
           <div class="card-icon">💰</div>
           <div class="card-info">
-            <span class="card-title">Estimations</span>
-            <span class="card-sub">Interactive square footage sliders & transparent ballpark pricing</span>
+            <span class="card-title">Turnkey Estimations</span>
+            <span class="card-sub">Anchored packages & transparent pricing based on real Wisconsin jobs</span>
           </div>
         </div>
         <span class="card-arrow">→</span>
@@ -242,11 +498,23 @@ function showRootView(updateHash = true) {
           <div class="card-icon">📞</div>
           <div class="card-info">
             <span class="card-title">Contact & Dispatch</span>
-            <span class="card-sub">Direct call, text, or instant plan & photo submission to John's phone</span>
+            <span class="card-sub">Direct call, text, photo submission, or 3-way live dispatch chat</span>
           </div>
         </div>
         <span class="card-arrow">→</span>
       </a>
+
+      <!-- 3-Way Live Dispatch Banner -->
+      <div class="tactile-card-btn" style="border-color:rgba(34,197,94,0.4);background:#0a120a;cursor:pointer;" onclick="toggleChatWindow()">
+        <div class="btn-left">
+          <div class="card-icon">💬</div>
+          <div class="card-info">
+            <span class="card-title" style="color:var(--accent-green);">3-Way Live Dispatch Chat</span>
+            <span class="card-sub">Chat directly with John Dondlinger (Owner) & crew from your browser</span>
+          </div>
+        </div>
+        <span class="card-arrow" style="color:var(--accent-green);">⚡</span>
+      </div>
 
       <!-- Quick Call Direct Strip -->
       <div class="quick-call-strip">
@@ -262,7 +530,16 @@ function showRootView(updateHash = true) {
   `;
 }
 
-// 2. Work & Projects: 5 Core Trades
+function selectTownChip(town) {
+  const chips = document.querySelectorAll('.town-chip');
+  chips.forEach(c => {
+    c.classList.toggle('active', c.textContent.includes(town));
+  });
+}
+
+// ==========================================================================
+// 2. WORK CATEGORIES VIEW
+// ==========================================================================
 function showWorkCategoriesView(updateHash = true) {
   currentView = 'work';
   if (updateHash) window.location.hash = '#work';
@@ -300,7 +577,9 @@ function showWorkCategoriesView(updateHash = true) {
   stage.innerHTML = html;
 }
 
-// 3. Trade Detail View with Before/After Slideshows
+// ==========================================================================
+// 3. TRADE DETAIL VIEW WITH VIDEOS AND BEFORE/AFTER SLIDESHOWS
+// ==========================================================================
 function showTradeView(tradeId, updateHash = true) {
   currentView = 'trade';
   selectedTradeId = tradeId;
@@ -337,8 +616,23 @@ function showTradeView(tradeId, updateHash = true) {
           <div class="project-location">📍 ${proj.location}</div>
           <div class="project-scope">${proj.scope}</div>
         </div>
+    `;
 
-        <!-- Before & After Slideshow Container -->
+    // Authentic Jobsite Video Player (if video exists for this project)
+    if (proj.video) {
+      const posterSrc = (proj.slides && proj.slides[1]) ? proj.slides[1].src : '';
+      html += `
+        <div class="project-video-box">
+          <div class="video-header-tag">
+            <span>🎬 AUTHENTIC JOBSITE VIDEO RECORDING</span>
+          </div>
+          <video src="${proj.video}" controls playsinline preload="metadata" class="project-video-player" poster="${posterSrc}"></video>
+        </div>
+      `;
+    }
+
+    // Before & After Slideshow Container
+    html += `
         <div class="slideshow-wrap" id="slideshow-${proj.id}" 
              ontouchstart="handleTouchStart(event, '${proj.id}')" 
              ontouchend="handleTouchEnd(event, '${proj.id}')">
@@ -383,7 +677,7 @@ function showTradeView(tradeId, updateHash = true) {
           </div>
 
           <div class="project-actions">
-            <a href="#estimations" class="btn-action-quote" onclick="startQuoteForTrade('${tradeId}', '${encodeURIComponent(proj.title)}')">
+            <a href="#estimations" class="btn-action-quote" onclick="startQuoteForPackage('${tradeId}', '${encodeURIComponent(proj.title)}')">
               📷 Get Written Quote
             </a>
             <a href="sms:+17154593050?body=${encodeURIComponent('Hi John, I saw your ' + proj.title + ' project on your website. Can we talk about my job?')}" class="btn-action-text">
@@ -402,7 +696,6 @@ function showTradeView(tradeId, updateHash = true) {
 // --------------------------------------------------------------------------
 // SLIDESHOW CONTROLLER & TOUCH SWIPE MECHANICS
 // --------------------------------------------------------------------------
-
 function showSlide(projId, index) {
   const container = document.getElementById(`slideshow-${projId}`);
   if (!container) return;
@@ -447,57 +740,69 @@ function handleTouchEnd(e, projId) {
   }
 }
 
-// --------------------------------------------------------------------------
-// ESTIMATIONS VIEW & PRICING SLIDERS
-// --------------------------------------------------------------------------
-
+// ==========================================================================
+// 4. ESTIMATIONS VIEW & TURNKEY PACKAGES
+// ==========================================================================
 function showEstimationsView(updateHash = true) {
   currentView = 'estimations';
   if (updateHash) window.location.hash = '#estimations';
   renderBreadcrumb([
     { label: 'Home', hash: '#root' },
-    { label: 'Estimations', hash: '#estimations' }
+    { label: 'Turnkey Estimations', hash: '#estimations' }
   ]);
 
-  const cfg = ESTIMATE_CONFIGS[currentSliderTrade];
+  const tradeData = TURNKEY_PACKAGES[currentPackageTrade] || TURNKEY_PACKAGES.concrete;
   const stage = document.getElementById('stage-view');
 
-  stage.innerHTML = `
+  let html = `
     <div class="view-stage">
       <div class="estimator-panel">
         <div style="font-size:13px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">
-          Step 1: Choose Trade
+          Step 1: Select Trade Discipline
         </div>
 
         <div class="trade-pill-selector">
-          <button class="trade-pill ${currentSliderTrade === 'concrete' ? 'active' : ''}" onclick="selectEstimateTrade('concrete')">🧱 Concrete</button>
-          <button class="trade-pill ${currentSliderTrade === 'decks' ? 'active' : ''}" onclick="selectEstimateTrade('decks')">🪵 Decks</button>
-          <button class="trade-pill ${currentSliderTrade === 'framing' ? 'active' : ''}" onclick="selectEstimateTrade('framing')">🏗️ Framing</button>
-          <button class="trade-pill ${currentSliderTrade === 'roofing' ? 'active' : ''}" onclick="selectEstimateTrade('roofing')">🛡️ Roofing</button>
-          <button class="trade-pill ${currentSliderTrade === 'remodels' ? 'active' : ''}" onclick="selectEstimateTrade('remodels')">🔨 Remodels</button>
+          <button class="trade-pill ${currentPackageTrade === 'concrete' ? 'active' : ''}" onclick="selectPackageTrade('concrete')">🧱 Concrete</button>
+          <button class="trade-pill ${currentPackageTrade === 'decks' ? 'active' : ''}" onclick="selectPackageTrade('decks')">🪵 Decks</button>
+          <button class="trade-pill ${currentPackageTrade === 'framing' ? 'active' : ''}" onclick="selectPackageTrade('framing')">🏗️ Framing</button>
+          <button class="trade-pill ${currentPackageTrade === 'remodels' ? 'active' : ''}" onclick="selectPackageTrade('remodels')">🔨 Remodels</button>
+          <button class="trade-pill ${currentPackageTrade === 'siding' ? 'active' : ''}" onclick="selectPackageTrade('siding')">🏠 Siding</button>
         </div>
 
-        <div class="slider-container" id="slider-box">
-          <div class="slider-header">
-            <span id="slider-label-desc">${cfg.tag} Scope:</span>
-            <span class="slider-val-badge" id="slider-val-display">${cfg.defaultVal} ${cfg.unit}</span>
+        <div style="font-size:12.5px;color:var(--text-muted);margin-top:4px;">
+          Turnkey packages anchored to real Wisconsin jobs. No surprise material markups or travel fees.
+        </div>
+
+        <div class="packages-grid">
+  `;
+
+  tradeData.packages.forEach(pkg => {
+    html += `
+      <div class="package-card ${pkg.featured ? 'featured' : ''}" id="pkg-${pkg.id}">
+        <div class="package-top">
+          <div>
+            <div class="package-title">${pkg.title}</div>
+            <div class="package-price">${pkg.price}</div>
           </div>
-          <input type="range" id="scope-slider" class="range-slider" 
-                 min="${cfg.min}" max="${cfg.max}" step="${cfg.step}" value="${cfg.defaultVal}" 
-                 oninput="handleSliderChange()">
+          <span class="package-tag">${pkg.tag}</span>
         </div>
 
-        <div class="project-ballpark-tag" style="margin:0;">
-          <span class="ballpark-label">Estimated Turnkey Range</span>
-          <span class="ballpark-price" id="calc-price-display">$0</span>
-        </div>
-
-        <ul class="specs-list" id="calc-inclusions-list" style="margin:0;">
-          ${cfg.notes.map(n => `<li><span class="spec-check">✓</span> <span>${n}</span></li>`).join('')}
+        <ul class="package-specs">
+          ${pkg.specs.map(s => `<li><span class="spec-check">✓</span> <span>${s}</span></li>`).join('')}
         </ul>
 
+        <button class="btn-select-package" onclick="choosePackage('${pkg.id}', '${encodeURIComponent(pkg.title)}')">
+          📷 Select & Request Written Quote
+        </button>
+      </div>
+    `;
+  });
+
+  html += `
+        </div>
+
         <!-- PourReady Kiosk Link -->
-        <a href="https://calc.dondlingergc.com" target="_blank" rel="noopener" class="pourready-banner">
+        <a href="https://calc.dondlingergc.com" target="_blank" rel="noopener" class="pourready-banner" style="margin-top:14px;">
           <div>
             <div style="font-size:14px;font-weight:800;color:#f97316;">🧱 Launch PourReady™ Concrete Volume Calculator</div>
             <div style="font-size:11px;color:#a1a1aa;margin-top:2px;">Calculate exact cubic yards for slabs, footings, and walls (calc.dondlingergc.com)</div>
@@ -522,9 +827,21 @@ function showEstimationsView(updateHash = true) {
           <div class="form-group">
             <input type="text" id="leadContact" class="form-input" placeholder="Phone Number or Email (Required) *" required>
           </div>
+          
           <div class="form-group">
-            <input type="text" id="leadCity" class="form-input" placeholder="City or Township (e.g. Wisconsin Rapids, Stevens Point)">
+            <div style="font-size:11.5px;color:var(--text-muted);margin-bottom:4px;">Township / Location:</div>
+            <div class="town-chips-grid" style="margin-bottom:6px;">
+              <span class="town-chip" onclick="setLeadCity('Wisconsin Rapids')">Wisconsin Rapids</span>
+              <span class="town-chip" onclick="setLeadCity('Stevens Point')">Stevens Point</span>
+              <span class="town-chip" onclick="setLeadCity('Plover')">Plover</span>
+              <span class="town-chip" onclick="setLeadCity('Port Edwards')">Port Edwards</span>
+              <span class="town-chip" onclick="setLeadCity('Nekoosa')">Nekoosa</span>
+              <span class="town-chip" onclick="setLeadCity('Marshfield')">Marshfield</span>
+              <span class="town-chip" onclick="setLeadCity('Other Central WI')">Other</span>
+            </div>
+            <input type="text" id="leadCity" class="form-input" placeholder="City or Township (e.g. Wisconsin Rapids)">
           </div>
+
           <div class="form-group">
             <textarea id="leadNotes" class="form-input" rows="2" placeholder="Brief project notes (e.g. 2-car garage apron replacement, back deck)..."></textarea>
           </div>
@@ -545,58 +862,38 @@ function showEstimationsView(updateHash = true) {
     </div>
   `;
 
-  calculateCurrentPrice();
+  stage.innerHTML = html;
 }
 
-function selectEstimateTrade(tradeKey) {
-  currentSliderTrade = tradeKey;
+function selectPackageTrade(tradeKey) {
+  currentPackageTrade = tradeKey;
   showEstimationsView(false);
 }
 
-function startQuoteForTrade(tradeKey, projectTitle) {
-  currentSliderTrade = tradeKey;
+function choosePackage(pkgId, pkgTitle) {
+  const notes = document.getElementById('leadNotes');
+  if (notes) {
+    notes.value = `Interested in Package: ${decodeURIComponent(pkgTitle)}`;
+  }
+  const formSec = document.getElementById('quote-form-section');
+  if (formSec) {
+    formSec.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function startQuoteForPackage(tradeKey, projectTitle) {
+  currentPackageTrade = tradeKey;
   showEstimationsView(true);
   setTimeout(() => {
-    const notes = document.getElementById('leadNotes');
-    if (notes) {
-      notes.value = `Interested in: ${decodeURIComponent(projectTitle)}`;
-    }
-    const formSec = document.getElementById('quote-form-section');
-    if (formSec) formSec.scrollIntoView({ behavior: 'smooth' });
-  }, 100);
+    choosePackage(tradeKey, projectTitle);
+  }, 120);
 }
 
-function handleSliderChange() {
-  const slider = document.getElementById('scope-slider');
-  const valDisplay = document.getElementById('slider-val-display');
-  const cfg = ESTIMATE_CONFIGS[currentSliderTrade];
-
-  if (cfg.customLabels) {
-    valDisplay.textContent = cfg.customLabels[slider.value];
-  } else {
-    valDisplay.textContent = `${slider.value} ${cfg.unit}`;
+function setLeadCity(city) {
+  const input = document.getElementById('leadCity');
+  if (input) {
+    input.value = city;
   }
-
-  calculateCurrentPrice();
-}
-
-function calculateCurrentPrice() {
-  const cfg = ESTIMATE_CONFIGS[currentSliderTrade];
-  const slider = document.getElementById('scope-slider');
-  const priceDisplay = document.getElementById('calc-price-display');
-  if (!slider || !priceDisplay) return;
-
-  const val = parseInt(slider.value, 10);
-
-  if (cfg.customRanges) {
-    priceDisplay.textContent = cfg.customRanges[val];
-    return;
-  }
-
-  const low = Math.round((val * cfg.rateMin) / 50) * 50;
-  const high = Math.round((val * cfg.rateMax) / 50) * 50;
-
-  priceDisplay.textContent = `$${low.toLocaleString()} – $${high.toLocaleString()}`;
 }
 
 function handlePhotoUpload(e) {
@@ -629,10 +926,6 @@ async function handleLeadSubmit(e) {
   btn.disabled = true;
   btn.textContent = 'Submitting Request...';
 
-  const cfg = ESTIMATE_CONFIGS[currentSliderTrade];
-  const slider = document.getElementById('scope-slider');
-  const sliderVal = slider ? slider.value : '';
-  const priceRange = document.getElementById('calc-price-display')?.textContent || '';
   const name = document.getElementById('leadName')?.value.trim() || 'Website Client';
   const contact = document.getElementById('leadContact')?.value.trim();
   const city = document.getElementById('leadCity')?.value.trim() || 'Central Wisconsin';
@@ -642,11 +935,11 @@ async function handleLeadSubmit(e) {
 
   const formData = new FormData();
   formData.append('lead_type', 'client');
-  formData.append('origin', 'dondlingergc.com (3-Gateway Stealth Portal)');
+  formData.append('origin', 'dondlingergc.com (3-Gateway Portal v3.0)');
   formData.append('name', name);
   formData.append('contact', contact);
   formData.append('city', city);
-  formData.append('service', `${cfg.tag} (${sliderVal} ${cfg.unit}) — ${priceRange}`);
+  formData.append('service', `${currentPackageTrade} Turnkey Inquiry`);
   formData.append('notes', userNotes);
 
   selectedPhotos.forEach((file, idx) => {
@@ -674,16 +967,15 @@ async function handleLeadSubmit(e) {
   selectedPhotos = [];
 }
 
-// --------------------------------------------------------------------------
-// CONTACT VIEW
-// --------------------------------------------------------------------------
-
+// ==========================================================================
+// 5. CONTACT VIEW
+// ==========================================================================
 function showContactView(updateHash = true) {
   currentView = 'contact';
   if (updateHash) window.location.hash = '#contact';
   renderBreadcrumb([
     { label: 'Home', hash: '#root' },
-    { label: 'Contact', hash: '#contact' }
+    { label: 'Contact & Dispatch', hash: '#contact' }
   ]);
 
   const stage = document.getElementById('stage-view');
@@ -710,6 +1002,14 @@ function showContactView(updateHash = true) {
           </div>
         </a>
 
+        <div class="contact-card" style="cursor:pointer;border-color:rgba(34,197,94,0.4);background:#0a140a;" onclick="toggleChatWindow()">
+          <div class="contact-card-icon">⚡</div>
+          <div>
+            <div style="font-size:16px;font-weight:800;color:var(--accent-green);">3-Way Live Dispatch Chat</div>
+            <div style="font-size:12px;color:var(--text-muted);">Instant messaging with John & field team from this device</div>
+          </div>
+        </div>
+
         <a href="mailto:dondlingergeneralcontracting@gmail.com" class="contact-card">
           <div class="contact-card-icon">✉️</div>
           <div>
@@ -730,4 +1030,176 @@ function showContactView(updateHash = true) {
       </div>
     </div>
   `;
+}
+
+// ==========================================================================
+// 6. 3-WAY LIVE DISPATCH CHAT CONTROLLER
+// Client (Web) <-> Worker (Crew / AI Dispatch) <-> Owner (John via Telegram)
+// ==========================================================================
+
+function initChatSession() {
+  let sid = localStorage.getItem('dgc_chat_sid');
+  if (!sid) {
+    sid = 'sid_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
+    localStorage.setItem('dgc_chat_sid', sid);
+  }
+  return sid;
+}
+
+function toggleChatWindow() {
+  const modal = document.getElementById('chat-modal');
+  if (!modal) return;
+
+  const isOpen = modal.style.display !== 'none';
+  if (isOpen) {
+    modal.style.display = 'none';
+    if (chatPollingInterval) {
+      clearInterval(chatPollingInterval);
+      chatPollingInterval = null;
+    }
+  } else {
+    modal.style.display = 'flex';
+    fetchChatMessages();
+    const input = document.getElementById('chat-input-field');
+    if (input) setTimeout(() => input.focus(), 150);
+
+    // Poll for new messages every 3.5 seconds while open
+    if (!chatPollingInterval) {
+      chatPollingInterval = setInterval(fetchChatMessages, 3500);
+    }
+  }
+}
+
+async function fetchChatMessages() {
+  const sid = initChatSession();
+  try {
+    const res = await fetch(`/api/chat?sessionId=${encodeURIComponent(sid)}&after=${lastChatTimestamp}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.messages && data.messages.length > 0) {
+        let hasNew = false;
+        data.messages.forEach(msg => {
+          if (!chatMessagesList.some(m => m.id === msg.id)) {
+            chatMessagesList.push(msg);
+            if (msg.created_at > lastChatTimestamp) {
+              lastChatTimestamp = msg.created_at;
+            }
+            hasNew = true;
+          }
+        });
+        if (hasNew) renderChatUI();
+      } else if (chatMessagesList.length === 0) {
+        renderChatUI();
+      }
+    }
+  } catch (err) {
+    console.warn('Chat poll error:', err);
+    if (chatMessagesList.length === 0) renderChatUI();
+  }
+}
+
+function renderChatUI() {
+  const container = document.getElementById('chat-messages-container');
+  if (!container) return;
+
+  if (chatMessagesList.length === 0) {
+    container.innerHTML = `
+      <div class="chat-bubble worker">
+        <div class="chat-bubble-sender">👷 DGC Dispatch (Crew)</div>
+        <div>Welcome to Dondlinger General Contracting! You're connected to our live 3-way dispatch bridge. Ask any question about pricing, scheduling, or materials. John Dondlinger is alerted directly on his phone.</div>
+        <div class="chat-bubble-time">Live</div>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+  chatMessagesList.forEach(m => {
+    const roleClass = m.sender_role || 'worker';
+    let icon = '👷';
+    let roleLabel = m.sender_name || 'DGC Dispatch';
+
+    if (roleClass === 'client') {
+      icon = '👤';
+      roleLabel = 'You';
+    } else if (roleClass === 'owner') {
+      icon = '🛡️';
+      roleLabel = 'John Dondlinger (Owner)';
+    }
+
+    const timeStr = m.created_at ? new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+    html += `
+      <div class="chat-bubble ${roleClass}">
+        <div class="chat-bubble-sender">${icon} ${roleLabel}</div>
+        <div>${escapeHtml(m.message)}</div>
+        <div class="chat-bubble-time">${timeStr}</div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+  container.scrollTop = container.scrollHeight;
+}
+
+async function handleChatSend(e) {
+  e.preventDefault();
+  const input = document.getElementById('chat-input-field');
+  const sendBtn = document.getElementById('chat-send-btn');
+  if (!input) return;
+
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  sendBtn.disabled = true;
+
+  const sid = initChatSession();
+  const localMsg = {
+    id: 'local_' + Date.now(),
+    session_id: sid,
+    sender_role: 'client',
+    sender_name: 'You',
+    message: text,
+    created_at: Date.now()
+  };
+
+  chatMessagesList.push(localMsg);
+  renderChatUI();
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: sid,
+        name: 'Website Visitor',
+        message: text
+      })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.messages) {
+        chatMessagesList = data.messages;
+        if (data.messages.length > 0) {
+          lastChatTimestamp = data.messages[data.messages.length - 1].created_at;
+        }
+        renderChatUI();
+      }
+    }
+  } catch (err) {
+    console.warn('Send chat message error:', err);
+  } finally {
+    sendBtn.disabled = false;
+  }
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }

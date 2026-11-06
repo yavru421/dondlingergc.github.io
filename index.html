@@ -9,14 +9,14 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="Dondlinger GC | Central Wisconsin General Contractor">
-  <meta property="og:description" content="Drywall, Concrete Flatwork, Framing, Remodels, and Roofing. Real Wisconsin project proof and transparent ballpark pricing.">
+  <meta property="og:description" content="Drywall, Concrete Flatwork, Framing, Remodels, and Roofing. Real Wisconsin project proof, authentic jobsite videos, and transparent turnkey packages.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dondlingergc.com">
-  <meta property="og:image" content="images/projects/concrete_curved_wall_walkway.jpg">
+  <meta property="og:image" content="images/projects/concrete_cooper_finished.webp">
 
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="css/style.css?v=2.1.0">
-  <script src="js/app.js?v=2.1.0" defer></script>
+  <link rel="stylesheet" href="css/style.css?v=3.0.0">
+  <script src="js/app.js?v=3.0.0" defer></script>
 </head>
 <body>
   <div class="app-container">
@@ -30,9 +30,14 @@
         <span class="brand-territory">Central Wisconsin</span>
       </div>
 
-      <a href="tel:7154593050" class="btn-header-call" aria-label="Call Dondlinger General Contracting">
-        <span>📞 (715) 459-3050</span>
-      </a>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="trade-pill" style="padding:5px 10px;font-size:11px;" onclick="toggleChatWindow()" aria-label="Open Live Dispatch Chat">
+          <span>💬 Chat</span>
+        </button>
+        <a href="tel:7154593050" class="btn-header-call" aria-label="Call Dondlinger General Contracting">
+          <span>📞 (715) 459-3050</span>
+        </a>
+      </div>
     </header>
 
     <!-- Dynamic Breadcrumb Navigation Bar -->
@@ -40,6 +45,38 @@
 
     <!-- Main Dynamic Interactive Stage -->
     <main id="stage-view" role="main"></main>
+
+    <!-- 3-Way Floating Dispatch Chat Launcher -->
+    <div id="chat-launcher" class="chat-launcher" onclick="toggleChatWindow()" aria-label="Open 3-Way Live Dispatch Chat">
+      <span class="chat-icon">💬</span>
+      <span class="chat-launcher-text">Live Chat</span>
+      <span class="chat-pulse-dot"></span>
+    </div>
+
+    <!-- 3-Way Live Dispatch Chat Modal / Drawer -->
+    <div id="chat-modal" class="chat-modal" style="display:none;" role="dialog" aria-label="3-Way Live Dispatch Chat">
+      <div class="chat-modal-header">
+        <div class="chat-header-info">
+          <div class="chat-header-title">
+            <span>DGC 3-Way Dispatch</span>
+            <span class="chat-live-badge">🟢 LIVE</span>
+          </div>
+          <div class="chat-header-sub">Client • DGC Dispatch • John Dondlinger (Owner)</div>
+        </div>
+        <button class="chat-close-btn" onclick="toggleChatWindow()" aria-label="Close Chat">✕</button>
+      </div>
+
+      <div id="chat-messages-container" class="chat-messages-container">
+        <!-- Injected via app.js -->
+      </div>
+
+      <form id="chat-input-form" class="chat-input-form" onsubmit="handleChatSend(event)">
+        <input type="text" id="chat-input-field" class="chat-input-field" placeholder="Ask John or team about your project..." autocomplete="off" required>
+        <button type="submit" id="chat-send-btn" class="chat-send-btn" aria-label="Send Message">
+          <span>➤</span>
+        </button>
+      </form>
+    </div>
   </div>
 </body>
 </html>

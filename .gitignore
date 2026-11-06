@@ -78,9 +78,13 @@ TestScript/
 # Runtime state cache
 cooldown.json
 
-# Media & Videos (exceeds 25MiB Cloudflare Pages limit)
-videos/
-*.mp4
+# Media & Videos (large raw video files ignored, optimized web videos allowed)
+videos/*
+!videos/stevenspoint_sidewalk_v8.mp4
+!videos/deck_8820_lake_road.mp4
+!videos/two_story_addition_framing.mp4
+!videos/drywall_soffit_miller.mp4
+!videos/commercial_remodel_elks.mp4
 *.mkv
 *.avi
 

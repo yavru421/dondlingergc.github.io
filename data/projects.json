@@ -1,6 +1,6 @@
 {
-  "version": "2.1.0",
-  "updated_at": "2026-11-06T07:45:00-06:00",
+  "version": "3.0.0",
+  "updated_at": "2026-11-06T08:15:00-06:00",
   "contractor": "Dondlinger General Contracting LLC",
   "territory": "Central Wisconsin (Wisconsin Rapids, Stevens Point, Plover, Wood & Portage Counties)",
   "license": "Wisconsin SPS 321 Dwelling Contractor Certified",
@@ -14,86 +14,62 @@
       "id": "concrete",
       "name": "Concrete Flatwork",
       "icon": "🧱",
-      "tagline": "4,000 PSI air-entrained flatwork, compacted granular base, epoxied rebar dowels, and broom finishes.",
+      "tagline": "4,000 PSI air-entrained flatwork, compacted granular base, epoxied rebar dowels, and hand-tooled control joints grooved during the pour.",
+      "featured_video": "videos/stevenspoint_sidewalk_v8.mp4",
       "projects": [
         {
-          "id": "concrete-walkway-wall",
+          "id": "concrete-walkway-cooper",
           "title": "Curved Entry Walkway & Dry-Stack Stone Wall Reset",
           "location": "Wisconsin Rapids, WI (Cooper Job)",
-          "scope": "Subgrade excavation, laser grading, 4-inch compacted dense-graded granular base (DGB), poured curved sidewalk with epoxied rebar foundation pins, and landscape retaining wall reconstruction.",
+          "scope": "Subgrade excavation, laser grading, 4-inch compacted dense-graded granular base (DGB), poured curved sidewalk with epoxied rebar foundation pins, hand-tooled control joints grooved during the pour, and landscape retaining wall reconstruction.",
           "specs": [
             "4,000 PSI Badgerland ready-mix with 6% air-entrainment",
             "4\" mechanically compacted crushed gravel base",
             "Epoxied #4 structural rebar dowels pinned into foundation",
-            "Diamond saw-cut expansion control joints & non-slip brushed broom finish"
+            "Hand-tooled control joints grooved during pour with non-slip brushed broom finish"
           ],
           "ballpark": "$3,200 – $5,400 turnkey walkway & wall",
+          "video": "videos/stevenspoint_sidewalk_v8.mp4",
           "slides": [
             {
               "type": "before",
-              "label": "BEFORE",
-              "src": "images/projects/concrete_entry_prep.jpg",
+              "label": "SUBGRADE & FORMS",
+              "src": "images/projects/concrete_cooper_prep.webp",
               "caption": "Excavated subgrade, compacted DGB granular base, and flexible radiused formwork set before placement."
             },
             {
               "type": "after",
-              "label": "AFTER ✓",
-              "src": "images/projects/concrete_curved_wall_walkway.jpg",
-              "caption": "Poured curved walkway with clean brushed finish tying into reset stone retaining wall."
+              "label": "POURED & FINISHED ✓",
+              "src": "images/projects/concrete_cooper_finished.webp",
+              "caption": "Poured curved walkway with clean hand-tooled joints and brushed broom finish tying into reset stone retaining wall."
             }
           ]
         },
         {
-          "id": "concrete-porch-pad",
-          "title": "Front Porch Entrance Landing & Brushed Pad",
-          "location": "Central Wisconsin",
-          "scope": "Demolition of cracked concrete, subgrade excavation, foundation dowel pinning, formwork, and 4,000 PSI air-entrained pour with hand-tooled border lines.",
+          "id": "concrete-sidewalk-stevenspoint",
+          "title": "Poured Sidewalk Flatwork & Form Preparation",
+          "location": "Stevens Point, WI (Lakeshore Job)",
+          "scope": "Demolition of failing walkway, subgrade excavation, compacted base, formwork alignment, and 4,000 PSI air-entrained pour with hand-tooled joints.",
           "specs": [
-            "4,000 PSI air-entrained mix with polypropylene fiber-mesh reinforcement",
-            "#4 grade-60 rebar grid on chairs",
-            "1/2\" expansion joint material at foundation interface",
-            "Hand-tooled picture frame perimeter with uniform non-slip broom texture"
+            "4,000 PSI air-entrained Badgerland mix with fiber reinforcement",
+            "Continuous #4 rebar grid pinned into existing slab",
+            "Hand-tooled groover joints during pour with crisp border edger lines",
+            "Uniform non-slip architectural broom texture"
           ],
-          "ballpark": "$2,500 – $4,800 turnkey landing / apron",
+          "ballpark": "$2,500 – $4,800 turnkey walkway",
+          "video": "videos/stevenspoint_sidewalk_v8.mp4",
           "slides": [
             {
               "type": "before",
-              "label": "BEFORE",
-              "src": "images/projects/concrete_walkway_forms.jpg",
-              "caption": "Formwork, structural dowels, and subgrade excavation set before concrete placement."
+              "label": "PREPARATION & FORMWORK",
+              "src": "images/projects/stevenspoint_sidewalk_prep.webp",
+              "caption": "Formwork, subgrade excavation, and expansion joint prep set on Lakeshore Drive before ready-mix truck delivery."
             },
             {
               "type": "after",
-              "label": "AFTER ✓",
-              "src": "images/projects/concrete_porch_brushed.jpg",
-              "caption": "Cured 4,000 PSI brushed concrete porch with crisp hand-tooled border lines."
-            }
-          ]
-        },
-        {
-          "id": "concrete-sawcut-flatwork",
-          "title": "Expansive Flatwork Pour & Early-Entry Diamond Saw Cuts",
-          "location": "Central Wisconsin",
-          "scope": "Laser grading, heavy equipment sub-base compaction, continuous rebar grid, 4,000 PSI placement, power screeding, and early-entry diamond saw-cut control joints.",
-          "specs": [
-            "4,000 PSI freeze-thaw resistant mix with micro-fiber matrix",
-            "Full #4 rebar grid with mechanical ties on bolsters",
-            "Precision early-entry diamond saw-cut joints spaced to ACI standards",
-            "Penetrating silane-siloxane moisture sealer"
-          ],
-          "ballpark": "$8.50 – $13.50 / sq ft turnkey",
-          "slides": [
-            {
-              "type": "before",
-              "label": "BEFORE",
-              "src": "images/trades/concrete.jpg",
-              "caption": "Fresh 4,000 PSI concrete placement, active screeding, and wet float leveling."
-            },
-            {
-              "type": "after",
-              "label": "AFTER ✓",
-              "src": "images/projects/fresh_concrete_cuts_proof.jpg",
-              "caption": "Diamond saw-cut expansion joints cut within 12 hours of placement to prevent random cracking."
+              "label": "TOOLED & BRUSHED PAD ✓",
+              "src": "images/projects/stevenspoint_sidewalk_finished.webp",
+              "caption": "Poured 4,000 PSI brushed concrete with hand-tooled control joints grooved during the pour and clean bordered edges."
             }
           ]
         }
@@ -103,59 +79,34 @@
       "id": "drywall",
       "name": "Drywall & Ceilings",
       "icon": "📐",
-      "tagline": "Precision Sheetrock hanging, Level 4/5 smooth finishes, suspended acoustical grid, and mechanical soffits.",
+      "tagline": "Precision Sheetrock hanging, Level 4/5 smooth finishes, suspended acoustical grid, and mechanical HVAC drop soffits.",
+      "featured_video": "videos/drywall_soffit_miller.mp4",
       "projects": [
         {
-          "id": "drywall-finishing-skim",
-          "title": "Precision Drywall Hanging, Multi-Coat Taping & Smooth Skim",
-          "location": "Central Wisconsin",
-          "scope": "5/8\" Sheetrock hanging on wall and ceiling framing, USG Plus 3 compound, multi-coat feathering, hot-mud rapid sets, and pinhole-free sanding ready for primer.",
-          "specs": [
-            "5/8\" Type X fire-rated Sheetrock installed with drywall screws",
-            "Reinforced paper tape embedded in all inside corners and flat joints",
-            "3-coat compound application: bed coat, fill coat, and feather skim coat",
-            "Dust-controlled sanding inspected under raking halogen work lights"
-          ],
-          "ballpark": "$2.25 – $4.50 / sq ft surface finish",
-          "slides": [
-            {
-              "type": "before",
-              "label": "INSTALLATION",
-              "src": "images/trades/drywall.jpg",
-              "caption": "Sheetrock hung, joints taped, and first bed coats applied across studs."
-            },
-            {
-              "type": "after",
-              "label": "AFTER ✓",
-              "src": "images/projects/pine_ceiling_installation.jpg",
-              "caption": "Finished ceiling and wall transition ready for architectural paint and interior trim."
-            }
-          ]
-        },
-        {
-          "id": "drywall-mechanical-soffit",
-          "title": "HVAC Mechanical Soffit Framing & Drop Ceiling",
+          "id": "drywall-mechanical-soffit-miller",
+          "title": "Chuck Miller Garage Ceiling & HVAC Mechanical Soffit",
           "location": "Central Wisconsin (Chuck Miller Job)",
-          "scope": "32-inch drop commercial soffit framing around overhead HVAC ductwork, Armstrong Classic X 15/16\" suspended grid, Genesis cellular PVC tiles, and return air grilles.",
+          "scope": "Suspended framing cradle around overhead HVAC ductwork and electrical rough-ins, 5/8-inch Sheetrock installation, corner bead, multi-coat mudding, and smooth sanded ceiling finish.",
           "specs": [
-            "Heavy 2x4 suspended soffit framing tied into ceiling joists",
-            "Armstrong Classic X 15/16\" heavy-duty commercial suspended grid",
-            "Genesis washable waterproof cellular PVC ceiling tiles",
-            "Integrated 24\"x32\" return air louver with protective insect wire mesh"
+            "2x4 suspended soffit framing cradle tied directly into ceiling joists",
+            "5/8\" Type X fire-rated drywall fastened with bugle-head screws",
+            "Reinforced corner bead with multi-coat feathering and smooth skim",
+            "Integrated mechanical ventilation access"
           ],
-          "ballpark": "$1,200 – $2,400 turnkey enclosure",
+          "ballpark": "$1,400 – $2,800 turnkey soffit & ceiling",
+          "video": "videos/drywall_soffit_miller.mp4",
           "slides": [
             {
               "type": "before",
-              "label": "BEFORE",
-              "src": "images/gvsm/client_soffit/before_hvac_cradle.jpg",
-              "caption": "Exposed galvanized HVAC trunk line, electrical wiring, and open framing cradle overhead."
+              "label": "FRAMING & CRADLE",
+              "src": "images/projects/miller_soffit_framing.webp",
+              "caption": "Overhead HVAC ductwork with custom 2x4 framing cradle built tight to ceiling joists."
             },
             {
               "type": "after",
-              "label": "GVSM AFTER ✓",
-              "src": "images/gvsm/client_soffit/gvsm_soffit_cutaway.jpg",
-              "caption": "Enclosed 32\" drop soffit with 15/16\" suspended ceiling grid, return air vents, and clean transitions."
+              "label": "DRYWALL FINISHED ✓",
+              "src": "images/projects/miller_soffit_finished.webp",
+              "caption": "Sheetrock hung, taped, and finished smooth across ceiling and mechanical drop."
             }
           ]
         }
@@ -163,14 +114,15 @@
     },
     {
       "id": "framing",
-      "name": "Structural Framing",
+      "name": "Structural Framing & Additions",
       "icon": "🏗️",
-      "tagline": "Wisconsin SPS 321 code compliance, engineered roof trusses, two-story additions, and custom decks.",
+      "tagline": "Wisconsin SPS 321 code compliance, engineered roof trusses, two-story additions, and structural envelope builds.",
+      "featured_video": "videos/two_story_addition_framing.mp4",
       "projects": [
         {
           "id": "framing-two-story-addition",
           "title": "Two-Story Residential Addition & Shell Framing",
-          "location": "Central Wisconsin",
+          "location": "Central Wisconsin (Dickman Job)",
           "scope": "Mudsill tie-in to existing foundation, engineered LVL floor carrying beams, full 2-story 2x6 exterior wall framing, LP WeatherLogic air and water barrier sheathing, and spider boom lift staging.",
           "specs": [
             "Wisconsin SPS 321 Uniform Dwelling Code structural compliance",
@@ -179,16 +131,17 @@
             "Factory-engineered roof truss system anchored with hurricane ties"
           ],
           "ballpark": "$180 – $310 / sq ft turnkey shell",
+          "video": "videos/two_story_addition_framing.mp4",
           "slides": [
             {
               "type": "before",
-              "label": "FIRST FLOOR",
+              "label": "FIRST-FLOOR FRAMING",
               "src": "images/projects/two_story_addition/IMG_2009.webp",
               "caption": "First-floor wall framing and floor joist tie-in with towable boom lift staged in yard."
             },
             {
               "type": "after",
-              "label": "TWO-STORY SHELL ✓",
+              "label": "TWO-STORY SHELL ENCLOSED ✓",
               "src": "images/projects/two_story_addition/IMG_2071.webp",
               "caption": "Completed two-story addition shell enclosed in LP WeatherLogic with Alliance windows installed."
             }
@@ -198,26 +151,63 @@
           "id": "framing-roof-truss-tiein",
           "title": "Engineered Roof Truss System & Valley Tie-In",
           "location": "Central Wisconsin",
-          "scope": "Crane-assisted engineered roof truss placement, structural hurricane clips, lateral gable bracing, and structural tie-in to the existing home roofline.",
+          "scope": "Engineered roof truss installation, structural hurricane ties, lateral bracing, gable ladder framing, and valley tie-in to the existing home roofline.",
           "specs": [
             "Factory-engineered clear-span roof trusses designed for 50 lb ground snow load",
             "Simpson Strong-Tie hurricane ties at every rafter-to-plate connection",
-            "Plywood gussets, diagonal collar ties, and ridge valley framing",
-            "Integrated gable overhang ladders and sub-fascia lumber"
+            "Engineered valley framing tied into existing roofline",
+            "Spider boom lift access and fall-arrest staging"
           ],
           "ballpark": "$15 – $28 / sq ft framing package",
           "slides": [
             {
               "type": "before",
-              "label": "WALL FRAMING",
-              "src": "images/trades/framing.jpg",
-              "caption": "Top plate leveling, exterior stud framing, and corner bearing posts ready for truss delivery."
+              "label": "TWO-STORY SHELL STAGING",
+              "src": "images/projects/two_story_addition/IMG_2066.webp",
+              "caption": "Full two-story addition enclosed in LP WeatherLogic sheathing with towable boom lift staged in yard."
             },
             {
               "type": "after",
-              "label": "TRUSSES PLACED ✓",
+              "label": "TRUSSES PLACED & TIED IN ✓",
               "src": "images/projects/two_story_addition/IMG_2158.webp",
               "caption": "Engineered roof trusses set, hurricane clipped, and tied directly into existing roof valley."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "decks",
+      "name": "Custom Decks & Stairs",
+      "icon": "🪵",
+      "tagline": "Below-frost concrete footings, treated timber carrying beams, custom 2x12 stair stringers, and composite decking.",
+      "featured_video": "videos/deck_8820_lake_road.mp4",
+      "projects": [
+        {
+          "id": "deck-stairs-8820",
+          "title": "Custom 2x12 Treated Stair Stringers & Composite Deck",
+          "location": "Wisconsin Rapids, WI (8820 Lake Road)",
+          "scope": "Precision-cut pressure-treated 2x12 stair stringers with uniform 7-inch rise and 11-inch run geometry, grooved composite treads, enclosed risers, and rigid handrail.",
+          "specs": [
+            "Custom-cut Southern yellow pine treated 2x12 stair stringers",
+            "Uniform 7-inch rise and 11-inch run code-compliant geometry",
+            "Grooved composite surface boards with concealed clip fasteners",
+            "Through-bolted structural guardrail posts and continuous drink rail cap"
+          ],
+          "ballpark": "$35 – $55 / sq ft (treated) • $70 – $110 / sq ft (composite)",
+          "video": "videos/deck_8820_lake_road.mp4",
+          "slides": [
+            {
+              "type": "before",
+              "label": "STRINGER FRAMING",
+              "src": "images/projects/deck_8820_framing.webp",
+              "caption": "Precision-cut 2x12 pressure-treated stair stringers, structural support posts, and ledger layout."
+            },
+            {
+              "type": "after",
+              "label": "FINISHED DECK & STAIRS ✓",
+              "src": "images/projects/deck_8820_finished.webp",
+              "caption": "Completed composite deck and stairs with concealed fasteners, enclosed risers, and solid perimeter railings."
             }
           ]
         }
@@ -227,7 +217,8 @@
       "id": "remodels",
       "name": "Remodels & Carpentry",
       "icon": "🔨",
-      "tagline": "Structural rot teardowns, front portico rebuilds, turnkey kitchens, and custom composite decks.",
+      "tagline": "Structural rot teardowns, front portico rebuilds, and commercial renovations.",
+      "featured_video": "videos/commercial_remodel_elks.mp4",
       "projects": [
         {
           "id": "remodel-portico-rot-rebuild",
@@ -250,81 +241,55 @@
             },
             {
               "type": "after",
-              "label": "RECONSTRUCTED ✓",
+              "label": "RECONSTRUCTED PORTICO ✓",
               "src": "images/projects/portico_rebuild/IMG_5934.webp",
               "caption": "Reconstructed portico gable framing with treated posts, rigid foam insulation, and new rafters."
             }
           ]
         },
         {
-          "id": "remodel-custom-deck-stairs",
-          "title": "Custom Composite & CedarTone Deck Suites",
-          "location": "Wisconsin Rapids, WI (8820 Lake Road)",
-          "scope": "48\" below-frost concrete footings, treated Southern yellow pine carrying beams, custom-cut 2x12 stair stringers, composite decking, and code-compliant railings.",
+          "id": "remodel-commercial-elks",
+          "title": "Commercial Remodel & Structural Demolition",
+          "location": "Wisconsin Rapids, WI (Elks Club)",
+          "scope": "Commercial interior renovation: interior partition demolition, steel stud framing, utility rough-ins, drywall, and structural modifications.",
           "specs": [
-            "48-inch frost-line footings with Simpson ABU/ABA galvanized post anchors",
-            "Treated 2x10 framing with continuous beam bearing on 6x6 posts",
-            "Custom 2x12 stair stringers with uniform 7\" rise and 11\" run",
-            "Grooved composite surface boards with concealed clip fasteners"
+            "Commercial dust-containment barriers and safety barricades",
+            "Structural timber and metal partition wall framing modifications",
+            "Heavy commercial subfloor leveling and electrical coordination",
+            "Turnkey completion meeting local commercial building codes"
           ],
-          "ballpark": "$35 – $55 / sq ft (treated) • $70 – $110 / sq ft (composite)",
+          "ballpark": "$6,500 – $18,000 commercial package",
+          "video": "videos/commercial_remodel_elks.mp4",
           "slides": [
             {
               "type": "before",
-              "label": "STAIR FRAMING",
-              "src": "images/projects/deck_stair_install.webp",
-              "caption": "Custom-cut pressure-treated 2x12 stair stringers with uniform 7-inch rise and 11-inch run."
+              "label": "DEMOLITION & STAGING",
+              "src": "images/projects/remodel_elks_prep.webp",
+              "caption": "Commercial interior partition demolition and framing staging at the Elks Club."
             },
             {
               "type": "after",
-              "label": "FINISHED STAIRS ✓",
-              "src": "images/projects/deck_finished_stairs.webp",
-              "caption": "Completed composite stair treads with enclosed risers, drink rail cap, and solid safety handrails."
-            }
-          ]
-        },
-        {
-          "id": "remodel-kitchen-renovation",
-          "title": "Modern White Shaker Kitchen Renovation",
-          "location": "Central Wisconsin",
-          "scope": "Interior remodel: cabinetry rough-in, electrical rough-ins, white shaker cabinet installation, laminate marble countertops, undermount stainless sink, and luxury vinyl plank flooring.",
-          "specs": [
-            "White solid-core shaker style wall and base cabinetry",
-            "Laminate marble countertops with precision mitered seams",
-            "Undermount stainless steel double sink with high-arc gooseneck faucet",
-            "Appliance rough-in and subway tile backsplash preparation"
-          ],
-          "ballpark": "$14,000 – $28,000 complete kitchen renovation",
-          "slides": [
-            {
-              "type": "before",
-              "label": "ROUGH-IN",
-              "src": "images/projects/IMG_3346.webp",
-              "caption": "Appliance rough-in, subway tile backsplash prep, and upper shaker cabinet staging."
-            },
-            {
-              "type": "after",
-              "label": "FINISHED KITCHEN ✓",
-              "src": "images/projects/IMG_3341.webp",
-              "caption": "Custom white shaker cabinet layout with undermount stainless sink and dark luxury vinyl plank flooring."
+              "label": "COMPLETED WORK ✓",
+              "src": "images/projects/remodel_elks_finished.webp",
+              "caption": "Renovated commercial interior space ready for occupancy."
             }
           ]
         }
       ]
     },
     {
-      "id": "roofing",
-      "name": "Roofing & Siding",
-      "icon": "🛡️",
-      "tagline": "Exterior envelope overhauls, custom brake-metal trim wraps, continuous insulation, and steep-slope roofing.",
+      "id": "siding",
+      "name": "Siding, Windows & Trim",
+      "icon": "🏠",
+      "tagline": "Two-story siding replacements, on-site 10-ft brake metal window casing wraps, and exterior envelope sealing.",
       "projects": [
         {
-          "id": "roofing-siding-brake-metal",
-          "title": "Two-Story Siding Overhaul & Custom On-Site Brake Metal",
+          "id": "siding-two-story-overhaul",
+          "title": "Two-Story Siding Tear-Off & Custom Brake Metal",
           "location": "Central Wisconsin",
-          "scope": "Complete siding tear-off down to foil-faced rigid insulation, installation of slate blue lap siding, decorative white scalloped gables, and on-site custom 10-foot brake metal aluminum casing wraps.",
+          "scope": "Complete siding tear-off down to silver foil-faced rigid insulation, installation of slate blue lap siding, wide white corner posts, continuous vented soffits, and on-site custom aluminum trim.",
           "specs": [
-            "Heavy foil-faced continuous exterior thermal insulation board",
+            "Complete exterior siding stripped down to silver foil-faced foam insulation board",
             "Slate blue exterior lap siding with wide white corner trim posts",
             "On-site precision 10-ft aluminum brake-metal window casing wraps with hemmed returns",
             "Continuous vented soffits and aluminum fascia wraps"
@@ -346,56 +311,29 @@
           ]
         },
         {
-          "id": "roofing-gable-soffit-ventilation",
-          "title": "Architectural Gable Scalloped Siding & Soffit Ventilation",
+          "id": "siding-brake-metal-scalloped-gable",
+          "title": "On-Site 10-ft Brake Metal & Scalloped Gables",
           "location": "Central Wisconsin",
-          "scope": "Upper gable detail: decorative white scalloped shake siding, continuous vented soffits, aluminum fascia wraps, and ladder staging.",
+          "scope": "On-site 10-foot brake metal window casing wraps, white scalloped shake siding on upper gables, continuous vented soffits, and aluminum fascia wraps.",
           "specs": [
+            "On-site precision aluminum sheet metal bending on 10-foot brake",
+            "Hemmed aluminum casing wrap around replacement windows with polyurethane weather seal",
             "White scalloped decorative shake siding accenting upper gables",
-            "Continuous perforated vinyl soffit panels for intake ventilation",
-            "Custom-bent aluminum fascia wrap tucked tightly behind drip edge",
-            "32-foot extension ladder and staging platform setup"
+            "Continuous perforated vinyl soffit panels for intake ventilation"
           ],
-          "ballpark": "$3,500 – $6,500 gable & soffit overhaul",
+          "ballpark": "$3,500 – $6,500 gable & trim overhaul",
           "slides": [
             {
               "type": "before",
-              "label": "BRAKE METAL FAB",
+              "label": "10-FT BRAKE FABRICATION",
               "src": "images/projects/custom_brake_metal_5881.webp",
-              "caption": "On-site 10-foot aluminum brake metal fabrication for custom drip caps and casing wraps."
+              "caption": "Precision aluminum sheet metal bending on 10-foot brake, encasing exterior window frames with clean hemmed returns."
             },
             {
               "type": "after",
-              "label": "VENTED GABLE ✓",
+              "label": "SCALLOPED GABLE & TRIM ✓",
               "src": "images/projects/IMG_4802.webp",
               "caption": "Upper gable detail showing white scalloped shake siding, continuous vented soffits, and aluminum fascia wraps."
-            }
-          ]
-        },
-        {
-          "id": "roofing-steep-slope-chimney",
-          "title": "Steep-Slope Roof, Valley & Chimney Flashing Overhaul",
-          "location": "Wisconsin Rapids, WI (Grimm / Hellenbrandt Job)",
-          "scope": "Steep-slope tear-off, self-adhering ice & water shield at eaves and valleys, synthetic underlayment, step flashing around chimney brick, and high-performance architectural shingles.",
-          "specs": [
-            "Architectural fiberglass shingles rated for 130 MPH wind resistance",
-            "Self-adhering rubberized ice & water shield applied across valleys and eaves",
-            "Heavy-gauge step flashing and counter-flashing cut into chimney mortar joints",
-            "6-nail steep-slope fastening specification meeting Wisconsin building codes"
-          ],
-          "ballpark": "$450 – $650 / square turnkey tear-off & reshingle",
-          "slides": [
-            {
-              "type": "before",
-              "label": "BEFORE",
-              "src": "images/gvsm/client_roof_chimney/before_chimney_ridge.jpg",
-              "caption": "Steep-slope roof plane with worn shingles and deteriorated chimney sidewall flashing."
-            },
-            {
-              "type": "after",
-              "label": "GVSM CUTAWAY ✓",
-              "src": "images/gvsm/client_roof_chimney/gvsm_chimney_ridge_cutaway.jpg",
-              "caption": "Architectural cutaway showing new architectural shingles, continuous ice & water barrier, and counter-flashing."
             }
           ]
         }
